@@ -17,10 +17,16 @@ BUILD = os.path.dirname(os.path.abspath(__file__))
 
 
 def viz_types():
-    """The library visualizers a chapter may name — read from the engine, so
-    the two can never drift apart."""
+    """What a chapter's `viz:` may name — read from the engine, so the two can
+    never drift apart.
+
+    Two kinds. The VIZLIB entries are visualizers: a scene the reader drives.
+    `table` is not one of them - it renders a reference table as content, with
+    no controls - so it is picked up from its own branch in buildSections."""
     src = io.open(os.path.join(BUILD, "engine.js"), encoding="utf-8").read()
-    return set(re.findall(r'VIZLIB\.(\w+)\s*=', src))
+    kinds = set(re.findall(r'VIZLIB\.(\w+)\s*=', src))
+    kinds |= set(re.findall(r'n\.viz\s*===\s*"(\w+)"', src))
+    return kinds
 
 
 VIZ_TYPES = viz_types()

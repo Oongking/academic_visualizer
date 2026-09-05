@@ -16,11 +16,11 @@ nodes:[
          "ฟิสิกส์แปลกตรงที่คำศัพท์มีจำกัดและตกลงกันไว้แล้ว ถ้าปริมาณใดเขียนด้วยเจ็ดตัวนี้ไม่ได้ ปริมาณนั้นก็ไม่ใช่ปริมาณทางฟิสิกส์"]],
   formula:["m · kg · s · K · A · mol · cd","m · kg · s · K · A · mol · cd"],
   flabel:["Seven, and only seven","เจ็ด และมีเพียงเจ็ด"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["THE SEVEN BASE QUANTITIES","ปริมาณฐานทั้งเจ็ด"],
     cols:[["Quantity","ปริมาณ"],["Symbol","สัญลักษณ์"],["Unit","หน่วย"],["Unit symbol","สัญลักษณ์หน่วย"]],
-    ctrls:[{k:"i", lab:["Highlight row","เน้นแถวที่"], min:0, max:6, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Selected","ที่เลือก"], f:function(S){
         var N=[["Length","ความยาว"],["Mass","มวล"],["Time","เวลา"],["Current","กระแสไฟฟ้า"],
@@ -51,11 +51,11 @@ nodes:[
          "สิ่งนี้ให้เครื่องมือตรวจสอบฟรี ลองหาหน่วยของทั้งสองข้างในสมการที่เขียน ถ้าไม่ตรงกันแสดงว่าสมการผิด และคุณจับได้ก่อนแทนตัวเลขแม้แต่ตัวเดียว"]],
   formula:["N = kg·m/s²    J = N·m    W = J/s","N = kg·m/s²    J = N·m    W = J/s"],
   flabel:["Nicknames for combinations of the seven","ชื่อเล่นของการรวมกันของเจ็ดหน่วยฐาน"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["DERIVED UNITS, BROKEN BACK DOWN","หน่วยอนุพัทธ์ แตกกลับเป็นหน่วยฐาน"],
     cols:[["Quantity","ปริมาณ"],["Named unit","ชื่อหน่วย"],["In base units","ในรูปหน่วยฐาน"]],
-    ctrls:[{k:"i", lab:["Highlight row","เน้นแถวที่"], min:0, max:5, step:1, def:1, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Base units used","หน่วยฐานที่ใช้"], f:function(S){
         return ["m","kg m s^-2","kg m^2 s^-2","kg m^2 s^-3","kg m^-1 s^-2","s^-1"][S.p.i]; }},

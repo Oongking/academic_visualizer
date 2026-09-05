@@ -115,11 +115,11 @@ nodes:[
          "เพราะ E = 0 ภายใน ศักย์จึงคงที่ทั่วทั้งตัวนำ เท่ากับค่าที่ผิว kQ/R ส่วนภายนอก มันประพฤติตัวราวกับประจุทั้งหมดรวมอยู่ที่จุดศูนย์กลาง"]],
   formula:["Inside: E = 0, V = kQ/R        Outside: as if a point charge","ภายใน: E = 0, V = kQ/R        ภายนอก: เสมือนประจุจุด"],
   flabel:["Charge sits on the outside","ประจุอยู่ที่ผิวนอก"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["A CHARGED CONDUCTOR IN EQUILIBRIUM","ตัวนำที่มีประจุในภาวะสมดุล"],
     cols:[["Where","ที่ใด"],["Field E","สนาม E"],["Charge","ประจุ"],["Potential V","ศักย์ V"]],
-    ctrls:[{k:"i", lab:["Highlight region","เน้นบริเวณ"], min:0, max:2, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Region","บริเวณ"], f:function(S){
         return [["Deep inside","ลึกเข้าไปข้างใน"],["At the surface","ที่ผิว"],["Outside","ภายนอก"]][S.p.i][L()]; }},

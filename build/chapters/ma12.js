@@ -16,11 +16,11 @@ nodes:[
          "วงวนเชื่อมจุดยอดเข้ากับตัวเอง เส้นเชื่อมขนานเชื่อมจุดคู่เดิมสองครั้ง กราฟเชิงเดียวไม่มีทั้งสองอย่าง กราฟบริบูรณ์ Kₙ เชื่อมทุกคู่เข้าด้วยกัน และกราฟย่อยคือส่วนใดก็ได้ของกราฟที่ยกมาทั้งชิ้นพร้อมจุดปลาย"]],
   formula:["G = (V, E)        only connection matters, not drawing","G = (V, E)        สิ่งที่นับคือการเชื่อมโยง ไม่ใช่ภาพวาด"],
   flabel:["Same connections = same graph","การเชื่อมโยงเหมือนกัน = กราฟเดียวกัน"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["THE VOCABULARY OF A GRAPH","ศัพท์ของกราฟ"],
     cols:[["Term","คำศัพท์"],["What it means","หมายความว่า"],["Allowed in a simple graph?","อยู่ในกราฟเชิงเดียวได้ไหม"]],
-    ctrls:[{k:"i", lab:["Highlight term","เน้นคำศัพท์"], min:0, max:4, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Term","คำศัพท์"], f:function(S){
         return [["Loop","วงวน"],["Parallel edges","เส้นเชื่อมขนาน"],["Simple graph","กราฟเชิงเดียว"],

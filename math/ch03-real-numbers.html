@@ -159,6 +159,28 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 /* ---------- NODE SECTIONS ---------- */
 .chapter-rule{border:none;border-top:1px solid var(--rule);margin:56px 0 0}
 .node-sec{padding:52px 0;border-bottom:1px solid var(--rule);scroll-margin-top:20px}
+
+/* ---------- reference table ----------
+   A table of cases, read whole. Hairline rules and space, no fills: the
+   house style draws structure with the grid itself. */
+.xtable{margin:26px 0 0}
+.xtable figcaption{margin-bottom:12px}
+.xscroll{overflow-x:auto}
+.xtable table{border-collapse:collapse;width:100%;font-size:14px}
+.xtable th{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+  padding:0 16px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
+.xtable td{padding:10px 16px 10px 0;border-bottom:1px solid var(--rule);
+  color:var(--ink-soft);vertical-align:top;line-height:1.5}
+.xtable tr td:first-child{color:var(--ink);font-weight:600}
+.xtable tr:last-child td{border-bottom:none}
+.xnote{margin:12px 0 0;font-family:var(--f-ui);font-size:11.5px;color:var(--ink-faint);
+  line-height:1.6}
+.xfacts{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
+  font-size:14px}
+.xfacts dt{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.xfacts dd{margin:0;color:var(--ink-soft)}
 .node-sec:last-child{border-bottom:none}
 .node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
 .node-num{font-family:var(--f-ui);font-size:11px;font-weight:600;letter-spacing:.14em;
@@ -167,6 +189,10 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   font-size:clamp(28px,4vw,40px);line-height:1.08;letter-spacing:-.015em}
 .node-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:start}
 .node-sec[data-nolab="1"] .node-split{grid-template-columns:minmax(0,66ch)}
+/* A table wants the whole column; its prose still wants a readable measure. */
+.node-sec[data-table="1"] .node-split{grid-template-columns:minmax(0,1fr)}
+.node-sec[data-table="1"] .node-body p,
+.node-sec[data-table="1"] .xnote{max-width:66ch}
 @media (max-width:1000px){ .node-split{grid-template-columns:1fr;gap:28px} }
 .node-body p{margin:0 0 18px;color:var(--ink-soft)}
 .node-body .keyterm{color:var(--ink);font-weight:600}
@@ -2077,19 +2103,90 @@ function makeLab(nd, host){
 }
 
 /* ---------- 6 · sections ---------- */
-var OBS=null;
+/* ---------- reference table ----------
+
+   Some nodes carry a table of cases to read, not a system to drive: a slider
+   that only moved a highlight down a fixed list dressed a reference table up
+   as a visualizer without adding anything to it. Those nodes declare
+   viz:"table" and the whole table is rendered as content, every row visible
+   at once, which is how a reader actually uses one. */
+function tableHTML(nd){
+  var cfg=nd.vizcfg||{}, key=cfg.rowKey, rows=[];
+  try{ rows = cfg.rows ? cfg.rows({}) : []; }catch(e){ rows=[]; }
+
+  /* A readout that was written against the highlighted row is a column of this
+     table, one value per row - it only looked like a readout because the
+     slider showed one row at a time. One that reads the same for every row is
+     a note about the table as a whole. Telling them apart by evaluating both
+     ways means nothing has to be restated in the data. */
+  var cols=[], facts=[];
+  (cfg.readouts||[]).forEach(function(r){
+    var vals=[], ok=true;
+    for(var i=0;i<rows.length;i++){
+      var p={}; if(key) p[key]=i;
+      try{ vals.push(r.f({p:p})); }catch(e){ ok=false; break; }
+    }
+    if(!ok||!vals.length) return;
+    var varies=false;
+    for(var j=1;j<vals.length;j++) if(vals[j]!==vals[0]) varies=true;
+    if(!varies){ facts.push({lab:r.lab, v:vals[0]}); return; }
+    /* Some of these readouts only named the row that was highlighted. That is
+       a column the table already has - sometimes word for word, sometimes just
+       under the same heading - so drop it either way. */
+    var lab=String(tx(r.lab));
+    for(var c=0;c<(cfg.cols||[]).length;c++){
+      if(String(tx(cfg.cols[c]))===lab) return;
+      var same=true;
+      for(var k=0;k<rows.length;k++){
+        var cell=rows[k][c];
+        if(!cell||String(tx(cell.v))!==String(vals[k])){ same=false; break; }
+      }
+      if(same) return;
+    }
+    cols.push({lab:r.lab, vals:vals});
+  });
+
+  var h='<figure class="xtable">';
+  if(cfg.title) h+='<figcaption class="label">'+esc(tx(cfg.title))+'</figcaption>';
+  h+='<div class="xscroll"><table><thead><tr>';
+  (cfg.cols||[]).forEach(function(c){ h+='<th>'+esc(tx(c))+'</th>'; });
+  cols.forEach(function(c){ h+='<th>'+esc(tx(c.lab))+'</th>'; });
+  h+='</tr></thead><tbody>';
+  rows.forEach(function(r,i){
+    h+='<tr>';
+    r.forEach(function(cell){ h+='<td>'+esc(tx(cell.v))+'</td>'; });
+    cols.forEach(function(c){ h+='<td>'+esc(c.vals[i])+'</td>'; });
+    h+='</tr>';
+  });
+  h+='</tbody></table></div>';
+  if(cfg.note) h+='<p class="xnote">'+esc(tx(cfg.note))+'</p>';
+  if(facts.length){
+    h+='<dl class="xfacts">';
+    facts.forEach(function(f){
+      if(f.v==null||f.v==="") return;
+      h+='<dt>'+esc(tx(f.lab))+'</dt><dd>'+esc(f.v)+'</dd>';
+    });
+    h+='</dl>';
+  }
+  return h+'</figure>';
+}
+
+
 function buildSections(){
   LABS.forEach(function(l){ l.playing=false; if(l.raf) cancelAnimationFrame(l.raf); });
   LABS=[];
   var host=document.getElementById("nodeSections"); host.innerHTML="";
   CHAPTER.nodes.forEach(function(n,i){
-    var hasLab = !!(n.viz);
+    var isTable = (n.viz === "table");
+    var hasLab = !!(n.viz) && !isTable;
     var sec=document.createElement("section");
     sec.className="node-sec"; sec.id="sec-"+n.id;
     sec.setAttribute("data-node",n.id); sec.setAttribute("data-nolab",hasLab?"0":"1");
+    if(isTable) sec.setAttribute("data-table","1");
     var main='<div class="node-body">';
     tx(n.body).forEach(function(p){ main+="<p>"+p+"</p>"; });
     main+='</div>';
+    if(isTable) main+=tableHTML(n);
     if(n.formula) main+='<div class="formula">'+tx(n.formula)+(n.flabel?'<small>'+tx(n.flabel)+'</small>':'')+'</div>';
     if(n.methods && n.methods.length){
       main+='<div class="methods-here"><span class="label">'+t("study.methods")+'</span><div>';

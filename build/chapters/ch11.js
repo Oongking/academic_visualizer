@@ -230,11 +230,11 @@ nodes:[
          "ภาพจริงมี s' เป็นบวกและรับบนฉากได้ ภาพเสมือนมี s' เป็นลบและรับไม่ได้ การใช้เครื่องหมายกลับด้านคือกับดัก T-03 ซึ่งทำให้คำตอบกลับตาลปัตรทั้งหมด"]],
   formula:["m = −s'/s        s' > 0 real  ·  s' < 0 virtual","m = −s'/s        s' > 0 ภาพจริง  ·  s' < 0 ภาพเสมือน"],
   flabel:["Sign is orientation, size is scale","เครื่องหมายบอกการวางตัว ขนาดบอกอัตราส่วน"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["REAL AGAINST VIRTUAL IMAGES","ภาพจริง เทียบ ภาพเสมือน"],
     cols:[["Property","สมบัติ"],["Real image","ภาพจริง"],["Virtual image","ภาพเสมือน"]],
-    ctrls:[{k:"i", lab:["Highlight row","เน้นแถวที่"], min:0, max:4, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Row","แถว"], f:function(S){
         return [["Do rays actually meet?","รังสีมาบรรจบจริงไหม"],["Catch it on a screen?","รับบนฉากได้ไหม"],

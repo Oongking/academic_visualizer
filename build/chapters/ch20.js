@@ -16,11 +16,11 @@ nodes:[
          "สมการนิวเคลียร์ทุกสมการต้องดุลสองชั้น ค่า A ทั้งสองข้างต้องรวมได้เท่ากัน และค่า Z ก็เช่นกัน การตรวจสองชั้นนี้จับข้อผิดพลาดได้เกือบหมดก่อนที่จะต้องใช้ฟิสิกส์ใดๆ"]],
   formula:["ᴬ_Z X        A balances · Z balances","ᴬ_Z X        A ดุล · Z ดุล"],
   flabel:["Balance top and bottom","ดุลทั้งบนและล่าง"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["WHAT THE NUCLEUS IS MADE OF","นิวเคลียสประกอบด้วยอะไร"],
     cols:[["Particle","อนุภาค"],["Charge","ประจุ"],["Relative mass","มวลเปรียบเทียบ"],["Where it sits","อยู่ที่ไหน"]],
-    ctrls:[{k:"i", lab:["Highlight particle","เน้นอนุภาค"], min:0, max:2, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Particle","อนุภาค"], f:function(S){
         return [["Proton","โปรตอน"],["Neutron","นิวตรอน"],["Electron","อิเล็กตรอน"]][S.p.i][L()]; }},
@@ -49,11 +49,11 @@ nodes:[
          "อำนาจทะลุทะลวงกับอำนาจการแตกตัวเรียงตรงข้ามกัน แอลฟาถูกกระดาษหยุดได้แต่ทำให้แตกตัวได้รุนแรง ส่วนแกมมาทะลุตะกั่วได้แต่ทำให้แตกตัวได้น้อย การสลับคู่นี้คือกับดัก T-04"]],
   formula:["α: A−4, Z−2    β⁻: A same, Z+1    γ: neither","α: A−4, Z−2    β⁻: A เท่าเดิม, Z+1    γ: ไม่เปลี่ยนทั้งคู่"],
   flabel:["Penetration and ionisation are opposites","ทะลุทะลวงกับแตกตัวเป็นตรงข้ามกัน"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["WHAT EACH DECAY DOES TO A AND Z","การสลายแต่ละแบบทำอะไรกับ A และ Z"],
     cols:[["Decay","การสลาย"],["Change in A","A เปลี่ยน"],["Change in Z","Z เปลี่ยน"],["Penetration","อำนาจทะลุทะลวง"]],
-    ctrls:[{k:"i", lab:["Highlight decay","เน้นการสลาย"], min:0, max:2, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Decay","การสลาย"], f:function(S){
         return [["Alpha","แอลฟา"],["Beta minus","บีตาลบ"],["Gamma","แกมมา"]][S.p.i][L()]; }},

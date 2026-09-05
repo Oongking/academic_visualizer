@@ -16,11 +16,11 @@ nodes:[
          "กำลังของ i วนซ้ำด้วยคาบสี่ ได้แก่ i, −1, −i, 1 แล้ววนใหม่ ดังนั้น i ยกกำลังใดก็ตามจะลดรูปเหลือหนึ่งในสี่ตัวนั้นตามเศษที่เหลือจากการหารด้วย 4 ข้อเท็จจริงนี้เปลี่ยนคำถามที่ดูน่ากลัวอย่าง i⁵⁰ ให้กลายเป็นการหาเศษ"]],
   formula:["i² = −1        i¹ = i , i² = −1 , i³ = −i , i⁴ = 1","i² = −1        i¹ = i , i² = −1 , i³ = −i , i⁴ = 1"],
   flabel:["Powers of i cycle every four","กำลังของ i วนซ้ำทุกสี่"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["POWERS OF i GO ROUND IN FOURS","กำลังของ i วนซ้ำทีละสี่"],
     cols:[["n","n"],["iⁿ","iⁿ"],["Remainder n ÷ 4","เศษของ n ÷ 4"]],
-    ctrls:[{k:"n", lab:["Exponent n","เลขชี้กำลัง n"], min:0, max:11, step:1, def:0, unit:""}],
+    rowKey:"n",
     readouts:[
       {lab:["i^n","i^n"], f:function(S){ return ["1","i","−1","−i"][S.p.n%4]; }},
       {lab:["Remainder on dividing by 4","เศษเมื่อหารด้วย 4"], f:function(S){ return String(S.p.n%4); }},

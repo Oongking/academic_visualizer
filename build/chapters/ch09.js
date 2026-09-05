@@ -46,11 +46,11 @@ nodes:[
          "ความแตกต่างนี้มีผลชัดเจนคือ มีเพียงคลื่นตามขวางเท่านั้นที่เกิดโพลาไรเซชันได้ ถ้าคลื่นใดเกิดโพลาไรเซชันได้ คลื่นนั้นเป็นคลื่นตามขวาง ซึ่งเป็นวิธีที่เรารู้ว่าแสงเป็นคลื่นตามขวาง"]],
   formula:["Transverse ⟂ travel    ·    Longitudinal ∥ travel","ตามขวาง ⟂ ทิศเคลื่อนที่  ·  ตามยาว ∥ ทิศเคลื่อนที่"],
   flabel:["Only transverse waves polarise","เฉพาะคลื่นตามขวางที่โพลาไรซ์ได้"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["TRANSVERSE AGAINST LONGITUDINAL","คลื่นตามขวาง เทียบ คลื่นตามยาว"],
     cols:[["Property","สมบัติ"],["Transverse","ตามขวาง"],["Longitudinal","ตามยาว"]],
-    ctrls:[{k:"i", lab:["Highlight row","เน้นแถวที่"], min:0, max:4, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Row","แถว"], f:function(S){
         return [["Particle motion","การสั่นของอนุภาค"],["Example","ตัวอย่าง"],
@@ -78,11 +78,11 @@ nodes:[
          "การเลี้ยวเบนคือการแผ่ผ่านช่อง และจะเห็นชัดเมื่อช่องมีขนาดใกล้เคียงความยาวคลื่นเท่านั้น ช่องกว้างแทบไม่เลี้ยวเบนเลย จึงเป็นเหตุผลที่เราได้ยินเสียงอ้อมมุมได้แต่มองไม่เห็นอ้อมมุม"]],
   formula:["sin θ₁ / sin θ₂ = v₁ / v₂ = λ₁ / λ₂","sin θ₁ / sin θ₂ = v₁ / v₂ = λ₁ / λ₂"],
   flabel:["Snell's law · f unchanged","กฎสเนลล์ · f ไม่เปลี่ยน"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["WHAT SURVIVES EACH BEHAVIOUR","อะไรที่ยังคงเดิมในแต่ละพฤติกรรม"],
     cols:[["Behaviour","พฤติกรรม"],["Frequency","ความถี่"],["Wavelength","ความยาวคลื่น"],["Speed","อัตราเร็ว"],["Direction","ทิศทาง"]],
-    ctrls:[{k:"i", lab:["Highlight behaviour","เน้นพฤติกรรม"], min:0, max:3, step:1, def:1, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Behaviour","พฤติกรรม"], f:function(S){
         return [["Reflection","การสะท้อน"],["Refraction","การหักเห"],

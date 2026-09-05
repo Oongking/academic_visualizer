@@ -16,11 +16,11 @@ nodes:[
          "ปัญหาจริงเกือบทุกข้อมีข้อจำกัดที่ไม่ได้เขียนไว้ด้วย คือ x ≥ 0 และ y ≥ 0 เพราะเราผลิตของในจำนวนติดลบไม่ได้ การละไว้จะเปิดบริเวณออกไปยังควอดรันต์ที่ไม่มีความหมาย และนั่นคือกับดัก T-01"]],
   formula:["maximise P = ax + by   subject to constraints, with x ≥ 0 , y ≥ 0","หาค่าสูงสุด P = ax + by   ภายใต้ข้อจำกัด โดย x ≥ 0 , y ≥ 0"],
   flabel:["Never forget x ≥ 0 and y ≥ 0","อย่าลืม x ≥ 0 และ y ≥ 0"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["TURNING WORDS INTO A MODEL","แปลงถ้อยคำเป็นแบบจำลอง"],
     cols:[["The sentence says","โจทย์บอกว่า"],["Becomes","กลายเป็น"],["Kind","ชนิด"]],
-    ctrls:[{k:"i", lab:["Highlight line","เน้นบรรทัด"], min:0, max:4, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Line","บรรทัด"], f:function(S){ return String(S.p.i+1)+" / 5"; }},
       {lab:["Objective function","ฟังก์ชันจุดประสงค์"], f:function(){
@@ -225,11 +225,11 @@ nodes:[
          "และถ้าเส้นจุดประสงค์ขนานกับขอบเส้นหนึ่งพอดี ทุกจุดบนขอบนั้นจะเป็นค่าเหมาะที่สุด จึงมีคำตอบที่ดีที่สุดจำนวนอนันต์แทนที่จะมีเพียงคำตอบเดียว การตอบจุดยอดเพียงจุดเดียวตรงนั้นไม่ผิด แต่ไม่ครบ"]],
   formula:["empty region → none        unbounded → no maximum        parallel edge → infinitely many","บริเวณว่าง → ไม่มีคำตอบ        ไม่มีขอบเขต → ไม่มีค่าสูงสุด        ขนานกับขอบ → มีคำตอบอนันต์"],
   flabel:["Unbounded blocks the max, not the min","ไม่มีขอบเขตขวางค่าสูงสุด ไม่ใช่ค่าต่ำสุด"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["WHEN THE STANDARD METHOD BREAKS DOWN","เมื่อวิธีมาตรฐานใช้ไม่ได้"],
     cols:[["Situation","สถานการณ์"],["What the region looks like","บริเวณมีลักษณะ"],["Answer","คำตอบ"]],
-    ctrls:[{k:"i", lab:["Highlight case","เน้นกรณี"], min:0, max:3, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Case","กรณี"], f:function(S){
         return [["Normal","ปกติ"],["Infeasible","ไม่มีคำตอบที่เป็นไปได้"],

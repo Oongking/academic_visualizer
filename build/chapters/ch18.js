@@ -16,11 +16,11 @@ nodes:[
          "สมการของเขาให้อัตราเร็ว 3 × 10⁸ ม./วินาที ซึ่งคืออัตราเร็วแสงที่วัดได้ ซึ่งไม่มีใครเคยเชื่อมโยงกับไฟฟ้ามาก่อนเลย เฮิรตซ์ยืนยันด้วยการทดลองในอีกยี่สิบปีต่อมา"]],
   formula:["c = 3 × 10⁸ m/s        c = fλ","c = 3 × 10⁸ ม./วินาที        c = fλ"],
   flabel:["Light is an electromagnetic wave","แสงคือคลื่นแม่เหล็กไฟฟ้า"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["WHY A WAVE CAN CARRY ITSELF ALONG","ทำไมคลื่นจึงพาตัวเองไปได้"],
     cols:[["Step","ขั้น"],["What happens","เกิดอะไรขึ้น"],["Consequence","ผลที่ตามมา"]],
-    ctrls:[{k:"i", lab:["Follow the chain","ไล่ตามลูกโซ่"], min:0, max:3, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Step","ขั้น"], f:function(S){ return String(S.p.i+1)+" / 4"; }},
       {lab:["Speed it predicts","อัตราเร็วที่ทำนายได้"], f:function(){
@@ -137,11 +137,11 @@ nodes:[
          "อันตรายขึ้นกับพลังงานโฟตอน ไม่ใช่ความเข้ม ต่ำกว่าอัลตราไวโอเลต โฟตอนทำให้อะตอมแตกตัวไม่ได้ไม่ว่าแหล่งกำเนิดจะสว่างเพียงใด สูงกว่านั้นทำได้ แม้จะจางแค่ไหน เกณฑ์นี้คือเหตุผลที่ UV เอกซ์ และแกมมา คือฝั่งที่อันตราย"]],
   formula:["E = hf        ionising above UV","E = hf        ทำให้แตกตัวได้ตั้งแต่ UV ขึ้นไป"],
   flabel:["Photon energy decides the hazard","พลังงานโฟตอนเป็นตัวกำหนดอันตราย"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["EACH BAND, ITS USE AND ITS DANGER","แต่ละย่าน ประโยชน์และอันตราย"],
     cols:[["Band","ย่าน"],["Typical use","การใช้งาน"],["Hazard","อันตราย"]],
-    ctrls:[{k:"i", lab:["Highlight band","เน้นย่าน"], min:0, max:6, step:1, def:3, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Band","ย่าน"], f:function(S){
         return [["Radio","วิทยุ"],["Microwave","ไมโครเวฟ"],["Infrared","อินฟราเรด"],["Visible","ที่มองเห็น"],

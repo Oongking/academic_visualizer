@@ -1335,19 +1335,90 @@ function makeLab(nd, host){
 }
 
 /* ---------- 6 · sections ---------- */
-var OBS=null;
+/* ---------- reference table ----------
+
+   Some nodes carry a table of cases to read, not a system to drive: a slider
+   that only moved a highlight down a fixed list dressed a reference table up
+   as a visualizer without adding anything to it. Those nodes declare
+   viz:"table" and the whole table is rendered as content, every row visible
+   at once, which is how a reader actually uses one. */
+function tableHTML(nd){
+  var cfg=nd.vizcfg||{}, key=cfg.rowKey, rows=[];
+  try{ rows = cfg.rows ? cfg.rows({}) : []; }catch(e){ rows=[]; }
+
+  /* A readout that was written against the highlighted row is a column of this
+     table, one value per row - it only looked like a readout because the
+     slider showed one row at a time. One that reads the same for every row is
+     a note about the table as a whole. Telling them apart by evaluating both
+     ways means nothing has to be restated in the data. */
+  var cols=[], facts=[];
+  (cfg.readouts||[]).forEach(function(r){
+    var vals=[], ok=true;
+    for(var i=0;i<rows.length;i++){
+      var p={}; if(key) p[key]=i;
+      try{ vals.push(r.f({p:p})); }catch(e){ ok=false; break; }
+    }
+    if(!ok||!vals.length) return;
+    var varies=false;
+    for(var j=1;j<vals.length;j++) if(vals[j]!==vals[0]) varies=true;
+    if(!varies){ facts.push({lab:r.lab, v:vals[0]}); return; }
+    /* Some of these readouts only named the row that was highlighted. That is
+       a column the table already has - sometimes word for word, sometimes just
+       under the same heading - so drop it either way. */
+    var lab=String(tx(r.lab));
+    for(var c=0;c<(cfg.cols||[]).length;c++){
+      if(String(tx(cfg.cols[c]))===lab) return;
+      var same=true;
+      for(var k=0;k<rows.length;k++){
+        var cell=rows[k][c];
+        if(!cell||String(tx(cell.v))!==String(vals[k])){ same=false; break; }
+      }
+      if(same) return;
+    }
+    cols.push({lab:r.lab, vals:vals});
+  });
+
+  var h='<figure class="xtable">';
+  if(cfg.title) h+='<figcaption class="label">'+esc(tx(cfg.title))+'</figcaption>';
+  h+='<div class="xscroll"><table><thead><tr>';
+  (cfg.cols||[]).forEach(function(c){ h+='<th>'+esc(tx(c))+'</th>'; });
+  cols.forEach(function(c){ h+='<th>'+esc(tx(c.lab))+'</th>'; });
+  h+='</tr></thead><tbody>';
+  rows.forEach(function(r,i){
+    h+='<tr>';
+    r.forEach(function(cell){ h+='<td>'+esc(tx(cell.v))+'</td>'; });
+    cols.forEach(function(c){ h+='<td>'+esc(c.vals[i])+'</td>'; });
+    h+='</tr>';
+  });
+  h+='</tbody></table></div>';
+  if(cfg.note) h+='<p class="xnote">'+esc(tx(cfg.note))+'</p>';
+  if(facts.length){
+    h+='<dl class="xfacts">';
+    facts.forEach(function(f){
+      if(f.v==null||f.v==="") return;
+      h+='<dt>'+esc(tx(f.lab))+'</dt><dd>'+esc(f.v)+'</dd>';
+    });
+    h+='</dl>';
+  }
+  return h+'</figure>';
+}
+
+
 function buildSections(){
   LABS.forEach(function(l){ l.playing=false; if(l.raf) cancelAnimationFrame(l.raf); });
   LABS=[];
   var host=document.getElementById("nodeSections"); host.innerHTML="";
   CHAPTER.nodes.forEach(function(n,i){
-    var hasLab = !!(n.viz);
+    var isTable = (n.viz === "table");
+    var hasLab = !!(n.viz) && !isTable;
     var sec=document.createElement("section");
     sec.className="node-sec"; sec.id="sec-"+n.id;
     sec.setAttribute("data-node",n.id); sec.setAttribute("data-nolab",hasLab?"0":"1");
+    if(isTable) sec.setAttribute("data-table","1");
     var main='<div class="node-body">';
     tx(n.body).forEach(function(p){ main+="<p>"+p+"</p>"; });
     main+='</div>';
+    if(isTable) main+=tableHTML(n);
     if(n.formula) main+='<div class="formula">'+tx(n.formula)+(n.flabel?'<small>'+tx(n.flabel)+'</small>':'')+'</div>';
     if(n.methods && n.methods.length){
       main+='<div class="methods-here"><span class="label">'+t("study.methods")+'</span><div>';

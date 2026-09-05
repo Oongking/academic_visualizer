@@ -16,11 +16,11 @@ nodes:[
          "ความแตกต่างนี้ไม่ใช่เรื่องวิชาการเปล่าๆ มันตัดสินว่าค่าสรุปและแผนภูมิแบบใดใช้ได้บ้าง ค่าเฉลี่ยของสีเสื้อไม่มีความหมาย และแผนภูมิวงกลมของการวัดแบบต่อเนื่องก็ชวนเข้าใจผิด การเลือกค่าสรุปที่ชนิดข้อมูลไม่รองรับคือกับดัก T-04"]],
   formula:["qualitative | quantitative → discrete | continuous","เชิงคุณภาพ | เชิงปริมาณ → ไม่ต่อเนื่อง | ต่อเนื่อง"],
   flabel:["Data type decides the legal summary","ชนิดข้อมูลตัดสินค่าสรุปที่ใช้ได้"],
-  viz:"grid",
+  viz:"table",
   vizcfg:{
     title:["WHICH SUMMARY IS EVEN LEGAL","ค่าสรุปใดใช้ได้บ้าง"],
     cols:[["Data type","ชนิดข้อมูล"],["Mode","ฐานนิยม"],["Median","มัธยฐาน"],["Mean","ค่าเฉลี่ย"],["Std dev","ส่วนเบี่ยงเบน"]],
-    ctrls:[{k:"i", lab:["Highlight type","เน้นชนิด"], min:0, max:3, step:1, def:0, unit:""}],
+    rowKey:"i",
     readouts:[
       {lab:["Data type","ชนิดข้อมูล"], f:function(S){
         return [["Nominal (names)","นามบัญญัติ (ชื่อ)"],["Ordinal (ranked)","เรียงอันดับ"],
