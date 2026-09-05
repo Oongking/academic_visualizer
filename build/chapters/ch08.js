@@ -24,7 +24,7 @@ nodes:[
     fn:function(x,p){ return p.shm===1 ? -p.w*p.w*x : -p.w*p.w*x*Math.abs(x)/2; },
     mark:function(p){ return p.x; },
     ctrls:[
-      {k:"shm", lab:["1 true SHM · 0 not SHM","1 เป็น SHM · 0 ไม่เป็น"], min:0, max:1, step:1, def:1, unit:""},
+      {k:"shm", lab:["",""], opts:[["not SHM","ไม่เป็น"], ["true SHM","เป็น SHM"]], min:0, def:1, unit:""},
       {k:"w",   lab:["Angular frequency ω","ความถี่เชิงมุม ω"], min:.5, max:3, step:.1, def:1.5, unit:" rad/s"},
       {k:"x",   lab:["Displacement","การกระจัด"], min:-3.5, max:3.5, step:.1, def:2, unit:" m"}
     ],

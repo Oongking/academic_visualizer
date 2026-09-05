@@ -92,7 +92,7 @@ nodes:[
     ctrls:[
       {k:"a", lab:["Real part a","ส่วนจริง a"], min:-4, max:4, step:.1, def:3, unit:""},
       {k:"b", lab:["Imaginary part b","ส่วนจินตภาพ b"], min:-4, max:4, step:.1, def:2, unit:""},
-      {k:"conj", lab:["0 hide · 1 show conjugate","0 ซ่อน · 1 แสดงสังยุค"], min:0, max:1, step:1, def:1, unit:""},
+      {k:"conj", lab:["",""], opts:[["hide","ซ่อน"], ["show conjugate","แสดงสังยุค"]], min:0, def:1, unit:""},
       {k:"mult", lab:["Multiply by i, n times","คูณด้วย i, n ครั้ง"], min:0, max:4, step:1, def:0, unit:""}
     ],
     readouts:[

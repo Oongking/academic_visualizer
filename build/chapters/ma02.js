@@ -53,9 +53,9 @@ nodes:[
   viz:{
     vb:"0 0 560 300", anim:false,
     ctrls:[
-      {k:"c",  lab:["0 p∧q · 1 p∨q · 2 p→q · 3 p↔q","0 p∧q · 1 p∨q · 2 p→q · 3 p↔q"], min:0, max:3, step:1, def:2, unit:""},
-      {k:"pv", lab:["p    0 false · 1 true","p    0 เท็จ · 1 จริง"], min:0, max:1, step:1, def:1, unit:""},
-      {k:"qv", lab:["q    0 false · 1 true","q    0 เท็จ · 1 จริง"], min:0, max:1, step:1, def:0, unit:""}
+      {k:"c", lab:["",""], opts:[["p∧q","p∧q"], ["p∨q","p∨q"], ["p→q","p→q"], ["p↔q","p↔q"]], min:0, def:2, unit:""},
+      {k:"pv", lab:["p","p"], opts:[["false","เท็จ"], ["true","จริง"]], min:0, def:1, unit:""},
+      {k:"qv", lab:["q","q"], opts:[["false","เท็จ"], ["true","จริง"]], min:0, def:0, unit:""}
     ],
     readouts:[
       {lab:["Connective","ตัวเชื่อม"], f:function(S){
@@ -149,7 +149,7 @@ nodes:[
   vizcfg:{
     title:["TWO EXPRESSIONS, COMPARED ROW BY ROW","สองนิพจน์ เทียบกันทีละแถว"],
     cols:[["p","p"],["q","q"],["Left","ซ้าย"],["Right","ขวา"],["Match?","ตรงกันไหม"]],
-    ctrls:[{k:"pair", lab:["0 p→q vs ~p∨q · 1 ~(p∧q) vs ~p∨~q · 2 p→q vs q→p","0 · 1 · 2"], min:0, max:2, step:1, def:0, unit:""}],
+    ctrls:[{k:"pair", lab:["",""], opts:[["p→q vs ~p∨q","p→q เทียบกับ ~p∨q"], ["~(p∧q) vs ~p∨~q","~(p∧q) เทียบกับ ~p∨~q"], ["p→q vs q→p","p→q เทียบกับ q→p"]], min:0, def:0, unit:""}],
     readouts:[
       {lab:["Comparing","กำลังเทียบ"], f:function(S){
         return ["p → q   vs   ~p ∨ q","~(p ∧ q)   vs   ~p ∨ ~q","p → q   vs   q → p"][S.p.pair]; }},
@@ -198,7 +198,7 @@ nodes:[
   vizcfg:{
     title:["TRUE IN EVERY ROW, OR NOT","จริงทุกแถว หรือไม่"],
     cols:[["p","p"],["q","q"],["Expression","นิพจน์"],["Verdict","ผล"]],
-    ctrls:[{k:"e", lab:["0 p∨~p · 1 p∧~p · 2 (p→q)∧p→q · 3 p∨q","0 · 1 · 2 · 3"], min:0, max:3, step:1, def:0, unit:""}],
+    ctrls:[{k:"e", lab:["",""], opts:[["p∨~p","p∨~p"], ["p∧~p","p∧~p"], ["(p→q)∧p→q","(p→q)∧p→q"], ["p∨q","p∨q"]], min:0, def:0, unit:""}],
     readouts:[
       {lab:["Expression","นิพจน์"], f:function(S){
         return ["p ∨ ~p","p ∧ ~p","((p → q) ∧ p) → q","p ∨ q"][S.p.e]; }},

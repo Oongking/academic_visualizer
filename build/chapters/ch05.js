@@ -24,7 +24,7 @@ nodes:[
     fn:function(x,p){ return p.kind===0 ? p.F : p.k*x; },
     mark:function(p){ return p.s; },
     ctrls:[
-      {k:"kind", lab:["0 constant force · 1 spring","0 แรงคงที่ · 1 สปริง"], min:0, max:1, step:1, def:0, unit:""},
+      {k:"kind", lab:["",""], opts:[["constant force","แรงคงที่"], ["spring","สปริง"]], min:0, def:0, unit:""},
       {k:"F",    lab:["Constant force","แรงคงที่"],      min:2, max:40, step:1, def:12, unit:" N"},
       {k:"k",    lab:["Spring constant k","ค่านิจสปริง k"], min:1, max:12, step:.5, def:5, unit:" N/m"},
       {k:"s",    lab:["Displacement so far","การกระจัดถึงตอนนี้"], min:.2, max:6, step:.2, def:4, unit:" m"}
@@ -101,7 +101,7 @@ nodes:[
     fn:function(x,p){ return p.kind===0 ? p.m*9.8*x : 0.5*p.k*x*x; },
     mark:function(p){ return p.x; },
     ctrls:[
-      {k:"kind", lab:["0 gravitational · 1 elastic","0 โน้มถ่วง · 1 ยืดหยุ่น"], min:0, max:1, step:1, def:0, unit:""},
+      {k:"kind", lab:["",""], opts:[["gravitational","โน้มถ่วง"], ["elastic","ยืดหยุ่น"]], min:0, def:0, unit:""},
       {k:"m",    lab:["Mass","มวล"],                   min:.5, max:10, step:.5, def:2, unit:" kg"},
       {k:"k",    lab:["Spring constant k","ค่านิจสปริง k"], min:2, max:40, step:1, def:20, unit:" N/m"},
       {k:"x",    lab:["Height / extension","ความสูง / ระยะยืด"], min:.2, max:5, step:.1, def:2, unit:" m"}

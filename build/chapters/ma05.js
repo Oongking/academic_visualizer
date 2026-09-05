@@ -113,7 +113,7 @@ nodes:[
   viz:{
     vb:"0 0 560 330", anim:false,
     ctrls:[
-      {k:"kind", lab:["0 circle · 1 ellipse · 2 parabola · 3 hyperbola","0 วงกลม · 1 วงรี · 2 พาราโบลา · 3 ไฮเพอร์โบลา"], min:0, max:3, step:1, def:1, unit:""},
+      {k:"kind", lab:["",""], opts:[["circle","วงกลม"], ["ellipse","วงรี"], ["parabola","พาราโบลา"], ["hyperbola","ไฮเพอร์โบลา"]], min:0, def:1, unit:""},
       {k:"a", lab:["a","a"], min:1, max:6, step:.5, def:4, unit:""},
       {k:"b", lab:["b","b"], min:1, max:6, step:.5, def:2, unit:""}
     ],

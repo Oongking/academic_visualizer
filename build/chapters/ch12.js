@@ -76,7 +76,7 @@ nodes:[
     title:["WHICH HARMONICS A PIPE ALLOWS","ท่อยอมให้ฮาร์มอนิกใดเกิดได้"],
     ylab:["frequency (Hz)","ความถี่ (Hz)"],
     ctrls:[
-      {k:"closed", lab:["0 open both ends · 1 closed one end","0 เปิดสองปลาย · 1 ปิดปลายเดียว"], min:0, max:1, step:1, def:0, unit:""},
+      {k:"closed", lab:["",""], opts:[["open both ends","เปิดสองปลาย"], ["closed one end","ปิดปลายเดียว"]], min:0, def:0, unit:""},
       {k:"Lp",     lab:["Pipe length","ความยาวท่อ"], min:.2, max:2, step:.1, def:1, unit:" m"},
       {k:"v",      lab:["Speed of sound","อัตราเร็วเสียง"], min:300, max:360, step:5, def:340, unit:" m/s"}
     ],

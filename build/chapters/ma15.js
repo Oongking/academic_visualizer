@@ -64,7 +64,7 @@ nodes:[
       {k:"b", lab:["Coefficient b  (bx²)","สัมประสิทธิ์ b  (bx²)"], min:-3, max:3, step:.1, def:-1, unit:""},
       {k:"c", lab:["Coefficient c  (cx)","สัมประสิทธิ์ c  (cx)"],   min:-4, max:4, step:.1, def:0, unit:""},
       {k:"x", lab:["Point x","จุด x"], min:-3.5, max:3.5, step:.05, def:-1.4, unit:""},
-      {k:"show", lab:["0 curve · 1 curve + f′","0 เส้นโค้ง · 1 เส้นโค้ง + f′"], min:0, max:1, step:1, def:0, unit:""}
+      {k:"show", lab:["",""], opts:[["curve","เส้นโค้ง"], ["curve + f′","เส้นโค้ง + f′"]], min:0, def:0, unit:""}
     ],
     readouts:[
       {lab:["f(x)","f(x)"], f:function(S){ var p=S.p,x=p.x;

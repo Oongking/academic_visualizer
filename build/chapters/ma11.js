@@ -102,7 +102,7 @@ nodes:[
   viz:{
     vb:"0 0 560 330", anim:false,
     ctrls:[
-      {k:"mode", lab:["Event: 0 sum · 1 doubles · 2 at-least · 3 difference","เหตุการณ์: 0 ผลรวม · 1 เลขคู่เหมือน · 2 อย่างน้อย · 3 ผลต่าง"], min:0, max:3, step:1, def:0, unit:""},
+      {k:"mode", lab:["Event:","เหตุการณ์:"], opts:[["sum","ผลรวม"], ["doubles","เลขคู่เหมือน"], ["at-least","อย่างน้อย"], ["difference","ผลต่าง"]], min:0, def:0, unit:""},
       {k:"val", lab:["Target value","ค่าเป้าหมาย"], min:1, max:12, step:1, def:7, unit:""}
     ],
     readouts:[

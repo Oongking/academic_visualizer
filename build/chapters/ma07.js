@@ -70,7 +70,7 @@ nodes:[
     mark:function(p){ return p.m<0.5 ? p.xv : Math.max(p.xv,0.25); },
     ctrls:[
       {k:"a",  lab:["Base a","ฐาน a"],                                        min:0.2, max:4, step:.2,  def:2, unit:""},
-      {k:"m",  lab:["0 exponential aˣ · 1 logarithm logₐ x","0 เอกซ์โพเนนเชียล aˣ · 1 ลอการิทึม logₐ x"], min:0, max:1, step:1, def:0, unit:""},
+      {k:"m", lab:["",""], opts:[["exponential aˣ","เอกซ์โพเนนเชียล aˣ"], ["logarithm logₐ x","ลอการิทึม logₐ x"]], min:0, def:0, unit:""},
       {k:"xv", lab:["Read the curve off at","อ่านค่ากราฟที่"],                  min:-3,  max:3, step:.25, def:1, unit:""}
     ],
     readouts:[

@@ -92,7 +92,7 @@ nodes:[
     fn:function(x,p){ return p.show===0 ? 9e9*p.Q*1e-9/x : 9e9*p.Q*1e-9/(x*x); },
     mark:function(p){ return p.r; },
     ctrls:[
-      {k:"show", lab:["0 potential V · 1 field E","0 ศักย์ V · 1 สนาม E"], min:0, max:1, step:1, def:0, unit:""},
+      {k:"show", lab:["",""], opts:[["potential V","ศักย์ V"], ["field E","สนาม E"]], min:0, def:0, unit:""},
       {k:"Q",    lab:["Charge","ประจุ"], min:1, max:50, step:1, def:10, unit:" nC"},
       {k:"r",    lab:["Distance","ระยะ"], min:.4, max:5.8, step:.1, def:1, unit:" m"}
     ],

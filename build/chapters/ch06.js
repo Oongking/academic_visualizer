@@ -117,7 +117,7 @@ nodes:[
     title:["MOMENTUM ALWAYS SURVIVES · ENERGY DOES NOT","โมเมนตัมอยู่รอดเสมอ · พลังงานไม่"],
     ylab:["J   and   kg·m/s","J   และ   kg·m/s"],
     ctrls:[
-      {k:"kind", lab:["0 elastic · 1 perfectly inelastic","0 ยืดหยุ่น · 1 ไม่ยืดหยุ่นสมบูรณ์"], min:0, max:1, step:1, def:1, unit:""},
+      {k:"kind", lab:["",""], opts:[["elastic","ยืดหยุ่น"], ["perfectly inelastic","ไม่ยืดหยุ่นสมบูรณ์"]], min:0, def:1, unit:""},
       {k:"m1",   lab:["Mass A","มวล A"], min:1, max:8, step:.5, def:3, unit:" kg"},
       {k:"u1",   lab:["A before","A ก่อนชน"], min:0, max:12, step:.5, def:6, unit:" m/s"},
       {k:"m2",   lab:["Mass B (at rest)","มวล B (อยู่นิ่ง)"], min:1, max:8, step:.5, def:3, unit:" kg"}

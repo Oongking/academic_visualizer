@@ -150,10 +150,10 @@ nodes:[
     title:["THE SOLUTION SET, DRAWN","เซตคำตอบ วาดออกมา"],
     min:-8, max:8,
     ctrls:[
-      {k:"kind", lab:["0 x>a · 1 a<x<b · 2 x<a or x>b","0 · 1 · 2"], min:0, max:2, step:1, def:0, unit:""},
+      {k:"kind", lab:["",""], opts:[["x>a","x>a"], ["a<x<b","a<x<b"], ["x<a or x>b","x<a หรือ x>b"]], min:0, def:0, unit:""},
       {k:"a",    lab:["a","a"], min:-7, max:7, step:.5, def:-2, unit:""},
       {k:"b",    lab:["b","b"], min:-7, max:7, step:.5, def:3, unit:""},
-      {k:"strict", lab:["0 includes ends · 1 excludes","0 รวมปลาย · 1 ไม่รวม"], min:0, max:1, step:1, def:1, unit:""}
+      {k:"strict", lab:["",""], opts:[["includes ends","รวมปลาย"], ["excludes","ไม่รวม"]], min:0, def:1, unit:""}
     ],
     readouts:[
       {lab:["Solution","คำตอบ"], f:function(S){

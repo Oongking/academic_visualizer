@@ -1222,7 +1222,21 @@ function makeLab(nd, host){
         '<button class="btn g-next" type="button">'+t("lab.next")+'</button>'+
         '<button class="btn g-skip" type="button">'+t("lab.skip")+'</button></div><div class="ctrls">';
   ctrls.forEach(function(c,i){
-    h+='<div class="ctrl"><label><span>'+tx(c.lab)+'</span><span class="lv" data-i="'+i+'"></span></label>'+
+    /* A control that picks one of a few named things is a choice, not a
+       quantity. Dragging a slider to "2" to mean "cubic" asks the reader to
+       remember which number means what; naming the options removes the step. */
+    if(c.opts && c.opts.length){
+      h+='<div class="ctrl choice">';
+      if(c.lab && tx(c.lab)) h+='<label><span>'+esc(tx(c.lab))+'</span></label>';
+      h+='<div class="opts" role="group">';
+      c.opts.forEach(function(o,j){
+        h+='<button type="button" class="opt-b" data-i="'+i+'" data-v="'+
+           (c.min!=null?c.min+j:j)+'">'+esc(tx(o))+'</button>';
+      });
+      h+='</div></div>';
+      return;
+    }
+    h+='<div class="ctrl"><label><span>'+esc(tx(c.lab))+'</span><span class="lv" data-i="'+i+'"></span></label>'+
        '<input type="range" class="cv" data-i="'+i+'" min="'+c.min+'" max="'+c.max+'" step="'+c.step+'" value="'+c.def+'"></div>';
   });
   h+='</div>';
@@ -1243,6 +1257,12 @@ function makeLab(nd, host){
   var Tkey=null; ctrls.forEach(function(c){ if(c.isT) Tkey=c.k; });
 
   function labels(){
+    host.querySelectorAll(".opt-b").forEach(function(el){
+      var c=ctrls[+el.getAttribute("data-i")];
+      var on = String(S.p[c.k])===el.getAttribute("data-v");
+      el.classList.toggle("on",on);
+      el.setAttribute("aria-pressed",on?"true":"false");
+    });
     host.querySelectorAll(".lv").forEach(function(el){
       var c=ctrls[+el.getAttribute("data-i")];
       el.textContent=S.p[c.k]+(c.unit||"");
@@ -1281,6 +1301,7 @@ function makeLab(nd, host){
     for(var k in st.set) S.p[k]=st.set[k];
     S.t=0;
     host.querySelectorAll(".cv").forEach(function(el){ el.value=S.p[ctrls[+el.getAttribute("data-i")].k]; });
+    labels();
     draw();
   }
   /* Guided is an OFFER, never a gate: sandbox is default and the
@@ -1305,6 +1326,14 @@ function makeLab(nd, host){
     el.addEventListener("input",function(){
       var c=ctrls[+el.getAttribute("data-i")];
       S.p[c.k]=parseFloat(el.value);
+      if(Tkey && S.t>S.p[Tkey]) S.t=S.p[Tkey];
+      draw();
+    });
+  });
+  host.querySelectorAll(".opt-b").forEach(function(el){
+    el.addEventListener("click",function(){
+      var c=ctrls[+el.getAttribute("data-i")];
+      S.p[c.k]=parseFloat(el.getAttribute("data-v"));
       if(Tkey && S.t>S.p[Tkey]) S.t=S.p[Tkey];
       draw();
     });

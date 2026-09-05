@@ -24,7 +24,7 @@ nodes:[
     fn:function(x,p){ return p.kind===0 ? p.R*x : p.R*x*(1+0.9*x); },
     mark:function(p){ return p.I; },
     ctrls:[
-      {k:"kind", lab:["0 resistor · 1 filament lamp","0 ตัวต้านทาน · 1 หลอดไส้"], min:0, max:1, step:1, def:0, unit:""},
+      {k:"kind", lab:["",""], opts:[["resistor","ตัวต้านทาน"], ["filament lamp","หลอดไส้"]], min:0, def:0, unit:""},
       {k:"R",    lab:["Resistance at low current","ความต้านทานที่กระแสต่ำ"], min:1, max:12, step:.5, def:4, unit:" Ω"},
       {k:"I",    lab:["Current","กระแส"], min:.1, max:2.9, step:.1, def:1, unit:" A"}
     ],
@@ -94,7 +94,7 @@ nodes:[
       {k:"V",  lab:["Supply V","แหล่งจ่าย V"], min:3, max:24, step:1, def:12, unit:" V"},
       {k:"R1", lab:["R₁","R₁"], min:1, max:50, step:1, def:10, unit:" Ω"},
       {k:"R2", lab:["R₂","R₂"], min:1, max:50, step:1, def:20, unit:" Ω"},
-      {k:"mode", lab:["0 series · 1 parallel","0 อนุกรม · 1 ขนาน"], min:0, max:1, step:1, def:0, unit:""}
+      {k:"mode", lab:["",""], opts:[["series","อนุกรม"], ["parallel","ขนาน"]], min:0, def:0, unit:""}
     ],
     readouts:[
       {lab:["Total R","R รวม"], f:function(S){
@@ -169,7 +169,7 @@ nodes:[
       {k:"V",  lab:["Supply voltage","ความต่างศักย์แหล่งจ่าย"], min:3, max:24, step:1, def:12, unit:" V"},
       {k:"R1", lab:["R₁","R₁"], min:1, max:20, step:1, def:2, unit:" Ω"},
       {k:"R2", lab:["R₂","R₂"], min:1, max:20, step:1, def:10, unit:" Ω"},
-      {k:"ser", lab:["0 series · 1 parallel","0 อนุกรม · 1 ขนาน"], min:0, max:1, step:1, def:0, unit:""}
+      {k:"ser", lab:["",""], opts:[["series","อนุกรม"], ["parallel","ขนาน"]], min:0, def:0, unit:""}
     ],
     readouts:[
       {lab:["Power in R₁","กำลังใน R₁"], f:function(S){

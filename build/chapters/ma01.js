@@ -93,7 +93,7 @@ nodes:[
   viz:{
     vb:"0 0 560 300", anim:false,
     ctrls:[
-      {k:"op", lab:["0 A∪B · 1 A∩B · 2 A−B · 3 A′","0 A∪B · 1 A∩B · 2 A−B · 3 A′"], min:0, max:3, step:1, def:0, unit:""},
+      {k:"op", lab:["",""], opts:[["A∪B","A∪B"], ["A∩B","A∩B"], ["A−B","A−B"], ["A′","A′"]], min:0, def:0, unit:""},
       {k:"nA", lab:["Only in A","อยู่ใน A อย่างเดียว"], min:0, max:20, step:1, def:8, unit:""},
       {k:"nAB",lab:["In both","อยู่ในทั้งสอง"],          min:0, max:20, step:1, def:5, unit:""},
       {k:"nB", lab:["Only in B","อยู่ใน B อย่างเดียว"], min:0, max:20, step:1, def:7, unit:""}

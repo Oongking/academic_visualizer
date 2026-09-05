@@ -22,7 +22,7 @@ nodes:[
     ylab:["degrees from the normal","องศาจากเส้นแนวฉาก"],
     ctrls:[
       {k:"i", lab:["Angle of incidence","มุมตกกระทบ"], min:0, max:89, step:1, def:35, unit:"°"},
-      {k:"rough", lab:["0 smooth · 1 rough surface","0 ผิวเรียบ · 1 ผิวขรุขระ"], min:0, max:1, step:1, def:0, unit:""}
+      {k:"rough", lab:["",""], opts:[["smooth","ผิวเรียบ"], ["rough surface","ผิวขรุขระ"]], min:0, def:0, unit:""}
     ],
     readouts:[
       {lab:["Angle of incidence","มุมตกกระทบ"], f:function(S){ return S.p.i+"°"; }},

@@ -245,6 +245,20 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
    default track is about 16px tall and easy to catch the edge of. */
 .ctrl input[type=range]{width:100%;height:24px;margin:0;accent-color:var(--accent);
   cursor:pointer;touch-action:none}
+
+/* A choice reads as its options, not as a number on a track. Hairline boxes
+   sharing an edge, the picked one filled - the same language as the mode
+   switch above the plate. */
+.ctrl.choice .opts{display:flex;flex-wrap:wrap;gap:0;margin-top:2px}
+.opt-b{font-family:var(--f-ui);font-size:11.5px;font-weight:500;
+  padding:7px 12px;border:1px solid var(--rule);background:transparent;
+  color:var(--ink-soft);cursor:pointer;border-radius:var(--radius);
+  margin:0 -1px -1px 0;transition:color .14s,border-color .14s,background .14s}
+.opt-b:hover{color:var(--ink);border-color:var(--ink-faint);position:relative;z-index:1}
+.opt-b.on{background:var(--ink);border-color:var(--ink);color:var(--ground);
+  font-weight:600;position:relative;z-index:2}
+.opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
+  position:relative;z-index:3}
 .readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
 .ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
   text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
@@ -1965,7 +1979,21 @@ function makeLab(nd, host){
         '<button class="btn g-next" type="button">'+t("lab.next")+'</button>'+
         '<button class="btn g-skip" type="button">'+t("lab.skip")+'</button></div><div class="ctrls">';
   ctrls.forEach(function(c,i){
-    h+='<div class="ctrl"><label><span>'+tx(c.lab)+'</span><span class="lv" data-i="'+i+'"></span></label>'+
+    /* A control that picks one of a few named things is a choice, not a
+       quantity. Dragging a slider to "2" to mean "cubic" asks the reader to
+       remember which number means what; naming the options removes the step. */
+    if(c.opts && c.opts.length){
+      h+='<div class="ctrl choice">';
+      if(c.lab && tx(c.lab)) h+='<label><span>'+esc(tx(c.lab))+'</span></label>';
+      h+='<div class="opts" role="group">';
+      c.opts.forEach(function(o,j){
+        h+='<button type="button" class="opt-b" data-i="'+i+'" data-v="'+
+           (c.min!=null?c.min+j:j)+'">'+esc(tx(o))+'</button>';
+      });
+      h+='</div></div>';
+      return;
+    }
+    h+='<div class="ctrl"><label><span>'+esc(tx(c.lab))+'</span><span class="lv" data-i="'+i+'"></span></label>'+
        '<input type="range" class="cv" data-i="'+i+'" min="'+c.min+'" max="'+c.max+'" step="'+c.step+'" value="'+c.def+'"></div>';
   });
   h+='</div>';
@@ -1986,6 +2014,12 @@ function makeLab(nd, host){
   var Tkey=null; ctrls.forEach(function(c){ if(c.isT) Tkey=c.k; });
 
   function labels(){
+    host.querySelectorAll(".opt-b").forEach(function(el){
+      var c=ctrls[+el.getAttribute("data-i")];
+      var on = String(S.p[c.k])===el.getAttribute("data-v");
+      el.classList.toggle("on",on);
+      el.setAttribute("aria-pressed",on?"true":"false");
+    });
     host.querySelectorAll(".lv").forEach(function(el){
       var c=ctrls[+el.getAttribute("data-i")];
       el.textContent=S.p[c.k]+(c.unit||"");
@@ -2024,6 +2058,7 @@ function makeLab(nd, host){
     for(var k in st.set) S.p[k]=st.set[k];
     S.t=0;
     host.querySelectorAll(".cv").forEach(function(el){ el.value=S.p[ctrls[+el.getAttribute("data-i")].k]; });
+    labels();
     draw();
   }
   /* Guided is an OFFER, never a gate: sandbox is default and the
@@ -2048,6 +2083,14 @@ function makeLab(nd, host){
     el.addEventListener("input",function(){
       var c=ctrls[+el.getAttribute("data-i")];
       S.p[c.k]=parseFloat(el.value);
+      if(Tkey && S.t>S.p[Tkey]) S.t=S.p[Tkey];
+      draw();
+    });
+  });
+  host.querySelectorAll(".opt-b").forEach(function(el){
+    el.addEventListener("click",function(){
+      var c=ctrls[+el.getAttribute("data-i")];
+      S.p[c.k]=parseFloat(el.getAttribute("data-v"));
       if(Tkey && S.t>S.p[Tkey]) S.t=S.p[Tkey];
       draw();
     });

@@ -21,7 +21,7 @@ nodes:[
     title:["TAKE DIFFERENCES UNTIL THEY GO CONSTANT","หาผลต่างไปเรื่อยจนกว่าจะคงที่"],
     ylab:["value","ค่า"],
     ctrls:[
-      {k:"kind", lab:["0 linear · 1 quadratic · 2 geometric","0 เชิงเส้น · 1 กำลังสอง · 2 เรขาคณิต"], min:0, max:2, step:1, def:0, unit:""},
+      {k:"kind", lab:["",""], opts:[["linear","เชิงเส้น"], ["quadratic","กำลังสอง"], ["geometric","เรขาคณิต"]], min:0, def:0, unit:""},
       {k:"a",    lab:["Leading coefficient","สัมประสิทธิ์นำ"], min:1, max:5, step:1, def:2, unit:""}
     ],
     readouts:[
@@ -105,7 +105,7 @@ nodes:[
     xlab:["n","n"], ylab:["aₙ","aₙ"],
     mark:function(p){ return p.n; },
     ctrls:[
-      {k:"kind", lab:["0 arithmetic · 1 geometric","0 เลขคณิต · 1 เรขาคณิต"], min:0, max:1, step:1, def:0, unit:""},
+      {k:"kind", lab:["",""], opts:[["arithmetic","เลขคณิต"], ["geometric","เรขาคณิต"]], min:0, def:0, unit:""},
       {k:"a1", lab:["First term a₁","พจน์แรก a₁"], min:1, max:10, step:1, def:2, unit:""},
       {k:"d",  lab:["Difference d","ผลต่าง d"],     min:-5, max:8, step:1, def:3, unit:""},
       {k:"r",  lab:["Ratio r","อัตราส่วน r"],       min:-2, max:2.5, step:.1, def:1.5, unit:""},

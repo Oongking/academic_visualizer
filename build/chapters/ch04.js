@@ -170,7 +170,7 @@ nodes:[
     fn:function(x,p){ return p.kind===0 ? 0.5*x*x : p.kind===1 ? -0.5*x*x : 0; },
     mark:function(p){ return p.d; },
     ctrls:[
-      {k:"kind", lab:["0 stable · 1 unstable · 2 neutral","0 เสถียร · 1 ไม่เสถียร · 2 สะเทิน"], min:0, max:2, step:1, def:0, unit:""},
+      {k:"kind", lab:["",""], opts:[["stable","เสถียร"], ["unstable","ไม่เสถียร"], ["neutral","สะเทิน"]], min:0, def:0, unit:""},
       {k:"d",    lab:["Nudge it to","ผลักไปที่"], min:-3.5, max:3.5, step:.1, def:1.2, unit:""}
     ],
     readouts:[

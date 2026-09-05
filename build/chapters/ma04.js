@@ -53,7 +53,7 @@ nodes:[
   vizcfg:{
     title:["WHAT GOES IN, AND WHAT COMES OUT","อะไรเข้าไป และอะไรออกมา"],
     min:-6, max:10,
-    ctrls:[{k:"f", lab:["0 √x · 1 1/x · 2 x² · 3 sin x","0 √x · 1 1/x · 2 x² · 3 sin x"], min:0, max:3, step:1, def:0, unit:""}],
+    ctrls:[{k:"f", lab:["",""], opts:[["√x","√x"], ["1/x","1/x"], ["x²","x²"], ["sin x","sin x"]], min:0, def:0, unit:""}],
     readouts:[
       {lab:["Function","ฟังก์ชัน"], f:function(S){ return ["√x","1/x","x²","sin x"][S.p.f]; }},
       {lab:["Domain","โดเมน"], f:function(S){
@@ -100,8 +100,8 @@ nodes:[
        tests, and only the vertical one was on the plate */
     hline:function(p){ return p.k; },
     ctrls:[
-      {k:"mode", lab:["0 line · 1 parabola · 2 cubic · 3 half-circle","0 เส้นตรง · 1 พาราโบลา · 2 ลูกบาศก์ · 3 ครึ่งวงกลม"],
-       min:0, max:3, step:1, def:0, unit:""},
+      {k:"mode", lab:["",""], opts:[["line","เส้นตรง"], ["parabola","พาราโบลา"], ["cubic","ลูกบาศก์"], ["half-circle","ครึ่งวงกลม"]],
+       min:0, def:0, unit:""},
       {k:"c", lab:["Vertical test line","เส้นทดสอบแนวตั้ง"],   min:-4, max:4, step:.5, def:2, unit:""},
       {k:"k", lab:["Horizontal test line","เส้นทดสอบแนวนอน"], min:-6, max:6, step:.5, def:3, unit:""}
     ],
@@ -160,7 +160,7 @@ nodes:[
       return (x - p.c)/p.m;
     },
     ctrls:[
-      {k:"which", lab:["0 f(x) · 1 its inverse","0 f(x) · 1 ตัวผกผัน"], min:0, max:1, step:1, def:0, unit:""},
+      {k:"which", lab:["",""], opts:[["f(x)","f(x)"], ["its inverse","ตัวผกผัน"]], min:0, def:0, unit:""},
       {k:"m",     lab:["Gradient m","ความชัน m"], min:.3, max:3, step:.1, def:2, unit:""},
       {k:"c",     lab:["Intercept c","จุดตัดแกน c"], min:-3, max:4, step:.5, def:1, unit:""}
     ],
@@ -206,7 +206,7 @@ nodes:[
     },
     mark:function(p){ return p.x; },
     ctrls:[
-      {k:"order", lab:["0 f(g(x)) · 1 g(f(x))","0 f(g(x)) · 1 g(f(x))"], min:0, max:1, step:1, def:0, unit:""},
+      {k:"order", lab:["",""], opts:[["f(g(x))","f(g(x))"], ["g(f(x))","g(f(x))"]], min:0, def:0, unit:""},
       {k:"a",     lab:["f: multiply by a","f: คูณด้วย a"], min:-3, max:3, step:.5, def:2, unit:""},
       {k:"b",     lab:["f: then add b","f: แล้วบวก b"], min:-4, max:4, step:.5, def:1, unit:""},
       {k:"x",     lab:["Test x","ทดสอบที่ x"], min:-3, max:3, step:.25, def:2, unit:""}

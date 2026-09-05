@@ -65,7 +65,7 @@ nodes:[
     ctrls:[
       {k:"rho", lab:["Fluid density","ความหนาแน่นของไหล"], min:700, max:13600, step:100, def:1000, unit:" kg/m³"},
       {k:"h",   lab:["Depth","ความลึก"], min:0, max:29, step:.5, def:10, unit:" m"},
-      {k:"atm", lab:["0 gauge · 1 include atmosphere","0 ความดันเกจ · 1 รวมบรรยากาศ"], min:0, max:1, step:1, def:1, unit:""}
+      {k:"atm", lab:["",""], opts:[["gauge","ความดันเกจ"], ["include atmosphere","รวมบรรยากาศ"]], min:0, def:1, unit:""}
     ],
     readouts:[
       {lab:["Pressure there","ความดัน ณ ที่นั้น"], f:function(S){

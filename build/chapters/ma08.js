@@ -139,7 +139,7 @@ nodes:[
     },
     mark:function(p){ return p.th; },
     ctrls:[
-      {k:"show", lab:["0 sin²+cos² · 1 sin² · 2 cos²","0 sin²+cos² · 1 sin² · 2 cos²"], min:0, max:2, step:1, def:0, unit:""},
+      {k:"show", lab:["",""], opts:[["sin²+cos²","sin²+cos²"], ["sin²","sin²"], ["cos²","cos²"]], min:0, def:0, unit:""},
       {k:"th",   lab:["Angle θ","มุม θ"], min:0, max:720, step:5, def:35, unit:"°"}
     ],
     readouts:[

@@ -27,7 +27,7 @@ nodes:[
     },
     mark:function(p){ return p.ph; },
     ctrls:[
-      {k:"coh", lab:["1 coherent · 0 incoherent","1 อาพันธ์ · 0 ไม่อาพันธ์"], min:0, max:1, step:1, def:1, unit:""},
+      {k:"coh", lab:["",""], opts:[["incoherent","ไม่อาพันธ์"], ["coherent","อาพันธ์"]], min:0, def:1, unit:""},
       {k:"I0",  lab:["Intensity of each source","ความเข้มของแต่ละแหล่ง"], min:1, max:10, step:.5, def:4, unit:""},
       {k:"ph",  lab:["Phase difference","ผลต่างเฟส"], min:0, max:720, step:10, def:0, unit:"°"}
     ],
