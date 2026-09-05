@@ -843,6 +843,100 @@ def unused_html(data, subs):
     return "\n".join(out)
 
 
+# ---------------------------------------------------------------- home
+#
+# The front door. Every other page is reachable from a subject index or from
+# the bridge, but the package root had no page of its own: opening the folder
+# landed on bridge.html, which is a cross-subject reference rather than a way
+# in. This gives the collection an actual entry point.
+
+WAY_BLURB = {
+    "physics": ["Motion, force and energy through to waves, fields and the atom.",
+                u"การเคลื่อนที่ แรงและพลังงาน ไปจนถึงคลื่น สนาม และอะตอม"],
+    "math": ["Sets and logic through to calculus, and the tools every physics chapter borrows.",
+             u"เซตและตรรกศาสตร์ ไปจนถึงแคลคูลัส และเครื่องมือที่ทุกบทฟิสิกส์หยิบไปใช้"],
+}
+
+
+def way(href, eyebrow, title_en, title_th, blurb, foot, go):
+    """One destination plate on the front page."""
+    return ('<a class="way" href="%s">'
+            '<span class="label" data-en="%s" data-th="%s"></span>'
+            '<h2 data-en="%s" data-th="%s"></h2>'
+            '<p class="th" data-en="%s" data-th="%s"></p>'
+            '<p class="what" data-en="%s" data-th="%s"></p>'
+            '<div class="foot">%s</div>'
+            '<span class="go" data-en="%s" data-th="%s"></span>'
+            '</a>'
+            % (href, esc(eyebrow["en"]), esc(eyebrow["th"]),
+               esc(title_en["en"]), esc(title_en["th"]),
+               esc(title_th["en"]), esc(title_th["th"]),
+               esc(blurb[0]), esc(blurb[1]), foot,
+               esc(go["en"]), esc(go["th"])))
+
+
+def build_home(subs, css):
+    """The package root page: pick a subject, or read the cross-subject sheet."""
+    tpl = read(os.path.join(BUILD, "home.template.html"))
+
+    order = [s for s in ("physics", "math") if s in subs]
+    tot_ch = tot_nodes = tot_methods = built_ch = 0
+    plates = []
+    for s in order:
+        man, stats = subs[s]["man"], subs[s]["stats"]
+        nb, nt = len(subs[s]["filemap"]), len(man["chapters"])
+        nodes = sum(v[0] for v in stats.values())
+        methods = sum(v[1] for v in stats.values())
+        tot_ch += nt
+        built_ch += nb
+        tot_nodes += nodes
+        tot_methods += methods
+        foot = ("<span>%d <span data-en=\"chapters\" data-th=\"บท\"></span></span>"
+                "<span>%d <span data-en=\"nodes\" data-th=\"โหนด\"></span></span>"
+                "<span>%d <span data-en=\"methods\" data-th=\"วิธี\"></span></span>"
+                % (nt, nodes, methods))
+        plates.append(way(
+            "%s/index.html" % man["subject"],
+            {"en": "Subject", "th": u"วิชา"},
+            {"en": man["subjectTitle"]["en"], "th": man["subjectTitle"]["en"]},
+            {"en": man["subjectTitle"]["th"], "th": man["subjectTitle"]["th"]},
+            WAY_BLURB.get(s, ["", ""]),
+            foot,
+            {"en": "Open the map →", "th": u"เปิดแผนที่ →"}))
+
+    nlink = 0
+    bj = os.path.join(BUILD, "bridge.json")
+    if os.path.exists(bj):
+        data = json.loads(read(bj))
+        nlink = sum(len(l["uses"]) for l in data["links"])
+
+    ways = '<section class="ways">%s</section>' % "".join(plates)
+    if nlink and len(order) == 2:
+        ways += ('<section class="ways cross">%s</section>' % way(
+            "bridge.html",
+            {"en": "Cross-subject", "th": u"ข้ามวิชา"},
+            {"en": "Physics × Mathematics", "th": u"Physics × Mathematics"},
+            {"en": u"ฟิสิกส์ × คณิตศาสตร์", "th": u"ฟิสิกส์ × คณิตศาสตร์"},
+            ["Which maths each physics chapter actually leans on, and how hard.",
+             u"แต่ละบทฟิสิกส์พึ่งพาคณิตศาสตร์บทใด และพึ่งมากแค่ไหน"],
+            "<span>%d <span data-en=\"links\" data-th=\"ความเชื่อมโยง\"></span></span>" % nlink,
+            {"en": "Read the matrix →", "th": u"ดูตาราง →"}))
+
+    lvl = subs[order[0]]["man"]["level"]
+    out = tpl
+    for tok, val in (("__CSS__", css), ("__WAYS__", ways),
+                     ("__SITE_EN__", "Physics and Mathematics"),
+                     ("__SITE_TH__", u"ฟิสิกส์และคณิตศาสตร์"),
+                     ("__LEVEL_EN__", esc(lvl["en"])), ("__LEVEL_TH__", esc(lvl["th"])),
+                     ("__CHAPTERS__", str(tot_ch)), ("__NODES__", str(tot_nodes)),
+                     ("__METHODS__", str(tot_methods)), ("__LINKS__", str(nlink)),
+                     ("__PCT__", "%.0f" % (100.0 * built_ch / tot_ch if tot_ch else 0))):
+        out = out.replace(tok, val)
+
+    dest = os.path.join(ROOT, "index.html")
+    return dest, write(dest, out)
+
+
 def build_bridge(subs, css):
     if "physics" not in subs or "math" not in subs:
         return None, 0
@@ -928,7 +1022,7 @@ def main():
             stats[num] = (len(re.findall(r'\{\s*id:"[\w-]+",\s*x:', s)),
                           len(re.findall(r'\{id:"M-\d+"', s)))
 
-        subs[subject] = {"man": man, "filemap": filemap}
+        subs[subject] = {"man": man, "filemap": filemap, "stats": stats}
         todo = [f for f in files if not want or any(w in os.path.basename(f) for w in want)]
 
         print("%s" % subject)
@@ -948,6 +1042,13 @@ def main():
     dest, size = build_bridge(subs, css)
     if dest:
         print("cross-subject")
+        print("  %-46s %6.1f KB" % (os.path.relpath(dest, ROOT).replace("\\", "/"), size / 1024.0))
+        grand += size
+        print("")
+
+    if subs:
+        dest, size = build_home(subs, css)
+        print("front door")
         print("  %-46s %6.1f KB" % (os.path.relpath(dest, ROOT).replace("\\", "/"), size / 1024.0))
         grand += size
         print("")
