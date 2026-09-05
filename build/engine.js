@@ -17,13 +17,13 @@ var BASE = {
   "ui.reset":["Reset progress","ล้างความคืบหน้า"],
   "nav.learn":["Learn","เรียน"], "nav.forge":["Forge","ฝึก"],
   "map.eyebrow":["The knowledge map","แผนที่ความรู้"],
-  "map.fig":["prerequisite graph · click a node to jump to it","ผังลำดับความรู้ · คลิกโหนดเพื่อกระโดดไปยังหัวข้อ"],
+  "map.fig":["prerequisite graph · click a node to jump to it","ผังลำดับความรู้ · คลิกที่โหนดเพื่อไปยังหัวข้อนั้น"],
   "map.progress":["Progress","ความคืบหน้า"], "map.progressSub":["nodes read","โหนดที่อ่านแล้ว"],
   "map.s1":["Upcoming","ยังไม่ถึง"],
   "map.s1d":["Its prerequisites are not read yet. Advisory only — the content is right below.","ยังไม่ได้อ่านหัวข้อที่ควรรู้ก่อน เป็นเพียงคำแนะนำ เนื้อหาอยู่ด้านล่างแล้ว"],
   "map.s2":["Next up","ถัดไป"], "map.s2d":["Prerequisites done. This is where to go.","อ่านหัวข้อก่อนหน้าครบแล้ว ไปต่อที่นี่"],
-  "map.s3":["Read","อ่านแล้ว"], "map.s3d":["You have scrolled through it.","คุณเลื่อนอ่านผ่านแล้ว"],
-  "map.s4":["Trained","ฝึกครบ"], "map.s4d":["Its methods answered correctly in the Forge.","ตอบวิธีของโหนดนี้ถูกในห้องฝึกแล้ว"],
+  "map.s3":["Read","อ่านแล้ว"], "map.s3d":["You have scrolled through it.","เลื่อนผ่านเนื้อหานี้แล้ว"],
+  "map.s4":["Trained","ฝึกครบ"], "map.s4d":["Its methods answered correctly in the Forge.","ตอบวิธีของหัวข้อนี้ถูกในห้องฝึกแล้ว"],
   "study.methods":["Methods trained by this node","วิธีที่ฝึกจากโหนดนี้"],
   "lab.title":["Lab","ห้องทดลอง"],
   "lab.guided":["Guided tour","ทัวร์นำชม"], "lab.sandbox":["Sandbox","เล่นอิสระ"],
@@ -33,7 +33,7 @@ var BASE = {
   "forge.eyebrow":["The forge","ห้องฝึก"],
   "forge.title":["Train the method, not the question","ฝึกที่วิธี ไม่ใช่ที่ข้อสอบ"],
   "forge.lede":["A question is disposable. The method it exercises is the thing worth owning. Configure a blueprint and it sweeps the method × surface matrix, so no method escapes being asked in every disguise it can wear.",
-                "ข้อสอบใช้แล้วทิ้งได้ แต่วิธีที่ข้อนั้นฝึกคือสิ่งที่ต้องเป็นเจ้าของ ตั้งค่าพิมพ์เขียวแล้วระบบจะกวาดตารางวิธี × รูปแบบ เพื่อให้ทุกวิธีถูกถามในทุกการปลอมตัว"],
+                "ข้อสอบใช้แล้วทิ้งได้ แต่วิธีทำที่อยู่เบื้องหลังต่างหากที่ต้องทำให้เป็นของตัวเอง ตั้งค่าพิมพ์เขียวไว้ ระบบจะไล่ให้ครบทั้งตารางวิธี × รูปแบบ เพื่อให้ทุกวิธีถูกถามครบทุกมุมที่โจทย์พลิกได้"],
   "forge.methods":["Methods","วิธี"], "forge.surfaces":["Surfaces","รูปแบบคำถาม"],
   "forge.mode":["Mode","โหมด"], "forge.modeCov":["Coverage sweep","กวาดให้ครบ"],
   "forge.modeRnd":["Random mix","สุ่มผสม"], "forge.count":["Questions","จำนวนข้อ"],
@@ -1605,6 +1605,8 @@ function applyLang(){
   if(fs) fs.textContent=t("foot.src."+(CHAPTER.subject||"physics"));
   document.getElementById("chNum").textContent=tx(CHAPTER.kicker);
   document.getElementById("chTitle").textContent=tx(CHAPTER.title);
+  var mt=document.getElementById("chmap-title");
+  if(mt) mt.textContent=tx(CHAPTER.title)+" "+t("map.eyebrow");
   document.getElementById("mapTitle").textContent=tx(CHAPTER.mapTitle);
   document.getElementById("mapLede").textContent=tx(CHAPTER.lede);
   document.getElementById("mapFig").textContent="Fig "+CHAPTER.num+".0 · "+t("map.fig");

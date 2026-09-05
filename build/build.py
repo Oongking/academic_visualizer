@@ -693,20 +693,20 @@ def track_legend(man, built, key, keyn):
         ('<svg class="sw" viewBox="0 0 26 8"><path d="M0 4 H22" '
          'stroke="var(--ink-faint)" stroke-width="1.4" fill="none"/></svg>',
          "Needs the chapter it points from, same track",
-         u"ต้องเรียนบทต้นทางก่อน ภายในสายเดียวกัน"),
+         u"ชี้จากบทที่ต้องอ่านก่อน · สายเดียวกัน"),
         ('<svg class="sw" viewBox="0 0 26 8"><path d="M0 4 H22" '
          'stroke="var(--ink-faint)" stroke-width="1.4" stroke-dasharray="3 3" '
          'fill="none"/></svg>',
-         "Needs it from another track", u"ต้องเรียนบทต้นทางก่อน ข้ามสาย"),
+         "Needs it from another track", u"ชี้จากบทที่ต้องอ่านก่อน · ข้ามสาย"),
         ('<span class="sw sw-fan">n</span>',
          "How many later chapters need this one",
-         u"จำนวนบทถัดไปที่ต้องใช้บทนี้"),
+         u"มีกี่บทข้างหน้าที่ต้องใช้บทนี้"),
     ]
     if key:
         items.append(('<span class="sw sw-key"></span>',
                       "%s - the chapter most others depend on (%d)"
                       % (kt["en"], keyn),
-                      u"%s - บทที่บทอื่นต้องใช้มากที่สุด (%d)" % (kt["th"], keyn)))
+                      u"%s · บทที่บทอื่นต้องใช้มากที่สุด (%d บท)" % (kt["th"], keyn)))
     return "\n  ".join(
         '<span class="lg"><span class="lgsw">%s</span>%s</span>'
         % (sw, bi("span", {"en": en, "th": th}))
@@ -730,7 +730,7 @@ def build_index(man, built, stats, css, nav=""):
                    % (kt["en"], keyn)) if key else ""))
     desc_th = (u"แผนผังลำดับก่อนหลังของ %d บท จัดเป็น %d สาย "
                u"ลูกศรชี้จากบทหนึ่งไปยังบทถัดไปที่ต้องใช้บทนั้น "
-               u"เส้นประคือการข้ามสาย%s"
+               u"เส้นประคือความเชื่อมโยงข้ามสาย%s"
                % (nt, len(man["groups"]),
                   (u" %s เป็นบทที่บทอื่นต้องใช้มากที่สุด คือ %d บท"
                    % (kt["th"], keyn)) if key else ""))
@@ -1005,7 +1005,7 @@ def build_home(subs, css, nav=""):
             {"en": "Physics × Mathematics", "th": u"Physics × Mathematics"},
             {"en": u"ฟิสิกส์ × คณิตศาสตร์", "th": u"ฟิสิกส์ × คณิตศาสตร์"},
             ["Which maths each physics chapter actually leans on, and how hard.",
-             u"แต่ละบทฟิสิกส์พึ่งพาคณิตศาสตร์บทใด และพึ่งมากแค่ไหน"],
+             u"บทฟิสิกส์แต่ละบทต้องใช้คณิตบทไหน และใช้มากแค่ไหน"],
             "<span>%d <span data-en=\"links\" data-th=\"ความเชื่อมโยง\"></span></span>" % nlink,
             {"en": "Read the matrix →", "th": u"ดูตาราง →"}))
 
@@ -1044,7 +1044,7 @@ def build_bridge(subs, css, nav=""):
                   (" %s is the maths chapter the most physics chapters lean on, "
                    "load-bearing in %d of them." % (kt["en"], keyn)) if key else ""))
     desc_th = (u"ตารางระหว่างฟิสิกส์ %d บทกับคณิตศาสตร์ %d บท "
-               u"สี่เหลี่ยมทึบคือการพึ่งพาหลัก สี่เหลี่ยมโปร่งคือการใช้แบบสนับสนุน%s"
+               u"สี่เหลี่ยมทึบคือคณิตที่ขาดไม่ได้ สี่เหลี่ยมโปร่งคือที่ใช้ช่วยบางส่วน%s"
                % (len(data["links"]), len(subs["math"]["man"]["chapters"]),
                   (u" %s เป็นบทคณิตที่ฟิสิกส์พึ่งพามากที่สุด เป็นหลักใน %d บท"
                    % (kt["th"], keyn)) if key else ""))

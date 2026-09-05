@@ -463,13 +463,13 @@ p.secnote{margin:-12px 0 24px;color:var(--ink-soft);max-width:64ch;font-size:15p
   <h2 class="sec" data-en="The whole dependency at a glance" data-th="ภาพรวมความเชื่อมโยงทั้งหมด"></h2>
   <hr class="sec">
   <p class="secnote" data-en="Each row is a physics chapter, each column a maths chapter. A filled square marks maths the physics chapter cannot be stated without; an outlined square marks maths it leans on for part of the work. Hover any square for the pairing."
-                     data-th="แต่ละแถวคือบทฟิสิกส์ แต่ละคอลัมน์คือบทคณิตศาสตร์ สี่เหลี่ยมทึบหมายถึงคณิตศาสตร์ที่ขาดไม่ได้ ไม่เช่นนั้นบทฟิสิกส์นั้นเขียนขึ้นไม่ได้เลย สี่เหลี่ยมโปร่งหมายถึงที่ใช้พิงในบางส่วนของงาน วางเมาส์บนสี่เหลี่ยมใดก็ได้เพื่อดูคู่ความสัมพันธ์"></p>
+                     data-th="แต่ละแถวคือบทฟิสิกส์ แต่ละคอลัมน์คือบทคณิตศาสตร์ สี่เหลี่ยมทึบคือคณิตที่ขาดไม่ได้ ถ้าไม่มีก็เขียนบทฟิสิกส์นั้นไม่ได้เลย สี่เหลี่ยมโปร่งหมายถึงคณิตศาสตร์ที่ใช้ช่วยในบางส่วน ชี้ที่สี่เหลี่ยมช่องไหนก็ได้เพื่อดูว่าเป็นคู่ไหน"></p>
   <div class="matrix">
     <svg viewBox="0 0 656 540" role="img"
          aria-labelledby="bridge-matrix-title bridge-matrix-desc">
       <title id="bridge-matrix-title" data-en="Physics to mathematics dependency matrix"
              data-th="ตารางการพึ่งพาจากฟิสิกส์ไปคณิตศาสตร์">Physics to mathematics dependency matrix</title>
-      <desc id="bridge-matrix-desc" data-en="Grid of 20 physics chapters against 16 maths chapters. A filled square marks a load-bearing dependency, a hollow one a supporting use. Trigonometry is the maths chapter the most physics chapters lean on, load-bearing in 7 of them." data-th="ตารางระหว่างฟิสิกส์ 20 บทกับคณิตศาสตร์ 16 บท สี่เหลี่ยมทึบคือการพึ่งพาหลัก สี่เหลี่ยมโปร่งคือการใช้แบบสนับสนุน ตรีโกณมิติ เป็นบทคณิตที่ฟิสิกส์พึ่งพามากที่สุด เป็นหลักใน 7 บท">Grid of 20 physics chapters against 16 maths chapters. A filled square marks a load-bearing dependency, a hollow one a supporting use. Trigonometry is the maths chapter the most physics chapters lean on, load-bearing in 7 of them.</desc>
+      <desc id="bridge-matrix-desc" data-en="Grid of 20 physics chapters against 16 maths chapters. A filled square marks a load-bearing dependency, a hollow one a supporting use. Trigonometry is the maths chapter the most physics chapters lean on, load-bearing in 7 of them." data-th="ตารางระหว่างฟิสิกส์ 20 บทกับคณิตศาสตร์ 16 บท สี่เหลี่ยมทึบคือคณิตที่ขาดไม่ได้ สี่เหลี่ยมโปร่งคือที่ใช้ช่วยบางส่วน ตรีโกณมิติ เป็นบทคณิตที่ฟิสิกส์พึ่งพามากที่สุด เป็นหลักใน 7 บท">Grid of 20 physics chapters against 16 maths chapters. A filled square marks a load-bearing dependency, a hollow one a supporting use. Trigonometry is the maths chapter the most physics chapters lean on, load-bearing in 7 of them.</desc>
       <rect class="mband" x="0" y="480" width="656" height="24"/>
       <rect class="mband" x="0" y="432" width="656" height="24"/>
       <rect class="mband" x="0" y="384" width="656" height="24"/>
@@ -625,7 +625,7 @@ p.secnote{margin:-12px 0 24px;color:var(--ink-soft);max-width:64ch;font-size:15p
     <span><i class="c"></i><span data-en="Load-bearing - the chapter cannot be stated without it"
                                  data-th="รับน้ำหนักหลัก คือขาดไม่ได้"></span></span>
     <span><i class="s"></i><span data-en="Supporting - leaned on for part of the work"
-                                 data-th="สนับสนุน คือใช้พิงบางส่วน"></span></span>
+                                 data-th="ใช้ประกอบ ไม่ถึงกับขาดไม่ได้"></span></span>
     <span><i class="k"></i><span data-en="Trigonometry - the maths the most physics chapters lean on (7)"
                                  data-th="ตรีโกณมิติ คือคณิตที่ฟิสิกส์พึ่งพามากที่สุด (7)"></span></span>
   </div>
@@ -635,7 +635,7 @@ p.secnote{margin:-12px 0 24px;color:var(--ink-soft);max-width:64ch;font-size:15p
   <h2 class="sec" data-en="Chapter by chapter" data-th="ทีละบท"></h2>
   <hr class="sec">
   <p class="secnote" data-en="For each physics chapter: the maths it calls on, what specifically it takes, and what that maths is doing there."
-                     data-th="สำหรับแต่ละบทฟิสิกส์ คือคณิตศาสตร์ที่มันเรียกใช้ สิ่งที่หยิบไปใช้อย่างเจาะจง และคณิตศาสตร์นั้นทำหน้าที่อะไรอยู่ตรงนั้น"></p>
+                     data-th="บทฟิสิกส์แต่ละบทเรียกใช้คณิตบทไหน หยิบอะไรไปใช้บ้าง และคณิตนั้นทำหน้าที่อะไรในบทนั้น"></p>
   <article class="phb">
   <div class="phb-head"><span class="phb-n">PHYSICS 01</span><h3><a href="physics/ch01-measurement.html" data-en="Measurement" data-th="การวัด"></a></h3></div>
   <div class="use">
@@ -962,7 +962,7 @@ p.secnote{margin:-12px 0 24px;color:var(--ink-soft);max-width:64ch;font-size:15p
   <h2 class="sec" data-en="The same map read backwards" data-th="แผนที่เดียวกันอ่านย้อนกลับ"></h2>
   <hr class="sec">
   <p class="secnote" data-en="For each maths chapter, the physics that depends on it. Dark chips mark the chapters where it is load-bearing — useful for deciding what to revise first."
-                     data-th="สำหรับแต่ละบทคณิตศาสตร์ คือฟิสิกส์ที่พึ่งพามัน ป้ายสีเข้มคือบทที่มันรับน้ำหนักหลัก มีประโยชน์สำหรับตัดสินใจว่าจะทบทวนอะไรก่อน"></p>
+                     data-th="คณิตแต่ละบทมีฟิสิกส์บทไหนพึ่งพาอยู่บ้าง ป้ายสีเข้มคือบทที่ขาดคณิตบทนี้ไม่ได้ ใช้เลือกได้ว่าควรทบทวนอะไรก่อน"></p>
   <div class="rev">
 <div class="rev-c">
   <span class="man">MATHS 03</span>
