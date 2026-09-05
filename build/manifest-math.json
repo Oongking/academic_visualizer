@@ -1,0 +1,257 @@
+{
+  "subject": "math",
+  "subjectTitle": {
+    "en": "Mathematics",
+    "th": "คณิตศาสตร์"
+  },
+  "level": {
+    "en": "Upper secondary · ม.ปลาย",
+    "th": "มัธยมปลาย"
+  },
+  "groups": [
+    {
+      "id": "found",
+      "name": {
+        "en": "Foundations",
+        "th": "พื้นฐาน"
+      },
+      "row": 0
+    },
+    {
+      "id": "func",
+      "name": {
+        "en": "Functions",
+        "th": "ฟังก์ชัน"
+      },
+      "row": 1
+    },
+    {
+      "id": "geom",
+      "name": {
+        "en": "Geometry",
+        "th": "เรขาคณิต"
+      },
+      "row": 2
+    },
+    {
+      "id": "alg",
+      "name": {
+        "en": "Algebra",
+        "th": "พีชคณิต"
+      },
+      "row": 3
+    },
+    {
+      "id": "data",
+      "name": {
+        "en": "Data",
+        "th": "ข้อมูล"
+      },
+      "row": 4
+    },
+    {
+      "id": "opt",
+      "name": {
+        "en": "Optimisation",
+        "th": "การหาค่าเหมาะสุด"
+      },
+      "row": 5
+    }
+  ],
+  "chapters": [
+    {
+      "num": "01",
+      "slug": "sets",
+      "group": "found",
+      "requires": [],
+      "title": {
+        "en": "Sets",
+        "th": "เซต"
+      }
+    },
+    {
+      "num": "02",
+      "slug": "logic",
+      "group": "found",
+      "requires": [
+        "01"
+      ],
+      "title": {
+        "en": "Logic",
+        "th": "ตรรกศาสตร์"
+      }
+    },
+    {
+      "num": "03",
+      "slug": "real-numbers",
+      "group": "found",
+      "requires": [
+        "01"
+      ],
+      "title": {
+        "en": "Real Numbers",
+        "th": "จำนวนจริง"
+      }
+    },
+    {
+      "num": "04",
+      "slug": "functions",
+      "group": "func",
+      "requires": [
+        "03"
+      ],
+      "title": {
+        "en": "Relations and Functions",
+        "th": "ความสัมพันธ์และฟังก์ชัน"
+      }
+    },
+    {
+      "num": "05",
+      "slug": "analytic-geometry",
+      "group": "geom",
+      "requires": [
+        "04"
+      ],
+      "title": {
+        "en": "Analytic Geometry",
+        "th": "เรขาคณิตวิเคราะห์",
+        "thWrap": [
+          "เรขาคณิต",
+          "วิเคราะห์"
+        ]
+      }
+    },
+    {
+      "num": "06",
+      "slug": "matrices",
+      "group": "alg",
+      "requires": [
+        "03"
+      ],
+      "title": {
+        "en": "Matrices",
+        "th": "เมทริกซ์"
+      }
+    },
+    {
+      "num": "07",
+      "slug": "exponentials",
+      "group": "func",
+      "requires": [
+        "04"
+      ],
+      "title": {
+        "en": "Exponentials and Logs",
+        "th": "เอกซ์โพเนนเชียลและลอการิทึม"
+      }
+    },
+    {
+      "num": "08",
+      "slug": "trigonometry",
+      "group": "geom",
+      "requires": [
+        "04"
+      ],
+      "title": {
+        "en": "Trigonometry",
+        "th": "ตรีโกณมิติ"
+      }
+    },
+    {
+      "num": "09",
+      "slug": "vectors",
+      "group": "geom",
+      "requires": [
+        "05"
+      ],
+      "title": {
+        "en": "Vectors",
+        "th": "เวกเตอร์"
+      }
+    },
+    {
+      "num": "10",
+      "slug": "complex-numbers",
+      "group": "alg",
+      "requires": [
+        "08"
+      ],
+      "title": {
+        "en": "Complex Numbers",
+        "th": "จำนวนเชิงซ้อน"
+      }
+    },
+    {
+      "num": "11",
+      "slug": "probability",
+      "group": "data",
+      "requires": [
+        "01"
+      ],
+      "title": {
+        "en": "Probability",
+        "th": "ความน่าจะเป็น"
+      }
+    },
+    {
+      "num": "12",
+      "slug": "graph-theory",
+      "group": "data",
+      "requires": [
+        "01"
+      ],
+      "title": {
+        "en": "Graph Theory",
+        "th": "ทฤษฎีกราฟ"
+      }
+    },
+    {
+      "num": "13",
+      "slug": "statistics",
+      "group": "data",
+      "requires": [
+        "11"
+      ],
+      "title": {
+        "en": "Statistics",
+        "th": "สถิติ"
+      }
+    },
+    {
+      "num": "14",
+      "slug": "sequences",
+      "group": "func",
+      "requires": [
+        "03"
+      ],
+      "title": {
+        "en": "Sequences and Series",
+        "th": "ลำดับและอนุกรม"
+      }
+    },
+    {
+      "num": "15",
+      "slug": "calculus",
+      "group": "func",
+      "requires": [
+        "14"
+      ],
+      "title": {
+        "en": "Calculus",
+        "th": "แคลคูลัส"
+      }
+    },
+    {
+      "num": "16",
+      "slug": "linear-programming",
+      "group": "opt",
+      "requires": [
+        "05"
+      ],
+      "title": {
+        "en": "Linear Programming",
+        "th": "กำหนดการเชิงเส้น"
+      }
+    }
+  ]
+}

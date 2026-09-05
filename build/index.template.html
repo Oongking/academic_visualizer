@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__SUBJECT__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@500;600&family=IBM+Plex+Sans+Thai:wght@500;600&display=swap">
+<style>
+__CSS__
+
+/* ---------- index-only ---------- */
+.hero{padding:34px 0 26px;border-bottom:1px solid var(--rule);margin-bottom:34px}
+.hero h1{margin:6px 0 0;font-family:var(--f-display);font-weight:400;
+  font-size:clamp(38px,7vw,72px);line-height:1;letter-spacing:-.02em}
+.hero .sub{margin:14px 0 0;color:var(--ink-soft);max-width:62ch}
+.stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:26px}
+.stat b{display:block;font-family:var(--f-display);font-size:36px;line-height:1}
+.stat span{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+.bar{height:3px;background:var(--rule);margin-top:22px;position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);display:block}
+
+.tracks{margin:0 0 46px}
+.tracks svg{width:100%;height:auto;display:block}
+.chip rect{fill:var(--ground);stroke:var(--rule);stroke-width:1.5;transition:all .15s}
+.cnum{font-family:var(--f-ui);font-size:15px;font-weight:600;fill:var(--ink-faint);
+  text-anchor:middle;pointer-events:none}
+.cname{font-family:var(--f-ui);font-weight:500;fill:var(--ink-soft);
+  text-anchor:middle;pointer-events:none}
+.chip[data-on="1"] rect{fill:var(--ink);stroke:var(--ink);cursor:pointer}
+.chip[data-on="1"] .cnum{fill:var(--ground)}
+.chip[data-on="0"] .cname{fill:var(--ink-faint);opacity:.62}
+.chip[data-on="1"]:hover rect{fill:var(--accent);stroke:var(--accent)}
+.chip[data-on="1"]:hover .cname{fill:var(--accent)}
+.chip[data-on="1"]:focus-visible rect{stroke:var(--accent);stroke-width:3}
+/* the single accent: the chapter the most others depend on */
+.chip[data-key="1"] rect{fill:var(--accent);stroke:var(--accent)}
+.chip[data-key="1"] .cnum{fill:var(--on-accent)}
+.chip[data-key="1"] .cname{fill:var(--accent)}
+.chip[data-key="1"] .fan{fill:var(--on-accent);opacity:.75}
+/* fan-in: how many later chapters need this one. No box - in this house style
+   structure comes from space and type, not from another rectangle. */
+.fan{font-family:var(--f-ui);font-size:9px;font-weight:600;fill:var(--ground);
+  opacity:.6;text-anchor:middle;pointer-events:none}
+.chip[data-on="0"] .fan{fill:var(--ink-faint);opacity:.8}
+.lane{font-family:var(--f-ui);font-size:11px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;fill:var(--ink-faint)}
+/* one language at a time, switched by the <html lang> attribute */
+.cname-th,.lane-th{display:none}
+html[lang="th"] .cname-en,html[lang="th"] .lane-en{display:none}
+html[lang="th"] .cname-th,html[lang="th"] .lane-th{display:block}
+.tedge{stroke:var(--ink-faint);stroke-width:1.3;fill:none;opacity:.8}
+.tedge.cross{stroke-dasharray:3 4;stroke-width:1.1;opacity:.42}
+/* figure caption under the plate, in place of a legend drawn into the art */
+.tracks figcaption{display:flex;flex-wrap:wrap;gap:6px 26px;margin-top:18px;
+  padding-top:14px;border-top:1px solid var(--rule)}
+.lg{display:flex;align-items:center;gap:8px;font-family:var(--f-ui);
+  font-size:11px;font-weight:500;color:var(--ink-faint)}
+.lgsw{display:flex;align-items:center;justify-content:center;width:26px;flex:none}
+.sw{width:14px;height:14px;display:block}
+svg.sw{width:26px;height:8px}
+.sw-on{background:var(--ink)}
+.sw-off{background:var(--ground);border:1.5px solid var(--rule)}
+.sw-key{background:var(--accent)}
+.sw-fan{width:16px;height:12px;border:.8px solid var(--ink-faint);color:var(--ink-faint);
+  font-size:9px;font-weight:600;line-height:11px;text-align:center}
+
+.grp{margin-bottom:44px}
+.grp h2{margin:0 0 4px;font-family:var(--f-ui);font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.grp hr{border:none;border-top:1px solid var(--rule);margin:0 0 20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule)}
+.card{background:var(--ground);padding:20px;display:flex;flex-direction:column;gap:9px;
+  text-decoration:none;color:inherit;min-height:150px;transition:background .14s}
+a.card:hover{background:var(--surface)}
+a.card:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.card .n{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.16em;color:var(--ink-faint)}
+.card h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:23px;line-height:1.15;letter-spacing:-.01em}
+.card .th{font-size:14px;color:var(--ink-soft);margin:0}
+.card .foot{margin-top:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  font-family:var(--f-ui);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.pill{border:1px solid var(--rule);padding:2px 7px}
+.pill.live{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.card.soon{opacity:.55}
+.card.soon h3{color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="mast">
+  <div class="mast-id">
+    <span class="ch" data-en="Learning packages" data-th="ชุดบทเรียน"></span>
+  </div>
+  <div class="mast-tools">
+    <a class="btn" href="../bridge.html" data-en="Physics × Maths" data-th="ฟิสิกส์ × คณิต"></a>
+    <button class="btn" id="langBtn" type="button">ไทย</button>
+    <button class="btn" id="themeBtn" type="button" data-en="Dark" data-th="มืด"></button>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="label" data-en="__LEVEL_EN__" data-th="__LEVEL_TH__"></span>
+  <h1 data-en="__SUBJ_EN__" data-th="__SUBJ_TH__"></h1>
+  <p class="sub" data-en="Twenty self-contained chapters. Each one is a single file that works offline: a knowledge map, its concepts with live visualizers, and a forge that generates exam questions across every solution method the chapter contains."
+                 data-th="ยี่สิบบทเรียนแบบครบในตัว แต่ละบทเป็นไฟล์เดียวที่ใช้งานออฟไลน์ได้ ประกอบด้วยแผนที่ความรู้ เนื้อหาพร้อมตัวจำลองที่เล่นได้ และห้องฝึกที่สร้างข้อสอบครอบคลุมทุกวิธีแก้โจทย์ในบทนั้น"></p>
+  <div class="stats">
+    <div class="stat"><b>__BUILT__</b><span data-en="chapters ready" data-th="บทที่พร้อม"></span></div>
+    <div class="stat"><b>__TOTAL__</b><span data-en="chapters planned" data-th="บททั้งหมด"></span></div>
+    <div class="stat"><b>__NODES__</b><span data-en="concept nodes" data-th="โหนดความรู้"></span></div>
+    <div class="stat"><b>__METHODS__</b><span data-en="exam methods" data-th="วิธีทำข้อสอบ"></span></div>
+  </div>
+  <div class="bar"><i style="width:__PCT__%"></i></div>
+</section>
+
+<section class="tracks">
+  <figure style="margin:0">
+  <svg viewBox="__TRACKVB__" role="img"
+       aria-labelledby="__SLUG__-map-title __SLUG__-map-desc">
+    <title id="__SLUG__-map-title" data-en="__SUBJ_EN__ chapter dependency map"
+           data-th="__SUBJ_TH__ แผนผังลำดับก่อนหลังของบท">__SUBJ_EN__ chapter dependency map</title>
+    <desc id="__SLUG__-map-desc" data-en="__TRACKDESC_EN__"
+          data-th="__TRACKDESC_TH__">__TRACKDESC_EN__</desc>
+    <defs><marker id="tah-__SLUG__" markerWidth="7" markerHeight="7" refX="6" refY="3.5"
+      orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 1 L6 3.5 L0 6 z" fill="var(--ink-faint)"/></marker></defs>
+    __TRACKS__
+  </svg>
+  <figcaption>
+  __TRACKLEGEND__
+  </figcaption>
+  </figure>
+</section>
+
+__CARDS__
+
+<footer class="foot">
+  <span data-en="Every chapter works offline · no server · no account" data-th="ทุกบทใช้งานออฟไลน์ · ไม่ต้องมีเซิร์ฟเวอร์ · ไม่ต้องสมัคร"></span>
+  <span data-en="Content distilled from สรุปฟิสิกส์ 20 บท" data-th="เนื้อหากลั่นจากสรุปฟิสิกส์ 20 บท"></span>
+</footer>
+</div>
+
+<script>
+(function(){
+  var K="lp.index.v1", st={lang:"en",theme:null};
+  try{ var r=localStorage.getItem(K); if(r) st=JSON.parse(r); }catch(e){}
+  function save(){ try{ localStorage.setItem(K,JSON.stringify(st)); }catch(e){} }
+  function apply(){
+    document.documentElement.setAttribute("lang",st.lang);
+    var k="data-"+st.lang;
+    document.querySelectorAll("["+k+"]").forEach(function(el){ el.textContent=el.getAttribute(k); });
+    document.getElementById("langBtn").textContent = st.lang==="en"?"ไทย":"English";
+    var dark=document.documentElement.getAttribute("data-theme")==="dark";
+    document.getElementById("themeBtn").textContent =
+      dark ? (st.lang==="en"?"Light":"สว่าง") : (st.lang==="en"?"Dark":"มืด");
+  }
+  document.getElementById("langBtn").addEventListener("click",function(){
+    st.lang = st.lang==="en"?"th":"en"; save(); apply();
+  });
+  document.getElementById("themeBtn").addEventListener("click",function(){
+    var next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
+    document.documentElement.setAttribute("data-theme",next); st.theme=next; save(); apply();
+  });
+  document.querySelectorAll('.chip[data-href]').forEach(function(g){
+    g.setAttribute("tabindex","0"); g.setAttribute("role","link");
+    function go(){ window.location.href=g.getAttribute("data-href"); }
+    g.addEventListener("click",go);
+    g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
+  });
+  if(st.theme) document.documentElement.setAttribute("data-theme",st.theme);
+  apply();
+})();
+</script>
+</body>
+</html>

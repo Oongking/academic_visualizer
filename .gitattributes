@@ -1,0 +1,17 @@
+# The build writes every file with LF endings on purpose (build.py opens output
+# with newline="\n"). This machine has core.autocrlf=true, which would check
+# files out as CRLF and then show all 38 generated pages as modified the moment
+# the build ran again. Pinning LF in the repo keeps the working tree and the
+# build in agreement.
+* text=auto eol=lf
+
+# Source material and art are binary - never touch their bytes, never diff them.
+*.pdf   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webm  binary
+*.pptx  binary
+*.docx  binary
+*.woff  binary
+*.woff2 binary

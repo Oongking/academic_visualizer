@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physics × Mathematics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@500;600&family=IBM+Plex+Sans+Thai:wght@500;600&display=swap">
+<style>
+__CSS__
+
+/* ---------- bridge-only ---------- */
+.hero{padding:34px 0 26px;border-bottom:1px solid var(--rule);margin-bottom:34px}
+.hero h1{margin:6px 0 0;font-family:var(--f-display);font-weight:400;
+  font-size:clamp(36px,6.4vw,68px);line-height:1;letter-spacing:-.02em}
+.hero .sub{margin:16px 0 0;color:var(--ink-soft);max-width:66ch}
+.stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:26px}
+.stat b{display:block;font-family:var(--f-display);font-size:36px;line-height:1}
+.stat span{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+
+.jump{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 34px}
+.jump a{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;text-decoration:none;color:var(--ink-soft);
+  border:1px solid var(--rule);padding:7px 12px;transition:all .14s}
+.jump a:hover{border-color:var(--accent);color:var(--accent)}
+
+h2.sec{margin:0 0 4px;font-family:var(--f-ui);font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+hr.sec{border:none;border-top:1px solid var(--rule);margin:0 0 22px}
+p.secnote{margin:-12px 0 24px;color:var(--ink-soft);max-width:64ch;font-size:15px}
+
+.matrix{overflow-x:auto;border:1px solid var(--rule);background:var(--surface);
+  padding:16px 14px;margin-bottom:14px}
+.matrix svg{display:block;min-width:648px;width:100%;height:auto}
+.mlab{font-family:var(--f-ui);font-size:10.5px;fill:var(--ink-soft)}
+.mlab.n{fill:var(--ink-faint);font-weight:600}
+.mcol{font-family:var(--f-ui);font-size:10.5px;font-weight:600;fill:var(--ink-faint);text-anchor:middle}
+.mcol.key{fill:var(--accent)}
+.mhead{font-family:var(--f-ui);font-size:9.5px;font-weight:600;letter-spacing:.14em;fill:var(--ink-faint)}
+.mgrid{stroke:var(--rule);stroke-width:1}
+.mband{fill:var(--ground)}
+.core{fill:var(--ink)}
+.sup{fill:none;stroke:var(--ink-faint);stroke-width:1.3}
+/* the single accent on this page: the maths column physics leans on most */
+.mkeycol{fill:var(--accent);opacity:.07}
+
+.legend{display:flex;gap:26px;flex-wrap:wrap;font-family:var(--f-ui);font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 46px}
+.legend i{display:inline-block;width:12px;height:12px;margin-right:8px;vertical-align:-2px}
+.legend i.c{background:var(--ink)}
+.legend i.s{border:1.3px solid var(--ink-faint)}
+.legend i.k{background:var(--accent);opacity:.22}
+
+.phb{border-top:1px solid var(--rule);padding:28px 0 6px}
+.phb-head{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap}
+.phb-n{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.16em;color:var(--ink-faint)}
+.phb-head h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:27px;letter-spacing:-.01em}
+.phb-head h3 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+.phb-head h3 a:hover{border-color:var(--accent);color:var(--accent)}
+.phb-th{color:var(--ink-soft);font-size:15px;margin:5px 0 14px}
+
+.use{display:grid;grid-template-columns:230px 1fr;gap:22px;padding:15px 0;
+  border-top:1px dotted var(--rule)}
+.use-l{display:flex;flex-direction:column;gap:7px;align-items:flex-start}
+.use-l a{font-family:var(--f-ui);font-size:11px;font-weight:600;text-decoration:none;
+  color:var(--ink);border-bottom:1px solid var(--rule);line-height:1.35}
+.use-l a:hover{color:var(--accent);border-color:var(--accent)}
+.use-l .man{font-family:var(--f-ui);font-size:9.5px;letter-spacing:.16em;color:var(--ink-faint)}
+.tag{font-family:var(--f-ui);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+  border:1px solid var(--rule);padding:2px 7px;color:var(--ink-faint)}
+.tag.core{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.use-what{margin:0;font-weight:600;font-size:16px}
+.use-why{margin:7px 0 0;color:var(--ink-soft)}
+
+.rev{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-bottom:48px}
+.rev-c{background:var(--ground);padding:18px;display:flex;flex-direction:column;gap:11px}
+.rev-c h4{margin:0;font-family:var(--f-display);font-weight:400;font-size:20px;line-height:1.15}
+.rev-c h4 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+.rev-c h4 a:hover{color:var(--accent);border-color:var(--accent)}
+.rev-c .man{font-family:var(--f-ui);font-size:9.5px;letter-spacing:.16em;color:var(--ink-faint)}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.chips a{font-family:var(--f-ui);font-size:10.5px;font-weight:600;text-decoration:none;
+  border:1px solid var(--rule);padding:3px 7px;color:var(--ink-soft);transition:all .13s}
+.chips a:hover{border-color:var(--accent);color:var(--accent)}
+.chips a.core{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.chips a.core:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.rev-n{font-family:var(--f-ui);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+
+.unused{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-bottom:20px}
+.unused-c{background:var(--ground);padding:18px;opacity:.82}
+.unused-c h4{margin:0 0 4px;font-family:var(--f-display);font-weight:400;font-size:19px}
+.unused-c h4 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+.unused-c h4 a:hover{color:var(--accent);border-color:var(--accent)}
+.unused-c p{margin:8px 0 0;color:var(--ink-soft);font-size:14.5px}
+
+@media(max-width:720px){
+  .use{grid-template-columns:1fr;gap:9px}
+  .use-l{flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="mast">
+  <div class="mast-id">
+    <span class="ch" data-en="Cross-subject map" data-th="แผนที่ข้ามวิชา"></span>
+  </div>
+  <div class="mast-tools">
+    <a class="btn" href="physics/index.html" data-en="Physics" data-th="ฟิสิกส์"></a>
+    <a class="btn" href="math/index.html" data-en="Maths" data-th="คณิตศาสตร์"></a>
+    <button class="btn" id="langBtn" type="button">ไทย</button>
+    <button class="btn" id="themeBtn" type="button" data-en="Dark" data-th="มืด"></button>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="label" data-en="How the two subjects hold each other up" data-th="สองวิชานี้ค้ำกันอย่างไร"></span>
+  <h1 data-en="__TITLE_EN__" data-th="__TITLE_TH__"></h1>
+  <p class="sub" data-en="__LEDE_EN__" data-th="__LEDE_TH__"></p>
+  <div class="stats">
+    <div class="stat"><b>__NPH__</b><span data-en="physics chapters" data-th="บทฟิสิกส์"></span></div>
+    <div class="stat"><b>__NLINK__</b><span data-en="dependencies mapped" data-th="ความเชื่อมโยง"></span></div>
+    <div class="stat"><b>__NCORE__</b><span data-en="load-bearing" data-th="ที่รับน้ำหนักหลัก"></span></div>
+    <div class="stat"><b>__NUSED__</b><span data-en="maths chapters in play" data-th="บทคณิตที่ถูกใช้"></span></div>
+  </div>
+</section>
+
+<nav class="jump">
+  <a href="#matrix" data-en="The matrix" data-th="ตารางความเชื่อมโยง"></a>
+  <a href="#detail" data-en="Chapter by chapter" data-th="ทีละบท"></a>
+  <a href="#reverse" data-en="Maths → physics" data-th="คณิต → ฟิสิกส์"></a>
+  <a href="#unused" data-en="Not called on" data-th="ที่ไม่ถูกเรียกใช้"></a>
+</nav>
+
+<section id="matrix">
+  <h2 class="sec" data-en="The whole dependency at a glance" data-th="ภาพรวมความเชื่อมโยงทั้งหมด"></h2>
+  <hr class="sec">
+  <p class="secnote" data-en="Each row is a physics chapter, each column a maths chapter. A filled square marks maths the physics chapter cannot be stated without; an outlined square marks maths it leans on for part of the work. Hover any square for the pairing."
+                     data-th="แต่ละแถวคือบทฟิสิกส์ แต่ละคอลัมน์คือบทคณิตศาสตร์ สี่เหลี่ยมทึบหมายถึงคณิตศาสตร์ที่ขาดไม่ได้ ไม่เช่นนั้นบทฟิสิกส์นั้นเขียนขึ้นไม่ได้เลย สี่เหลี่ยมโปร่งหมายถึงที่ใช้พิงในบางส่วนของงาน วางเมาส์บนสี่เหลี่ยมใดก็ได้เพื่อดูคู่ความสัมพันธ์"></p>
+  <div class="matrix">
+    <svg viewBox="__MATRIXVB__" role="img"
+         aria-labelledby="bridge-matrix-title bridge-matrix-desc">
+      <title id="bridge-matrix-title" data-en="Physics to mathematics dependency matrix"
+             data-th="ตารางการพึ่งพาจากฟิสิกส์ไปคณิตศาสตร์">Physics to mathematics dependency matrix</title>
+      <desc id="bridge-matrix-desc" data-en="__MDESC_EN__" data-th="__MDESC_TH__">__MDESC_EN__</desc>
+      __MATRIX__
+    </svg>
+  </div>
+  <div class="legend">
+    <span><i class="c"></i><span data-en="Load-bearing - the chapter cannot be stated without it"
+                                 data-th="รับน้ำหนักหลัก คือขาดไม่ได้"></span></span>
+    <span><i class="s"></i><span data-en="Supporting - leaned on for part of the work"
+                                 data-th="สนับสนุน คือใช้พิงบางส่วน"></span></span>
+    <span><i class="k"></i><span data-en="__MKEY_EN__ - the maths the most physics chapters lean on (__MKEYN__)"
+                                 data-th="__MKEY_TH__ คือคณิตที่ฟิสิกส์พึ่งพามากที่สุด (__MKEYN__)"></span></span>
+  </div>
+</section>
+
+<section id="detail">
+  <h2 class="sec" data-en="Chapter by chapter" data-th="ทีละบท"></h2>
+  <hr class="sec">
+  <p class="secnote" data-en="For each physics chapter: the maths it calls on, what specifically it takes, and what that maths is doing there."
+                     data-th="สำหรับแต่ละบทฟิสิกส์ คือคณิตศาสตร์ที่มันเรียกใช้ สิ่งที่หยิบไปใช้อย่างเจาะจง และคณิตศาสตร์นั้นทำหน้าที่อะไรอยู่ตรงนั้น"></p>
+  __ROWS__
+</section>
+
+<section id="reverse">
+  <h2 class="sec" data-en="The same map read backwards" data-th="แผนที่เดียวกันอ่านย้อนกลับ"></h2>
+  <hr class="sec">
+  <p class="secnote" data-en="For each maths chapter, the physics that depends on it. Dark chips mark the chapters where it is load-bearing — useful for deciding what to revise first."
+                     data-th="สำหรับแต่ละบทคณิตศาสตร์ คือฟิสิกส์ที่พึ่งพามัน ป้ายสีเข้มคือบทที่มันรับน้ำหนักหลัก มีประโยชน์สำหรับตัดสินใจว่าจะทบทวนอะไรก่อน"></p>
+  __REVERSE__
+</section>
+
+<section id="unused">
+  <h2 class="sec" data-en="Maths this physics course does not call on" data-th="คณิตศาสตร์ที่หลักสูตรฟิสิกส์นี้ไม่เรียกใช้"></h2>
+  <hr class="sec">
+  <p class="secnote" data-en="Five maths chapters carry no direct physics dependency here. That is not a verdict on their worth — it is where they sit relative to this particular syllabus."
+                     data-th="บทคณิตศาสตร์ห้าบทไม่มีความเชื่อมโยงโดยตรงกับฟิสิกส์ในที่นี้ นั่นไม่ใช่การตัดสินคุณค่าของมัน แต่เป็นตำแหน่งของมันเมื่อเทียบกับหลักสูตรนี้เท่านั้น"></p>
+  __UNUSED__
+</section>
+
+<footer class="foot">
+  <span data-en="Works offline · no server · no account" data-th="ใช้งานออฟไลน์ · ไม่ต้องมีเซิร์ฟเวอร์ · ไม่ต้องสมัคร"></span>
+  <span data-en="Every link opens the chapter package it names" data-th="ทุกลิงก์เปิดชุดบทเรียนตามชื่อที่ระบุ"></span>
+</footer>
+</div>
+
+<script>
+(function(){
+  var K="lp.bridge.v1", st={lang:"en",theme:null};
+  try{ var r=localStorage.getItem(K); if(r) st=JSON.parse(r); }catch(e){}
+  function save(){ try{ localStorage.setItem(K,JSON.stringify(st)); }catch(e){} }
+  function apply(){
+    document.documentElement.setAttribute("lang",st.lang);
+    var k="data-"+st.lang;
+    document.querySelectorAll("["+k+"]").forEach(function(el){ el.textContent=el.getAttribute(k); });
+    document.getElementById("langBtn").textContent = st.lang==="en"?"ไทย":"English";
+    var dark=document.documentElement.getAttribute("data-theme")==="dark";
+    document.getElementById("themeBtn").textContent =
+      dark ? (st.lang==="en"?"Light":"สว่าง") : (st.lang==="en"?"Dark":"มืด");
+  }
+  document.getElementById("langBtn").addEventListener("click",function(){
+    st.lang = st.lang==="en"?"th":"en"; save(); apply();
+  });
+  document.getElementById("themeBtn").addEventListener("click",function(){
+    var next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
+    document.documentElement.setAttribute("data-theme",next); st.theme=next; save(); apply();
+  });
+  if(st.theme) document.documentElement.setAttribute("data-theme",st.theme);
+  apply();
+})();
+</script>
+</body>
+</html>

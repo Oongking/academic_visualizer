@@ -1,0 +1,23 @@
+# This folder is the repository root: the visualizer plus the code that builds
+# it. Source PDFs, summaries, drafts and the design notes live in ../ref/,
+# outside the package, so nothing needs excluding by path any more - only the
+# usual build and editor residue.
+
+# Python bytecode from the build and check scripts
+__pycache__/
+*.py[cod]
+
+# Editor and OS noise
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# Scratch files left by build or verification runs
+_sweep_tmp.html
+_lighttest.html
+*.bak
+*.tmp

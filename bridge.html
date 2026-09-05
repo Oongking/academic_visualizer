@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physics × Mathematics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@500;600&family=IBM+Plex+Sans+Thai:wght@500;600&display=swap">
+<style>
+/* ============================================================
+   LEARNING PACKAGE ENGINE — shared stylesheet
+   Visual identity: Editorial / Museum  (Project Concept §11)
+   Tokens only. No colour is ever defined solely in a media query.
+   ============================================================ */
+:root{
+  --ground:#FFFFFF; --surface:#FBFAF9;
+  --ink:#0C0B0C; --ink-soft:#4A474A; --ink-faint:#9B979A;
+  --rule:#E7E4E4; --accent:#E63946; --on-accent:#FFFFFF;
+  --good:#1B7F5A; --warn:#B4690E;
+  --f-display:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-ui:"IBM Plex Sans","IBM Plex Sans Thai",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --radius:0px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C0C0D; --surface:#141415;
+    --ink:#F2F0EE; --ink-soft:#B0ACA9; --ink-faint:#77736F;
+    --rule:#262525; --accent:#FF5A66; --on-accent:#14090A;
+    --good:#3FBF8F; --warn:#E0A040;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C0C0D; --surface:#141415;
+  --ink:#F2F0EE; --ink-soft:#B0ACA9; --ink-faint:#77736F;
+  --rule:#262525; --accent:#FF5A66; --on-accent:#14090A;
+  --good:#3FBF8F; --warn:#E0A040;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--f-body);font-size:17px;line-height:1.68;-webkit-font-smoothing:antialiased}
+.shell{max-width:1180px;margin:0 auto;padding:0 28px 96px}
+@media (max-width:640px){ .shell{padding:0 18px 64px} }
+
+.label{font-family:var(--f-ui);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.label.accent{color:var(--accent)}
+
+header.mast{display:flex;flex-wrap:wrap;gap:18px;align-items:baseline;justify-content:space-between;
+  border-bottom:1px solid var(--rule);padding:26px 0 18px;margin-bottom:30px}
+.mast-id{display:flex;flex-direction:column;gap:3px}
+.mast-id .ch{font-family:var(--f-ui);font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.mast-id h1{margin:0;font-family:var(--f-display);font-weight:400;
+  font-size:clamp(26px,4vw,40px);line-height:1.05;letter-spacing:-.015em}
+.mast-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.btn{font-family:var(--f-ui);font-size:12px;font-weight:600;letter-spacing:.06em;
+  padding:7px 13px;border:1px solid var(--rule);background:transparent;
+  color:var(--ink-soft);cursor:pointer;border-radius:var(--radius);
+  transition:border-color .14s,color .14s}
+.btn:hover{border-color:var(--ink-soft);color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.on{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+
+nav.surfaces{display:flex;border-bottom:1px solid var(--rule);margin-bottom:38px}
+nav.surfaces button{font-family:var(--f-ui);font-size:12px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;background:transparent;border:none;cursor:pointer;
+  color:var(--ink-faint);padding:12px 20px 13px;border-bottom:2px solid transparent;
+  margin-bottom:-1px;transition:color .14s,border-color .14s}
+nav.surfaces button:hover{color:var(--ink)}
+nav.surfaces button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.surfaces button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+.view{display:none}
+.view.active{display:block}
+
+.eyebrow{font-family:var(--f-ui);font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
+  font-size:clamp(24px,3.2vw,32px);line-height:1.12;letter-spacing:-.015em}
+.lede{margin:0 0 30px;color:var(--ink-soft);max-width:64ch;font-size:17px}
+
+.plate{border:1px solid var(--rule);background:var(--surface);padding:22px;margin:0}
+.plate figcaption{font-family:var(--f-ui);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);margin-top:14px;text-align:center}
+
+/* ---------- MAP ---------- */
+.map-wrap{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:40px;align-items:start}
+@media (max-width:860px){ .map-wrap{grid-template-columns:1fr} }
+#mapsvg{width:100%;height:auto;display:block}
+.mnode{cursor:pointer}
+.mnode rect{fill:var(--ground);stroke:var(--rule);stroke-width:1.5;transition:all .18s}
+.mnode text{font-family:var(--f-ui);font-size:11.5px;font-weight:600;
+  fill:var(--ink-faint);text-anchor:middle;dominant-baseline:middle;pointer-events:none}
+.mnode[data-state="upcoming"]{opacity:.5}
+.mnode[data-state="available"] rect{stroke:var(--ink-soft)}
+.mnode[data-state="available"] text{fill:var(--ink)}
+.mnode[data-state="read"] rect{fill:var(--ink);stroke:var(--ink)}
+.mnode[data-state="read"] text{fill:var(--ground)}
+.mnode[data-state="trained"] rect{fill:var(--ink);stroke:var(--accent);stroke-width:2.5}
+.mnode[data-state="trained"] text{fill:var(--ground)}
+.mnode[data-current="1"] rect{stroke:var(--accent);stroke-width:3}
+.mnode:hover rect{stroke:var(--accent)}
+.mnode:focus-visible rect{stroke:var(--accent);stroke-width:3}
+.medge{stroke:var(--rule);stroke-width:1.5;fill:none}
+.medge.lit{stroke:var(--ink-soft)}
+.medge.ext{stroke-dasharray:4 4;stroke:var(--ink-faint);opacity:.6}
+.mext text{font-family:var(--f-ui);font-size:10.5px;fill:var(--ink-faint);text-anchor:middle}
+
+.legend{display:flex;flex-direction:column;gap:15px}
+.legend-row{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--ink-soft)}
+.swatch{width:34px;height:20px;flex:0 0 auto;border:1.5px solid var(--rule);background:var(--ground);margin-top:2px}
+.swatch.up{opacity:.5}
+.swatch.avail{border-color:var(--ink-soft)}
+.swatch.read{background:var(--ink);border-color:var(--ink)}
+.swatch.trained{background:var(--ink);border-color:var(--accent);border-width:2.5px}
+.legend-row b{display:block;color:var(--ink);font-family:var(--f-ui);font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.prog{border:1px solid var(--rule);padding:16px 18px;background:var(--surface)}
+.prog .big{font-family:var(--f-display);font-size:34px;line-height:1;margin:6px 0 2px}
+
+/* ---------- NODE SECTIONS ---------- */
+.chapter-rule{border:none;border-top:1px solid var(--rule);margin:56px 0 0}
+.node-sec{padding:52px 0;border-bottom:1px solid var(--rule);scroll-margin-top:20px}
+.node-sec:last-child{border-bottom:none}
+.node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
+.node-num{font-family:var(--f-ui);font-size:11px;font-weight:600;letter-spacing:.14em;
+  color:var(--ink-faint);flex:0 0 auto;padding-top:6px}
+.node-sec h3{margin:0;font-family:var(--f-display);font-weight:400;
+  font-size:clamp(28px,4vw,40px);line-height:1.08;letter-spacing:-.015em}
+.node-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:start}
+.node-sec[data-nolab="1"] .node-split{grid-template-columns:minmax(0,66ch)}
+@media (max-width:1000px){ .node-split{grid-template-columns:1fr;gap:28px} }
+.node-body p{margin:0 0 18px;color:var(--ink-soft)}
+.node-body .keyterm{color:var(--ink);font-weight:600}
+
+.formula{border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);
+  padding:18px 0;margin:26px 0;text-align:center;
+  font-family:var(--f-display);font-size:clamp(19px,2.4vw,25px);color:var(--ink)}
+.formula small{display:block;font-family:var(--f-ui);font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-top:10px}
+
+.methods-here{border:1px solid var(--rule);padding:14px 16px;margin-top:24px;background:var(--surface)}
+.methods-here .label{margin-bottom:8px;display:block}
+.mtag{display:inline-block;font-family:var(--f-ui);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;padding:3px 8px;border:1px solid var(--rule);color:var(--ink-soft);margin:2px 4px 2px 0}
+
+/* ---------- LAB ---------- */
+.lab{border:1px solid var(--rule);background:var(--surface);margin:0;position:sticky;top:16px}
+@media (max-width:1000px){ .lab{position:static} }
+.lab-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:1px solid var(--rule)}
+.lab-mode{display:flex;gap:6px}
+.lab svg{display:block;width:100%;height:auto}
+/* Art plate. The picture is its own layer under the scene so an animating
+   visualizer never re-decodes it, and the caption sits beneath the frame in
+   the utility face, the way every plate in this house style is captioned. */
+.lab-stage{position:relative}
+.lab-stage .labart{position:absolute;left:0;top:0;width:100%;height:100%;
+  pointer-events:none}
+.lab-stage .labart[hidden]{display:none}
+/* A neutral texture may be flipped for the dark theme; authored artwork never
+   is - it either ships a dark variant or steps aside. */
+.lab-stage .labart .art-invert{filter:invert(1) brightness(.92)}
+.lab-cap{margin:0;padding:12px 16px 0;font-family:var(--f-ui);font-size:11px;
+  font-weight:500;letter-spacing:.04em;color:var(--ink-faint);line-height:1.5}
+.lab-body{padding:16px}
+.guide{border-left:2px solid var(--accent);padding:10px 14px;margin-bottom:14px;
+  background:var(--ground);min-height:62px;display:flex;flex-direction:column;justify-content:center}
+.guide p{margin:0;font-size:15px;color:var(--ink-soft)}
+.guide .step{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
+.ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
+.ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-ui);
+  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:5px}
+.ctrl label span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
+/* touch-action:none is what keeps a drag on the control from being handed to
+   the page as a scroll gesture - on a trackpad, pen or touchscreen the browser
+   otherwise takes the gesture partway through and the thumb stops following
+   until you press again. The extra height is hit area, not decoration: the
+   default track is about 16px tall and easy to catch the edge of. */
+.ctrl input[type=range]{width:100%;height:24px;margin:0;accent-color:var(--accent);
+  cursor:pointer;touch-action:none}
+.readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
+.ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
+.ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
+.transport{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+/* ---------- FORGE ---------- */
+.forge-grid{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:36px;align-items:start}
+@media (max-width:940px){ .forge-grid{grid-template-columns:1fr} }
+.bp{border:1px solid var(--rule);background:var(--surface);padding:18px;position:sticky;top:16px}
+@media (max-width:940px){ .bp{position:static} }
+.bp h4{margin:0 0 4px;font-family:var(--f-ui);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+.bp-group{margin-bottom:18px}
+.check{display:flex;gap:9px;align-items:flex-start;padding:4px 0;cursor:pointer;font-size:13.5px;color:var(--ink-soft)}
+.check input{margin:5px 0 0;accent-color:var(--accent);cursor:pointer;flex:0 0 auto}
+.check code{font-family:var(--f-ui);font-size:11px;font-weight:600;color:var(--ink-faint);letter-spacing:.05em}
+.bp select,.bp input[type=number]{width:100%;font-family:var(--f-ui);font-size:13px;padding:7px 9px;
+  border:1px solid var(--rule);background:var(--ground);color:var(--ink);border-radius:var(--radius)}
+.gen{width:100%;margin-top:6px;background:var(--accent);color:var(--on-accent);
+  border-color:var(--accent);font-size:13px;padding:11px}
+.gen:hover{opacity:.88;border-color:var(--accent);color:var(--on-accent)}
+
+.qlist{display:flex;flex-direction:column;gap:18px}
+.q{border:1px solid var(--rule);background:var(--surface)}
+.q-top{display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:10px 14px;border-bottom:1px solid var(--rule)}
+.tg{font-family:var(--f-ui);font-size:9.5px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;padding:3px 7px;border:1px solid var(--rule);color:var(--ink-faint)}
+.tg.m{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.q-body{padding:16px}
+.q-stem{margin:0 0 14px;font-size:16px;color:var(--ink)}
+.q-fig{margin:0 0 14px;border:1px solid var(--rule);background:var(--ground);padding:10px}
+.q-fig svg{display:block;width:100%;max-width:320px;margin:0 auto;height:auto}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;gap:11px;align-items:baseline;text-align:left;width:100%;
+  font-family:var(--f-body);font-size:15px;padding:10px 13px;cursor:pointer;
+  border:1px solid var(--rule);background:var(--ground);color:var(--ink-soft);
+  border-radius:var(--radius);transition:border-color .14s}
+.opt:hover:not(:disabled){border-color:var(--ink-soft)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt b{font-family:var(--f-ui);font-size:11px;font-weight:600;color:var(--ink-faint);flex:0 0 auto}
+.opt:disabled{cursor:default}
+.opt[data-mark="right"]{border-color:var(--good);color:var(--ink)}
+.opt[data-mark="right"] b{color:var(--good)}
+.opt[data-mark="wrong"]{border-color:var(--warn);color:var(--ink)}
+.opt[data-mark="wrong"] b{color:var(--warn)}
+.fb{margin-top:13px;padding:11px 13px;border-left:2px solid var(--good);
+  background:var(--ground);font-size:14px;color:var(--ink-soft)}
+.fb.trap{border-left-color:var(--warn)}
+.fb b{color:var(--ink);font-family:var(--f-ui);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;display:block;margin-bottom:4px;font-weight:600}
+
+.cov{margin-top:34px;overflow-x:auto}
+.cov table{border-collapse:collapse;width:100%;min-width:520px}
+.cov th,.cov td{border:1px solid var(--rule);padding:9px 10px;text-align:center;
+  font-family:var(--f-ui);font-size:11.5px;font-variant-numeric:tabular-nums}
+.cov th{color:var(--ink-faint);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:10.5px}
+.cov th.rowh{text-align:left;color:var(--ink);max-width:210px;white-space:normal;line-height:1.35}
+.cov td{color:var(--ink-faint)}
+.cov td[data-hit="1"]{background:var(--ink);color:var(--ground);font-weight:600}
+.cov td[data-hit="miss"]{color:var(--warn)}
+
+footer.foot{border-top:1px solid var(--rule);margin-top:64px;padding-top:22px;
+  font-family:var(--f-ui);font-size:11.5px;color:var(--ink-faint);
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;letter-spacing:.04em}
+.foot a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--rule)}
+.foot a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+
+/* ---------- bridge-only ---------- */
+.hero{padding:34px 0 26px;border-bottom:1px solid var(--rule);margin-bottom:34px}
+.hero h1{margin:6px 0 0;font-family:var(--f-display);font-weight:400;
+  font-size:clamp(36px,6.4vw,68px);line-height:1;letter-spacing:-.02em}
+.hero .sub{margin:16px 0 0;color:var(--ink-soft);max-width:66ch}
+.stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:26px}
+.stat b{display:block;font-family:var(--f-display);font-size:36px;line-height:1}
+.stat span{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+
+.jump{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 34px}
+.jump a{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;text-decoration:none;color:var(--ink-soft);
+  border:1px solid var(--rule);padding:7px 12px;transition:all .14s}
+.jump a:hover{border-color:var(--accent);color:var(--accent)}
+
+h2.sec{margin:0 0 4px;font-family:var(--f-ui);font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+hr.sec{border:none;border-top:1px solid var(--rule);margin:0 0 22px}
+p.secnote{margin:-12px 0 24px;color:var(--ink-soft);max-width:64ch;font-size:15px}
+
+.matrix{overflow-x:auto;border:1px solid var(--rule);background:var(--surface);
+  padding:16px 14px;margin-bottom:14px}
+.matrix svg{display:block;min-width:648px;width:100%;height:auto}
+.mlab{font-family:var(--f-ui);font-size:10.5px;fill:var(--ink-soft)}
+.mlab.n{fill:var(--ink-faint);font-weight:600}
+.mcol{font-family:var(--f-ui);font-size:10.5px;font-weight:600;fill:var(--ink-faint);text-anchor:middle}
+.mcol.key{fill:var(--accent)}
+.mhead{font-family:var(--f-ui);font-size:9.5px;font-weight:600;letter-spacing:.14em;fill:var(--ink-faint)}
+.mgrid{stroke:var(--rule);stroke-width:1}
+.mband{fill:var(--ground)}
+.core{fill:var(--ink)}
+.sup{fill:none;stroke:var(--ink-faint);stroke-width:1.3}
+/* the single accent on this page: the maths column physics leans on most */
+.mkeycol{fill:var(--accent);opacity:.07}
+
+.legend{display:flex;gap:26px;flex-wrap:wrap;font-family:var(--f-ui);font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 46px}
+.legend i{display:inline-block;width:12px;height:12px;margin-right:8px;vertical-align:-2px}
+.legend i.c{background:var(--ink)}
+.legend i.s{border:1.3px solid var(--ink-faint)}
+.legend i.k{background:var(--accent);opacity:.22}
+
+.phb{border-top:1px solid var(--rule);padding:28px 0 6px}
+.phb-head{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap}
+.phb-n{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.16em;color:var(--ink-faint)}
+.phb-head h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:27px;letter-spacing:-.01em}
+.phb-head h3 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+.phb-head h3 a:hover{border-color:var(--accent);color:var(--accent)}
+.phb-th{color:var(--ink-soft);font-size:15px;margin:5px 0 14px}
+
+.use{display:grid;grid-template-columns:230px 1fr;gap:22px;padding:15px 0;
+  border-top:1px dotted var(--rule)}
+.use-l{display:flex;flex-direction:column;gap:7px;align-items:flex-start}
+.use-l a{font-family:var(--f-ui);font-size:11px;font-weight:600;text-decoration:none;
+  color:var(--ink);border-bottom:1px solid var(--rule);line-height:1.35}
+.use-l a:hover{color:var(--accent);border-color:var(--accent)}
+.use-l .man{font-family:var(--f-ui);font-size:9.5px;letter-spacing:.16em;color:var(--ink-faint)}
+.tag{font-family:var(--f-ui);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+  border:1px solid var(--rule);padding:2px 7px;color:var(--ink-faint)}
+.tag.core{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.use-what{margin:0;font-weight:600;font-size:16px}
+.use-why{margin:7px 0 0;color:var(--ink-soft)}
+
+.rev{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-bottom:48px}
+.rev-c{background:var(--ground);padding:18px;display:flex;flex-direction:column;gap:11px}
+.rev-c h4{margin:0;font-family:var(--f-display);font-weight:400;font-size:20px;line-height:1.15}
+.rev-c h4 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+.rev-c h4 a:hover{color:var(--accent);border-color:var(--accent)}
+.rev-c .man{font-family:var(--f-ui);font-size:9.5px;letter-spacing:.16em;color:var(--ink-faint)}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.chips a{font-family:var(--f-ui);font-size:10.5px;font-weight:600;text-decoration:none;
+  border:1px solid var(--rule);padding:3px 7px;color:var(--ink-soft);transition:all .13s}
+.chips a:hover{border-color:var(--accent);color:var(--accent)}
+.chips a.core{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.chips a.core:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.rev-n{font-family:var(--f-ui);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+
+.unused{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-bottom:20px}
+.unused-c{background:var(--ground);padding:18px;opacity:.82}
+.unused-c h4{margin:0 0 4px;font-family:var(--f-display);font-weight:400;font-size:19px}
+.unused-c h4 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+.unused-c h4 a:hover{color:var(--accent);border-color:var(--accent)}
+.unused-c p{margin:8px 0 0;color:var(--ink-soft);font-size:14.5px}
+
+@media(max-width:720px){
+  .use{grid-template-columns:1fr;gap:9px}
+  .use-l{flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="mast">
+  <div class="mast-id">
+    <span class="ch" data-en="Cross-subject map" data-th="แผนที่ข้ามวิชา"></span>
+  </div>
+  <div class="mast-tools">
+    <a class="btn" href="physics/index.html" data-en="Physics" data-th="ฟิสิกส์"></a>
+    <a class="btn" href="math/index.html" data-en="Maths" data-th="คณิตศาสตร์"></a>
+    <button class="btn" id="langBtn" type="button">ไทย</button>
+    <button class="btn" id="themeBtn" type="button" data-en="Dark" data-th="มืด"></button>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="label" data-en="How the two subjects hold each other up" data-th="สองวิชานี้ค้ำกันอย่างไร"></span>
+  <h1 data-en="Physics × Mathematics" data-th="ฟิสิกส์ × คณิตศาสตร์"></h1>
+  <p class="sub" data-en="Physics is not a separate subject that happens to use numbers. Every physical law in this course is a mathematical statement, and the maths chapter it is written in decides what the law can say. This page maps that dependency both ways: for each physics chapter, which maths it actually calls on and what for." data-th="ฟิสิกส์ไม่ใช่วิชาแยกที่บังเอิญใช้ตัวเลข กฎทางฟิสิกส์ทุกข้อในหลักสูตรนี้คือข้อความทางคณิตศาสตร์ และบทคณิตศาสตร์ที่มันถูกเขียนขึ้นเป็นตัวกำหนดว่ากฎนั้นพูดอะไรได้บ้าง หน้านี้ทำแผนที่ความสัมพันธ์นั้นทั้งสองทิศทาง คือแต่ละบทฟิสิกส์เรียกใช้คณิตศาสตร์บทใดบ้าง และใช้ทำอะไร"></p>
+  <div class="stats">
+    <div class="stat"><b>20</b><span data-en="physics chapters" data-th="บทฟิสิกส์"></span></div>
+    <div class="stat"><b>65</b><span data-en="dependencies mapped" data-th="ความเชื่อมโยง"></span></div>
+    <div class="stat"><b>34</b><span data-en="load-bearing" data-th="ที่รับน้ำหนักหลัก"></span></div>
+    <div class="stat"><b>11</b><span data-en="maths chapters in play" data-th="บทคณิตที่ถูกใช้"></span></div>
+  </div>
+</section>
+
+<nav class="jump">
+  <a href="#matrix" data-en="The matrix" data-th="ตารางความเชื่อมโยง"></a>
+  <a href="#detail" data-en="Chapter by chapter" data-th="ทีละบท"></a>
+  <a href="#reverse" data-en="Maths → physics" data-th="คณิต → ฟิสิกส์"></a>
+  <a href="#unused" data-en="Not called on" data-th="ที่ไม่ถูกเรียกใช้"></a>
+</nav>
+
+<section id="matrix">
+  <h2 class="sec" data-en="The whole dependency at a glance" data-th="ภาพรวมความเชื่อมโยงทั้งหมด"></h2>
+  <hr class="sec">
+  <p class="secnote" data-en="Each row is a physics chapter, each column a maths chapter. A filled square marks maths the physics chapter cannot be stated without; an outlined square marks maths it leans on for part of the work. Hover any square for the pairing."
+                     data-th="แต่ละแถวคือบทฟิสิกส์ แต่ละคอลัมน์คือบทคณิตศาสตร์ สี่เหลี่ยมทึบหมายถึงคณิตศาสตร์ที่ขาดไม่ได้ ไม่เช่นนั้นบทฟิสิกส์นั้นเขียนขึ้นไม่ได้เลย สี่เหลี่ยมโปร่งหมายถึงที่ใช้พิงในบางส่วนของงาน วางเมาส์บนสี่เหลี่ยมใดก็ได้เพื่อดูคู่ความสัมพันธ์"></p>
+  <div class="matrix">
+    <svg viewBox="0 0 656 540" role="img"
+         aria-labelledby="bridge-matrix-title bridge-matrix-desc">
+      <title id="bridge-matrix-title" data-en="Physics to mathematics dependency matrix"
+             data-th="ตารางการพึ่งพาจากฟิสิกส์ไปคณิตศาสตร์">Physics to mathematics dependency matrix</title>
+      <desc id="bridge-matrix-desc" data-en="Grid of 20 physics chapters against 16 maths chapters. A filled square marks a load-bearing dependency, a hollow one a supporting use. Trigonometry is the maths chapter the most physics chapters lean on, load-bearing in 7 of them." data-th="ตารางระหว่างฟิสิกส์ 20 บทกับคณิตศาสตร์ 16 บท สี่เหลี่ยมทึบคือการพึ่งพาหลัก สี่เหลี่ยมโปร่งคือการใช้แบบสนับสนุน ตรีโกณมิติ เป็นบทคณิตที่ฟิสิกส์พึ่งพามากที่สุด เป็นหลักใน 7 บท">Grid of 20 physics chapters against 16 maths chapters. A filled square marks a load-bearing dependency, a hollow one a supporting use. Trigonometry is the maths chapter the most physics chapters lean on, load-bearing in 7 of them.</desc>
+      <rect class="mband" x="0" y="480" width="656" height="24"/>
+      <rect class="mband" x="0" y="432" width="656" height="24"/>
+      <rect class="mband" x="0" y="384" width="656" height="24"/>
+      <rect class="mband" x="0" y="336" width="656" height="24"/>
+      <rect class="mband" x="0" y="288" width="656" height="24"/>
+      <rect class="mband" x="0" y="240" width="656" height="24"/>
+      <rect class="mband" x="0" y="192" width="656" height="24"/>
+      <rect class="mband" x="0" y="144" width="656" height="24"/>
+      <rect class="mband" x="0" y="96" width="656" height="24"/>
+      <rect class="mband" x="0" y="48" width="656" height="24"/>
+      <line class="mgrid" x1="220" y1="44" x2="220" y2="528"/>
+      <line class="mgrid" x1="248" y1="44" x2="248" y2="528"/>
+      <line class="mgrid" x1="276" y1="44" x2="276" y2="528"/>
+      <line class="mgrid" x1="304" y1="44" x2="304" y2="528"/>
+      <line class="mgrid" x1="332" y1="44" x2="332" y2="528"/>
+      <line class="mgrid" x1="360" y1="44" x2="360" y2="528"/>
+      <rect class="mkeycol" x="388" y="28" width="28" height="500"/>
+      <line class="mgrid" x1="388" y1="44" x2="388" y2="528"/>
+      <line class="mgrid" x1="416" y1="44" x2="416" y2="528"/>
+      <line class="mgrid" x1="444" y1="44" x2="444" y2="528"/>
+      <line class="mgrid" x1="472" y1="44" x2="472" y2="528"/>
+      <line class="mgrid" x1="500" y1="44" x2="500" y2="528"/>
+      <line class="mgrid" x1="528" y1="44" x2="528" y2="528"/>
+      <line class="mgrid" x1="556" y1="44" x2="556" y2="528"/>
+      <line class="mgrid" x1="584" y1="44" x2="584" y2="528"/>
+      <line class="mgrid" x1="612" y1="44" x2="612" y2="528"/>
+      <text class="mhead" x="0" y="18" data-en="PHYSICS" data-th="ฟิสิกส์"></text>
+      <text class="mhead" x="192" y="18" data-en="MATHEMATICS" data-th="คณิตศาสตร์"></text>
+      <text class="mcol" x="206" y="36">01</text>
+      <text class="mcol" x="234" y="36">02</text>
+      <text class="mcol" x="262" y="36">03</text>
+      <text class="mcol" x="290" y="36">04</text>
+      <text class="mcol" x="318" y="36">05</text>
+      <text class="mcol" x="346" y="36">06</text>
+      <text class="mcol" x="374" y="36">07</text>
+      <text class="mcol key" x="402" y="36">08</text>
+      <text class="mcol" x="430" y="36">09</text>
+      <text class="mcol" x="458" y="36">10</text>
+      <text class="mcol" x="486" y="36">11</text>
+      <text class="mcol" x="514" y="36">12</text>
+      <text class="mcol" x="542" y="36">13</text>
+      <text class="mcol" x="570" y="36">14</text>
+      <text class="mcol" x="598" y="36">15</text>
+      <text class="mcol" x="626" y="36">16</text>
+      <text class="mlab n" x="0" y="60" dominant-baseline="middle">01</text>
+      <text class="mlab" x="28" y="60" dominant-baseline="middle" data-en="Measurement" data-th="การวัด"></text>
+      <rect class="core" x="256.0" y="54.0" width="12" height="12"><title data-en="Physics 01 Measurement  →  Maths 03 Real Numbers  ·  load-bearing" data-th="ฟิสิกส์ 01 การวัด  →  คณิต 03 จำนวนจริง  ·  รับน้ำหนักหลัก">Physics 01 Measurement  →  Maths 03 Real Numbers  ·  load-bearing</title></rect>
+      <rect class="sup" x="369.0" y="55.0" width="10" height="10"><title data-en="Physics 01 Measurement  →  Maths 07 Exponentials and Logs  ·  supporting" data-th="ฟิสิกส์ 01 การวัด  →  คณิต 07 เอกซ์โพเนนเชียลและลอการิทึม  ·  สนับสนุน">Physics 01 Measurement  →  Maths 07 Exponentials and Logs  ·  supporting</title></rect>
+      <rect class="sup" x="537.0" y="55.0" width="10" height="10"><title data-en="Physics 01 Measurement  →  Maths 13 Statistics  ·  supporting" data-th="ฟิสิกส์ 01 การวัด  →  คณิต 13 สถิติ  ·  สนับสนุน">Physics 01 Measurement  →  Maths 13 Statistics  ·  supporting</title></rect>
+      <text class="mlab n" x="0" y="84" dominant-baseline="middle">02</text>
+      <text class="mlab" x="28" y="84" dominant-baseline="middle" data-en="Linear Motion" data-th="การเคลื่อนที่แนวตรง"></text>
+      <rect class="sup" x="257.0" y="79.0" width="10" height="10"><title data-en="Physics 02 Linear Motion  →  Maths 03 Real Numbers  ·  supporting" data-th="ฟิสิกส์ 02 การเคลื่อนที่แนวตรง  →  คณิต 03 จำนวนจริง  ·  สนับสนุน">Physics 02 Linear Motion  →  Maths 03 Real Numbers  ·  supporting</title></rect>
+      <rect class="sup" x="313.0" y="79.0" width="10" height="10"><title data-en="Physics 02 Linear Motion  →  Maths 05 Analytic Geometry  ·  supporting" data-th="ฟิสิกส์ 02 การเคลื่อนที่แนวตรง  →  คณิต 05 เรขาคณิตวิเคราะห์  ·  สนับสนุน">Physics 02 Linear Motion  →  Maths 05 Analytic Geometry  ·  supporting</title></rect>
+      <rect class="core" x="592.0" y="78.0" width="12" height="12"><title data-en="Physics 02 Linear Motion  →  Maths 15 Calculus  ·  load-bearing" data-th="ฟิสิกส์ 02 การเคลื่อนที่แนวตรง  →  คณิต 15 แคลคูลัส  ·  รับน้ำหนักหลัก">Physics 02 Linear Motion  →  Maths 15 Calculus  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="108" dominant-baseline="middle">03</text>
+      <text class="mlab" x="28" y="108" dominant-baseline="middle" data-en="Force and Motion" data-th="แรงและกฎการเคลื่อนที่"></text>
+      <rect class="sup" x="341.0" y="103.0" width="10" height="10"><title data-en="Physics 03 Force and Motion  →  Maths 06 Matrices  ·  supporting" data-th="ฟิสิกส์ 03 แรงและกฎการเคลื่อนที่  →  คณิต 06 เมทริกซ์  ·  สนับสนุน">Physics 03 Force and Motion  →  Maths 06 Matrices  ·  supporting</title></rect>
+      <rect class="sup" x="397.0" y="103.0" width="10" height="10"><title data-en="Physics 03 Force and Motion  →  Maths 08 Trigonometry  ·  supporting" data-th="ฟิสิกส์ 03 แรงและกฎการเคลื่อนที่  →  คณิต 08 ตรีโกณมิติ  ·  สนับสนุน">Physics 03 Force and Motion  →  Maths 08 Trigonometry  ·  supporting</title></rect>
+      <rect class="core" x="424.0" y="102.0" width="12" height="12"><title data-en="Physics 03 Force and Motion  →  Maths 09 Vectors  ·  load-bearing" data-th="ฟิสิกส์ 03 แรงและกฎการเคลื่อนที่  →  คณิต 09 เวกเตอร์  ·  รับน้ำหนักหลัก">Physics 03 Force and Motion  →  Maths 09 Vectors  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="132" dominant-baseline="middle">04</text>
+      <text class="mlab" x="28" y="132" dominant-baseline="middle" data-en="Equilibrium" data-th="สมดุลกล"></text>
+      <rect class="sup" x="341.0" y="127.0" width="10" height="10"><title data-en="Physics 04 Equilibrium  →  Maths 06 Matrices  ·  supporting" data-th="ฟิสิกส์ 04 สมดุลกล  →  คณิต 06 เมทริกซ์  ·  สนับสนุน">Physics 04 Equilibrium  →  Maths 06 Matrices  ·  supporting</title></rect>
+      <rect class="core" x="396.0" y="126.0" width="12" height="12"><title data-en="Physics 04 Equilibrium  →  Maths 08 Trigonometry  ·  load-bearing" data-th="ฟิสิกส์ 04 สมดุลกล  →  คณิต 08 ตรีโกณมิติ  ·  รับน้ำหนักหลัก">Physics 04 Equilibrium  →  Maths 08 Trigonometry  ·  load-bearing</title></rect>
+      <rect class="core" x="424.0" y="126.0" width="12" height="12"><title data-en="Physics 04 Equilibrium  →  Maths 09 Vectors  ·  load-bearing" data-th="ฟิสิกส์ 04 สมดุลกล  →  คณิต 09 เวกเตอร์  ·  รับน้ำหนักหลัก">Physics 04 Equilibrium  →  Maths 09 Vectors  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="156" dominant-baseline="middle">05</text>
+      <text class="mlab" x="28" y="156" dominant-baseline="middle" data-en="Work and Energy" data-th="งานและพลังงาน"></text>
+      <rect class="sup" x="397.0" y="151.0" width="10" height="10"><title data-en="Physics 05 Work and Energy  →  Maths 08 Trigonometry  ·  supporting" data-th="ฟิสิกส์ 05 งานและพลังงาน  →  คณิต 08 ตรีโกณมิติ  ·  สนับสนุน">Physics 05 Work and Energy  →  Maths 08 Trigonometry  ·  supporting</title></rect>
+      <rect class="core" x="424.0" y="150.0" width="12" height="12"><title data-en="Physics 05 Work and Energy  →  Maths 09 Vectors  ·  load-bearing" data-th="ฟิสิกส์ 05 งานและพลังงาน  →  คณิต 09 เวกเตอร์  ·  รับน้ำหนักหลัก">Physics 05 Work and Energy  →  Maths 09 Vectors  ·  load-bearing</title></rect>
+      <rect class="core" x="592.0" y="150.0" width="12" height="12"><title data-en="Physics 05 Work and Energy  →  Maths 15 Calculus  ·  load-bearing" data-th="ฟิสิกส์ 05 งานและพลังงาน  →  คณิต 15 แคลคูลัส  ·  รับน้ำหนักหลัก">Physics 05 Work and Energy  →  Maths 15 Calculus  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="180" dominant-baseline="middle">06</text>
+      <text class="mlab" x="28" y="180" dominant-baseline="middle" data-en="Momentum" data-th="โมเมนตัมและการชน"></text>
+      <rect class="sup" x="257.0" y="175.0" width="10" height="10"><title data-en="Physics 06 Momentum  →  Maths 03 Real Numbers  ·  supporting" data-th="ฟิสิกส์ 06 โมเมนตัมและการชน  →  คณิต 03 จำนวนจริง  ·  สนับสนุน">Physics 06 Momentum  →  Maths 03 Real Numbers  ·  supporting</title></rect>
+      <rect class="core" x="424.0" y="174.0" width="12" height="12"><title data-en="Physics 06 Momentum  →  Maths 09 Vectors  ·  load-bearing" data-th="ฟิสิกส์ 06 โมเมนตัมและการชน  →  คณิต 09 เวกเตอร์  ·  รับน้ำหนักหลัก">Physics 06 Momentum  →  Maths 09 Vectors  ·  load-bearing</title></rect>
+      <rect class="sup" x="593.0" y="175.0" width="10" height="10"><title data-en="Physics 06 Momentum  →  Maths 15 Calculus  ·  supporting" data-th="ฟิสิกส์ 06 โมเมนตัมและการชน  →  คณิต 15 แคลคูลัส  ·  สนับสนุน">Physics 06 Momentum  →  Maths 15 Calculus  ·  supporting</title></rect>
+      <text class="mlab n" x="0" y="204" dominant-baseline="middle">07</text>
+      <text class="mlab" x="28" y="204" dominant-baseline="middle" data-en="Curved Motion" data-th="การเคลื่อนที่แนวโค้ง"></text>
+      <rect class="core" x="312.0" y="198.0" width="12" height="12"><title data-en="Physics 07 Curved Motion  →  Maths 05 Analytic Geometry  ·  load-bearing" data-th="ฟิสิกส์ 07 การเคลื่อนที่แนวโค้ง  →  คณิต 05 เรขาคณิตวิเคราะห์  ·  รับน้ำหนักหลัก">Physics 07 Curved Motion  →  Maths 05 Analytic Geometry  ·  load-bearing</title></rect>
+      <rect class="core" x="396.0" y="198.0" width="12" height="12"><title data-en="Physics 07 Curved Motion  →  Maths 08 Trigonometry  ·  load-bearing" data-th="ฟิสิกส์ 07 การเคลื่อนที่แนวโค้ง  →  คณิต 08 ตรีโกณมิติ  ·  รับน้ำหนักหลัก">Physics 07 Curved Motion  →  Maths 08 Trigonometry  ·  load-bearing</title></rect>
+      <rect class="sup" x="425.0" y="199.0" width="10" height="10"><title data-en="Physics 07 Curved Motion  →  Maths 09 Vectors  ·  supporting" data-th="ฟิสิกส์ 07 การเคลื่อนที่แนวโค้ง  →  คณิต 09 เวกเตอร์  ·  สนับสนุน">Physics 07 Curved Motion  →  Maths 09 Vectors  ·  supporting</title></rect>
+      <rect class="sup" x="593.0" y="199.0" width="10" height="10"><title data-en="Physics 07 Curved Motion  →  Maths 15 Calculus  ·  supporting" data-th="ฟิสิกส์ 07 การเคลื่อนที่แนวโค้ง  →  คณิต 15 แคลคูลัส  ·  สนับสนุน">Physics 07 Curved Motion  →  Maths 15 Calculus  ·  supporting</title></rect>
+      <text class="mlab n" x="0" y="228" dominant-baseline="middle">08</text>
+      <text class="mlab" x="28" y="228" dominant-baseline="middle" data-en="Harmonic Motion" data-th="การเคลื่อนที่ฮาร์มอนิก"></text>
+      <rect class="sup" x="285.0" y="223.0" width="10" height="10"><title data-en="Physics 08 Harmonic Motion  →  Maths 04 Relations and Functions  ·  supporting" data-th="ฟิสิกส์ 08 การเคลื่อนที่ฮาร์มอนิก  →  คณิต 04 ความสัมพันธ์และฟังก์ชัน  ·  สนับสนุน">Physics 08 Harmonic Motion  →  Maths 04 Relations and Functions  ·  supporting</title></rect>
+      <rect class="core" x="396.0" y="222.0" width="12" height="12"><title data-en="Physics 08 Harmonic Motion  →  Maths 08 Trigonometry  ·  load-bearing" data-th="ฟิสิกส์ 08 การเคลื่อนที่ฮาร์มอนิก  →  คณิต 08 ตรีโกณมิติ  ·  รับน้ำหนักหลัก">Physics 08 Harmonic Motion  →  Maths 08 Trigonometry  ·  load-bearing</title></rect>
+      <rect class="core" x="592.0" y="222.0" width="12" height="12"><title data-en="Physics 08 Harmonic Motion  →  Maths 15 Calculus  ·  load-bearing" data-th="ฟิสิกส์ 08 การเคลื่อนที่ฮาร์มอนิก  →  คณิต 15 แคลคูลัส  ·  รับน้ำหนักหลัก">Physics 08 Harmonic Motion  →  Maths 15 Calculus  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="252" dominant-baseline="middle">09</text>
+      <text class="mlab" x="28" y="252" dominant-baseline="middle" data-en="Waves" data-th="คลื่น"></text>
+      <rect class="sup" x="257.0" y="247.0" width="10" height="10"><title data-en="Physics 09 Waves  →  Maths 03 Real Numbers  ·  supporting" data-th="ฟิสิกส์ 09 คลื่น  →  คณิต 03 จำนวนจริง  ·  สนับสนุน">Physics 09 Waves  →  Maths 03 Real Numbers  ·  supporting</title></rect>
+      <rect class="core" x="284.0" y="246.0" width="12" height="12"><title data-en="Physics 09 Waves  →  Maths 04 Relations and Functions  ·  load-bearing" data-th="ฟิสิกส์ 09 คลื่น  →  คณิต 04 ความสัมพันธ์และฟังก์ชัน  ·  รับน้ำหนักหลัก">Physics 09 Waves  →  Maths 04 Relations and Functions  ·  load-bearing</title></rect>
+      <rect class="core" x="396.0" y="246.0" width="12" height="12"><title data-en="Physics 09 Waves  →  Maths 08 Trigonometry  ·  load-bearing" data-th="ฟิสิกส์ 09 คลื่น  →  คณิต 08 ตรีโกณมิติ  ·  รับน้ำหนักหลัก">Physics 09 Waves  →  Maths 08 Trigonometry  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="276" dominant-baseline="middle">10</text>
+      <text class="mlab" x="28" y="276" dominant-baseline="middle" data-en="Wave Optics" data-th="แสงเชิงคลื่น"></text>
+      <rect class="sup" x="313.0" y="271.0" width="10" height="10"><title data-en="Physics 10 Wave Optics  →  Maths 05 Analytic Geometry  ·  supporting" data-th="ฟิสิกส์ 10 แสงเชิงคลื่น  →  คณิต 05 เรขาคณิตวิเคราะห์  ·  สนับสนุน">Physics 10 Wave Optics  →  Maths 05 Analytic Geometry  ·  supporting</title></rect>
+      <rect class="core" x="396.0" y="270.0" width="12" height="12"><title data-en="Physics 10 Wave Optics  →  Maths 08 Trigonometry  ·  load-bearing" data-th="ฟิสิกส์ 10 แสงเชิงคลื่น  →  คณิต 08 ตรีโกณมิติ  ·  รับน้ำหนักหลัก">Physics 10 Wave Optics  →  Maths 08 Trigonometry  ·  load-bearing</title></rect>
+      <rect class="sup" x="565.0" y="271.0" width="10" height="10"><title data-en="Physics 10 Wave Optics  →  Maths 14 Sequences and Series  ·  supporting" data-th="ฟิสิกส์ 10 แสงเชิงคลื่น  →  คณิต 14 ลำดับและอนุกรม  ·  สนับสนุน">Physics 10 Wave Optics  →  Maths 14 Sequences and Series  ·  supporting</title></rect>
+      <text class="mlab n" x="0" y="300" dominant-baseline="middle">11</text>
+      <text class="mlab" x="28" y="300" dominant-baseline="middle" data-en="Ray Optics" data-th="แสงเชิงรังสี"></text>
+      <rect class="sup" x="257.0" y="295.0" width="10" height="10"><title data-en="Physics 11 Ray Optics  →  Maths 03 Real Numbers  ·  supporting" data-th="ฟิสิกส์ 11 แสงเชิงรังสี  →  คณิต 03 จำนวนจริง  ·  สนับสนุน">Physics 11 Ray Optics  →  Maths 03 Real Numbers  ·  supporting</title></rect>
+      <rect class="core" x="312.0" y="294.0" width="12" height="12"><title data-en="Physics 11 Ray Optics  →  Maths 05 Analytic Geometry  ·  load-bearing" data-th="ฟิสิกส์ 11 แสงเชิงรังสี  →  คณิต 05 เรขาคณิตวิเคราะห์  ·  รับน้ำหนักหลัก">Physics 11 Ray Optics  →  Maths 05 Analytic Geometry  ·  load-bearing</title></rect>
+      <rect class="core" x="396.0" y="294.0" width="12" height="12"><title data-en="Physics 11 Ray Optics  →  Maths 08 Trigonometry  ·  load-bearing" data-th="ฟิสิกส์ 11 แสงเชิงรังสี  →  คณิต 08 ตรีโกณมิติ  ·  รับน้ำหนักหลัก">Physics 11 Ray Optics  →  Maths 08 Trigonometry  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="324" dominant-baseline="middle">12</text>
+      <text class="mlab" x="28" y="324" dominant-baseline="middle" data-en="Sound" data-th="เสียง"></text>
+      <rect class="core" x="368.0" y="318.0" width="12" height="12"><title data-en="Physics 12 Sound  →  Maths 07 Exponentials and Logs  ·  load-bearing" data-th="ฟิสิกส์ 12 เสียง  →  คณิต 07 เอกซ์โพเนนเชียลและลอการิทึม  ·  รับน้ำหนักหลัก">Physics 12 Sound  →  Maths 07 Exponentials and Logs  ·  load-bearing</title></rect>
+      <rect class="sup" x="397.0" y="319.0" width="10" height="10"><title data-en="Physics 12 Sound  →  Maths 08 Trigonometry  ·  supporting" data-th="ฟิสิกส์ 12 เสียง  →  คณิต 08 ตรีโกณมิติ  ·  สนับสนุน">Physics 12 Sound  →  Maths 08 Trigonometry  ·  supporting</title></rect>
+      <rect class="core" x="564.0" y="318.0" width="12" height="12"><title data-en="Physics 12 Sound  →  Maths 14 Sequences and Series  ·  load-bearing" data-th="ฟิสิกส์ 12 เสียง  →  คณิต 14 ลำดับและอนุกรม  ·  รับน้ำหนักหลัก">Physics 12 Sound  →  Maths 14 Sequences and Series  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="348" dominant-baseline="middle">13</text>
+      <text class="mlab" x="28" y="348" dominant-baseline="middle" data-en="Electrostatics" data-th="ไฟฟ้าสถิต"></text>
+      <rect class="sup" x="257.0" y="343.0" width="10" height="10"><title data-en="Physics 13 Electrostatics  →  Maths 03 Real Numbers  ·  supporting" data-th="ฟิสิกส์ 13 ไฟฟ้าสถิต  →  คณิต 03 จำนวนจริง  ·  สนับสนุน">Physics 13 Electrostatics  →  Maths 03 Real Numbers  ·  supporting</title></rect>
+      <rect class="core" x="424.0" y="342.0" width="12" height="12"><title data-en="Physics 13 Electrostatics  →  Maths 09 Vectors  ·  load-bearing" data-th="ฟิสิกส์ 13 ไฟฟ้าสถิต  →  คณิต 09 เวกเตอร์  ·  รับน้ำหนักหลัก">Physics 13 Electrostatics  →  Maths 09 Vectors  ·  load-bearing</title></rect>
+      <rect class="core" x="592.0" y="342.0" width="12" height="12"><title data-en="Physics 13 Electrostatics  →  Maths 15 Calculus  ·  load-bearing" data-th="ฟิสิกส์ 13 ไฟฟ้าสถิต  →  คณิต 15 แคลคูลัส  ·  รับน้ำหนักหลัก">Physics 13 Electrostatics  →  Maths 15 Calculus  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="372" dominant-baseline="middle">14</text>
+      <text class="mlab" x="28" y="372" dominant-baseline="middle" data-en="Current Electricity" data-th="ไฟฟ้ากระแส"></text>
+      <rect class="sup" x="257.0" y="367.0" width="10" height="10"><title data-en="Physics 14 Current Electricity  →  Maths 03 Real Numbers  ·  supporting" data-th="ฟิสิกส์ 14 ไฟฟ้ากระแส  →  คณิต 03 จำนวนจริง  ·  สนับสนุน">Physics 14 Current Electricity  →  Maths 03 Real Numbers  ·  supporting</title></rect>
+      <rect class="core" x="340.0" y="366.0" width="12" height="12"><title data-en="Physics 14 Current Electricity  →  Maths 06 Matrices  ·  load-bearing" data-th="ฟิสิกส์ 14 ไฟฟ้ากระแส  →  คณิต 06 เมทริกซ์  ·  รับน้ำหนักหลัก">Physics 14 Current Electricity  →  Maths 06 Matrices  ·  load-bearing</title></rect>
+      <rect class="core" x="368.0" y="366.0" width="12" height="12"><title data-en="Physics 14 Current Electricity  →  Maths 07 Exponentials and Logs  ·  load-bearing" data-th="ฟิสิกส์ 14 ไฟฟ้ากระแส  →  คณิต 07 เอกซ์โพเนนเชียลและลอการิทึม  ·  รับน้ำหนักหลัก">Physics 14 Current Electricity  →  Maths 07 Exponentials and Logs  ·  load-bearing</title></rect>
+      <rect class="sup" x="593.0" y="367.0" width="10" height="10"><title data-en="Physics 14 Current Electricity  →  Maths 15 Calculus  ·  supporting" data-th="ฟิสิกส์ 14 ไฟฟ้ากระแส  →  คณิต 15 แคลคูลัส  ·  สนับสนุน">Physics 14 Current Electricity  →  Maths 15 Calculus  ·  supporting</title></rect>
+      <text class="mlab n" x="0" y="396" dominant-baseline="middle">15</text>
+      <text class="mlab" x="28" y="396" dominant-baseline="middle" data-en="Magnetism" data-th="แม่เหล็กและไฟฟ้า"></text>
+      <rect class="sup" x="397.0" y="391.0" width="10" height="10"><title data-en="Physics 15 Magnetism  →  Maths 08 Trigonometry  ·  supporting" data-th="ฟิสิกส์ 15 แม่เหล็กและไฟฟ้า  →  คณิต 08 ตรีโกณมิติ  ·  สนับสนุน">Physics 15 Magnetism  →  Maths 08 Trigonometry  ·  supporting</title></rect>
+      <rect class="core" x="424.0" y="390.0" width="12" height="12"><title data-en="Physics 15 Magnetism  →  Maths 09 Vectors  ·  load-bearing" data-th="ฟิสิกส์ 15 แม่เหล็กและไฟฟ้า  →  คณิต 09 เวกเตอร์  ·  รับน้ำหนักหลัก">Physics 15 Magnetism  →  Maths 09 Vectors  ·  load-bearing</title></rect>
+      <rect class="core" x="592.0" y="390.0" width="12" height="12"><title data-en="Physics 15 Magnetism  →  Maths 15 Calculus  ·  load-bearing" data-th="ฟิสิกส์ 15 แม่เหล็กและไฟฟ้า  →  คณิต 15 แคลคูลัส  ·  รับน้ำหนักหลัก">Physics 15 Magnetism  →  Maths 15 Calculus  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="420" dominant-baseline="middle">16</text>
+      <text class="mlab" x="28" y="420" dominant-baseline="middle" data-en="Heat and Gases" data-th="ความร้อนและแก๊ส"></text>
+      <rect class="sup" x="285.0" y="415.0" width="10" height="10"><title data-en="Physics 16 Heat and Gases  →  Maths 04 Relations and Functions  ·  supporting" data-th="ฟิสิกส์ 16 ความร้อนและแก๊ส  →  คณิต 04 ความสัมพันธ์และฟังก์ชัน  ·  สนับสนุน">Physics 16 Heat and Gases  →  Maths 04 Relations and Functions  ·  supporting</title></rect>
+      <rect class="core" x="312.0" y="414.0" width="12" height="12"><title data-en="Physics 16 Heat and Gases  →  Maths 05 Analytic Geometry  ·  load-bearing" data-th="ฟิสิกส์ 16 ความร้อนและแก๊ส  →  คณิต 05 เรขาคณิตวิเคราะห์  ·  รับน้ำหนักหลัก">Physics 16 Heat and Gases  →  Maths 05 Analytic Geometry  ·  load-bearing</title></rect>
+      <rect class="sup" x="537.0" y="415.0" width="10" height="10"><title data-en="Physics 16 Heat and Gases  →  Maths 13 Statistics  ·  supporting" data-th="ฟิสิกส์ 16 ความร้อนและแก๊ส  →  คณิต 13 สถิติ  ·  สนับสนุน">Physics 16 Heat and Gases  →  Maths 13 Statistics  ·  supporting</title></rect>
+      <rect class="core" x="592.0" y="414.0" width="12" height="12"><title data-en="Physics 16 Heat and Gases  →  Maths 15 Calculus  ·  load-bearing" data-th="ฟิสิกส์ 16 ความร้อนและแก๊ส  →  คณิต 15 แคลคูลัส  ·  รับน้ำหนักหลัก">Physics 16 Heat and Gases  →  Maths 15 Calculus  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="444" dominant-baseline="middle">17</text>
+      <text class="mlab" x="28" y="444" dominant-baseline="middle" data-en="Solids and Fluids" data-th="ของแข็งและของไหล"></text>
+      <rect class="sup" x="285.0" y="439.0" width="10" height="10"><title data-en="Physics 17 Solids and Fluids  →  Maths 04 Relations and Functions  ·  supporting" data-th="ฟิสิกส์ 17 ของแข็งและของไหล  →  คณิต 04 ความสัมพันธ์และฟังก์ชัน  ·  สนับสนุน">Physics 17 Solids and Fluids  →  Maths 04 Relations and Functions  ·  supporting</title></rect>
+      <rect class="core" x="312.0" y="438.0" width="12" height="12"><title data-en="Physics 17 Solids and Fluids  →  Maths 05 Analytic Geometry  ·  load-bearing" data-th="ฟิสิกส์ 17 ของแข็งและของไหล  →  คณิต 05 เรขาคณิตวิเคราะห์  ·  รับน้ำหนักหลัก">Physics 17 Solids and Fluids  →  Maths 05 Analytic Geometry  ·  load-bearing</title></rect>
+      <rect class="sup" x="593.0" y="439.0" width="10" height="10"><title data-en="Physics 17 Solids and Fluids  →  Maths 15 Calculus  ·  supporting" data-th="ฟิสิกส์ 17 ของแข็งและของไหล  →  คณิต 15 แคลคูลัส  ·  สนับสนุน">Physics 17 Solids and Fluids  →  Maths 15 Calculus  ·  supporting</title></rect>
+      <text class="mlab n" x="0" y="468" dominant-baseline="middle">18</text>
+      <text class="mlab" x="28" y="468" dominant-baseline="middle" data-en="Electromagnetic Waves" data-th="คลื่นแม่เหล็กไฟฟ้า"></text>
+      <rect class="sup" x="257.0" y="463.0" width="10" height="10"><title data-en="Physics 18 Electromagnetic Waves  →  Maths 03 Real Numbers  ·  supporting" data-th="ฟิสิกส์ 18 คลื่นแม่เหล็กไฟฟ้า  →  คณิต 03 จำนวนจริง  ·  สนับสนุน">Physics 18 Electromagnetic Waves  →  Maths 03 Real Numbers  ·  supporting</title></rect>
+      <rect class="core" x="368.0" y="462.0" width="12" height="12"><title data-en="Physics 18 Electromagnetic Waves  →  Maths 07 Exponentials and Logs  ·  load-bearing" data-th="ฟิสิกส์ 18 คลื่นแม่เหล็กไฟฟ้า  →  คณิต 07 เอกซ์โพเนนเชียลและลอการิทึม  ·  รับน้ำหนักหลัก">Physics 18 Electromagnetic Waves  →  Maths 07 Exponentials and Logs  ·  load-bearing</title></rect>
+      <rect class="core" x="396.0" y="462.0" width="12" height="12"><title data-en="Physics 18 Electromagnetic Waves  →  Maths 08 Trigonometry  ·  load-bearing" data-th="ฟิสิกส์ 18 คลื่นแม่เหล็กไฟฟ้า  →  คณิต 08 ตรีโกณมิติ  ·  รับน้ำหนักหลัก">Physics 18 Electromagnetic Waves  →  Maths 08 Trigonometry  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="492" dominant-baseline="middle">19</text>
+      <text class="mlab" x="28" y="492" dominant-baseline="middle" data-en="Atomic Physics" data-th="ฟิสิกส์อะตอม"></text>
+      <rect class="core" x="256.0" y="486.0" width="12" height="12"><title data-en="Physics 19 Atomic Physics  →  Maths 03 Real Numbers  ·  load-bearing" data-th="ฟิสิกส์ 19 ฟิสิกส์อะตอม  →  คณิต 03 จำนวนจริง  ·  รับน้ำหนักหลัก">Physics 19 Atomic Physics  →  Maths 03 Real Numbers  ·  load-bearing</title></rect>
+      <rect class="sup" x="369.0" y="487.0" width="10" height="10"><title data-en="Physics 19 Atomic Physics  →  Maths 07 Exponentials and Logs  ·  supporting" data-th="ฟิสิกส์ 19 ฟิสิกส์อะตอม  →  คณิต 07 เอกซ์โพเนนเชียลและลอการิทึม  ·  สนับสนุน">Physics 19 Atomic Physics  →  Maths 07 Exponentials and Logs  ·  supporting</title></rect>
+      <rect class="sup" x="481.0" y="487.0" width="10" height="10"><title data-en="Physics 19 Atomic Physics  →  Maths 11 Probability  ·  supporting" data-th="ฟิสิกส์ 19 ฟิสิกส์อะตอม  →  คณิต 11 ความน่าจะเป็น  ·  สนับสนุน">Physics 19 Atomic Physics  →  Maths 11 Probability  ·  supporting</title></rect>
+      <rect class="core" x="564.0" y="486.0" width="12" height="12"><title data-en="Physics 19 Atomic Physics  →  Maths 14 Sequences and Series  ·  load-bearing" data-th="ฟิสิกส์ 19 ฟิสิกส์อะตอม  →  คณิต 14 ลำดับและอนุกรม  ·  รับน้ำหนักหลัก">Physics 19 Atomic Physics  →  Maths 14 Sequences and Series  ·  load-bearing</title></rect>
+      <text class="mlab n" x="0" y="516" dominant-baseline="middle">20</text>
+      <text class="mlab" x="28" y="516" dominant-baseline="middle" data-en="Nuclear and Particle" data-th="นิวเคลียร์และอนุภาค"></text>
+      <rect class="core" x="368.0" y="510.0" width="12" height="12"><title data-en="Physics 20 Nuclear and Particle  →  Maths 07 Exponentials and Logs  ·  load-bearing" data-th="ฟิสิกส์ 20 นิวเคลียร์และอนุภาค  →  คณิต 07 เอกซ์โพเนนเชียลและลอการิทึม  ·  รับน้ำหนักหลัก">Physics 20 Nuclear and Particle  →  Maths 07 Exponentials and Logs  ·  load-bearing</title></rect>
+      <rect class="sup" x="481.0" y="511.0" width="10" height="10"><title data-en="Physics 20 Nuclear and Particle  →  Maths 11 Probability  ·  supporting" data-th="ฟิสิกส์ 20 นิวเคลียร์และอนุภาค  →  คณิต 11 ความน่าจะเป็น  ·  สนับสนุน">Physics 20 Nuclear and Particle  →  Maths 11 Probability  ·  supporting</title></rect>
+      <rect class="core" x="564.0" y="510.0" width="12" height="12"><title data-en="Physics 20 Nuclear and Particle  →  Maths 14 Sequences and Series  ·  load-bearing" data-th="ฟิสิกส์ 20 นิวเคลียร์และอนุภาค  →  คณิต 14 ลำดับและอนุกรม  ·  รับน้ำหนักหลัก">Physics 20 Nuclear and Particle  →  Maths 14 Sequences and Series  ·  load-bearing</title></rect>
+      <rect class="sup" x="593.0" y="511.0" width="10" height="10"><title data-en="Physics 20 Nuclear and Particle  →  Maths 15 Calculus  ·  supporting" data-th="ฟิสิกส์ 20 นิวเคลียร์และอนุภาค  →  คณิต 15 แคลคูลัส  ·  สนับสนุน">Physics 20 Nuclear and Particle  →  Maths 15 Calculus  ·  supporting</title></rect>
+    </svg>
+  </div>
+  <div class="legend">
+    <span><i class="c"></i><span data-en="Load-bearing - the chapter cannot be stated without it"
+                                 data-th="รับน้ำหนักหลัก คือขาดไม่ได้"></span></span>
+    <span><i class="s"></i><span data-en="Supporting - leaned on for part of the work"
+                                 data-th="สนับสนุน คือใช้พิงบางส่วน"></span></span>
+    <span><i class="k"></i><span data-en="Trigonometry - the maths the most physics chapters lean on (7)"
+                                 data-th="ตรีโกณมิติ คือคณิตที่ฟิสิกส์พึ่งพามากที่สุด (7)"></span></span>
+  </div>
+</section>
+
+<section id="detail">
+  <h2 class="sec" data-en="Chapter by chapter" data-th="ทีละบท"></h2>
+  <hr class="sec">
+  <p class="secnote" data-en="For each physics chapter: the maths it calls on, what specifically it takes, and what that maths is doing there."
+                     data-th="สำหรับแต่ละบทฟิสิกส์ คือคณิตศาสตร์ที่มันเรียกใช้ สิ่งที่หยิบไปใช้อย่างเจาะจง และคณิตศาสตร์นั้นทำหน้าที่อะไรอยู่ตรงนั้น"></p>
+  <article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 01</span><h3><a href="physics/ch01-measurement.html" data-en="Measurement" data-th="การวัด"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 03</span><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Scientific notation and significant figures" data-th="สัญกรณ์วิทยาศาสตร์และเลขนัยสำคัญ"></p><p class="use-why" data-en="Every measured quantity is written as a number times a power of ten. The rules for rounding, for ordering magnitudes, and for absolute value — which is what an uncertainty ± is — all come straight out of the real-number chapter." data-th="ปริมาณที่วัดได้ทุกตัวเขียนเป็นจำนวนคูณด้วยกำลังของสิบ กฎการปัดเศษ การเรียงลำดับขนาด และค่าสัมบูรณ์ ซึ่งก็คือความไม่แน่นอน ± ล้วนมาจากบทจำนวนจริงโดยตรง"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 07</span><a href="math/ch07-exponentials.html" data-en="Exponentials and Logs" data-th="เอกซ์โพเนนเชียลและลอการิทึม"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Powers of ten and logarithmic scales" data-th="กำลังของสิบและมาตราลอการิทึม"></p><p class="use-why" data-en="The unit prefixes from nano to giga are nothing but exponents. Comparing an atom to a galaxy across thirty-odd decades is a logarithmic question, not an arithmetic one." data-th="คำนำหน้าหน่วยตั้งแต่นาโนถึงจิกะไม่ใช่อะไรเลยนอกจากเลขชี้กำลัง การเปรียบเทียบอะตอมกับกาแล็กซีข้ามสามสิบกว่าอันดับขนาดเป็นคำถามเชิงลอการิทึม ไม่ใช่เชิงเลขคณิต"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 13</span><a href="math/ch13-statistics.html" data-en="Statistics" data-th="สถิติ"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Mean and standard deviation" data-th="ค่าเฉลี่ยและส่วนเบี่ยงเบนมาตรฐาน"></p><p class="use-why" data-en="A repeated measurement is a data set. The value you report is its mean and the uncertainty you attach is its standard deviation — the statistics chapter supplies both." data-th="การวัดซ้ำหลายครั้งคือชุดข้อมูล ค่าที่รายงานคือค่าเฉลี่ยของมัน และความไม่แน่นอนที่ติดไปด้วยคือส่วนเบี่ยงเบนมาตรฐาน บทสถิติให้ทั้งสองอย่าง"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 02</span><h3><a href="physics/ch02-linear-motion.html" data-en="Linear Motion" data-th="การเคลื่อนที่แนวตรง"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Derivatives and definite integrals" data-th="อนุพันธ์และปริพันธ์จำกัดเขต"></p><p class="use-why" data-en="Velocity is the derivative of displacement and acceleration the derivative of velocity; the area under a v–t graph is the displacement. The kinematic equations are simply what you get from integrating a constant acceleration twice — they are not separate facts to memorise." data-th="ความเร็วคืออนุพันธ์ของการกระจัด และความเร่งคืออนุพันธ์ของความเร็ว พื้นที่ใต้กราฟ v–t คือการกระจัด สมการการเคลื่อนที่คือสิ่งที่ได้จากการอินทิเกรตความเร่งคงที่สองครั้ง ไม่ใช่ข้อเท็จจริงแยกที่ต้องท่องจำ"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 05</span><a href="math/ch05-analytic-geometry.html" data-en="Analytic Geometry" data-th="เรขาคณิตวิเคราะห์"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Slope of a straight line" data-th="ความชันของเส้นตรง"></p><p class="use-why" data-en="Reading a motion graph is reading a gradient. The slope of an x–t graph is velocity and the slope of a v–t graph is acceleration, so the graph questions in this chapter are analytic geometry questions in disguise." data-th="การอ่านกราฟการเคลื่อนที่คือการอ่านความชัน ความชันของกราฟ x–t คือความเร็ว และความชันของกราฟ v–t คือความเร่ง โจทย์กราฟในบทนี้จึงเป็นโจทย์เรขาคณิตวิเคราะห์ที่ปลอมตัวมา"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 03</span><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Quadratic equations and the discriminant" data-th="สมการกำลังสองและดิสคริมิแนนต์"></p><p class="use-why" data-en="s = ut + ½at² is a quadratic in t. Asking when an object reaches a height means solving it, and the discriminant answers whether it gets there at all — a negative one means the height is never reached." data-th="s = ut + ½at² เป็นสมการกำลังสองในตัวแปร t การถามว่าวัตถุถึงความสูงหนึ่งเมื่อใดคือการแก้สมการนั้น และดิสคริมิแนนต์ตอบว่ามันไปถึงหรือไม่ ค่าที่เป็นลบหมายความว่าไม่มีวันถึงความสูงนั้น"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 03</span><h3><a href="physics/ch03-force-and-motion.html" data-en="Force and Motion" data-th="แรงและกฎการเคลื่อนที่"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 09</span><a href="math/ch09-vectors.html" data-en="Vectors" data-th="เวกเตอร์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Vector addition and components" data-th="การบวกเวกเตอร์และองค์ประกอบ"></p><p class="use-why" data-en="ΣF = ma is a vector equation, not a numerical one. Every problem begins by resolving forces into perpendicular components and adding them component by component — which is precisely the vector chapter's method." data-th="ΣF = ma เป็นสมการเวกเตอร์ ไม่ใช่สมการตัวเลข ทุกโจทย์เริ่มด้วยการแตกแรงเป็นองค์ประกอบตั้งฉากแล้วบวกกันทีละองค์ประกอบ ซึ่งเป็นวิธีของบทเวกเตอร์พอดี"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Sine and cosine of an angle" data-th="ไซน์และโคไซน์ของมุม"></p><p class="use-why" data-en="On an inclined plane the weight splits into mg sin θ down the slope and mg cos θ into it. Drawing a free-body diagram on a slope is a trigonometry exercise before it is a physics one." data-th="บนพื้นเอียง น้ำหนักแตกเป็น mg sin θ ตามความชัน และ mg cos θ ตั้งฉากกับพื้น การวาดแผนภาพวัตถุอิสระบนพื้นเอียงเป็นโจทย์ตรีโกณมิติก่อนที่จะเป็นโจทย์ฟิสิกส์"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 06</span><a href="math/ch06-matrices.html" data-en="Matrices" data-th="เมทริกซ์"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Simultaneous linear equations" data-th="ระบบสมการเชิงเส้น"></p><p class="use-why" data-en="Two blocks joined by a string give one equation per block sharing one unknown acceleration. Solving them together is the linear-system method from the matrix chapter." data-th="วัตถุสองก้อนที่ผูกด้วยเชือกให้สมการหนึ่งข้อต่อหนึ่งก้อน โดยใช้ความเร่งที่ไม่ทราบค่าร่วมกัน การแก้พร้อมกันคือวิธีระบบสมการเชิงเส้นจากบทเมทริกซ์"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 04</span><h3><a href="physics/ch04-equilibrium.html" data-en="Equilibrium" data-th="สมดุลกล"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 09</span><a href="math/ch09-vectors.html" data-en="Vectors" data-th="เวกเตอร์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Resultant and equilibrium of vectors" data-th="ผลลัพธ์และสมดุลของเวกเตอร์"></p><p class="use-why" data-en="Equilibrium is the statement ΣF = 0, and a vector is zero only when every one of its components is zero. That is why the method is always: resolve, then set each axis to zero separately." data-th="สมดุลคือข้อความ ΣF = 0 และเวกเตอร์จะเป็นศูนย์ก็ต่อเมื่อทุกองค์ประกอบเป็นศูนย์ นั่นคือเหตุผลที่วิธีทำเป็นแบบนี้เสมอ คือแตกองค์ประกอบ แล้วตั้งแต่ละแกนให้เท่ากับศูนย์แยกกัน"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="The sine rule" data-th="กฎของไซน์"></p><p class="use-why" data-en="Lami's theorem — three concurrent forces in equilibrium are proportional to the sines of the opposite angles — is the sine rule wearing a physics hat. Recognising that saves deriving it again." data-th="ทฤษฎีบทลามี ที่ว่าแรงสามแรงที่พบกันที่จุดเดียวและอยู่ในสมดุลจะเป็นสัดส่วนกับไซน์ของมุมตรงข้าม คือกฎของไซน์ที่สวมหมวกฟิสิกส์ การมองออกช่วยให้ไม่ต้องพิสูจน์ใหม่"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 06</span><a href="math/ch06-matrices.html" data-en="Matrices" data-th="เมทริกซ์"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Solving for several unknowns" data-th="การแก้หาตัวแปรหลายตัว"></p><p class="use-why" data-en="A beam on two supports has two unknown reactions, and you get two equations — one from forces, one from moments. Two equations, two unknowns, one matrix method." data-th="คานที่วางบนจุดรองรับสองจุดมีแรงปฏิกิริยาที่ไม่ทราบค่าสองตัว และเราได้สมการสองข้อ ข้อหนึ่งจากแรง อีกข้อจากโมเมนต์ สองสมการ สองตัวแปร วิธีเมทริกซ์เดียว"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 05</span><h3><a href="physics/ch05-work-and-energy.html" data-en="Work and Energy" data-th="งานและพลังงาน"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 09</span><a href="math/ch09-vectors.html" data-en="Vectors" data-th="เวกเตอร์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="The dot product" data-th="ผลคูณเชิงสเกลาร์"></p><p class="use-why" data-en="W = F·s = Fs cos θ is the dot product itself. Only the component of force along the displacement does work, and extracting exactly that component is what the dot product is for — which is also why a force perpendicular to the motion does no work at all." data-th="W = F·s = Fs cos θ คือผลคูณเชิงสเกลาร์นั่นเอง เฉพาะองค์ประกอบของแรงตามแนวการกระจัดเท่านั้นที่ทำงาน และการดึงองค์ประกอบนั้นออกมาคือหน้าที่ของผลคูณเชิงสเกลาร์ ซึ่งเป็นเหตุผลด้วยว่าทำไมแรงที่ตั้งฉากกับการเคลื่อนที่จึงไม่ทำงานเลย"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Integration as area under a curve" data-th="การอินทิเกรตเป็นพื้นที่ใต้เส้นโค้ง"></p><p class="use-why" data-en="For a varying force, W = ∫F dx — the area under the force–displacement graph. The energy stored in a spring, ½kx², is that integral evaluated, not a formula handed down from nowhere." data-th="สำหรับแรงที่ไม่คงที่ W = ∫F dx คือพื้นที่ใต้กราฟแรง–การกระจัด พลังงานที่สะสมในสปริง ½kx² คือค่าของปริพันธ์นั้น ไม่ใช่สูตรที่ยกมาจากที่ไหนก็ไม่รู้"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="The cosine of the angle between two directions" data-th="โคไซน์ของมุมระหว่างสองทิศทาง"></p><p class="use-why" data-en="The cos θ in the work formula is what makes work negative when a force opposes the motion — friction, for instance, sits at 180° and so removes energy." data-th="ตัว cos θ ในสูตรงานคือสิ่งที่ทำให้งานเป็นลบเมื่อแรงต้านการเคลื่อนที่ เช่น แรงเสียดทานอยู่ที่ 180° จึงดึงพลังงานออกไป"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 06</span><h3><a href="physics/ch06-momentum.html" data-en="Momentum" data-th="โมเมนตัมและการชน"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 09</span><a href="math/ch09-vectors.html" data-en="Vectors" data-th="เวกเตอร์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Vector conservation by component" data-th="การอนุรักษ์เวกเตอร์ทีละองค์ประกอบ"></p><p class="use-why" data-en="Momentum is conserved as a vector, which means it is conserved separately along x and along y. A two-dimensional collision therefore gives two equations, not one, and treating momentum as a single number loses half the information." data-th="โมเมนตัมอนุรักษ์แบบเวกเตอร์ ซึ่งหมายความว่าอนุรักษ์แยกกันตามแกน x และแกน y การชนในสองมิติจึงให้สมการสองข้อไม่ใช่ข้อเดียว และการมองโมเมนตัมเป็นตัวเลขเดียวทำให้เสียข้อมูลไปครึ่งหนึ่ง"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 03</span><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="A linear and a quadratic equation solved together" data-th="การแก้สมการเชิงเส้นคู่กับสมการกำลังสอง"></p><p class="use-why" data-en="An elastic collision conserves momentum, which is linear in the velocities, and kinetic energy, which is quadratic. Solving that pair simultaneously is exactly the algebra of the real-number chapter." data-th="การชนแบบยืดหยุ่นอนุรักษ์โมเมนตัม ซึ่งเป็นเชิงเส้นในความเร็ว และอนุรักษ์พลังงานจลน์ ซึ่งเป็นกำลังสอง การแก้สองสมการนี้พร้อมกันคือพีชคณิตของบทจำนวนจริงพอดี"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Impulse as an integral" data-th="การดลเป็นปริพันธ์"></p><p class="use-why" data-en="Impulse is ∫F dt, the area under a force–time graph. That is why a longer collision time means a smaller peak force for the same change in momentum — the airbag argument in one line of calculus." data-th="การดลคือ ∫F dt หรือพื้นที่ใต้กราฟแรง–เวลา นั่นคือเหตุผลที่เวลาชนนานขึ้นทำให้แรงสูงสุดน้อยลงสำหรับการเปลี่ยนโมเมนตัมเท่ากัน คือเหตุผลของถุงลมนิรภัยในแคลคูลัสบรรทัดเดียว"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 07</span><h3><a href="physics/ch07-curved-motion.html" data-en="Curved Motion" data-th="การเคลื่อนที่แนวโค้ง"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 05</span><a href="math/ch05-analytic-geometry.html" data-en="Analytic Geometry" data-th="เรขาคณิตวิเคราะห์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="The parabola" data-th="พาราโบลา"></p><p class="use-why" data-en="A projectile's path is a parabola — the same conic section from analytic geometry, with the launch speed and angle setting its vertex and its width. The maximum height is the vertex and the range is the distance between its two roots." data-th="วิถีของวัตถุที่ถูกโยนคือพาราโบลา ภาคตัดกรวยรูปเดียวกับในเรขาคณิตวิเคราะห์ โดยอัตราเร็วและมุมที่โยนเป็นตัวกำหนดจุดยอดและความกว้างของมัน ความสูงสูงสุดคือจุดยอด และระยะทางในแนวราบคือระยะระหว่างรากทั้งสอง"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Resolving a launch angle" data-th="การแตกมุมที่โยน"></p><p class="use-why" data-en="u cos θ and u sin θ split one launch into two independent motions. The range formula's sin 2θ is why 45° is optimal and why every other angle has a twin that reaches the same distance." data-th="u cos θ และ u sin θ แยกการโยนครั้งเดียวออกเป็นการเคลื่อนที่สองแบบที่เป็นอิสระต่อกัน ตัว sin 2θ ในสูตรระยะทางคือเหตุผลที่ 45° ให้ระยะไกลที่สุด และที่ทุกมุมอื่นมีมุมคู่แฝดที่ไปได้ไกลเท่ากัน"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 09</span><a href="math/ch09-vectors.html" data-en="Vectors" data-th="เวกเตอร์"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Independence of perpendicular components" data-th="ความเป็นอิสระขององค์ประกอบตั้งฉาก"></p><p class="use-why" data-en="Horizontal and vertical motion do not talk to each other. That is a vector fact, and it is the reason a bullet fired horizontally and one dropped hit the ground together." data-th="การเคลื่อนที่แนวราบกับแนวดิ่งไม่คุยกัน นั่นเป็นข้อเท็จจริงเชิงเวกเตอร์ และเป็นเหตุผลที่ลูกกระสุนที่ยิงในแนวราบกับลูกที่ปล่อยตกถึงพื้นพร้อมกัน"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Setting a derivative to zero" data-th="การตั้งอนุพันธ์ให้เท่ากับศูนย์"></p><p class="use-why" data-en="The top of the flight is where the vertical velocity is zero — a stationary point of the height function, found the same way as any other maximum." data-th="จุดสูงสุดของการเคลื่อนที่คือจุดที่ความเร็วแนวดิ่งเป็นศูนย์ ซึ่งเป็นจุดวิกฤตของฟังก์ชันความสูง หาได้ด้วยวิธีเดียวกับการหาค่าสูงสุดอื่นๆ"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 08</span><h3><a href="physics/ch08-harmonic-motion.html" data-en="Harmonic Motion" data-th="การเคลื่อนที่ฮาร์มอนิก"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Sine and cosine as functions of time" data-th="ไซน์และโคไซน์ในฐานะฟังก์ชันของเวลา"></p><p class="use-why" data-en="x = A cos(ωt + φ) is a trigonometric function, full stop. Amplitude, angular frequency and phase are its three parameters, and every question about a pendulum or a spring is a question about one of them." data-th="x = A cos(ωt + φ) เป็นฟังก์ชันตรีโกณมิติ เท่านั้นเอง แอมพลิจูด ความถี่เชิงมุม และเฟส คือพารามิเตอร์สามตัวของมัน และทุกคำถามเกี่ยวกับลูกตุ้มหรือสปริงคือคำถามเกี่ยวกับตัวใดตัวหนึ่งในสามตัวนี้"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Differentiating twice" data-th="การหาอนุพันธ์สองครั้ง"></p><p class="use-why" data-en="Differentiate x = A cos ωt twice and you get a = −ω²x. That relation is the *definition* of simple harmonic motion rather than a consequence of it — a system is SHM precisely when its acceleration is proportional to displacement and points back." data-th="หาอนุพันธ์ของ x = A cos ωt สองครั้งแล้วจะได้ a = −ω²x ความสัมพันธ์นั้นคือนิยามของการเคลื่อนที่ฮาร์มอนิกอย่างง่าย ไม่ใช่ผลที่ตามมา ระบบหนึ่งเป็น SHM ก็ต่อเมื่อความเร่งของมันแปรผันตรงกับการกระจัดและชี้กลับ"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 04</span><a href="math/ch04-functions.html" data-en="Relations and Functions" data-th="ความสัมพันธ์และฟังก์ชัน"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Transformations of a graph" data-th="การแปลงกราฟ"></p><p class="use-why" data-en="Amplitude is a vertical stretch, period a horizontal one, phase a horizontal translation. The three sliders on an oscillation are the three transformations from the functions chapter." data-th="แอมพลิจูดคือการยืดแนวตั้ง คาบคือการยืดแนวนอน เฟสคือการเลื่อนแนวนอน แถบเลื่อนสามตัวของการสั่นคือการแปลงสามแบบจากบทฟังก์ชัน"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 09</span><h3><a href="physics/ch09-waves.html" data-en="Waves" data-th="คลื่น"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="A sine carrying two variables" data-th="ไซน์ที่พาสองตัวแปร"></p><p class="use-why" data-en="y = A sin(kx − ωt) is one sine function holding a position and a time at once. Freeze t and you see the wave's shape in space; freeze x and you see one particle oscillating in time." data-th="y = A sin(kx − ωt) คือฟังก์ชันไซน์เดียวที่ถือทั้งตำแหน่งและเวลาไว้พร้อมกัน ตรึง t ไว้แล้วจะเห็นรูปร่างของคลื่นในอวกาศ ตรึง x ไว้แล้วจะเห็นอนุภาคหนึ่งสั่นไปตามเวลา"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 04</span><a href="math/ch04-functions.html" data-en="Relations and Functions" data-th="ความสัมพันธ์และฟังก์ชัน"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Horizontal translation of a function" data-th="การเลื่อนฟังก์ชันในแนวนอน"></p><p class="use-why" data-en="A travelling wave is the same shape shifted along. That is exactly why the combination (kx − ωt) appears rather than x and t separately — the minus sign is a translation to the right." data-th="คลื่นเคลื่อนที่คือรูปร่างเดิมที่เลื่อนไป นั่นคือเหตุผลที่ปรากฏเป็นคู่ (kx − ωt) แทนที่จะเป็น x กับ t แยกกัน เครื่องหมายลบคือการเลื่อนไปทางขวา"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 03</span><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Ratio and proportion" data-th="อัตราส่วนและสัดส่วน"></p><p class="use-why" data-en="v = fλ ties three quantities so that fixing the medium fixes v and forces f and λ to trade off inversely — a proportional-reasoning question every time." data-th="v = fλ ผูกสามปริมาณเข้าด้วยกัน เมื่อตัวกลางคงที่ v ก็คงที่ และบังคับให้ f กับ λ แลกกันแบบผกผัน จึงเป็นโจทย์การให้เหตุผลเชิงสัดส่วนทุกครั้ง"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 10</span><h3><a href="physics/ch10-wave-optics.html" data-en="Wave Optics" data-th="แสงเชิงคลื่น"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Path difference and the small-angle approximation" data-th="ผลต่างทางเดินและการประมาณมุมเล็ก"></p><p class="use-why" data-en="Constructive interference requires d sin θ = nλ. For the small angles of a real experiment sin θ ≈ tan θ ≈ θ, and that approximation is exactly what converts the condition into the usable fringe-spacing formula." data-th="การแทรกสอดแบบเสริมต้องการ d sin θ = nλ สำหรับมุมเล็กในการทดลองจริง sin θ ≈ tan θ ≈ θ และการประมาณนั้นคือสิ่งที่แปลงเงื่อนไขให้กลายเป็นสูตรระยะห่างริ้วที่ใช้งานได้"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 05</span><a href="math/ch05-analytic-geometry.html" data-en="Analytic Geometry" data-th="เรขาคณิตวิเคราะห์"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Coordinates and similar triangles" data-th="พิกัดและสามเหลี่ยมคล้าย"></p><p class="use-why" data-en="Fringe position y = nλL/d comes from a similar-triangle relation between the slit separation and the screen distance — geometry, before any wave physics enters." data-th="ตำแหน่งริ้ว y = nλL/d มาจากความสัมพันธ์ของสามเหลี่ยมคล้ายระหว่างระยะห่างช่องกับระยะถึงฉาก เป็นเรขาคณิตก่อนที่ฟิสิกส์ของคลื่นจะเข้ามา"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 14</span><a href="math/ch14-sequences.html" data-en="Sequences and Series" data-th="ลำดับและอนุกรม"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Arithmetic sequences" data-th="ลำดับเลขคณิต"></p><p class="use-why" data-en="Because y is proportional to the order number n, the bright fringes sit at equal intervals — their positions form an arithmetic sequence, which is why the spacing Δx is a single number worth measuring." data-th="เนื่องจาก y แปรผันตรงกับลำดับที่ n ริ้วสว่างจึงอยู่ห่างเท่าๆ กัน ตำแหน่งของมันก่อตัวเป็นลำดับเลขคณิต ซึ่งเป็นเหตุผลที่ระยะห่าง Δx เป็นตัวเลขเดียวที่คุ้มค่าแก่การวัด"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 11</span><h3><a href="physics/ch11-ray-optics.html" data-en="Ray Optics" data-th="แสงเชิงรังสี"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Inverse sine" data-th="ไซน์ผกผัน"></p><p class="use-why" data-en="Snell's law is n₁ sin θ₁ = n₂ sin θ₂. The critical angle is θc = sin⁻¹(n₂/n₁), which exists only when that ratio is at most 1 — so total internal reflection is possible only going from dense to less dense, and the maths says so before the physics does." data-th="กฎของสเนลล์คือ n₁ sin θ₁ = n₂ sin θ₂ มุมวิกฤตคือ θc = sin⁻¹(n₂/n₁) ซึ่งมีอยู่ก็ต่อเมื่ออัตราส่วนนั้นไม่เกิน 1 การสะท้อนกลับหมดจึงเกิดได้เฉพาะจากตัวกลางหนาแน่นไปหาที่หนาแน่นน้อยกว่า และคณิตศาสตร์บอกเรื่องนี้ก่อนฟิสิกส์"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 05</span><a href="math/ch05-analytic-geometry.html" data-en="Analytic Geometry" data-th="เรขาคณิตวิเคราะห์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Similar triangles" data-th="สามเหลี่ยมคล้าย"></p><p class="use-why" data-en="The whole ray diagram is similar-triangle geometry. Magnification m = −v/u is a ratio of corresponding sides, and the construction rays meet where the triangles force them to meet." data-th="แผนภาพรังสีทั้งหมดคือเรขาคณิตของสามเหลี่ยมคล้าย กำลังขยาย m = −v/u คืออัตราส่วนของด้านที่สมนัยกัน และรังสีที่ลากมาบรรจบกันตรงจุดที่สามเหลี่ยมบังคับให้บรรจบ"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 03</span><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Equations in reciprocals" data-th="สมการในรูปส่วนกลับ"></p><p class="use-why" data-en="1/f = 1/u + 1/v is an equation built entirely from reciprocals. Rearranging it for any one variable, and keeping the sign convention straight while you do, is real-number algebra." data-th="1/f = 1/u + 1/v เป็นสมการที่สร้างจากส่วนกลับล้วนๆ การจัดรูปเพื่อหาตัวแปรใดตัวหนึ่ง พร้อมกับรักษาหลักเครื่องหมายให้ถูกไปด้วย คือพีชคณิตของจำนวนจริง"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 12</span><h3><a href="physics/ch12-sound.html" data-en="Sound" data-th="เสียง"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 07</span><a href="math/ch07-exponentials.html" data-en="Exponentials and Logs" data-th="เอกซ์โพเนนเชียลและลอการิทึม"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Logarithms" data-th="ลอการิทึม"></p><p class="use-why" data-en="The decibel is defined as β = 10 log(I/I₀). Every 'how many times louder' question is therefore a logarithm question, and the reason adding 10 dB multiplies intensity by ten — rather than adding ten to it — is that the scale is logarithmic by construction." data-th="เดซิเบลนิยามว่า β = 10 log(I/I₀) ทุกคำถามที่ว่าดังขึ้นกี่เท่าจึงเป็นคำถามลอการิทึม และเหตุผลที่การเพิ่ม 10 dB คูณความเข้มด้วยสิบ ไม่ใช่บวกด้วยสิบ ก็เพราะมาตรานี้เป็นลอการิทึมตั้งแต่แรก"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 14</span><a href="math/ch14-sequences.html" data-en="Sequences and Series" data-th="ลำดับและอนุกรม"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Arithmetic sequences" data-th="ลำดับเลขคณิต"></p><p class="use-why" data-en="The harmonics of a string or an open pipe are f₁, 2f₁, 3f₁ … — an arithmetic sequence. A closed pipe allows only the odd terms, which is a sub-sequence of the same list and is why it sounds different." data-th="ฮาร์มอนิกของสายหรือท่อปลายเปิดคือ f₁, 2f₁, 3f₁ … ซึ่งเป็นลำดับเลขคณิต ท่อปลายปิดยอมให้เฉพาะพจน์คี่ ซึ่งเป็นลำดับย่อยของรายการเดียวกัน และเป็นเหตุผลที่เสียงต่างออกไป"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Adding two sines" data-th="การบวกไซน์สองตัว"></p><p class="use-why" data-en="Beats come from superposing two sines of nearly equal frequency. The compound-angle formula rewrites that sum as a slow envelope multiplying a fast oscillation, which is precisely what you hear." data-th="บีตส์เกิดจากการซ้อนทับของไซน์สองตัวที่ความถี่ใกล้กัน สูตรผลบวกมุมเขียนผลบวกนั้นใหม่เป็นเส้นกรอบช้าคูณกับการสั่นเร็ว ซึ่งเป็นสิ่งที่เราได้ยินพอดี"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 13</span><h3><a href="physics/ch13-electrostatics.html" data-en="Electrostatics" data-th="ไฟฟ้าสถิต"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 09</span><a href="math/ch09-vectors.html" data-en="Vectors" data-th="เวกเตอร์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Vector superposition" data-th="การซ้อนทับของเวกเตอร์"></p><p class="use-why" data-en="Fields from several charges add as vectors, never as numbers. Two equal fields can cancel completely or double, depending only on direction — which is the first thing a student loses by treating E as a scalar." data-th="สนามจากประจุหลายตัวบวกกันแบบเวกเตอร์ ไม่ใช่แบบตัวเลข สนามสองสนามที่เท่ากันอาจหักล้างกันหมดหรือเป็นสองเท่า ขึ้นกับทิศทางเท่านั้น ซึ่งเป็นสิ่งแรกที่หายไปเมื่อมอง E เป็นสเกลาร์"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Derivative and integral as a pair" data-th="อนุพันธ์และปริพันธ์ในฐานะคู่กัน"></p><p class="use-why" data-en="E = −dV/dr and V = −∫E dr. Field and potential are a derivative–integral pair, which is why knowing either one everywhere determines the other, and why equipotential surfaces are always perpendicular to field lines." data-th="E = −dV/dr และ V = −∫E dr สนามกับศักย์เป็นคู่อนุพันธ์–ปริพันธ์ นั่นคือเหตุผลที่การรู้อย่างใดอย่างหนึ่งทุกจุดกำหนดอีกอย่างได้ และที่ผิวสมศักย์ตั้งฉากกับเส้นสนามเสมอ"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 03</span><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Rational functions" data-th="ฟังก์ชันตรรกยะ"></p><p class="use-why" data-en="The inverse-square law is 1/r², a rational function. Its blow-up as r → 0 and its decay towards zero at large r are the asymptotic behaviours studied in the real-number chapter." data-th="กฎกำลังสองผกผันคือ 1/r² ซึ่งเป็นฟังก์ชันตรรกยะ การพุ่งขึ้นเมื่อ r → 0 และการลดลงสู่ศูนย์เมื่อ r มาก คือพฤติกรรมเชิงเส้นกำกับที่ศึกษาในบทจำนวนจริง"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 14</span><h3><a href="physics/ch14-current-electricity.html" data-en="Current Electricity" data-th="ไฟฟ้ากระแส"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 06</span><a href="math/ch06-matrices.html" data-en="Matrices" data-th="เมทริกซ์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Simultaneous equations and determinants" data-th="ระบบสมการและดีเทอร์มิแนนต์"></p><p class="use-why" data-en="Kirchhoff's two laws produce one linear equation per junction and per loop. A multi-loop circuit is a linear system with as many unknowns as branch currents, and it is solved by exactly the matrix methods of the maths chapter — determinants included." data-th="กฎสองข้อของเคอร์ชอฟฟ์ให้สมการเชิงเส้นหนึ่งข้อต่อหนึ่งจุดต่อและหนึ่งวง วงจรหลายวงคือระบบเชิงเส้นที่มีตัวแปรเท่ากับจำนวนกระแสในแต่ละสาขา และแก้ด้วยวิธีเมทริกซ์จากบทคณิตศาสตร์พอดี รวมถึงดีเทอร์มิแนนต์ด้วย"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 07</span><a href="math/ch07-exponentials.html" data-en="Exponentials and Logs" data-th="เอกซ์โพเนนเชียลและลอการิทึม"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Exponential decay and its logarithm" data-th="การลดลงแบบเลขชี้กำลังและลอการิทึมของมัน"></p><p class="use-why" data-en="A capacitor charging or discharging through a resistor follows e^(−t/RC). Finding how long it takes to reach a given charge means inverting an exponential, which is what a logarithm is for." data-th="ตัวเก็บประจุที่อัดหรือคายผ่านตัวต้านทานเป็นไปตาม e^(−t/RC) การหาว่าใช้เวลาเท่าใดจึงถึงประจุค่าหนึ่ง คือการย้อนฟังก์ชันเลขชี้กำลัง ซึ่งเป็นหน้าที่ของลอการิทึม"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 03</span><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Reciprocal algebra" data-th="พีชคณิตของส่วนกลับ"></p><p class="use-why" data-en="Parallel resistors combine as 1/R = 1/R₁ + 1/R₂. Forgetting the final reciprocal — reporting 1/R as R — is the most common arithmetic slip in the chapter, and it is a maths slip, not a physics one." data-th="ตัวต้านทานต่อขนานรวมกันเป็น 1/R = 1/R₁ + 1/R₂ การลืมกลับเศษส่วนขั้นสุดท้าย คือตอบ 1/R เป็น R เป็นข้อผิดพลาดทางการคำนวณที่พบบ่อยที่สุดในบทนี้ และเป็นความผิดพลาดทางคณิตศาสตร์ ไม่ใช่ทางฟิสิกส์"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Rate of change" data-th="อัตราการเปลี่ยนแปลง"></p><p class="use-why" data-en="Current is i = dq/dt — charge per unit time is a derivative, which is why a steady current is the flat case rather than the only case." data-th="กระแสคือ i = dq/dt ประจุต่อหน่วยเวลาเป็นอนุพันธ์ นั่นคือเหตุผลที่กระแสคงที่เป็นเพียงกรณีราบเรียบ ไม่ใช่กรณีเดียวที่มี"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 15</span><h3><a href="physics/ch15-magnetism.html" data-en="Magnetism" data-th="แม่เหล็กและไฟฟ้า"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 09</span><a href="math/ch09-vectors.html" data-en="Vectors" data-th="เวกเตอร์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="The cross product" data-th="ผลคูณเชิงเวกเตอร์"></p><p class="use-why" data-en="F = qv × B is a cross product. The force comes out perpendicular to both v and B, its magnitude carries a sin θ, and the right-hand rule is nothing more than the geometric statement of the cross product's direction — which is also why a magnetic force never does work." data-th="F = qv × B คือผลคูณเชิงเวกเตอร์ แรงออกมาตั้งฉากกับทั้ง v และ B ขนาดของมันมี sin θ ติดอยู่ และกฎมือขวาก็ไม่ใช่อะไรมากไปกว่าคำอธิบายเชิงเรขาคณิตของทิศทางผลคูณเชิงเวกเตอร์ ซึ่งเป็นเหตุผลด้วยว่าทำไมแรงแม่เหล็กจึงไม่ทำงานเลย"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Derivative of a changing quantity" data-th="อนุพันธ์ของปริมาณที่เปลี่ยนแปลง"></p><p class="use-why" data-en="Faraday's law is ε = −dΦ/dt. An induced emf exists only because something is changing, so the law is a statement about a derivative — a stationary magnet in a stationary coil induces nothing, however strong it is." data-th="กฎของฟาราเดย์คือ ε = −dΦ/dt แรงเคลื่อนไฟฟ้าเหนี่ยวนำมีอยู่ได้ก็เพราะมีบางอย่างกำลังเปลี่ยนแปลง กฎนี้จึงเป็นข้อความเกี่ยวกับอนุพันธ์ แม่เหล็กที่อยู่นิ่งในขดลวดที่อยู่นิ่งไม่เหนี่ยวนำอะไรเลย ไม่ว่าจะแรงแค่ไหน"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="The sine of the angle between two vectors" data-th="ไซน์ของมุมระหว่างสองเวกเตอร์"></p><p class="use-why" data-en="The sin θ in F = qvB sin θ is why a charge moving parallel to the field feels no force at all, and why the force is greatest at right angles." data-th="ตัว sin θ ใน F = qvB sin θ คือเหตุผลที่ประจุซึ่งเคลื่อนที่ขนานกับสนามไม่รู้สึกถึงแรงเลย และที่แรงมากที่สุดเมื่อตั้งฉาก"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 16</span><h3><a href="physics/ch16-heat-and-gases.html" data-en="Heat and Gases" data-th="ความร้อนและแก๊ส"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 05</span><a href="math/ch05-analytic-geometry.html" data-en="Analytic Geometry" data-th="เรขาคณิตวิเคราะห์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="The rectangular hyperbola" data-th="ไฮเพอร์โบลามุมฉาก"></p><p class="use-why" data-en="At constant temperature PV is constant, so an isotherm on a PV diagram is a hyperbola — the same conic from analytic geometry. Its shape is why halving the volume exactly doubles the pressure." data-th="ที่อุณหภูมิคงที่ PV คงที่ เส้นอุณหภูมิคงที่บนแผนภาพ PV จึงเป็นไฮเพอร์โบลา ภาคตัดกรวยรูปเดียวกับในเรขาคณิตวิเคราะห์ รูปร่างของมันคือเหตุผลที่การลดปริมาตรลงครึ่งหนึ่งทำให้ความดันเพิ่มเป็นสองเท่าพอดี"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Area under a curve" data-th="พื้นที่ใต้เส้นโค้ง"></p><p class="use-why" data-en="The work done by an expanding gas is ∫P dV, the area under its path on a PV diagram. Because that area depends on the path and not only on the endpoints, two processes between the same two states can do different amounts of work — the whole basis of a heat engine." data-th="งานที่แก๊สขยายตัวทำได้คือ ∫P dV หรือพื้นที่ใต้เส้นทางของมันบนแผนภาพ PV เนื่องจากพื้นที่นั้นขึ้นกับเส้นทาง ไม่ใช่แค่จุดปลายทั้งสอง กระบวนการสองแบบระหว่างสถานะคู่เดียวกันจึงทำงานได้ไม่เท่ากัน ซึ่งเป็นพื้นฐานทั้งหมดของเครื่องยนต์ความร้อน"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 04</span><a href="math/ch04-functions.html" data-en="Relations and Functions" data-th="ความสัมพันธ์และฟังก์ชัน"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Direct and inverse proportion" data-th="การแปรผันตรงและผกผัน"></p><p class="use-why" data-en="PV = nRT holds three proportionalities at once. Boyle's, Charles's and Gay-Lussac's laws are not three discoveries but three slices of one function with a different variable held fixed each time." data-th="PV = nRT ถือความสัมพันธ์เชิงสัดส่วนสามอย่างไว้พร้อมกัน กฎของบอยล์ ชาร์ล และเกย์-ลูสแซก ไม่ใช่การค้นพบสามครั้ง แต่เป็นสามหน้าตัดของฟังก์ชันเดียว โดยตรึงตัวแปรคนละตัวในแต่ละครั้ง"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 13</span><a href="math/ch13-statistics.html" data-en="Statistics" data-th="สถิติ"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Mean and distribution" data-th="ค่าเฉลี่ยและการแจกแจง"></p><p class="use-why" data-en="Kinetic theory replaces a mole of individual molecules with a mean square speed. Temperature turns out to be a statistical statement about a distribution, which is why a single molecule has no temperature." data-th="ทฤษฎีจลน์แทนที่โมเลกุลแต่ละตัวจำนวนหนึ่งโมลด้วยอัตราเร็วกำลังสองเฉลี่ย อุณหภูมิกลายเป็นข้อความเชิงสถิติเกี่ยวกับการแจกแจง ซึ่งเป็นเหตุผลที่โมเลกุลเดี่ยวไม่มีอุณหภูมิ"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 17</span><h3><a href="physics/ch17-solids-and-fluids.html" data-en="Solids and Fluids" data-th="ของแข็งและของไหล"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 05</span><a href="math/ch05-analytic-geometry.html" data-en="Analytic Geometry" data-th="เรขาคณิตวิเคราะห์"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Gradient of a line" data-th="ความชันของเส้นตรง"></p><p class="use-why" data-en="Young's modulus is the slope of the straight portion of a stress–strain graph. The point where that line stops being straight is the elastic limit, so the whole diagnosis is a question about where linearity ends." data-th="มอดุลัสของยังคือความชันของช่วงที่เป็นเส้นตรงในกราฟความเค้น–ความเครียด จุดที่เส้นนั้นเลิกตรงคือขีดจำกัดสภาพยืดหยุ่น การวินิจฉัยทั้งหมดจึงเป็นคำถามว่าความเป็นเชิงเส้นสิ้นสุดที่ใด"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Area under a curve" data-th="พื้นที่ใต้เส้นโค้ง"></p><p class="use-why" data-en="The energy stored in a stretched wire is the area under its stress–strain curve — the same integral idea as work under a force graph, applied to a different pair of axes." data-th="พลังงานที่สะสมในลวดที่ถูกยืดคือพื้นที่ใต้กราฟความเค้น–ความเครียด เป็นแนวคิดปริพันธ์เดียวกับงานใต้กราฟแรง เพียงแต่ใช้กับแกนคนละคู่"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 04</span><a href="math/ch04-functions.html" data-en="Relations and Functions" data-th="ความสัมพันธ์และฟังก์ชัน"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="A proportion valid on part of its domain" data-th="สัดส่วนที่ใช้ได้เฉพาะบางส่วนของโดเมน"></p><p class="use-why" data-en="Hooke's law is a direct proportion that holds only up to a limit. Treating it as a piecewise function — linear here, not linear beyond — is what keeps you from applying it where it is false." data-th="กฎของฮุกเป็นการแปรผันตรงที่ใช้ได้เพียงถึงขีดจำกัดหนึ่ง การมองมันเป็นฟังก์ชันเป็นช่วง คือเป็นเชิงเส้นตรงนี้ ไม่เป็นเชิงเส้นเลยไป คือสิ่งที่กันไม่ให้เอาไปใช้ในที่ที่มันเป็นเท็จ"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 18</span><h3><a href="physics/ch18-em-waves.html" data-en="Electromagnetic Waves" data-th="คลื่นแม่เหล็กไฟฟ้า"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 07</span><a href="math/ch07-exponentials.html" data-en="Exponentials and Logs" data-th="เอกซ์โพเนนเชียลและลอการิทึม"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Orders of magnitude on a logarithmic axis" data-th="อันดับขนาดบนแกนลอการิทึม"></p><p class="use-why" data-en="The spectrum runs from radio waves at kilometres to gamma rays at 10⁻¹² m — more than fifteen decades. A linear axis cannot show that at all, so the standard spectrum chart is logarithmic and reading it is an exercise in exponents." data-th="สเปกตรัมทอดจากคลื่นวิทยุระดับกิโลเมตรถึงรังสีแกมมาที่ 10⁻¹² เมตร มากกว่าสิบห้าอันดับขนาด แกนเชิงเส้นแสดงสิ่งนั้นไม่ได้เลย แผนภูมิสเปกตรัมมาตรฐานจึงเป็นลอการิทึม และการอ่านมันคือการฝึกเลขชี้กำลัง"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 08</span><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="cos²θ" data-th="cos²θ"></p><p class="use-why" data-en="Malus's law gives the intensity through a polariser as I₀cos²θ. The square is why two crossed polarisers pass nothing at 90°, and why inserting a third one between them lets light through again — a result that is pure trigonometry." data-th="กฎของมาลุสให้ความเข้มที่ผ่านโพลาไรเซอร์เป็น I₀cos²θ กำลังสองคือเหตุผลที่โพลาไรเซอร์สองแผ่นที่ไขว้กันไม่ยอมให้แสงผ่านที่ 90° และที่การสอดแผ่นที่สามเข้าไประหว่างกลางทำให้แสงผ่านได้อีก ผลลัพธ์นี้เป็นตรีโกณมิติล้วนๆ"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 03</span><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Scientific notation" data-th="สัญกรณ์วิทยาศาสตร์"></p><p class="use-why" data-en="c = fλ with c ≈ 3 × 10⁸ m/s turns every frequency–wavelength conversion into an exercise in handling powers of ten without dropping one." data-th="c = fλ โดย c ≈ 3 × 10⁸ เมตรต่อวินาที ทำให้การแปลงระหว่างความถี่กับความยาวคลื่นทุกครั้งเป็นการฝึกจัดการกำลังของสิบโดยไม่ทำหล่นหาย"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 19</span><h3><a href="physics/ch19-atomic-physics.html" data-en="Atomic Physics" data-th="ฟิสิกส์อะตอม"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 14</span><a href="math/ch14-sequences.html" data-en="Sequences and Series" data-th="ลำดับและอนุกรม"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Sequences indexed by an integer" data-th="ลำดับที่มีดัชนีเป็นจำนวนเต็ม"></p><p class="use-why" data-en="Hydrogen's energy levels are Eₙ = −13.6/n² eV — a sequence indexed by the quantum number n. Each spectral series is the set of transitions that end on one fixed level, so Lyman, Balmer and Paschen are three sub-sequences of one list." data-th="ระดับพลังงานของไฮโดรเจนคือ Eₙ = −13.6/n² อิเล็กตรอนโวลต์ เป็นลำดับที่มีดัชนีเป็นเลขควอนตัม n อนุกรมสเปกตรัมแต่ละชุดคือเซตของการเปลี่ยนระดับที่ไปจบที่ระดับหนึ่งซึ่งตรึงไว้ ไลมัน บัลเมอร์ และพาสเชน จึงเป็นลำดับย่อยสามชุดของรายการเดียวกัน"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 03</span><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Reciprocals of squares" data-th="ส่วนกลับของกำลังสอง"></p><p class="use-why" data-en="The Rydberg formula 1/λ = R(1/n₁² − 1/n₂²) is built entirely from reciprocals of squares. Its convergence as n₂ grows is why every spectral series crowds towards a series limit rather than spreading out forever." data-th="สูตรริดเบิร์ก 1/λ = R(1/n₁² − 1/n₂²) สร้างจากส่วนกลับของกำลังสองล้วนๆ การลู่เข้าของมันเมื่อ n₂ โตขึ้นคือเหตุผลที่อนุกรมสเปกตรัมทุกชุดเบียดเข้าหาขีดจำกัดของอนุกรม แทนที่จะกระจายออกไปไม่สิ้นสุด"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 07</span><a href="math/ch07-exponentials.html" data-en="Exponentials and Logs" data-th="เอกซ์โพเนนเชียลและลอการิทึม"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Powers of ten" data-th="กำลังของสิบ"></p><p class="use-why" data-en="Photon energies in joules run around 10⁻¹⁹, which is why the electronvolt exists at all — a unit chosen so the numbers stop being unreadable." data-th="พลังงานโฟตอนในหน่วยจูลอยู่ราว 10⁻¹⁹ ซึ่งเป็นเหตุผลที่อิเล็กตรอนโวลต์มีอยู่ตั้งแต่แรก เป็นหน่วยที่เลือกมาเพื่อให้ตัวเลขเลิกอ่านไม่ได้"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 11</span><a href="math/ch11-probability.html" data-en="Probability" data-th="ความน่าจะเป็น"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Probability" data-th="ความน่าจะเป็น"></p><p class="use-why" data-en="An electron has no orbit, only a probability of being found somewhere. The 'cloud' picture is a probability distribution drawn as a shade, and reading it needs the probability chapter's habits rather than geometry's." data-th="อิเล็กตรอนไม่มีวงโคจร มีเพียงความน่าจะเป็นที่จะพบมัน ณ ที่ใดที่หนึ่ง ภาพกลุ่มหมอกคือการแจกแจงความน่าจะเป็นที่วาดเป็นความเข้มสี และการอ่านมันต้องใช้นิสัยจากบทความน่าจะเป็น ไม่ใช่จากเรขาคณิต"></p></div>
+  </div>
+</article>
+<article class="phb">
+  <div class="phb-head"><span class="phb-n">PHYSICS 20</span><h3><a href="physics/ch20-nuclear-physics.html" data-en="Nuclear and Particle" data-th="นิวเคลียร์และอนุภาค"></a></h3></div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 07</span><a href="math/ch07-exponentials.html" data-en="Exponentials and Logs" data-th="เอกซ์โพเนนเชียลและลอการิทึม"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Exponentials and logarithms" data-th="เลขชี้กำลังและลอการิทึม"></p><p class="use-why" data-en="Radioactive decay is N = N₀e^(−λt). Inverting it to find an age — carbon dating, for instance — means taking a logarithm, so the whole dating method rests on the log chapter rather than on any nuclear insight." data-th="การสลายกัมมันตรังสีคือ N = N₀e^(−λt) การย้อนสมการเพื่อหาอายุ เช่น การหาอายุด้วยคาร์บอน คือการใส่ลอการิทึม วิธีหาอายุทั้งวิธีจึงตั้งอยู่บนบทลอการิทึม ไม่ใช่บนความเข้าใจเชิงนิวเคลียร์ใดๆ"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 14</span><a href="math/ch14-sequences.html" data-en="Sequences and Series" data-th="ลำดับและอนุกรม"></a><span class="tag core" data-en="Load-bearing" data-th="รับน้ำหนักหลัก"></span></div>
+    <div><p class="use-what" data-en="Geometric sequences" data-th="ลำดับเรขาคณิต"></p><p class="use-why" data-en="Successive half-lives leave ½, ¼, ⅛ … of the sample — a geometric sequence with ratio ½. Because that sequence converges to zero without ever reaching it, a sample is never formally 'all gone', which is the honest answer to the obvious question." data-th="ครึ่งชีวิตที่ผ่านไปทีละช่วงเหลือ ½, ¼, ⅛ … ของตัวอย่าง เป็นลำดับเรขาคณิตที่มีอัตราส่วน ½ เนื่องจากลำดับนั้นลู่เข้าสู่ศูนย์โดยไม่เคยไปถึง ตัวอย่างจึงไม่มีวันหมดไปอย่างเป็นทางการ ซึ่งเป็นคำตอบที่ซื่อตรงของคำถามที่ทุกคนสงสัย"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 11</span><a href="math/ch11-probability.html" data-en="Probability" data-th="ความน่าจะเป็น"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="Probability per unit time" data-th="ความน่าจะเป็นต่อหน่วยเวลา"></p><p class="use-why" data-en="Decay is genuinely random: λ is a probability per unit time, and no individual nucleus has a schedule. The smooth exponential curve is simply what enormous numbers of independent random events look like in aggregate." data-th="การสลายเป็นเรื่องสุ่มจริงๆ λ คือความน่าจะเป็นต่อหน่วยเวลา และไม่มีนิวเคลียสตัวใดมีตารางเวลา เส้นโค้งเลขชี้กำลังที่เรียบเนียนก็เพียงแค่หน้าตาของเหตุการณ์สุ่มอิสระจำนวนมหาศาลเมื่อรวมกัน"></p></div>
+  </div>
+  <div class="use">
+    <div class="use-l"><span class="man">MATHS 15</span><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a><span class="tag" data-en="Supporting" data-th="สนับสนุน"></span></div>
+    <div><p class="use-what" data-en="A rate proportional to the amount present" data-th="อัตราที่แปรผันตรงกับปริมาณที่มีอยู่"></p><p class="use-why" data-en="dN/dt = −λN says the decay rate is proportional to how much is left. That single differential equation is where the exponential comes from — it is derived, not assumed." data-th="dN/dt = −λN บอกว่าอัตราการสลายแปรผันตรงกับปริมาณที่เหลืออยู่ สมการเชิงอนุพันธ์ข้อเดียวนั้นคือที่มาของฟังก์ชันเลขชี้กำลัง มันถูกพิสูจน์มา ไม่ใช่ถูกสมมติ"></p></div>
+  </div>
+</article>
+</section>
+
+<section id="reverse">
+  <h2 class="sec" data-en="The same map read backwards" data-th="แผนที่เดียวกันอ่านย้อนกลับ"></h2>
+  <hr class="sec">
+  <p class="secnote" data-en="For each maths chapter, the physics that depends on it. Dark chips mark the chapters where it is load-bearing — useful for deciding what to revise first."
+                     data-th="สำหรับแต่ละบทคณิตศาสตร์ คือฟิสิกส์ที่พึ่งพามัน ป้ายสีเข้มคือบทที่มันรับน้ำหนักหลัก มีประโยชน์สำหรับตัดสินใจว่าจะทบทวนอะไรก่อน"></p>
+  <div class="rev">
+<div class="rev-c">
+  <span class="man">MATHS 03</span>
+  <h4><a href="math/ch03-real-numbers.html" data-en="Real Numbers" data-th="จำนวนจริง"></a></h4>
+  <span class="rev-n">9 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a class="core" href="physics/ch01-measurement.html" title="Measurement">01</a><a href="physics/ch02-linear-motion.html" title="Linear Motion">02</a><a href="physics/ch06-momentum.html" title="Momentum">06</a><a href="physics/ch09-waves.html" title="Waves">09</a><a href="physics/ch11-ray-optics.html" title="Ray Optics">11</a><a href="physics/ch13-electrostatics.html" title="Electrostatics">13</a><a href="physics/ch14-current-electricity.html" title="Current Electricity">14</a><a href="physics/ch18-em-waves.html" title="Electromagnetic Waves">18</a><a class="core" href="physics/ch19-atomic-physics.html" title="Atomic Physics">19</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 04</span>
+  <h4><a href="math/ch04-functions.html" data-en="Relations and Functions" data-th="ความสัมพันธ์และฟังก์ชัน"></a></h4>
+  <span class="rev-n">4 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a href="physics/ch08-harmonic-motion.html" title="Harmonic Motion">08</a><a class="core" href="physics/ch09-waves.html" title="Waves">09</a><a href="physics/ch16-heat-and-gases.html" title="Heat and Gases">16</a><a href="physics/ch17-solids-and-fluids.html" title="Solids and Fluids">17</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 05</span>
+  <h4><a href="math/ch05-analytic-geometry.html" data-en="Analytic Geometry" data-th="เรขาคณิตวิเคราะห์"></a></h4>
+  <span class="rev-n">6 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a href="physics/ch02-linear-motion.html" title="Linear Motion">02</a><a class="core" href="physics/ch07-curved-motion.html" title="Curved Motion">07</a><a href="physics/ch10-wave-optics.html" title="Wave Optics">10</a><a class="core" href="physics/ch11-ray-optics.html" title="Ray Optics">11</a><a class="core" href="physics/ch16-heat-and-gases.html" title="Heat and Gases">16</a><a class="core" href="physics/ch17-solids-and-fluids.html" title="Solids and Fluids">17</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 06</span>
+  <h4><a href="math/ch06-matrices.html" data-en="Matrices" data-th="เมทริกซ์"></a></h4>
+  <span class="rev-n">3 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a href="physics/ch03-force-and-motion.html" title="Force and Motion">03</a><a href="physics/ch04-equilibrium.html" title="Equilibrium">04</a><a class="core" href="physics/ch14-current-electricity.html" title="Current Electricity">14</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 07</span>
+  <h4><a href="math/ch07-exponentials.html" data-en="Exponentials and Logs" data-th="เอกซ์โพเนนเชียลและลอการิทึม"></a></h4>
+  <span class="rev-n">6 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a href="physics/ch01-measurement.html" title="Measurement">01</a><a class="core" href="physics/ch12-sound.html" title="Sound">12</a><a class="core" href="physics/ch14-current-electricity.html" title="Current Electricity">14</a><a class="core" href="physics/ch18-em-waves.html" title="Electromagnetic Waves">18</a><a href="physics/ch19-atomic-physics.html" title="Atomic Physics">19</a><a class="core" href="physics/ch20-nuclear-physics.html" title="Nuclear and Particle">20</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 08</span>
+  <h4><a href="math/ch08-trigonometry.html" data-en="Trigonometry" data-th="ตรีโกณมิติ"></a></h4>
+  <span class="rev-n">11 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a href="physics/ch03-force-and-motion.html" title="Force and Motion">03</a><a class="core" href="physics/ch04-equilibrium.html" title="Equilibrium">04</a><a href="physics/ch05-work-and-energy.html" title="Work and Energy">05</a><a class="core" href="physics/ch07-curved-motion.html" title="Curved Motion">07</a><a class="core" href="physics/ch08-harmonic-motion.html" title="Harmonic Motion">08</a><a class="core" href="physics/ch09-waves.html" title="Waves">09</a><a class="core" href="physics/ch10-wave-optics.html" title="Wave Optics">10</a><a class="core" href="physics/ch11-ray-optics.html" title="Ray Optics">11</a><a href="physics/ch12-sound.html" title="Sound">12</a><a href="physics/ch15-magnetism.html" title="Magnetism">15</a><a class="core" href="physics/ch18-em-waves.html" title="Electromagnetic Waves">18</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 09</span>
+  <h4><a href="math/ch09-vectors.html" data-en="Vectors" data-th="เวกเตอร์"></a></h4>
+  <span class="rev-n">7 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a class="core" href="physics/ch03-force-and-motion.html" title="Force and Motion">03</a><a class="core" href="physics/ch04-equilibrium.html" title="Equilibrium">04</a><a class="core" href="physics/ch05-work-and-energy.html" title="Work and Energy">05</a><a class="core" href="physics/ch06-momentum.html" title="Momentum">06</a><a href="physics/ch07-curved-motion.html" title="Curved Motion">07</a><a class="core" href="physics/ch13-electrostatics.html" title="Electrostatics">13</a><a class="core" href="physics/ch15-magnetism.html" title="Magnetism">15</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 11</span>
+  <h4><a href="math/ch11-probability.html" data-en="Probability" data-th="ความน่าจะเป็น"></a></h4>
+  <span class="rev-n">2 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a href="physics/ch19-atomic-physics.html" title="Atomic Physics">19</a><a href="physics/ch20-nuclear-physics.html" title="Nuclear and Particle">20</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 13</span>
+  <h4><a href="math/ch13-statistics.html" data-en="Statistics" data-th="สถิติ"></a></h4>
+  <span class="rev-n">2 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a href="physics/ch01-measurement.html" title="Measurement">01</a><a href="physics/ch16-heat-and-gases.html" title="Heat and Gases">16</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 14</span>
+  <h4><a href="math/ch14-sequences.html" data-en="Sequences and Series" data-th="ลำดับและอนุกรม"></a></h4>
+  <span class="rev-n">4 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a href="physics/ch10-wave-optics.html" title="Wave Optics">10</a><a class="core" href="physics/ch12-sound.html" title="Sound">12</a><a class="core" href="physics/ch19-atomic-physics.html" title="Atomic Physics">19</a><a class="core" href="physics/ch20-nuclear-physics.html" title="Nuclear and Particle">20</a></div>
+</div>
+<div class="rev-c">
+  <span class="man">MATHS 15</span>
+  <h4><a href="math/ch15-calculus.html" data-en="Calculus" data-th="แคลคูลัส"></a></h4>
+  <span class="rev-n">11 <span data-en="physics chapters" data-th="บทฟิสิกส์"></span></span>
+  <div class="chips"><a class="core" href="physics/ch02-linear-motion.html" title="Linear Motion">02</a><a class="core" href="physics/ch05-work-and-energy.html" title="Work and Energy">05</a><a href="physics/ch06-momentum.html" title="Momentum">06</a><a href="physics/ch07-curved-motion.html" title="Curved Motion">07</a><a class="core" href="physics/ch08-harmonic-motion.html" title="Harmonic Motion">08</a><a class="core" href="physics/ch13-electrostatics.html" title="Electrostatics">13</a><a href="physics/ch14-current-electricity.html" title="Current Electricity">14</a><a class="core" href="physics/ch15-magnetism.html" title="Magnetism">15</a><a class="core" href="physics/ch16-heat-and-gases.html" title="Heat and Gases">16</a><a href="physics/ch17-solids-and-fluids.html" title="Solids and Fluids">17</a><a href="physics/ch20-nuclear-physics.html" title="Nuclear and Particle">20</a></div>
+</div>
+</div>
+</section>
+
+<section id="unused">
+  <h2 class="sec" data-en="Maths this physics course does not call on" data-th="คณิตศาสตร์ที่หลักสูตรฟิสิกส์นี้ไม่เรียกใช้"></h2>
+  <hr class="sec">
+  <p class="secnote" data-en="Five maths chapters carry no direct physics dependency here. That is not a verdict on their worth — it is where they sit relative to this particular syllabus."
+                     data-th="บทคณิตศาสตร์ห้าบทไม่มีความเชื่อมโยงโดยตรงกับฟิสิกส์ในที่นี้ นั่นไม่ใช่การตัดสินคุณค่าของมัน แต่เป็นตำแหน่งของมันเมื่อเทียบกับหลักสูตรนี้เท่านั้น"></p>
+  <div class="unused">
+<div class="unused-c">
+  <span class="man">MATHS 01</span>
+  <h4><a href="math/ch01-sets.html" data-en="Sets" data-th="เซต"></a></h4>
+  <p data-en="The language underneath everything — a domain, a sample space and a set of solutions are all sets — but no physics formula in this course calls on set operations directly." data-th="เป็นภาษาที่รองรับทุกอย่าง ทั้งโดเมน แซมเปิลสเปซ และเซตคำตอบล้วนเป็นเซต แต่ไม่มีสูตรฟิสิกส์ใดในหลักสูตรนี้ที่เรียกใช้การดำเนินการของเซตโดยตรง"></p>
+</div>
+<div class="unused-c">
+  <span class="man">MATHS 02</span>
+  <h4><a href="math/ch02-logic.html" data-en="Logic" data-th="ตรรกศาสตร์"></a></h4>
+  <p data-en="Underwrites the if–then of every derivation and the meaning of a necessary versus a sufficient condition, but is never itself computed in a physics question." data-th="รองรับโครงสร้าง ถ้า–แล้ว ของการพิสูจน์ทุกครั้ง และความหมายของเงื่อนไขจำเป็นกับเงื่อนไขเพียงพอ แต่ไม่เคยถูกคำนวณเองในโจทย์ฟิสิกส์"></p>
+</div>
+<div class="unused-c">
+  <span class="man">MATHS 10</span>
+  <h4><a href="math/ch10-complex-numbers.html" data-en="Complex Numbers" data-th="จำนวนเชิงซ้อน"></a></h4>
+  <p data-en="Becomes essential one level up: AC circuit analysis uses complex impedance and quantum mechanics is built on complex amplitudes. School physics deliberately stays real-valued." data-th="จะจำเป็นอย่างยิ่งในระดับถัดไป การวิเคราะห์วงจรไฟฟ้ากระแสสลับใช้อิมพีแดนซ์เชิงซ้อน และกลศาสตร์ควอนตัมสร้างบนแอมพลิจูดเชิงซ้อน ฟิสิกส์ระดับโรงเรียนตั้งใจอยู่กับจำนวนจริงเท่านั้น"></p>
+</div>
+<div class="unused-c">
+  <span class="man">MATHS 12</span>
+  <h4><a href="math/ch12-graph-theory.html" data-en="Graph Theory" data-th="ทฤษฎีกราฟ"></a></h4>
+  <p data-en="Circuit topology is genuinely a graph problem — mesh analysis counts independent loops the way graph theory counts cycles — but chapter 14 solves circuits by equations rather than by structure." data-th="โครงสร้างวงจรเป็นปัญหากราฟจริงๆ การวิเคราะห์แบบเมชนับวงอิสระแบบเดียวกับที่ทฤษฎีกราฟนับวัฏจักร แต่บทที่ 14 แก้วงจรด้วยสมการ ไม่ใช่ด้วยโครงสร้าง"></p>
+</div>
+<div class="unused-c">
+  <span class="man">MATHS 16</span>
+  <h4><a href="math/ch16-linear-programming.html" data-en="Linear Programming" data-th="กำหนดการเชิงเส้น"></a></h4>
+  <p data-en="An optimisation tool for engineering and economics rather than a description of physical law. It answers 'what should we do' where physics answers 'what will happen'." data-th="เป็นเครื่องมือหาค่าเหมาะที่สุดสำหรับวิศวกรรมและเศรษฐศาสตร์ ไม่ใช่คำอธิบายกฎธรรมชาติ มันตอบว่าเราควรทำอะไร ขณะที่ฟิสิกส์ตอบว่าอะไรจะเกิดขึ้น"></p>
+</div>
+</div>
+</section>
+
+<footer class="foot">
+  <span data-en="Works offline · no server · no account" data-th="ใช้งานออฟไลน์ · ไม่ต้องมีเซิร์ฟเวอร์ · ไม่ต้องสมัคร"></span>
+  <span data-en="Every link opens the chapter package it names" data-th="ทุกลิงก์เปิดชุดบทเรียนตามชื่อที่ระบุ"></span>
+</footer>
+</div>
+
+<script>
+(function(){
+  var K="lp.bridge.v1", st={lang:"en",theme:null};
+  try{ var r=localStorage.getItem(K); if(r) st=JSON.parse(r); }catch(e){}
+  function save(){ try{ localStorage.setItem(K,JSON.stringify(st)); }catch(e){} }
+  function apply(){
+    document.documentElement.setAttribute("lang",st.lang);
+    var k="data-"+st.lang;
+    document.querySelectorAll("["+k+"]").forEach(function(el){ el.textContent=el.getAttribute(k); });
+    document.getElementById("langBtn").textContent = st.lang==="en"?"ไทย":"English";
+    var dark=document.documentElement.getAttribute("data-theme")==="dark";
+    document.getElementById("themeBtn").textContent =
+      dark ? (st.lang==="en"?"Light":"สว่าง") : (st.lang==="en"?"Dark":"มืด");
+  }
+  document.getElementById("langBtn").addEventListener("click",function(){
+    st.lang = st.lang==="en"?"th":"en"; save(); apply();
+  });
+  document.getElementById("themeBtn").addEventListener("click",function(){
+    var next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
+    document.documentElement.setAttribute("data-theme",next); st.theme=next; save(); apply();
+  });
+  if(st.theme) document.documentElement.setAttribute("data-theme",st.theme);
+  apply();
+})();
+</script>
+</body>
+</html>

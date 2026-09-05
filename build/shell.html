@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@500;600&family=IBM+Plex+Sans+Thai:wght@500;600&display=swap">
+<style>
+__CSS__
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="mast">
+  <div class="mast-id">
+    <span class="ch" id="chNum"></span>
+    <h1 id="chTitle"></h1>
+  </div>
+  <div class="mast-tools">
+    <button class="btn" id="langBtn" type="button">ไทย</button>
+    <button class="btn" id="themeBtn" type="button">Dark</button>
+    <button class="btn" id="resetBtn" type="button" data-i18n="ui.reset">Reset progress</button>
+  </div>
+</header>
+
+<nav class="surfaces" role="tablist">
+  <button role="tab" aria-selected="true"  data-view="learn" data-i18n="nav.learn">Learn</button>
+  <button role="tab" aria-selected="false" data-view="forge" data-i18n="nav.forge">Forge</button>
+</nav>
+
+<section class="view active" id="view-learn" role="tabpanel">
+  <div class="eyebrow" data-i18n="map.eyebrow">The knowledge map</div>
+  <h2 class="sec" id="mapTitle"></h2>
+  <p class="lede" id="mapLede"></p>
+
+  <div class="map-wrap">
+    <figure class="plate">
+      <svg id="mapsvg" viewBox="__MAPVB__" role="img"
+           aria-labelledby="chmap-title chmap-desc">
+        <title id="chmap-title" data-en="__TITLE__ knowledge map"
+               data-th="__TITLE__ แผนที่ความรู้">__TITLE__ knowledge map</title>
+        <desc id="chmap-desc"
+              data-en="The concepts in this chapter and the order they unlock in: an arrow runs from a concept to the ones that need it first. Each box is a link to that concept, and its outline shows whether it is upcoming, next up, read, or trained."
+              data-th="แนวคิดในบทนี้และลำดับการปลดล็อก ลูกศรชี้จากแนวคิดหนึ่งไปยังแนวคิดที่ต้องใช้แนวคิดนั้นก่อน แต่ละกล่องเป็นลิงก์ไปยังแนวคิดนั้น และเส้นขอบบอกสถานะว่ายังไม่ถึง ถึงคิวแล้ว อ่านแล้ว หรือฝึกจนคล่อง">The concepts in this chapter and the order they unlock in.</desc>
+        <defs>
+          <marker id="ah" markerWidth="7" markerHeight="7" refX="6" refY="3.5"
+                  orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0 1 L6 3.5 L0 6 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <g id="edges" color="var(--ink-faint)"></g>
+        <g id="nodes"></g>
+        <g class="mext"><text id="mapExt" x="__MAPCX__" y="__MAPEXTY__"></text></g>
+      </svg>
+      <figcaption id="mapFig"></figcaption>
+    </figure>
+
+    <div class="legend">
+      <div class="prog">
+        <span class="label" data-i18n="map.progress">Progress</span>
+        <div class="big"><span id="progNum">0</span><span id="progTot" style="color:var(--ink-faint)"></span></div>
+        <span style="font-size:13.5px;color:var(--ink-soft)" data-i18n="map.progressSub">nodes read</span>
+      </div>
+      <div class="legend-row"><span class="swatch up"></span><span><b data-i18n="map.s1"></b><span data-i18n="map.s1d"></span></span></div>
+      <div class="legend-row"><span class="swatch avail"></span><span><b data-i18n="map.s2"></b><span data-i18n="map.s2d"></span></span></div>
+      <div class="legend-row"><span class="swatch read"></span><span><b data-i18n="map.s3"></b><span data-i18n="map.s3d"></span></span></div>
+      <div class="legend-row"><span class="swatch trained"></span><span><b data-i18n="map.s4"></b><span data-i18n="map.s4d"></span></span></div>
+    </div>
+  </div>
+
+  <hr class="chapter-rule">
+  <div id="nodeSections"></div>
+</section>
+
+<section class="view" id="view-forge" role="tabpanel">
+  <div class="eyebrow" data-i18n="forge.eyebrow">The forge</div>
+  <h2 class="sec" data-i18n="forge.title"></h2>
+  <p class="lede" data-i18n="forge.lede"></p>
+
+  <div class="forge-grid">
+    <aside class="bp">
+      <div class="bp-group"><h4 data-i18n="forge.methods"></h4><div id="bpMethods"></div></div>
+      <div class="bp-group"><h4 data-i18n="forge.surfaces"></h4><div id="bpSurfaces"></div></div>
+      <div class="bp-group"><h4 data-i18n="forge.mode"></h4>
+        <select id="bpMode">
+          <option value="coverage" data-i18n="forge.modeCov"></option>
+          <option value="random" data-i18n="forge.modeRnd"></option>
+        </select>
+      </div>
+      <div class="bp-group"><h4 data-i18n="forge.count"></h4>
+        <input type="number" id="bpCount" min="4" max="40" value="12"></div>
+      <button class="btn gen" id="genBtn" type="button" data-i18n="forge.generate"></button>
+    </aside>
+    <div>
+      <div class="qlist" id="qlist"></div>
+      <div class="cov">
+        <div class="label" style="margin-bottom:10px" data-i18n="forge.coverage"></div>
+        <table id="covTable"></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <span data-i18n="foot.pkg"></span>
+  <span>__NAV__</span>
+  <span id="footSrc"></span>
+</footer>
+</div>
+
+<script>
+__CHAPTER__
+</script>
+<script>
+__ENGINE__
+</script>
+</body>
+</html>
