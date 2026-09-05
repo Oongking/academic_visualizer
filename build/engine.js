@@ -1496,6 +1496,11 @@ function setView(v){
 function applyLang(){
   document.documentElement.setAttribute("lang",STATE.lang);
   document.querySelectorAll("[data-i18n]").forEach(function(el){ el.textContent=t(el.getAttribute("data-i18n")); });
+  /* The page-nav carries its two languages inline rather than through the
+     string table, because the words are chapter titles the table never sees.
+     The index and bridge pages switch the same way. */
+  var k="data-"+(STATE.lang==="th"?"th":"en");
+  document.querySelectorAll("["+k+"]").forEach(function(el){ el.textContent=el.getAttribute(k); });
   var fs=document.getElementById("footSrc");
   if(fs) fs.textContent=t("foot.src."+(CHAPTER.subject||"physics"));
   document.getElementById("chNum").textContent=tx(CHAPTER.kicker);

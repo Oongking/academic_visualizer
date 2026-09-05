@@ -44,6 +44,33 @@ html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{margin:0;background:var(--ground);color:var(--ink);
   font-family:var(--f-body);font-size:17px;line-height:1.68;-webkit-font-smoothing:antialiased}
 .shell{max-width:1180px;margin:0 auto;padding:0 28px 96px}
+
+/* ---------- page nav ----------
+   Back, up and forward at the top of every page. Three columns so the middle
+   sits centred whether or not the outer two exist; the ends collapse to empty
+   spans on the first and last page rather than shifting the row. */
+.pagenav{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;
+  padding:14px 0 13px;border-bottom:1px solid var(--rule)}
+.pn{font-family:var(--f-ui);font-size:11.5px;text-decoration:none;color:var(--ink-soft);
+  display:flex;flex-direction:column;gap:2px;min-width:0;transition:color .14s}
+.pn-k{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint)}
+.pn-t{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pn.prev{text-align:left}
+.pn.next{text-align:right;align-items:flex-end}
+.pn.up{text-align:center;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  font-size:10.5px;color:var(--ink-faint)}
+a.pn:hover,a.pn:hover .pn-k{color:var(--accent)}
+a.pn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/* the arrows belong to the control, not the label - drawn here so the
+   link text stays clean for the language switch */
+a.pn.prev .pn-t::before{content:"←\00a0"}
+a.pn.next .pn-t::after{content:"\00a0→"}
+a.pn.up .pn-t::before{content:"↑\00a0"}
+@media (max-width:640px){
+  .pagenav{grid-template-columns:1fr auto 1fr;gap:10px}
+  .pn-t{font-size:11px}
+}
 @media (max-width:640px){ .shell{padding:0 18px 64px} }
 
 .label{font-family:var(--f-ui);font-size:11px;font-weight:600;
@@ -266,6 +293,8 @@ footer.foot{border-top:1px solid var(--rule);margin-top:64px;padding-top:22px;
 </head>
 <body>
 <div class="shell">
+
+<nav class="pagenav" aria-label="page"><a class="pn prev" href="ch16-heat-and-gases.html" rel="prev"><span class="pn-k" data-en="Back" data-th="ย้อนกลับ"></span><span class="pn-t" data-en="Heat and Gases" data-th="ความร้อนและแก๊ส"></span></a><a class="pn up" href="index.html"><span class="pn-t" data-en="Physics" data-th="ฟิสิกส์"></span></a><a class="pn next" href="ch18-em-waves.html" rel="next"><span class="pn-k" data-en="Forward" data-th="ถัดไป"></span><span class="pn-t" data-en="Electromagnetic Waves" data-th="คลื่นแม่เหล็กไฟฟ้า"></span></a></nav>
 
 <header class="mast">
   <div class="mast-id">
@@ -2172,6 +2201,11 @@ function setView(v){
 function applyLang(){
   document.documentElement.setAttribute("lang",STATE.lang);
   document.querySelectorAll("[data-i18n]").forEach(function(el){ el.textContent=t(el.getAttribute("data-i18n")); });
+  /* The page-nav carries its two languages inline rather than through the
+     string table, because the words are chapter titles the table never sees.
+     The index and bridge pages switch the same way. */
+  var k="data-"+(STATE.lang==="th"?"th":"en");
+  document.querySelectorAll("["+k+"]").forEach(function(el){ el.textContent=el.getAttribute(k); });
   var fs=document.getElementById("footSrc");
   if(fs) fs.textContent=t("foot.src."+(CHAPTER.subject||"physics"));
   document.getElementById("chNum").textContent=tx(CHAPTER.kicker);

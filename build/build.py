@@ -46,9 +46,94 @@ def map_geometry(src):
     return "0 0 %d %d" % (max(470, maxx + 100), maxy + 76), max(470, maxx + 100) // 2, maxy + 62
 
 
+# ---------------------------------------------------------------- page nav
+#
+# One reading order over the whole package, so back and forward mean the same
+# thing on every page:
+#
+#   home -> physics index -> physics 01..20 -> maths index -> maths 01..16
+#        -> the cross-subject sheet
+#
+# Chapters already carried prev/next, but only in the footer - on a chapter
+# that scrolls for several screens you had to reach the bottom to move on.
+# This puts the same three moves at the top of every page, and adds the one
+# that was missing everywhere: up, to the page that contains this one.
+
+SITE_TITLE = {"en": "Physics and Mathematics", "th": u"ฟิสิกส์และคณิตศาสตร์"}
+BRIDGE_TITLE = {"en": u"Physics × Mathematics", "th": u"ฟิสิกส์ × คณิตศาสตร์"}
+
+
+def site_pages(subs):
+    """Every built page, in reading order."""
+    pages = [{"path": "home.html", "title": SITE_TITLE, "up": None}]
+    for s in ("physics", "math"):
+        if s not in subs:
+            continue
+        man, fm = subs[s]["man"], subs[s]["filemap"]
+        idx = "%s/index.html" % s
+        pages.append({"path": idx, "title": man["subjectTitle"], "up": "home.html"})
+        for ch in man["chapters"]:
+            if ch["num"] in fm:
+                pages.append({"path": "%s/%s" % (s, fm[ch["num"]][0]),
+                              "title": ch["title"], "up": idx})
+    pages.append({"path": "bridge.html", "title": BRIDGE_TITLE, "up": "home.html"})
+    return pages
+
+
+def _rel(from_path, to_path):
+    """Link from one page to another, both named from the package root."""
+    d = os.path.dirname(from_path)
+    if not d:
+        return to_path
+    if to_path.startswith(d + "/"):
+        return to_path[len(d) + 1:]
+    return "../" + to_path
+
+
+def page_nav(pages, path):
+    """The top strip for one page: previous, up, next."""
+    i = next((k for k, p in enumerate(pages) if p["path"] == path), None)
+    if i is None:
+        return ""
+    cur = pages[i]
+    bits = []
+
+    if i > 0:
+        p = pages[i - 1]
+        bits.append('<a class="pn prev" href="%s" rel="prev">'
+                    '<span class="pn-k" data-en="Back" data-th="ย้อนกลับ"></span>'
+                    '<span class="pn-t" data-en="%s" data-th="%s"></span></a>'
+                    % (esc(_rel(path, p["path"])),
+                       esc(p["title"]["en"]), esc(p["title"]["th"])))
+    else:
+        bits.append('<span class="pn empty"></span>')
+
+    if cur["up"]:
+        up = next((p for p in pages if p["path"] == cur["up"]), None)
+        bits.append('<a class="pn up" href="%s">'
+                    '<span class="pn-t" data-en="%s" data-th="%s"></span></a>'
+                    % (esc(_rel(path, cur["up"])),
+                       esc(up["title"]["en"]) if up else "Up",
+                       esc(up["title"]["th"]) if up else u"ขึ้น"))
+    else:
+        bits.append('<span class="pn empty"></span>')
+
+    if i < len(pages) - 1:
+        p = pages[i + 1]
+        bits.append('<a class="pn next" href="%s" rel="next">'
+                    '<span class="pn-k" data-en="Forward" data-th="ถัดไป"></span>'
+                    '<span class="pn-t" data-en="%s" data-th="%s"></span></a>'
+                    % (esc(_rel(path, p["path"])),
+                       esc(p["title"]["en"]), esc(p["title"]["th"])))
+    else:
+        bits.append('<span class="pn empty"></span>')
+
+    return ('<nav class="pagenav" aria-label="page">%s</nav>' % "".join(bits))
+
+
 # ---------------------------------------------------------------- chapters
 
-def build_chapter(path, css, engine, shell, filemap, order):
+def build_chapter(path, css, engine, shell, filemap, order, nav=""):
     src = read(path)
     num = unquote(field(src, "num"))
     slug = unquote(field(src, "slug"))
@@ -69,7 +154,8 @@ def build_chapter(path, css, engine, shell, filemap, order):
         bits.append('<a href="%s">%s &rarr;</a>' % (n[0], n[1]))
 
     out = shell
-    for tok, val in (("__TITLE__", title), ("__MAPVB__", vb), ("__MAPCX__", str(cx)),
+    for tok, val in (("__PAGENAV__", nav),
+                     ("__TITLE__", title), ("__MAPVB__", vb), ("__MAPCX__", str(cx)),
                      ("__MAPEXTY__", str(exty)), ("__NAV__", " &nbsp;·&nbsp; ".join(bits)),
                      ("__CSS__", css), ("__CHAPTER__", src), ("__ENGINE__", engine)):
         out = out.replace(tok, val)
@@ -627,7 +713,7 @@ def track_legend(man, built, key, keyn):
         for sw, en, th in items)
 
 
-def build_index(man, built, stats, css):
+def build_index(man, built, stats, css, nav=""):
     tpl = read(os.path.join(BUILD, "index.template.html"))
     slug = man["subject"]
     vb, tracks, key, keyn = tracks_svg(man, built, slug)
@@ -648,7 +734,8 @@ def build_index(man, built, stats, css):
                % (nt, len(man["groups"]),
                   (u" %s เป็นบทที่บทอื่นต้องใช้มากที่สุด คือ %d บท"
                    % (kt["th"], keyn)) if key else ""))
-    for tok, val in (("__CSS__", css), ("__TRACKVB__", vb), ("__TRACKS__", tracks),
+    for tok, val in (("__PAGENAV__", nav),
+                     ("__CSS__", css), ("__TRACKVB__", vb), ("__TRACKS__", tracks),
                      ("__SLUG__", slug),
                      ("__TRACKDESC_EN__", esc(desc_en)),
                      ("__TRACKDESC_TH__", esc(desc_th)),
@@ -875,7 +962,7 @@ def way(href, eyebrow, title_en, title_th, blurb, foot, go):
                esc(go["en"]), esc(go["th"])))
 
 
-def build_home(subs, css):
+def build_home(subs, css, nav=""):
     """The package root page: pick a subject, or read the cross-subject sheet."""
     tpl = read(os.path.join(BUILD, "home.template.html"))
 
@@ -924,7 +1011,8 @@ def build_home(subs, css):
 
     lvl = subs[order[0]]["man"]["level"]
     out = tpl
-    for tok, val in (("__CSS__", css), ("__WAYS__", ways),
+    for tok, val in (("__PAGENAV__", nav),
+                     ("__CSS__", css), ("__WAYS__", ways),
                      ("__SITE_EN__", "Physics and Mathematics"),
                      ("__SITE_TH__", u"ฟิสิกส์และคณิตศาสตร์"),
                      ("__LEVEL_EN__", esc(lvl["en"])), ("__LEVEL_TH__", esc(lvl["th"])),
@@ -939,7 +1027,7 @@ def build_home(subs, css):
     return dest, write(dest, out)
 
 
-def build_bridge(subs, css):
+def build_bridge(subs, css, nav=""):
     if "physics" not in subs or "math" not in subs:
         return None, 0
     data = json.loads(read(os.path.join(BUILD, "bridge.json")))
@@ -962,7 +1050,8 @@ def build_bridge(subs, css):
                    % (kt["th"], keyn)) if key else ""))
 
     out = tpl
-    for tok, val in (("__CSS__", css), ("__MATRIXVB__", vb), ("__MATRIX__", matrix),
+    for tok, val in (("__PAGENAV__", nav),
+                     ("__CSS__", css), ("__MATRIXVB__", vb), ("__MATRIX__", matrix),
                      ("__MDESC_EN__", esc(desc_en)), ("__MDESC_TH__", esc(desc_th)),
                      ("__MKEY_EN__", esc(kt["en"] if kt else "")),
                      ("__MKEY_TH__", esc(kt["th"] if kt else "")),
@@ -1024,24 +1113,37 @@ def main():
             stats[num] = (len(re.findall(r'\{\s*id:"[\w-]+",\s*x:', s)),
                           len(re.findall(r'\{id:"M-\d+"', s)))
 
-        subs[subject] = {"man": man, "filemap": filemap, "stats": stats}
+        subs[subject] = {"man": man, "filemap": filemap, "stats": stats,
+                         "order": order, "files": files}
+
+    # Back and forward are positions in one reading order over the whole
+    # package, so nothing can be written until every subject has been read.
+    pages = site_pages(subs)
+
+    for subject in [s for s in ("physics", "math") if s in subs]:
+        d = subs[subject]
+        man, filemap, order, files = d["man"], d["filemap"], d["order"], d["files"]
         todo = [f for f in files if not want or any(w in os.path.basename(f) for w in want)]
 
         print("%s" % subject)
         total = 0
         for f in todo:
-            dest, size, _, _ = build_chapter(f, css, engine, shell, filemap, order)
+            num = unquote(field(read(f), "num"))
+            here = "%s/%s" % (subject, filemap[num][0]) if num in filemap else ""
+            dest, size, _, _ = build_chapter(f, css, engine, shell, filemap, order,
+                                             page_nav(pages, here))
             total += size
             print("  %-46s %6.1f KB" % (os.path.relpath(dest, ROOT).replace("\\", "/"), size / 1024.0))
 
-        dest, size = build_index(man, filemap, stats, css)
+        dest, size = build_index(man, filemap, d["stats"], css,
+                                 page_nav(pages, "%s/index.html" % subject))
         total += size
         print("  %-46s %6.1f KB" % (os.path.relpath(dest, ROOT).replace("\\", "/"), size / 1024.0))
         print("  %d built · %.1f KB · %d/%d chapters exist\n"
               % (len(todo), total / 1024.0, len(filemap), len(man["chapters"])))
         grand += total
 
-    dest, size = build_bridge(subs, css)
+    dest, size = build_bridge(subs, css, page_nav(pages, "bridge.html"))
     if dest:
         print("cross-subject")
         print("  %-46s %6.1f KB" % (os.path.relpath(dest, ROOT).replace("\\", "/"), size / 1024.0))
@@ -1049,7 +1151,7 @@ def main():
         print("")
 
     if subs:
-        dest, size = build_home(subs, css)
+        dest, size = build_home(subs, css, page_nav(pages, "home.html"))
         print("front door")
         print("  %-46s %6.1f KB" % (os.path.relpath(dest, ROOT).replace("\\", "/"), size / 1024.0))
         grand += size
