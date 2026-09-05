@@ -933,7 +933,9 @@ def build_home(subs, css):
                      ("__PCT__", "%.0f" % (100.0 * built_ch / tot_ch if tot_ch else 0))):
         out = out.replace(tok, val)
 
-    dest = os.path.join(ROOT, "index.html")
+    # Deliberately not index.html: three files by that name - this one and
+    # the two subject indexes - is a needless way to lose your place.
+    dest = os.path.join(ROOT, "home.html")
     return dest, write(dest, out)
 
 
