@@ -214,7 +214,7 @@ nodes:[
          "Real cells have internal resistance r, so the terminal voltage is E − Ir rather than E. That is why a battery reads lower when it is doing work, and why headlights dim as the starter turns."],
         ["กฎจุดต่อบอกว่ากระแสเข้าเท่ากับกระแสออก ประจุไม่กองสะสมที่ใด ส่วนกฎวงรอบบอกว่าความต่างศักย์รอบวงรอบปิดใดๆ รวมกันได้ศูนย์ พลังงานอนุรักษ์",
          "เซลล์จริงมีความต้านทานภายใน r ความต่างศักย์ที่ขั้วจึงเป็น E − Ir ไม่ใช่ E จึงเป็นเหตุผลที่แบตเตอรี่อ่านค่าได้ต่ำลงขณะทำงาน และไฟหน้ารถหรี่ลงตอนสตาร์ท"]],
-  formula:["ΣI_in = ΣI_out        ΣV = 0        V_terminal = E − Ir","ΣI เข้า = ΣI ออก        ΣV = 0        V ขั้ว = E − Ir"],
+  formula:["ΣI_in = ΣI_out        ΣV = 0        V_terminal = E − Ir","ΣI_in = ΣI_out        ΣV = 0        V_terminal = E − Ir"],
   flabel:["Charge at junctions · energy round loops","ประจุที่จุดต่อ · พลังงานรอบวงรอบ"],
   viz:"bars",
   vizcfg:{

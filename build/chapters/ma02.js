@@ -117,8 +117,8 @@ nodes:[
       o.push('<text x="'+(px+pw/2)+'" y="'+(yh+134)+'" text-anchor="middle" fill="'+(res?"var(--good)":"var(--warn)")+'" font-family="Bodoni Moda" font-size="54">'+g(res)+'</text>');
       var NT=[[["AND is true in only","AND เป็นจริงเพียง"],["one of the four rows","หนึ่งในสี่แถว"]],
               [["OR is false in only","OR เป็นเท็จเพียง"],["one of the four rows","หนึ่งในสี่แถว"]],
-              [["IF-THEN fails in only","ถ้า-แล้ว เป็นเท็จเพียง"],["one row, T then F","แถวเดียว คือ จริง แล้ว เท็จ"]],
-              [["IFF is true whenever","ก็ต่อเมื่อ เป็นจริงเมื่อ"],["p and q agree","p กับ q ตรงกัน"]]];
+              [["IF-THEN fails in only","IF-THEN เป็นเท็จเพียง"],["one row, T then F","แถวเดียว คือ T แล้ว F"]],
+              [["IFF is true whenever","IFF เป็นจริงเมื่อ"],["p and q agree","p กับ q ตรงกัน"]]];
       o.push('<text x="'+(px+14)+'" y="'+(yh+170)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5">'+tx(NT[c][0])+'</text>');
       o.push('<text x="'+(px+14)+'" y="'+(yh+185)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5">'+tx(NT[c][1])+'</text>');
       var cap=(rare<0)?tx(["↔ has two true rows and two false rows — no single deciding row",

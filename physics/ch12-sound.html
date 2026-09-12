@@ -468,9 +468,9 @@ nodes:[
   body:[["Intensity is power per unit area, and a point source spreads its power over a sphere, so I = P/4πr². Double the distance and the intensity falls to a quarter.",
          "The ear does not hear intensity directly — it hears its logarithm. Sound level β = 10 log(I/I₀) in decibels, with I₀ = 10⁻¹² W/m². Ten times the intensity is only ten more decibels, which is why the scale is so compressed."],
         ["ความเข้มคือกำลังต่อหน่วยพื้นที่ และแหล่งกำเนิดแบบจุดกระจายกำลังออกไปทั่วผิวทรงกลม จึงได้ I = P/4πr² เพิ่มระยะเป็นสองเท่า ความเข้มลดเหลือหนึ่งในสี่",
-         "หูไม่ได้ยินความเข้มโดยตรง แต่ได้ยินลอการิทึมของมัน ระดับเสียง β = 10 log(I/I₀) หน่วยเดซิเบล โดย I₀ = 10⁻¹² วัตต์/ตร.ม. ความเข้มสิบเท่าเพิ่มเพียงสิบเดซิเบล จึงเป็นเหตุผลที่สเกลนี้ถูกบีบอัดมาก"]],
+         "หูไม่ได้ยินความเข้มโดยตรง แต่ได้ยินลอการิทึมของมัน ระดับเสียง β = 10 log(I/I₀) หน่วยเดซิเบล โดย I₀ = 10⁻¹² W/m² ความเข้มสิบเท่าเพิ่มเพียงสิบเดซิเบล จึงเป็นเหตุผลที่สเกลนี้ถูกบีบอัดมาก"]],
   formula:["I = P / 4πr²        β = 10 log(I / I₀)","I = P / 4πr²        β = 10 log(I / I₀)"],
-  flabel:["I₀ = 10⁻¹² W/m²","I₀ = 10⁻¹² วัตต์/ตร.ม."],
+  flabel:["I₀ = 10⁻¹² W/m²","I₀ = 10⁻¹² W/m²"],
   viz:"plot",
   vizcfg:{
     fn:function(x,p){ return p.P/(4*Math.PI*Math.max(x,0.3)*Math.max(x,0.3)); },
@@ -550,9 +550,9 @@ nodes:[
   title:["Beats","บีต"],
   body:[["Two notes of nearly equal frequency alternately reinforce and cancel, producing a slow throb. The beat frequency is simply the difference: f_beat = |f₁ − f₂|.",
          "Musicians use this to tune: adjust one string until the beats slow and disappear. When you can no longer hear a throb, the two frequencies match."],
-        ["โน้ตสองเสียงที่ความถี่ใกล้เคียงกันจะเสริมและหักล้างกันสลับไปมา เกิดเป็นเสียงเต้นช้าๆ ความถี่บีตคือผลต่างล้วนๆ f บีต = |f₁ − f₂|",
+        ["โน้ตสองเสียงที่ความถี่ใกล้เคียงกันจะเสริมและหักล้างกันสลับไปมา เกิดเป็นเสียงเต้นช้าๆ ความถี่บีตคือผลต่างล้วนๆ f_beat = |f₁ − f₂|",
          "นักดนตรีใช้สิ่งนี้ตั้งสาย ปรับสายหนึ่งจนบีตช้าลงและหายไป เมื่อไม่ได้ยินเสียงเต้นอีก แสดงว่าความถี่ทั้งสองตรงกันแล้ว"]],
-  formula:["f_beat = |f₁ − f₂|","f บีต = |f₁ − f₂|"],
+  formula:["f_beat = |f₁ − f₂|","f_beat = |f₁ − f₂|"],
   flabel:["The difference, never the sum","ผลต่าง ไม่ใช่ผลรวม"],
   viz:"plot",
   vizcfg:{
@@ -683,7 +683,7 @@ gen:{
                                 "ความเข้มเสียงเพิ่มขึ้น 100 เท่า ระดับเสียงเพิ่มขึ้นเท่าใด"],
     opts:[{v:"20 dB",ok:1},{v:"100 dB",trap:"T-02"},{v:"2 dB"},{v:"1000 dB",trap:"T-02"}],unit:""};
   if(sf==="S-05") return {stem:["A sound measures "+b+" dB. Find its intensity, with I₀ = 10⁻¹² W/m².",
-                                "เสียงวัดได้ "+b+" เดซิเบล จงหาความเข้ม โดย I₀ = 10⁻¹² วัตต์/ตร.ม."],
+                                "เสียงวัดได้ "+b+" เดซิเบล จงหาความเข้ม โดย I₀ = 10⁻¹² W/m²"],
     opts:[{v:I.toExponential(0),ok:1},{v:(b*1e-12).toExponential(0),trap:"T-02"},
           {v:(I*10).toExponential(0)},{v:(I/10).toExponential(0)}],unit:" W/m²"};
   return {stem:["A sound has intensity "+I.toExponential(0)+" W/m². Find its level in decibels.",

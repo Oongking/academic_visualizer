@@ -53,7 +53,7 @@ nodes:[
          "Depth is all that matters — not the shape of the container, not how much water it holds. A narrow tube and a wide lake of the same depth exert exactly the same pressure at the bottom. Believing volume matters is trap T-02."],
         ["ความดันคือ P = F/A และในของไหลที่อยู่นิ่งจะเพิ่มตามความลึกเป็น P = ρgh มันกระทำเท่ากันทุกทิศทาง จึงเป็นเหตุผลที่นักดำน้ำรู้สึกแรงดันรอบตัว ไม่ใช่แค่จากด้านบน",
          "ความลึกคือสิ่งเดียวที่สำคัญ ไม่ใช่รูปร่างภาชนะ ไม่ใช่ปริมาณน้ำที่บรรจุ ท่อแคบกับทะเลสาบกว้างที่ลึกเท่ากันให้ความดันที่ก้นเท่ากันพอดี การเชื่อว่าปริมาตรมีผลคือกับดัก T-02"]],
-  formula:["P = F/A        P = ρgh        P_abs = P₀ + ρgh","P = F/A        P = ρgh        P สัมบูรณ์ = P₀ + ρgh"],
+  formula:["P = F/A        P = ρgh        P_abs = P₀ + ρgh","P = F/A        P = ρgh        P_abs = P₀ + ρgh"],
   flabel:["Depth only · shape is irrelevant","ขึ้นกับความลึกเท่านั้น · รูปทรงไม่เกี่ยว"],
   viz:"plot",
   vizcfg:{
@@ -122,7 +122,7 @@ nodes:[
          "An object floats when it can displace its own weight before going under, which happens exactly when its density is below the fluid's. Using total volume rather than submerged volume for a floating body is trap T-03."],
         ["อาร์คิมิดีส แรงพยุงเท่ากับน้ำหนักของของไหลที่ถูกแทนที่ F_B = ρ ของไหล × V จม × g มันเกิดขึ้นเพราะความดันที่ก้นวัตถุมากกว่าความดันที่ด้านบน",
          "วัตถุลอยได้เมื่อมันแทนที่ของไหลได้เท่ากับน้ำหนักตัวเองก่อนที่จะจมมิด ซึ่งเกิดขึ้นพอดีเมื่อความหนาแน่นของมันน้อยกว่าของไหล การใช้ปริมาตรทั้งหมดแทนปริมาตรส่วนที่จมสำหรับวัตถุลอยคือกับดัก T-03"]],
-  formula:["F_B = ρ V_sub g        V_sub / V = ρ_object / ρ_fluid","F_B = ρ V จม g        V จม / V = ρ วัตถุ / ρ ของไหล"],
+  formula:["F_B = ρ V_sub g        V_sub / V = ρ_object / ρ_fluid","F_B = ρ V_sub g        V_sub / V = ρ_object / ρ_fluid"],
   flabel:["Submerged volume, not total","ปริมาตรส่วนที่จม ไม่ใช่ทั้งหมด"],
   viz:"bars",
   vizcfg:{

@@ -58,7 +58,7 @@ nodes:[
          "Note the square. Doubling the speed quadruples the energy — and quadruples the braking distance, which is the entire argument behind speed limits."],
         ["พลังงานจลน์คือ ½mv² และงานสุทธิที่ทำต่อวัตถุเท่ากับการเปลี่ยนแปลงพลังงานจลน์ ประโยคเดียวนี้แทนเนื้อหาจลนศาสตร์ทั้งบท",
          "สังเกตกำลังสอง เพิ่มอัตราเร็วสองเท่าพลังงานเพิ่มสี่เท่า และระยะเบรกก็เพิ่มสี่เท่า ซึ่งเป็นเหตุผลทั้งหมดเบื้องหลังการจำกัดความเร็ว"]],
-  formula:["E_k = ½mv²        W_net = ΔE_k","E_k = ½mv²        W สุทธิ = ΔE_k"],
+  formula:["E_k = ½mv²        W_net = ΔE_k","E_k = ½mv²        W_net = ΔE_k"],
   flabel:["Work–energy theorem","ทฤษฎีบทงาน–พลังงาน"],
   viz:"plot",
   vizcfg:{
@@ -91,7 +91,7 @@ nodes:[
          "Elastic potential energy in a spring is ½kx², and like kinetic energy it goes as a square — stretching a spring twice as far stores four times the energy."],
         ["พลังงานศักย์โน้มถ่วงคือ mgh วัดจากระดับใดก็ได้ที่เรากำหนดให้เป็นศูนย์ การเลือกระดับศูนย์เป็นอิสระ เพราะสิ่งที่มีความหมายคือผลต่างเท่านั้น",
          "พลังงานศักย์ยืดหยุ่นในสปริงคือ ½kx² และเช่นเดียวกับพลังงานจลน์ มันโตตามกำลังสอง ยืดสปริงเป็นสองเท่าจะเก็บพลังงานสี่เท่า"]],
-  formula:["E_p = mgh        E_spring = ½kx²","E_p = mgh        E_สปริง = ½kx²"],
+  formula:["E_p = mgh        E_spring = ½kx²","E_p = mgh        E_spring = ½kx²"],
   flabel:["Zero level is yours to choose","ระดับศูนย์เลือกเองได้"],
   viz:"plot",
   vizcfg:{
@@ -170,7 +170,7 @@ nodes:[
          "No real machine returns all the work put in. Efficiency is useful output over total input, always below 100%, and the missing fraction has almost always become heat."],
         ["กำลังคืออัตราการทำงาน P = W/t และสำหรับแรงคงที่ที่เคลื่อนด้วยอัตราเร็วคงที่ P = Fv เครื่องจักรสองเครื่องอาจทำงานเท่ากันทุกประการแต่ใช้เวลาต่างกันสิ้นเชิง",
          "ไม่มีเครื่องจักรจริงเครื่องใดคืนงานได้ครบตามที่ใส่เข้าไป ประสิทธิภาพคืองานที่ได้ประโยชน์หารด้วยงานที่ใส่เข้า ต่ำกว่า 100% เสมอ และส่วนที่หายไปเกือบทั้งหมดกลายเป็นความร้อน"]],
-  formula:["P = W/t = Fv        Eff = (W_out / W_in) × 100%","P = W/t = Fv        Eff = (W ออก / W เข้า) × 100%"],
+  formula:["P = W/t = Fv        Eff = (W_out / W_in) × 100%","P = W/t = Fv        Eff = (W_out / W_in) × 100%"],
   flabel:["Never above 100 per cent","ไม่มีวันเกินร้อยเปอร์เซ็นต์"],
   viz:"stack",
   vizcfg:{

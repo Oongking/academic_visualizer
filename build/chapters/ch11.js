@@ -14,7 +14,7 @@ nodes:[
          "A plane mirror gives an image as far behind the glass as the object is in front, the same size, upright, and virtual — no light actually reaches where it appears to be."],
         ["มุมตกกระทบเท่ากับมุมสะท้อน โดยวัดจากเส้นปกติไม่ใช่จากผิว การวัดจากผิวเป็นนิสัยเล็กๆ ที่ให้คำตอบผิดอย่างสม่ำเสมอ",
          "กระจกเงาราบให้ภาพอยู่หลังกระจกเป็นระยะเท่ากับที่วัตถุอยู่หน้ากระจก ขนาดเท่าเดิม หัวตั้ง และเป็นภาพเสมือน ไม่มีแสงไปถึงตำแหน่งที่ภาพปรากฏจริงๆ"]],
-  formula:["θ_incidence = θ_reflection","θ ตกกระทบ = θ สะท้อน"],
+  formula:["θ_incidence = θ_reflection","θ_incidence = θ_reflection"],
   flabel:["Both measured from the normal","วัดจากเส้นปกติทั้งคู่"],
   viz:"bars",
   vizcfg:{

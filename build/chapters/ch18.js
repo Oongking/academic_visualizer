@@ -13,8 +13,8 @@ nodes:[
   body:[["Faraday had shown that a changing magnetic field induces an electric one. Maxwell argued the converse must hold too, and that the pair could therefore propagate together with neither one ever dying out.",
          "His equations gave the speed as 3 × 10⁸ m/s — the measured speed of light, which nobody had connected to electricity at all. Hertz confirmed it experimentally twenty years later."],
         ["ฟาราเดย์แสดงให้เห็นว่าสนามแม่เหล็กที่เปลี่ยนแปลงเหนี่ยวนำสนามไฟฟ้า แม็กซ์เวลล์แย้งว่าในทางกลับกันก็ต้องเป็นจริงเช่นกัน ทั้งคู่จึงแผ่ไปด้วยกันได้โดยไม่มีฝ่ายใดดับหายไป",
-         "สมการของเขาให้อัตราเร็ว 3 × 10⁸ ม./วินาที ซึ่งคืออัตราเร็วแสงที่วัดได้ ซึ่งไม่มีใครเคยเชื่อมโยงกับไฟฟ้ามาก่อนเลย เฮิรตซ์ยืนยันด้วยการทดลองในอีกยี่สิบปีต่อมา"]],
-  formula:["c = 3 × 10⁸ m/s        c = fλ","c = 3 × 10⁸ ม./วินาที        c = fλ"],
+         "สมการของเขาให้อัตราเร็ว 3 × 10⁸ m/s ซึ่งคืออัตราเร็วแสงที่วัดได้ ซึ่งไม่มีใครเคยเชื่อมโยงกับไฟฟ้ามาก่อนเลย เฮิรตซ์ยืนยันด้วยการทดลองในอีกยี่สิบปีต่อมา"]],
+  formula:["c = 3 × 10⁸ m/s        c = fλ","c = 3 × 10⁸ m/s        c = fλ"],
   flabel:["Light is an electromagnetic wave","แสงคือคลื่นแม่เหล็กไฟฟ้า"],
   viz:"table",
   vizcfg:{
@@ -223,7 +223,7 @@ gen:{
 "M-04": function(sf){
   return {stem:["A radio wave and a gamma ray both travel through a vacuum. Compare their speeds.",
                 "คลื่นวิทยุกับรังสีแกมมาเดินทางผ่านสุญญากาศทั้งคู่ จงเปรียบเทียบอัตราเร็ว"],
-    opts:[{v:["Identical, both 3 × 10⁸ m/s","เท่ากัน ทั้งคู่คือ 3 × 10⁸ ม./วินาที"],ok:1},
+    opts:[{v:["Identical, both 3 × 10⁸ m/s","เท่ากัน ทั้งคู่คือ 3 × 10⁸ m/s"],ok:1},
           {v:["Gamma is much faster","รังสีแกมมาเร็วกว่ามาก"],trap:"T-03"},
           {v:["Radio is faster","คลื่นวิทยุเร็วกว่า"],trap:"T-03"},
           {v:["It depends on their intensity","ขึ้นกับความเข้ม"],trap:"T-03"}],unit:""};

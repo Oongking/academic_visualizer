@@ -142,8 +142,8 @@ nodes:[
   body:[["Rearrange until one side is zero, factorise, then mark the critical values on a number line and read off the signs between them. That procedure never fails, whereas guessing does.",
          "Two rules protect you. Multiplying or dividing by a negative flips the inequality sign — and if the multiplier contains an unknown you cannot tell its sign, so never cross-multiply; combine into a single fraction instead. A critical value coming from a denominator is excluded from the answer, because it makes the expression undefined. That exclusion is trap T-03."],
         ["จัดรูปจนข้างหนึ่งเป็นศูนย์ แยกตัวประกอบ แล้วทำเครื่องหมายค่าวิกฤตบนเส้นจำนวนและอ่านเครื่องหมายระหว่างช่วง ขั้นตอนนี้ไม่เคยพลาด ต่างจากการเดา",
-         "มีสองกฎที่ปกป้องคุณ การคูณหรือหารด้วยจำนวนลบทำให้เครื่องหมายอสมการกลับด้าน และถ้าตัวคูณมีตัวแปรอยู่ เราบอกเครื่องหมายไม่ได้ จึงห้ามคูณไขว้เด็ดขาด ให้รวมเป็นเศษส่วนเดียวแทน ส่วนค่าวิกฤตที่มาจากตัวส่วนต้องตัดออกจากคำตอบ เพราะทำให้นิพจน์ไม่นิยาม การไม่ตัดออกคือกับดัก T-03"]],
-  formula:["× or ÷ by a negative  ⟹  flip the sign","คูณหรือหารด้วยจำนวนลบ  ⟹  กลับเครื่องหมาย"],
+         "มีสองกฎที่ปกป้องคุณ การ× หรือ ÷ ด้วยจำนวนลบทำให้เครื่องหมายอสมการกลับด้าน และถ้าตัวคูณมีตัวแปรอยู่ เราบอกเครื่องหมายไม่ได้ จึงห้ามคูณไขว้เด็ดขาด ให้รวมเป็นเศษส่วนเดียวแทน ส่วนค่าวิกฤตที่มาจากตัวส่วนต้องตัดออกจากคำตอบ เพราะทำให้นิพจน์ไม่นิยาม การไม่ตัดออกคือกับดัก T-03"]],
+  formula:["× or ÷ by a negative  ⟹  flip the sign","× หรือ ÷ ด้วยจำนวนลบ  ⟹  กลับเครื่องหมาย"],
   flabel:["Never cross-multiply an unknown sign","ห้ามคูณไขว้เมื่อไม่รู้เครื่องหมาย"],
   viz:"numline",
   vizcfg:{

@@ -53,7 +53,7 @@ nodes:[
          "Range is maximised at 45°, and any two angles adding to 90° give the same range. Launch at 30° or at 60° and the projectile lands in the same place, by very different routes."],
         ["ที่จุดสูงสุดของการเคลื่อนที่ ความเร็วแนวดิ่งเป็นศูนย์แต่ความเร็วแนวราบไม่เปลี่ยน วัตถุยังเคลื่อนที่อยู่ เพียงแต่ไม่ได้ขึ้น การเข้าใจว่ามันหยุดสนิทคือกับดัก T-02",
          "ระยะไกลสุดเกิดที่ 45° และมุมสองมุมใดที่รวมกันได้ 90° จะให้ระยะเท่ากัน ยิงที่ 30° หรือ 60° วัตถุตกที่เดียวกัน แต่ด้วยเส้นทางที่ต่างกันมาก"]],
-  formula:["R = u² sin 2θ / g        t_flight = 2u sin θ / g","R = u² sin 2θ / g        t บิน = 2u sin θ / g"],
+  formula:["R = u² sin 2θ / g        t_flight = 2u sin θ / g","R = u² sin 2θ / g        t_flight = 2u sin θ / g"],
   flabel:["Maximum range at 45°","ไกลสุดที่ 45°"],
   viz:{
     vb:"0 0 560 320", anim:true,

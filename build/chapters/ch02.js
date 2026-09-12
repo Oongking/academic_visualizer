@@ -14,7 +14,7 @@ nodes:[
          "Run a full lap of a track and your distance is 400 m while your displacement is exactly zero. Every formula in this chapter is built on displacement, not distance — the single most common place marks are lost."],
         ["ระยะทางคือความยาวเส้นทางที่เคลื่อนที่จริง ส่วนการกระจัดคือระยะจากจุดเริ่มถึงจุดสุดท้ายพร้อมทิศทาง ระยะทางเป็นสเกลาร์และไม่มีวันลดลง แต่การกระจัดเป็นเวกเตอร์และกลับมาเป็นศูนย์ได้",
          "วิ่งรอบสนามครบหนึ่งรอบ ระยะทางคือ 400 เมตร แต่การกระจัดเป็นศูนย์พอดี ทุกสูตรในบทนี้สร้างอยู่บนการกระจัด ไม่ใช่ระยะทาง ซึ่งเป็นจุดที่เสียคะแนนบ่อยที่สุด"]],
-  formula:["|s| ≤ distance","การกระจัด ≤ ระยะทาง เสมอ"], flabel:["Always true","จริงเสมอ"],
+  formula:["|s| ≤ distance","|s| ≤ ระยะทาง เสมอ"], flabel:["Always true","จริงเสมอ"],
   viz:"scene",
   vizcfg:{
     question:["He rode 3 km up the soi and back. Why is he only 800 m from home?",
