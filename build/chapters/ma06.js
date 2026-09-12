@@ -134,8 +134,10 @@ nodes:[
       o.push('<text x="58" y="292" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["MATRIX","เมทริกซ์"])+'</text>');
       o.push('<text x="58" y="312" fill="var(--ink)" font-family="Bodoni Moda" font-size="17">[ '+p.a+'  '+p.b+' ;  '+p.c+'  '+p.d+' ]</text>');
       var msg = Math.abs(det)<1e-9
-        ? "det = 0 — the columns are parallel, the area collapsed, no inverse exists"
-        : "det = "+fmt(det)+" — the shaded area, signed";
+        ? tx(["det = 0 — the columns are parallel, the area collapsed, no inverse exists",
+              "det = 0 — คอลัมน์ขนานกัน พื้นที่ยุบเป็นศูนย์ จึงไม่มีเมทริกซ์ผกผัน"])
+        : tx(["det = "+fmt(det)+" — the shaded area, signed",
+              "det = "+fmt(det)+" — พื้นที่แรเงา คิดเครื่องหมายด้วย"]);
       o.push('<text x="300" y="312" fill="'+(Math.abs(det)<1e-9?"var(--warn)":"var(--ink-faint)")+
              '" font-family="IBM Plex Sans" font-size="10.5">'+msg+'</text>');
     }

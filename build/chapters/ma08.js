@@ -66,8 +66,11 @@ nodes:[
       {lab:["Quadrant","ควอดรันต์"], f:function(S){
         var t=((S.p.th%360)+360)%360;
         var q = t<90?1 : t<180?2 : t<270?3 : 4;
-        var P=["","all +","sin +","tan +","cos +"];
-        return q+" · "+P[q]; }}
+        /* the sign mnemonic: the function names are notation, but the
+           "all" that starts it is a word, and it stayed English */
+        var P=[["",""],["all +","บวกทุกตัว"],["sin +","sin +"],
+               ["tan +","tan +"],["cos +","cos +"]];
+        return q+" · "+tx(P[q]); }}
     ],
     draw:function(S,o){
       var th=S.p.th*Math.PI/180;

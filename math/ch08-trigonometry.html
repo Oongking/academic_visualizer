@@ -429,7 +429,7 @@ footer.foot{border-top:1px solid var(--rule);margin-top:64px;padding-top:22px;
 
 <footer class="foot">
   <span data-i18n="foot.pkg"></span>
-  <span><a href="ch07-exponentials.html">&larr; Exponentials and Logs</a> &nbsp;·&nbsp; <a href="index.html">All chapters</a> &nbsp;·&nbsp; <a href="ch09-vectors.html">Vectors &rarr;</a></span>
+  <span><a href="ch07-exponentials.html" data-en="&larr; Exponentials and Logs" data-th="&larr; เอกซ์โพเนนเชียลและลอการิทึม"></a> &nbsp;·&nbsp; <a href="index.html" data-en="All chapters" data-th="ทุกบท"></a> &nbsp;·&nbsp; <a href="ch09-vectors.html" data-en="Vectors &rarr;" data-th="เวกเตอร์ &rarr;"></a></span>
   <span id="footSrc"></span>
 </footer>
 </div>
@@ -503,8 +503,11 @@ nodes:[
       {lab:["Quadrant","ควอดรันต์"], f:function(S){
         var t=((S.p.th%360)+360)%360;
         var q = t<90?1 : t<180?2 : t<270?3 : 4;
-        var P=["","all +","sin +","tan +","cos +"];
-        return q+" · "+P[q]; }}
+        /* the sign mnemonic: the function names are notation, but the
+           "all" that starts it is a word, and it stayed English */
+        var P=[["",""],["all +","บวกทุกตัว"],["sin +","sin +"],
+               ["tan +","tan +"],["cos +","cos +"]];
+        return q+" · "+tx(P[q]); }}
     ],
     draw:function(S,o){
       var th=S.p.th*Math.PI/180;

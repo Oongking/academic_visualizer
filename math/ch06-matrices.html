@@ -429,7 +429,7 @@ footer.foot{border-top:1px solid var(--rule);margin-top:64px;padding-top:22px;
 
 <footer class="foot">
   <span data-i18n="foot.pkg"></span>
-  <span><a href="ch05-analytic-geometry.html">&larr; Analytic Geometry</a> &nbsp;·&nbsp; <a href="index.html">All chapters</a> &nbsp;·&nbsp; <a href="ch07-exponentials.html">Exponentials and Logs &rarr;</a></span>
+  <span><a href="ch05-analytic-geometry.html" data-en="&larr; Analytic Geometry" data-th="&larr; เรขาคณิตวิเคราะห์"></a> &nbsp;·&nbsp; <a href="index.html" data-en="All chapters" data-th="ทุกบท"></a> &nbsp;·&nbsp; <a href="ch07-exponentials.html" data-en="Exponentials and Logs &rarr;" data-th="เอกซ์โพเนนเชียลและลอการิทึม &rarr;"></a></span>
   <span id="footSrc"></span>
 </footer>
 </div>
@@ -571,8 +571,10 @@ nodes:[
       o.push('<text x="58" y="292" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["MATRIX","เมทริกซ์"])+'</text>');
       o.push('<text x="58" y="312" fill="var(--ink)" font-family="Bodoni Moda" font-size="17">[ '+p.a+'  '+p.b+' ;  '+p.c+'  '+p.d+' ]</text>');
       var msg = Math.abs(det)<1e-9
-        ? "det = 0 — the columns are parallel, the area collapsed, no inverse exists"
-        : "det = "+fmt(det)+" — the shaded area, signed";
+        ? tx(["det = 0 — the columns are parallel, the area collapsed, no inverse exists",
+              "det = 0 — คอลัมน์ขนานกัน พื้นที่ยุบเป็นศูนย์ จึงไม่มีเมทริกซ์ผกผัน"])
+        : tx(["det = "+fmt(det)+" — the shaded area, signed",
+              "det = "+fmt(det)+" — พื้นที่แรเงา คิดเครื่องหมายด้วย"]);
       o.push('<text x="300" y="312" fill="'+(Math.abs(det)<1e-9?"var(--warn)":"var(--ink-faint)")+
              '" font-family="IBM Plex Sans" font-size="10.5">'+msg+'</text>');
     }

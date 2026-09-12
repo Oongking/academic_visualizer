@@ -143,15 +143,20 @@ def build_chapter(path, css, engine, shell, filemap, order, nav=""):
 
     vb, cx, exty = map_geometry(src)
 
+    # The footer nav used to be English whatever the reader had chosen: a
+    # hardcoded "All chapters" and the neighbours under their English titles.
     i = order.index(num) if num in order else -1
     bits = []
     if i > 0 and order[i - 1] in filemap:
         p = filemap[order[i - 1]]
-        bits.append('<a href="%s">&larr; %s</a>' % (p[0], p[1]))
-    bits.append('<a href="index.html">All chapters</a>')
+        bits.append('<a href="%s" data-en="&larr; %s" data-th="&larr; %s"></a>'
+                    % (p[0], esc(p[1]), esc(p[2])))
+    bits.append('<a href="index.html" data-en="All chapters" '
+                'data-th="ทุกบท"></a>')
     if 0 <= i < len(order) - 1 and order[i + 1] in filemap:
         n = filemap[order[i + 1]]
-        bits.append('<a href="%s">%s &rarr;</a>' % (n[0], n[1]))
+        bits.append('<a href="%s" data-en="%s &rarr;" data-th="%s &rarr;"></a>'
+                    % (n[0], esc(n[1]), esc(n[2])))
 
     out = shell
     for tok, val in (("__PAGENAV__", nav),
@@ -741,6 +746,8 @@ def build_index(man, built, stats, css, nav=""):
                      ("__TRACKDESC_TH__", esc(desc_th)),
                      ("__TRACKLEGEND__", track_legend(man, built, key, keyn)),
                      ("__CARDS__", cards_html(man, built, stats)),
+                     ("__SRC_EN__", esc(man.get("source", {}).get("en", ""))),
+                     ("__SRC_TH__", esc(man.get("source", {}).get("th", ""))),
                      ("__SUBJECT__", man["subjectTitle"]["en"]),
                      ("__SUBJ_EN__", man["subjectTitle"]["en"]),
                      ("__SUBJ_TH__", man["subjectTitle"]["th"]),
@@ -945,19 +952,23 @@ WAY_BLURB = {
 }
 
 
-def way(href, eyebrow, title_en, title_th, blurb, foot, go):
-    """One destination plate on the front page."""
+def way(href, eyebrow, title, blurb, foot, go):
+    """One destination plate on the front page.
+
+    The title switches with everything else. It used to show the Latin name
+    with the Thai standing under it in both views, which put two languages on
+    screen at once - the one thing the reader chose against. Bodoni carries no
+    Thai, so the Thai title falls to the utility face, exactly as the subject
+    pages already do with their own heading."""
     return ('<a class="way" href="%s">'
             '<span class="label" data-en="%s" data-th="%s"></span>'
             '<h2 data-en="%s" data-th="%s"></h2>'
-            '<p class="th" data-en="%s" data-th="%s"></p>'
             '<p class="what" data-en="%s" data-th="%s"></p>'
             '<div class="foot">%s</div>'
             '<span class="go" data-en="%s" data-th="%s"></span>'
             '</a>'
             % (href, esc(eyebrow["en"]), esc(eyebrow["th"]),
-               esc(title_en["en"]), esc(title_en["th"]),
-               esc(title_th["en"]), esc(title_th["th"]),
+               esc(title["en"]), esc(title["th"]),
                esc(blurb[0]), esc(blurb[1]), foot,
                esc(go["en"]), esc(go["th"])))
 
@@ -985,8 +996,7 @@ def build_home(subs, css, nav=""):
         plates.append(way(
             "%s/index.html" % man["subject"],
             {"en": "Subject", "th": u"วิชา"},
-            {"en": man["subjectTitle"]["en"], "th": man["subjectTitle"]["en"]},
-            {"en": man["subjectTitle"]["th"], "th": man["subjectTitle"]["th"]},
+            man["subjectTitle"],
             WAY_BLURB.get(s, ["", ""]),
             foot,
             {"en": "Open the map →", "th": u"เปิดแผนที่ →"}))
@@ -1002,8 +1012,7 @@ def build_home(subs, css, nav=""):
         ways += ('<section class="ways cross">%s</section>' % way(
             "bridge.html",
             {"en": "Cross-subject", "th": u"ข้ามวิชา"},
-            {"en": "Physics × Mathematics", "th": u"Physics × Mathematics"},
-            {"en": u"ฟิสิกส์ × คณิตศาสตร์", "th": u"ฟิสิกส์ × คณิตศาสตร์"},
+            BRIDGE_TITLE,
             ["Which maths each physics chapter actually leans on, and how hard.",
              u"บทฟิสิกส์แต่ละบทต้องใช้คณิตบทไหน และใช้มากแค่ไหน"],
             "<span>%d <span data-en=\"links\" data-th=\"ความเชื่อมโยง\"></span></span>" % nlink,
@@ -1109,7 +1118,10 @@ def main():
             s = read(f)
             num, slug = unquote(field(s, "num")), unquote(field(s, "slug"))
             tm = re.search(r'title\s*:\s*\[\s*"((?:[^"\\]|\\.)*)"', s)
-            filemap[num] = ("ch%s-%s.html" % (num, slug), tm.group(1) if tm else slug)
+            tt = re.search(r'title\s*:\s*\[\s*"((?:[^"\\]|\\.)*)"\s*,\s*"((?:[^"\\]|\\.)*)"', s)
+            filemap[num] = ("ch%s-%s.html" % (num, slug),
+                            tt.group(1) if tt else (tm.group(1) if tm else slug),
+                            tt.group(2) if tt else (tm.group(1) if tm else slug))
             stats[num] = (len(re.findall(r'\{\s*id:"[\w-]+",\s*x:', s)),
                           len(re.findall(r'\{id:"M-\d+"', s)))
 
