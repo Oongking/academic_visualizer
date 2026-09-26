@@ -1468,6 +1468,7 @@ function buildSections(){
   });
   observeSections();
 }
+var OBS = null;
 function observeSections(){
   if(OBS) OBS.disconnect();
   if(!("IntersectionObserver" in window)){
@@ -1613,8 +1614,7 @@ function applyLang(){
   var ext=document.getElementById("mapExt");
   if(CHAPTER.next){ ext.textContent=tx(CHAPTER.next); ext.style.display=""; } else { ext.style.display="none"; }
   document.getElementById("langBtn").textContent = STATE.lang==="en"?"ไทย":"English";
-  document.getElementById("themeBtn").textContent =
-    (document.documentElement.getAttribute("data-theme")==="dark") ? t("ui.themeLight") : t("ui.theme");
+  document.querySelectorAll("[data-"+STATE.lang+"]").forEach(function(el){ el.textContent=el.getAttribute("data-"+STATE.lang); });
   buildSections(); drawMap(); drawBlueprint(); drawCoverage();
 }
 document.querySelectorAll("nav.surfaces button").forEach(function(b){
@@ -1623,12 +1623,8 @@ document.querySelectorAll("nav.surfaces button").forEach(function(b){
 document.getElementById("langBtn").addEventListener("click",function(){
   STATE.lang = STATE.lang==="en"?"th":"en"; save(); applyLang();
 });
-document.getElementById("themeBtn").addEventListener("click",function(){
-  var next = document.documentElement.getAttribute("data-theme")==="dark" ? "light" : "dark";
-  document.documentElement.setAttribute("data-theme",next);
-  ART.repaint();          /* a light-ground plate is not shown on dark ground */
-  STATE.theme=next; save();
-  document.getElementById("themeBtn").textContent = next==="dark"?t("ui.themeLight"):t("ui.theme");
+document.addEventListener("readingthemechange",function(){
+  ART.repaint();
   LABS.forEach(function(l){ if(l.redraw) l.redraw(); if(l.repaintArt) l.repaintArt(); });
 });
 document.getElementById("resetBtn").addEventListener("click",function(){
@@ -1637,7 +1633,6 @@ document.getElementById("resetBtn").addEventListener("click",function(){
 });
 document.getElementById("genBtn").addEventListener("click",generate);
 
-if(STATE.theme) document.documentElement.setAttribute("data-theme",STATE.theme);
 applyLang();
 setView("learn");
 generate();

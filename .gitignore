@@ -21,3 +21,5 @@ _sweep_tmp.html
 _lighttest.html
 *.bak
 *.tmp
+.deploy/
+hub-original.html

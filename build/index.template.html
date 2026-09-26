@@ -4,9 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__SUBJECT__</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@500;600&family=IBM+Plex+Sans+Thai:wght@500;600&display=swap">
 <style>
 __CSS__
 
@@ -86,7 +83,10 @@ a.card:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .pill.live{background:var(--ink);color:var(--ground);border-color:var(--ink)}
 .card.soon{opacity:.55}
 .card.soon h3{color:var(--ink-soft)}
+
+__COURSE_CSS__
 </style>
+<script>__COURSE_THEME__</script>
 </head>
 <body>
 <div class="shell">
@@ -100,7 +100,13 @@ __PAGENAV__
   <div class="mast-tools">
     <a class="btn" href="../bridge.html" data-en="Physics × Maths" data-th="ฟิสิกส์ × คณิต"></a>
     <button class="btn" id="langBtn" type="button">ไทย</button>
-    <button class="btn" id="themeBtn" type="button" data-en="Dark" data-th="มืด"></button>
+    <label class="reading-theme"><span data-en="Theme" data-th="ธีม">Theme</span>
+      <select id="readingTheme" aria-label="Reading theme">
+        <option value="paper" data-en="Paper" data-th="กระดาษ">Paper</option>
+        <option value="warm" data-en="Warm" data-th="โทนอุ่น">Warm</option>
+        <option value="blue" data-en="Soft Blue" data-th="ฟ้าอ่อน">Soft Blue</option>
+        <option value="dark" data-en="Dark" data-th="มืด">Dark</option>
+      </select></label>
   </div>
 </header>
 
@@ -157,16 +163,9 @@ __CARDS__
     var k="data-"+st.lang;
     document.querySelectorAll("["+k+"]").forEach(function(el){ el.textContent=el.getAttribute(k); });
     document.getElementById("langBtn").textContent = st.lang==="en"?"ไทย":"English";
-    var dark=document.documentElement.getAttribute("data-theme")==="dark";
-    document.getElementById("themeBtn").textContent =
-      dark ? (st.lang==="en"?"Light":"สว่าง") : (st.lang==="en"?"Dark":"มืด");
   }
   document.getElementById("langBtn").addEventListener("click",function(){
     st.lang = st.lang==="en"?"th":"en"; save(); apply();
-  });
-  document.getElementById("themeBtn").addEventListener("click",function(){
-    var next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
-    document.documentElement.setAttribute("data-theme",next); st.theme=next; save(); apply();
   });
   document.querySelectorAll('.chip[data-href]').forEach(function(g){
     g.setAttribute("tabindex","0"); g.setAttribute("role","link");
@@ -174,7 +173,6 @@ __CARDS__
     g.addEventListener("click",go);
     g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
   });
-  if(st.theme) document.documentElement.setAttribute("data-theme",st.theme);
   apply();
 })();
 </script>

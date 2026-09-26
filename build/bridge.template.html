@@ -4,9 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Physics × Mathematics</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@500;600&family=IBM+Plex+Sans+Thai:wght@500;600&display=swap">
 <style>
 __CSS__
 
@@ -101,7 +98,10 @@ p.secnote{margin:-12px 0 24px;color:var(--ink-soft);max-width:64ch;font-size:15p
   .use{grid-template-columns:1fr;gap:9px}
   .use-l{flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap}
 }
+
+__COURSE_CSS__
 </style>
+<script>__COURSE_THEME__</script>
 </head>
 <body>
 <div class="shell">
@@ -116,7 +116,13 @@ __PAGENAV__
     <a class="btn" href="physics/index.html" data-en="Physics" data-th="ฟิสิกส์"></a>
     <a class="btn" href="math/index.html" data-en="Maths" data-th="คณิตศาสตร์"></a>
     <button class="btn" id="langBtn" type="button">ไทย</button>
-    <button class="btn" id="themeBtn" type="button" data-en="Dark" data-th="มืด"></button>
+    <label class="reading-theme"><span data-en="Theme" data-th="ธีม">Theme</span>
+      <select id="readingTheme" aria-label="Reading theme">
+        <option value="paper" data-en="Paper" data-th="กระดาษ">Paper</option>
+        <option value="warm" data-en="Warm" data-th="โทนอุ่น">Warm</option>
+        <option value="blue" data-en="Soft Blue" data-th="ฟ้าอ่อน">Soft Blue</option>
+        <option value="dark" data-en="Dark" data-th="มืด">Dark</option>
+      </select></label>
   </div>
 </header>
 
@@ -203,18 +209,10 @@ __PAGENAV__
     var k="data-"+st.lang;
     document.querySelectorAll("["+k+"]").forEach(function(el){ el.textContent=el.getAttribute(k); });
     document.getElementById("langBtn").textContent = st.lang==="en"?"ไทย":"English";
-    var dark=document.documentElement.getAttribute("data-theme")==="dark";
-    document.getElementById("themeBtn").textContent =
-      dark ? (st.lang==="en"?"Light":"สว่าง") : (st.lang==="en"?"Dark":"มืด");
   }
   document.getElementById("langBtn").addEventListener("click",function(){
     st.lang = st.lang==="en"?"th":"en"; save(); apply();
   });
-  document.getElementById("themeBtn").addEventListener("click",function(){
-    var next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
-    document.documentElement.setAttribute("data-theme",next); st.theme=next; save(); apply();
-  });
-  if(st.theme) document.documentElement.setAttribute("data-theme",st.theme);
   apply();
 })();
 </script>

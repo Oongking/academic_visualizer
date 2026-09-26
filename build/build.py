@@ -162,7 +162,10 @@ def build_chapter(path, css, engine, shell, filemap, order, nav=""):
     for tok, val in (("__PAGENAV__", nav),
                      ("__TITLE__", title), ("__MAPVB__", vb), ("__MAPCX__", str(cx)),
                      ("__MAPEXTY__", str(exty)), ("__NAV__", " &nbsp;·&nbsp; ".join(bits)),
-                     ("__CSS__", css), ("__CHAPTER__", src), ("__ENGINE__", engine)):
+                     ("__CSS__", css),
+                     ("__COURSE_CSS__", read(os.path.join(BUILD, "course-theme.css"))),
+                     ("__COURSE_THEME__", read(os.path.join(BUILD, "course-theme.js"))),
+                     ("__CHAPTER__", src), ("__ENGINE__", engine)):
         out = out.replace(tok, val)
 
     dest = os.path.join(ROOT, subject, "ch%s-%s.html" % (num, slug))
@@ -740,7 +743,10 @@ def build_index(man, built, stats, css, nav=""):
                   (u" %s เป็นบทที่บทอื่นต้องใช้มากที่สุด คือ %d บท"
                    % (kt["th"], keyn)) if key else ""))
     for tok, val in (("__PAGENAV__", nav),
-                     ("__CSS__", css), ("__TRACKVB__", vb), ("__TRACKS__", tracks),
+                     ("__CSS__", css),
+                     ("__COURSE_CSS__", read(os.path.join(BUILD, "course-theme.css"))),
+                     ("__COURSE_THEME__", read(os.path.join(BUILD, "course-theme.js"))),
+                     ("__TRACKVB__", vb), ("__TRACKS__", tracks),
                      ("__SLUG__", slug),
                      ("__TRACKDESC_EN__", esc(desc_en)),
                      ("__TRACKDESC_TH__", esc(desc_th)),
@@ -1021,7 +1027,10 @@ def build_home(subs, css, nav=""):
     lvl = subs[order[0]]["man"]["level"]
     out = tpl
     for tok, val in (("__PAGENAV__", nav),
-                     ("__CSS__", css), ("__WAYS__", ways),
+                     ("__CSS__", css),
+                     ("__COURSE_CSS__", read(os.path.join(BUILD, "course-theme.css"))),
+                     ("__COURSE_THEME__", read(os.path.join(BUILD, "course-theme.js"))),
+                     ("__WAYS__", ways),
                      ("__SITE_EN__", "Physics and Mathematics"),
                      ("__SITE_TH__", u"ฟิสิกส์และคณิตศาสตร์"),
                      ("__LEVEL_EN__", esc(lvl["en"])), ("__LEVEL_TH__", esc(lvl["th"])),
@@ -1032,6 +1041,7 @@ def build_home(subs, css, nav=""):
 
     # Deliberately not index.html: three files by that name - this one and
     # the two subject indexes - is a needless way to lose your place.
+    write(os.path.join(ROOT, "index.html"), out)
     dest = os.path.join(ROOT, "home.html")
     return dest, write(dest, out)
 
@@ -1060,7 +1070,10 @@ def build_bridge(subs, css, nav=""):
 
     out = tpl
     for tok, val in (("__PAGENAV__", nav),
-                     ("__CSS__", css), ("__MATRIXVB__", vb), ("__MATRIX__", matrix),
+                     ("__CSS__", css),
+                     ("__COURSE_CSS__", read(os.path.join(BUILD, "course-theme.css"))),
+                     ("__COURSE_THEME__", read(os.path.join(BUILD, "course-theme.js"))),
+                     ("__MATRIXVB__", vb), ("__MATRIX__", matrix),
                      ("__MDESC_EN__", esc(desc_en)), ("__MDESC_TH__", esc(desc_th)),
                      ("__MKEY_EN__", esc(kt["en"] if kt else "")),
                      ("__MKEY_TH__", esc(kt["th"] if kt else "")),
