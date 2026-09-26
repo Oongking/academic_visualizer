@@ -43,7 +43,9 @@ Use the system sans-serif stack from `--f-ui` for English and Thai. Body copy
 is 16 px with a 1.6 line height. A page heading is roughly 30–40 px, a card
 heading 18–24 px, and a small uppercase kicker 12 px with wider letter
 spacing. Formulae can use Cambria or Times New Roman inside a bordered panel;
-avoid changing the main reading text to a serif face. Use at most 760 px for
+the existing high-school chapter engine uses this styled-text approach. Use
+KaTeX for new mathematical notation as described below. Avoid changing the
+main reading text to a serif face. Use at most 760 px for
 long introductory prose and keep dense explanatory text in a readable column.
 
 The high-school implementation uses a `1120px` maximum `.shell`, with 24 px
@@ -109,6 +111,48 @@ and `data-en`/`data-th` attributes in templates. Keep diagrams, captions,
 controls, readouts, explanations, and questions bilingual, not just headings.
 The root `lang` attribute changes with the language control. Keep existing
 progress storage keys intact when extending content.
+
+## Mathematical notation
+
+The linear algebra and differential equations lessons use **KaTeX** to
+typeset mathematical equations. Follow that convention for new pages with
+fractions, matrices, Greek letters, or multi-line derivations. Use
+`\(...\)` for inline math and `\[...\]` for display math. Load the KaTeX
+stylesheet, KaTeX script, and auto-render script, then render the reading
+content after it is inserted into the DOM. The existing lessons use KaTeX
+`0.16.11` from cdnjs; match the site's loaded version when extending them.
+
+```html
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+```
+
+```js
+document.addEventListener('DOMContentLoaded', () => {
+  renderMathInElement(document.querySelector('main'), {
+    delimiters: [
+      {left: '\\[', right: '\\]', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ],
+    ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    throwOnError: false
+  });
+});
+```
+
+Call `renderMathInElement` again on newly inserted math content, such as a
+generated exercise; theme or language changes may also replace that content.
+Keep display equations in a horizontally scrollable panel on narrow screens,
+and check their contrast in every reading theme. For an offline lesson,
+package KaTeX assets locally or render the equations at build time; the CDN
+example needs a network connection.
+
+The current high-school `build/engine.js` does **not** load KaTeX or interpret
+LaTeX in chapter `formula` strings. Those strings are shown as text in
+`.formula` panels. Adding LaTeX to a high-school chapter therefore needs an
+explicit rendering change in the engine or pre-rendered markup, plus offline
+KaTeX assets if the single-file chapter must still work without a connection.
 
 ## Visualizations and learning interactions
 
