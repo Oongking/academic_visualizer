@@ -1249,6 +1249,7 @@ function makeLab(nd, host){
   }
   h+='</div>';
   host.className="lab"; host.innerHTML=h;
+  if(cfg.caption) MATH.renderInline(host.querySelector(".lab-cap"));
 
   var S={p:{},t:0,playing:false,mode:"sandbox",step:0,script:nd.guide||null,raf:null};
   ctrls.forEach(function(c){ S.p[c.k]=c.def; });
@@ -1298,6 +1299,7 @@ function makeLab(nd, host){
     var st=S.script[S.step]; if(!st) return;
     q(".g-step").textContent=t("lab.step")+" "+(S.step+1)+" / "+S.script.length;
     q(".g-text").textContent=tx(st.say);
+    MATH.renderInline(q(".g-text"));
     for(var k in st.set) S.p[k]=st.set[k];
     S.t=0;
     host.querySelectorAll(".cv").forEach(function(el){ el.value=S.p[ctrls[+el.getAttribute("data-i")].k]; });
@@ -1356,7 +1358,7 @@ function makeLab(nd, host){
   if(!S.script) q(".m-guided").hidden=true;
   S.redraw=draw;
   /* A caption is text in the DOM, so it follows the language switch. */
-  S.repaintArt=function(){ paintArt(); var c=q(".lab-cap"); if(c&&cfg.caption) c.textContent=tx(cfg.caption); };
+  S.repaintArt=function(){ paintArt(); var c=q(".lab-cap"); if(c&&cfg.caption){ c.textContent=tx(cfg.caption); MATH.renderInline(c); } };
   paintArt();
   setMode("sandbox");
   LABS.push(S);
@@ -1448,7 +1450,8 @@ function buildSections(){
     tx(n.body).forEach(function(p){ main+="<p>"+p+"</p>"; });
     main+='</div>';
     if(isTable) main+=tableHTML(n);
-    if(n.formula) main+='<div class="formula">'+tx(n.formula)+(n.flabel?'<small>'+tx(n.flabel)+'</small>':'')+'</div>';
+    if(n.formula || n.formulaTeX) main+='<div class="formula"><div class="formula-content"></div>'+
+      (n.flabel?'<small>'+tx(n.flabel)+'</small>':'')+'</div>';
     if(n.methods && n.methods.length){
       main+='<div class="methods-here"><span class="label">'+t("study.methods")+'</span><div>';
       n.methods.forEach(function(m){
@@ -1459,6 +1462,10 @@ function buildSections(){
     }
     sec.innerHTML='<div class="node-head"><span class="node-num">'+String(i+1).padStart(2,"0")+'</span><h3>'+tx(n.title)+'</h3></div>'+
                   '<div class="node-split"><div class="node-main">'+main+'</div></div>';
+    sec.querySelectorAll(".node-body p").forEach(MATH.renderInline);
+    sec.querySelectorAll(".xtable td, .xfacts dd, .xnote").forEach(MATH.renderInline);
+    if(n.formula || n.formulaTeX) MATH.renderFormula(sec.querySelector(".formula-content"),
+      tx(n.formulaTeX || n.formula),!!n.formulaTeX);
     if(hasLab){
       var lh=document.createElement("div");
       sec.querySelector(".node-split").appendChild(lh);
@@ -1544,11 +1551,13 @@ function qCard(q,idx){
   el.innerHTML='<div class="q-top"><span class="tg m">'+q.method+'</span><span class="tg">'+(mdef?tx(mdef.name):"")+'</span>'+
     '<span class="tg">'+sName(q.surface)+'</span></div><div class="q-body"><p class="q-stem">'+(idx+1)+'. '+q.stem+'</p>'+
     (q.fig?'<div class="q-fig">'+q.fig+'</div>':"")+'<div class="opts"></div><div class="fbslot"></div></div>';
+  MATH.renderInline(el.querySelector(".q-stem"));
   var box=el.querySelector(".opts"), letters=["A","B","C","D"];
   q.opts.forEach(function(o,i){
     var b=document.createElement("button");
     b.type="button"; b.className="opt";
     b.innerHTML='<b>'+letters[i]+'</b><span>'+o.label+'</span>';
+    MATH.renderInline(b.querySelector("span"));
     b.addEventListener("click",function(){
       var all=box.querySelectorAll(".opt");
       for(var z=0;z<all.length;z++) all[z].disabled=true;

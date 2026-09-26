@@ -42,9 +42,7 @@ caution. Let text, diagrams, and the user's interaction carry the page.
 Use the system sans-serif stack from `--f-ui` for English and Thai. Body copy
 is 16 px with a 1.6 line height. A page heading is roughly 30–40 px, a card
 heading 18–24 px, and a small uppercase kicker 12 px with wider letter
-spacing. Formulae can use Cambria or Times New Roman inside a bordered panel;
-the existing high-school chapter engine uses this styled-text approach. Use
-KaTeX for new mathematical notation as described below. Avoid changing the
+spacing. Use KaTeX for mathematical notation as described below. Avoid changing the
 main reading text to a serif face. Use at most 760 px for
 long introductory prose and keep dense explanatory text in a readable column.
 
@@ -148,11 +146,16 @@ and check their contrast in every reading theme. For an offline lesson,
 package KaTeX assets locally or render the equations at build time; the CDN
 example needs a network connection.
 
-The current high-school `build/engine.js` does **not** load KaTeX or interpret
-LaTeX in chapter `formula` strings. Those strings are shown as text in
-`.formula` panels. Adding LaTeX to a high-school chapter therefore needs an
-explicit rendering change in the engine or pre-rendered markup, plus offline
-KaTeX assets if the single-file chapter must still work without a connection.
+The high-school build bundles KaTeX `0.16.11`, its CSS, and WOFF2 fonts
+directly into each generated chapter for offline use. `build/math-notation.js`
+renders existing Unicode `formula` strings with KaTeX where they contain
+math, and leaves prose-only notes as text. It also typesets math expressions
+in chapter explanations and generated practice questions. For newly authored equations, use a
+`formulaTeX: ["...", "..."]` pair on a chapter node; this is passed to KaTeX
+as TeX without Unicode conversion. Keep English and Thai explanations in
+`flabel` or the node body. In JavaScript chapter source, escape each TeX
+backslash as `\\` inside a quoted string. Do not add a KaTeX CDN link to a high-school
+chapter; the build already includes the assets.
 
 ## Visualizations and learning interactions
 
@@ -273,6 +276,7 @@ them for nested pages. Do not use this local theme script alongside the site's
 - Confirm that changing a parameter updates the drawing and readouts, and
   that explanations, captions, and units remain correct in English and Thai.
 - In this repo, run `python -X utf8 build/check.py` and
-  `python -X utf8 build/build.py`; check that generated pages have no broken
+  `python -X utf8 build/build.py`, then `node build/check_math.js`;
+  check that generated pages have no broken
   links or unresolved build tokens. Changes to a deployed site require a
   separate deployment and live verification.

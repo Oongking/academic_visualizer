@@ -10,10 +10,29 @@ Each  build/chapters/chNN.js  defines a global CHAPTER object.
 Output:  <subject>/chNN-<slug>.html  and  <subject>/index.html
 Every output is one file with no dependencies, openable offline.
 """
-import io, os, re, sys, json, glob
+import io, os, re, sys, json, glob, base64
+from functools import lru_cache
 
 ROOT  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUILD = os.path.join(ROOT, "build")
+
+
+@lru_cache(maxsize=1)
+def katex_css():
+    """Embed WOFF2 assets so each generated chapter still opens offline."""
+    vendor = os.path.join(BUILD, "vendor", "katex")
+    css = read(os.path.join(vendor, "katex.min.css"))
+    pattern = (r'src:url\(fonts/([^)]*\.woff2)\) format\("woff2"\),'
+               r'url\(fonts/[^)]+\) format\("woff"\),'
+               r'url\(fonts/[^)]+\) format\("truetype"\)')
+    def inline(match):
+        with open(os.path.join(vendor, "fonts", match.group(1)), "rb") as font:
+            encoded = base64.b64encode(font.read()).decode("ascii")
+        return 'src:url(data:font/woff2;base64,%s) format("woff2")' % encoded
+    css, count = re.subn(pattern, inline, css)
+    if count != 20 or "url(fonts/" in css:
+        raise ValueError("Unexpected KaTeX font stylesheet; offline package incomplete")
+    return css
 
 
 def read(p):
@@ -163,6 +182,9 @@ def build_chapter(path, css, engine, shell, filemap, order, nav=""):
                      ("__TITLE__", title), ("__MAPVB__", vb), ("__MAPCX__", str(cx)),
                      ("__MAPEXTY__", str(exty)), ("__NAV__", " &nbsp;·&nbsp; ".join(bits)),
                      ("__CSS__", css),
+                     ("__KATEX_CSS__", katex_css()),
+                     ("__KATEX_JS__", read(os.path.join(BUILD, "vendor", "katex", "katex.min.js"))),
+                     ("__MATH_JS__", read(os.path.join(BUILD, "math-notation.js"))),
                      ("__COURSE_CSS__", read(os.path.join(BUILD, "course-theme.css"))),
                      ("__COURSE_THEME__", read(os.path.join(BUILD, "course-theme.js"))),
                      ("__CHAPTER__", src), ("__ENGINE__", engine)):

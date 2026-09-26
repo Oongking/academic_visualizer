@@ -9,6 +9,7 @@ a cross-subject map, with English and Thai content.
 ```sh
 python -X utf8 build/check.py
 python -X utf8 build/build.py
+node build/check_math.js
 ```
 
 The build generates both `index.html` (the directory entry point) and
@@ -28,6 +29,11 @@ courses. `build/course-theme.js` shares their `edu-reading-theme` preference
 (Paper, Warm, Soft Blue, Dark); Paper is the default. Both files are embedded
 at build time so chapters continue to work offline. Language and learning
 progress retain their existing storage keys.
+
+Chapter equations are typeset with bundled KaTeX 0.16.11. `build/math-notation.js`
+handles existing formula strings, prose equations, and equations in generated questions;
+`build/vendor/katex/` provides the MIT-licensed script, CSS, and fonts.
+The build inlines those assets into chapter HTML to preserve offline use.
 
 ## Hosting
 
@@ -51,3 +57,9 @@ up at `/var/backups/edu/20260926T082140Z-high-school-redesign/high-school`.
 All 41 published HTML pages were verified against the local build by SHA256;
 the main hub, existing course indexes, and shared reading-theme script were
 also verified unchanged.
+
+KaTeX equation rendering was deployed on 2026-09-26. The previous high-school
+pages are backed up at
+`/var/backups/edu/20260926T091444Z-high-school-katex-final/high-school`.
+The final 41 public HTML pages and five other-site resources were verified
+against local SHA256 hashes.
