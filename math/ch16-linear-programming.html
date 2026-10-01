@@ -352,7 +352,7 @@ footer.foot{border-top:1px solid var(--rule);margin-top:64px;padding-top:22px;
   display:flex;flex-direction:column;gap:8px}
 .spell-k{font-family:var(--f-ui);font-size:10.5px;font-weight:700;letter-spacing:.12em;
   text-transform:uppercase;color:var(--accent2)}
-.spell-tex{overflow-x:auto;overflow-y:hidden;padding:2px 0;min-height:1.6em}
+.spell-tex{overflow-x:auto;overflow-y:hidden;padding:2px 0;min-height:1.6em;white-space:nowrap}
 .spell-tex .katex{font-size:1.12em}
 .spell-terms{display:flex;flex-wrap:wrap;gap:6px}
 .term{--term:var(--accent);font-family:var(--f-ui);font-size:12px;color:var(--ink);
@@ -2455,7 +2455,7 @@ var STAGE = {
       W.guessPt = function(v){ return [v, g]; };
       W.guessVal = function(px){ return px; };
     } else {
-      var x0 = FR.sx + 14, wl = FR.sw - 22;
+      var x0 = FR.sx + (w.left != null ? w.left : 14), wl = FR.sx + FR.sw - 8 - x0;
       W = { span: span, g: g,
         X: function(m){ return x0 + (m / span) * wl; },
         M: function(px){ return (px - x0) / wl * span; } };
@@ -2851,7 +2851,7 @@ var STAGE = {
         S.trial = { goal: g, lock: tr.lockFor ? tr.lockFor(g) : (tr.lock || []), done: false };
         for(var k in g.set) S.p[k] = g.set[k];
         S.t = 0; S.fired = {}; S.playing = false;
-        host.querySelectorAll(".cv").forEach(function(el){
+        host.querySelectorAll(".cv,.opt-b:not(.p-opt)").forEach(function(el){
           var c = api.ctrls[+el.getAttribute("data-i")];
           el.disabled = locked(c.k);
           el.closest(".ctrl").classList.toggle("locked", locked(c.k));
@@ -2900,7 +2900,7 @@ var STAGE = {
           newTrial();
         } else if(S.trial){
           S.trial = null; S.onEnd = null; host.classList.remove("is-veiled");
-          host.querySelectorAll(".cv").forEach(function(el){ el.disabled = false; el.closest(".ctrl").classList.remove("locked"); });
+          host.querySelectorAll(".cv,.opt-b:not(.p-opt)").forEach(function(el){ el.disabled = false; el.closest(".ctrl").classList.remove("locked"); });
         }
       });
     }
@@ -2956,7 +2956,7 @@ var STAGE = {
       var start = function(){
         if(S.mode !== "sandbox") api.setMode("sandbox");
         cancelAnimationFrame(S.raf); S.playing = false; var b = q(".b-play"); if(b) b.textContent = t("lab.play");
-        S.pred = { phase: "guess", guess: null, f: pc.stretch === false ? 1 : 1.2 + Math.random() * 0.6 };
+        S.pred = { phase: "guess", guess: null, f: (pc.stretch === false || pc.kind === "choice") ? 1 : 1.2 + Math.random() * 0.6 };
         S.t = 0; S.fired = {};
         pp.hidden = false; pb.hidden = true;
         q(".p-step").textContent = stepText();
@@ -3203,6 +3203,7 @@ VIZLIB.stage = {
 
     nouns: {
       agent: ["the apprentice", "นักเวทฝึกหัด"],
+      golem: ["the golem", "โกเลม"], ice: ["ice", "น้ำแข็ง"], stone: ["cobbles", "หินปูทาง"], moss: ["moss", "มอส"],
       fly: ["fly", "บิน"], flies: ["flies", "บิน"], flown: ["flown", "บิน"],
       origin: ["the tower", "หอคอยเวท"],
       marker: ["waystone", "หินบอกทาง"],
@@ -3503,6 +3504,66 @@ VIZLIB.stage = {
         o.push('<rect x="' + F2(xl + i * 10) + '" y="' + F2(top - 6) + '" width="6" height="6" fill="#2f2862" stroke="#5d55a5"/>');
     },
 
+    /* a stone golem; opt.size scales it with its mass */
+    golem: function(o, x, y, opt){
+      var k = opt.size || 1, c = opt.clock || 0, glow = opt.moving ? "#ffcf6e" : "#7fe3ff";
+      o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y + 1) + '" rx="' + F2(20 * k) + '" ry="3" fill="#000" opacity=".4"/>');
+      o.push('<g transform="translate(' + F2(x) + ' ' + F2(y) + ') scale(' + F2(k) + ')">');
+      o.push('<rect x="-12" y="-11" width="8" height="11" rx="2" fill="#4a4380" stroke="#7c74c4"/>');
+      o.push('<rect x="4" y="-11" width="8" height="11" rx="2" fill="#4a4380" stroke="#7c74c4"/>');
+      o.push('<path d="M-17 -12 Q-19 -34 -8 -38 L8 -38 Q19 -34 17 -12 Z" fill="#564e94" stroke="#8e86d4" stroke-width="1.2"/>');
+      o.push('<rect x="-24" y="-34" width="8" height="18" rx="3" fill="#4a4380" stroke="#7c74c4"/>');
+      o.push('<rect x="16" y="-34" width="8" height="18" rx="3" fill="#4a4380" stroke="#7c74c4"/>');
+      o.push('<rect x="-8" y="-50" width="16" height="13" rx="3" fill="#5f579f" stroke="#8e86d4"/>');
+      o.push('<rect x="-5" y="-46" width="3.5" height="2.6" fill="' + glow + '" filter="url(#ak-glow)"/>');
+      o.push('<rect x="1.5" y="-46" width="3.5" height="2.6" fill="' + glow + '" filter="url(#ak-glow)"/>');
+      o.push('<path d="M0 -32 V-20 M0 -29 l4 3 M0 -24 l-4 3" stroke="' + glow + '" stroke-width="1.6" fill="none" filter="url(#ak-glow)"/>');
+      o.push('<path d="M-12 -24 l4 2 M12 -18 l-4 2" stroke="#3a3470" stroke-width="1"/>');
+      o.push('</g>');
+    },
+
+    /* enchanted ground: ice, cobbled stone or moss */
+    surface: function(o, x1, x2, y, opt){
+      var v = opt.variant;
+      if(v === "ice"){
+        o.push('<rect x="' + F2(x1) + '" y="' + F2(y - 2) + '" width="' + F2(x2 - x1) + '" height="8" fill="#bfefff" opacity=".35"/>');
+        for(var i = x1 + 12; i < x2; i += 46)
+          o.push('<line x1="' + F2(i) + '" y1="' + F2(y + 4) + '" x2="' + F2(i + 14) + '" y2="' + F2(y) + '" stroke="#ffffff" stroke-width="1" opacity=".6"/>');
+      } else if(v === "moss"){
+        o.push('<rect x="' + F2(x1) + '" y="' + F2(y - 2) + '" width="' + F2(x2 - x1) + '" height="7" fill="#2f8a59" opacity=".55"/>');
+        for(var j = x1 + 4; j < x2; j += 9)
+          o.push('<circle cx="' + F2(j) + '" cy="' + F2(y - 2) + '" r="' + (2 + (j % 3)) + '" fill="#3fa36b" opacity=".8"/>');
+      } else {
+        for(var m = x1; m < x2; m += 18)
+          o.push('<rect x="' + F2(m + 1) + '" y="' + F2(y - 1) + '" width="16" height="6" rx="2" fill="#4a4380" opacity=".8"/>');
+      }
+    },
+
+    /* a ley-line rail on carved supports */
+    track: function(o, pts, y, opt){
+      var d = pts.map(function(q, i){ return (i ? "L" : "M") + F2(q[0]) + " " + F2(q[1]); }).join(" ");
+      for(var i = 0; i < pts.length; i += 6){
+        if(y - pts[i][1] > 4)
+          o.push('<line x1="' + F2(pts[i][0]) + '" y1="' + F2(pts[i][1] + 2) + '" x2="' + F2(pts[i][0]) + '" y2="' + F2(y) + '" stroke="#3d3678" stroke-width="2"/>');
+      }
+      o.push('<path d="' + d + '" fill="none" stroke="#7fe3ff" stroke-width="7" opacity=".18" stroke-linejoin="round"/>');
+      o.push('<path d="' + d + '" fill="none" stroke="#7fe3ff" stroke-width="2.4" stroke-linejoin="round"/>');
+      o.push('<path d="' + d + '" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="1 9" opacity=".7" ' +
+             'stroke-dashoffset="' + F2(-(opt.clock || 0) * 30) + '"/>');
+    },
+
+    /* an enchanted mine cart with a glowing crystal, tilted with the rail */
+    cart: function(o, x, y, opt){
+      var d = (opt.ang || 0) * 180 / Math.PI;
+      o.push('<g transform="translate(' + F2(x) + ' ' + F2(y) + ') rotate(' + F2(d) + ')">');
+      o.push('<path d="M-6 -16 L0 -27 L6 -16 Z" fill="#ff9bd2" stroke="#fff" stroke-width=".6" filter="url(#ak-glow)"/>');
+      o.push('<path d="M-13 -16 L13 -16 L10 -5 L-10 -5 Z" fill="#6c4ce0" stroke="#a48cff"/>');
+      o.push('<line x1="-12" y1="-12" x2="12" y2="-12" stroke="#ffcf6e" stroke-width="1.2"/>');
+      o.push('<circle cx="-6" cy="-3" r="3.4" fill="#2e2273" stroke="#7fe3ff" stroke-width="1.2"/>');
+      o.push('<circle cx="6" cy="-3" r="3.4" fill="#2e2273" stroke="#7fe3ff" stroke-width="1.2"/>');
+      o.push('</g>');
+    },
+
     /* a prophecy stone: the learner's prediction, planted on the ley line */
     prophecy: function(o, x, y, opt){
       var c = opt.done ? (opt.hit ? "#9cf5b5" : "#ffcf6e") : "#d6a8ff", k = opt.clock || 0;
@@ -3542,6 +3603,7 @@ SKINS.add({
 
   nouns: {
     agent: ["the rider", "คนขี่"],
+    golem: ["the crate", "ลังไม้"], ice: ["ice", "น้ำแข็ง"], stone: ["concrete", "คอนกรีต"], moss: ["carpet", "พรม"],
     fly: ["ride", "ขี่"], flies: ["rides", "ขี่"], flown: ["ridden", "ขี่"],
     origin: ["home", "บ้าน"],
     marker: ["post", "เสา"],
@@ -3661,6 +3723,32 @@ SKINS.add({
       o.push('<rect x="' + fmt2(x - 6) + '" y="' + fmt2(opt.gapY - opt.gapR) + '" width="12" height="' + fmt2(2 * opt.gapR) + '" fill="none" stroke="' +
              (opt.on ? "var(--good)" : "var(--accent)") + '" stroke-width="2"/>');
     } else o.push('<rect x="' + fmt2(x - 6) + '" y="' + fmt2(top) + '" width="12" height="' + fmt2(opt.h) + '" fill="' + c + '" opacity=".5"/>');
+  },
+
+  /* a block pushed along the ground; opt.size scales it with its mass */
+  golem: function(o, x, y, opt){
+    var k = opt.size || 1, w = 30 * k, h = 26 * k;
+    o.push('<rect x="' + fmt2(x - w / 2) + '" y="' + fmt2(y - h) + '" width="' + fmt2(w) + '" height="' + fmt2(h) + '" fill="var(--surface)" stroke="var(--ink-soft)" stroke-width="2"/>');
+  },
+
+  /* the ground's texture between x1 and x2: variant "ice" | "stone" | "moss" */
+  surface: function(o, x1, x2, y, opt){
+    var v = opt.variant, c = v === "ice" ? "var(--accent)" : (v === "moss" ? "var(--good)" : "var(--ink-faint)");
+    o.push('<rect x="' + fmt2(x1) + '" y="' + fmt2(y) + '" width="' + fmt2(x2 - x1) + '" height="6" fill="' + c + '" opacity=".25"/>');
+  },
+
+  /* a rail through the points pts ([[px, py], ...]) down to the ground y */
+  track: function(o, pts, y, opt){
+    o.push('<path d="' + pts.map(function(q, i){ return (i ? "L" : "M") + fmt2(q[0]) + " " + fmt2(q[1]); }).join(" ") +
+           '" fill="none" stroke="var(--ink-soft)" stroke-width="3" stroke-linejoin="round"/>');
+  },
+
+  /* a cart sitting on the rail at (x, y), tilted by opt.ang (radians) */
+  cart: function(o, x, y, opt){
+    var d = (opt.ang || 0) * 180 / Math.PI;
+    o.push('<g transform="translate(' + fmt2(x) + ' ' + fmt2(y) + ') rotate(' + fmt2(d) + ')">' +
+           '<rect x="-11" y="-15" width="22" height="11" fill="' + (opt.col || "var(--accent)") + '"/>' +
+           '<circle cx="-6" cy="-3" r="3" fill="var(--ink)"/><circle cx="6" cy="-3" r="3" fill="var(--ink)"/></g>');
   },
 
   prophecy: function(o, x, y, opt){

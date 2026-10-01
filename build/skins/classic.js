@@ -12,6 +12,7 @@ SKINS.add({
 
   nouns: {
     agent: ["the rider", "คนขี่"],
+    golem: ["the crate", "ลังไม้"], ice: ["ice", "น้ำแข็ง"], stone: ["concrete", "คอนกรีต"], moss: ["carpet", "พรม"],
     fly: ["ride", "ขี่"], flies: ["rides", "ขี่"], flown: ["ridden", "ขี่"],
     origin: ["home", "บ้าน"],
     marker: ["post", "เสา"],
@@ -131,6 +132,32 @@ SKINS.add({
       o.push('<rect x="' + fmt2(x - 6) + '" y="' + fmt2(opt.gapY - opt.gapR) + '" width="12" height="' + fmt2(2 * opt.gapR) + '" fill="none" stroke="' +
              (opt.on ? "var(--good)" : "var(--accent)") + '" stroke-width="2"/>');
     } else o.push('<rect x="' + fmt2(x - 6) + '" y="' + fmt2(top) + '" width="12" height="' + fmt2(opt.h) + '" fill="' + c + '" opacity=".5"/>');
+  },
+
+  /* a block pushed along the ground; opt.size scales it with its mass */
+  golem: function(o, x, y, opt){
+    var k = opt.size || 1, w = 30 * k, h = 26 * k;
+    o.push('<rect x="' + fmt2(x - w / 2) + '" y="' + fmt2(y - h) + '" width="' + fmt2(w) + '" height="' + fmt2(h) + '" fill="var(--surface)" stroke="var(--ink-soft)" stroke-width="2"/>');
+  },
+
+  /* the ground's texture between x1 and x2: variant "ice" | "stone" | "moss" */
+  surface: function(o, x1, x2, y, opt){
+    var v = opt.variant, c = v === "ice" ? "var(--accent)" : (v === "moss" ? "var(--good)" : "var(--ink-faint)");
+    o.push('<rect x="' + fmt2(x1) + '" y="' + fmt2(y) + '" width="' + fmt2(x2 - x1) + '" height="6" fill="' + c + '" opacity=".25"/>');
+  },
+
+  /* a rail through the points pts ([[px, py], ...]) down to the ground y */
+  track: function(o, pts, y, opt){
+    o.push('<path d="' + pts.map(function(q, i){ return (i ? "L" : "M") + fmt2(q[0]) + " " + fmt2(q[1]); }).join(" ") +
+           '" fill="none" stroke="var(--ink-soft)" stroke-width="3" stroke-linejoin="round"/>');
+  },
+
+  /* a cart sitting on the rail at (x, y), tilted by opt.ang (radians) */
+  cart: function(o, x, y, opt){
+    var d = (opt.ang || 0) * 180 / Math.PI;
+    o.push('<g transform="translate(' + fmt2(x) + ' ' + fmt2(y) + ') rotate(' + fmt2(d) + ')">' +
+           '<rect x="-11" y="-15" width="22" height="11" fill="' + (opt.col || "var(--accent)") + '"/>' +
+           '<circle cx="-6" cy="-3" r="3" fill="var(--ink)"/><circle cx="6" cy="-3" r="3" fill="var(--ink)"/></g>');
   },
 
   prophecy: function(o, x, y, opt){

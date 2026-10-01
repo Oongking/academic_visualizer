@@ -153,7 +153,7 @@ var STAGE = {
       W.guessPt = function(v){ return [v, g]; };
       W.guessVal = function(px){ return px; };
     } else {
-      var x0 = FR.sx + 14, wl = FR.sw - 22;
+      var x0 = FR.sx + (w.left != null ? w.left : 14), wl = FR.sx + FR.sw - 8 - x0;
       W = { span: span, g: g,
         X: function(m){ return x0 + (m / span) * wl; },
         M: function(px){ return (px - x0) / wl * span; } };
@@ -549,7 +549,7 @@ var STAGE = {
         S.trial = { goal: g, lock: tr.lockFor ? tr.lockFor(g) : (tr.lock || []), done: false };
         for(var k in g.set) S.p[k] = g.set[k];
         S.t = 0; S.fired = {}; S.playing = false;
-        host.querySelectorAll(".cv").forEach(function(el){
+        host.querySelectorAll(".cv,.opt-b:not(.p-opt)").forEach(function(el){
           var c = api.ctrls[+el.getAttribute("data-i")];
           el.disabled = locked(c.k);
           el.closest(".ctrl").classList.toggle("locked", locked(c.k));
@@ -598,7 +598,7 @@ var STAGE = {
           newTrial();
         } else if(S.trial){
           S.trial = null; S.onEnd = null; host.classList.remove("is-veiled");
-          host.querySelectorAll(".cv").forEach(function(el){ el.disabled = false; el.closest(".ctrl").classList.remove("locked"); });
+          host.querySelectorAll(".cv,.opt-b:not(.p-opt)").forEach(function(el){ el.disabled = false; el.closest(".ctrl").classList.remove("locked"); });
         }
       });
     }
@@ -654,7 +654,7 @@ var STAGE = {
       var start = function(){
         if(S.mode !== "sandbox") api.setMode("sandbox");
         cancelAnimationFrame(S.raf); S.playing = false; var b = q(".b-play"); if(b) b.textContent = t("lab.play");
-        S.pred = { phase: "guess", guess: null, f: pc.stretch === false ? 1 : 1.2 + Math.random() * 0.6 };
+        S.pred = { phase: "guess", guess: null, f: (pc.stretch === false || pc.kind === "choice") ? 1 : 1.2 + Math.random() * 0.6 };
         S.t = 0; S.fired = {};
         pp.hidden = false; pb.hidden = true;
         q(".p-step").textContent = stepText();

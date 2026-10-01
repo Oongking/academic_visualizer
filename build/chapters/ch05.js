@@ -1,3 +1,57 @@
+/* Chapter 05 coaster: the track's shape and the cart's run along it, found
+   by stepping energy (and, on a sticky track, heat) forward in time. One run
+   per setting is computed and kept, so drawing a frame is a lookup. */
+var C05 = {
+  KX: [0, 14, 30, 46, 60], mu: 0.04, dt: 0.004, cache: {},
+  knots: function(p){ return [p.h0, 0, p.h2, 0, 0]; },
+  y: function(p, x){
+    var K = C05.KX, H = C05.knots(p);
+    x = Math.max(0, Math.min(60, x));
+    for(var i = 0; i < K.length - 1; i++) if(x <= K[i + 1]){
+      var f = (x - K[i]) / (K[i + 1] - K[i]);
+      return H[i] + (H[i + 1] - H[i]) * (1 - Math.cos(Math.PI * f)) / 2;
+    }
+    return 0;
+  },
+  dy: function(p, x){
+    var K = C05.KX, H = C05.knots(p);
+    x = Math.max(0, Math.min(60, x));
+    for(var i = 0; i < K.length - 1; i++) if(x <= K[i + 1]){
+      var w = K[i + 1] - K[i], f = (x - K[i]) / w;
+      return (H[i + 1] - H[i]) * Math.PI / 2 * Math.sin(Math.PI * f) / w;
+    }
+    return 0;
+  },
+  sim: function(p){
+    var key = p.h0 + "|" + p.h2 + "|" + p.fr;
+    if(C05.cache[key]) return C05.cache[key];
+    var g = 10, mu = p.fr ? C05.mu : 0, x = 0.3, dir = 1, s = 0, t = 0, dt = C05.dt;
+    var out = [], crest = false, exited = false, next = 0;
+    while(t < 17){
+      var E = g * (p.h0 - C05.y(p, x)) - mu * g * s, v = Math.sqrt(2 * Math.max(E, 0));
+      if(t >= next){ out.push({ x: x, v: v, y: C05.y(p, x), heat: mu * g * s }); next += 0.02; }
+      var sl = C05.dy(p, x);
+      if(v < 0.06){
+        if(mu && Math.abs(sl) < 0.03){ break; }        /* settled in the valley */
+        if(sl * dir > 0) dir = -dir;                    /* climbing with nothing left: turn back */
+      }
+      var ds = Math.max(v, 0.06) * dt, nx = x + dir * ds / Math.sqrt(1 + sl * sl);
+      if(g * (p.h0 - C05.y(p, nx)) - mu * g * (s + ds) < 0 && sl * dir > 0){ dir = -dir; t += dt; continue; }
+      x = nx; s += ds; t += dt;
+      if(x > C05.KX[2]) crest = true;
+      if(x >= 59){ exited = true; out.push({ x: 59, v: v, y: 0, heat: mu * g * s, out: true }); break; }
+      if(x < 0){ x = 0; dir = 1; }
+    }
+    var r = { pts: out, crest: crest, out: exited };
+    C05.cache[key] = r;
+    return r;
+  },
+  at: function(p, t){
+    var r = C05.sim(p), i = Math.min(r.pts.length - 1, Math.max(0, Math.floor(t / 0.02)));
+    return r.pts[i];
+  }
+};
+
 var CHAPTER = {
 id:"ch05", num:"05", slug:"work-and-energy", subject:"physics",
 kicker:["Physics · Chapter 05","ฟิสิกส์ · บทที่ 5"],
@@ -130,39 +184,119 @@ nodes:[
          "ลูกบอลที่ปล่อยจากความสูง h จะถึงพื้นด้วย √(2gh) ไม่ว่ามวลเท่าใด และด้วยเหตุผลเดียวกัน ไม่ว่าจะไปทางไหน สิ่งที่นับคือผลต่างความสูงเท่านั้น"]],
   formula:["E_k1 + E_p1 = E_k2 + E_p2","E_k1 + E_p1 = E_k2 + E_p2"],
   flabel:["Path and time both drop out","ทั้งเส้นทางและเวลาหายไป"],
-  viz:"stack",
+  viz:"stage",
   vizcfg:{
-    title:["THE TOTAL NEVER MOVES, ONLY THE SPLIT","ผลรวมไม่เคยเปลี่ยน เปลี่ยนแค่สัดส่วน"],
-    total:["total energy","พลังงานรวม"],
+    anim:true,
+    spellName:["The Mana Coaster","รถรางพลังเวท"],
+    question:["Drag the starting height and the second hill. Can the cart cross it — and how fast is it going at the bottom?",
+              "ลากความสูงจุดปล่อยและเนินที่สอง รถจะข้ามเนินได้ไหม และที่ก้นหุบเร็วแค่ไหน"],
     ctrls:[
-      {k:"h0", lab:["Dropped from","ปล่อยจากความสูง"], min:1, max:20, step:1, def:10, unit:" m"},
-      {k:"h",  lab:["Height right now","ความสูงขณะนี้"], min:0, max:20, step:.5, def:10, unit:" m"},
-      {k:"m",  lab:["Mass","มวล"],                      min:.5, max:5, step:.5, def:2, unit:" kg"}
+      {k:"h0", lab:["Released from","ปล่อยจากความสูง"], min:2, max:20, step:.1, def:12, unit:" m"},
+      {k:"h2", lab:["Second hill","เนินที่สอง"], min:1, max:20, step:.1, def:9, unit:" m"},
+      {k:"m",  lab:["Mass of the cart","มวลรถ"], min:.5, max:5, step:.5, def:2, unit:" kg"},
+      {k:"fr", lab:["Track","ราง"], min:0, max:1, step:1, def:0, opts:[["Frictionless","ไร้แรงเสียดทาน"],["Sticky","มีแรงเสียดทาน"]]},
+      {k:"T",  lab:["Watch for","ดูนาน"], min:4, max:16, step:1, def:10, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Potential energy","พลังงานศักย์"], f:function(S){
-        return fmt2(S.p.m*9.8*Math.min(S.p.h,S.p.h0))+" J"; }},
-      {lab:["Kinetic energy","พลังงานจลน์"], f:function(S){
-        return fmt2(S.p.m*9.8*Math.max(0,S.p.h0-S.p.h))+" J"; }},
-      {lab:["Total","รวม"], f:function(S){ return fmt2(S.p.m*9.8*S.p.h0)+" J"; }},
-      {lab:["Speed now","อัตราเร็วขณะนี้"], f:function(S){
-        return fmt2(Math.sqrt(2*9.8*Math.max(0,S.p.h0-S.p.h)))+" m/s"; }}
+      {lab:["Speed now","อัตราเร็วขณะนี้"], f:function(S){ return fmt2(C05.at(S.p,S.t).v)+" m/s"; }},
+      {lab:["Height now","ความสูงขณะนี้"], f:function(S){ return fmt2(C05.at(S.p,S.t).y)+" m"; }},
+      {lab:["Total energy","พลังงานรวม"], f:function(S){ return fmt(S.p.m*10*S.p.h0)+" J"; }},
+      {lab:["Turned to heat","กลายเป็นความร้อน"], f:function(S){ return fmt(S.p.m*C05.at(S.p,S.t).heat)+" J"; }}
     ],
-    parts:function(p){
-      var h=Math.min(p.h,p.h0);
-      return [{v:p.m*9.8*h, lab:["potential mgh","ศักย์ mgh"], col:"good"},
-              {v:p.m*9.8*(p.h0-h), lab:["kinetic ½mv²","จลน์ ½mv²"], col:"accent"}];
+    world:{ kind:"plane", left:22, span:function(){ return 62; },
+      yspan:function(p){ return Math.max(p.h0,p.h2)*1.3+2; } },
+    scene:function(o,S,W){
+      var p=S.p, pts=[];
+      for(var x=0;x<=60.01;x+=0.5) pts.push([W.X(x), W.Y(C05.y(p,x))]);
+      role("track")(o, pts, W.g, {clock:STAGE.clock});
+      /* the height the energy allows: a line the cart can never rise above */
+      if(!STAGE.guessing(S) && !(S.trial && S.trial.goal)){
+        var hy=fmt2(W.Y(p.h0)), hl=S.hl==="h0";
+        o.push('<line x1="'+fmt2(W.X(0))+'" y1="'+hy+'" x2="'+fmt2(W.X(60))+'" y2="'+hy+'" stroke="var(--good)" stroke-width="'+(hl?2.4:1.2)+'" stroke-dasharray="6 5" opacity=".8"/>');
+        fitText(o, W.X(60), +hy-6, [p.fr?"start height · heat lowers the real reach":"start height · the most it can climb back to",
+                                    p.fr?"ความสูงเริ่มต้น · ความร้อนทำให้ขึ้นได้ไม่ถึง":"ความสูงเริ่มต้น · สูงสุดที่ขึ้นกลับได้"], 260, 9.5, "var(--good)", "end");
+      }
+      role("goal")(o, W.X(59), W.g, {clock:STAGE.clock, on:C05.at(p,S.t).out});
+      var c=C05.at(p,S.t);
+      if(!c.out) role("cart")(o, W.X(c.x), W.Y(c.y), {ang:-Math.atan(C05.dy(p,c.x)*W.s/W.s), clock:STAGE.clock});
     },
-    note:["the bar never changes length — energy only moves from one side to the other","แถบไม่เคยเปลี่ยนความยาว พลังงานเพียงย้ายจากฝั่งหนึ่งไปอีกฝั่ง"]
+    handles:[
+      {k:"h0", at:function(p){ return {x:0.4, y:p.h0}; }, set:function(x,y){ return {h0:y}; }, lab:["drag the start","ลากจุดเริ่ม"], col:"good", term:"h0"},
+      {k:"h2", at:function(p){ return {x:30, y:p.h2}; }, set:function(x,y){ return {h2:y}; }, lab:["drag the hill","ลากเนิน"], col:"accent2", term:"h"}
+    ],
+    events:function(p,S){ var c=C05.at(p,S.t); return [{id:"exit", when:c.out && S.t>0, x:59, y:1, kind:"burst", col:"good"}]; },
+    instrument:{ kind:"strip",
+      parts:function(p,S){ var c=C05.at(p,S.t), m=p.m;
+        return [{v:m*10*c.y, lab:["potential mgh","ศักย์ mgh"], col:"good"},
+                {v:0.5*m*c.v*c.v, lab:["kinetic ½mv²","จลน์ ½mv²"], col:"accent"},
+                {v:m*c.heat, lab:["heat","ความร้อน"], col:"warn"}]; }
+    },
+    spell:{
+      tex:function(p,S){ var c=C05.at(p,S.t);
+        return "v = \\sqrt{2g(h_0 - h)"+(p.fr?" - 2E_\\text{heat}/m":"")+"} = \\sqrt{2(10)("+fmt2(p.h0)+" - "+fmt2(c.y)+")"+(p.fr?" - "+fmt2(2*c.heat):"")+"} = "+fmt2(c.v)+"\\,\\text{m/s}"+
+               "\\qquad\\left[\\sqrt{\\tfrac{\\text{m}}{\\text{s}^2}\\cdot\\text{m}}=\\tfrac{\\text{m}}{\\text{s}}\\right]"; },
+      terms:[
+        {k:"h0", sym:"h₀", lab:["start height · the energy budget","ความสูงเริ่ม · งบพลังงาน"], col:"good", f:function(p){ return fmt2(p.h0)+" m"; }},
+        {k:"h",  sym:"h",  lab:["height now","ความสูงขณะนี้"], col:"accent2", f:function(p,S){ return fmt2(C05.at(p,S.t).y)+" m"; }},
+        {k:"m",  sym:"m",  lab:["mass — cancels out","มวล — ตัดกันหมด"], col:"faint", f:function(p){ return fmt2(p.m)+" kg"; }}
+      ]
+    },
+    predict:{ kind:"choice",
+      ask:["Will the cart make it over the second hill?","รถจะข้ามเนินที่สองได้ไหม"],
+      opts:[["It crosses the hill","ข้ามเนินได้"],["It rolls back","ไหลกลับ"]],
+      actual:function(p){ return C05.sim(p).crest ? 0 : 1; },
+      explain:function(p){ return p.fr
+        ? ["On a sticky track some energy turns to heat on the way, so the cart can no longer climb back to "+fmt2(p.h0)+" m. It crosses only if the hill is low enough to leave room for those losses.",
+           "บนรางที่มีแรงเสียดทาน พลังงานบางส่วนกลายเป็นความร้อนระหว่างทาง รถจึงขึ้นกลับไปถึง "+fmt2(p.h0)+" ม. ไม่ได้ มันข้ามได้ก็ต่อเมื่อเนินต่ำพอให้เผื่อพลังงานที่สูญไป"]
+        : ["Without friction the cart can climb back to exactly its starting height and no higher: "+fmt2(p.h0)+" m against a "+fmt2(p.h2)+" m hill. Mass, speed and the shape of the track do not matter.",
+           "ถ้าไม่มีแรงเสียดทาน รถขึ้นกลับไปได้สูงเท่าความสูงเริ่มต้นพอดี ไม่เกินนั้น: "+fmt2(p.h0)+" ม. เทียบกับเนิน "+fmt2(p.h2)+" ม. มวล ความเร็ว และรูปร่างรางไม่มีผล"]; }
+    },
+    trials:{
+      veil:true,
+      make:function(){
+        if(Math.random()<0.5){
+          var V=pick([8,10,12,14,16,18]), h0=V*V/20, h2=Math.max(1,Math.round((h0*0.6)*2)/2);
+          return {kind:"exit", V:V, h0:h0, h2:h2, set:{h2:h2, fr:0, h0:20, T:12}};
+        }
+        var H0=pick([10,12,14,16,18,20]), V2=pick([4,6,8,10,12]), H2=H0-V2*V2/20;
+        if(H2<1){ V2=4; H2=H0-0.8; }
+        return {kind:"crest", V:V2, h0:H0, h2:H2, set:{h0:H0, fr:0, h2:1, T:12}};
+      },
+      lockFor:function(g){ return g.kind==="exit" ? ["h2","fr"] : ["h0","fr"]; },
+      say:function(g){
+        if(g.kind==="exit") return ["{@Goal} at the end of the track only accepts a cart arriving at exactly "+g.V+" m/s. From what height must you release it?",
+                                    "{@goal}ที่ปลายรางรับเฉพาะรถที่มาถึงด้วยอัตราเร็ว "+g.V+" ม./วิ พอดี ต้องปล่อยรถจากความสูงเท่าใด"];
+        return ["Released from "+g.h0+" m, the cart must glide over the top of the second hill at exactly "+g.V+" m/s. How high should the hill be?",
+                "ปล่อยจากความสูง "+g.h0+" ม. รถต้องผ่านยอดเนินที่สองด้วยอัตราเร็ว "+g.V+" ม./วิ พอดี เนินควรสูงเท่าใด"];
+      },
+      at:function(g){ return g.kind==="exit" ? {x:59, y:1} : {x:30, y:g.h2}; },
+      check:function(p,S,g){
+        if(g.kind==="exit"){
+          if(Math.abs(p.h0-g.h0)<1e-6) return {ok:true, msg:["In at "+g.V+" m/s. All of mgh₀ became ½mv² at ground level, so h₀ = v² / 2g = "+g.V+"² / 20 = "+fmt2(g.h0)+" m — the hill in between changes nothing.",
+                                                              "เข้าประตูที่ "+g.V+" ม./วิ พลังงาน mgh₀ ทั้งหมดกลายเป็น ½mv² ที่ระดับพื้น ดังนั้น h₀ = v² / 2g = "+g.V+"² / 20 = "+fmt2(g.h0)+" ม. เนินระหว่างทางไม่เปลี่ยนอะไรเลย"]};
+          var sim=C05.sim(p);
+          return {ok:false, msg:[sim.out ? "It arrived at "+fmt2(Math.sqrt(20*p.h0))+" m/s. Only the drop from the start to the ground matters." : "It never got over the hill. Release it higher.",
+                                 sim.out ? "มาถึงด้วยอัตราเร็ว "+fmt2(Math.sqrt(20*p.h0))+" ม./วิ สำคัญเพียงระยะตกจากจุดเริ่มถึงพื้น" : "รถข้ามเนินไม่ได้ ปล่อยให้สูงกว่านี้"]};
+        }
+        if(Math.abs(p.h2-g.h2)<1e-6) return {ok:true, msg:["Over the top at "+g.V+" m/s. The drop from "+g.h0+" m to the hilltop pays for ½v²: h = h₀ − v² / 2g = "+g.h0+" − "+fmt2(g.V*g.V/20)+" = "+fmt2(g.h2)+" m.",
+                                                            "ผ่านยอดเนินที่ "+g.V+" ม./วิ ระยะลดระดับจาก "+g.h0+" ม. ถึงยอดเนินจ่ายให้ ½v² พอดี: h = h₀ − v² / 2g = "+g.h0+" − "+fmt2(g.V*g.V/20)+" = "+fmt2(g.h2)+" ม."]};
+        var vt=p.h2<p.h0 ? Math.sqrt(20*(p.h0-p.h2)) : 0;
+        return {ok:false, msg:["At the top it was moving at "+fmt2(vt)+" m/s. How much height must it lose to have "+g.V+" m/s left?",
+                               "ที่ยอดเนินมีอัตราเร็ว "+fmt2(vt)+" ม./วิ ต้องเสียความสูงเท่าใดจึงเหลืออัตราเร็ว "+g.V+" ม./วิ"]};
+      }
+    },
+    note:["the bar is the energy budget: it only changes length when friction turns some of it into heat",
+          "แถบนี้คืองบพลังงาน ความยาวเปลี่ยนก็ต่อเมื่อแรงเสียดทานเปลี่ยนบางส่วนเป็นความร้อนเท่านั้น"]
   },
   guide:[
-    {say:["At the top the bar is all potential. Nothing is moving yet.",
-          "ที่จุดสูงสุด แถบเป็นพลังงานศักย์ทั้งหมด ยังไม่มีอะไรเคลื่อนที่"], set:{h0:10,h:10,m:2}},
-    {say:["Halfway down, the split is even — half potential, half kinetic. The bar is the same length.",
-          "ลงมาครึ่งทาง สัดส่วนเท่ากันพอดี ครึ่งศักย์ ครึ่งจลน์ แถบยาวเท่าเดิม"], set:{h0:10,h:5,m:2}},
-    {say:["At the ground it is all kinetic. Not one joule was created or lost — it only changed form.",
-          "ที่พื้น เป็นพลังงานจลน์ทั้งหมด ไม่มีจูลใดถูกสร้างหรือสูญหาย เพียงเปลี่ยนรูป"], set:{h0:10,h:0,m:2}}
-  ] },
+    {say:["Release the cart from 12 m. Watch the bar: green potential pours into blue kinetic on the way down and back again on the way up — the total never moves.",
+          "ปล่อยรถจาก 12 ม. ดูแถบ: พลังงานศักย์สีเขียวไหลไปเป็นพลังงานจลน์สีฟ้าขาลง และไหลกลับขาขึ้น ผลรวมไม่เคยเปลี่ยน"], set:{h0:12,h2:9,m:2,fr:0,T:10}},
+    {say:["Raise the second hill above the start. However fast it is at the bottom, the cart can never climb above the dashed line — it rolls back.",
+          "ยกเนินที่สองให้สูงกว่าจุดเริ่ม ไม่ว่าที่ก้นหุบจะเร็วแค่ไหน รถก็ขึ้นเกินเส้นประไม่ได้ มันไหลกลับ"], set:{h0:12,h2:13,m:2,fr:0,T:12}},
+    {say:["Make the track sticky. Now an orange slice of heat grows, the bar's useful part shrinks, and the cart settles in the valley.",
+          "ทำให้รางมีแรงเสียดทาน ส่วนความร้อนสีส้มจะโตขึ้น ส่วนที่ใช้ได้หดลง และรถหยุดนิ่งในหุบ"], set:{h0:12,h2:11,m:2,fr:1,T:16}}
+  ]
+},
 
 { id:"power", x:235, y:346, requires:["conservation"], methods:["M-05","M-06"],
   title:["Power and efficiency","กำลังและประสิทธิภาพ"],
