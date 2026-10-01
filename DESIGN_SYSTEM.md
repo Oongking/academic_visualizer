@@ -189,7 +189,8 @@ when adjusting a parameter would teach the relationship better.
 
 For high-school chapters, use an existing visualizer in `build/engine.js` where
 it fits (`motion`, `plot`, `vector`, `wave`, `bars`, `numline`, `tri`, `grid`,
-`scale`, `fbd`, `stack`, `scene`, or `plate`). `table` renders reference data
+`scale`, `fbd`, `stack`, `scene`, or `plate`), or a `stage` lab (below) when the
+learner should manipulate a scene directly. `table` renders reference data
 without interactive controls. A node's `viz`, `vizcfg`, and optional `guide`
 define its lab; see `build/chapters/ch02.js`. Use a range slider for a quantity
 and named choice buttons for a small set of categories. Guided mode should
@@ -205,6 +206,67 @@ an accessible explanation of their state. For content that needs a wide
 matrix, provide a horizontal scroll container rather than shrinking labels
 until they cannot be read. Do not put arbitrary page colors inside SVG or
 Canvas drawing code: light and dark theme changes must remain legible.
+
+### Stage labs and art skins
+
+`viz:"stage"` (in `build/stage.js`) is the interactive, illustrated lab. Ch02
+Linear Motion is the reference: every lab there is a stage. It is built in three
+layers, so you can change the art style without touching physics or layout:
+
+| Layer | Lives in | Owns |
+| --- | --- | --- |
+| Model | the chapter's `vizcfg` (and helpers such as `C02` in `ch02.js`) | Pure functions of the parameters `p` and clock `S.t`: positions, speeds, trial goals and checks. They never draw. |
+| Stage | `build/stage.js`, `build/stage.css` | The world (a horizontal `lane` or a vertical `tower` with a metre scale), placing items, the instrument band, drag handles, the live formula, trials, particles and ambient motion. |
+| Skin | `build/skins/<id>.js` | How each **role** looks, the backdrop, colour tokens, shared SVG `<defs>`, interface words, and nouns. |
+
+A stage `vizcfg` declares, in addition to the usual `ctrls`, `readouts`,
+`guide`, `question` and `note`:
+
+- `world:{kind:"lane"|"tower", span(p,S)}`: the metres shown.
+- `props(p,S)`, `cast(p,S)`: lists of `{role, x | h+lane, ...}`. Roles are
+  `agent`, `orb`, `relic` (`variant:"heavy"|"light"`), `origin`, `marker`,
+  `goal`, `hazard` and `perch`. An item may carry `ghost`, `on`, `awake`,
+  `flip`, `moving`, a `vel` arrow, a `lab`, and a `term`.
+- `paths`, `marks`: trails and dimension lines. `marks` uses at most two rows.
+- `handles`: things to drag. `{k, space:"world"|"graph", at(p), set(value,p)}`.
+  The stage snaps each value to its slider's step and range and moves the
+  slider with it. Sliders stay the keyboard-accessible equivalent.
+- `spell:{tex(p,S), terms:[{k,sym,lab,col,f}]}`: the formula with live numbers
+  (KaTeX), plus chips. Hovering or focusing a chip highlights every item,
+  mark, path or overlay whose `term` matches.
+- `trials:{make(), say(goal), check(p,S,goal), lock:[keys], at(goal), play}`: a
+  randomised goal the learner should solve with the formula *before* casting.
+  `check` returns `{ok, msg:[en,th]}`. Solved counts go in `STATE.trials`.
+- `events(p,S)`: `{id, when, x|h, kind:"burst"|"impact"}`. Each fires once when
+  its condition turns true, for sparks and the impact shake.
+- `overlay(o,S,G,W)`: extra drawing on the instrument graph (`G.X`, `G.Y`).
+- `duration(p)`: run length when no control has `isT`.
+
+Write chapter text with skin nouns: `{@agent}`, `{@Agent}` (capitalised in
+English), `{@origin}`, `{@goal}`, `{@hazard}`, `{@perch}`, `{@heavy}`,
+`{@light}`, `{@push}`, `{@brake}`, `{@clock}`, `{@world}`, `{@marker}`, and
+verbs `{@fly}`, `{@flies}`, `{@flown}`. `tx()` fills them from the active
+skin, so "the apprentice flies" in Arcane becomes "the rider rides" in
+Classic. Keep the physics words (distance, displacement, acceleration)
+literal.
+
+**To add an art style,** copy `build/skins/classic.js` to
+`build/skins/<id>.js`, change its `id`, `name` and roles, then rebuild. The
+build splices every file in `build/skins/` into the engine, and the lab's
+**Art** picker lists it. A role you leave out falls back to Classic, so a skin
+can start with just a backdrop and an agent. Each role is
+`(o, x, y, opt)`: push SVG strings onto `o`. `(x, y)` is the item's foot on the
+ground line, and `opt` holds `col`, `hl`, `clock` (seconds, or 0 under reduced
+motion), `flip`, `size`, `variant`, `on`, `awake` and `w`. The active skin is
+stored in the `edu-art-skin` localStorage key, and `SKINS.preferred` sets the
+default.
+
+A skin may give the stage its own palette by redefining tokens on
+`.lab[data-skin="<id>"] .lab-stage` in its `css` string. Arcane does this to
+draw a self-contained night scene that reads the same in all four reading
+themes. Everything outside the picture keeps the reading theme. Ambient
+motion runs only while a lab is on screen, and particles, shake and ambient
+motion are off under `prefers-reduced-motion`.
 
 ## Minimal new-page pattern
 

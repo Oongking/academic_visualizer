@@ -1,0 +1,48 @@
+/* ---------- STAGE LABS (build/stage.js) ----------
+   Shared, skin-neutral layout for the interface a stage lab adds around its
+   picture: the live formula, its hoverable terms, trials and drag handles.
+   Colours come from the reading theme; a skin may restyle them in its own
+   `css` string. */
+/* the scene redraws above the skin's backdrop, which is drawn once */
+.stage-lab .lab-stage .labsvg{position:relative;z-index:1}
+.stage-lab .labsvg.has-handles .stg-h{cursor:grab}
+.stage-lab .labsvg.has-handles{touch-action:none}
+.stage-lab .labsvg .stg-h:active{cursor:grabbing}
+.stg-shake{animation:stg-shake .32s ease-out}
+@keyframes stg-shake{
+  0%{transform:translate(0,0)} 20%{transform:translate(-4px,1px)} 40%{transform:translate(4px,-1px)}
+  60%{transform:translate(-2px,1px)} 80%{transform:translate(2px,0)} 100%{transform:translate(0,0)}}
+
+.spell{padding:12px 16px;border-bottom:1px solid var(--rule);background:var(--tint);
+  display:flex;flex-direction:column;gap:8px}
+.spell-k{font-family:var(--f-ui);font-size:10.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent2)}
+.spell-tex{overflow-x:auto;overflow-y:hidden;padding:2px 0;min-height:1.6em}
+.spell-tex .katex{font-size:1.12em}
+.spell-terms{display:flex;flex-wrap:wrap;gap:6px}
+.term{--term:var(--accent);font-family:var(--f-ui);font-size:12px;color:var(--ink);
+  background:var(--surface);border:1px solid var(--term);border-left-width:4px;border-radius:999px;
+  padding:5px 12px;cursor:pointer;display:inline-flex;align-items:baseline;gap:6px;
+  font-variant-numeric:tabular-nums;transition:background .14s,box-shadow .14s}
+.term i{font-family:Cambria,"Times New Roman",serif;font-size:14px;font-weight:700;color:var(--term)}
+.term small{font-size:10.5px;color:var(--ink-faint)}
+.term:hover,.term.on{box-shadow:0 0 0 3px color-mix(in srgb,var(--term) 35%,transparent)}
+.term:focus-visible{outline:2px solid var(--term);outline-offset:2px}
+
+.trial{border-left:3px solid var(--good);padding:10px 14px;margin-bottom:14px;background:var(--ground);border-radius:0 10px 10px 0}
+.trial .step{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--good);font-weight:700;margin-bottom:4px}
+.trial p{margin:0;font-size:15px;color:var(--ink-soft)}
+.trial .transport{margin-top:10px}
+.trial .t-cast,.trial .t-cast:hover{background:var(--good);border-color:var(--good);color:var(--surface)}
+.trial .t-cast:hover{filter:brightness(1.08)}
+.t-result{margin-top:10px!important;font-weight:600}
+.t-result:empty{display:none}
+.t-result.won{color:var(--good)}
+.t-result.won::before{content:"✓ "}
+.t-result.missed{color:var(--warn)}
+.t-result.missed::before{content:"↻ "}
+.ctrl.locked{opacity:.55}
+.ctrl.locked label span:first-child::after{content:" 🔒";font-size:10px}
+.art-skin select{font:inherit;color:var(--ink);border:1px solid var(--rule);cursor:pointer}
+@media (prefers-reduced-motion:reduce){ .stg-shake{animation:none} }

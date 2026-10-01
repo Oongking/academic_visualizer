@@ -54,7 +54,12 @@ for(var bk in BASE) STR[bk]=BASE[bk];
 if(CHAPTER.str) for(var ck in CHAPTER.str) STR[ck]=CHAPTER.str[ck];
 function L(){ return STATE.lang==="th"?1:0; }
 function t(k){ var e=STR[k]; return e?e[L()]:k; }
-function tx(pair){ return Array.isArray(pair)?pair[L()]:pair; }
+function tx(pair){
+  var s=Array.isArray(pair)?pair[L()]:pair;
+  /* {@noun} is filled by the active art skin, so one sentence reads
+     "the apprentice" in one style and "the rider" in another. */
+  return (typeof s==="string" && s.indexOf("{@")>=0 && typeof skinWords==="function") ? skinWords(s) : s;
+}
 function esc(v){ return String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;")
                         .replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
@@ -774,6 +779,8 @@ function instrument(S, o, ins, ctx){
     if(ins.ymin!=null) lo=ins.ymin;
     if(ins.ymax!=null) hi=ins.ymax;
     var pad=Math.max(.4,(hi-lo)*0.16); hi+=pad; if(lo<0) lo-=pad;
+    /* a drag holds the scale still, or the axis would slide under the pointer */
+    if(ins.lockY){ lo=ins.lockY[0]; hi=ins.lockY[1]; }
     var A=axes(o,{x:FR.ix,y:FR.iy,w:FR.iw,h:FR.ih,xmin:ins.xmin,xmax:ins.xmax,ymin:lo,ymax:hi,
                   xlab:ins.xlab, ylab:ins.ylab, xticks:ins.xticks, yticks:ins.yticks});
     var d="";
@@ -797,9 +804,9 @@ function instrument(S, o, ins, ctx){
       o.push('<line x1="'+fmt2(A.X(mx))+'" y1="'+fmt2(A.Y(my))+'" x2="'+fmt2(A.X(mx))+'" y2="'+fmt2(A.zy)+
              '" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2 3" opacity=".7"/>');
       o.push('<circle cx="'+fmt2(A.X(mx))+'" cy="'+fmt2(A.Y(my))+'" r="4.5" fill="var(--accent)"/>');
-      return { X:A.X, markX:A.X(mx) };
+      return { X:A.X, Y:A.Y, lo:lo, hi:hi, markX:A.X(mx) };
     }
-    return { X:A.X };
+    return { X:A.X, Y:A.Y, lo:lo, hi:hi };
   }
 
   if(k === "bar"){
@@ -1000,6 +1007,8 @@ VIZLIB.plate = {
     });
   }
 };
+
+/*@@STAGE@@*/
 
 /* ---------- 4 · map ---------- */
 var NW=150, NH=38;
@@ -1277,6 +1286,7 @@ function makeLab(nd, host){
   function paintArt(){
     if(!artsvg) return;
     var a=[];
+    if(viz.backdrop) a.push(viz.backdrop(S, cfg, viz.vb));
     if(cfg.art)    a.push(ART.tag(cfg.art, viz.vb));
     if(cfg.artTop) a.push(ART.tag(cfg.artTop, viz.vb));
     artsvg.innerHTML=a.join("");
@@ -1293,7 +1303,8 @@ function makeLab(nd, host){
      is the one drawn, which is exactly what the reader should see - and stops
      the play loop and a drag from painting the same frame twice. */
   var frame=null;
-  function paint(){ frame=null; var o=[]; viz.draw(S,o,cfg); svg.innerHTML=o.join(""); labels(); }
+  function paint(){ frame=null; var o=[]; viz.draw(S,o,cfg); svg.innerHTML=o.join(""); labels();
+                    if(S.afterPaint) S.afterPaint(); }
   function draw(){ if(frame===null) frame=requestAnimationFrame(paint); }
   function applyStep(){
     var st=S.script[S.step]; if(!st) return;
@@ -1312,15 +1323,20 @@ function makeLab(nd, host){
     S.mode=m;
     q(".m-guided").classList.toggle("on",m==="guided");
     q(".m-sandbox").classList.toggle("on",m==="sandbox");
+    if(S.onMode) S.onMode(m);
     var g=(m==="guided"&&S.script);
     q(".guide").hidden=!g; q(".g-nav").hidden=!g;
     if(g) applyStep(); else draw();
   }
+  /* how long a run lasts: the duration slider, or a length the scene
+     computes from its own physics (a stop, a landing) */
+  function limit(){ return Tkey ? S.p[Tkey] : (cfg.duration ? cfg.duration(S.p,S) : 10); }
   function tick(){
     if(!S.playing) return;
-    var lim = Tkey ? S.p[Tkey] : 10;
+    var lim = limit();
     S.t+=0.035;
-    if(S.t>=lim){ S.t=lim; S.playing=false; var b=q(".b-play"); if(b) b.textContent=t("lab.play"); }
+    if(S.t>=lim){ S.t=lim; S.playing=false; var b=q(".b-play"); if(b) b.textContent=t("lab.play");
+                  if(S.onEnd){ var f=S.onEnd; S.onEnd=null; f(); } }
     paint();   /* already inside a frame - scheduling another would cost one */
     if(S.playing) S.raf=requestAnimationFrame(tick);
   }
@@ -1329,6 +1345,7 @@ function makeLab(nd, host){
       var c=ctrls[+el.getAttribute("data-i")];
       S.p[c.k]=parseFloat(el.value);
       if(Tkey && S.t>S.p[Tkey]) S.t=S.p[Tkey];
+      if(S.onInput) S.onInput(c.k);
       draw();
     });
   });
@@ -1348,7 +1365,7 @@ function makeLab(nd, host){
   if(animated){
     q(".b-play").addEventListener("click",function(){
       S.playing=!S.playing; this.textContent=S.playing?t("lab.pause"):t("lab.play");
-      var lim=Tkey?S.p[Tkey]:10;
+      var lim=limit();
       if(S.playing){ if(S.t>=lim) S.t=0; S.raf=requestAnimationFrame(tick); }
     });
     q(".b-rew").addEventListener("click",function(){
@@ -1357,6 +1374,22 @@ function makeLab(nd, host){
   }
   if(!S.script) q(".m-guided").hidden=true;
   S.redraw=draw;
+  /* A visualizer that needs more than a picture - pointer handles, a live
+     formula, challenges - adds them through this one door. */
+  if(viz.mount) viz.mount(S, host, {
+    nd:nd, cfg:cfg, ctrls:ctrls, svg:svg, q:q, draw:draw, paint:paint, labels:labels,
+    setMode:setMode, limit:limit,
+    sync:function(){
+      host.querySelectorAll(".cv").forEach(function(el){ el.value=S.p[ctrls[+el.getAttribute("data-i")].k]; });
+      labels();
+    },
+    play:function(){
+      var b=q(".b-play");
+      if(!b){ S.t=limit(); paint(); if(S.onEnd){ var f=S.onEnd; S.onEnd=null; f(); } return; }
+      cancelAnimationFrame(S.raf); S.t=0; S.playing=true; b.textContent=t("lab.pause");
+      S.raf=requestAnimationFrame(tick);
+    }
+  });
   /* A caption is text in the DOM, so it follows the language switch. */
   S.repaintArt=function(){ paintArt(); var c=q(".lab-cap"); if(c&&cfg.caption){ c.textContent=tx(cfg.caption); MATH.renderInline(c); } };
   paintArt();
@@ -1436,7 +1469,7 @@ function tableHTML(nd){
 
 
 function buildSections(){
-  LABS.forEach(function(l){ l.playing=false; if(l.raf) cancelAnimationFrame(l.raf); });
+  LABS.forEach(function(l){ l.playing=false; if(l.raf) cancelAnimationFrame(l.raf); if(l.dispose) l.dispose(); });
   LABS=[];
   var host=document.getElementById("nodeSections"); host.innerHTML="";
   CHAPTER.nodes.forEach(function(n,i){
@@ -1624,8 +1657,25 @@ function applyLang(){
   if(CHAPTER.next){ ext.textContent=tx(CHAPTER.next); ext.style.display=""; } else { ext.style.display="none"; }
   document.getElementById("langBtn").textContent = STATE.lang==="en"?"ไทย":"English";
   document.querySelectorAll("[data-"+STATE.lang+"]").forEach(function(el){ el.textContent=el.getAttribute("data-"+STATE.lang); });
+  fillSkinPicker();
   buildSections(); drawMap(); drawBlueprint(); drawCoverage();
 }
+/* The art picker only appears on a chapter that has a stage lab to restyle. */
+function fillSkinPicker(){
+  var wrap=document.getElementById("artSkinWrap"), sel=document.getElementById("artSkin");
+  if(!wrap||!sel||typeof SKINS==="undefined") return;
+  var any=CHAPTER.nodes.some(function(n){ return n.viz==="stage"; });
+  wrap.hidden=!any||SKINS.list.length<2;
+  if(wrap.hidden) return;
+  var cur=SK().id;
+  sel.innerHTML=SKINS.list.map(function(s){
+    return '<option value="'+esc(s.id)+'"'+(s.id===cur?' selected':'')+'>'+esc(tx(s.name))+'</option>';
+  }).join("");
+}
+(function(){
+  var sel=document.getElementById("artSkin");
+  if(sel) sel.addEventListener("change",function(){ SKINS.use(sel.value); applyLang(); });
+})();
 document.querySelectorAll("nav.surfaces button").forEach(function(b){
   b.addEventListener("click",function(){ setView(b.dataset.view); });
 });
