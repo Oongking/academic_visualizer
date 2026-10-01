@@ -1,0 +1,123 @@
+/* ---------- STAGE LABS (build/stage.js) ----------
+   Shared, skin-neutral layout for the interface a stage lab adds around its
+   picture: the live formula, its hoverable terms, trials and drag handles.
+   Colours come from the reading theme; a skin may restyle them in its own
+   `css` string. */
+/* the scene redraws above the skin's backdrop, which is drawn once */
+.stage-lab .lab-stage .labsvg{position:relative;z-index:1}
+.stage-lab .labsvg.has-handles .stg-h{cursor:grab}
+.stage-lab .labsvg.has-handles{touch-action:none}
+.stage-lab .labsvg .stg-h:active{cursor:grabbing}
+.stg-shake{animation:stg-shake .32s ease-out}
+@keyframes stg-shake{
+  0%{transform:translate(0,0)} 20%{transform:translate(-4px,1px)} 40%{transform:translate(4px,-1px)}
+  60%{transform:translate(-2px,1px)} 80%{transform:translate(2px,0)} 100%{transform:translate(0,0)}}
+
+.spell{padding:12px 16px;border-bottom:1px solid var(--rule);background:var(--tint);
+  display:flex;flex-direction:column;gap:8px}
+.spell-k{font-family:var(--f-ui);font-size:10.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent2)}
+.spell-tex{overflow-x:auto;overflow-y:hidden;padding:2px 0;min-height:1.6em;white-space:nowrap}
+.spell-tex .katex{font-size:1.12em}
+.spell-terms{display:flex;flex-wrap:wrap;gap:6px}
+.term{--term:var(--accent);font-family:var(--f-ui);font-size:12px;color:var(--ink);
+  background:var(--surface);border:1px solid var(--term);border-left-width:4px;border-radius:999px;
+  padding:5px 12px;cursor:pointer;display:inline-flex;align-items:baseline;gap:6px;
+  font-variant-numeric:tabular-nums;transition:background .14s,box-shadow .14s}
+.term i{font-family:Cambria,"Times New Roman",serif;font-size:14px;font-weight:700;color:var(--term)}
+.term small{font-size:10.5px;color:var(--ink-faint)}
+.term:hover,.term.on{box-shadow:0 0 0 3px color-mix(in srgb,var(--term) 35%,transparent)}
+.term:focus-visible{outline:2px solid var(--term);outline-offset:2px}
+
+.trial{border-left:3px solid var(--good);padding:10px 14px;margin-bottom:14px;background:var(--ground);border-radius:0 10px 10px 0}
+.trial .step{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--good);font-weight:700;margin-bottom:4px}
+.trial p{margin:0;font-size:15px;color:var(--ink-soft)}
+.trial .transport{margin-top:10px}
+.trial .t-cast,.trial .t-cast:hover{background:var(--good);border-color:var(--good);color:var(--surface)}
+.trial .t-cast:hover{filter:brightness(1.08)}
+.t-result{margin-top:10px!important;font-weight:600}
+.t-result:empty{display:none}
+.t-result.won{color:var(--good)}
+.t-result.won::before{content:"✓ "}
+.t-result.missed{color:var(--warn)}
+.t-result.missed::before{content:"↻ "}
+.ctrl.locked{opacity:.55}
+.ctrl.locked label span:first-child::after{content:" 🔒";font-size:10px}
+.art-skin select{font:inherit;color:var(--ink);border:1px solid var(--rule);cursor:pointer}
+@media (prefers-reduced-motion:reduce){ .stg-shake{animation:none} }
+
+/* the question above the picture and the note below it, as page text */
+.stage-q{margin:0;padding:12px 16px 10px;font-size:15px;font-weight:600;color:var(--ink);line-height:1.45}
+.stage-note{margin:0;padding:10px 16px;font-family:var(--f-ui);font-size:12px;color:var(--ink-faint);
+  border-bottom:1px solid var(--rule)}
+.stage-lab .labsvg:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+
+/* predict, then reveal */
+.predict{border-left:3px solid var(--accent2);padding:10px 14px;margin-bottom:14px;background:var(--ground);border-radius:0 10px 10px 0}
+.predict[hidden]{display:none}
+.predict .step{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent2);font-weight:700;margin-bottom:4px}
+.predict p{margin:0;font-size:15px;color:var(--ink-soft)}
+.predict .p-opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.predict .transport{margin-top:10px}
+.predict .p-go,.predict .p-go:hover{background:var(--accent2);border-color:var(--accent2);color:var(--surface)}
+.predict .p-go:disabled{opacity:.45;cursor:not-allowed}
+.p-result{margin-top:10px!important;font-weight:600}
+.p-result:empty{display:none}
+.p-result.won{color:var(--good)}
+.p-result.won::before{content:"✓ "}
+.p-result.missed{color:var(--warn)}
+.p-result.missed::before{content:"↻ "}
+.b-pred{border-color:var(--accent2);color:var(--accent2)}
+/* while the learner guesses, veil everything that would give the answer away */
+.is-veiled .readouts .ro span,.is-veiled .term-v,.is-veiled .spell-tex,
+.is-veiled .labsvg .stg-ins{filter:blur(7px);transition:filter .3s}
+.is-veiled .readouts,.is-veiled .spell{user-select:none}
+.is-veiled .ctrl{opacity:.6}
+@media (prefers-reduced-motion:reduce){ .is-veiled .labsvg .stg-ins{transition:none} }
+/* a long incantation scrolls inside its strip; it must never widen the lab */
+.stage-lab,.stage-lab .spell,.stage-lab .spell-tex{min-width:0;max-width:100%}
+
+/* ---------- the world: full-screen spells ---------- */
+html.world-open,html.world-open body{overflow:hidden}
+#world{--wbar:58px;position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;background:var(--ground)}
+#world[hidden]{display:none}
+.world-bar{height:var(--wbar);flex:none;display:flex;align-items:center;gap:10px;padding:0 14px;
+  background:var(--surface);border-bottom:1px solid var(--rule)}
+.w-title{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;line-height:1.2;text-align:center}
+.w-ch{font-family:var(--f-ui);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.w-name{font-size:16px;color:var(--accent2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.w-topic{font-size:12px;color:var(--ink-soft)}
+.w-nav,.w-tools{display:flex;align-items:center;gap:6px}
+.w-count{font-family:var(--f-ui);font-size:12px;font-weight:700;color:var(--ink-soft);min-width:42px;text-align:center;font-variant-numeric:tabular-nums}
+.world-body{flex:1;min-height:0;display:flex}
+/* the lab, laid out as a world: picture filling the left, everything else in a scrolling panel */
+#world .lab{flex:1;min-width:0;min-height:0;margin:0;border:0;border-radius:0;position:static;overflow-y:auto;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,410px);align-content:start;background:var(--surface)}
+#world .lab > *{grid-column:2;min-width:0}
+#world .lab > .lab-stage{grid-column:1;grid-row:1 / span 40;position:sticky;top:0;align-self:start;
+  height:calc(100vh - var(--wbar));height:calc(100dvh - var(--wbar))}
+:where(#world) .lab-stage{background:var(--surface)}
+#world .lab-stage .labsvg,#world .lab-stage .labart{position:absolute;inset:0;width:100%;height:100%}
+#world .lab > :not(.lab-stage){border-left:1px solid var(--rule)}
+#world .lab-head{position:sticky;top:0;z-index:3}
+#world .m-world{display:none}
+.w-enter{position:fixed;right:18px;bottom:18px;z-index:55;background:var(--accent2);border-color:var(--accent2);
+  color:var(--surface);box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.w-enter:hover{color:var(--surface);filter:brightness(1.08)}
+.w-enter[hidden]{display:none}
+.m-world{min-width:38px}
+@media (max-width:760px){
+  #world{--wbar:54px}
+  .world-bar{gap:6px;padding:0 8px}
+  .w-ch,.w-topic{display:none}
+  .w-name{font-size:14px}
+  .w-tools .w-art{display:none}
+  .world-bar .btn{padding:6px 10px}
+  #world .lab{grid-template-columns:minmax(0,1fr)}
+  #world .lab > *{grid-column:1;border-left:0}
+  #world .lab > .lab-stage{order:-1;grid-row:auto;z-index:4;height:auto;aspect-ratio:560/494;max-height:56dvh}
+  #world .lab-head{position:static}
+}

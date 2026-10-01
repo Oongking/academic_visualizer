@@ -1,3 +1,39 @@
+/* Chapter 08 pendulum: the true swing, integrated (RK4) rather than
+   assumed, so a wide release visibly drifts from the small-angle formula. */
+var C08 = {
+  pivot: [240, 40], pxm: 64, dt: 0.002, cache: {}, bob: [0, 0],
+  Tf: function(p){ return 2 * Math.PI * Math.sqrt(p.Lp / p.g); },
+  sig: function(p){ return JSON.stringify({ Lp: p.Lp, th0: p.th0, g: p.g }); },
+  run: function(p){
+    var key = p.Lp + "|" + p.th0 + "|" + p.g;
+    if(C08.cache[key]) return C08.cache[key];
+    var w2 = p.g / p.Lp, th = p.th0 * Math.PI / 180, om = 0, dt = C08.dt, pts = [th], Tm = null, t = 0;
+    var f = function(a){ return -w2 * Math.sin(a); };
+    for(var i = 1; i <= 12 / dt; i++){
+      var k1t = om, k1o = f(th), k2t = om + k1o * dt / 2, k2o = f(th + k1t * dt / 2);
+      var k3t = om + k2o * dt / 2, k3o = f(th + k2t * dt / 2), k4t = om + k3o * dt, k4o = f(th + k3t * dt);
+      var nom = om + dt / 6 * (k1o + 2 * k2o + 2 * k3o + k4o);
+      th += dt / 6 * (k1t + 2 * k2t + 2 * k3t + k4t);
+      t = i * dt;
+      if(Tm == null && om > 0 && nom <= 0) Tm = t - dt * nom / (nom - om);   /* back at the release side */
+      om = nom;
+      if(i % 5 === 0) pts.push(th);
+    }
+    var r = { pts: pts, Tm: Tm || 2 * Math.PI / Math.sqrt(w2) };
+    C08.cache[key] = r;
+    return r;
+  },
+  theta: function(p, t){
+    var r = C08.run(p), x = Math.max(0, Math.min(12, t)) / (C08.dt * 5), i = Math.floor(x), f = x - i;
+    var a = r.pts[Math.min(i, r.pts.length - 1)], b = r.pts[Math.min(i + 1, r.pts.length - 1)];
+    return a + (b - a) * f;
+  },
+  choices: function(p){
+    var T = C08.run(p).Tm;
+    return [T / 2, T / Math.SQRT2, T, T * Math.SQRT2, 2 * T];
+  }
+};
+
 var CHAPTER = {
 id:"ch08", num:"08", slug:"harmonic-motion", subject:"physics",
 kicker:["Physics · Chapter 08","ฟิสิกส์ · บทที่ 8"],
@@ -161,37 +197,140 @@ nodes:[
          "มวลของลูกตุ้มตัดหายไปหมด ซึ่งทำให้เกือบทุกคนแปลกใจในครั้งแรก และเงื่อนไขมุมเล็กเป็นเรื่องจริง เกินราว 15° การเคลื่อนที่จะไม่เป็นฮาร์มอนิกอย่างง่ายอีกต่อไป"]],
   formula:["T = 2π√(l/g)","T = 2π√(l/g)"],
   flabel:["Bob mass cancels · small angles only","มวลลูกตุ้มตัดหาย · เฉพาะมุมเล็ก"],
-  viz:"plot",
+  viz:"stage",
   vizcfg:{
-    title:["PERIOD AGAINST PENDULUM LENGTH","คาบ เทียบ ความยาวลูกตุ้ม"],
-    xlab:["length (m)","ความยาว (m)"], ylab:["period T (s)","คาบ T (s)"],
-    xmin:0.05, xmax:4, ymin:0, fill:false,
-    fn:function(x,p){ return 2*Math.PI*Math.sqrt(x/p.g); },
-    mark:function(p){ return p.Lp; },
+    anim:true,
+    spellName:["The Crystal Pendulum","ลูกตุ้มคริสตัล"],
+    question:["Drag the crystal out and let it swing. What sets the beat — the length, the weight, or how far you pull it?",
+              "ลากคริสตัลออกแล้วปล่อยให้แกว่ง อะไรกำหนดจังหวะ ความยาว น้ำหนัก หรือระยะที่ดึง"],
     ctrls:[
-      {k:"Lp", lab:["Length","ความยาว"], min:.1, max:3.8, step:.05, def:1, unit:" m"},
+      {k:"Lp", lab:["Length","ความยาว"], min:.2, max:2.5, step:.05, def:1, unit:" m"},
+      {k:"th0", lab:["Pulled out to","ดึงออกไปที่มุม"], min:5, max:70, step:1, def:10, unit:"°"},
       {k:"g",  lab:["Gravity g","ความโน้มถ่วง g"], min:1.6, max:25, step:.2, def:9.8, unit:" m/s²"},
-      {k:"mb", lab:["Bob mass (a decoy)","มวลลูกตุ้ม (ตัวลวง)"], min:.1, max:5, step:.1, def:1, unit:" kg"}
+      {k:"mb", lab:["Bob mass (a decoy)","มวลลูกตุ้ม (ตัวลวง)"], min:.1, max:5, step:.1, def:1, unit:" kg"},
+      {k:"T",  lab:["Watch for","ดูนาน"], min:2, max:12, step:1, def:8, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Period T","คาบ T"], f:function(S){ return fmt2(2*Math.PI*Math.sqrt(S.p.Lp/S.p.g))+" s"; }},
-      {lab:["Effect of the bob mass","ผลของมวลลูกตุ้ม"], f:function(){
-        return L()?"ไม่มีเลย — มวลไม่อยู่ในสูตร":"none at all — mass is absent from the formula"; }},
-      {lab:["On the Moon (g = 1.6)","บนดวงจันทร์ (g = 1.6)"], f:function(S){
-        return fmt2(2*Math.PI*Math.sqrt(S.p.Lp/1.6))+" s"; }},
-      {lab:["Four times the length?","ความยาวสี่เท่า?"], f:function(){
-        return L()?"คาบเป็นสองเท่า":"the period doubles"; }}
+      {lab:["Period T = 2π√(l/g)","คาบ T = 2π√(l/g)"], f:function(S){ return fmt2(C08.Tf(S.p))+" s"; }},
+      {lab:["Period it actually swings","คาบที่แกว่งจริง"], f:function(S){ return fmt2(C08.run(S.p).Tm)+" s"; }},
+      {lab:["Simple formula off by","สูตรอย่างง่ายคลาดไป"], f:function(S){
+        var e=Math.abs(C08.run(S.p).Tm/C08.Tf(S.p)-1)*100; return fmt(e)+" %"+(e<1?(L()?" · มุมเล็ก ใช้ได้":" · small angle, fine"):(L()?" · มุมใหญ่เกินไป":" · too wide a swing")); }},
+      {lab:["On the Moon (g = 1.6)","บนดวงจันทร์ (g = 1.6)"], f:function(S){ return fmt2(2*Math.PI*Math.sqrt(S.p.Lp/1.6))+" s"; }}
     ],
-    note:["drag the bob-mass slider as much as you like — the curve will not move","ลากแถบมวลลูกตุ้มเท่าไรก็ได้ เส้นโค้งจะไม่ขยับเลย"]
+    world:{ kind:"free" },
+    scene:function(o,S,W){
+      var p=S.p, P=C08.pivot, th=C08.theta(p,S.t), Lpx=p.Lp*C08.pxm;
+      var bx=P[0]+Lpx*Math.sin(th), by=P[1]+Lpx*Math.cos(th);
+      C08.bob=[bx,by];
+      o.push('<line x1="'+P[0]+'" y1="'+P[1]+'" x2="'+P[0]+'" y2="'+fmt2(P[1]+Lpx+16)+'" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3 4"/>');
+      /* the swing's limits, and the angle it was pulled to */
+      var a0=p.th0*Math.PI/180, hl=S.hl==="th";
+      o.push('<path d="M'+fmt2(P[0]-Lpx*Math.sin(a0))+' '+fmt2(P[1]+Lpx*Math.cos(a0))+' A'+fmt2(Lpx)+' '+fmt2(Lpx)+' 0 0 0 '+
+             fmt2(P[0]+Lpx*Math.sin(a0))+' '+fmt2(P[1]+Lpx*Math.cos(a0))+'" fill="none" stroke="var(--accent2)" stroke-width="'+(hl?2.6:1.2)+'" stroke-dasharray="2 4" opacity=".8"/>');
+      var ar=Math.min(46,Lpx*0.45);
+      o.push('<path d="M'+P[0]+' '+fmt2(P[1]+ar)+' A'+ar+' '+ar+' 0 0 0 '+fmt2(P[0]+ar*Math.sin(a0))+' '+fmt2(P[1]+ar*Math.cos(a0))+'" fill="none" stroke="var(--accent2)" stroke-width="1.4"/>');
+      fitText(o, P[0]+ar*Math.sin(a0/2)+14, P[1]+ar*Math.cos(a0/2)+4, ["θ₀ = "+p.th0+"°","θ₀ = "+p.th0+"°"], 70, 10, "var(--accent2)", "start");
+      role("pivot")(o, P[0], P[1], {clock:STAGE.clock});
+      role("string")(o, P[0], P[1], bx, by);
+      role("bob")(o, bx, by, {size:6+3*Math.cbrt(p.mb), col:"var(--accent)"});
+      /* length label beside the string */
+      fitText(o, P[0]-12, P[1]+Lpx/2, ["l = "+fmt2(p.Lp)+" m","l = "+fmt2(p.Lp)+" ม."], 80, 10, S.hl==="l"?"var(--accent)":"var(--ink-faint)", "end");
+      /* a clock face that ticks once per measured period */
+      var r=C08.run(p), n=Math.floor(S.t/r.Tm+1e-9);
+      fitText(o, 470, 60, [(L()?"แกว่งครบ ":"full swings: ")+n, (L()?"แกว่งครบ ":"full swings: ")+n], 140, 11, "var(--ink)", "middle");
+      fitText(o, 470, 78, ["t = "+fmt2(S.t)+" s","t = "+fmt2(S.t)+" วิ"], 140, 10.5, "var(--ink-faint)", "middle");
+    },
+    handles:[
+      {k:"Lp", at:function(p){ var a=p.th0*Math.PI/180; return {px:C08.pivot[0]+p.Lp*C08.pxm*Math.sin(a), py:C08.pivot[1]+p.Lp*C08.pxm*Math.cos(a)}; },
+       set:function(px,py){ var dx=px-C08.pivot[0], dy=Math.max(4,py-C08.pivot[1]);
+         return {Lp:Math.sqrt(dx*dx+dy*dy)/C08.pxm, th0:Math.abs(Math.atan2(dx,dy))*180/Math.PI}; },
+       lab:["drag the crystal","ลากคริสตัล"], labBelow:true, col:"accent"}
+    ],
+    instrument:{ kind:"graph",
+      xmin:0, xmax:12, ymin:-75, ymax:75,
+      xlab:["seconds","วินาที"], ylab:["angle °","มุม °"],
+      fn:function(x,p){ return C08.theta(p,x)*180/Math.PI; },
+      mark:function(p,S){ return S.t; }
+    },
+    /* the previous swing's trace, faint, so one change can be compared */
+    overlay:function(o,S,G){
+      var cur=C08.sig(S.p);
+      if(S.playing && S.t<0.2 && S.c08!==cur){ S.c08prev=S.c08; S.c08=cur; }
+      if(S.c08prev && S.c08prev!==cur){
+        var q=JSON.parse(S.c08prev), d="";
+        for(var i=0;i<=240;i++){ var x=12*i/240; d+=(i?" L":"M")+fmt2(G.X(x))+" "+fmt2(G.Y(C08.theta(q,x)*180/Math.PI)); }
+        o.push('<path d="'+d+'" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" stroke-dasharray="3 4"/>');
+        o.push('<text x="'+fmt2(G.X(12)-4)+'" y="'+fmt2((G.Y(G.hi)+12))+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">'+ui("lastRun")+'</text>');
+      }
+      var Tm=C08.run(S.p).Tm, hl=S.hl==="T";
+      if(Tm<12){
+        var yb=G.Y(G.lo)-8;
+        o.push('<line x1="'+fmt2(G.X(0))+'" y1="'+fmt2(yb)+'" x2="'+fmt2(G.X(Tm))+'" y2="'+fmt2(yb)+'" stroke="var(--good)" stroke-width="'+(hl?3.4:2)+'"/>');
+        o.push('<text x="'+fmt2(G.X(Tm/2))+'" y="'+fmt2(yb-5)+'" fill="var(--good)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">T = '+fmt2(Tm)+' s</text>');
+      }
+    },
+    spell:{
+      tex:function(p){ return "T = 2\\pi\\sqrt{\\dfrac{l}{g}} = 2\\pi\\sqrt{\\dfrac{"+fmt2(p.Lp)+"}{"+fmt2(p.g)+"}} = "+fmt2(C08.Tf(p))+"\\,\\text{s}"+
+                              "\\qquad\\left[\\sqrt{\\tfrac{\\text{m}}{\\text{m/s}^2}}=\\text{s}\\right]"; },
+      terms:[
+        {k:"l", sym:"l", lab:["length","ความยาว"], col:"accent", f:function(p){ return fmt2(p.Lp)+" m"; }},
+        {k:"T", sym:"T", lab:["one full swing","แกว่งครบหนึ่งรอบ"], col:"good", f:function(p){ return fmt2(C08.Tf(p))+" s"; }},
+        {k:"th", sym:"θ₀", lab:["amplitude — not in the spell","แอมพลิจูด — ไม่อยู่ในบทร่าย"], col:"accent2", f:function(p){ return p.th0+"°"; }}
+      ]
+    },
+    predict:{ kind:"choice",
+      ask:["How long will one full swing take?","แกว่งครบหนึ่งรอบใช้เวลาเท่าใด"],
+      opts:function(p){ return C08.choices(p).map(function(v){ return ["≈ "+fmt2(v)+" s","≈ "+fmt2(v)+" วินาที"]; }); },
+      actual:function(p){ var c=C08.choices(p), T=C08.run(p).Tm, best=0;
+        c.forEach(function(v,i){ if(Math.abs(v-T)<Math.abs(c[best]-T)) best=i; }); return best; },
+      explain:function(p){ return ["T = 2π√(l / g) = 2π√("+fmt2(p.Lp)+" / "+fmt2(p.g)+") = "+fmt2(C08.Tf(p))+" s. Neither the bob's mass nor (for small swings) the amplitude appears.",
+                                   "T = 2π√(l / g) = 2π√("+fmt2(p.Lp)+" / "+fmt2(p.g)+") = "+fmt2(C08.Tf(p))+" วินาที ไม่มีทั้งมวลลูกตุ้มและ (สำหรับมุมเล็ก) แอมพลิจูด"]; }
+    },
+    trials:{
+      veil:true,
+      make:function(){
+        if(Math.random()<0.5){
+          var X=pick([1,1.5,2,2.5,3]);
+          return {kind:"beat", X:X, L:9.8*X*X/(4*Math.PI*Math.PI), set:{g:9.8, th0:8, Lp:(X>2?0.3:2.5)}};
+        }
+        var w=pick([["the Moon","ดวงจันทร์",1.6],["Mars","ดาวอังคาร",3.8],["a giant planet","ดาวเคราะห์ยักษ์",24.8],["the sky-island","เกาะลอยฟ้า",6.2]]);
+        return {kind:"world", w:w, gv:w[2], X:2*Math.PI*Math.sqrt(1/w[2]), set:{Lp:1, th0:8, g:9.8}};
+      },
+      lockFor:function(g){ return g.kind==="beat" ? ["g","th0"] : ["Lp","th0"]; },
+      say:function(g){
+        if(g.kind==="beat") return ["Tune the crystal pendulum to beat exactly once every "+g.X+" s (g = 9.8 m/s²). How long must it be?",
+                                    "ปรับลูกตุ้มคริสตัลให้แกว่งครบหนึ่งรอบทุก "+g.X+" วินาทีพอดี (g = 9.8 ม./วิ²) ต้องยาวเท่าใด"];
+        return ["On "+g.w[0]+", a 1 m pendulum takes "+fmt2(g.X)+" s per swing. Set the gravity to match that world.",
+                "บน"+g.w[1]+" ลูกตุ้มยาว 1 ม. ใช้เวลา "+fmt2(g.X)+" วินาทีต่อการแกว่งหนึ่งรอบ ตั้งค่าความโน้มถ่วงให้ตรงกับโลกนั้น"];
+      },
+      check:function(p,S,g){
+        var T=C08.Tf(p);
+        if(g.kind==="beat"){
+          if(Math.abs(T-g.X)<0.05) return {ok:true, msg:["In tune: "+fmt2(T)+" s. From T = 2π√(l/g), l = gT² / 4π² = 9.8 × "+g.X+"² / 39.5 = "+fmt2(g.L)+" m.",
+                                                         "ตรงจังหวะ: "+fmt2(T)+" วินาที จาก T = 2π√(l/g) ได้ l = gT² / 4π² = 9.8 × "+g.X+"² / 39.5 = "+fmt2(g.L)+" ม."]};
+          return {ok:false, msg:["It beats every "+fmt2(T)+" s. The period grows only as the square root of the length.",
+                                 "แกว่งทุก "+fmt2(T)+" วินาที คาบโตตามรากที่สองของความยาวเท่านั้น"]};
+        }
+        if(Math.abs(p.g-g.gv)<0.15) return {ok:true, msg:["That is "+g.w[0]+": g = 4π²l / T² = 39.5 × 1 / "+fmt2(g.X)+"² = "+g.gv+" m/s². "+(g.gv<9.8?"Weaker gravity, slower beat.":"Stronger gravity, quicker beat."),
+                                                          "นั่นคือ"+g.w[1]+": g = 4π²l / T² = 39.5 × 1 / "+fmt2(g.X)+"² = "+g.gv+" ม./วิ² "+(g.gv<9.8?"แรงโน้มถ่วงน้อย จังหวะก็ช้า":"แรงโน้มถ่วงมาก จังหวะก็เร็ว")]};
+        return {ok:false, msg:["With g = "+fmt2(p.g)+" the swing takes "+fmt2(T)+" s. Rearrange T = 2π√(l/g) for g.",
+                               "ที่ g = "+fmt2(p.g)+" แกว่งรอบละ "+fmt2(T)+" วินาที จัดรูป T = 2π√(l/g) เพื่อหา g"]};
+      }
+    },
+    note:["drag the bob mass all you like — the trace will not move; pull wider than about 15° and the real beat starts to drift from the formula",
+          "ลากมวลลูกตุ้มเท่าไรก็ได้ เส้นกราฟจะไม่ขยับ ถ้าดึงกว้างเกินราว 15° จังหวะจริงจะเริ่มเบี่ยงจากสูตร"]
   },
   guide:[
-    {say:["A one-metre pendulum on Earth beats at almost exactly two seconds. That is not a coincidence of history.",
-          "ลูกตุ้มยาวหนึ่งเมตรบนโลกแกว่งครบรอบในเวลาเกือบสองวินาทีพอดี นั่นไม่ใช่เรื่องบังเอิญทางประวัติศาสตร์"], set:{Lp:1,g:9.8,mb:1}},
-    {say:["Now drag the bob mass across its whole range. Nothing happens — mass is simply not in the formula.",
-          "ทีนี้ลากมวลลูกตุ้มตลอดช่วง ไม่มีอะไรเกิดขึ้น เพราะมวลไม่ได้อยู่ในสูตรเลย"], set:{Lp:1,g:9.8,mb:5}},
-    {say:["Take the same pendulum to the Moon and it slows right down. Gravity, not mass, sets the beat.",
-          "เอาลูกตุ้มอันเดิมไปดวงจันทร์แล้วมันช้าลงมาก ความโน้มถ่วงต่างหากที่กำหนดจังหวะ ไม่ใช่มวล"], set:{Lp:1,g:1.6,mb:1}}
-  ] },
+    {say:["A one-metre pendulum on Earth beats at almost exactly two seconds. Press play and watch the trace draw a sine wave.",
+          "ลูกตุ้มยาวหนึ่งเมตรบนโลกแกว่งครบรอบเกือบสองวินาทีพอดี กดเล่นแล้วดูเส้นกราฟวาดคลื่นไซน์"], set:{Lp:1,th0:10,g:9.8,mb:1,T:8}},
+    {say:["Now make the bob five times heavier and play again. The faint last swing and the new one lie exactly on top of each other.",
+          "ทีนี้ทำให้ลูกตุ้มหนักขึ้นห้าเท่าแล้วเล่นอีกครั้ง เส้นจาง ๆ ของรอบก่อนกับรอบใหม่ทับกันพอดี"], set:{Lp:1,th0:10,g:9.8,mb:5,T:8}},
+    {say:["Pull it out to 60°. The real swing now lags the simple formula — the small-angle condition is not a formality.",
+          "ดึงออกไปถึง 60° ตอนนี้การแกว่งจริงช้ากว่าสูตรอย่างง่าย เงื่อนไขมุมเล็กไม่ใช่แค่พิธี"], set:{Lp:1,th0:60,g:9.8,mb:1,T:8}},
+    {say:["Take it to the Moon. Gravity, not mass, sets the beat.",
+          "พาไปดวงจันทร์ แรงโน้มถ่วง ไม่ใช่มวล เป็นตัวกำหนดจังหวะ"], set:{Lp:1,th0:10,g:1.6,mb:1,T:12}}
+  ]
+},
 
 { id:"energy", x:235, y:346, requires:["spring","pendulum"], methods:["M-06"],
   title:["Energy in oscillation","พลังงานในการแกว่ง"],

@@ -743,6 +743,53 @@ def track_legend(man, built, key, keyn):
         for sw, en, th in items)
 
 
+def spellbook_html(man, built):
+    """The spellbook: one card per stage lab ("spell") in the subject, in
+    chapter order. Each card links to its section; the page's script fills in
+    trials mastered and foresight from that chapter's saved progress."""
+    cards = []
+    for ch in man["chapters"]:
+        num = ch["num"]
+        if num not in built:
+            continue
+        fname, path = built[num][0], built[num][3]
+        src = read(path)
+        chid = unquote(field(src, "id")) or ("ch" + num)
+        starts = [m.start() for m in re.finditer(r'\{\s*id:"[\w-]+",\s*x:', src)]
+        for i, a in enumerate(starts):
+            seg = src[a:(starts[i + 1] if i + 1 < len(starts) else len(src))]
+            if 'viz:"stage"' not in seg:
+                continue
+            nid = re.match(r'\{\s*id:"([\w-]+)"', seg).group(1)
+            sm = re.search(r'spellName:\["((?:[^"\\]|\\.)*)","((?:[^"\\]|\\.)*)"\]', seg)
+            tm = re.search(r'title:\["((?:[^"\\]|\\.)*)","((?:[^"\\]|\\.)*)"\]', seg)
+            if not sm or not tm:
+                continue
+            has_trials = "trials:{" in seg
+            has_pred = "predict:{" in seg
+            cards.append(
+                '<a class="spell-card" href="%s#sec-%s" data-ch="%s" data-node="%s" data-trials="%d" data-pred="%d">'
+                '<span class="sp-ch" data-en="Chapter %s · %s" data-th="บทที่ %s · %s"></span>'
+                '<b class="sp-name" data-en="%s" data-th="%s"></b>'
+                '<span class="sp-topic" data-en="%s" data-th="%s"></span>'
+                '<span class="sp-stats"><span class="sp-m"></span><span class="sp-f"></span></span></a>'
+                % (fname, nid, chid, nid, has_trials, has_pred,
+                   int(num), esc(ch["title"]["en"]), int(num), esc(ch["title"]["th"]),
+                   esc(sm.group(1)), esc(sm.group(2)), esc(tm.group(1)), esc(tm.group(2))))
+    if not cards:
+        return ""
+    return ('<section class="spellbook" aria-labelledby="sb-title">'
+            '<span class="label" data-en="The spellbook" data-th="ตำราเวท"></span>'
+            '<h2 id="sb-title" data-en="Physics is the knowledge that makes the magic work" '
+            'data-th="ฟิสิกส์คือความรู้ที่ทำให้เวทมนตร์ได้ผล"></h2>'
+            '<p class="sb-lede" data-en="Every spell below is a formula you can drive by hand. Master its trials and '
+            'foresee its outcome before you cast; your progress is kept in this browser." '
+            'data-th="เวททุกบทด้านล่างคือสูตรที่คุณควบคุมได้ด้วยมือ ผ่านบททดสอบและทำนายผลก่อนร่าย '
+            'ความคืบหน้าถูกเก็บไว้ในเบราว์เซอร์นี้"></p>'
+            '<p class="sb-sum" id="sbSum"></p>'
+            '<div class="spells">%s</div></section>' % "".join(cards))
+
+
 def build_index(man, built, stats, css, nav=""):
     tpl = read(os.path.join(BUILD, "index.template.html"))
     slug = man["subject"]
@@ -774,6 +821,7 @@ def build_index(man, built, stats, css, nav=""):
                      ("__TRACKDESC_TH__", esc(desc_th)),
                      ("__TRACKLEGEND__", track_legend(man, built, key, keyn)),
                      ("__CARDS__", cards_html(man, built, stats)),
+                     ("__SPELLBOOK__", spellbook_html(man, built)),
                      ("__SRC_EN__", esc(man.get("source", {}).get("en", ""))),
                      ("__SRC_TH__", esc(man.get("source", {}).get("th", ""))),
                      ("__SUBJECT__", man["subjectTitle"]["en"]),
@@ -1117,11 +1165,31 @@ def build_bridge(subs, css, nav=""):
     return dest, write(dest, out)
 
 
+# ---------------------------------------------------------------- engine
+
+def assemble_engine():
+    """engine.js with the stage layer and every art skin spliced in at its
+    /*@@STAGE@@*/ marker - after the visualizer library it builds on, before
+    the page code that renders labs. A skin is one file in build/skins/; adding
+    a file there is all it takes to offer a new art style. models.js, the
+    shared physics, goes first so every stage lab can reach it."""
+    engine = read(os.path.join(BUILD, "engine.js"))
+    marker = "/*@@STAGE@@*/"
+    if engine.count(marker) != 1:
+        raise ValueError("engine.js must contain exactly one %s marker" % marker)
+    skins = sorted(glob.glob(os.path.join(BUILD, "skins", "*.js")))
+    parts = [read(os.path.join(BUILD, "models.js")), read(os.path.join(BUILD, "stage.js"))] + \
+            [read(p) for p in skins]
+    return engine.replace(marker, "\n".join(parts))
+
+
 # ---------------------------------------------------------------- main
 
 def main():
     css = read(os.path.join(BUILD, "engine.css"))
-    engine = read(os.path.join(BUILD, "engine.js"))
+    # stage labs only live in chapters, so only chapters carry their styles
+    chapter_css = css + "\n" + read(os.path.join(BUILD, "stage.css"))
+    engine = assemble_engine()
     shell = read(os.path.join(BUILD, "shell.html"))
 
     manifests = sorted(glob.glob(os.path.join(BUILD, "manifest-*.json")))
@@ -1156,7 +1224,8 @@ def main():
             tt = re.search(r'title\s*:\s*\[\s*"((?:[^"\\]|\\.)*)"\s*,\s*"((?:[^"\\]|\\.)*)"', s)
             filemap[num] = ("ch%s-%s.html" % (num, slug),
                             tt.group(1) if tt else (tm.group(1) if tm else slug),
-                            tt.group(2) if tt else (tm.group(1) if tm else slug))
+                            tt.group(2) if tt else (tm.group(1) if tm else slug),
+                            f)
             stats[num] = (len(re.findall(r'\{\s*id:"[\w-]+",\s*x:', s)),
                           len(re.findall(r'\{id:"M-\d+"', s)))
 
@@ -1177,7 +1246,7 @@ def main():
         for f in todo:
             num = unquote(field(read(f), "num"))
             here = "%s/%s" % (subject, filemap[num][0]) if num in filemap else ""
-            dest, size, _, _ = build_chapter(f, css, engine, shell, filemap, order,
+            dest, size, _, _ = build_chapter(f, chapter_css, engine, shell, filemap, order,
                                              page_nav(pages, here))
             total += size
             print("  %-46s %6.1f KB" % (os.path.relpath(dest, ROOT).replace("\\", "/"), size / 1024.0))

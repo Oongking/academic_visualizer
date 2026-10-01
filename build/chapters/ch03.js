@@ -1,3 +1,17 @@
+/* Chapter 03 glue for the golem lab: friction coefficients per ground, and
+   the geometry the push handle shares with the drawing each frame. */
+var C03 = {
+  mu: [0.05, 0.3, 0.6], surf: ["ice", "stone", "moss"],
+  k: 0.6, pxm: 10, back: 0, X0: 0,
+  WALL: 58,
+  r: function(p, t){
+    var r = PHYS.push(p.F, p.m, C03.mu[p.s], Math.min(Math.max(t, 0), p.T));
+    if(r.x > C03.WALL){ r.x = C03.WALL; r.v = 0; r.wall = true; }
+    return r;
+  },
+  word: function(s){ return tx(["{@ice}", "{@stone}", "{@moss}"][s]); }
+};
+
 var CHAPTER = {
 id:"ch03", num:"03", slug:"force-and-motion", subject:"physics",
 kicker:["Physics · Chapter 03","ฟิสิกส์ · บทที่ 3"],
@@ -118,15 +132,156 @@ nodes:[
          "ห้องทดลองแสดงผลที่ตามมา แรงลัพธ์คงที่ทำให้เกิดความเร่งคงที่ ซึ่งก็คือกราฟ v–t เส้นตรงจากบทที่ 2 นั่นเอง"]],
   formula:["ΣF = ma","ΣF = ma"],
   flabel:["Resultant force, total mass","แรงลัพธ์ มวลรวม"],
-  viz:"motion",
+  viz:"stage",
+  vizcfg:{
+    anim:true,
+    spellName:["The Golem's Push","แรงผลักโกเลม"],
+    question:["Drag the push. Why does {@golem} sometimes refuse to move — and when it moves, what sets how fast it speeds up?",
+              "ลากแรงผลัก ทำไมบางครั้ง{@golem}จึงไม่ขยับเลย และเมื่อขยับ อะไรกำหนดว่ามันเร่งเร็วแค่ไหน"],
+    ctrls:[
+      {k:"F", lab:["Push F","แรงผลัก F"], min:0, max:100, step:5, def:60, unit:" N"},
+      {k:"m", lab:["Mass of {@golem}","มวลของ{@golem}"], min:4, max:20, step:1, def:8, unit:" kg"},
+      {k:"s", lab:["Ground","พื้น"], min:0, max:2, step:1, def:1,
+       opts:[["{@Ice} · μ = 0.05","{@ice} · μ = 0.05"],["{@Stone} · μ = 0.3","{@stone} · μ = 0.3"],["{@Moss} · μ = 0.6","{@moss} · μ = 0.6"]]},
+      {k:"T", lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:4, unit:" s", isT:true}
+    ],
+    readouts:[
+      {lab:["Friction","แรงเสียดทาน"], f:function(S){ return fmt(C03.r(S.p,S.t).fric)+" N"; }},
+      {lab:["Resultant ΣF","แรงลัพธ์ ΣF"], f:function(S){ return fmt(C03.r(S.p,S.t).net)+" N"; }},
+      {lab:["Acceleration a","ความเร่ง a"], f:function(S){ return fmt2(C03.r(S.p,S.t).a)+" m/s²"; }},
+      {lab:["Speed now","ความเร็วขณะนี้"], f:function(S){ return fmt2(C03.r(S.p,S.t).v)+" m/s"; }}
+    ],
+    /* fixed 60 m arena; a fast golem stops against the far wall */
+    world:{ kind:"lane", left:84, span:function(){ return 60; } },
+    under:function(o,S,W){
+      role("surface")(o, FR.sx, FR.sx+FR.sw, W.g, {variant:C03.surf[S.p.s]});
+    },
+    props:function(p,S){
+      var g=S.trial && S.trial.goal;
+      return g && g.D ? [{role:"goal", x:g.D, on:S.t>=p.T-1e-9 && Math.abs(C03.r(p,p.T).x-g.D)<0.3}] : [];
+    },
+    cast:function(p,S){
+      var r=C03.r(p,S.t);
+      return [{role:"golem", x:r.x, size:0.75+p.m/40, moving:r.moves && S.t>0, term:"a",
+               vel:r.v, velScale:3, velLift:66, velLab:[fmt(r.v)+" m/s", fmt(r.v)+" ม./วิ"]}];
+    },
+    /* the push on the golem's back, its friction at the feet, and a
+       free-body diagram to scale in the corner */
+    scene:function(o,S,W){
+      var p=S.p, r=C03.r(p,S.t), gx=W.X(r.x), gy=W.g, k=0.6, back=gx-26*(0.75+p.m/40);
+      C03.pxm=W.X(1)-W.X(0); C03.X0=W.X(0); C03.back=back; C03.k=k;
+      if(p.F>0) role("vector")(o, back-p.F*k, gy-20, back, gy-20, {col:"var(--accent2)", hl:S.hl==="F"});
+      if(r.fric>0) role("vector")(o, gx, gy-3, gx-r.fric*k, gy-3, {col:"var(--warn)", hl:S.hl==="f"});
+      /* free-body inset */
+      /* to scale with each other: the largest force fills the box */
+      var cx=96, cy=88, wg=p.m*10, sc=38/Math.max(wg, p.F, r.fric, 1);
+      o.push('<rect x="34" y="30" width="124" height="112" rx="8" fill="var(--surface)" fill-opacity=".55" stroke="var(--rule)"/>');
+      fitText(o, 96, 43, ["free-body diagram","แผนภาพแรงอิสระ"], 116, 9.5, "var(--ink-faint)", "middle");
+      o.push('<rect x="'+(cx-9)+'" y="'+(cy-9)+'" width="18" height="18" fill="var(--ink-faint)" opacity=".5"/>');
+      var arr=function(dx,dy,c,lab,hl){
+        if(Math.abs(dx)+Math.abs(dy)<1) return;
+        role("vector")(o, cx, cy, cx+dx, cy+dy, {col:c, hl:hl});
+        o.push('<text x="'+fmt2(cx+dx+(dx>0?4:dx<0?-4:5))+'" y="'+fmt2(cy+dy+(dy>0?11:dy<0?-3:4))+'" fill="'+c+'" font-family="IBM Plex Sans" font-size="9.5" text-anchor="'+(dx<0?"end":"start")+'">'+lab+'</text>');
+      };
+      arr(0, -wg*sc, "var(--good)", "N");
+      arr(0, wg*sc, "var(--ink-soft)", "mg");
+      arr(p.F*sc, 0, "var(--accent2)", "F", S.hl==="F");
+      arr(-r.fric*sc, 0, "var(--warn)", "f", S.hl==="f");
+    },
+    handles:[
+      {k:"F", at:function(p){ return {x:(C03.back-p.F*C03.k-C03.X0)/C03.pxm, lift:20}; },
+       set:function(m){ return {F:(C03.back-(C03.X0+m*C03.pxm))/C03.k}; },
+       lab:["drag the push","ลากแรงผลัก"], col:"accent2", term:"F"}
+    ],
+    instrument:{ kind:"bar", ymax:120,
+      ylab:["newtons","นิวตัน"],
+      bars:[
+        {lab:["Push F","แรงผลัก F"], f:function(p){ return p.F; }, col:"accent2"},
+        {lab:["Friction f","แรงเสียดทาน f"], f:function(p){ return C03.r(p,0).fric; }, col:"warn"},
+        {lab:["Resultant ΣF","แรงลัพธ์ ΣF"], f:function(p){ return C03.r(p,0).net; }, col:"good"},
+        {lab:["m × a","m × a"], f:function(p){ return p.m*C03.r(p,0).a; }, col:"accent"}
+      ]
+    },
+    spell:{
+      tex:function(p){ var r=C03.r(p,0);
+        return "a = \\dfrac{\\Sigma F}{m} = \\dfrac{F - f}{m} = \\dfrac{"+p.F+" - "+fmt(r.fric)+"}{"+p.m+"} = "+fmt2(r.a)+"\\,\\text{m/s}^2"+
+               "\\qquad\\left[\\tfrac{\\text{N}}{\\text{kg}}=\\tfrac{\\text{m}}{\\text{s}^2}\\right]"; },
+      terms:[
+        {k:"F", sym:"F", lab:["your push","แรงผลักของคุณ"], col:"accent2", f:function(p){ return p.F+" N"; }},
+        {k:"f", sym:"f", lab:["friction · at most μmg","แรงเสียดทาน · ไม่เกิน μmg"], col:"warn", f:function(p){ return fmt(C03.r(p,0).fric)+" N"; }},
+        {k:"a", sym:"a", lab:["acceleration","ความเร่ง"], col:"accent", f:function(p){ return fmt2(C03.r(p,0).a)+" m/s²"; }}
+      ]
+    },
+    predict:{ kind:"x",
+      ask:["Where will {@golem} be when the run ends?","เมื่อจบการทดลอง {@golem}จะอยู่ตรงไหน"],
+      actual:function(p){ return C03.r(p,p.T).x; },
+      tol:function(p){ return Math.max(0.6, 0.08*C03.r(p,p.T).x); },
+      explain:function(p){ var r=C03.r(p,p.T);
+        if(!r.moves) return ["Friction can grip up to μmg = "+fmt(C03.mu[p.s]*p.m*10)+" N, more than your "+p.F+" N push, so it matches the push exactly and nothing moves.",
+                             "แรงเสียดทานยึดได้ถึง μmg = "+fmt(C03.mu[p.s]*p.m*10)+" N มากกว่าแรงผลัก "+p.F+" N จึงต้านพอดีและไม่มีอะไรขยับ"];
+        return ["a = (F − μmg) / m = ("+p.F+" − "+fmt(r.fric)+") / "+p.m+" = "+fmt2(r.a)+" m/s², so s = ½at² = "+fmt2(r.x)+" m.",
+                "a = (F − μmg) / m = ("+p.F+" − "+fmt(r.fric)+") / "+p.m+" = "+fmt2(r.a)+" ม./วิ² ดังนั้น s = ½at² = "+fmt2(r.x)+" ม."]; }
+    },
+    trials:{
+      veil:true,
+      make:function(){
+        var kind=pick(["reach","budge","mass"]), n=0, g;
+        if(kind==="reach"){
+          do{ var s=ri(0,2), m=ri(4,20), a=pick([0.5,1,1.5,2,2.5,3]), T=pick([2,3,4]);
+              var F=m*(a+C03.mu[s]*10); n++; } while((Math.abs(F/5-Math.round(F/5))>1e-9 || F>100) && n<500);
+          return {kind:kind, s:s, m:m, a:a, T:T, F:F, D:0.5*a*T*T, set:{s:s, m:m, T:T, F:0}};
+        }
+        if(kind==="budge"){
+          var s2=ri(1,2), m2=ri(4,16), lim=C03.mu[s2]*m2*10, F2=Math.floor(lim/5+1e-9)*5+5;
+          return {kind:kind, s:s2, m:m2, lim:lim, F:F2, set:{s:s2, m:m2, F:0, T:3}};
+        }
+        do{ var F3=5*ri(6,20), a3=pick([1.5,2,2.5,3.5,4.5,5.5,7.5]), m3=F3/(a3+0.5); n++; }
+        while((Math.abs(m3-Math.round(m3))>1e-9 || m3<4 || m3>20) && n<500);
+        return {kind:"mass", F:F3, a:a3, m:m3, set:{s:0, F:F3, m:20, T:3}};
+      },
+      lockFor:function(g){ return g.kind==="reach" ? ["s","m","T"] : (g.kind==="budge" ? ["s","m"] : ["s","F"]); },
+      say:function(g){
+        if(g.kind==="reach") return ["On "+C03.word(g.s)+", push {@golem} ("+g.m+" kg) from rest to {@goal} "+fmt2(g.D)+" m away in exactly "+g.T+" s. How hard must you push?",
+                                     "บน"+C03.word(g.s)+" ผลัก{@golem} ("+g.m+" กก.) จากหยุดนิ่งไปถึง{@goal}ที่ห่าง "+fmt2(g.D)+" ม. ในเวลา "+g.T+" วินาทีพอดี ต้องผลักแรงเท่าใด"];
+        if(g.kind==="budge") return ["{@Golem} ("+g.m+" kg) stands on "+C03.word(g.s)+". Find the smallest push, to the nearest 5 N, that makes it move at all.",
+                                     "{@golem} ("+g.m+" กก.) ยืนอยู่บน"+C03.word(g.s)+" จงหาแรงผลักน้อยที่สุด (ละเอียดถึง 5 N) ที่ทำให้มันขยับได้"];
+        return ["On ice, a "+g.F+" N push must give {@golem} an acceleration of exactly "+g.a+" m/s². How heavy must {@golem} be?",
+                "บนน้ำแข็ง แรงผลัก "+g.F+" N ต้องทำให้{@golem}มีความเร่ง "+g.a+" ม./วิ² พอดี {@golem}ต้องมีมวลเท่าใด"];
+      },
+      at:function(g){ return {x:(g.D||4), lift:30}; },
+      check:function(p,S,g){
+        var r=C03.r(p,0);
+        if(g.kind==="reach"){
+          if(p.F===g.F) return {ok:true, msg:["Right on {@goal}. a = 2s / t² = "+g.a+" m/s², and F = ma + μmg = "+g.m+" × "+g.a+" + "+fmt(C03.mu[g.s]*g.m*10)+" = "+g.F+" N.",
+                                              "ถึง{@goal}พอดี a = 2s / t² = "+g.a+" ม./วิ² และ F = ma + μmg = "+g.m+" × "+g.a+" + "+fmt(C03.mu[g.s]*g.m*10)+" = "+g.F+" N"]};
+          return {ok:false, msg:["It slid "+fmt2(C03.r(p,g.T).x)+" m. Work out the acceleration you need first, then add the friction you must beat.",
+                                 "มันไถลไป "+fmt2(C03.r(p,g.T).x)+" ม. หาความเร่งที่ต้องการก่อน แล้วบวกแรงเสียดทานที่ต้องเอาชนะ"]};
+        }
+        if(g.kind==="budge"){
+          if(p.F===g.F) return {ok:true, msg:["It budges. Friction grips up to μmg = "+fmt(g.lim)+" N; "+g.F+" N is the first push past that.",
+                                              "มันขยับแล้ว แรงเสียดทานยึดได้ถึง μmg = "+fmt(g.lim)+" N และ "+g.F+" N คือแรงแรกที่เกินค่านั้น"]};
+          if(!r.moves) return {ok:false, msg:["Nothing moves: friction simply matched your "+p.F+" N. How much can it grip at most?",
+                                              "ไม่ขยับ แรงเสียดทานต้านแรง "+p.F+" N ได้พอดี มันยึดได้มากที่สุดเท่าใด"]};
+          return {ok:false, msg:["It moves — but a smaller push would too. Friction holds up to μmg.","ขยับแล้ว แต่แรงที่น้อยกว่านี้ก็ขยับได้ แรงเสียดทานยึดได้ไม่เกิน μmg"]};
+        }
+        if(p.m===g.m) return {ok:true, msg:["m = F / (a + μg) = "+g.F+" / ("+g.a+" + 0.5) = "+g.m+" kg. Friction's share, μg = 0.5 m/s², comes off whatever the mass; the rest of a is F / m.",
+                                           "m = F / (a + μg) = "+g.F+" / ("+g.a+" + 0.5) = "+g.m+" กก. ส่วนของแรงเสียดทาน μg = 0.5 ม./วิ² ถูกหักออกเสมอไม่ว่ามวลเท่าใด ส่วนที่เหลือของ a คือ F / m"]};
+        return {ok:false, msg:["That mass gives "+fmt2(r.a)+" m/s². Remember the ice still takes a little: f = 0.05 × m × 10.",
+                               "มวลนี้ให้ความเร่ง "+fmt2(r.a)+" ม./วิ² อย่าลืมว่าน้ำแข็งยังมีแรงเสียดทานเล็กน้อย f = 0.05 × m × 10"]};
+      }
+    },
+    note:["the resultant force, not the push, sets the acceleration — and friction only pushes back as hard as it has to",
+          "แรงลัพธ์ ไม่ใช่แรงผลัก เป็นตัวกำหนดความเร่ง และแรงเสียดทานต้านกลับเท่าที่จำเป็นเท่านั้น"]
+  },
   guide:[
-    {say:["A constant resultant force gives a constant acceleration — the trace is straight, exactly as in Chapter 2.",
-          "แรงลัพธ์คงที่ให้ความเร่งคงที่ เส้นกราฟจึงเป็นเส้นตรงเหมือนบทที่ 2 ทุกประการ"], set:{u:0,a:4,T:6}},
-    {say:["Double the force on the same mass and the slope doubles. a is proportional to ΣF.",
-          "เพิ่มแรงเป็นสองเท่าบนมวลเดิม ความชันเป็นสองเท่า a แปรผันตรงกับ ΣF"], set:{u:0,a:8,T:6}},
-    {say:["A resultant force opposing the motion decelerates it — braking is just ΣF pointing backwards.",
-          "แรงลัพธ์ที่ต้านการเคลื่อนที่ทำให้ช้าลง การเบรกก็คือ ΣF ที่ชี้ย้อนกลับ"], set:{u:14,a:-3,T:6}}
-  ]},
+    {say:["On ice a modest push is plenty: friction takes only a sliver, so nearly all of F becomes ma. Press play.",
+          "บนน้ำแข็ง แรงผลักไม่มากก็พอ แรงเสียดทานกินไปนิดเดียว เกือบทั้งหมดของ F กลายเป็น ma กดเล่น"], set:{F:40,m:8,s:0,T:4}},
+    {say:["Same push on moss. Friction can grip up to μmg = 48 N, more than 40 N, so it matches the push and nothing moves.",
+          "แรงเดิมบนมอส แรงเสียดทานยึดได้ถึง μmg = 48 N มากกว่า 40 N จึงต้านพอดีและไม่มีอะไรขยับ"], set:{F:40,m:8,s:2,T:4}},
+    {say:["Push harder than the grip and {@golem} goes — but only the resultant, F − f, accelerates it. Watch the last two bars match.",
+          "ผลักแรงกว่าแรงยึด {@golem}ก็ไป แต่มีเพียงแรงลัพธ์ F − f เท่านั้นที่ทำให้เกิดความเร่ง สังเกตสองแถบสุดท้ายเท่ากัน"], set:{F:80,m:8,s:2,T:4}}
+  ]
+},
 
 { id:"friction", x:100, y:346, requires:["force-types"], methods:["M-04"],
   title:["Friction","แรงเสียดทาน"],
