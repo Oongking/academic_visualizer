@@ -183,7 +183,9 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .node-sec[data-table="1"] .node-split{grid-template-columns:minmax(0,1fr)}
 .node-sec[data-table="1"] .node-body p,
 .node-sec[data-table="1"] .xnote{max-width:66ch}
-@media (max-width:1000px){ .node-split{grid-template-columns:1fr;gap:28px} }
+/* minmax(0,…), not 1fr: a bare 1fr column grows to its widest unbreakable
+   line, so a long equation would widen the page instead of scrolling. */
+@media (max-width:1000px){ .node-split{grid-template-columns:minmax(0,1fr);gap:28px} }
 .node-body p{margin:0 0 18px;color:var(--ink-soft)}
 .node-body .keyterm{color:var(--ink);font-weight:600}
 
