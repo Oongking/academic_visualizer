@@ -3590,6 +3590,37 @@ VIZLIB.stage = {
       o.push('<line x1="' + F2(x - r) + '" y1="' + F2(y) + '" x2="' + F2(x + r) + '" y2="' + F2(y) + '" stroke="#ffffff" stroke-width=".6" opacity=".7"/>');
     },
 
+    /* an enchanted silk rope; the resultant glows, its parts trail faintly */
+    rope: function(o, pts, opt){
+      var d = pts.map(function(q, i){ return (i ? "L" : "M") + F2(q[0]) + " " + F2(q[1]); }).join(" ");
+      var c = opt.col || "#f1edff";
+      if(!opt.dash) o.push('<path d="' + d + '" fill="none" stroke="' + c + '" stroke-width="' + ((opt.w || 2.5) + 5) + '" opacity=".15" stroke-linejoin="round"/>');
+      o.push('<path d="' + d + '" fill="none" stroke="' + c + '" stroke-width="' + (opt.w || 2.5) + '" stroke-linejoin="round"' +
+             (opt.dash ? ' stroke-dasharray="' + opt.dash + '"' : '') + (opt.op != null ? ' opacity="' + opt.op + '"' : '') + '/>');
+    },
+    /* a rune that sends out ripples */
+    source: function(o, x, y, opt){
+      var c = opt.col || "#7fe3ff", k = opt.clock || 0;
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="13" fill="url(#ak-aura)"/>');
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="7.5" fill="#120e30" stroke="' + c + '" stroke-width="1.6" stroke-dasharray="3 2" ' +
+             'transform="rotate(' + F2(k * 60 % 360) + ' ' + F2(x) + ' ' + F2(y) + ')"/>');
+      o.push('<path d="' + star4(x, y, 4.2) + '" fill="' + c + '" filter="url(#ak-glow)"/>');
+    },
+    /* a crystal screen that catches light */
+    screen: function(o, x, y1, y2){
+      o.push('<rect x="' + F2(x - 4) + '" y="' + F2(y1) + '" width="8" height="' + F2(y2 - y1) + '" rx="3" fill="#1a1442" stroke="#5d55a5"/>');
+    },
+    /* a wailing wisp: a little ghost light that sings as it flies */
+    wisp: function(o, x, y, opt){
+      var k = opt.clock || 0, w = Math.sin(k * 8) * 2;
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="18" fill="url(#ak-aura)"/>');
+      o.push('<path d="M' + F2(x - 9) + ' ' + F2(y + 2) + ' Q' + F2(x - 9) + ' ' + F2(y - 11) + ' ' + F2(x) + ' ' + F2(y - 11) + ' Q' + F2(x + 9) + ' ' + F2(y - 11) + ' ' +
+             F2(x + 9) + ' ' + F2(y + 2) + ' L' + F2(x + 6) + ' ' + F2(y + 8 + w) + ' L' + F2(x + 2) + ' ' + F2(y + 4) + ' L' + F2(x - 2) + ' ' + F2(y + 9 - w) +
+             ' L' + F2(x - 6) + ' ' + F2(y + 4) + ' Z" fill="#e9fbff" stroke="#7fe3ff" stroke-width="1" filter="url(#ak-glow)"/>');
+      o.push('<circle cx="' + F2(x - 3) + '" cy="' + F2(y - 4) + '" r="1.4" fill="#2a1f4d"/><circle cx="' + F2(x + 3) + '" cy="' + F2(y - 4) + '" r="1.4" fill="#2a1f4d"/>');
+      o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y + 0.5) + '" rx="1.6" ry="' + F2(1.4 + Math.abs(w) * 0.4) + '" fill="#2a1f4d"/>');
+    },
+
     /* a prophecy stone: the learner's prediction, planted on the ley line */
     prophecy: function(o, x, y, opt){
       var c = opt.done ? (opt.hit ? "#9cf5b5" : "#ffcf6e") : "#d6a8ff", k = opt.clock || 0;
@@ -3789,6 +3820,26 @@ SKINS.add({
   /* a pendulum bob about its centre; opt.size is its radius */
   bob: function(o, x, y, opt){
     o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="' + fmt2(opt.size || 9) + '" fill="' + (opt.col || "var(--accent)") + '"/>');
+  },
+
+  /* a rope or string drawn through pts; opt.w its thickness */
+  rope: function(o, pts, opt){
+    o.push('<path d="' + pts.map(function(q, i){ return (i ? "L" : "M") + fmt2(q[0]) + " " + fmt2(q[1]); }).join(" ") +
+           '" fill="none" stroke="' + (opt.col || "var(--ink)") + '" stroke-width="' + (opt.w || 2.5) + '" stroke-linejoin="round"' +
+           (opt.dash ? ' stroke-dasharray="' + opt.dash + '"' : '') + (opt.op != null ? ' opacity="' + opt.op + '"' : '') + '/>');
+  },
+  /* a point source of waves */
+  source: function(o, x, y, opt){
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="6" fill="' + (opt.col || "var(--accent)") + '"/>');
+  },
+  /* a screen standing from y1 to y2 at x */
+  screen: function(o, x, y1, y2){
+    o.push('<rect x="' + fmt2(x - 3) + '" y="' + fmt2(y1) + '" width="6" height="' + fmt2(y2 - y1) + '" fill="var(--ink-soft)" opacity=".35"/>');
+  },
+  /* a moving sound source, about its centre */
+  wisp: function(o, x, y, opt){
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="8" fill="' + (opt.col || "var(--warn)") + '"/>');
+    o.push('<path d="M' + fmt2(x - 4) + ' ' + fmt2(y - 3) + ' h8 M' + fmt2(x - 4) + ' ' + fmt2(y + 3) + ' h8" stroke="var(--surface)" stroke-width="1.6"/>');
   },
 
   prophecy: function(o, x, y, opt){
@@ -4068,7 +4119,7 @@ function makeLab(nd, host){
   var Tkey=null; ctrls.forEach(function(c){ if(c.isT) Tkey=c.k; });
 
   function labels(){
-    host.querySelectorAll(".opt-b").forEach(function(el){
+    host.querySelectorAll(".ctrl .opt-b").forEach(function(el){
       var c=ctrls[+el.getAttribute("data-i")];
       var on = String(S.p[c.k])===el.getAttribute("data-v");
       el.classList.toggle("on",on);

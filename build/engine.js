@@ -1267,7 +1267,7 @@ function makeLab(nd, host){
   var Tkey=null; ctrls.forEach(function(c){ if(c.isT) Tkey=c.k; });
 
   function labels(){
-    host.querySelectorAll(".opt-b").forEach(function(el){
+    host.querySelectorAll(".ctrl .opt-b").forEach(function(el){
       var c=ctrls[+el.getAttribute("data-i")];
       var on = String(S.p[c.k])===el.getAttribute("data-v");
       el.classList.toggle("on",on);

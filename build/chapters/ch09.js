@@ -1,3 +1,21 @@
+/* Chapter 09 rope: two Gaussian pulses that pass through each other. They
+   leave the ends at 4 m/s and meet in the middle at t = 1.75 s. */
+var C09 = {
+  v: 4, w: 1.4, tm: 1.75, yc: 140, k: 11,
+  X: function(x){ return 50 + x * 23.5; },
+  Y: function(y){ return C09.yc - y * C09.k; },
+  c1: function(t){ return 3 + C09.v * t; },
+  c2: function(t){ return 17 - C09.v * t; },
+  p1: function(p, x, t){ var u = (x - C09.c1(t)) / C09.w; return p.A1 * Math.exp(-u * u); },
+  p2: function(p, x, t){ var u = (x - C09.c2(t)) / C09.w; return p.A2 * Math.exp(-u * u); },
+  y: function(p, x, t){ return C09.p1(p, x, t) + C09.p2(p, x, t); },
+  cands: function(p){
+    var c = [p.A1 + p.A2, p.A1 - p.A2, p.A2 - p.A1, 0, Math.max(Math.abs(p.A1), Math.abs(p.A2))], u = [];
+    c.forEach(function(v){ if(u.every(function(w){ return Math.abs(w - v) > 1e-9; })) u.push(v); });
+    return u.sort(function(a, b){ return a - b; });
+  }
+};
+
 var CHAPTER = {
 id:"ch09", num:"09", slug:"waves", subject:"physics",
 kicker:["Physics · Chapter 09","ฟิสิกส์ · บทที่ 9"],
@@ -123,43 +141,111 @@ nodes:[
          "เงื่อนไขเขียนในรูปผลต่างทางเดิน จำนวนเต็มเท่าของความยาวคลื่นให้การแทรกสอดแบบเสริม ส่วนจำนวนคี่ของครึ่งความยาวคลื่นให้แบบหักล้าง คลื่นนิ่งคือกรณีพิเศษที่คลื่นพบกับการสะท้อนของตัวเอง เกิดบัพและปฏิบัพที่อยู่กับที่"]],
   formula:["Constructive: Δpath = nλ    ·    Destructive: Δpath = (n − ½)λ","เสริม: Δทางเดิน = nλ  ·  หักล้าง: Δทางเดิน = (n − ½)λ"],
   flabel:["Path difference decides","ผลต่างทางเดินเป็นตัวตัดสิน"],
-  viz:"plot",
+  viz:"stage",
   vizcfg:{
-    title:["TWO WAVES ADDED POINT BY POINT","คลื่นสองขบวนบวกกันทีละจุด"],
-    xlab:["position x (m)","ตำแหน่ง x (m)"], ylab:["displacement y","การกระจัด y"],
-    xmin:0, xmax:20, fill:false,
-    fn:function(x,p){
-      return p.A1*Math.sin(2*Math.PI*x/8) + p.A2*Math.sin(2*Math.PI*x/8 + p.ph*Math.PI/180);
-    },
+    anim:true,
+    spellName:["The Enchanted Rope","เชือกต้องมนตร์"],
+    question:["Two pulses race toward each other along the rope. What happens where they meet — and afterwards?",
+              "คลื่นดลสองลูกวิ่งเข้าหากันบนเชือก เกิดอะไรขึ้นตรงที่พบกัน และหลังจากนั้น"],
     ctrls:[
-      {k:"A1", lab:["Amplitude of wave 1","แอมพลิจูดคลื่นที่ 1"], min:0, max:5, step:.5, def:3, unit:""},
-      {k:"A2", lab:["Amplitude of wave 2","แอมพลิจูดคลื่นที่ 2"], min:0, max:5, step:.5, def:3, unit:""},
-      {k:"ph", lab:["Phase difference","ผลต่างเฟส"], min:0, max:360, step:15, def:0, unit:"°"}
+      {k:"A1", lab:["Height of pulse 1","ความสูงคลื่นดล 1"], min:-5, max:5, step:.5, def:3, unit:""},
+      {k:"A2", lab:["Height of pulse 2","ความสูงคลื่นดล 2"], min:-5, max:5, step:.5, def:2, unit:""},
+      {k:"T",  lab:["Watch for","ดูนาน"], min:1, max:4, step:.25, def:3.5, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Resultant amplitude","แอมพลิจูดลัพธ์"], f:function(S){
-        var p=S.p, r=p.ph*Math.PI/180;
-        return fmt2(Math.sqrt(p.A1*p.A1+p.A2*p.A2+2*p.A1*p.A2*Math.cos(r))); }},
-      {lab:["Kind of interference","ชนิดการแทรกสอด"], f:function(S){
-        var ph=((S.p.ph%360)+360)%360;
-        if(ph<30||ph>330) return L()?"เสริมกันเต็มที่":"fully constructive";
-        if(ph>150&&ph<210) return L()?"หักล้างกัน":"destructive";
-        return L()?"อยู่ระหว่างกลาง":"partial"; }},
-      {lab:["Path difference","ผลต่างทางเดิน"], f:function(S){
-        return fmt2(S.p.ph/360)+" λ"; }},
-      {lab:["Is energy destroyed?","พลังงานถูกทำลายไหม"], f:function(){
-        return L()?"ไม่ — ย้ายไปที่อื่นในลวดลาย":"no — it moves elsewhere in the pattern"; }}
+      {lab:["At the meeting point now","ที่จุดพบขณะนี้"], f:function(S){ return fmt2(C09.y(S.p,10,S.t)); }},
+      {lab:["When they overlap fully","เมื่อซ้อนกันสนิท"], f:function(S){ return fmt2(S.p.A1+S.p.A2); }},
+      {lab:["Kind of meeting","ลักษณะการพบ"], f:function(S){
+        var a=S.p.A1, b=S.p.A2;
+        if(a*b>0) return L()?"เสริมกัน":"constructive";
+        if(a*b<0) return a+b===0 ? (L()?"หักล้างสมบูรณ์":"complete cancelling") : (L()?"หักล้างบางส่วน":"partly cancelling");
+        return L()?"มีคลื่นเดียว":"only one pulse"; }},
+      {lab:["After they part","หลังแยกจากกัน"], f:function(){ return L()?"ทั้งคู่ไปต่อเหมือนเดิม":"each carries on unchanged"; }}
     ],
-    note:["zero phase difference doubles the wave; half a wavelength cancels it","ผลต่างเฟสศูนย์ทำให้คลื่นเป็นสองเท่า ครึ่งความยาวคลื่นทำให้หักล้างกัน"]
+    world:{ kind:"free" },
+    scene:function(o,S,W){
+      var p=S.p, t=S.t, n=120, r1=[], r2=[], r=[];
+      for(var i=0;i<=n;i++){
+        var x=20*i/n, X=C09.X(x);
+        r1.push([X, C09.Y(C09.p1(p,x,t))]); r2.push([X, C09.Y(C09.p2(p,x,t))]); r.push([X, C09.Y(C09.y(p,x,t))]);
+      }
+      o.push('<line x1="'+C09.X(0)+'" y1="'+C09.yc+'" x2="'+C09.X(20)+'" y2="'+C09.yc+'" stroke="var(--rule)" stroke-width="1"/>');
+      o.push('<line x1="'+C09.X(10)+'" y1="'+(C09.yc-74)+'" x2="'+C09.X(10)+'" y2="'+(C09.yc+74)+'" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3 4"/>');
+      fitText(o, C09.X(10), C09.yc+88, ["meeting point","จุดพบ"], 120, 10, "var(--ink-faint)", "middle");
+      role("rope")(o, r1, {col:"var(--accent)", w:S.hl==="y1"?2.6:1.5, dash:"5 4", op:.85});
+      role("rope")(o, r2, {col:"var(--accent2)", w:S.hl==="y2"?2.6:1.5, dash:"5 4", op:.85});
+      role("rope")(o, r, {w:S.hl==="y"?4:2.8});
+      [[0,0],[20,0]].forEach(function(e){ role("source")(o, C09.X(e[0]), C09.yc, {clock:STAGE.clock, col:e[0]?"var(--accent2)":"var(--accent)"}); });
+    },
+    handles:[
+      {k:"A1", at:function(p,S){ return {px:C09.X(C09.c1(S.t)), py:C09.Y(p.A1)}; }, set:function(px,py){ return {A1:(C09.yc-py)/C09.k}; },
+       lab:["pulse 1","คลื่นดล 1"], col:"accent"},
+      {k:"A2", at:function(p,S){ return {px:C09.X(C09.c2(S.t)), py:C09.Y(p.A2)}; }, set:function(px,py){ return {A2:(C09.yc-py)/C09.k}; },
+       lab:["pulse 2","คลื่นดล 2"], col:"accent2"}
+    ],
+    events:function(p,S){
+      return [{id:"meet", when:S.t>=C09.tm-0.02 && S.t>0, px:C09.X(10), py:C09.Y(p.A1+p.A2), kind:Math.abs(p.A1+p.A2)<0.01?"impact":"burst",
+               col:Math.abs(p.A1+p.A2)<0.01?"warn":"good"}];
+    },
+    instrument:{ kind:"graph",
+      xmin:0, xmax:4,
+      xlab:["seconds","วินาที"], ylab:["height at meeting point","ความสูงที่จุดพบ"],
+      fn:function(x,p){ return C09.y(p,10,x); },
+      mark:function(p,S){ return S.t; }
+    },
+    spell:{
+      tex:function(p,S){ var a=C09.p1(p,10,S.t), b=C09.p2(p,10,S.t);
+        return "y = y_1 + y_2 = ("+fmt2(a)+") + ("+fmt2(b)+") = "+fmt2(a+b)+"\\quad\\text{"+(L()?"ที่จุดพบ":"at the meeting point")+"}"; },
+      terms:[
+        {k:"y1", sym:"y₁", lab:["pulse 1 alone","คลื่นดล 1 เดี่ยว ๆ"], col:"accent", f:function(p,S){ return fmt2(C09.p1(p,10,S.t)); }},
+        {k:"y2", sym:"y₂", lab:["pulse 2 alone","คลื่นดล 2 เดี่ยว ๆ"], col:"accent2", f:function(p,S){ return fmt2(C09.p2(p,10,S.t)); }},
+        {k:"y",  sym:"y",  lab:["the rope itself","ตัวเชือกจริง"], col:"good", f:function(p,S){ return fmt2(C09.y(p,10,S.t)); }}
+      ]
+    },
+    predict:{ kind:"choice",
+      ask:["At the instant the two pulses sit exactly on top of each other, how high is the rope at the meeting point?",
+           "ในขณะที่คลื่นดลสองลูกซ้อนกันสนิท เชือกที่จุดพบสูงเท่าใด"],
+      opts:function(p){ return C09.cands(p).map(function(v){ return [fmt2(v), fmt2(v)]; }); },
+      actual:function(p){ return C09.cands(p).indexOf(p.A1+p.A2); },
+      explain:function(p){ return ["Displacements simply add: "+fmt2(p.A1)+" + ("+fmt2(p.A2)+") = "+fmt2(p.A1+p.A2)+". Then each pulse travels on as if the other had never been there.",
+                                   "การกระจัดบวกกันตรง ๆ: "+fmt2(p.A1)+" + ("+fmt2(p.A2)+") = "+fmt2(p.A1+p.A2)+" แล้วคลื่นดลแต่ละลูกก็เดินทางต่อเหมือนไม่เคยพบกันมาก่อน"]; }
+    },
+    trials:{
+      veil:true,
+      make:function(){
+        var A1=pick([-4,-3,-2,2,3,4,5,-5,1.5,-1.5]);
+        if(Math.random()<0.5) return {kind:"flat", A1:A1, A2:-A1, set:{A1:A1, A2:0, T:3.5}};
+        var A2, X; do{ A2=ri(-10,10)/2; X=A1+A2; } while(Math.abs(A2)<0.5 || A2===-A1);
+        return {kind:"peak", A1:A1, A2:A2, X:X, set:{A1:A1, A2:0, T:3.5}};
+      },
+      lock:["A1","T"],
+      say:function(g){
+        if(g.kind==="flat") return ["Pulse 1 has height "+g.A1+". Shape pulse 2 so that, at the meeting instant, the rope lies perfectly flat.",
+                                    "คลื่นดล 1 สูง "+g.A1+" ปั้นคลื่นดล 2 ให้เชือกแบนราบสนิทในขณะที่พบกัน"];
+        return ["Pulse 1 has height "+g.A1+". Shape pulse 2 so the rope reaches exactly "+fmt2(g.X)+" at the meeting instant.",
+                "คลื่นดล 1 สูง "+g.A1+" ปั้นคลื่นดล 2 ให้เชือกสูง "+fmt2(g.X)+" พอดีในขณะที่พบกัน"];
+      },
+      check:function(p,S,g){
+        if(p.A2===g.A2) return {ok:true, msg:[g.kind==="flat" ? "Flat for an instant: "+g.A1+" + ("+g.A2+") = 0 — yet both pulses re-emerge untouched. Nothing was destroyed."
+                                                               : "Exactly "+fmt2(g.X)+": y₂ = "+fmt2(g.X)+" − ("+g.A1+") = "+fmt2(g.A2)+". The rope just adds the two.",
+                                                g.kind==="flat" ? "เชือกแบนชั่วขณะ: "+g.A1+" + ("+g.A2+") = 0 แต่คลื่นดลทั้งสองก็กลับมาเหมือนเดิม ไม่มีอะไรถูกทำลาย"
+                                                               : "ได้ "+fmt2(g.X)+" พอดี: y₂ = "+fmt2(g.X)+" − ("+g.A1+") = "+fmt2(g.A2)+" เชือกแค่บวกสองคลื่นเข้าด้วยกัน"]};
+        return {ok:false, msg:["At the meeting point the rope reached "+fmt2(p.A1+p.A2)+". Heights add with their signs.",
+                               "ที่จุดพบเชือกสูง "+fmt2(p.A1+p.A2)+" ความสูงบวกกันโดยคิดเครื่องหมายด้วย"]};
+      }
+    },
+    note:["the dashed lines are each pulse alone; the glowing rope is their sum, point by point",
+          "เส้นประคือคลื่นดลแต่ละลูกเดี่ยว ๆ เชือกเรืองแสงคือผลรวมของทั้งสองทีละจุด"]
   },
   guide:[
-    {say:["In step. The crests line up and the resultant is the sum of the two amplitudes.",
-          "อยู่ในเฟสเดียวกัน สันคลื่นตรงกันและผลลัพธ์คือผลบวกของสองแอมพลิจูด"], set:{A1:3,A2:3,ph:0}},
-    {say:["Half a wavelength out of step. Every crest meets a trough and the wave vanishes entirely.",
-          "ต่างเฟสครึ่งความยาวคลื่น ทุกสันเจอท้อง คลื่นจึงหายไปหมด"], set:{A1:3,A2:3,ph:180}},
-    {say:["Unequal amplitudes cannot fully cancel. Something always survives when the two do not match.",
-          "แอมพลิจูดไม่เท่ากันหักล้างกันหมดไม่ได้ เมื่อสองคลื่นไม่เท่ากันย่อมมีส่วนที่เหลืออยู่เสมอ"], set:{A1:4,A2:1.5,ph:180}}
-  ] }
+    {say:["Two crests. Press play: where they overlap the rope rises to 3 + 2 = 5, then both pulses walk away unchanged.",
+          "ยอดคลื่นสองลูก กดเล่น ตรงที่ซ้อนกันเชือกสูงขึ้นเป็น 3 + 2 = 5 แล้วคลื่นดลทั้งสองก็เดินจากไปเหมือนเดิม"], set:{A1:3,A2:2,T:3.5}},
+    {say:["A crest meets an equal trough. For one instant the rope is perfectly flat — and then both pulses reappear.",
+          "ยอดคลื่นพบท้องคลื่นที่เท่ากัน ชั่วขณะหนึ่งเชือกแบนราบสนิท แล้วคลื่นดลทั้งสองก็ปรากฏขึ้นอีกครั้ง"], set:{A1:3,A2:-3,T:3.5}},
+    {say:["Unequal crest and trough cannot fully cancel. Something always survives when the two do not match.",
+          "ยอดกับท้องที่ไม่เท่ากันหักล้างกันไม่หมด เมื่อทั้งสองไม่เท่ากันจะเหลือบางส่วนเสมอ"], set:{A1:4,A2:-1.5,T:3.5}}
+  ]
+}
 ],
 
 methods:[

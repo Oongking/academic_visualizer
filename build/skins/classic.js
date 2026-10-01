@@ -174,6 +174,26 @@ SKINS.add({
     o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="' + fmt2(opt.size || 9) + '" fill="' + (opt.col || "var(--accent)") + '"/>');
   },
 
+  /* a rope or string drawn through pts; opt.w its thickness */
+  rope: function(o, pts, opt){
+    o.push('<path d="' + pts.map(function(q, i){ return (i ? "L" : "M") + fmt2(q[0]) + " " + fmt2(q[1]); }).join(" ") +
+           '" fill="none" stroke="' + (opt.col || "var(--ink)") + '" stroke-width="' + (opt.w || 2.5) + '" stroke-linejoin="round"' +
+           (opt.dash ? ' stroke-dasharray="' + opt.dash + '"' : '') + (opt.op != null ? ' opacity="' + opt.op + '"' : '') + '/>');
+  },
+  /* a point source of waves */
+  source: function(o, x, y, opt){
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="6" fill="' + (opt.col || "var(--accent)") + '"/>');
+  },
+  /* a screen standing from y1 to y2 at x */
+  screen: function(o, x, y1, y2){
+    o.push('<rect x="' + fmt2(x - 3) + '" y="' + fmt2(y1) + '" width="6" height="' + fmt2(y2 - y1) + '" fill="var(--ink-soft)" opacity=".35"/>');
+  },
+  /* a moving sound source, about its centre */
+  wisp: function(o, x, y, opt){
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="8" fill="' + (opt.col || "var(--warn)") + '"/>');
+    o.push('<path d="M' + fmt2(x - 4) + ' ' + fmt2(y - 3) + ' h8 M' + fmt2(x - 4) + ' ' + fmt2(y + 3) + ' h8" stroke="var(--surface)" stroke-width="1.6"/>');
+  },
+
   prophecy: function(o, x, y, opt){
     var c = opt.done ? (opt.hit ? "var(--good)" : "var(--warn)") : "var(--accent2)";
     if(opt.tower){
