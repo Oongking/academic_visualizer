@@ -56,6 +56,7 @@
       predictAgain: ["Foresee again ✦", "ทำนายอีกครั้ง ✦"],
       reveal: ["Cast and reveal", "ร่ายเวทและเปิดเผย"],
       endPredict: ["Close the vision", "ปิดนิมิต"],
+      lastRun: ["last cast", "การร่ายครั้งก่อน"],
       foresight: ["true visions", "นิมิตที่แม่น"],
       trueSight: ["True sight!", "เห็นแจ้ง!"],
       notQuite: ["The vision was clouded.", "นิมิตยังพร่ามัว"],
@@ -77,6 +78,10 @@
         '<stop offset=".5" stop-color="#7ff0b8" stop-opacity=".55"/><stop offset="1" stop-color="#5a3fd0" stop-opacity=".15"/></radialGradient>' +
       '<radialGradient id="ak-moon"><stop offset="0" stop-color="#fff4cf" stop-opacity=".45"/>' +
         '<stop offset="1" stop-color="#fff4cf" stop-opacity="0"/></radialGradient>' +
+      '<radialGradient id="ak-fire" cx=".4" cy=".4" r=".7"><stop offset="0" stop-color="#fffbe0"/>' +
+        '<stop offset=".35" stop-color="#ffd36e"/><stop offset=".75" stop-color="#ff7a3c"/><stop offset="1" stop-color="#c2263a"/></radialGradient>' +
+      '<radialGradient id="ak-ember"><stop offset="0" stop-color="#ffb35c" stop-opacity=".6"/>' +
+        '<stop offset="1" stop-color="#ff7a3c" stop-opacity="0"/></radialGradient>' +
       '<filter id="ak-glow" x="-60%" y="-60%" width="220%" height="220%">' +
         '<feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>',
 
@@ -291,6 +296,37 @@
       o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + r + '" fill="#120e30" fill-opacity=".7" stroke="' + c +
              '" stroke-width="1.8" stroke-dasharray="4 3" transform="rotate(' + F2(rot) + ' ' + F2(x) + ' ' + F2(y) + ')"/>');
       o.push('<path d="' + star4(x, y, opt.active ? 6.5 : 5) + '" fill="' + c + '" filter="url(#ak-glow)"/>');
+    },
+
+    /* a fireball about its centre; its tail streams opposite opt.ang */
+    fireball: function(o, x, y, opt){
+      var r = opt.size || 7, c = opt.clock || 0, a = opt.ang != null ? opt.ang : 0;
+      var tx = -Math.cos(a), ty = -Math.sin(a), nx = -ty, ny = tx, L = r * 3.2 + Math.sin(c * 20) * r * 0.4;
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + F2(r * 2.6) + '" fill="url(#ak-ember)"/>');
+      o.push('<path d="M' + F2(x + nx * r) + ' ' + F2(y + ny * r) + ' Q' + F2(x + tx * L * .6 + nx * r * .8) + ' ' + F2(y + ty * L * .6 + ny * r * .8) +
+             ' ' + F2(x + tx * L) + ' ' + F2(y + ty * L) + ' Q' + F2(x + tx * L * .6 - nx * r * .8) + ' ' + F2(y + ty * L * .6 - ny * r * .8) +
+             ' ' + F2(x - nx * r) + ' ' + F2(y - ny * r) + ' Z" fill="#ff7a3c" opacity=".75"/>');
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + F2(r) + '" fill="url(#ak-fire)" filter="url(#ak-glow)"/>');
+    },
+
+    /* a castle wall: stone courses, crenellations, and a portal window */
+    wall: function(o, x, y, opt){
+      var top = y - opt.h, w = 16, xl = x - w / 2;
+      var seg = function(y1, y2){
+        if(y2 - y1 <= 0.5) return;
+        o.push('<rect x="' + F2(xl) + '" y="' + F2(y1) + '" width="' + w + '" height="' + F2(y2 - y1) + '" fill="#2f2862" stroke="#5d55a5"/>');
+        for(var yy = y2 - 9; yy > y1; yy -= 9)
+          o.push('<line x1="' + F2(xl) + '" y1="' + F2(yy) + '" x2="' + F2(xl + w) + '" y2="' + F2(yy) + '" stroke="#40397c"/>');
+      };
+      if(opt.gapY != null){
+        seg(top, opt.gapY - opt.gapR); seg(opt.gapY + opt.gapR, y);
+        var col = opt.on ? "#9cf5b5" : "#7fe3ff";
+        o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(opt.gapY) + '" rx="9" ry="' + F2(opt.gapR) + '" fill="url(#ak-portal)" opacity=".85"/>');
+        o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(opt.gapY) + '" rx="10" ry="' + F2(opt.gapR + 1) + '" fill="none" stroke="' + col +
+               '" stroke-width="2.4" stroke-dasharray="7 4" stroke-dashoffset="' + F2(-(opt.clock || 0) * 24) + '" filter="url(#ak-glow)"/>');
+      } else seg(top, y);
+      for(var i = 0; i < 2; i++)
+        o.push('<rect x="' + F2(xl + i * 10) + '" y="' + F2(top - 6) + '" width="6" height="6" fill="#2f2862" stroke="#5d55a5"/>');
     },
 
     /* a prophecy stone: the learner's prediction, planted on the ley line */

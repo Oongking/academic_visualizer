@@ -39,6 +39,7 @@ SKINS.add({
     predictAgain: ["Predict again", "ทำนายอีกครั้ง"],
     reveal: ["Run and reveal", "ทดลองและเฉลย"],
     endPredict: ["Done", "เสร็จ"],
+    lastRun: ["last run", "ครั้งก่อน"],
     foresight: ["correct", "ถูก"],
     trueSight: ["Spot on!", "แม่นยำ!"],
     notQuite: ["Not quite.", "ยังไม่ใช่"],
@@ -113,6 +114,23 @@ SKINS.add({
     o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="' + (opt.active ? 11 : 9) + '" fill="var(--surface)" stroke="' +
            (opt.col || "var(--accent)") + '" stroke-width="2" stroke-dasharray="3 2"/>');
     o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="3" fill="' + (opt.col || "var(--accent)") + '"/>');
+  },
+
+  /* a ball in flight, drawn about its centre */
+  fireball: function(o, x, y, opt){
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="' + (opt.size || 6) + '" fill="' + (opt.col || "var(--accent)") + '"/>');
+  },
+
+  /* a wall standing on the ground at x, opt.h pixels tall, with a gap
+     (opt.gapY centre, opt.gapR half-height) a body can pass through */
+  wall: function(o, x, y, opt){
+    var top = y - opt.h, c = "var(--ink-soft)";
+    if(opt.gapY != null){
+      o.push('<rect x="' + fmt2(x - 6) + '" y="' + fmt2(top) + '" width="12" height="' + fmt2(Math.max(0, opt.gapY - opt.gapR - top)) + '" fill="' + c + '" opacity=".5"/>');
+      o.push('<rect x="' + fmt2(x - 6) + '" y="' + fmt2(opt.gapY + opt.gapR) + '" width="12" height="' + fmt2(Math.max(0, y - opt.gapY - opt.gapR)) + '" fill="' + c + '" opacity=".5"/>');
+      o.push('<rect x="' + fmt2(x - 6) + '" y="' + fmt2(opt.gapY - opt.gapR) + '" width="12" height="' + fmt2(2 * opt.gapR) + '" fill="none" stroke="' +
+             (opt.on ? "var(--good)" : "var(--accent)") + '" stroke-width="2"/>');
+    } else o.push('<rect x="' + fmt2(x - 6) + '" y="' + fmt2(top) + '" width="12" height="' + fmt2(opt.h) + '" fill="' + c + '" opacity=".5"/>');
   },
 
   prophecy: function(o, x, y, opt){

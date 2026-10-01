@@ -71,8 +71,8 @@
 .p-result.missed::before{content:"↻ "}
 .b-pred{border-color:var(--accent2);color:var(--accent2)}
 /* while the learner guesses, veil everything that would give the answer away */
-.is-predicting .readouts .ro span,.is-predicting .term-v,.is-predicting .spell-tex,
-.is-predicting .labsvg .stg-ins{filter:blur(7px);transition:filter .3s}
-.is-predicting .readouts,.is-predicting .spell{user-select:none}
-.is-predicting .ctrl{opacity:.6}
-@media (prefers-reduced-motion:reduce){ .is-predicting .labsvg .stg-ins{transition:none} }
+.is-veiled .readouts .ro span,.is-veiled .term-v,.is-veiled .spell-tex,
+.is-veiled .labsvg .stg-ins{filter:blur(7px);transition:filter .3s}
+.is-veiled .readouts,.is-veiled .spell{user-select:none}
+.is-veiled .ctrl{opacity:.6}
+@media (prefers-reduced-motion:reduce){ .is-veiled .labsvg .stg-ins{transition:none} }

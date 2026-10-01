@@ -1,25 +1,3 @@
-/* Chapter 02 motion models, shared by its stage labs. Pure functions of the
-   lab parameters p and the clock t: they say where things are, never how
-   they look - that is the art skin's job. */
-var C02 = {
-  /* out and back along a line; you cannot fly back past the start */
-  trip:function(p){ var back=Math.min(p.back,p.out), s=p.out-back; return {back:back, s:s, d:p.out+back}; },
-  /* speed ramps steadily from v1 to v2 over T */
-  ramp:function(p,t){ t=Math.min(Math.max(t,0),p.T); var v=p.v1+(p.v2-p.v1)*t/p.T; return {v:v, x:(p.v1+v)/2*t}; },
-  /* constant a from u; a slowing body stops rather than reversing */
-  glide:function(p,t){ t=Math.min(Math.max(t,0),p.T);
-    var ts=p.a<0 ? Math.min(t,-p.u/p.a) : t, x=p.u*ts+0.5*p.a*ts*ts;
-    return {x:Math.max(0,x), v:Math.max(0,p.u+p.a*t)}; },
-  /* reaction at steady u, then braking at b until rest */
-  stop:function(p,t){
-    var th=p.u*p.rt, d=th+p.u*p.u/(2*p.b), x, v;
-    if(t<=p.rt){ x=p.u*t; v=p.u; }
-    else { var tau=Math.min(t-p.rt,p.u/p.b); x=th+p.u*tau-0.5*p.b*tau*tau; v=p.u-p.b*tau; }
-    return {x:x, v:Math.max(0,v), d:d}; },
-  /* free fall with g = 10 m/s², stopping at the ground */
-  fall:function(p,t){ return Math.min(p.h, 5*t*t); }
-};
-
 var CHAPTER = {
 id:"ch02", num:"02", slug:"linear-motion", subject:"physics",
 kicker:["Physics · Chapter 02","ฟิสิกส์ · บทที่ 2"],
@@ -47,60 +25,60 @@ nodes:[
       {k:"back", lab:["Then turns back by","แล้วย้อนกลับ"], min:0, max:55, step:1, def:24, unit:" m"}
     ],
     readouts:[
-      {lab:["Trail {@flown} (distance)","รอยทางที่{@fly} (ระยะทาง)"], f:function(S){ return fmt(C02.trip(S.p).d)+" m"; }},
-      {lab:["Thread home (displacement)","ด้ายกลับบ้าน (การกระจัด)"], f:function(S){ return fmt(C02.trip(S.p).s)+" m"; }},
+      {lab:["Trail {@flown} (distance)","รอยทางที่{@fly} (ระยะทาง)"], f:function(S){ return fmt(PHYS.trip(S.p).d)+" m"; }},
+      {lab:["Thread home (displacement)","ด้ายกลับบ้าน (การกระจัด)"], f:function(S){ return fmt(PHYS.trip(S.p).s)+" m"; }},
       {lab:["Trail vs thread","รอยทางเทียบด้าย"], f:function(S){
-        var r=C02.trip(S.p), d=r.d-r.s;
+        var r=PHYS.trip(S.p), d=r.d-r.s;
         return d<1e-9 ? (L()?"เท่ากัน — ยังไม่ได้ย้อนกลับ":"identical — never turned back")
                       : (L()?"ต่างกัน "+fmt(d)+" ม.":"apart by "+fmt(d)+" m"); }},
       {lab:["Back at {@origin}?","กลับถึง{@origin}หรือยัง"], f:function(S){
-        return C02.trip(S.p).s<1e-9
+        return PHYS.trip(S.p).s<1e-9
           ? (L()?"ถึงแล้ว · การกระจัดเป็นศูนย์":"yes · displacement is zero")
           : (L()?"ยัง":"not yet"); }}
     ],
     world:{ kind:"lane", span:function(){ return 56; } },
     props:function(p,S){
-      var r=C02.trip(p), list=[{role:"origin", x:0}];
+      var r=PHYS.trip(p), list=[{role:"origin", x:0}];
       if(S.trial) list.push({role:"goal", x:S.trial.goal.s, on:r.s===S.trial.goal.s});
       list.push({role:"marker", x:p.out, on:true, term:"d"});
       return list;
     },
     paths:function(p){
-      var r=C02.trip(p), list=[{pts:[[0,40],[p.out,40]], col:"warn", term:"d"}];
+      var r=PHYS.trip(p), list=[{pts:[[0,40],[p.out,40]], col:"warn", term:"d"}];
       if(r.back>0) list.push({pts:[[p.out,40],[p.out,24],[r.s,24]], col:"warn", term:"d"});
       list.push({pts:[[0,6],[r.s,6]], col:"accent", term:"s", dash:"none"});
       return list;
     },
     cast:function(p){
-      var r=C02.trip(p);
+      var r=PHYS.trip(p);
       return [{role:"agent", x:r.s, flip:r.back>0, term:"s"}];
     },
     marks:function(p){
-      var r=C02.trip(p);
+      var r=PHYS.trip(p);
       return [{a:0, b:r.s, lab:["thread home · s","ด้ายกลับบ้าน · s"], col:"accent", term:"s"}];
     },
     handles:[
       {k:"out", at:function(p){ return {x:p.out, lift:52}; }, set:function(m){ return {out:m}; },
        lab:["drag the turn","ลากจุดเลี้ยว"], col:"warn"},
-      {k:"back", at:function(p){ return {x:C02.trip(p).s, lift:0}; },
+      {k:"back", at:function(p){ return {x:PHYS.trip(p).s, lift:0}; },
        set:function(m,p){ return {back:p.out-Math.max(0,m)}; },
        lab:["drag {@agent}","ลาก{@agent}"], labBelow:true}
     ],
     instrument:{ kind:"bar",
       ylab:["metres","เมตร"],
       bars:[
-        {lab:["Trail · distance","รอยทาง · ระยะทาง"], f:function(p){ return C02.trip(p).d; }, col:"warn"},
-        {lab:["Thread · displacement","ด้าย · การกระจัด"], f:function(p){ return C02.trip(p).s; }, col:"accent"}
+        {lab:["Trail · distance","รอยทาง · ระยะทาง"], f:function(p){ return PHYS.trip(p).d; }, col:"warn"},
+        {lab:["Thread · displacement","ด้าย · การกระจัด"], f:function(p){ return PHYS.trip(p).s; }, col:"accent"}
       ]
     },
     spell:{
-      tex:function(p){ var r=C02.trip(p);
+      tex:function(p){ var r=PHYS.trip(p);
         return "s = "+p.out+" - "+r.back+" = "+r.s+"\\,\\text{m}\\qquad d = "+p.out+" + "+r.back+" = "+r.d+"\\,\\text{m}"; },
       terms:[
         {k:"s", sym:"s", lab:["displacement · the thread","การกระจัด · ด้าย"], col:"accent",
-         f:function(p){ return C02.trip(p).s+" m"; }},
+         f:function(p){ return PHYS.trip(p).s+" m"; }},
         {k:"d", sym:"d", lab:["distance · the trail","ระยะทาง · รอยทาง"], col:"warn",
-         f:function(p){ return C02.trip(p).d+" m"; }}
+         f:function(p){ return PHYS.trip(p).d+" m"; }}
       ]
     },
     trials:{
@@ -114,7 +92,7 @@ nodes:[
         "ประตูมิติเปิดห่างจาก{@origin} "+g.s+" ม. แต่จะเปิดให้เฉพาะผู้ที่มีรอยทางยาว "+g.d+" ม. พอดี ลากจุดเลี้ยวและ{@agent} แล้วร่ายเวท"]; },
       at:function(g){ return {x:g.s, lift:30}; },
       check:function(p,S,g){
-        var r=C02.trip(p);
+        var r=PHYS.trip(p);
         if(r.s===g.s && r.d===g.d) return {ok:true, msg:[
           "The portal opens. Out = (d + s) / 2 = "+fmt((g.d+g.s)/2)+" m and back = (d − s) / 2 = "+fmt((g.d-g.s)/2)+" m: the trail and the thread are different quantities.",
           "ประตูมิติเปิดแล้ว ขาไป = (d + s) / 2 = "+fmt((g.d+g.s)/2)+" ม. และขากลับ = (d − s) / 2 = "+fmt((g.d-g.s)/2)+" ม. รอยทางกับด้ายจึงเป็นคนละปริมาณกัน"]};
@@ -156,8 +134,8 @@ nodes:[
     ],
     readouts:[
       {lab:["Average speed","อัตราเร็วเฉลี่ย"], f:function(S){ return fmt2((S.p.v1+S.p.v2)/2)+" m/s"; }},
-      {lab:["Speed right now","ความเร็วขณะนี้"], f:function(S){ return fmt2(C02.ramp(S.p,S.t).v)+" m/s"; }},
-      {lab:["Distance so far","ระยะทางถึงตอนนี้"], f:function(S){ return fmt2(C02.ramp(S.p,S.t).x)+" m"; }},
+      {lab:["Speed right now","ความเร็วขณะนี้"], f:function(S){ return fmt2(PHYS.ramp(S.p,S.t).v)+" m/s"; }},
+      {lab:["Distance so far","ระยะทางถึงตอนนี้"], f:function(S){ return fmt2(PHYS.ramp(S.p,S.t).x)+" m"; }},
       {lab:["Steady or changing?","คงที่หรือกำลังเปลี่ยน"], f:function(S){
         return Math.abs(S.p.v1-S.p.v2)<0.5 ? (L()?"คงที่ — เฉลี่ยคือค่าจริง":"steady — the average is the truth")
           : (L()?"กำลังเปลี่ยน — เฉลี่ยซ่อนรายละเอียด":"changing — the average hides the story"); }}
@@ -174,7 +152,7 @@ nodes:[
       return list;
     },
     cast:function(p,S){
-      var r=C02.ramp(p,S.t), avg=(p.v1+p.v2)/2, te=Math.min(S.t,p.T);
+      var r=PHYS.ramp(p,S.t), avg=(p.v1+p.v2)/2, te=Math.min(S.t,p.T);
       return [
         {role:"agent", x:avg*te, ghost:0.32, term:"vbar"},
         {role:"agent", x:r.x, moving:S.playing, term:"v",
@@ -196,15 +174,15 @@ nodes:[
       o.push('<line x1="'+fmt2(G.X(0))+'" y1="'+y+'" x2="'+fmt2(G.X(S.p.T))+'" y2="'+y+'" stroke="var(--accent2)" stroke-width="'+(hl?3:1.4)+'" stroke-dasharray="6 4"/>');
       o.push('<text x="'+fmt2(G.X(S.p.T)+6)+'" y="'+(+y+4)+'" fill="var(--accent2)" font-family="IBM Plex Sans" font-size="10.5">'+(L()?"เฉลี่ย":"average")+'</text>');
     },
-    leader:function(p,S){ return C02.ramp(p,S.t).x; },
+    leader:function(p,S){ return PHYS.ramp(p,S.t).x; },
     spell:{
       tex:function(p,S){ var D=(p.v1+p.v2)/2*p.T;
-        return "\\bar v = \\dfrac{s}{t} = \\dfrac{"+fmt2(D)+"}{"+p.T+"} = "+fmt2(D/p.T)+"\\,\\text{m/s}\\qquad v_{\\text{now}} = "+fmt2(C02.ramp(p,S.t).v)+"\\,\\text{m/s}"; },
+        return "\\bar v = \\dfrac{s}{t} = \\dfrac{"+fmt2(D)+"}{"+p.T+"} = "+fmt2(D/p.T)+"\\,\\text{m/s}\\qquad v_{\\text{now}} = "+fmt2(PHYS.ramp(p,S.t).v)+"\\,\\text{m/s}"; },
       terms:[
         {k:"vbar", sym:"v̄", lab:["average · the echo","ค่าเฉลี่ย · เงาสะท้อน"], col:"accent2",
          f:function(p){ return fmt2((p.v1+p.v2)/2)+" m/s"; }},
         {k:"v", sym:"v", lab:["right now · {@agent}","ขณะนี้ · {@agent}"], col:"accent",
-         f:function(p,S){ return fmt2(C02.ramp(p,S.t).v)+" m/s"; }}
+         f:function(p,S){ return fmt2(PHYS.ramp(p,S.t).v)+" m/s"; }}
       ]
     },
     predict:{ kind:"choice",
@@ -387,13 +365,13 @@ nodes:[
     readouts:[
       {lab:["Speed now","ความเร็วขณะนี้"], f:function(S){
         return fmt2(Math.max(0,S.p.u+S.p.a*Math.min(S.t,S.p.T)))+" m/s"; }},
-      {lab:["Filled area","พื้นที่ที่เติมสี"], f:function(S){ return fmt2(C02.glide(S.p,S.t).x)+" m"; }},
-      {lab:["Distance along {@world}","ระยะตาม{@world}"], f:function(S){ return fmt2(C02.glide(S.p,S.t).x)+" m"; }},
+      {lab:["Filled area","พื้นที่ที่เติมสี"], f:function(S){ return fmt2(PHYS.glide(S.p,S.t).x)+" m"; }},
+      {lab:["Distance along {@world}","ระยะตาม{@world}"], f:function(S){ return fmt2(PHYS.glide(S.p,S.t).x)+" m"; }},
       {lab:["So the area is","พื้นที่จึงคือ"], f:function(){
         return L()?"ระยะที่เคลื่อนที่ได้":"the distance travelled"; }}
     ],
     world:{ kind:"lane", span:function(p,S){
-      var D=C02.glide(p,p.T).x;
+      var D=PHYS.glide(p,p.T).x;
       if(S.trial) D=Math.max(D,S.trial.goal.D);
       return Math.max(30,D*1.15); } },
     props:function(p,S){
@@ -405,11 +383,11 @@ nodes:[
       return list;
     },
     paths:function(p,S){
-      var x=C02.glide(p,S.t).x;
+      var x=PHYS.glide(p,S.t).x;
       return x>0 ? [{pts:[[0,8],[x,8]], col:"accent", term:"s"}] : [];
     },
     cast:function(p,S){
-      var r=C02.glide(p,S.t);
+      var r=PHYS.glide(p,S.t);
       return [{role:"agent", x:r.x, moving:S.playing, term:"s",
                vel:r.v, velScale:2.4, velLab:[fmt(r.v)+" m/s", fmt(r.v)+" ม./วิ"]}];
     },
@@ -438,22 +416,22 @@ nodes:[
         o.push('<path d="'+d+'" fill="var(--accent)" fill-opacity=".22" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 3"/>');
       }
     },
-    leader:function(p,S){ return C02.glide(p,S.t).x; },
+    leader:function(p,S){ return PHYS.glide(p,S.t).x; },
     spell:{
       tex:function(p,S){ var t=Math.min(S.t,p.T);
-        return "s = ut + \\tfrac12 at^2 = ("+p.u+")("+fmt2(t)+") + \\tfrac12("+fmt2(p.a)+")("+fmt2(t)+")^2 = "+fmt2(C02.glide(p,S.t).x)+"\\,\\text{m}"; },
+        return "s = ut + \\tfrac12 at^2 = ("+p.u+")("+fmt2(t)+") + \\tfrac12("+fmt2(p.a)+")("+fmt2(t)+")^2 = "+fmt2(PHYS.glide(p,S.t).x)+"\\,\\text{m}"; },
       terms:[
         {k:"u", sym:"u", lab:["height where it starts","ความสูงตอนเริ่ม"], col:"accent", f:function(p){ return p.u+" m/s"; }},
         {k:"a", sym:"a", lab:["slope of the line","ความชันของเส้น"], col:"accent2", f:function(p){ return fmt2(p.a)+" m/s²"; }},
-        {k:"s", sym:"s", lab:["area under it","พื้นที่ใต้เส้น"], col:"good", f:function(p,S){ return fmt2(C02.glide(p,S.t).x)+" m"; }}
+        {k:"s", sym:"s", lab:["area under it","พื้นที่ใต้เส้น"], col:"good", f:function(p,S){ return fmt2(PHYS.glide(p,S.t).x)+" m"; }}
       ]
     },
     predict:{ kind:"x", veil:false,
       ask:["Read the area under the graph: how far will {@agent} have gone when the run ends?",
            "อ่านพื้นที่ใต้กราฟ: เมื่อจบการทดลอง {@agent}จะไปได้ไกลเท่าใด"],
-      actual:function(p){ return C02.glide(p,p.T).x; },
-      tol:function(p){ return Math.max(1, 0.08*C02.glide(p,p.T).x); },
-      explain:function(p){ var v=Math.max(0,p.u+p.a*p.T), s=C02.glide(p,p.T).x; return [
+      actual:function(p){ return PHYS.glide(p,p.T).x; },
+      tol:function(p){ return Math.max(1, 0.08*PHYS.glide(p,p.T).x); },
+      explain:function(p){ var v=Math.max(0,p.u+p.a*p.T), s=PHYS.glide(p,p.T).x; return [
         "The area is a trapezium: (u + v) / 2 × t = ("+p.u+" + "+fmt2(v)+") / 2 × "+p.T+" = "+fmt2(s)+" m"+(p.u+p.a*p.T<0?" (the line stops at zero, so only the part above the axis counts).":"."),
         "พื้นที่เป็นรูปสี่เหลี่ยมคางหมู: (u + v) / 2 × t = ("+p.u+" + "+fmt2(v)+") / 2 × "+p.T+" = "+fmt2(s)+" ม."+(p.u+p.a*p.T<0?" (เส้นหยุดที่ศูนย์ จึงนับเฉพาะส่วนเหนือแกน)":"")]; }
     },
@@ -470,7 +448,7 @@ nodes:[
         "ปั้นกราฟให้{@agent}ไปได้ "+fmt2(g.D)+" ม. พอดีใน "+g.T+" วินาที และมีความเร็ว "+fmt2(g.v)+" ม./วิ ตอนจบ จุดปลายกำหนดเงื่อนไขหนึ่ง พื้นที่กำหนดอีกเงื่อนไขหนึ่ง"]; },
       at:function(g){ return {x:g.D, lift:30}; },
       check:function(p,S,g){
-        var D=C02.glide(p,p.T).x, v=Math.max(0,p.u+p.a*p.T);
+        var D=PHYS.glide(p,p.T).x, v=Math.max(0,p.u+p.a*p.T);
         if(p.u===g.u && p.a===g.a) return {ok:true, msg:[
           "Area = (u + v) / 2 × t, so u = 2s / t − v = 2 × "+fmt2(g.D)+" / "+g.T+" − "+fmt2(g.v)+" = "+g.u+" m/s, and the slope a = (v − u) / t = "+fmt2(g.a)+" m/s².",
           "พื้นที่ = (u + v) / 2 × t ดังนั้น u = 2s / t − v = 2 × "+fmt2(g.D)+" / "+g.T+" − "+fmt2(g.v)+" = "+g.u+" ม./วิ และความชัน a = (v − u) / t = "+fmt2(g.a)+" ม./วิ²"]};
@@ -516,20 +494,20 @@ nodes:[
     readouts:[
       {lab:["Thinking distance","ระยะคิด"], f:function(S){ return fmt2(S.p.u*S.p.rt)+" m"; }},
       {lab:["Braking distance","ระยะเบรก"], f:function(S){ return fmt2(S.p.u*S.p.u/(2*S.p.b))+" m"; }},
-      {lab:["Total stopping distance","ระยะหยุดรวม"], f:function(S){ return fmt2(C02.stop(S.p,0).d)+" m"; }},
+      {lab:["Total stopping distance","ระยะหยุดรวม"], f:function(S){ return fmt2(PHYS.stop(S.p,0).d)+" m"; }},
       {lab:["Verdict","ผลลัพธ์"], f:function(S){
-        var d=C02.stop(S.p,0).d;
+        var d=PHYS.stop(S.p,0).d;
         return d<=S.p.gap ? (L()?"หยุดทัน · เหลือ "+fmt2(S.p.gap-d)+" ม.":"stops in time · "+fmt2(S.p.gap-d)+" m spare")
                           : (L()?"ไม่ทัน · เกิน "+fmt2(d-S.p.gap)+" ม.":"too late · "+fmt2(d-S.p.gap)+" m over"); }}
     ],
     world:{ kind:"lane", span:function(){ return 60; } },
     props:function(p,S){
-      var r=C02.stop(p,S.t), hit=r.d>p.gap && r.x>=p.gap-1e-6;
+      var r=PHYS.stop(p,S.t), hit=r.d>p.gap && r.x>=p.gap-1e-6;
       return [{role:"marker", x:0, on:true},
               {role:"hazard", x:p.gap+4, awake:hit, term:"gap"}];
     },
     cast:function(p,S){
-      var r=C02.stop(p,S.t), list=[];
+      var r=PHYS.stop(p,S.t), list=[];
       if(!S.trial && !S.pred && S.t<1e-9)
         list.push({role:"agent", x:Math.min(58,r.d), ghost:0.28,
                    lab:r.d<=p.gap?["will stop here","จะหยุดตรงนี้"]:["still moving here","ยังไม่หยุดตรงนี้"],
@@ -548,7 +526,7 @@ nodes:[
        lab:["drag","ลาก"], labBelow:true, col:"good"}
     ],
     events:function(p,S){
-      var r=C02.stop(p,S.t);
+      var r=PHYS.stop(p,S.t);
       return [{id:"crash", when:r.d>p.gap && r.x>=p.gap-1e-6, x:p.gap, lift:20, kind:"impact", col:"warn"},
               {id:"halt",  when:r.d<=p.gap && S.t>0 && r.v<=1e-9, x:r.d, lift:20, kind:"burst", col:"good"}];
     },
@@ -574,7 +552,7 @@ nodes:[
     },
     predict:{ kind:"x", stretch:false,
       ask:["Where will {@agent} come to rest — or run into {@hazard}?","{@agent}จะหยุดที่ไหน หรือจะชน{@hazard}"],
-      actual:function(p){ return Math.min(C02.stop(p,0).d, p.gap); },
+      actual:function(p){ return Math.min(PHYS.stop(p,0).d, p.gap); },
       tol:function(){ return 2; },
       explain:function(p){ var th=p.u*p.rt, br=p.u*p.u/(2*p.b), d=th+br; return [
         "Thinking "+fmt2(th)+" m + braking "+p.u+"² / (2 × "+fmt2(p.b)+") = "+fmt2(br)+" m = "+fmt2(d)+" m"+(d>p.gap?", more than the "+p.gap+" m available.":"."),
@@ -595,7 +573,7 @@ nodes:[
         "คุณ{@fly}ด้วยความเร็ว "+g.u+" ม./วิ ใช้เวลาตอบสนอง "+g.rt+" วินาที และ{@hazard}อยู่ห่างไป "+g.gap+" ม. เลือก{@brake}ที่เบาที่สุด (ละเอียดถึง 0.5 ม./วิ²) ที่ยังหยุดทัน คำนวณก่อนร่ายเวท"]; },
       at:function(g){ return {x:g.gap, lift:30}; },
       check:function(p,S,g){
-        var d=C02.stop(p,0).d;
+        var d=PHYS.stop(p,0).d;
         var why=["Room to brake = "+g.gap+" − "+g.u+" × "+g.rt+" = "+fmt2(g.room)+" m, so b ≥ u² / 2s = "+g.u+"² / (2 × "+fmt2(g.room)+") = "+fmt2(g.bmin)+" → "+fmt2(g.b)+" m/s².",
                  "ระยะที่เหลือให้เบรก = "+g.gap+" − "+g.u+" × "+g.rt+" = "+fmt2(g.room)+" ม. ดังนั้น b ≥ u² / 2s = "+g.u+"² / (2 × "+fmt2(g.room)+") = "+fmt2(g.bmin)+" → "+fmt2(g.b)+" ม./วิ²"];
         if(p.b===g.b) return {ok:true, msg:["Stopped "+fmt2(g.gap-d)+" m short, and not a jolt harder than needed. "+why[0],
@@ -639,8 +617,8 @@ nodes:[
       {k:"T",  lab:["Watch for","ดูนาน"], min:1, max:3, step:.2, def:2, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["{@Heavy} has fallen","{@heavy}ตกไปแล้ว"], f:function(S){ return fmt2(C02.fall(S.p,S.t))+" m"; }},
-      {lab:["{@Light} has fallen","{@light}ตกไปแล้ว"], f:function(S){ return fmt2(C02.fall(S.p,S.t))+" m"; }},
+      {lab:["{@Heavy} has fallen","{@heavy}ตกไปแล้ว"], f:function(S){ return fmt2(PHYS.fall(S.p,S.t))+" m"; }},
+      {lab:["{@Light} has fallen","{@light}ตกไปแล้ว"], f:function(S){ return fmt2(PHYS.fall(S.p,S.t))+" m"; }},
       {lab:["Time to land","เวลาถึงพื้น"], f:function(S){ return fmt2(Math.sqrt(2*S.p.h/10))+" s"; }},
       {lab:["Does mass matter?","มวลมีผลไหม"], f:function(){
         return L()?"ไม่เลย — ทั้งคู่ตกด้วย g เท่ากัน":"no — both fall at the same g"; }}
@@ -655,13 +633,13 @@ nodes:[
       return list;
     },
     paths:function(p,S,W){
-      var hf=p.h-C02.fall(p,S.t);
+      var hf=p.h-PHYS.fall(p,S.t);
       if(hf>=p.h-1e-9) return [];
       return [{pts:[[W.lane(0),p.h],[W.lane(0),hf]], col:"accent", term:"t"},
               {pts:[[W.lane(1),p.h],[W.lane(1),hf]], col:"accent2", term:"t"}];
     },
     cast:function(p,S){
-      var hf=p.h-C02.fall(p,S.t);
+      var hf=p.h-PHYS.fall(p,S.t);
       return [
         {role:"relic", variant:"heavy", h:hf, lane:0, lift:11, col:"accent", term:"m",
          lab:["{@heavy} · "+fmt2(p.mm)+" kg","{@heavy} · "+fmt2(p.mm)+" กก."], labLift:20},
@@ -675,7 +653,7 @@ nodes:[
        lab:["drag {@perch}","ลาก{@perch}"], col:"good", term:"h"}
     ],
     events:function(p,S){
-      var land=C02.fall(p,S.t)>=p.h-1e-9 && S.t>0;
+      var land=PHYS.fall(p,S.t)>=p.h-1e-9 && S.t>0;
       return [{id:"land0", when:land, h:0, lane:0, kind:"impact", col:"accent"},
               {id:"land1", when:land, h:0, lane:1, kind:"burst", col:"accent2"}];
     },

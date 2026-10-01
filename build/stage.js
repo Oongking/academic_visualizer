@@ -95,37 +95,105 @@ var STAGE = {
     return k === "accent2" ? "var(--accent2)" : col(k);
   },
 
-  /* ----- world: metres <-> pixels ----- */
+  /* ----- world: metres <-> pixels -----
+     Every world answers the same questions, so nothing else needs to know
+     which one it is: where an item goes (pos), where a path point goes (pt),
+     what a pointer position means to a handle's set() (args), where a
+     handle sits (hpos), and how a prediction is placed and read back.
+
+       lane   1-D horizontal track in metres; items rise by `lift` pixels
+       tower  1-D vertical track in metres, with side-by-side lanes
+       plane  2-D, one scale for both axes so an arc keeps its true shape
+       free   raw picture coordinates, for fields and patterns that draw
+              themselves through cfg.scene */
   world: function(S, cfg){
-    var w = cfg.world || { kind: "lane" }, p = S.p;
+    var w = cfg.world || { kind: "lane" }, p = S.p, kind = w.kind || "lane";
     var span = (S.lock && S.lock.span != null) ? S.lock.span : (w.span ? w.span(p, S) : 50);
     /* a scale sized to the answer would give a prediction away */
-    if(S.pred && S.pred.f && w.kind !== "tower") span *= S.pred.f;
+    if(S.pred && S.pred.f && (kind === "lane" || kind === "plane")) span *= S.pred.f;
     if(!(span > 0)) span = 1;
-    if(w.kind === "tower"){
-      var base = FR.ground, top = FR.sy + 30;
-      return { kind: "tower", span: span, base: base, top: top, unit: w.unit,
+    var g = FR.ground, W;
+    if(kind === "tower"){
+      var base = g, top = FR.sy + 30;
+      W = { span: span, base: base, top: top,
         Y: function(h){ return base - (h / span) * (base - top); },
         H: function(py){ return (base - py) / (base - top) * span; },
         lane: function(i){ return FR.sx + 230 + i * 110; },
         X: function(){ return FR.sx + FR.sw / 2; } };
+      W.pos = function(it){
+        var px = it.lane != null ? W.lane(it.lane) : (it.px != null ? it.px : W.X());
+        return [px, W.Y(it.h || 0) - (it.lift || 0)]; };
+      W.pt = function(q){ return [q[0], W.Y(q[1])]; };
+      W.args = function(px, py){ return [W.H(py)]; };
+      W.hpos = function(at){ return [at.px != null ? at.px : (at.lane != null ? W.lane(at.lane) : W.X()), W.Y(at.h)]; };
+      W.guessPt = function(v, pc){ return [W.lane((pc && pc.lane) || 0) - 46, W.Y(v)]; };
+      W.guessVal = function(px, py){ return W.H(py); };
+    } else if(kind === "plane"){
+      var yspan = (S.lock && S.lock.yspan != null) ? S.lock.yspan : (w.yspan ? w.yspan(p, S) : span * 0.35);
+      if(S.pred && S.pred.f) yspan *= S.pred.f;
+      var px0 = FR.sx + (w.left != null ? w.left : 18), ww = FR.sx + FR.sw - 8 - px0, hh = g - (FR.sy + 22);
+      var sc = Math.min(ww / span, hh / Math.max(yspan, 1e-6));
+      W = { span: span, yspan: span ? hh / sc : yspan, g: g, s: sc,
+        X: function(m){ return px0 + m * sc; }, M: function(px){ return (px - px0) / sc; },
+        Y: function(m){ return g - m * sc; },   H: function(py){ return (g - py) / sc; } };
+      W.xmax = ww / sc;
+      W.pos = function(it){ return [it.px != null ? it.px : W.X(it.x || 0), W.Y(it.y || 0) - (it.lift || 0)]; };
+      W.pt = function(q){ return [W.X(q[0]), W.Y(q[1] || 0)]; };
+      W.args = function(px, py){ return [W.M(px), W.H(py)]; };
+      W.hpos = function(at){ return [W.X(at.x), W.Y(at.y || 0) - (at.lift || 0)]; };
+      W.guessPt = function(v){ return [W.X(v), g]; };
+      W.guessVal = function(px){ return W.M(px); };
+    } else if(kind === "free"){
+      W = { span: FR.sw, g: g,
+        X: function(v){ return v; }, M: function(v){ return v; }, Y: function(v){ return v; }, H: function(v){ return v; } };
+      W.pos = function(it){ return [it.px, it.py]; };
+      W.pt = function(q){ return [q[0], q[1]]; };
+      W.args = function(px, py){ return [px, py]; };
+      W.hpos = function(at){ return [at.px, at.py]; };
+      W.guessPt = function(v){ return [v, g]; };
+      W.guessVal = function(px){ return px; };
+    } else {
+      var x0 = FR.sx + 14, wl = FR.sw - 22;
+      W = { span: span, g: g,
+        X: function(m){ return x0 + (m / span) * wl; },
+        M: function(px){ return (px - x0) / wl * span; } };
+      W.pos = function(it){ return [W.X(it.x || 0), g - (it.lift || 0)]; };
+      W.pt = function(q){ return [W.X(q[0]), g - (q[1] || 0)]; };
+      W.args = function(px){ return [W.M(px)]; };
+      W.hpos = function(at){ return [W.X(at.x), g - (at.lift != null ? at.lift : 0)]; };
+      W.guessPt = function(v){ return [W.X(v), g]; };
+      W.guessVal = function(px){ return W.M(px); };
     }
-    var x0 = FR.sx + 14, ww = FR.sw - 22;
-    return { kind: "lane", span: span, g: FR.ground, unit: w.unit,
-      X: function(m){ return x0 + (m / span) * ww; },
-      M: function(px){ return (px - x0) / ww * span; } };
+    W.kind = kind; W.unit = w.unit; W.cfg = w;
+    return W;
   },
 
-  pos: function(W, it){
-    if(W.kind === "tower"){
-      var px = it.lane != null ? W.lane(it.lane) : (it.px != null ? it.px : W.X());
-      return [px, W.Y(it.h || 0) - (it.lift || 0)];
-    }
-    return [W.X(it.x || 0), W.g - (it.lift || 0)];
-  },
+  pos: function(W, it){ return W.pos(it); },
 
   ground: function(o, W, k){
     var R = role, dense = (k || 1) > 1.3 ? 4 : 6;
+    if(W.kind === "free"){ if(W.cfg.ground) R("ground")(o, FR.sx, FR.sx + FR.sw, W.g, { clock: STAGE.clock }); return; }
+    if(W.kind === "plane"){
+      R("ground")(o, FR.sx, FR.sx + FR.sw, W.g, { clock: STAGE.clock });
+      var sx = niceStep(W.xmax, dense);
+      for(var mx = 0; mx <= W.xmax + 1e-9; mx += sx){
+        var tx0 = fmt2(W.X(mx));
+        o.push('<line x1="' + tx0 + '" y1="' + W.g + '" x2="' + tx0 + '" y2="' + (W.g + 7) + '" stroke="var(--ink-faint)" stroke-width="1"/>');
+        o.push('<text x="' + tx0 + '" y="' + (W.g + 20) + '" ' + FT + ' text-anchor="middle">' + tk(mx) + '</text>');
+      }
+      if(W.cfg.heights !== false){
+        /* heights on the right edge, clear of whoever launches from the left */
+        var sy = niceStep(W.yspan, dense - 2), xr = FR.sx + FR.sw;
+        for(var my = sy; my <= W.yspan + 1e-9; my += sy){
+          var ty = fmt2(W.Y(my));
+          o.push('<line x1="' + (xr - 6) + '" y1="' + ty + '" x2="' + xr + '" y2="' + ty + '" stroke="var(--ink-faint)" stroke-width="1"/>');
+          o.push('<text x="' + (xr - 9) + '" y="' + fmt2(+ty + 3.5) + '" ' + FT + ' text-anchor="end">' + tk(my) + '</text>');
+        }
+      }
+      o.push('<text x="' + (FR.sx + FR.sw) + '" y="' + (W.g + 34) + '" ' + FT + ' text-anchor="end">' +
+             tx(W.unit || ["metres", "เมตร"]) + '</text>');
+      return;
+    }
     if(W.kind === "lane"){
       R("ground")(o, FR.sx, FR.sx + FR.sw, W.g, { clock: STAGE.clock });
       var step = niceStep(W.span, dense);
@@ -155,7 +223,7 @@ var STAGE = {
     var P = STAGE.pos(W, it), px = P[0], py = P[1];
     var opt = { col: STAGE.C(it.col), flip: it.flip, size: it.size, variant: it.variant,
                 on: it.on, awake: it.awake, w: it.w, hl: !!(S.hl && it.term === S.hl),
-                clock: STAGE.clock, moving: it.moving };
+                clock: STAGE.clock, moving: it.moving, ang: it.ang, h: it.hpx, gapY: it.gapY, gapR: it.gapR };
     if(opt.hl) role("halo")(o, px, py - (it.haloLift != null ? it.haloLift : 18), opt);
     if(it.ghost) o.push('<g opacity="' + (it.ghost === true ? 0.3 : it.ghost) + '">');
     role(it.role)(o, px, py, opt);
@@ -177,7 +245,7 @@ var STAGE = {
     (list || []).forEach(function(pth){
       var d = "";
       pth.pts.forEach(function(q, i){
-        var P = W.kind === "tower" ? [q[0], W.Y(q[1])] : [W.X(q[0]), W.g - (q[1] || 0)];
+        var P = W.pt(q);
         d += (i ? " L" : "M") + fmt2(P[0]) + " " + fmt2(P[1]);
       });
       role("trail")(o, d, { col: STAGE.C(pth.col), hl: !!(S.hl && pth.term === S.hl), dash: pth.dash });
@@ -187,7 +255,8 @@ var STAGE = {
   marks: function(o, S, W, list){
     (list || []).forEach(function(mk, i){
       var c = STAGE.C(mk.col), hl = !!(S.hl && mk.term === S.hl);
-      if(W.kind === "lane"){
+      if(W.kind === "free") return;
+      if(W.kind === "lane" || W.kind === "plane"){
         var y = W.g + 52 + (mk.row != null ? mk.row : i) * 24;
         if(hl) o.push('<rect x="' + fmt2(Math.min(W.X(mk.a), W.X(mk.b)) - 4) + '" y="' + (y - 17) + '" width="' +
                       fmt2(Math.abs(W.X(mk.b) - W.X(mk.a)) + 8) + '" height="22" rx="6" fill="' + c + '" opacity=".16"/>');
@@ -210,8 +279,7 @@ var STAGE = {
       if(!G || !G.Y) return null;
       return [G.X(at.t), G.Y(at.v)];
     }
-    if(W.kind === "tower") return [at.px != null ? at.px : (at.lane != null ? W.lane(at.lane) : W.X()), W.Y(at.h)];
-    return [W.X(at.x), W.g - (at.lift != null ? at.lift : 0)];
+    return W.hpos(at);
   },
 
   handles: function(o, S, W, G, cfg){
@@ -300,8 +368,11 @@ var STAGE = {
     var W = STAGE.world(S, cfg), p = S.p;
     S.W = W;
     STAGE.ground(o, W, S.textK);
+    if(cfg.under) cfg.under(o, S, W);
     STAGE.paths(o, S, W, cfg.paths ? cfg.paths(p, S, W) : []);
     (cfg.props ? cfg.props(p, S) : []).forEach(function(it){ STAGE.item(o, S, W, it); });
+    if(cfg.scene) cfg.scene(o, S, W);
+    STAGE.trace(o, S, W, cfg);
     if(!STAGE.guessing(S)) STAGE.marks(o, S, W, cfg.marks ? cfg.marks(p, S) : []);
     (cfg.cast ? cfg.cast(p, S) : []).forEach(function(it){ STAGE.item(o, S, W, it); });
 
@@ -318,7 +389,7 @@ var STAGE = {
     S.G = G;
     if(cfg.overlay && G) cfg.overlay(o, S, G, W);
     if(cfg.leader && G && G.markX != null){
-      var sxp = W.kind === "lane" ? W.X(cfg.leader(p, S)) : W.X();
+      var sxp = W.kind === "tower" ? W.X() : W.X(cfg.leader(p, S));
       o.push('<path d="M' + fmt2(sxp) + ' ' + (FR.ground + 4) + ' L' + fmt2(sxp) + ' ' + (FR.div - 6) +
              ' L' + fmt2(G.markX) + ' ' + (FR.div + 6) + ' L' + fmt2(G.markX) + ' ' + FR.iy +
              '" fill="none" stroke="var(--accent)" stroke-width="1.1" stroke-dasharray="3 4" opacity=".7"/>');
@@ -330,11 +401,39 @@ var STAGE = {
     STAGE.stepFx(S, o);
   },
 
+  /* The path of the moving thing, recorded while it runs, and the path of
+     the run before it left faintly behind - so a learner who changes one
+     quantity sees exactly what that change did. */
+  endTrace: function(S){
+    if(S.runTrace && S.runTrace.length > 2) S.lastTrace = S.runTrace;
+    S.runTrace = [];
+  },
+  trace: function(o, S, W, cfg){
+    if(!cfg.trace) return;
+    S.runTrace = S.runTrace || [];
+    if(S.prevT != null && S.t < S.prevT - 1e-9) STAGE.endTrace(S);
+    S.prevT = S.t;
+    var tp = cfg.trace(S.p, S);
+    if(S.t > 0 && tp){
+      var last = S.runTrace[S.runTrace.length - 1];
+      if(!last || Math.abs(last[0] - tp[0]) + Math.abs(last[1] - tp[1]) > 1e-9) S.runTrace.push(tp);
+    }
+    var line = function(pts){
+      return pts.map(function(q, i){ var P = W.pt(q); return (i ? "L" : "M") + fmt2(P[0]) + " " + fmt2(P[1]); }).join(" ");
+    };
+    if(S.lastTrace && S.lastTrace.length > 2 && !STAGE.guessing(S)){
+      role("trail")(o, line(S.lastTrace), { col: "var(--ink-faint)", dash: "2 5" });
+      var e = W.pt(S.lastTrace[S.lastTrace.length - 1]);
+      fitText(o, e[0], e[1] - 10, [ui("lastRun"), ui("lastRun")], 90, 9.5, "var(--ink-faint)", "middle");
+    }
+    if(S.runTrace.length > 1) role("trail")(o, line(S.runTrace), { col: STAGE.C(cfg.traceCol || "accent"), dash: "none" });
+  },
+
   /* the learner's prediction, pinned where they put it */
   prophecy: function(o, S, W, cfg){
     var pr = S.pred, pc = cfg.predict;
     if(!pr || pr.guess == null || !pc || pc.kind === "choice") return;
-    var P = W.kind === "tower" ? [W.lane(pc.lane || 0) - 46, W.Y(pr.guess)] : [W.X(pr.guess), W.g];
+    var P = W.guessPt(pr.guess, pc);
     var on = S.kbd && S.kbd.on;
     role("prophecy")(o, P[0], P[1], { clock: STAGE.clock, active: on || !!S.dragGuess,
                                        done: pr.phase === "done", hit: pr.hit, tower: W.kind === "tower" });
@@ -447,7 +546,7 @@ var STAGE = {
       var solved = function(){ return (STATE.trials && STATE.trials[api.nd.id]) || 0; };
       var newTrial = function(){
         var g = tr.make(S.p);
-        S.trial = { goal: g, lock: tr.lock || [], done: false };
+        S.trial = { goal: g, lock: tr.lockFor ? tr.lockFor(g) : (tr.lock || []), done: false };
         for(var k in g.set) S.p[k] = g.set[k];
         S.t = 0; S.fired = {}; S.playing = false;
         host.querySelectorAll(".cv").forEach(function(el){
@@ -460,11 +559,15 @@ var STAGE = {
            which the inline-math detector would split mid-phrase */
         q(".t-text").textContent = tx(tr.say(g));
         var r = q(".t-result"); r.textContent = ""; r.className = "t-result";
+        /* a trial is solved with the formula, so the readouts that would
+           let you slide to the answer stay veiled until you cast */
+        host.classList.toggle("is-veiled", !!tr.veil);
         api.sync(); api.draw();
       };
       var judge = function(){
         if(!S.trial) return;
         var res = tr.check(S.p, S, S.trial.goal), r = q(".t-result");
+        host.classList.remove("is-veiled");
         r.textContent = tx(res.msg);
         r.className = "t-result " + (res.ok ? "won" : "missed");
         var W = S.W, at = tr.at ? tr.at(S.trial.goal, S.p) : null;
@@ -494,12 +597,14 @@ var STAGE = {
           q(".guide").hidden = true; q(".g-nav").hidden = true;
           newTrial();
         } else if(S.trial){
-          S.trial = null; S.onEnd = null;
+          S.trial = null; S.onEnd = null; host.classList.remove("is-veiled");
           host.querySelectorAll(".cv").forEach(function(el){ el.disabled = false; el.closest(".ctrl").classList.remove("locked"); });
         }
       });
     }
-    S.onInput = function(){ S.fired = {}; if(S.trial){ var r = q(".t-result"); r.textContent = ""; r.className = "t-result"; } };
+    S.onInput = function(){ S.fired = {}; STAGE.endTrace(S);
+      if(S.trial){ var r = q(".t-result"); r.textContent = ""; r.className = "t-result";
+                   if(cfg.trials.veil) host.classList.add("is-veiled"); } };
 
     /* --- predict, then reveal ---
        Committing to a guess before the run is what exposes an intuition to
@@ -528,7 +633,7 @@ var STAGE = {
       var score = function(){ var r = (STATE.preds && STATE.preds[api.nd.id]) || { n: 0, hit: 0 }; return r; };
       var stepText = function(){ var r = score(); return ui("predict") + " · " + ui("foresight") + " " + r.hit + " / " + r.n; };
       var hold = function(on){
-        host.classList.toggle("is-predicting", on && pc.veil !== false);
+        host.classList.toggle("is-veiled", on && pc.veil !== false);
         host.querySelectorAll(".cv,.opt-b:not(.p-opt)").forEach(function(el){ el.disabled = on; });
         var b = q(".b-play"); if(b) b.disabled = on;
       };
@@ -582,7 +687,7 @@ var STAGE = {
         pb.hidden = false; pb.textContent = ui("predictAgain");
         hold(false);
         var W = S.W, P = pc.kind === "choice" || g == null ? [FR.sx + FR.sw / 2, FR.ground - 40]
-          : (W.kind === "tower" ? [W.lane(pc.lane || 0) - 46, W.Y(g)] : [W.X(g), W.g - 20]);
+          : W.guessPt(g, pc);
         STAGE.emit(S, P[0], P[1], hit ? "burst" : "impact", hit ? "var(--good)" : "var(--warn)");
         api.draw();
       };
@@ -599,7 +704,7 @@ var STAGE = {
       q(".p-go").addEventListener("click", function(){
         if(!S.pred || S.pred.guess == null || S.pred.phase !== "guess") return;
         S.pred.phase = "run";
-        host.classList.remove("is-predicting");
+        host.classList.remove("is-veiled");
         host.querySelectorAll(".p-opt").forEach(function(b){ b.disabled = true; });
         q(".p-go").disabled = true;
         S.onEnd = finish; api.play();
@@ -615,7 +720,7 @@ var STAGE = {
     };
     var guessAt = function(pt){
       if(!pt || !setPred) return;
-      setPred(S.W.kind === "tower" ? S.W.H(pt.y) : S.W.M(pt.x));
+      setPred(S.W.guessVal(pt.x, pt.y));
     };
     var applySet = function(set){
       var changed = false;
@@ -641,13 +746,13 @@ var STAGE = {
         var g = e.target.closest && e.target.closest("[data-h]"); if(!g) return;
         var i = +g.getAttribute("data-h"), h = cfg.handles[i];
         S.drag = { i: i };
-        S.lock = { span: S.W.span, y: S.G ? [S.G.lo, S.G.hi] : null };
+        S.lock = { span: S.W.span, yspan: S.W.yspan, y: S.G ? [S.G.lo, S.G.hi] : null };
         /* freeze the mapping the reader is pulling against */
         var W = S.W, G = S.G;
         S.drag.map = h.space === "graph" && G ? {
           t: function(px){ var a = G.X(0), b = G.X(1); return (px - a) / (b - a); },
           v: function(py){ var a = G.Y(0), b = G.Y(1); return (py - a) / (b - a); }
-        } : { x: W.M, h: W.H };
+        } : { W: W };
         if(S.playing){ S.playing = false; var pb2 = q(".b-play"); if(pb2) pb2.textContent = t("lab.play"); }
         try{ svg.setPointerCapture(e.pointerId); }catch(err){}
         e.preventDefault(); api.draw();
@@ -658,7 +763,7 @@ var STAGE = {
         var pt = toSvg(e); if(!pt) return;
         var h = cfg.handles[S.drag.i], m = S.drag.map;
         applySet(h.space === "graph" ? h.set(m.t(pt.x), m.v(pt.y), S.p)
-                                     : h.set(S.W.kind === "tower" ? m.h(pt.y) : m.x(pt.x), S.p));
+                                     : h.set.apply(null, m.W.args(pt.x, pt.y).concat([S.p])));
       });
       var end = function(){
         if(S.dragGuess){ S.dragGuess = false; api.draw(); return; }
@@ -703,14 +808,14 @@ var STAGE = {
         /* move the handle on screen and let its own set() decide the value,
            taking the smallest nudge that changes something */
         var h = cfg.handles[S.kbd.i], P = STAGE.handlePos(S, S.W, S.G, h); if(!P) return;
-        S.lock = { span: S.W.span, y: S.G ? [S.G.lo, S.G.hi] : null };
+        S.lock = { span: S.W.span, yspan: S.W.yspan, y: S.G ? [S.G.lo, S.G.hi] : null };
         var W = S.W, G = S.G;
         for(var n = 1; n <= 60; n++){
           var px = P[0] + (vert ? 0 : dir * n * 2), py = P[1] + (vert ? dir * n * 2 : 0), set;
           if(h.space === "graph"){
             if(!G) break;
             set = h.set((px - G.X(0)) / (G.X(1) - G.X(0)), (py - G.Y(0)) / (G.Y(1) - G.Y(0)), S.p);
-          } else set = h.set(W.kind === "tower" ? W.H(py) : W.M(px), S.p);
+          } else set = h.set.apply(null, W.args(px, py).concat([S.p]));
           if(applySet(set)) break;
         }
         S.lock = null; api.draw();

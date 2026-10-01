@@ -1123,13 +1123,15 @@ def assemble_engine():
     """engine.js with the stage layer and every art skin spliced in at its
     /*@@STAGE@@*/ marker - after the visualizer library it builds on, before
     the page code that renders labs. A skin is one file in build/skins/; adding
-    a file there is all it takes to offer a new art style."""
+    a file there is all it takes to offer a new art style. models.js, the
+    shared physics, goes first so every stage lab can reach it."""
     engine = read(os.path.join(BUILD, "engine.js"))
     marker = "/*@@STAGE@@*/"
     if engine.count(marker) != 1:
         raise ValueError("engine.js must contain exactly one %s marker" % marker)
     skins = sorted(glob.glob(os.path.join(BUILD, "skins", "*.js")))
-    parts = [read(os.path.join(BUILD, "stage.js"))] + [read(p) for p in skins]
+    parts = [read(os.path.join(BUILD, "models.js")), read(os.path.join(BUILD, "stage.js"))] + \
+            [read(p) for p in skins]
     return engine.replace(marker, "\n".join(parts))
 
 

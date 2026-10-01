@@ -1,3 +1,19 @@
+/* Chapter 07 glue between the shared projectile model and its stage lab:
+   the flight as cast, stopped early if it strikes a trial's castle wall. */
+var C07 = {
+  k: 0.2,
+  shot: function(p, S){
+    var g = S && S.trial && S.trial.goal, a = PHYS.arc(p.u, p.th, 0, 0), Tend = a.T, hit = null, through = false;
+    if(g && g.kind === "wall"){
+      var y = PHYS.arcYAt(p.u, p.th, 0, g.D);
+      if(y != null && Math.abs(y - g.H) > g.r){ Tend = g.D / a.vx; hit = { x: g.D, y: Math.max(0, y) }; }
+      else through = y != null;
+    }
+    var s = PHYS.arc(p.u, p.th, 0, Math.min(S ? S.t : 0, Tend));
+    return { a: a, s: s, Tend: Tend, hit: hit, through: through };
+  }
+};
+
 var CHAPTER = {
 id:"ch07", num:"07", slug:"curved-motion", subject:"physics",
 kicker:["Physics · Chapter 07","ฟิสิกส์ · บทที่ 7"],
@@ -55,61 +71,179 @@ nodes:[
          "ระยะไกลสุดเกิดที่ 45° และมุมสองมุมใดที่รวมกันได้ 90° จะให้ระยะเท่ากัน ยิงที่ 30° หรือ 60° วัตถุตกที่เดียวกัน แต่ด้วยเส้นทางที่ต่างกันมาก"]],
   formula:["R = u² sin 2θ / g        t_flight = 2u sin θ / g","R = u² sin 2θ / g        t_flight = 2u sin θ / g"],
   flabel:["Maximum range at 45°","ไกลสุดที่ 45°"],
-  viz:{
-    vb:"0 0 560 320", anim:true,
+  viz:"stage",
+  vizcfg:{
+    anim:true,
+    spellName:["The Fireball Arc","วิถีลูกไฟ"],
+    question:["Pull back the aiming rune and cast. Why does the fireball's sideways arrow never change?",
+              "ดึงรูนเล็งแล้วร่ายเวท ทำไมลูกศรแนวราบของลูกไฟจึงไม่เปลี่ยนเลย"],
     ctrls:[
-      {k:"u",  lab:["Launch speed u","อัตราเร็วต้น u"], min:10, max:40, step:2,  def:24, unit:" m/s"},
-      {k:"th", lab:["Angle θ","มุม θ"],                  min:10, max:80, step:5,  def:45, unit:"°"},
-      {k:"T",  lab:["Run for","เล่นนาน"],                min:2,  max:10, step:1,  def:6,  unit:" s", isT:true}
+      {k:"u",  lab:["Launch speed u","อัตราเร็วต้น u"], min:10, max:30, step:1, def:22, unit:" m/s"},
+      {k:"th", lab:["Angle θ","มุม θ"],                  min:10, max:80, step:1, def:45, unit:"°"}
     ],
+    duration:function(p,S){ return C07.shot(p,S).Tend+0.5; },
     readouts:[
-      {lab:["Range R","ระยะไกลสุด R"], f:function(S){
-        var r=S.p.th*Math.PI/180; return fmt(S.p.u*S.p.u*Math.sin(2*r)/10)+" m"; }},
-      {lab:["Max height","ความสูงสุด"], f:function(S){
-        var r=S.p.th*Math.PI/180, uy=S.p.u*Math.sin(r); return fmt(uy*uy/20)+" m"; }},
-      {lab:["Time of flight","เวลาบิน"], f:function(S){
-        var r=S.p.th*Math.PI/180; return fmt(2*S.p.u*Math.sin(r)/10)+" s"; }}
+      {lab:["Range R","ระยะไกล R"], f:function(S){ return fmt(PHYS.arc(S.p.u,S.p.th,0,0).range)+" m"; }},
+      {lab:["Highest point","จุดสูงสุด"], f:function(S){ return fmt(PHYS.arc(S.p.u,S.p.th,0,0).apexY)+" m"; }},
+      {lab:["Time of flight","เวลาบิน"], f:function(S){ return fmt2(PHYS.arc(S.p.u,S.p.th,0,0).T)+" s"; }},
+      {lab:["Speed at the top","ความเร็วที่จุดสูงสุด"], f:function(S){
+        return fmt2(PHYS.arc(S.p.u,S.p.th,0,0).vx)+(L()?" ม./วิ · ไม่ใช่ศูนย์":" m/s · not zero"); }}
     ],
-    draw:function(S,o){
-      var g=10, r=S.p.th*Math.PI/180, ux=S.p.u*Math.cos(r), uy=S.p.u*Math.sin(r);
-      var tf=2*uy/g, R=ux*tf, H=uy*uy/(2*g);
-      var tt=Math.min(S.t,tf);
-      var A=axes(o,{x:56,y:48,w:466,h:196,xmin:0,xmax:Math.max(R*1.1,10),ymin:0,ymax:Math.max(H*1.5,5),
-                    title:["TRAJECTORY","วิถีการเคลื่อนที่"],xlab:"x (m)",ylab:"y (m)"});
-      var d="";
-      for(var i=0;i<=120;i++){
-        var t=tf*i/120, x=ux*t, y=uy*t-0.5*g*t*t;
-        d+=(i?" L":"M")+A.X(x)+" "+A.Y(Math.max(y,0));
+    world:{ kind:"plane", left:40,
+      span:function(p,S){
+        var a=PHYS.arc(p.u,p.th,0,0), x=Math.max(a.range*1.12, 30);
+        if(S.trial && S.trial.goal.D) x=Math.max(x, S.trial.goal.D*1.15);
+        return x; },
+      yspan:function(p,S){
+        var a=PHYS.arc(p.u,p.th,0,0), y=Math.max(a.apexY*1.3, 8);
+        if(S.trial && S.trial.goal.H) y=Math.max(y, S.trial.goal.H+S.trial.goal.r+4);
+        return y; } },
+    props:function(p,S){
+      var list=[{role:"agent", px:48, y:0}], g=S.trial && S.trial.goal;
+      if(g && g.kind!=="wall" && g.kind!=="top") list.push({role:"goal", x:g.D,
+        on:S.t>0 && S.t>=C07.shot(p,S).Tend-1e-6 && Math.abs(PHYS.arc(p.u,p.th,0,0).range-g.D)<1.5});
+      return list;
+    },
+    scene:function(o,S,W){
+      var p=S.p, sh=C07.shot(p,S), a=sh.a, st=sh.s, g=S.trial && S.trial.goal;
+      C07.k = 3.5 / W.s;   /* aim handle: 3.5 px of pull per m/s, whatever the zoom */
+      if(g && g.kind==="wall"){
+        var top=W.Y(g.H+g.r+5);
+        role("wall")(o, W.X(g.D), W.g, { h:W.g-top, gapY:W.Y(g.H), gapR:g.r*W.s, on:sh.through && S.t>=sh.Tend-1e-6, clock:STAGE.clock });
       }
-      o.push('<path d="'+d+'" stroke="var(--ink-faint)" stroke-width="1.5" stroke-dasharray="3 3" fill="none"/>');
-      var dd="";
-      for(var j=0;j<=120;j++){
-        var t2=tt*j/120, x2=ux*t2, y2=uy*t2-0.5*g*t2*t2;
-        dd+=(j?" L":"M")+A.X(x2)+" "+A.Y(Math.max(y2,0));
+      /* the aim line, then the apex the formula promises */
+      if(S.t<1e-9){
+        var r=p.th*Math.PI/180;
+        o.push('<line x1="'+fmt2(W.X(0))+'" y1="'+fmt2(W.Y(0))+'" x2="'+fmt2(W.X(0)+Math.cos(r)*p.u*3.5)+'" y2="'+fmt2(W.Y(0)-Math.sin(r)*p.u*3.5)+
+               '" stroke="var(--accent2)" stroke-width="1.6" stroke-dasharray="3 4"/>');
       }
-      o.push('<path d="'+dd+'" stroke="var(--accent)" stroke-width="2.5" fill="none"/>');
-      /* apex and range markers, both labelled against the scale */
-      o.push('<line x1="'+A.X(R/2)+'" y1="'+A.Y(H)+'" x2="'+A.X(R/2)+'" y2="'+A.Y(0)+'" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 3"/>');
-      o.push('<text x="'+A.X(R/2)+'" y="'+(A.Y(H)-7)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">H = '+fmt(H)+' m</text>');
-      o.push('<text x="'+A.X(R)+'" y="'+(A.Y(0)+30)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">R = '+fmt(R)+' m</text>');
-      var cx=ux*tt, cy=Math.max(uy*tt-0.5*g*tt*tt,0);
-      o.push('<circle cx="'+A.X(cx)+'" cy="'+A.Y(cy)+'" r="5" fill="var(--accent)"/>');
-      /* velocity components at the current point, drawn to scale */
-      var sc=2.2, vy=uy-g*tt;
-      o.push('<line x1="'+A.X(cx)+'" y1="'+A.Y(cy)+'" x2="'+(A.X(cx)+ux*sc)+'" y2="'+A.Y(cy)+'" stroke="var(--ink-soft)" stroke-width="1.8"/>');
-      o.push('<line x1="'+A.X(cx)+'" y1="'+A.Y(cy)+'" x2="'+A.X(cx)+'" y2="'+(A.Y(cy)-vy*sc)+'" stroke="var(--ink-soft)" stroke-width="1.8"/>');
-    }
+      if(!S.trial && !STAGE.guessing(S)){
+        var ax=a.vx*a.apexT, hl=S.hl==="uy";
+        o.push('<line x1="'+fmt2(W.X(ax))+'" y1="'+fmt2(W.Y(a.apexY))+'" x2="'+fmt2(W.X(ax))+'" y2="'+fmt2(W.g)+
+               '" stroke="var(--ink-faint)" stroke-width="'+(hl?2:1)+'" stroke-dasharray="2 4"/>');
+        fitText(o, W.X(ax), W.Y(a.apexY)-10, [(L()?"สูงสุด ":"top ")+fmt(a.apexY)+" m", "สูงสุด "+fmt(a.apexY)+" ม."], 100, 10, "var(--ink-faint)", "middle");
+      }
+      /* the fireball, and its velocity split into the two parts that never talk */
+      var bx=W.X(st.x), by=W.Y(st.y), vy=st.vy, k=1.7;
+      if(S.t>0 || S.playing){
+        role("vector")(o, bx, by, bx+a.vx*k, by, {col:"var(--accent)", hl:S.hl==="ux"});
+        if(Math.abs(vy)>0.3) role("vector")(o, bx, by, bx, by-vy*k, {col:"var(--accent2)", hl:S.hl==="uy"});
+      }
+      role("fireball")(o, bx, by, {clock:STAGE.clock, ang:Math.atan2(-vy, a.vx), size:6});
+    },
+    trace:function(p,S){ var s=C07.shot(p,S).s; return [s.x, s.y]; },
+    traceCol:"warn",
+    marks:function(p,S){
+      if(S.trial) return [];
+      var a=PHYS.arc(p.u,p.th,0,0);
+      return [{a:0, b:a.range, lab:["range R = "+fmt(a.range)+" m","ระยะ R = "+fmt(a.range)+" ม."], col:"accent", term:"R"}];
+    },
+    handles:[
+      {k:"u", at:function(p){ var r=p.th*Math.PI/180, c=C07.k; return {x:Math.cos(r)*p.u*c, y:Math.sin(r)*p.u*c}; },
+       set:function(x,y){ var c=C07.k; x=Math.max(x,0.01); return {u:Math.sqrt(x*x+y*y)/c, th:Math.atan2(y,x)*180/Math.PI}; },
+       lab:["drag to aim","ลากเพื่อเล็ง"], col:"accent2"}
+    ],
+    events:function(p,S){
+      var sh=C07.shot(p,S), done=S.t>=sh.Tend-1e-6 && S.t>0, ev=[];
+      if(sh.hit) ev.push({id:"wall", when:done, x:sh.hit.x, y:sh.hit.y, kind:"impact", col:"warn"});
+      else ev.push({id:"land", when:done, x:sh.a.range, y:0, kind:sh.through?"burst":"impact", col:sh.through?"good":"warn"});
+      return ev;
+    },
+    instrument:{ kind:"graph",
+      xmin:0, xmax:6,
+      xlab:["seconds","วินาที"], ylab:["m/s","ม./วิ"],
+      fn:function(x,p){ var a=PHYS.arc(p.u,p.th,0,0); return a.vy0-10*Math.min(x,a.T); },
+      mark:function(p,S){ return C07.shot(p,S).s.t; }
+    },
+    /* the horizontal part, flat for the whole flight, against the falling vertical one */
+    overlay:function(o,S,G){
+      var a=PHYS.arc(S.p.u,S.p.th,0,0), y=fmt2(G.Y(a.vx)), hl=S.hl==="ux";
+      o.push('<line x1="'+fmt2(G.X(0))+'" y1="'+y+'" x2="'+fmt2(G.X(Math.min(6,a.T)))+'" y2="'+y+'" stroke="var(--accent)" stroke-width="'+(hl?4:2.4)+'"/>');
+      o.push('<text x="'+fmt2(G.X(Math.min(6,a.T))+5)+'" y="'+(+y+4)+'" fill="var(--accent)" font-family="IBM Plex Sans" font-size="10.5">'+(L()?"vx คงที่":"vx steady")+'</text>');
+      o.push('<text x="'+fmt2(G.X(0)+6)+'" y="'+fmt2(G.Y(a.vy0)-6)+'" fill="var(--accent2)" font-family="IBM Plex Sans" font-size="10.5">vy</text>');
+    },
+    spell:{
+      tex:function(p){ var a=PHYS.arc(p.u,p.th,0,0);
+        return "R = \\dfrac{u^2\\sin 2\\theta}{g} = \\dfrac{"+p.u+"^2\\,\\sin "+(2*p.th)+"^\\circ}{10} = "+fmt(a.range)+"\\,\\text{m}"+
+               "\\qquad\\left[\\tfrac{(\\text{m/s})^2}{\\text{m/s}^2}=\\text{m}\\right]"; },
+      terms:[
+        {k:"ux", sym:"u cos θ", lab:["sideways · never changes","แนวราบ · ไม่เปลี่ยน"], col:"accent",
+         f:function(p){ return fmt2(PHYS.arc(p.u,p.th,0,0).vx)+" m/s"; }},
+        {k:"uy", sym:"u sin θ", lab:["upward · gravity eats it","แนวดิ่ง · แรงโน้มถ่วงกินไป"], col:"accent2",
+         f:function(p){ return fmt2(PHYS.arc(p.u,p.th,0,0).vy0)+" m/s"; }},
+        {k:"R", sym:"R", lab:["where it lands","จุดตก"], col:"good", f:function(p){ return fmt(PHYS.arc(p.u,p.th,0,0).range)+" m"; }}
+      ]
+    },
+    predict:{ kind:"x",
+      ask:["Where will the fireball land?","ลูกไฟจะตกที่ไหน"],
+      actual:function(p){ return PHYS.arc(p.u,p.th,0,0).range; },
+      tol:function(p){ return Math.max(2, 0.06*PHYS.arc(p.u,p.th,0,0).range); },
+      explain:function(p){ var a=PHYS.arc(p.u,p.th,0,0); return [
+        "R = u² sin 2θ / g = "+p.u+"² × sin "+(2*p.th)+"° / 10 = "+fmt(a.range)+" m. The flight lasts 2u sin θ / g = "+fmt2(a.T)+" s, and all that time it drifts sideways at a steady "+fmt2(a.vx)+" m/s.",
+        "R = u² sin 2θ / g = "+p.u+"² × sin "+(2*p.th)+"° / 10 = "+fmt(a.range)+" ม. บินนาน 2u sin θ / g = "+fmt2(a.T)+" วินาที และตลอดเวลานั้นเคลื่อนแนวราบคงที่ "+fmt2(a.vx)+" ม./วิ"]; }
+    },
+    trials:{
+      veil:true,
+      make:function(){
+        var kind=pick(["land","twin","top","wall"]);
+        if(kind==="land"){ var u=ri(12,30); return {kind:kind, u:u, D:u*u/10, lock:["th"], set:{th:45, u:(u>20?12:28)}}; }
+        if(kind==="twin"){ var u2=ri(16,28), t1=pick([20,25,30,35,40]);
+          return {kind:kind, u:u2, t1:t1, D:u2*u2*Math.sin(2*t1*Math.PI/180)/10, set:{u:u2, th:t1}}; }
+        if(kind==="top"){ var ts=pick([30,40,50,60]); return {kind:kind, u:20, ts:ts, X:20*Math.cos(ts*Math.PI/180), set:{u:20, th:78}}; }
+        var u3=ri(20,28), tw=pick([30,35,40,45,50,55,60]), A=PHYS.arc(u3,tw,0,0);
+        return {kind:kind, u:u3, tw:tw, D:A.vx*A.apexT, H:A.apexY, r:1.3, set:{u:u3, th:(tw>45?20:75)}};
+      },
+      lockFor:function(g){ return g.kind==="land" ? ["th"] : ["u"]; },
+      say:function(g){
+        if(g.kind==="land") return ["Launching at 45°, choose the speed that lands the fireball on the rune circle "+fmt2(g.D)+" m away.",
+                                    "ยิงที่มุม 45° เลือกอัตราเร็วที่ทำให้ลูกไฟตกบนวงรูนที่ห่าง "+fmt2(g.D)+" ม."];
+        if(g.kind==="twin") return ["At "+g.u+" m/s and "+g.t1+"°, the fireball lands on the rune "+fmt(g.D)+" m away. Find the other angle that lands on the very same rune.",
+                                    "ที่ "+g.u+" ม./วิ และมุม "+g.t1+"° ลูกไฟตกบนรูนที่ห่าง "+fmt(g.D)+" ม. จงหามุมอีกมุมหนึ่งที่ตกบนรูนเดียวกันพอดี"];
+        if(g.kind==="top") return ["At "+g.u+" m/s, set the angle so that at the very top of its arc the fireball is moving at exactly "+fmt2(g.X)+" m/s.",
+                                   "ที่ "+g.u+" ม./วิ ตั้งมุมให้ลูกไฟมีอัตราเร็ว "+fmt2(g.X)+" ม./วิ พอดีที่จุดสูงสุดของวิถี"];
+        return ["A portal opens in the castle wall "+fmt(g.D)+" m away and "+fmt(g.H)+" m up — exactly where your "+g.u+" m/s fireball must reach the top of its arc. Choose the angle.",
+                "ประตูมิติเปิดบนกำแพงปราสาทที่ห่าง "+fmt(g.D)+" ม. สูง "+fmt(g.H)+" ม. ตรงที่ลูกไฟ "+g.u+" ม./วิ ต้องขึ้นถึงจุดสูงสุดพอดี จงเลือกมุม"];
+      },
+      at:function(g){ return g.kind==="wall" ? {x:g.D, y:g.H} : {x:g.D||0, y:0}; },
+      check:function(p,S,g){
+        var a=PHYS.arc(p.u,p.th,0,0);
+        if(g.kind==="land"){
+          if(Math.abs(p.u-g.u)<0.5) return {ok:true, msg:["On the rune. At 45°, sin 2θ = 1, so R = u² / g and u = √(gR) = √(10 × "+fmt2(g.D)+") = "+g.u+" m/s.",
+                                                            "ตกบนรูนพอดี ที่ 45° sin 2θ = 1 ดังนั้น R = u² / g และ u = √(gR) = √(10 × "+fmt2(g.D)+") = "+g.u+" ม./วิ"]};
+          return {ok:false, msg:["It landed at "+fmt(a.range)+" m. At 45° the range is just u² / g.","ตกที่ "+fmt(a.range)+" ม. ที่ 45° ระยะคือ u² / g เท่านั้น"]};
+        }
+        if(g.kind==="twin"){
+          if(Math.abs(p.th-(90-g.t1))<0.5) return {ok:true, msg:["Same rune, different route. sin 2θ is the same for θ and 90° − θ, so "+g.t1+"° and "+(90-g.t1)+"° are twins.",
+                                                                  "รูนเดียวกัน คนละเส้นทาง sin 2θ มีค่าเท่ากันที่ θ และ 90° − θ มุม "+g.t1+"° กับ "+(90-g.t1)+"° จึงเป็นมุมคู่แฝด"]};
+          if(Math.abs(p.th-g.t1)<0.5) return {ok:false, msg:["That is the angle you were given. Find its twin.","นั่นคือมุมที่ให้มา หามุมคู่แฝดของมัน"]};
+          return {ok:false, msg:["It landed at "+fmt(a.range)+" m. Which angle has the same sin 2θ as "+g.t1+"°?","ตกที่ "+fmt(a.range)+" ม. มุมใดมี sin 2θ เท่ากับมุม "+g.t1+"°"]};
+        }
+        if(g.kind==="top"){
+          if(Math.abs(p.th-g.ts)<0.5) return {ok:true, msg:["At the top the upward part is zero, but the sideways part u cos θ = "+g.u+" × cos "+g.ts+"° = "+fmt2(g.X)+" m/s carries on. The fireball never stops at the top.",
+                                                             "ที่จุดสูงสุดส่วนแนวดิ่งเป็นศูนย์ แต่ส่วนแนวราบ u cos θ = "+g.u+" × cos "+g.ts+"° = "+fmt2(g.X)+" ม./วิ ยังคงอยู่ ลูกไฟไม่เคยหยุดที่จุดสูงสุด"]};
+          return {ok:false, msg:["At the top it moved at "+fmt2(a.vx)+" m/s. Trap T-02: the speed at the top is not zero — it is u cos θ. Solve cos θ = "+fmt2(g.X)+" / "+g.u+".",
+                                 "ที่จุดสูงสุดเคลื่อนที่ "+fmt2(a.vx)+" ม./วิ กับดัก T-02: อัตราเร็วที่จุดสูงสุดไม่ใช่ศูนย์ แต่เป็น u cos θ แก้ cos θ = "+fmt2(g.X)+" / "+g.u]};
+        }
+        var sh=C07.shot(p,{t:0, trial:{goal:g}});
+        if(sh.through) return {ok:true, msg:["Straight through the portal. The top of the arc is H = (u sin θ)² / 2g, so sin θ = √(2gH) / u = √(20 × "+fmt(g.H)+") / "+g.u+" → θ = "+g.tw+"°.",
+                                              "ผ่านประตูมิติพอดี จุดสูงสุดคือ H = (u sin θ)² / 2g ดังนั้น sin θ = √(2gH) / u = √(20 × "+fmt(g.H)+") / "+g.u+" → θ = "+g.tw+"°"]};
+        var y=PHYS.arcYAt(p.u,p.th,0,g.D);
+        return {ok:false, msg:[y==null ? "It fell short of the wall." : "It struck the wall "+fmt(y)+" m up; the portal is at "+fmt(g.H)+" m. The top of the arc is H = (u sin θ)² / 2g.",
+                               y==null ? "ตกก่อนถึงกำแพง" : "ชนกำแพงที่ความสูง "+fmt(y)+" ม. แต่ประตูอยู่ที่ "+fmt(g.H)+" ม. จุดสูงสุดคือ H = (u sin θ)² / 2g"]};
+      }
+    },
+    note:["two arrows, two separate stories: the sideways one never changes, the upward one is eaten by gravity at 10 m/s every second",
+          "ลูกศรสองอัน สองเรื่องแยกกัน อันแนวราบไม่เคยเปลี่ยน อันแนวดิ่งถูกแรงโน้มถ่วงกินไป 10 ม./วิ ทุกวินาที"]
   },
   guide:[
-    {say:["Launch at 45°. The dashed curve is the whole flight; the solid part is what has happened so far. Press Play.",
-          "ยิงที่ 45° เส้นประคือการเคลื่อนที่ทั้งหมด ส่วนเส้นทึบคือสิ่งที่เกิดขึ้นแล้ว กดเล่น"], set:{u:24,th:45,T:6}},
-    {say:["Watch the two grey arrows. The horizontal one never changes length; the vertical one shrinks, reverses and grows.",
-          "สังเกตลูกศรเทาสองอัน อันแนวราบไม่เคยเปลี่ยนความยาว ส่วนอันแนวดิ่งหดลง กลับทิศ แล้วยาวขึ้น"], set:{u:24,th:60,T:6}},
-    {say:["At the apex the vertical arrow vanishes but the horizontal one is untouched. The projectile has not stopped.",
-          "ที่จุดสูงสุดลูกศรแนวดิ่งหายไปแต่แนวราบยังอยู่ครบ วัตถุไม่ได้หยุด"], set:{u:24,th:75,T:6}},
-    {say:["Now compare 30° and 60°. Read the range each time — the two are identical, because 30 + 60 = 90.",
-          "ทีนี้เปรียบเทียบ 30° กับ 60° อ่านค่าระยะทั้งสองครั้ง จะเท่ากันพอดี เพราะ 30 + 60 = 90"], set:{u:30,th:30,T:6}}
-  ]},
+    {say:["Launch at 45° and cast. The dashed line was your aim; the glowing trail is the flight.",
+          "ยิงที่ 45° แล้วร่ายเวท เส้นประคือทิศที่เล็ง รอยเรืองแสงคือเส้นทางการบิน"], set:{u:22,th:45}},
+    {say:["Watch the two arrows on the fireball. The sideways one never changes length; the upward one shrinks, vanishes at the top, then points down.",
+          "ดูลูกศรสองอันบนลูกไฟ อันแนวราบไม่เคยเปลี่ยนความยาว อันแนวดิ่งหดลง หายไปที่จุดสูงสุด แล้วชี้ลง"], set:{u:22,th:60}},
+    {say:["Cast at 30°, then at 60°. The faint trail is your last cast: the two land on the same spot by very different routes, because 30 + 60 = 90.",
+          "ร่ายที่ 30° แล้วที่ 60° รอยจาง ๆ คือการร่ายครั้งก่อน ทั้งสองตกจุดเดียวกันด้วยเส้นทางต่างกันมาก เพราะ 30 + 60 = 90"], set:{u:22,th:30}}
+  ]
+},
 
 { id:"circular", x:370, y:150, requires:["independence"], methods:["M-04"],
   title:["Circular motion","การเคลื่อนที่แบบวงกลม"],
