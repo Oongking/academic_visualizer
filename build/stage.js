@@ -620,10 +620,13 @@ var STAGE = {
       if(tp) tp.appendChild(pb); else q(".ctrls").insertAdjacentElement("afterend", pb);
       var pp = document.createElement("div");
       pp.className = "predict"; pp.hidden = true;
-      var oh = "";
-      if(pc.kind === "choice")
-        oh = '<div class="opts p-opts" role="group">' + pc.opts.map(function(op, i){
-          return '<button type="button" class="opt-b p-opt" data-v="' + i + '">' + esc(tx(op)) + '</button>'; }).join("") + '</div>';
+      /* options may be a list, or a function of the setup that builds them */
+      var optHTML = function(){
+        var ops = typeof pc.opts === "function" ? pc.opts(S.p) : pc.opts;
+        return ops.map(function(op, i){
+          return '<button type="button" class="opt-b p-opt" data-v="' + i + '">' + esc(tx(op)) + '</button>'; }).join("");
+      };
+      var oh = pc.kind === "choice" ? '<div class="opts p-opts" role="group"></div>' : "";
       pp.innerHTML = '<span class="step p-step"></span><p class="p-ask"></p>' + oh +
         '<div class="transport"><button class="btn p-go" type="button"></button>' +
         '<button class="btn p-quit" type="button"></button></div><p class="p-result" role="status" aria-live="polite"></p>';
@@ -660,6 +663,7 @@ var STAGE = {
         q(".p-step").textContent = stepText();
         q(".p-ask").textContent = tx(pc.ask) + (pc.kind === "choice" ? "" : " " + ui(S.W && S.W.kind === "tower" ? "tapHeight" : "tapLine"));
         var r = q(".p-result"); r.textContent = ""; r.className = "p-result";
+        bindOpts();
         q(".p-go").disabled = true;
         host.querySelectorAll(".p-opt").forEach(function(b){ b.disabled = false; b.classList.remove("on"); });
         hold(true); api.draw();
@@ -669,7 +673,8 @@ var STAGE = {
         var actual = pc.actual(S.p), g = S.pred.guess, hit, msg;
         if(pc.kind === "choice"){
           hit = g === actual;
-          msg = [ (L() ? "คุณเลือก: " : "You chose: ") + tx(pc.opts[g]) + " · " + (L() ? "ผลจริง: " : "actually: ") + tx(pc.opts[actual]) ];
+          var ops = typeof pc.opts === "function" ? pc.opts(S.p) : pc.opts;
+          msg = [ (L() ? "คุณเลือก: " : "You chose: ") + tx(ops[g]) + " · " + (L() ? "ผลจริง: " : "actually: ") + tx(ops[actual]) ];
         } else {
           var err = Math.abs(g - actual), tol = pc.tol ? pc.tol(S.p) : 1;
           hit = err <= tol;
@@ -698,9 +703,13 @@ var STAGE = {
       };
       pb.addEventListener("click", start);
       q(".p-quit").addEventListener("click", quit);
-      host.querySelectorAll(".p-opt").forEach(function(b){
-        b.addEventListener("click", function(){ setPred(+b.getAttribute("data-v")); });
-      });
+      var bindOpts = function(){
+        var box = q(".p-opts"); if(!box) return;
+        box.innerHTML = optHTML();
+        box.querySelectorAll(".p-opt").forEach(function(b){
+          b.addEventListener("click", function(){ setPred(+b.getAttribute("data-v")); });
+        });
+      };
       q(".p-go").addEventListener("click", function(){
         if(!S.pred || S.pred.guess == null || S.pred.phase !== "guess") return;
         S.pred.phase = "run";

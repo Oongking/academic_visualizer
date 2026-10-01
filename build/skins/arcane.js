@@ -73,6 +73,8 @@
         '<stop offset="0" stop-color="#0b0a26"/><stop offset=".55" stop-color="#1d1650"/><stop offset="1" stop-color="#3a2a6e"/></linearGradient>' +
       '<radialGradient id="ak-orb" cx=".38" cy=".35" r=".7">' +
         '<stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#b8f4ff"/><stop offset="1" stop-color="#2a8fd0"/></radialGradient>' +
+      '<radialGradient id="ak-orb2" cx=".38" cy=".35" r=".7">' +
+        '<stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#ffd0ea"/><stop offset="1" stop-color="#c2408a"/></radialGradient>' +
       '<radialGradient id="ak-aura"><stop offset="0" stop-color="#7fe3ff" stop-opacity=".55"/>' +
         '<stop offset="1" stop-color="#7fe3ff" stop-opacity="0"/></radialGradient>' +
       '<radialGradient id="ak-portal"><stop offset="0" stop-color="#e9fff2" stop-opacity=".95"/>' +
@@ -175,7 +177,7 @@
       var r = opt.size || 8, c = opt.clock || 0, cy = y - r - 10;
       o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y + 2) + '" rx="' + F2(r * 1.2) + '" ry="2.6" fill="#7fe3ff" opacity=".22"/>');
       o.push('<circle cx="' + F2(x) + '" cy="' + F2(cy) + '" r="' + F2(r * 2.3) + '" fill="url(#ak-aura)"/>');
-      o.push('<circle cx="' + F2(x) + '" cy="' + F2(cy) + '" r="' + F2(r) + '" fill="url(#ak-orb)"/>');
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(cy) + '" r="' + F2(r) + '" fill="url(#' + (opt.variant === "rose" ? "ak-orb2" : "ak-orb") + ')"/>');
       for(var i = 0; i < 2; i++){
         var a = c * 3 + i * Math.PI;
         o.push('<circle cx="' + F2(x + Math.cos(a) * r * 1.6) + '" cy="' + F2(cy + Math.sin(a) * r * 0.6) + '" r="1.4" fill="#fff"/>');
@@ -388,6 +390,26 @@
       o.push('<circle cx="-6" cy="-3" r="3.4" fill="#2e2273" stroke="#7fe3ff" stroke-width="1.2"/>');
       o.push('<circle cx="6" cy="-3" r="3.4" fill="#2e2273" stroke="#7fe3ff" stroke-width="1.2"/>');
       o.push('</g>');
+    },
+
+    /* a floating rune ring the pendulum hangs from */
+    pivot: function(o, x, y, opt){
+      var c = opt && opt.clock || 0;
+      o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y - 4) + '" rx="34" ry="8" fill="none" stroke="#7fe3ff" stroke-width="1.6" ' +
+             'stroke-dasharray="6 4" stroke-dashoffset="' + F2(-c * 12) + '" filter="url(#ak-glow)"/>');
+      o.push('<path d="' + star4(x, y, 5) + '" fill="#ffcf6e" filter="url(#ak-glow)"/>');
+    },
+    /* a chain of light */
+    string: function(o, x1, y1, x2, y2){
+      o.push('<line x1="' + F2(x1) + '" y1="' + F2(y1) + '" x2="' + F2(x2) + '" y2="' + F2(y2) + '" stroke="#bfb6ff" stroke-width="1.4" stroke-dasharray="3 2"/>');
+    },
+    /* a crystal bob, its size following its mass */
+    bob: function(o, x, y, opt){
+      var r = opt.size || 9;
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + F2(r * 2) + '" fill="url(#ak-aura)"/>');
+      o.push('<path d="M' + F2(x) + ' ' + F2(y - r * 1.3) + ' L' + F2(x + r) + ' ' + F2(y) + ' L' + F2(x) + ' ' + F2(y + r * 1.3) +
+             ' L' + F2(x - r) + ' ' + F2(y) + ' Z" fill="url(#ak-orb)" stroke="#fff" stroke-width=".8"/>');
+      o.push('<line x1="' + F2(x - r) + '" y1="' + F2(y) + '" x2="' + F2(x + r) + '" y2="' + F2(y) + '" stroke="#ffffff" stroke-width=".6" opacity=".7"/>');
     },
 
     /* a prophecy stone: the learner's prediction, planted on the ley line */

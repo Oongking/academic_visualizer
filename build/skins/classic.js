@@ -160,6 +160,20 @@ SKINS.add({
            '<circle cx="-6" cy="-3" r="3" fill="var(--ink)"/><circle cx="6" cy="-3" r="3" fill="var(--ink)"/></g>');
   },
 
+  /* the fixed point a pendulum hangs from */
+  pivot: function(o, x, y){
+    o.push('<line x1="' + fmt2(x - 40) + '" y1="' + fmt2(y) + '" x2="' + fmt2(x + 40) + '" y2="' + fmt2(y) + '" stroke="var(--ink-soft)" stroke-width="3"/>');
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="3" fill="var(--ink)"/>');
+  },
+  /* a string from (x1, y1) to (x2, y2) */
+  string: function(o, x1, y1, x2, y2){
+    o.push('<line x1="' + fmt2(x1) + '" y1="' + fmt2(y1) + '" x2="' + fmt2(x2) + '" y2="' + fmt2(y2) + '" stroke="var(--ink-soft)" stroke-width="1.4"/>');
+  },
+  /* a pendulum bob about its centre; opt.size is its radius */
+  bob: function(o, x, y, opt){
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="' + fmt2(opt.size || 9) + '" fill="' + (opt.col || "var(--accent)") + '"/>');
+  },
+
   prophecy: function(o, x, y, opt){
     var c = opt.done ? (opt.hit ? "var(--good)" : "var(--warn)") : "var(--accent2)";
     if(opt.tower){
