@@ -1695,3 +1695,8 @@ document.getElementById("genBtn").addEventListener("click",generate);
 applyLang();
 setView("learn");
 generate();
+/* a link such as the spellbook's lands on its section once sections exist */
+(function(){
+  var h=(location.hash||"").slice(1), el=h&&document.getElementById(h);
+  if(el) setTimeout(function(){ el.scrollIntoView({block:"start"}); }, 60);
+})();

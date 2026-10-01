@@ -209,74 +209,125 @@ Canvas drawing code: light and dark theme changes must remain legible.
 
 ### Stage labs and art skins
 
-`viz:"stage"` (in `build/stage.js`) is the interactive, illustrated lab. Ch02
-Linear Motion is the reference: every lab there is a stage. It is built in three
-layers, so you can change the art style without touching physics or layout:
+`viz:"stage"` (in `build/stage.js`) is the interactive, illustrated lab. The
+physics course has 17 of them, which together make the course's
+**spellbook**: every lab in Ch02, plus one flagship lab in Ch03, 05, 06, 07,
+08, 09, 10, 12, 13, 15 and 20. Ch02 is the simplest reference. Ch07
+(projectile) shows the 2-D world, and Ch13 (field) shows a free scene that
+draws itself. Each lab is built in four layers, so you can change the art
+style without touching physics or layout:
 
 | Layer | Lives in | Owns |
 | --- | --- | --- |
-| Model | the chapter's `vizcfg` (and helpers such as `C02` in `ch02.js`) | Pure functions of the parameters `p` and clock `S.t`: positions, speeds, trial goals and checks. They never draw. |
-| Stage | `build/stage.js`, `build/stage.css` | The world (a horizontal `lane` or a vertical `tower` with a metre scale), placing items, the instrument band, drag handles, the live formula, trials, particles and ambient motion. |
+| Physics | `build/models.js` (`PHYS`) | Shared, pure functions: projectiles (`arc`), friction (`push`), collisions (`collide`), energy, oscillation, fields (`efield`), decay, seeded random numbers. g = 10 m/s². They never draw. |
+| Chapter glue | the chapter's `vizcfg`, plus a small helper such as `C07` at the top of `chNN.js` | The lab's setup: its parameters, what to place where, trial goals and checks, and any simulation that belongs to one lab only (such as the Ch05 coaster or the Ch08 RK4 pendulum). |
+| Stage | `build/stage.js`, `build/stage.css` | Worlds and scales, placing items, the instrument band, drag handles, the live formula, trials, predictions, traces, particles and ambient motion. |
 | Skin | `build/skins/<id>.js` | How each **role** looks, the backdrop, colour tokens, shared SVG `<defs>`, interface words, and nouns. |
 
-A stage `vizcfg` declares, in addition to the usual `ctrls`, `readouts`,
-`guide`, `question` and `note`:
+The build splices `models.js`, `stage.js` and every skin into the engine at
+its `/*@@STAGE@@*/` marker. Chapter files load before the engine, so call
+`PHYS` and other engine functions only from inside `vizcfg` functions, never
+at the top level of a chapter.
 
-- `world:{kind:"lane"|"tower", span(p,S)}`: the metres shown.
-- `props(p,S)`, `cast(p,S)`: lists of `{role, x | h+lane, ...}`. Roles are
-  `agent`, `orb`, `relic` (`variant:"heavy"|"light"`), `origin`, `marker`,
-  `goal`, `hazard` and `perch`. An item may carry `ghost`, `on`, `awake`,
-  `flip`, `moving`, a `vel` arrow, a `lab`, and a `term`.
-- `paths`, `marks`: trails and dimension lines. `marks` uses at most two rows.
-- `handles`: things to drag. `{k, space:"world"|"graph", at(p), set(value,p)}`.
-  The stage snaps each value to its slider's step and range and moves the
-  slider with it. Sliders stay the keyboard-accessible equivalent.
+**Worlds.** `world:{kind, span(p,S), ...}`:
+
+- `lane`: a 1-D track in metres; items take `x` (metres) and `lift` (pixels).
+  `left` sets the margin.
+- `tower`: a vertical 1-D track in metres; items take `h` and `lane`.
+- `plane`: 2-D in metres with one scale for both axes, so an arc keeps its
+  true shape. It takes `span` (x) and `yspan`; items take `x`, `y`.
+- `free`: raw picture pixels; items take `px`, `py`. Use it for fields,
+  waves and pendulums that draw themselves in `scene`.
+
+**Configuration.** A stage `vizcfg` declares, in addition to the usual
+`ctrls`, `readouts`, `guide`, `question` and `note`:
+
+- `props(p,S)` and `cast(p,S)`: placed items `{role, …position}`. An item may
+  carry `ghost`, `on`, `awake`, `flip`, `moving`, `size`, `variant`, `ang`, a
+  `vel` arrow, a `lab`, and a `term`.
+- `paths` and `marks`: trails, and dimension lines (at most two rows).
+- `under(o,S,W)` and `scene(o,S,W)`: bespoke drawing below the props, or
+  between the props and the cast. Draw through `role(name)(…)` so the skin
+  still decides the look.
+- `trace(p,S)`: the moving body's position. The stage draws its path and
+  keeps the previous run as a faint "last cast" ghost, so one change can be
+  compared with the run before.
+- `handles`: things to drag, `{k, at(p,S), set(...coords, p), hide(p), lab,
+  labBelow, col, term}`. `set` receives the world's coordinates: one value
+  in lane or tower, two in plane or free, or (t, v) with `space:"graph"`. The
+  stage snaps each value to its slider. Every handle is reachable from the
+  keyboard: focus the picture, use the arrow keys to move, and Enter or
+  Space to switch handles.
 - `spell:{tex(p,S), terms:[{k,sym,lab,col,f}]}`: the formula with live numbers
-  (KaTeX), plus chips. Hovering or focusing a chip highlights every item,
-  mark, path or overlay whose `term` matches.
-- `trials:{make(), say(goal), check(p,S,goal), lock:[keys], at(goal), play}`: a
-  randomised goal the learner should solve with the formula *before* casting.
-  `check` returns `{ok, msg:[en,th]}`. Solved counts go in `STATE.trials`.
-- `predict:{kind:"x"|"h"|"choice", ask, opts, actual(p), tol(p), explain(p),
-  stretch, veil}`: **predict, then reveal**. A *Predict first* button asks
-  the learner to commit before the run. For `x` or `h`, they tap or drag the
-  scene, or use the arrow keys, to plant a marker; for `choice`, they pick
-  from `opts`. While they guess, the stage veils readouts, formula values,
-  the instrument band and dimension lines, and freezes the controls. It also
-  stretches the lane by a random factor so the scale does not reveal the
-  answer: set `stretch:false` for a fixed span, and `veil:false` when the
-  learner must read the graph to answer. Scores go in `STATE.preds`. In a
-  model function, test `S.pred` to hide anything else that would give the
-  answer away.
-- `events(p,S)`: `{id, when, x|h, kind:"burst"|"impact"}`. Each fires once when
-  its condition turns true, for sparks and the impact shake.
-- `overlay(o,S,G,W)`: extra drawing on the instrument graph (`G.X`, `G.Y`).
-- `duration(p)`: run length when no control has `isT`.
+  (KaTeX). Add the unit arithmetic where it helps, such as
+  `[\tfrac{\text{N}}{\text{kg}}=\tfrac{\text{m}}{\text{s}^2}]`. Hovering
+  or focusing a chip highlights every item, mark, path or overlay with that
+  `term`. Write `\cdot` outside `\text{}`; a `·` inside it fails KaTeX.
+- `trials:{make(), say(g), check(p,S,g), lockFor(g) | lock, at(g), veil,
+  play}`: a randomised goal the learner should solve with the formula
+  *before* casting. `veil:true` hides the readouts until the cast;
+  `play:false` judges without running. `check` returns `{ok, msg:[en,th]}`.
+  When a trial targets a known trap, name it in the miss message (for
+  example "trap T-02"). Keep generated goals inside the sliders' ranges and
+  steps. Solved counts go in `STATE.trials`.
+- `predict:{kind:"x"|"h"|"choice", ask, opts | opts(p), actual(p), tol(p),
+  explain(p), stretch, veil}`: **predict, then reveal**.
+  - The learner commits to an answer before the run. For `x` or `h`, they tap,
+    drag or use the arrow keys to plant a marker; for `choice`, they pick an
+    option. Choice options may be built from the setup, such as numeric
+    answers that include the trap answer.
+  - While they guess, the stage veils readouts, formula values, the
+    instrument band and dimension lines, and freezes the controls.
+  - Position guesses also stretch the scale by a random factor, so it cannot
+    give the answer away. Set `stretch:false` for a fixed span, and
+    `veil:false` when the learner must read the graph to answer.
+  - Scores go in `STATE.preds`. Test `S.pred` in your own functions to hide
+    anything else that would give the answer away.
+- `events(p,S)`: `{id, when, …position, kind:"burst"|"impact"}`. Each fires
+  once when its condition turns true, for sparks and the impact shake.
+- `overlay(o,S,G,W)`: extra drawing on the instrument graph (`G.X`, `G.Y`,
+  `G.lo`, `G.hi`).
+- `duration(p,S)`: the run length when no control has `isT`. `rate` speeds up
+  a clock that counts days rather than seconds.
 
 The question and the note are drawn as page text above and below the picture,
 not inside the SVG, so they wrap on phones and follow the language switch.
 Labels inside the picture grow automatically, by up to 1.6× when the lab is
-drawn narrower than 588 px, and the scale shows fewer ticks. The picture is
-one keyboard stop: the arrow keys move the ringed handle, and Enter or Space
-rings the next one.
+drawn narrower than 588 px, and the scale shows fewer ticks.
 
 Write chapter text with skin nouns: `{@agent}`, `{@Agent}` (capitalised in
 English), `{@origin}`, `{@goal}`, `{@hazard}`, `{@perch}`, `{@heavy}`,
-`{@light}`, `{@push}`, `{@brake}`, `{@clock}`, `{@world}`, `{@marker}`, and
-verbs `{@fly}`, `{@flies}`, `{@flown}`. `tx()` fills them from the active
-skin, so "the apprentice flies" in Arcane becomes "the rider rides" in
-Classic. Keep the physics words (distance, displacement, acceleration)
-literal.
+`{@light}`, `{@push}`, `{@brake}`, `{@clock}`, `{@world}`, `{@marker}`,
+`{@golem}`, `{@ice}`, `{@stone}`, `{@moss}`, and verbs `{@fly}`, `{@flies}`,
+`{@flown}`. `tx()` fills them from the active skin, so "the apprentice flies"
+in Arcane becomes "the rider rides" in Classic. Keep the physics words
+(distance, displacement, acceleration) literal.
 
-**To add an art style,** copy `build/skins/classic.js` to
-`build/skins/<id>.js`, change its `id`, `name` and roles, then rebuild. The
-build splices every file in `build/skins/` into the engine, and the lab's
-**Art** picker lists it. A role you leave out falls back to Classic, so a skin
-can start with just a backdrop and an agent. Each role is
-`(o, x, y, opt)`: push SVG strings onto `o`. `(x, y)` is the item's foot on the
-ground line, and `opt` holds `col`, `hl`, `clock` (seconds, or 0 under reduced
-motion), `flip`, `size`, `variant`, `on`, `awake` and `w`. The active skin is
-stored in the `edu-art-skin` localStorage key, and `SKINS.preferred` sets the
+**Skins.** Three ship:
+
+- **Arcane**: a night sky over a ley line; the default.
+- **Arcane dawn**: the same world at sunrise, for long study sessions. Its
+  `build/skins/dawn.js` is the smallest example: it borrows every role from
+  Arcane and redraws only the backdrop, the tokens, and three roles drawn
+  light-on-dark.
+- **Classic**: the original quiet silhouettes, and the fallback for any role
+  a skin leaves out.
+
+The roles are:
+
+| Group | Roles |
+| --- | --- |
+| Characters and objects | `agent`, `orb`, `relic`, `fireball`, `golem`, `cart`, `bob`, `wisp`, `charge` |
+| Places | `origin`, `marker`, `goal`, `hazard`, `perch`, `wall`, `track`, `pivot`, `string`, `rope`, `source`, `screen`, `crucible`, `surface`, `ground`, `backdrop` |
+| Interface | `vector`, `trail`, `measure`, `halo`, `handle`, `spark`, `prophecy` |
+
+Each role is `(o, x, y, opt)` and pushes SVG strings onto `o`. The exceptions
+are `track` and `rope`, which take a list of points.
+
+**To add an art style,** copy `build/skins/dawn.js` (to restyle Arcane) or
+`classic.js` (to start fresh) to `build/skins/<id>.js`, change its `id` and
+`name`, and rebuild. The **Art** picker lists it. The active skin is stored
+in the `edu-art-skin` localStorage key, and `SKINS.preferred` sets the
 default.
 
 A skin may give the stage its own palette by redefining tokens on
@@ -285,6 +336,17 @@ draw a self-contained night scene that reads the same in all four reading
 themes. Everything outside the picture keeps the reading theme. Ambient
 motion runs only while a lab is on screen, and particles, shake and ambient
 motion are off under `prefers-reduced-motion`.
+
+**Spellbook.** The physics index lists every stage lab that has a
+`spellName`, in chapter order, and links to its section (`#sec-<id>`). It
+reads each chapter's saved `trials` and `preds` to show which spells are
+mastered and the prediction score. A new stage lab with a `spellName`
+appears there automatically.
+
+**Checks.** `node build/check_math.js` also renders every stage lab's live
+spell in both languages: for the defaults, every guided step, and a sample
+of trial setups. A bad TeX string or a NaN term fails the build check
+rather than a page.
 
 ## Minimal new-page pattern
 

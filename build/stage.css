@@ -76,3 +76,5 @@
 .is-veiled .readouts,.is-veiled .spell{user-select:none}
 .is-veiled .ctrl{opacity:.6}
 @media (prefers-reduced-motion:reduce){ .is-veiled .labsvg .stg-ins{transition:none} }
+/* a long incantation scrolls inside its strip; it must never widen the lab */
+.stage-lab,.stage-lab .spell,.stage-lab .spell-tex{min-width:0;max-width:100%}
