@@ -1659,6 +1659,7 @@ function applyLang(){
   document.querySelectorAll("[data-"+STATE.lang+"]").forEach(function(el){ el.textContent=el.getAttribute("data-"+STATE.lang); });
   fillSkinPicker();
   buildSections(); drawMap(); drawBlueprint(); drawCoverage();
+  if(typeof WORLD!=="undefined") WORLD.refresh();
 }
 /* The art picker only appears on a chapter that has a stage lab to restyle. */
 function fillSkinPicker(){
@@ -1695,8 +1696,10 @@ document.getElementById("genBtn").addEventListener("click",generate);
 applyLang();
 setView("learn");
 generate();
-/* a link such as the spellbook's lands on its section once sections exist */
+/* a chapter with spells opens inside them; otherwise a link such as the
+   spellbook's lands on its section once sections exist */
 (function(){
+  if(typeof WORLD!=="undefined" && WORLD.init()) return;
   var h=(location.hash||"").slice(1), el=h&&document.getElementById(h);
   if(el) setTimeout(function(){ el.scrollIntoView({block:"start"}); }, 60);
 })();

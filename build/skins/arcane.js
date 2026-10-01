@@ -58,6 +58,8 @@
       reveal: ["Cast and reveal", "ร่ายเวทและเปิดเผย"],
       endPredict: ["Close the vision", "ปิดนิมิต"],
       lastRun: ["last cast", "การร่ายครั้งก่อน"],
+      lesson: ["← Read the lesson", "← อ่านบทเรียน"],
+      enterWorld: ["✦ Enter the spell world", "✦ เข้าสู่โลกเวท"],
       foresight: ["true visions", "นิมิตที่แม่น"],
       trueSight: ["True sight!", "เห็นแจ้ง!"],
       notQuite: ["The vision was clouded.", "นิมิตยังพร่ามัว"],

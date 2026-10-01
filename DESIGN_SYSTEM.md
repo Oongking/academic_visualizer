@@ -337,6 +337,28 @@ themes. Everything outside the picture keeps the reading theme. Ambient
 motion runs only while a lab is on screen, and particles, shake and ambient
 motion are off under `prefers-reduced-motion`.
 
+**World mode.** A chapter with stage labs opens full-screen inside them
+(`WORLD` in `build/stage.js`). The current lab element is moved into a fixed
+overlay and laid out as a world: the picture fills the screen, letterboxed
+on the skin's own background, while the head, question, formula, controls
+and readouts scroll in a side panel. On phones the picture sits on top
+instead.
+- **Top bar:** the chapter and spell name, ◀ n/N ▶ between the chapter's
+  spells (also PageUp/PageDown), language and art-style buttons, and
+  **Read the lesson**, which returns the lab to its section. Esc does the
+  same.
+- **Getting back in:** from the lesson, a floating **Enter the spell world**
+  button or the ⤢ button on any lab re-enters.
+- **Memory:** the choice is stored in the `edu-world` localStorage key, and
+  the last spell per chapter in `edu-world-at.<chapter id>`. A
+  `#sec-<id>` link always opens that spell.
+- **Rebuilds:** `WORLD.refresh()` runs after every section rebuild, so a
+  language or skin change re-hosts the new copy of the lab.
+
+Because the lab element itself moves, every listener, trial and prediction
+keeps working. Tests that pick labs by their position on the page should set
+`edu-world` to `off` first.
+
 **Spellbook.** The physics index lists every stage lab that has a
 `spellName`, in chapter order, and links to its section (`#sec-<id>`). It
 reads each chapter's saved `trials` and `preds` to show which spells are

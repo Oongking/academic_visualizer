@@ -457,6 +457,15 @@ var STAGE = {
     var head = host.querySelector(".lab-head .label");
     if(head) head.textContent = cfg.spellName && sk.spellNames
       ? ui("labTitle") + " · " + tx(cfg.spellName) : t("lab.title");
+    /* step inside: the lab fills the screen */
+    var wb = document.createElement("button");
+    wb.type = "button"; wb.className = "btn m-world"; wb.textContent = "⤢";
+    wb.setAttribute("aria-label", ui("enterWorld")); wb.title = ui("enterWorld");
+    q(".lab-mode").appendChild(wb);
+    wb.addEventListener("click", function(){
+      var hs = WORLD.hosts(), i = hs.indexOf(host);
+      if(i >= 0) WORLD.open(i);
+    });
 
     function snap(k, v){
       for(var i = 0; i < api.ctrls.length; i++){
@@ -834,7 +843,9 @@ var STAGE = {
 
     /* --- text size follows the drawn width --- */
     var measure = function(){
-      var w = svg.getBoundingClientRect().width;
+      /* the drawn width: a picture letterboxed into a tall box is narrower than the box */
+      var r = svg.getBoundingClientRect(), vb = svg.viewBox && svg.viewBox.baseVal;
+      var w = vb && vb.width && r.height ? Math.min(r.width, r.height * vb.width / vb.height) : r.width;
       var k = w > 0 ? Math.max(1, Math.min(1.6, 588 / w)) : 1;
       if(Math.abs(k - (S.textK || 1)) > 0.02){ S.textK = k; api.draw(); }
     };
@@ -870,6 +881,139 @@ var STAGE = {
       if(S.ambRaf != null) cancelAnimationFrame(S.ambRaf);
       S.ambRaf = null; S.visible = false;
     };
+  }
+};
+
+/* ---------- the world: a chapter opens inside its spells ----------
+   On a chapter with stage labs the page opens full-screen inside the first
+   spell (or the one a link points at). The lab element itself is moved into
+   the overlay, so every listener, trial and prediction keeps working; going
+   back to the lesson moves it home again. The choice is remembered. */
+var WORLD = {
+  KEY: "edu-world", el: null, i: 0, on: false, ph: null, host: null,
+
+  hosts: function(){ return Array.prototype.slice.call(document.querySelectorAll("#nodeSections .lab.stage-lab")); },
+  pref: function(){ try{ return localStorage.getItem(WORLD.KEY) !== "off"; }catch(e){ return true; } },
+  setPref: function(on){ try{ localStorage.setItem(WORLD.KEY, on ? "on" : "off"); }catch(e){} },
+  lastKey: function(){ return "edu-world-at." + CHAPTER.id; },
+
+  build: function(){
+    if(WORLD.el) return;
+    var w = document.createElement("div");
+    w.id = "world"; w.hidden = true;
+    w.setAttribute("role", "region");
+    w.innerHTML =
+      '<div class="world-bar">' +
+        '<button type="button" class="btn w-exit"></button>' +
+        '<div class="w-title"><span class="w-ch"></span><b class="w-name"></b><span class="w-topic"></span></div>' +
+        '<div class="w-nav"><button type="button" class="btn w-prev" aria-label="Previous spell">◀</button>' +
+          '<span class="w-count"></span><button type="button" class="btn w-next" aria-label="Next spell">▶</button></div>' +
+        '<div class="w-tools"><button type="button" class="btn w-lang"></button><button type="button" class="btn w-art"></button></div>' +
+      '</div><div class="world-body"></div>';
+    document.body.appendChild(w);
+    var enter = document.createElement("button");
+    enter.type = "button"; enter.className = "btn w-enter"; enter.hidden = true;
+    document.body.appendChild(enter);
+    WORLD.el = w; WORLD.enterBtn = enter;
+    w.querySelector(".w-exit").addEventListener("click", function(){ WORLD.close(true); });
+    w.querySelector(".w-prev").addEventListener("click", function(){ WORLD.go(-1); });
+    w.querySelector(".w-next").addEventListener("click", function(){ WORLD.go(1); });
+    w.querySelector(".w-lang").addEventListener("click", function(){ var b = document.getElementById("langBtn"); if(b) b.click(); });
+    w.querySelector(".w-art").addEventListener("click", function(){
+      var L2 = SKINS.list, k = (L2.indexOf(SK()) + 1) % L2.length;
+      SKINS.use(L2[k].id); applyLang();
+    });
+    enter.addEventListener("click", function(){ WORLD.open(WORLD.i); });
+    document.addEventListener("keydown", function(e){
+      if(!WORLD.on) return;
+      if(e.key === "Escape"){ WORLD.close(true); return; }
+      var t = e.target, typing = t && (t.tagName === "INPUT" || t.tagName === "SELECT" || t.tagName === "TEXTAREA" || t.closest && t.closest(".labsvg"));
+      if(typing) return;
+      if(e.key === "PageDown"){ e.preventDefault(); WORLD.go(1); }
+      if(e.key === "PageUp"){ e.preventDefault(); WORLD.go(-1); }
+    });
+  },
+
+  /* put the hosted lab back where it lives in the lesson */
+  release: function(){
+    if(WORLD.host && WORLD.ph && WORLD.ph.parentNode) WORLD.ph.parentNode.replaceChild(WORLD.host, WORLD.ph);
+    else if(WORLD.host && WORLD.host.parentNode && WORLD.el.contains(WORLD.host)) WORLD.host.parentNode.removeChild(WORLD.host);
+    WORLD.host = null; WORLD.ph = null;
+  },
+
+  open: function(i){
+    WORLD.build();
+    WORLD.release();            /* home first, so indices count every spell */
+    var hs = WORLD.hosts(); if(!hs.length) return;
+    WORLD.i = Math.max(0, Math.min(hs.length - 1, i || 0));
+    var host = hs[WORLD.i], ph = document.createElement("div");
+    ph.className = "world-placeholder";
+    host.parentNode.replaceChild(ph, host);
+    WORLD.el.querySelector(".world-body").appendChild(host);
+    WORLD.host = host; WORLD.ph = ph;
+    WORLD.on = true; WORLD.el.hidden = false; WORLD.enterBtn.hidden = true;
+    document.documentElement.classList.add("world-open");
+    WORLD.setPref(true);
+    try{ localStorage.setItem(WORLD.lastKey(), String(WORLD.i)); }catch(e){}
+    WORLD.label();
+    host.scrollTop = 0;
+    LABS.forEach(function(l){ if(l.redraw && l.svg && host.contains(l.svg)){ if(l.wake) l.wake(); l.redraw(); } });
+  },
+
+  close: function(byUser){
+    if(!WORLD.el) return;
+    var host = WORLD.host;
+    WORLD.release();
+    WORLD.on = false; WORLD.el.hidden = true; WORLD.enterBtn.hidden = false;
+    document.documentElement.classList.remove("world-open");
+    if(byUser){
+      WORLD.setPref(false);
+      var sec = host && host.closest && host.closest(".node-sec");
+      if(sec) sec.scrollIntoView({ block: "start" });
+    }
+  },
+
+  go: function(d){
+    var n = WORLD.hosts().length + (WORLD.host ? 1 : 0);
+    if(n) WORLD.open((WORLD.i + d + n) % n);
+  },
+
+  /* words in the bar follow the language and the art style */
+  label: function(){
+    if(!WORLD.el) return;
+    var host = WORLD.host, n = WORLD.hosts().length + (host ? 1 : 0);
+    var head = host && host.querySelector(".lab-head .label");
+    var sec = WORLD.ph && WORLD.ph.closest(".node-sec"), nd = sec && node(sec.getAttribute("data-node"));
+    WORLD.el.querySelector(".w-ch").textContent = tx(CHAPTER.kicker) + " · " + tx(CHAPTER.title);
+    WORLD.el.querySelector(".w-name").textContent = head ? head.textContent : "";
+    WORLD.el.querySelector(".w-topic").textContent = nd ? tx(nd.title) : "";
+    WORLD.el.querySelector(".w-count").textContent = (WORLD.i + 1) + " / " + n;
+    WORLD.el.querySelector(".w-exit").textContent = ui("lesson");
+    WORLD.el.querySelector(".w-lang").textContent = STATE.lang === "en" ? "ไทย" : "English";
+    WORLD.el.querySelector(".w-art").textContent = ui("art") + ": " + tx(SK().name);
+    WORLD.el.setAttribute("aria-label", head ? head.textContent : "");
+    WORLD.enterBtn.textContent = ui("enterWorld");
+  },
+
+  /* sections were rebuilt (language or art changed): host the new copy */
+  refresh: function(){
+    if(!WORLD.hosts().length && !WORLD.host){ if(WORLD.enterBtn) WORLD.enterBtn.hidden = true; return; }
+    WORLD.build();
+    if(WORLD.host && WORLD.el.contains(WORLD.host)) WORLD.host.parentNode.removeChild(WORLD.host);
+    WORLD.host = null; WORLD.ph = null;
+    if(WORLD.on) WORLD.open(WORLD.i); else { WORLD.enterBtn.hidden = false; WORLD.label(); }
+  },
+
+  init: function(){
+    var hs = WORLD.hosts(); if(!hs.length) return false;
+    WORLD.build();
+    var h = (location.hash || "").slice(1), at = -1;
+    if(h) hs.forEach(function(x, i){ var s = x.closest(".node-sec"); if(s && s.id === h) at = i; });
+    if(at < 0){ try{ at = +localStorage.getItem(WORLD.lastKey()) || 0; }catch(e){ at = 0; } }
+    if(h && at >= 0 && (location.hash || "").indexOf("sec-") === 1){ WORLD.open(at); return true; }
+    if(WORLD.pref()){ WORLD.open(at); return true; }
+    WORLD.i = Math.min(at, hs.length - 1); WORLD.enterBtn.hidden = false; WORLD.label();
+    return false;
   }
 };
 
