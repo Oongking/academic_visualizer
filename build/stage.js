@@ -99,6 +99,8 @@ var STAGE = {
   world: function(S, cfg){
     var w = cfg.world || { kind: "lane" }, p = S.p;
     var span = (S.lock && S.lock.span != null) ? S.lock.span : (w.span ? w.span(p, S) : 50);
+    /* a scale sized to the answer would give a prediction away */
+    if(S.pred && S.pred.f && w.kind !== "tower") span *= S.pred.f;
     if(!(span > 0)) span = 1;
     if(w.kind === "tower"){
       var base = FR.ground, top = FR.sy + 30;
@@ -122,11 +124,11 @@ var STAGE = {
     return [W.X(it.x || 0), W.g - (it.lift || 0)];
   },
 
-  ground: function(o, W){
-    var R = role;
+  ground: function(o, W, k){
+    var R = role, dense = (k || 1) > 1.3 ? 4 : 6;
     if(W.kind === "lane"){
       R("ground")(o, FR.sx, FR.sx + FR.sw, W.g, { clock: STAGE.clock });
-      var step = niceStep(W.span, 6);
+      var step = niceStep(W.span, dense);
       for(var m = 0; m <= W.span + 1e-9; m += step){
         var gx = fmt2(W.X(m));
         o.push('<line x1="' + gx + '" y1="' + W.g + '" x2="' + gx + '" y2="' + (W.g + 7) + '" stroke="var(--ink-faint)" stroke-width="1"/>');
@@ -136,7 +138,7 @@ var STAGE = {
              tx(W.unit || ["metres", "เมตร"]) + '</text>');
     } else {
       R("ground")(o, FR.sx, FR.sx + FR.sw, W.base, { clock: STAGE.clock });
-      var st = niceStep(W.span, 5);
+      var st = niceStep(W.span, dense - 1);
       for(var h = 0; h <= W.span + 1e-9; h += st){
         var gy = fmt2(W.Y(h));
         o.push('<line x1="' + (FR.sx + 172) + '" y1="' + gy + '" x2="' + (FR.sx + FR.sw) + '" y2="' + gy +
@@ -213,10 +215,14 @@ var STAGE = {
   },
 
   handles: function(o, S, W, G, cfg){
+    if(STAGE.guessing(S)) return;
     (cfg.handles || []).forEach(function(h, i){
       if(S.trial && h.k && S.trial.lock.indexOf(h.k) >= 0) return;
       var P = STAGE.handlePos(S, W, G, h); if(!P) return;
-      var active = S.drag && S.drag.i === i;
+      var active = (S.drag && S.drag.i === i) || (S.kbd && S.kbd.on && S.kbd.i === i);
+      if(S.kbd && S.kbd.on && S.kbd.i === i)
+        o.push('<circle cx="' + fmt2(P[0]) + '" cy="' + fmt2(P[1]) + '" r="21" fill="none" stroke="var(--ink)" ' +
+               'stroke-width="2" stroke-dasharray="5 3"/>');
       o.push('<g class="stg-h" data-h="' + i + '">');
       o.push('<circle cx="' + fmt2(P[0]) + '" cy="' + fmt2(P[1]) + '" r="20" fill="#000" fill-opacity="0"/>');
       role("handle")(o, P[0], P[1], { active: active, hl: !!(S.hl && h.term === S.hl), clock: STAGE.clock,
@@ -277,24 +283,31 @@ var STAGE = {
     FR.div = STAGE.FRAME.div; FR.iy = STAGE.FRAME.iy; FR.ih = STAGE.FRAME.ih;
     try{ STAGE.frame(S, o, cfg); }
     finally{ FR.div = keep.div; FR.iy = keep.iy; FR.ih = keep.ih; }
+    /* On a phone the 560-unit picture is drawn ~360px wide, which would put
+       10-unit labels at 6px. Every label grows by the same factor instead,
+       so the hierarchy holds and nothing drops below a readable size. */
+    var k = S.textK || 1;
+    if(k > 1.01) for(var i = 0; i < o.length; i++)
+      if(o[i].indexOf("font-size") >= 0)
+        o[i] = o[i].replace(/font-size="([\d.]+)"/g, function(a, n){ return 'font-size="' + fmt2(n * k) + '"'; });
   },
+
+  guessing: function(S){ return !!(S.pred && S.pred.phase === "guess"); },
 
   frame: function(S, o, cfg){
     STAGE.clock = STAGE.reduced() ? 0 : ((typeof performance !== "undefined" ? performance.now() : Date.now()) / 1000);
     S.fx = S.fx || [];
     var W = STAGE.world(S, cfg), p = S.p;
     S.W = W;
-    var q = S.trial && cfg.trials && cfg.trials.question ? cfg.trials.question(S.trial.goal) : cfg.question;
-    if(q) fitText(o, FR.sx, FR.qy, q, FR.sw, 12.5, "var(--ink)");
-
-    STAGE.ground(o, W);
+    STAGE.ground(o, W, S.textK);
     STAGE.paths(o, S, W, cfg.paths ? cfg.paths(p, S, W) : []);
     (cfg.props ? cfg.props(p, S) : []).forEach(function(it){ STAGE.item(o, S, W, it); });
-    STAGE.marks(o, S, W, cfg.marks ? cfg.marks(p, S) : []);
+    if(!STAGE.guessing(S)) STAGE.marks(o, S, W, cfg.marks ? cfg.marks(p, S) : []);
     (cfg.cast ? cfg.cast(p, S) : []).forEach(function(it){ STAGE.item(o, S, W, it); });
 
     o.push('<line x1="' + FR.sx + '" y1="' + FR.div + '" x2="' + (FR.sx + FR.sw) + '" y2="' + FR.div +
            '" stroke="var(--rule)" stroke-width="1"/>');
+    o.push('<g class="stg-ins">');
     var ins = cfg.instrument, G = null;
     if(ins){
       if(S.lock && S.lock.y && ins.kind !== "bar"){
@@ -310,10 +323,23 @@ var STAGE = {
              ' L' + fmt2(G.markX) + ' ' + (FR.div + 6) + ' L' + fmt2(G.markX) + ' ' + FR.iy +
              '" fill="none" stroke="var(--accent)" stroke-width="1.1" stroke-dasharray="3 4" opacity=".7"/>');
     }
+    o.push('</g>');
+    STAGE.prophecy(o, S, W, cfg);
     STAGE.handles(o, S, W, G, cfg);
     STAGE.events(S, W, cfg);
     STAGE.stepFx(S, o);
-    if(cfg.note) cap(o, FR.sx, 486, cfg.note, "note");
+  },
+
+  /* the learner's prediction, pinned where they put it */
+  prophecy: function(o, S, W, cfg){
+    var pr = S.pred, pc = cfg.predict;
+    if(!pr || pr.guess == null || !pc || pc.kind === "choice") return;
+    var P = W.kind === "tower" ? [W.lane(pc.lane || 0) - 46, W.Y(pr.guess)] : [W.X(pr.guess), W.g];
+    var on = S.kbd && S.kbd.on;
+    role("prophecy")(o, P[0], P[1], { clock: STAGE.clock, active: on || !!S.dragGuess,
+                                       done: pr.phase === "done", hit: pr.hit, tower: W.kind === "tower" });
+    var txt = ui("yourGuess") + " · " + fmt2(pr.guess) + tx(pc.unit || [" m", " ม."]);
+    fitText(o, P[0], P[1] - (W.kind === "tower" ? 12 : 78), [txt, txt], 150, 10.5, "var(--accent2)", "middle");
   },
 
   backdrop: function(S, cfg, vb){
@@ -343,6 +369,19 @@ var STAGE = {
     }
     function locked(k){ return !!(S.trial && S.trial.lock.indexOf(k) >= 0); }
 
+    /* several features react to a mode change; each adds a hook */
+    var hooks = [];
+    S.onMode = function(m){ hooks.forEach(function(f){ f(m); }); };
+
+    /* The question and the note are page text, not picture text: they wrap
+       on a phone, follow the language switch and reach a screen reader. */
+    var qEl = document.createElement("p");
+    qEl.className = "stage-q";
+    q(".lab-stage").insertAdjacentElement("beforebegin", qEl);
+    var curQ = function(){
+      return S.trial && cfg.trials && cfg.trials.question ? cfg.trials.question(S.trial.goal) : cfg.question;
+    };
+
     /* --- the spell: live formula plus hoverable terms --- */
     var sp = cfg.spell, lastTex = null;
     if(sp){
@@ -367,7 +406,14 @@ var STAGE = {
         b.addEventListener("click", function(){ S.hl = S.hl === k ? null : k; api.draw(); });
       });
     }
+    if(cfg.note){
+      var nEl = document.createElement("p");
+      nEl.className = "stage-note"; nEl.textContent = tx(cfg.note);
+      (host.querySelector(".spell") || q(".lab-stage")).insertAdjacentElement("afterend", nEl);
+    }
     S.afterPaint = function(){
+      var qt = curQ(), qs = qt ? tx(qt) : "";
+      if(qEl.textContent !== qs){ qEl.textContent = qs; qEl.hidden = !qs; }
       if(!sp) return;
       var tex = sp.tex(S.p, S);
       if(tex !== lastTex){
@@ -441,7 +487,7 @@ var STAGE = {
         S.onEnd = judge; api.play();
       });
       q(".t-new").addEventListener("click", newTrial);
-      S.onMode = function(m){
+      hooks.push(function(m){
         mb.classList.toggle("on", m === "trial");
         pane.hidden = m !== "trial";
         if(m === "trial"){
@@ -451,19 +497,147 @@ var STAGE = {
           S.trial = null; S.onEnd = null;
           host.querySelectorAll(".cv").forEach(function(el){ el.disabled = false; el.closest(".ctrl").classList.remove("locked"); });
         }
-      };
+      });
     }
     S.onInput = function(){ S.fired = {}; if(S.trial){ var r = q(".t-result"); r.textContent = ""; r.className = "t-result"; } };
 
-    /* --- pointer: drag a handle to set a quantity --- */
-    if(cfg.handles && cfg.handles.length){
-      svg.classList.add("has-handles");
-      var toSvg = function(e){
-        var m = svg.getScreenCTM(); if(!m) return null;
-        var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
-        return pt.matrixTransform(m.inverse());
+    /* --- predict, then reveal ---
+       Committing to a guess before the run is what exposes an intuition to
+       correction. While the learner guesses, everything that would give the
+       answer away - readouts, the formula's values, the instrument band,
+       dimension lines - is veiled, and the controls are held still. */
+    var pc = cfg.predict;
+    var setPred = null;
+    if(pc){
+      var pb = document.createElement("button");
+      pb.type = "button"; pb.className = "btn b-pred"; pb.textContent = ui("predict");
+      var tp = host.querySelector(".lab-body > .transport:not(.g-nav)");
+      if(tp) tp.appendChild(pb); else q(".ctrls").insertAdjacentElement("afterend", pb);
+      var pp = document.createElement("div");
+      pp.className = "predict"; pp.hidden = true;
+      var oh = "";
+      if(pc.kind === "choice")
+        oh = '<div class="opts p-opts" role="group">' + pc.opts.map(function(op, i){
+          return '<button type="button" class="opt-b p-opt" data-v="' + i + '">' + esc(tx(op)) + '</button>'; }).join("") + '</div>';
+      pp.innerHTML = '<span class="step p-step"></span><p class="p-ask"></p>' + oh +
+        '<div class="transport"><button class="btn p-go" type="button"></button>' +
+        '<button class="btn p-quit" type="button"></button></div><p class="p-result" role="status" aria-live="polite"></p>';
+      q(".lab-body").insertBefore(pp, q(".lab-body").firstChild);
+      q(".p-go").textContent = ui("reveal"); q(".p-quit").textContent = ui("endPredict");
+
+      var score = function(){ var r = (STATE.preds && STATE.preds[api.nd.id]) || { n: 0, hit: 0 }; return r; };
+      var stepText = function(){ var r = score(); return ui("predict") + " · " + ui("foresight") + " " + r.hit + " / " + r.n; };
+      var hold = function(on){
+        host.classList.toggle("is-predicting", on && pc.veil !== false);
+        host.querySelectorAll(".cv,.opt-b:not(.p-opt)").forEach(function(el){ el.disabled = on; });
+        var b = q(".b-play"); if(b) b.disabled = on;
       };
+      setPred = function(v){
+        if(!S.pred || S.pred.phase !== "guess") return;
+        if(pc.kind !== "choice"){
+          var lo = pc.min != null ? pc.min : 0, hi = pc.max != null ? pc.max(S.p) : S.W.span;
+          v = Math.max(lo, Math.min(hi, Math.round(v * 2) / 2));
+        }
+        S.pred.guess = v;
+        q(".p-go").disabled = false;
+        host.querySelectorAll(".p-opt").forEach(function(b){
+          var on = +b.getAttribute("data-v") === v;
+          b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        api.draw();
+      };
+      var start = function(){
+        if(S.mode !== "sandbox") api.setMode("sandbox");
+        cancelAnimationFrame(S.raf); S.playing = false; var b = q(".b-play"); if(b) b.textContent = t("lab.play");
+        S.pred = { phase: "guess", guess: null, f: pc.stretch === false ? 1 : 1.2 + Math.random() * 0.6 };
+        S.t = 0; S.fired = {};
+        pp.hidden = false; pb.hidden = true;
+        q(".p-step").textContent = stepText();
+        q(".p-ask").textContent = tx(pc.ask) + (pc.kind === "choice" ? "" : " " + ui(S.W && S.W.kind === "tower" ? "tapHeight" : "tapLine"));
+        var r = q(".p-result"); r.textContent = ""; r.className = "p-result";
+        q(".p-go").disabled = true;
+        host.querySelectorAll(".p-opt").forEach(function(b){ b.disabled = false; b.classList.remove("on"); });
+        hold(true); api.draw();
+        if(pc.kind !== "choice") svg.focus({ preventScroll: true });
+      };
+      var finish = function(){
+        var actual = pc.actual(S.p), g = S.pred.guess, hit, msg;
+        if(pc.kind === "choice"){
+          hit = g === actual;
+          msg = [ (L() ? "คุณเลือก: " : "You chose: ") + tx(pc.opts[g]) + " · " + (L() ? "ผลจริง: " : "actually: ") + tx(pc.opts[actual]) ];
+        } else {
+          var err = Math.abs(g - actual), tol = pc.tol ? pc.tol(S.p) : 1;
+          hit = err <= tol;
+          var u = tx(pc.unit || [" m", " ม."]);
+          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + fmt2(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + fmt2(actual) + u +
+                  " · " + (L() ? "คลาดไป " : "off by ") + fmt2(err) + u ];
+        }
+        S.pred.phase = "done"; S.pred.hit = hit;
+        STATE.preds = STATE.preds || {};
+        var sc = score(); STATE.preds[api.nd.id] = { n: sc.n + 1, hit: sc.hit + (hit ? 1 : 0) }; save();
+        q(".p-step").textContent = stepText();
+        var r = q(".p-result");
+        r.textContent = (hit ? ui("trueSight") : ui("notQuite")) + " " + msg[0] + ". " + (pc.explain ? tx(pc.explain(S.p, actual)) : "");
+        r.className = "p-result " + (hit ? "won" : "missed");
+        pb.hidden = false; pb.textContent = ui("predictAgain");
+        hold(false);
+        var W = S.W, P = pc.kind === "choice" || g == null ? [FR.sx + FR.sw / 2, FR.ground - 40]
+          : (W.kind === "tower" ? [W.lane(pc.lane || 0) - 46, W.Y(g)] : [W.X(g), W.g - 20]);
+        STAGE.emit(S, P[0], P[1], hit ? "burst" : "impact", hit ? "var(--good)" : "var(--warn)");
+        api.draw();
+      };
+      var quit = function(){
+        if(!S.pred) return;
+        S.pred = null; S.onEnd = null; pp.hidden = true; pb.hidden = false; pb.textContent = ui("predict");
+        hold(false); api.draw();
+      };
+      pb.addEventListener("click", start);
+      q(".p-quit").addEventListener("click", quit);
+      host.querySelectorAll(".p-opt").forEach(function(b){
+        b.addEventListener("click", function(){ setPred(+b.getAttribute("data-v")); });
+      });
+      q(".p-go").addEventListener("click", function(){
+        if(!S.pred || S.pred.guess == null || S.pred.phase !== "guess") return;
+        S.pred.phase = "run";
+        host.classList.remove("is-predicting");
+        host.querySelectorAll(".p-opt").forEach(function(b){ b.disabled = true; });
+        q(".p-go").disabled = true;
+        S.onEnd = finish; api.play();
+      });
+      hooks.push(function(m){ if(m !== "sandbox") quit(); });
+    }
+
+    /* --- pointer: drag a handle, or place a prediction --- */
+    var toSvg = function(e){
+      var m = svg.getScreenCTM(); if(!m) return null;
+      var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+      return pt.matrixTransform(m.inverse());
+    };
+    var guessAt = function(pt){
+      if(!pt || !setPred) return;
+      setPred(S.W.kind === "tower" ? S.W.H(pt.y) : S.W.M(pt.x));
+    };
+    var applySet = function(set){
+      var changed = false;
+      for(var k in set){
+        if(locked(k)) continue;
+        var v = snap(k, set[k]);
+        if(S.p[k] !== v){ S.p[k] = v; changed = true; }
+      }
+      if(changed){ S.fired = {}; if(S.onInput) S.onInput(); api.sync(); api.draw(); }
+      return changed;
+    };
+    var hasHandles = !!(cfg.handles && cfg.handles.length);
+    if(hasHandles || (pc && pc.kind !== "choice")){
+      svg.classList.add("has-handles");
       svg.addEventListener("pointerdown", function(e){
+        if(STAGE.guessing(S)){
+          if(pc.kind === "choice") return;
+          var pt0 = toSvg(e); if(!pt0 || pt0.y > STAGE.FRAME.div) return;
+          S.dragGuess = true; guessAt(pt0);
+          try{ svg.setPointerCapture(e.pointerId); }catch(err){}
+          e.preventDefault(); return;
+        }
         var g = e.target.closest && e.target.closest("[data-h]"); if(!g) return;
         var i = +g.getAttribute("data-h"), h = cfg.handles[i];
         S.drag = { i: i };
@@ -474,28 +648,84 @@ var STAGE = {
           t: function(px){ var a = G.X(0), b = G.X(1); return (px - a) / (b - a); },
           v: function(py){ var a = G.Y(0), b = G.Y(1); return (py - a) / (b - a); }
         } : { x: W.M, h: W.H };
-        if(S.playing){ S.playing = false; var pb = q(".b-play"); if(pb) pb.textContent = t("lab.play"); }
+        if(S.playing){ S.playing = false; var pb2 = q(".b-play"); if(pb2) pb2.textContent = t("lab.play"); }
         try{ svg.setPointerCapture(e.pointerId); }catch(err){}
         e.preventDefault(); api.draw();
       });
       svg.addEventListener("pointermove", function(e){
+        if(S.dragGuess){ guessAt(toSvg(e)); return; }
         if(!S.drag) return;
         var pt = toSvg(e); if(!pt) return;
-        var h = cfg.handles[S.drag.i], m = S.drag.map, set;
-        if(h.space === "graph") set = h.set(m.t(pt.x), m.v(pt.y), S.p);
-        else set = h.set(S.W.kind === "tower" ? m.h(pt.y) : m.x(pt.x), S.p);
-        var changed = false;
-        for(var k in set){
-          if(locked(k)) continue;
-          var v = snap(k, set[k]);
-          if(S.p[k] !== v){ S.p[k] = v; changed = true; }
-        }
-        if(changed){ S.fired = {}; if(S.onInput) S.onInput(); api.sync(); api.draw(); }
+        var h = cfg.handles[S.drag.i], m = S.drag.map;
+        applySet(h.space === "graph" ? h.set(m.t(pt.x), m.v(pt.y), S.p)
+                                     : h.set(S.W.kind === "tower" ? m.h(pt.y) : m.x(pt.x), S.p));
       });
-      var end = function(){ if(!S.drag) return; S.drag = null; S.lock = null; api.draw(); };
+      var end = function(){
+        if(S.dragGuess){ S.dragGuess = false; api.draw(); return; }
+        if(!S.drag) return; S.drag = null; S.lock = null; api.draw();
+      };
       svg.addEventListener("pointerup", end);
       svg.addEventListener("pointercancel", end);
+
+      /* --- keyboard: the same moves without a pointer ---
+         The picture takes focus as one stop. Arrow keys move the ringed
+         handle (or the prediction); Enter or Space rings the next handle. */
+      svg.setAttribute("tabindex", "0");
+      svg.setAttribute("role", "application");
+      svg.setAttribute("aria-label", ui("kbdHelp"));
+      S.kbd = { i: 0, on: false };
+      var usable = function(){
+        return (cfg.handles || []).map(function(h, i){ return i; })
+          .filter(function(i){ var h = cfg.handles[i]; return !(h.k && locked(h.k)); });
+      };
+      svg.addEventListener("focus", function(){ S.kbd.on = true; var u = usable(); if(u.indexOf(S.kbd.i) < 0) S.kbd.i = u[0] || 0; api.draw(); });
+      svg.addEventListener("blur", function(){ S.kbd.on = false; api.draw(); });
+      svg.addEventListener("keydown", function(e){
+        var key = e.key, dir = 0, vert = false;
+        if(key === "ArrowRight"){ dir = 1; } else if(key === "ArrowLeft"){ dir = -1; }
+        else if(key === "ArrowUp"){ dir = -1; vert = true; } else if(key === "ArrowDown"){ dir = 1; vert = true; }
+        if(STAGE.guessing(S) && pc && pc.kind !== "choice"){
+          if(!dir) return;
+          e.preventDefault();
+          var stepG = Math.max(0.5, Math.round(S.W.span / 60 * 2) / 2);
+          var g0 = S.pred.guess == null ? S.W.span / 2 : S.pred.guess;
+          setPred(g0 + (S.W.kind === "tower" ? -dir : dir) * stepG);
+          return;
+        }
+        if(!hasHandles) return;
+        var u = usable(); if(!u.length) return;
+        if(key === "Enter" || key === " "){
+          e.preventDefault();
+          S.kbd.i = u[(u.indexOf(S.kbd.i) + 1) % u.length]; api.draw(); return;
+        }
+        if(!dir) return;
+        e.preventDefault();
+        /* move the handle on screen and let its own set() decide the value,
+           taking the smallest nudge that changes something */
+        var h = cfg.handles[S.kbd.i], P = STAGE.handlePos(S, S.W, S.G, h); if(!P) return;
+        S.lock = { span: S.W.span, y: S.G ? [S.G.lo, S.G.hi] : null };
+        var W = S.W, G = S.G;
+        for(var n = 1; n <= 60; n++){
+          var px = P[0] + (vert ? 0 : dir * n * 2), py = P[1] + (vert ? dir * n * 2 : 0), set;
+          if(h.space === "graph"){
+            if(!G) break;
+            set = h.set((px - G.X(0)) / (G.X(1) - G.X(0)), (py - G.Y(0)) / (G.Y(1) - G.Y(0)), S.p);
+          } else set = h.set(W.kind === "tower" ? W.H(py) : W.M(px), S.p);
+          if(applySet(set)) break;
+        }
+        S.lock = null; api.draw();
+      });
     }
+
+    /* --- text size follows the drawn width --- */
+    var measure = function(){
+      var w = svg.getBoundingClientRect().width;
+      var k = w > 0 ? Math.max(1, Math.min(1.6, 588 / w)) : 1;
+      if(Math.abs(k - (S.textK || 1)) > 0.02){ S.textK = k; api.draw(); }
+    };
+    var ro = null;
+    if(typeof ResizeObserver !== "undefined"){ ro = new ResizeObserver(measure); ro.observe(svg); }
+    measure();
 
     /* --- ambient motion: only while on screen, never under reduced motion --- */
     S.visible = false; S.ambRaf = null;
@@ -521,6 +751,7 @@ var STAGE = {
     }
     S.dispose = function(){
       if(io) io.disconnect();
+      if(ro) ro.disconnect();
       if(S.ambRaf != null) cancelAnimationFrame(S.ambRaf);
       S.ambRaf = null; S.visible = false;
     };

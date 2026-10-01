@@ -51,7 +51,19 @@
       trials: ["Trials ✦", "บททดสอบ ✦"],
       cast: ["Cast the spell", "ร่ายเวท"],
       newTrial: ["New trial", "บททดสอบใหม่"],
-      solved: ["mastered", "ผ่านแล้ว"]
+      solved: ["mastered", "ผ่านแล้ว"],
+      predict: ["Foresee first ✦", "ทำนายก่อน ✦"],
+      predictAgain: ["Foresee again ✦", "ทำนายอีกครั้ง ✦"],
+      reveal: ["Cast and reveal", "ร่ายเวทและเปิดเผย"],
+      endPredict: ["Close the vision", "ปิดนิมิต"],
+      foresight: ["true visions", "นิมิตที่แม่น"],
+      trueSight: ["True sight!", "เห็นแจ้ง!"],
+      notQuite: ["The vision was clouded.", "นิมิตยังพร่ามัว"],
+      yourGuess: ["your vision", "นิมิตของคุณ"],
+      tapLine: ["Tap or drag along the ley line to plant your prophecy stone (or focus the scene and use the arrow keys).",
+                "แตะหรือลากตามสายพลังเวทเพื่อปักหินพยากรณ์ (หรือโฟกัสที่ฉากแล้วใช้ปุ่มลูกศร)"],
+      tapHeight: ["Tap or drag on the scene to mark the height in your vision (or focus the scene and use the arrow keys).",
+                  "แตะหรือลากบนฉากเพื่อปักความสูงในนิมิต (หรือโฟกัสที่ฉากแล้วใช้ปุ่มลูกศร)"]
     },
 
     defs:
@@ -279,6 +291,25 @@
       o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + r + '" fill="#120e30" fill-opacity=".7" stroke="' + c +
              '" stroke-width="1.8" stroke-dasharray="4 3" transform="rotate(' + F2(rot) + ' ' + F2(x) + ' ' + F2(y) + ')"/>');
       o.push('<path d="' + star4(x, y, opt.active ? 6.5 : 5) + '" fill="' + c + '" filter="url(#ak-glow)"/>');
+    },
+
+    /* a prophecy stone: the learner's prediction, planted on the ley line */
+    prophecy: function(o, x, y, opt){
+      var c = opt.done ? (opt.hit ? "#9cf5b5" : "#ffcf6e") : "#d6a8ff", k = opt.clock || 0;
+      if(opt.tower){
+        o.push('<line x1="' + F2(x - 30) + '" y1="' + F2(y) + '" x2="' + F2(x + 250) + '" y2="' + F2(y) +
+               '" stroke="' + c + '" stroke-width="2" stroke-dasharray="6 4" filter="url(#ak-glow)"/>');
+        o.push('<path d="' + star4(x - 30, y, 7) + '" fill="' + c + '" filter="url(#ak-glow)"/>');
+        return;
+      }
+      o.push('<line x1="' + F2(x) + '" y1="' + F2(y - 30) + '" x2="' + F2(x) + '" y2="' + F2(y - 70) +
+             '" stroke="' + c + '" stroke-width="1.4" stroke-dasharray="2 4" opacity=".7"/>');
+      o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y) + '" rx="10" ry="2.6" fill="' + c + '" opacity=".35"/>');
+      var bob = Math.sin(k * 2.4) * 2;
+      o.push('<path d="M' + F2(x) + ' ' + F2(y - 34 + bob) + ' L' + F2(x + 8) + ' ' + F2(y - 18 + bob) + ' L' + F2(x) + ' ' + F2(y - 4 + bob) +
+             ' L' + F2(x - 8) + ' ' + F2(y - 18 + bob) + ' Z" fill="#2a1f5c" stroke="' + c + '" stroke-width="' + (opt.active ? 2.4 : 1.6) + '" filter="url(#ak-glow)"/>');
+      o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y - 18 + bob) + '" rx="4.2" ry="2.6" fill="none" stroke="' + c + '" stroke-width="1.2"/>');
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y - 18 + bob) + '" r="1.4" fill="' + c + '"/>');
     },
 
     spark: function(o, x, y, life, c){

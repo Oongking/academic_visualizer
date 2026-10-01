@@ -46,3 +46,33 @@
 .ctrl.locked label span:first-child::after{content:" 🔒";font-size:10px}
 .art-skin select{font:inherit;color:var(--ink);border:1px solid var(--rule);cursor:pointer}
 @media (prefers-reduced-motion:reduce){ .stg-shake{animation:none} }
+
+/* the question above the picture and the note below it, as page text */
+.stage-q{margin:0;padding:12px 16px 10px;font-size:15px;font-weight:600;color:var(--ink);line-height:1.45}
+.stage-note{margin:0;padding:10px 16px;font-family:var(--f-ui);font-size:12px;color:var(--ink-faint);
+  border-bottom:1px solid var(--rule)}
+.stage-lab .labsvg:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+
+/* predict, then reveal */
+.predict{border-left:3px solid var(--accent2);padding:10px 14px;margin-bottom:14px;background:var(--ground);border-radius:0 10px 10px 0}
+.predict[hidden]{display:none}
+.predict .step{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent2);font-weight:700;margin-bottom:4px}
+.predict p{margin:0;font-size:15px;color:var(--ink-soft)}
+.predict .p-opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.predict .transport{margin-top:10px}
+.predict .p-go,.predict .p-go:hover{background:var(--accent2);border-color:var(--accent2);color:var(--surface)}
+.predict .p-go:disabled{opacity:.45;cursor:not-allowed}
+.p-result{margin-top:10px!important;font-weight:600}
+.p-result:empty{display:none}
+.p-result.won{color:var(--good)}
+.p-result.won::before{content:"✓ "}
+.p-result.missed{color:var(--warn)}
+.p-result.missed::before{content:"↻ "}
+.b-pred{border-color:var(--accent2);color:var(--accent2)}
+/* while the learner guesses, veil everything that would give the answer away */
+.is-predicting .readouts .ro span,.is-predicting .term-v,.is-predicting .spell-tex,
+.is-predicting .labsvg .stg-ins{filter:blur(7px);transition:filter .3s}
+.is-predicting .readouts,.is-predicting .spell{user-select:none}
+.is-predicting .ctrl{opacity:.6}
+@media (prefers-reduced-motion:reduce){ .is-predicting .labsvg .stg-ins{transition:none} }

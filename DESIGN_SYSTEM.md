@@ -237,10 +237,28 @@ A stage `vizcfg` declares, in addition to the usual `ctrls`, `readouts`,
 - `trials:{make(), say(goal), check(p,S,goal), lock:[keys], at(goal), play}`: a
   randomised goal the learner should solve with the formula *before* casting.
   `check` returns `{ok, msg:[en,th]}`. Solved counts go in `STATE.trials`.
+- `predict:{kind:"x"|"h"|"choice", ask, opts, actual(p), tol(p), explain(p),
+  stretch, veil}`: **predict, then reveal**. A *Predict first* button asks
+  the learner to commit before the run. For `x` or `h`, they tap or drag the
+  scene, or use the arrow keys, to plant a marker; for `choice`, they pick
+  from `opts`. While they guess, the stage veils readouts, formula values,
+  the instrument band and dimension lines, and freezes the controls. It also
+  stretches the lane by a random factor so the scale does not reveal the
+  answer: set `stretch:false` for a fixed span, and `veil:false` when the
+  learner must read the graph to answer. Scores go in `STATE.preds`. In a
+  model function, test `S.pred` to hide anything else that would give the
+  answer away.
 - `events(p,S)`: `{id, when, x|h, kind:"burst"|"impact"}`. Each fires once when
   its condition turns true, for sparks and the impact shake.
 - `overlay(o,S,G,W)`: extra drawing on the instrument graph (`G.X`, `G.Y`).
 - `duration(p)`: run length when no control has `isT`.
+
+The question and the note are drawn as page text above and below the picture,
+not inside the SVG, so they wrap on phones and follow the language switch.
+Labels inside the picture grow automatically, by up to 1.6× when the lab is
+drawn narrower than 588 px, and the scale shows fewer ticks. The picture is
+one keyboard stop: the arrow keys move the ringed handle, and Enter or Space
+rings the next one.
 
 Write chapter text with skin nouns: `{@agent}`, `{@Agent}` (capitalised in
 English), `{@origin}`, `{@goal}`, `{@hazard}`, `{@perch}`, `{@heavy}`,

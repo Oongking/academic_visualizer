@@ -34,7 +34,21 @@ SKINS.add({
     trials: ["Challenges", "โจทย์ท้าทาย"],
     cast: ["Run it", "ทดลอง"],
     newTrial: ["New challenge", "โจทย์ใหม่"],
-    solved: ["solved", "ทำได้"]
+    solved: ["solved", "ทำได้"],
+    predict: ["Predict first", "ทำนายก่อน"],
+    predictAgain: ["Predict again", "ทำนายอีกครั้ง"],
+    reveal: ["Run and reveal", "ทดลองและเฉลย"],
+    endPredict: ["Done", "เสร็จ"],
+    foresight: ["correct", "ถูก"],
+    trueSight: ["Spot on!", "แม่นยำ!"],
+    notQuite: ["Not quite.", "ยังไม่ใช่"],
+    yourGuess: ["your prediction", "คำทำนายของคุณ"],
+    tapLine: ["Tap or drag on the scene to mark it (or focus the picture and use the arrow keys).",
+              "แตะหรือลากบนภาพเพื่อปักหมุด (หรือโฟกัสที่ภาพแล้วใช้ปุ่มลูกศร)"],
+    tapHeight: ["Tap or drag on the scene to mark the height (or focus the picture and use the arrow keys).",
+                "แตะหรือลากบนภาพเพื่อปักความสูง (หรือโฟกัสที่ภาพแล้วใช้ปุ่มลูกศร)"],
+    kbdHelp: ["Interactive scene. Arrow keys move the ringed handle; Enter or Space selects the next handle.",
+              "ฉากโต้ตอบ ปุ่มลูกศรเลื่อนจุดที่มีวงล้อม ปุ่ม Enter หรือเว้นวรรคเลือกจุดถัดไป"]
   },
 
   backdrop: function(o, w, h){ },
@@ -99,6 +113,20 @@ SKINS.add({
     o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="' + (opt.active ? 11 : 9) + '" fill="var(--surface)" stroke="' +
            (opt.col || "var(--accent)") + '" stroke-width="2" stroke-dasharray="3 2"/>');
     o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="3" fill="' + (opt.col || "var(--accent)") + '"/>');
+  },
+
+  prophecy: function(o, x, y, opt){
+    var c = opt.done ? (opt.hit ? "var(--good)" : "var(--warn)") : "var(--accent2)";
+    if(opt.tower){
+      o.push('<line x1="' + fmt2(x - 30) + '" y1="' + fmt2(y) + '" x2="' + fmt2(x + 250) + '" y2="' + fmt2(y) +
+             '" stroke="' + c + '" stroke-width="2" stroke-dasharray="6 4"/>');
+      o.push('<path d="M' + fmt2(x - 30) + ' ' + fmt2(y - 7) + ' l12 7 l-12 7z" fill="' + c + '"/>');
+      return;
+    }
+    o.push('<line x1="' + fmt2(x) + '" y1="' + fmt2(y) + '" x2="' + fmt2(x) + '" y2="' + fmt2(y - 66) +
+           '" stroke="' + c + '" stroke-width="2" stroke-dasharray="4 3"/>');
+    o.push('<path d="M' + fmt2(x) + ' ' + fmt2(y - 66) + ' l16 6 l-16 6z" fill="' + c + '"/>');
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="' + (opt.active ? 5 : 3.5) + '" fill="' + c + '"/>');
   },
 
   spark: function(o, x, y, life, c){

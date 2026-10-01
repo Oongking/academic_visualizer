@@ -207,6 +207,14 @@ nodes:[
          f:function(p,S){ return fmt2(C02.ramp(p,S.t).v)+" m/s"; }}
       ]
     },
+    predict:{ kind:"choice",
+      ask:["Halfway through the run, who will be ahead?","เมื่อผ่านไปครึ่งเวลา ใครจะนำหน้า"],
+      opts:[["The echo","เงาสะท้อน"],["{@Agent}","{@agent}"],["Level with each other","เสมอกัน"]],
+      actual:function(p){ return p.v2>p.v1 ? 0 : (p.v2<p.v1 ? 1 : 2); },
+      explain:function(){ return [
+        "The echo holds the average the whole way, so whoever starts slower spends the first half behind and only draws level at the very end.",
+        "เงาสะท้อนบินด้วยความเร็วเฉลี่ยตลอดทาง ใครเริ่มช้ากว่าจะตามหลังในครึ่งแรก และเพิ่งตามทันตอนจบพอดี"]; }
+    },
     trials:{
       lock:["v1","T"],
       make:function(){
@@ -315,6 +323,14 @@ nodes:[
         {k:"a", sym:"a", lab:["gained each second","เพิ่มทุกวินาที"], col:"accent2", f:function(p){ return fmt2(p.a)+" m/s²"; }},
         {k:"v", sym:"v", lab:["speed now","ความเร็วขณะนี้"], col:"accent", f:function(p,S){ return fmt2(p.a*Math.min(S.t,p.T))+" m/s"; }}
       ]
+    },
+    predict:{ kind:"x",
+      ask:["Where will {@agent} be when the run ends?","เมื่อจบการทดลอง {@agent}จะอยู่ตรงไหน"],
+      actual:function(p){ return 0.5*p.a*p.T*p.T; },
+      tol:function(p){ return Math.max(1, 0.08*0.5*p.a*p.T*p.T); },
+      explain:function(p){ var s=0.5*p.a*p.T*p.T; return [
+        "s = ½at² = ½ × "+fmt2(p.a)+" × "+p.T+"² = "+fmt2(s)+" m. Twice the time means four times the distance.",
+        "s = ½at² = ½ × "+fmt2(p.a)+" × "+p.T+"² = "+fmt2(s)+" ม. เวลาเพิ่มสองเท่า ระยะเพิ่มสี่เท่า"]; }
     },
     trials:{
       lock:["T"],
@@ -432,6 +448,15 @@ nodes:[
         {k:"s", sym:"s", lab:["area under it","พื้นที่ใต้เส้น"], col:"good", f:function(p,S){ return fmt2(C02.glide(p,S.t).x)+" m"; }}
       ]
     },
+    predict:{ kind:"x", veil:false,
+      ask:["Read the area under the graph: how far will {@agent} have gone when the run ends?",
+           "อ่านพื้นที่ใต้กราฟ: เมื่อจบการทดลอง {@agent}จะไปได้ไกลเท่าใด"],
+      actual:function(p){ return C02.glide(p,p.T).x; },
+      tol:function(p){ return Math.max(1, 0.08*C02.glide(p,p.T).x); },
+      explain:function(p){ var v=Math.max(0,p.u+p.a*p.T), s=C02.glide(p,p.T).x; return [
+        "The area is a trapezium: (u + v) / 2 × t = ("+p.u+" + "+fmt2(v)+") / 2 × "+p.T+" = "+fmt2(s)+" m"+(p.u+p.a*p.T<0?" (the line stops at zero, so only the part above the axis counts).":"."),
+        "พื้นที่เป็นรูปสี่เหลี่ยมคางหมู: (u + v) / 2 × t = ("+p.u+" + "+fmt2(v)+") / 2 × "+p.T+" = "+fmt2(s)+" ม."+(p.u+p.a*p.T<0?" (เส้นหยุดที่ศูนย์ จึงนับเฉพาะส่วนเหนือแกน)":"")]; }
+    },
     trials:{
       lock:["T"],
       make:function(){
@@ -505,7 +530,7 @@ nodes:[
     },
     cast:function(p,S){
       var r=C02.stop(p,S.t), list=[];
-      if(!S.trial && S.t<1e-9)
+      if(!S.trial && !S.pred && S.t<1e-9)
         list.push({role:"agent", x:Math.min(58,r.d), ghost:0.28,
                    lab:r.d<=p.gap?["will stop here","จะหยุดตรงนี้"]:["still moving here","ยังไม่หยุดตรงนี้"],
                    col:r.d<=p.gap?"good":"warn"});
@@ -546,6 +571,14 @@ nodes:[
         {k:"b",  sym:"b",  lab:["braking strength","ความแรงเบรก"], col:"warn", f:function(p){ return fmt2(p.b)+" m/s²"; }},
         {k:"gap", sym:"gap", lab:["room available","ระยะที่มี"], col:"good", f:function(p){ return p.gap+" m"; }}
       ]
+    },
+    predict:{ kind:"x", stretch:false,
+      ask:["Where will {@agent} come to rest — or run into {@hazard}?","{@agent}จะหยุดที่ไหน หรือจะชน{@hazard}"],
+      actual:function(p){ return Math.min(C02.stop(p,0).d, p.gap); },
+      tol:function(){ return 2; },
+      explain:function(p){ var th=p.u*p.rt, br=p.u*p.u/(2*p.b), d=th+br; return [
+        "Thinking "+fmt2(th)+" m + braking "+p.u+"² / (2 × "+fmt2(p.b)+") = "+fmt2(br)+" m = "+fmt2(d)+" m"+(d>p.gap?", more than the "+p.gap+" m available.":"."),
+        "ระยะคิด "+fmt2(th)+" ม. + ระยะเบรก "+p.u+"² / (2 × "+fmt2(p.b)+") = "+fmt2(br)+" ม. รวม "+fmt2(d)+" ม."+(d>p.gap?" มากกว่า "+p.gap+" ม. ที่มี":"")]; }
     },
     trials:{
       lock:["u","rt","gap"],
@@ -660,6 +693,14 @@ nodes:[
         {k:"t", sym:"t", lab:["time to land","เวลาถึงพื้น"], col:"accent", f:function(p){ return fmt2(Math.sqrt(2*p.h/10))+" s"; }},
         {k:"m", sym:"m", lab:["mass — not in the spell","มวล — ไม่อยู่ในบทร่าย"], col:"faint", f:function(p){ return fmt2(p.mm)+" kg"; }}
       ]
+    },
+    predict:{ kind:"choice",
+      ask:["{@Heavy} is far heavier than {@light}. Which lands first?","{@heavy}หนักกว่า{@light}มาก อะไรถึงพื้นก่อน"],
+      opts:[["{@Heavy}","{@heavy}"],["{@Light}","{@light}"],["They land together","ถึงพร้อมกัน"]],
+      actual:function(){ return 2; },
+      explain:function(p){ return [
+        "Both fall with the same g, so both take √(2h / g) = "+fmt2(Math.sqrt(2*p.h/10))+" s. Mass never enters the spell (ignoring air).",
+        "ทั้งคู่ตกด้วย g เท่ากัน จึงใช้เวลา √(2h / g) = "+fmt2(Math.sqrt(2*p.h/10))+" วินาทีเท่ากัน มวลไม่อยู่ในบทร่ายเลย (ไม่คิดแรงต้านอากาศ)"]; }
     },
     trials:{
       lock:["T"],
