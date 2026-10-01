@@ -247,7 +247,7 @@ nodes:[
        lab:["drag the crystal","ลากคริสตัล"], labBelow:true, col:"accent"}
     ],
     instrument:{ kind:"graph",
-      xmin:0, xmax:12,
+      xmin:0, xmax:12, ymin:-75, ymax:75,
       xlab:["seconds","วินาที"], ylab:["angle °","มุม °"],
       fn:function(x,p){ return C08.theta(p,x)*180/Math.PI; },
       mark:function(p,S){ return S.t; }

@@ -139,7 +139,7 @@ nodes:[
       fitText(o, cx, 82, ["day "+fmt(t)+" · "+fmt2(t/p.Th)+" half-lives","วันที่ "+fmt(t)+" · "+fmt2(t/p.Th)+" ครึ่งชีวิต"], 300, 10.5, "var(--ink-faint)", "middle");
     },
     instrument:{ kind:"graph",
-      xmin:0, xmax:40, ymin:0,
+      xmin:0, xmax:40, ymin:0, ymax:400,
       xlab:["days","วัน"], ylab:["motes left","จำนวนที่เหลือ"],
       fn:function(x,p){ return p.N0*Math.pow(0.5,x/p.Th); },
       mark:function(p,S){ return S.t; }

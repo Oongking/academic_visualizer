@@ -188,7 +188,7 @@ nodes:[
                col:Math.abs(p.A1+p.A2)<0.01?"warn":"good"}];
     },
     instrument:{ kind:"graph",
-      xmin:0, xmax:4,
+      xmin:0, xmax:4, ymin:-10, ymax:10,
       xlab:["seconds","วินาที"], ylab:["height at meeting point","ความสูงที่จุดพบ"],
       fn:function(x,p){ return C09.y(p,10,x); },
       mark:function(p,S){ return S.t; }

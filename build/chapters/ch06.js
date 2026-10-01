@@ -13,11 +13,9 @@ var C06 = {
   },
   /* the lane is fitted to the whole run: shifted right if an orb bounces
      back past the start, and widened if one flies off to the right */
-  view: function(p){
-    var a = C06.raw(p, 0), z = C06.raw(p, p.T), lo = Math.min(a.a, z.a, z.b), hi = Math.max(a.b, z.a, z.b);
-    var off = Math.max(0, 3 - lo);
-    return { off: off, span: Math.max(40, hi + off + 3) };
-  },
+  /* one fixed lane: room to bounce back on the left, and a fast orb simply
+     flies out of view on the right rather than rescaling everything */
+  view: function(){ return { off: 12, span: 60 }; },
   at: function(p, t){
     var r = C06.raw(p, t), off = C06.view(p).off;
     return { a: r.a + off, b: r.b + off, hit: r.hit, cx: r.cx != null ? r.cx + off : null };
@@ -186,7 +184,7 @@ nodes:[
       var st=C06.at(p,S.t);
       return [{id:"hit", when:st.hit && S.t>0, x:st.cx, lift:16, kind:p.e===2?"impact":"burst", col:p.e===2?"warn":"accent"}];
     },
-    instrument:{ kind:"bar",
+    instrument:{ kind:"bar", ymax:150,
       ylab:["kg·m/s   ·   J","kg·m/s   ·   J"],
       bars:[
         {lab:["Momentum before","โมเมนตัมก่อน"], f:function(p){ return C06.out(p).p; }, col:"accent"},

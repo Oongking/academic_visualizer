@@ -64,7 +64,7 @@ nodes:[
        set:function(m,p){ return {back:p.out-Math.max(0,m)}; },
        lab:["drag {@agent}","ลาก{@agent}"], labBelow:true}
     ],
-    instrument:{ kind:"bar",
+    instrument:{ kind:"bar", ymax:110,
       ylab:["metres","เมตร"],
       bars:[
         {lab:["Trail · distance","รอยทาง · ระยะทาง"], f:function(p){ return PHYS.trip(p).d; }, col:"warn"},
@@ -130,7 +130,7 @@ nodes:[
     ctrls:[
       {k:"v1", lab:["Speed at the first {@marker}","ความเร็วที่{@marker}แรก"], min:2, max:22, step:1, def:5, unit:" m/s"},
       {k:"v2", lab:["Speed at the second","ความเร็วที่{@marker}ที่สอง"],    min:2, max:22, step:1, def:14, unit:" m/s"},
-      {k:"T",  lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:6, unit:" s", isT:true}
+      {k:"T",  lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:8, unit:" s", isT:true}
     ],
     readouts:[
       {lab:["Average speed","อัตราเร็วเฉลี่ย"], f:function(S){ return fmt2((S.p.v1+S.p.v2)/2)+" m/s"; }},
@@ -140,10 +140,8 @@ nodes:[
         return Math.abs(S.p.v1-S.p.v2)<0.5 ? (L()?"คงที่ — เฉลี่ยคือค่าจริง":"steady — the average is the truth")
           : (L()?"กำลังเปลี่ยน — เฉลี่ยซ่อนรายละเอียด":"changing — the average hides the story"); }}
     ],
-    world:{ kind:"lane", span:function(p,S){
-      var D=(p.v1+p.v2)/2*p.T;
-      if(S.trial) D=Math.max(D,S.trial.goal.D);
-      return Math.max(30,D*1.15); } },
+    /* fixed: the fastest, longest run (22 m/s for 8 s) still fits */
+    world:{ kind:"lane", span:function(){ return 180; } },
     props:function(p,S){
       var D=(p.v1+p.v2)/2*p.T, done=S.t>=p.T-1e-9;
       var list=[{role:"marker", x:0, on:true}];
@@ -164,7 +162,7 @@ nodes:[
       return [{id:"arrive", when:S.t>=p.T-1e-9, x:D, lift:30, kind:"burst", col:"good"}];
     },
     instrument:{ kind:"graph",
-      xmin:0, xmax:8, ymin:0,
+      xmin:0, xmax:8, ymin:0, ymax:24,
       xlab:["seconds","วินาที"], ylab:["m/s","ม./วิ"],
       fn:function(x,p){ var f=Math.min(1,x/p.T); return p.v1+(p.v2-p.v1)*f; },
       mark:function(p,S){ return Math.min(S.t,p.T); }
@@ -241,7 +239,7 @@ nodes:[
               "{@push}เพิ่มความเร็วเท่าเดิมทุกวินาที ดูภาพติดตา ทำไมมันจึงห่างกันมากขึ้นเรื่อย ๆ"],
     ctrls:[
       {k:"a", lab:["Strength of {@push}","ความแรงของ{@push}"], min:0.5, max:6, step:.5, def:2.5, unit:" m/s²"},
-      {k:"T", lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:6, unit:" s", isT:true}
+      {k:"T", lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:8, unit:" s", isT:true}
     ],
     readouts:[
       {lab:["Speed now","ความเร็วขณะนี้"], f:function(S){ return fmt2(S.p.a*Math.min(S.t,S.p.T))+" m/s"; }},
@@ -252,10 +250,8 @@ nodes:[
       {lab:["Distance from the start","ระยะจากจุดเริ่ม"], f:function(S){
         var t=Math.min(S.t,S.p.T); return fmt2(0.5*S.p.a*t*t)+" m"; }}
     ],
-    world:{ kind:"lane", span:function(p,S){
-      var D=0.5*p.a*p.T*p.T;
-      if(S.trial) D=Math.max(D,S.trial.goal.D);
-      return Math.max(24,D*1.12); } },
+    /* fixed: ½ × 6 × 8² = 192 m is the furthest any setting reaches */
+    world:{ kind:"lane", span:function(){ return 200; } },
     props:function(p,S){
       var list=[{role:"marker", x:0, on:true}], t=Math.min(S.t,p.T);
       if(S.trial){
@@ -281,7 +277,7 @@ nodes:[
       return list;
     },
     instrument:{ kind:"graph",
-      xmin:0, xmax:8, ymin:0,
+      xmin:0, xmax:8, ymin:0, ymax:50,
       xlab:["seconds from the start","วินาทีจากจุดเริ่ม"], ylab:["m/s","ม./วิ"],
       fn:function(x,p){ return p.a*Math.min(x,p.T); },
       mark:function(p,S){ return Math.min(S.t,p.T); }
@@ -358,9 +354,9 @@ nodes:[
     question:["Drag the two glowing handles on the graph. What is the filled area actually measuring?",
               "ลากจุดเรืองแสงสองจุดบนกราฟ พื้นที่ที่ถูกเติมสีนั้นวัดอะไรกันแน่"],
     ctrls:[
-      {k:"u", lab:["Speed at the start","ความเร็วตอนเริ่ม"], min:0, max:16, step:1, def:4, unit:" m/s"},
+      {k:"u", lab:["Speed at the start","ความเร็วตอนเริ่ม"], min:0, max:16, step:1, def:6, unit:" m/s"},
       {k:"a", lab:["Acceleration (slope)","ความเร่ง (ความชัน)"], min:-2, max:5, step:.5, def:2, unit:" m/s²"},
-      {k:"T", lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:6, unit:" s", isT:true}
+      {k:"T", lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:8, unit:" s", isT:true}
     ],
     readouts:[
       {lab:["Speed now","ความเร็วขณะนี้"], f:function(S){
@@ -370,10 +366,8 @@ nodes:[
       {lab:["So the area is","พื้นที่จึงคือ"], f:function(){
         return L()?"ระยะที่เคลื่อนที่ได้":"the distance travelled"; }}
     ],
-    world:{ kind:"lane", span:function(p,S){
-      var D=PHYS.glide(p,p.T).x;
-      if(S.trial) D=Math.max(D,S.trial.goal.D);
-      return Math.max(30,D*1.15); } },
+    /* fixed: 16 × 8 + ½ × 5 × 8² = 288 m is the furthest any setting reaches */
+    world:{ kind:"lane", span:function(){ return 300; } },
     props:function(p,S){
       var list=[{role:"marker", x:0, on:true}];
       if(S.trial){
@@ -392,7 +386,7 @@ nodes:[
                vel:r.v, velScale:2.4, velLab:[fmt(r.v)+" m/s", fmt(r.v)+" ม./วิ"]}];
     },
     instrument:{ kind:"graph",
-      xmin:0, xmax:8, ymin:0, fill:true,
+      xmin:0, xmax:8, ymin:0, ymax:60, fill:true,
       xlab:["seconds","วินาที"], ylab:["m/s","ม./วิ"],
       fn:function(x,p){ return Math.max(0, p.u+p.a*Math.min(x,p.T)); },
       upto:function(p,S){ return Math.min(S.t,p.T); },
@@ -530,7 +524,7 @@ nodes:[
       return [{id:"crash", when:r.d>p.gap && r.x>=p.gap-1e-6, x:p.gap, lift:20, kind:"impact", col:"warn"},
               {id:"halt",  when:r.d<=p.gap && S.t>0 && r.v<=1e-9, x:r.d, lift:20, kind:"burst", col:"good"}];
     },
-    instrument:{ kind:"bar",
+    instrument:{ kind:"bar", ymax:100,
       ylab:["metres","เมตร"],
       bars:[
         {lab:["Thinking","ระยะคิด"], f:function(p){ return p.u*p.rt; }, col:"faint"},
@@ -658,7 +652,7 @@ nodes:[
               {id:"land1", when:land, h:0, lane:1, kind:"burst", col:"accent2"}];
     },
     instrument:{ kind:"graph",
-      xmin:0, xmax:3, ymin:0,
+      xmin:0, xmax:3, ymin:0, ymax:20,
       xlab:["seconds","วินาที"], ylab:["metres fallen","เมตรที่ตกไป"],
       fn:function(x,p){ return Math.min(p.h, 5*x*x); },
       mark:function(p,S){ return Math.min(S.t,p.T); }

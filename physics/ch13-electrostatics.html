@@ -1012,7 +1012,7 @@ nodes:[
        lab:["test charge","ประจุทดสอบ"], col:"good"}
     ],
     instrument:{ kind:"graph",
-      xmin:0.4, xmax:5,
+      xmin:0.4, xmax:5, ymin:0, ymax:3000,
       xlab:["distance from wisp 1 (m)","ระยะจากภูต 1 (ม.)"], ylab:["E from wisp 1 (N/C)","E จากภูต 1 (N/C)"],
       fn:function(x,p){ return 9e9*Math.abs(p.Q1)*1e-9/(x*x); },
       mark:function(p,S){ return Math.max(0.4, Math.min(5, C13.r1(p,C13.test(p,S.t)))); }
@@ -2082,9 +2082,16 @@ function instrument(S, o, ins, ctx){
     var hi=Math.max.apply(null,ys.concat([0])), lo=Math.min.apply(null,ys.concat([0]));
     if(ins.ymin!=null) lo=ins.ymin;
     if(ins.ymax!=null) hi=ins.ymax;
-    var pad=Math.max(.4,(hi-lo)*0.16); hi+=pad; if(lo<0) lo-=pad;
+    /* A fixed range is used exactly: the axis then never moves when a slider
+       does, so the change shows up as the line moving. Only an end the
+       caller left free gets breathing room. */
+    var pad=Math.max(.4,(hi-lo)*0.16);
+    if(ins.ymax==null) hi+=pad;
+    if(ins.ymin==null && lo<0) lo-=pad;
     /* a drag holds the scale still, or the axis would slide under the pointer */
     if(ins.lockY){ lo=ins.lockY[0]; hi=ins.lockY[1]; }
+    var fixedY = ins.ymin!=null && ins.ymax!=null;
+    if(fixedY) for(i=0;i<=N;i++) ys[i]=Math.max(lo,Math.min(hi,ys[i]));
     var A=axes(o,{x:FR.ix,y:FR.iy,w:FR.iw,h:FR.ih,xmin:ins.xmin,xmax:ins.xmax,ymin:lo,ymax:hi,
                   xlab:ins.xlab, ylab:ins.ylab, xticks:ins.xticks, yticks:ins.yticks});
     var d="";
@@ -2096,7 +2103,8 @@ function instrument(S, o, ins, ctx){
       var fd="";
       for(i=0;i<=N;i++){
         var fx=ins.xmin+(upto-ins.xmin)*i/N;
-        fd+=(i?" L":"M")+fmt2(A.X(fx))+" "+fmt2(A.Y(ins.fn(fx,S.p,S)));
+        var fy=ins.fn(fx,S.p,S); if(fixedY) fy=Math.max(lo,Math.min(hi,fy));
+        fd+=(i?" L":"M")+fmt2(A.X(fx))+" "+fmt2(A.Y(fy));
       }
       if(upto>ins.xmin)
         o.push('<path d="'+fd+' L'+fmt2(A.X(upto))+' '+fmt2(A.zy)+' L'+fmt2(A.X(ins.xmin))+' '+
@@ -2105,6 +2113,7 @@ function instrument(S, o, ins, ctx){
     o.push('<path d="'+d+'" stroke="var(--accent)" stroke-width="2.4" fill="none"/>');
     if(ins.mark!=null){
       var mx=ins.mark(S.p,S), my=ins.fn(mx,S.p,S);
+      if(fixedY) my=Math.max(lo,Math.min(hi,my));
       o.push('<line x1="'+fmt2(A.X(mx))+'" y1="'+fmt2(A.Y(my))+'" x2="'+fmt2(A.X(mx))+'" y2="'+fmt2(A.zy)+
              '" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2 3" opacity=".7"/>');
       o.push('<circle cx="'+fmt2(A.X(mx))+'" cy="'+fmt2(A.Y(my))+'" r="4.5" fill="var(--accent)"/>');
@@ -2117,17 +2126,23 @@ function instrument(S, o, ins, ctx){
     var B=ins.bars.map(function(b){ return {lab:b.lab, v:b.f(S.p,S), c:col(b.col)}; });
     var vs=B.map(function(b){ return b.v; });
     var h2=Math.max.apply(null,vs.concat([0])), l2=Math.min.apply(null,vs.concat([0]));
-    if(ins.ymax!=null) h2=ins.ymax;
-    var pd=Math.max(1e-6,(h2-l2)*0.2); h2+=pd; if(l2<0) l2-=pd;
+    var fixedB = ins.ymax!=null;
+    if(fixedB){ h2=ins.ymax; if(ins.ymin!=null) l2=ins.ymin; }
+    else { var pd=Math.max(1e-6,(h2-l2)*0.2); h2+=pd; if(l2<0) l2-=pd; }
     var A2=axes(o,{x:FR.ix,y:FR.iy,w:FR.iw,h:FR.ih-18,xmin:0,xmax:B.length,ymin:l2,ymax:h2,
                    ylab:ins.ylab, xticks:0, yticks:4});
     var w=FR.iw/B.length, bw=Math.min(66,w*0.5);
     B.forEach(function(b,j){
-      var cx=A2.X(j+0.5), y0=A2.Y(0), y1=A2.Y(b.v);
+      /* on a fixed scale a bar taller than the axis stops at the top, marked
+         as running off it, and still says its true value */
+      var over=fixedB && b.v>h2, under=fixedB && b.v<l2;
+      var cx=A2.X(j+0.5), y0=A2.Y(0), y1=A2.Y(Math.max(l2,Math.min(h2,b.v)));
       o.push('<rect x="'+fmt2(cx-bw/2)+'" y="'+fmt2(Math.min(y0,y1))+'" width="'+fmt2(bw)+
              '" height="'+fmt2(Math.abs(y1-y0))+'" fill="'+b.c+'" opacity=".9"/>');
+      if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
+                      'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+fmt2(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -3097,7 +3112,7 @@ var STAGE = {
       var start = function(){
         if(S.mode !== "sandbox") api.setMode("sandbox");
         cancelAnimationFrame(S.raf); S.playing = false; var b = q(".b-play"); if(b) b.textContent = t("lab.play");
-        S.pred = { phase: "guess", guess: null, f: (pc.stretch === false || pc.kind === "choice") ? 1 : 1.2 + Math.random() * 0.6 };
+        S.pred = { phase: "guess", guess: null, f: (pc.stretch === true && pc.kind !== "choice") ? 1.2 + Math.random() * 0.6 : 1 };
         S.t = 0; S.fired = {};
         pp.hidden = false; pb.hidden = true;
         q(".p-step").textContent = stepText();

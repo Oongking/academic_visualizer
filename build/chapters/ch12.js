@@ -218,7 +218,7 @@ nodes:[
        lab:["drag its speed","ลากความเร็ว"], col:"accent2"}
     ],
     instrument:{ kind:"graph",
-      xmin:0, xmax:14,
+      xmin:0, xmax:14, ymin:0, ymax:2500,
       xlab:["seconds","วินาที"], ylab:["Hz the listener hears","Hz ที่ผู้ฟังได้ยิน"],
       fn:function(x,p){ var tp=C12.tpass(p); return x<tp ? C12.fa(p) : C12.fr(p); },
       mark:function(p,S){ return S.t; }

@@ -667,7 +667,7 @@ var STAGE = {
       var start = function(){
         if(S.mode !== "sandbox") api.setMode("sandbox");
         cancelAnimationFrame(S.raf); S.playing = false; var b = q(".b-play"); if(b) b.textContent = t("lab.play");
-        S.pred = { phase: "guess", guess: null, f: (pc.stretch === false || pc.kind === "choice") ? 1 : 1.2 + Math.random() * 0.6 };
+        S.pred = { phase: "guess", guess: null, f: (pc.stretch === true && pc.kind !== "choice") ? 1.2 + Math.random() * 0.6 : 1 };
         S.t = 0; S.fired = {};
         pp.hidden = false; pb.hidden = true;
         q(".p-step").textContent = stepText();

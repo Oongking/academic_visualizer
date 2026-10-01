@@ -78,7 +78,7 @@ nodes:[
     question:["Pull back the aiming rune and cast. Why does the fireball's sideways arrow never change?",
               "ดึงรูนเล็งแล้วร่ายเวท ทำไมลูกศรแนวราบของลูกไฟจึงไม่เปลี่ยนเลย"],
     ctrls:[
-      {k:"u",  lab:["Launch speed u","อัตราเร็วต้น u"], min:10, max:30, step:1, def:22, unit:" m/s"},
+      {k:"u",  lab:["Launch speed u","อัตราเร็วต้น u"], min:10, max:26, step:1, def:22, unit:" m/s"},
       {k:"th", lab:["Angle θ","มุม θ"],                  min:10, max:80, step:1, def:45, unit:"°"}
     ],
     duration:function(p,S){ return C07.shot(p,S).Tend+0.5; },
@@ -90,14 +90,9 @@ nodes:[
         return fmt2(PHYS.arc(S.p.u,S.p.th,0,0).vx)+(L()?" ม./วิ · ไม่ใช่ศูนย์":" m/s · not zero"); }}
     ],
     world:{ kind:"plane", left:40,
-      span:function(p,S){
-        var a=PHYS.arc(p.u,p.th,0,0), x=Math.max(a.range*1.12, 30);
-        if(S.trial && S.trial.goal.D) x=Math.max(x, S.trial.goal.D*1.15);
-        return x; },
-      yspan:function(p,S){
-        var a=PHYS.arc(p.u,p.th,0,0), y=Math.max(a.apexY*1.3, 8);
-        if(S.trial && S.trial.goal.H) y=Math.max(y, S.trial.goal.H+S.trial.goal.r+4);
-        return y; } },
+      /* fixed: 26 m/s reaches 68 m at 45° and 33 m at 80° */
+      span:function(){ return 72; },
+      yspan:function(){ return 35; } },
     props:function(p,S){
       var list=[{role:"agent", px:48, y:0}], g=S.trial && S.trial.goal;
       if(g && g.kind!=="wall" && g.kind!=="top") list.push({role:"goal", x:g.D,
@@ -150,7 +145,7 @@ nodes:[
       return ev;
     },
     instrument:{ kind:"graph",
-      xmin:0, xmax:6,
+      xmin:0, xmax:6, ymin:-28, ymax:28,
       xlab:["seconds","วินาที"], ylab:["m/s","ม./วิ"],
       fn:function(x,p){ var a=PHYS.arc(p.u,p.th,0,0); return a.vy0-10*Math.min(x,a.T); },
       mark:function(p,S){ return C07.shot(p,S).s.t; }
@@ -186,11 +181,11 @@ nodes:[
       veil:true,
       make:function(){
         var kind=pick(["land","twin","top","wall"]);
-        if(kind==="land"){ var u=ri(12,30); return {kind:kind, u:u, D:u*u/10, lock:["th"], set:{th:45, u:(u>20?12:28)}}; }
-        if(kind==="twin"){ var u2=ri(16,28), t1=pick([20,25,30,35,40]);
+        if(kind==="land"){ var u=ri(12,26); return {kind:kind, u:u, D:u*u/10, lock:["th"], set:{th:45, u:(u>20?12:28)}}; }
+        if(kind==="twin"){ var u2=ri(16,26), t1=pick([20,25,30,35,40]);
           return {kind:kind, u:u2, t1:t1, D:u2*u2*Math.sin(2*t1*Math.PI/180)/10, set:{u:u2, th:t1}}; }
         if(kind==="top"){ var ts=pick([30,40,50,60]); return {kind:kind, u:20, ts:ts, X:20*Math.cos(ts*Math.PI/180), set:{u:20, th:78}}; }
-        var u3=ri(20,28), tw=pick([30,35,40,45,50,55,60]), A=PHYS.arc(u3,tw,0,0);
+        var u3=ri(20,26), tw=pick([30,35,40,45,50,55,60]), A=PHYS.arc(u3,tw,0,0);
         return {kind:kind, u:u3, tw:tw, D:A.vx*A.apexT, H:A.apexY, r:1.3, set:{u:u3, th:(tw>45?20:75)}};
       },
       lockFor:function(g){ return g.kind==="land" ? ["th"] : ["u"]; },

@@ -3,7 +3,12 @@
 var C03 = {
   mu: [0.05, 0.3, 0.6], surf: ["ice", "stone", "moss"],
   k: 0.6, pxm: 10, back: 0, X0: 0,
-  r: function(p, t){ return PHYS.push(p.F, p.m, C03.mu[p.s], Math.min(Math.max(t, 0), p.T)); },
+  WALL: 58,
+  r: function(p, t){
+    var r = PHYS.push(p.F, p.m, C03.mu[p.s], Math.min(Math.max(t, 0), p.T));
+    if(r.x > C03.WALL){ r.x = C03.WALL; r.v = 0; r.wall = true; }
+    return r;
+  },
   word: function(s){ return tx(["{@ice}", "{@stone}", "{@moss}"][s]); }
 };
 
@@ -146,9 +151,8 @@ nodes:[
       {lab:["Acceleration a","ความเร่ง a"], f:function(S){ return fmt2(C03.r(S.p,S.t).a)+" m/s²"; }},
       {lab:["Speed now","ความเร็วขณะนี้"], f:function(S){ return fmt2(C03.r(S.p,S.t).v)+" m/s"; }}
     ],
-    world:{ kind:"lane", left:84, span:function(p,S){
-      var x=C03.r(p,p.T).x; if(S.trial && S.trial.goal.D) x=Math.max(x,S.trial.goal.D);
-      return Math.max(12, x*1.18+3); } },
+    /* fixed 60 m arena; a fast golem stops against the far wall */
+    world:{ kind:"lane", left:84, span:function(){ return 60; } },
     under:function(o,S,W){
       role("surface")(o, FR.sx, FR.sx+FR.sw, W.g, {variant:C03.surf[S.p.s]});
     },
@@ -189,7 +193,7 @@ nodes:[
        set:function(m){ return {F:(C03.back-(C03.X0+m*C03.pxm))/C03.k}; },
        lab:["drag the push","ลากแรงผลัก"], col:"accent2", term:"F"}
     ],
-    instrument:{ kind:"bar",
+    instrument:{ kind:"bar", ymax:120,
       ylab:["newtons","นิวตัน"],
       bars:[
         {lab:["Push F","แรงผลัก F"], f:function(p){ return p.F; }, col:"accent2"},

@@ -157,7 +157,7 @@ nodes:[
        lab:["test charge","ประจุทดสอบ"], col:"good"}
     ],
     instrument:{ kind:"graph",
-      xmin:0.4, xmax:5,
+      xmin:0.4, xmax:5, ymin:0, ymax:3000,
       xlab:["distance from wisp 1 (m)","ระยะจากภูต 1 (ม.)"], ylab:["E from wisp 1 (N/C)","E จากภูต 1 (N/C)"],
       fn:function(x,p){ return 9e9*Math.abs(p.Q1)*1e-9/(x*x); },
       mark:function(p,S){ return Math.max(0.4, Math.min(5, C13.r1(p,C13.test(p,S.t)))); }

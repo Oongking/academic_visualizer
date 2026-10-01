@@ -116,7 +116,7 @@ nodes:[
       {k:"v", at:function(p){ return {px:C15.x0+20+p.v*12, py:C15.y0}; }, set:function(px){ return {v:(px-C15.x0-20)/12}; },
        lab:["drag the speed","ลากความเร็ว"], labBelow:true, col:"accent"}
     ],
-    instrument:{ kind:"bar",
+    instrument:{ kind:"bar", ymax:400,
       ylab:["femtonewtons","เฟมโตนิวตัน"],
       bars:[
         {lab:["Magnetic force qvB","แรงแม่เหล็ก qvB"], f:function(p){ return C15.F(p); }, col:"warn"},

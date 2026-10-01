@@ -239,6 +239,19 @@ at the top level of a chapter.
 - `free`: raw picture pixels; items take `px`, `py`. Use it for fields,
   waves and pendulums that draw themselves in `scene`.
 
+**Scales stay still.** A stage lab's world span and its instrument's range
+are fixed: they cover the whole slider range and do not follow the current
+answer. Moving a slider then moves the line, bar or body, never the axis, so
+the learner can see what the change did.
+- **Ranges:** give graphs both `ymin` and `ymax`, and bars a `ymax`; then
+  those ranges are used exactly. A line past the range runs along its edge,
+  and a taller bar stops at the top marked "↑" with its true value.
+- **Sizing:** choose the range from the sliders' extremes. If the default
+  setting then looks small, narrow the extremes or start the default nearer
+  the middle of the range; do not let the scale move.
+- **Exceptions:** a proportion bar (`strip`) and a pendulum's free scene have
+  no scale to fix.
+
 **Configuration.** A stage `vizcfg` declares, in addition to the usual
 `ctrls`, `readouts`, `guide`, `question` and `note`:
 
@@ -278,9 +291,10 @@ at the top level of a chapter.
     answers that include the trap answer.
   - While they guess, the stage veils readouts, formula values, the
     instrument band and dimension lines, and freezes the controls.
-  - Position guesses also stretch the scale by a random factor, so it cannot
-    give the answer away. Set `stretch:false` for a fixed span, and
-    `veil:false` when the learner must read the graph to answer.
+  - Because scales are fixed (see below), the scale never hints at the
+    answer. `stretch:true` adds a random stretch for a lab whose span must
+    follow its answer. `veil:false` leaves the instrument visible when the
+    learner must read the graph to answer.
   - Scores go in `STATE.preds`. Test `S.pred` in your own functions to hide
     anything else that would give the answer away.
 - `events(p,S)`: `{id, when, …position, kind:"burst"|"impact"}`. Each fires

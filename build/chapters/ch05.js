@@ -204,7 +204,7 @@ nodes:[
       {lab:["Turned to heat","กลายเป็นความร้อน"], f:function(S){ return fmt(S.p.m*C05.at(S.p,S.t).heat)+" J"; }}
     ],
     world:{ kind:"plane", left:22, span:function(){ return 62; },
-      yspan:function(p){ return Math.max(p.h0,p.h2)*1.3+2; } },
+      yspan:function(){ return 28; } },
     scene:function(o,S,W){
       var p=S.p, pts=[];
       for(var x=0;x<=60.01;x+=0.5) pts.push([W.X(x), W.Y(C05.y(p,x))]);
