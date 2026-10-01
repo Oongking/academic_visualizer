@@ -1334,7 +1334,7 @@ function makeLab(nd, host){
   function tick(){
     if(!S.playing) return;
     var lim = limit();
-    S.t+=0.035;
+    S.t+=0.035*(cfg.rate||1);   /* a lab whose clock counts days can run faster */
     if(S.t>=lim){ S.t=lim; S.playing=false; var b=q(".b-play"); if(b) b.textContent=t("lab.play");
                   if(S.onEnd){ var f=S.onEnd; S.onEnd=null; f(); } }
     paint();   /* already inside a frame - scheduling another would cost one */

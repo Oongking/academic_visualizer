@@ -454,6 +454,20 @@
              '" stroke="#2a1f4d" stroke-width="2" stroke-linecap="round"/>');
     },
 
+    /* an alchemist's cauldron, rim at y, with a rune band and green glow */
+    crucible: function(o, x, y, opt){
+      var w = opt.w || 300, h = opt.h || 120, k = opt.clock || 0;
+      o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y + h + 8) + '" rx="' + F2(w * 0.42) + '" ry="7" fill="#000" opacity=".4"/>');
+      o.push('<path d="M' + F2(x - w / 2) + ' ' + F2(y) + ' Q' + F2(x - w / 2 - 6) + ' ' + F2(y + h * 0.9) + ' ' + F2(x - w * 0.3) + ' ' + F2(y + h) +
+             ' L' + F2(x + w * 0.3) + ' ' + F2(y + h) + ' Q' + F2(x + w / 2 + 6) + ' ' + F2(y + h * 0.9) + ' ' + F2(x + w / 2) + ' ' + F2(y) + ' Z" fill="#221c46" stroke="#5d55a5" stroke-width="1.6"/>');
+      o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y) + '" rx="' + F2(w / 2) + '" ry="10" fill="#1a1238" stroke="#7c74c4" stroke-width="1.6"/>');
+      for(var i = 0; i < 7; i++){
+        var rx = x - w * 0.36 + i * w * 0.12;
+        o.push('<path d="' + star4(rx, y + h * 0.55, 4) + '" fill="#9cf5b5" opacity="' + F2(0.45 + 0.35 * Math.sin(k * 2 + i)) + '" filter="url(#ak-glow)"/>');
+      }
+      o.push('<path d="M' + F2(x - w / 2 - 8) + ' ' + F2(y + h + 14) + ' l10 -16 M' + F2(x + w / 2 + 8) + ' ' + F2(y + h + 14) + ' l-10 -16" stroke="#3d3678" stroke-width="5" stroke-linecap="round"/>');
+    },
+
     /* a prophecy stone: the learner's prediction, planted on the ley line */
     prophecy: function(o, x, y, opt){
       var c = opt.done ? (opt.hit ? "#9cf5b5" : "#ffcf6e") : "#d6a8ff", k = opt.clock || 0;

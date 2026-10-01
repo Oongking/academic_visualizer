@@ -202,6 +202,13 @@ SKINS.add({
            '" stroke="' + c + '" stroke-width="2"/>');
   },
 
+  /* a vessel centred at x, its rim at y, opt.w wide and opt.h deep */
+  crucible: function(o, x, y, opt){
+    var w = opt.w || 300, h = opt.h || 120;
+    o.push('<path d="M' + fmt2(x - w / 2) + ' ' + fmt2(y) + ' L' + fmt2(x - w / 2 + 14) + ' ' + fmt2(y + h) + ' L' + fmt2(x + w / 2 - 14) + ' ' + fmt2(y + h) +
+           ' L' + fmt2(x + w / 2) + ' ' + fmt2(y) + '" fill="none" stroke="var(--ink-soft)" stroke-width="2.4"/>');
+  },
+
   prophecy: function(o, x, y, opt){
     var c = opt.done ? (opt.hit ? "var(--good)" : "var(--warn)") : "var(--accent2)";
     if(opt.tower){
