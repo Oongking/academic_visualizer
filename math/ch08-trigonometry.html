@@ -266,7 +266,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 
 /* ---------- FORGE ---------- */
 .forge-grid{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:36px;align-items:start}
-@media (max-width:940px){ .forge-grid{grid-template-columns:1fr} }
+/* minmax(0,1fr) for the same reason as .node-split above. */
+@media (max-width:940px){ .forge-grid{grid-template-columns:minmax(0,1fr)} }
 .bp{border:1px solid var(--rule);background:var(--surface);padding:18px;position:sticky;top:16px}
 @media (max-width:940px){ .bp{position:static} }
 .bp h4{margin:0 0 4px;font-family:var(--f-ui);font-size:11px;letter-spacing:.12em;
