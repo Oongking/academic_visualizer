@@ -286,6 +286,7 @@ var STAGE = {
     if(STAGE.guessing(S)) return;
     (cfg.handles || []).forEach(function(h, i){
       if(S.trial && h.k && S.trial.lock.indexOf(h.k) >= 0) return;
+      if(h.hide && h.hide(S.p, S)) return;
       var P = STAGE.handlePos(S, W, G, h); if(!P) return;
       var active = (S.drag && S.drag.i === i) || (S.kbd && S.kbd.on && S.kbd.i === i);
       if(S.kbd && S.kbd.on && S.kbd.i === i)

@@ -443,6 +443,17 @@
       o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y + 0.5) + '" rx="1.6" ry="' + F2(1.4 + Math.abs(w) * 0.4) + '" fill="#2a1f4d"/>');
     },
 
+    /* a charged wisp: ember-red for positive, frost-blue for negative */
+    charge: function(o, x, y, opt){
+      var pos = (opt.q || 0) >= 0, r = opt.size || 11, k = opt.clock || 0;
+      var core = pos ? "#ff9b7a" : "#8fd8ff", rim = pos ? "#ff5a6e" : "#3d8bff";
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + F2(r * 2.2) + '" fill="' + rim + '" opacity=".16"/>');
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + F2(r * (1.35 + 0.08 * Math.sin(k * 4))) + '" fill="none" stroke="' + rim + '" stroke-width="1" stroke-dasharray="3 3" opacity=".8"/>');
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + F2(r) + '" fill="' + core + '" stroke="#fff" stroke-width=".8" filter="url(#ak-glow)"/>');
+      o.push('<path d="M' + F2(x - r * .45) + ' ' + F2(y) + ' h' + F2(r * .9) + (pos ? ' M' + F2(x) + ' ' + F2(y - r * .45) + ' v' + F2(r * .9) : '') +
+             '" stroke="#2a1f4d" stroke-width="2" stroke-linecap="round"/>');
+    },
+
     /* a prophecy stone: the learner's prediction, planted on the ley line */
     prophecy: function(o, x, y, opt){
       var c = opt.done ? (opt.hit ? "#9cf5b5" : "#ffcf6e") : "#d6a8ff", k = opt.clock || 0;

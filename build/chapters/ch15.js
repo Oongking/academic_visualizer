@@ -1,3 +1,20 @@
+/* Chapter 15 cyclotron room: a charged particle in a uniform field into the
+   page. Radius in cm at k px/cm; one picture second is 10⁻⁷ s of real time. */
+var C15 = {
+  x0: 110, y0: 210, k: 6, mp: 1.67e-27, e: 1.6e-19, vis: 1e-7,
+  q: function(p){ return [1, 2, -1][p.qs]; },
+  r: function(p){ return p.m * C15.mp * p.v * 1e6 / (Math.abs(C15.q(p)) * C15.e * p.B) * 100; },
+  Tns: function(p){ return 2 * Math.PI * p.m * C15.mp / (Math.abs(C15.q(p)) * C15.e * p.B) * 1e9; },
+  F: function(p){ return Math.abs(C15.q(p)) * C15.e * p.v * 1e6 * p.B * 1e15; },
+  center: function(p){ var r = C15.r(p) * C15.k, s = C15.q(p) > 0 ? -1 : 1; return [C15.x0, C15.y0 + s * r]; },
+  phi: function(p, t){ return 2 * Math.PI * t / (C15.Tns(p) * 1e-9 / C15.vis); },
+  at: function(p, t){
+    var r = C15.r(p) * C15.k, c = C15.center(p), f = C15.phi(p, t), s = C15.q(p) > 0 ? 1 : -1;
+    return [c[0] + r * Math.sin(f), c[1] + s * r * Math.cos(f)];
+  },
+  vdir: function(p, t){ var f = C15.phi(p, t), s = C15.q(p) > 0 ? 1 : -1; return [Math.cos(f), -s * Math.sin(f)]; }
+};
+
 var CHAPTER = {
 id:"ch15", num:"15", slug:"magnetism", subject:"physics",
 kicker:["Physics · Chapter 15","ฟิสิกส์ · บทที่ 15"],
@@ -48,15 +65,120 @@ nodes:[
          "เพราะแรงตั้งฉากกับการเคลื่อนที่เสมอ มันจึงไม่ทำงาน อัตราเร็วจึงไม่เคยเปลี่ยน เปลี่ยนแต่ทิศทาง นั่นคือเหตุผลที่อนุภาคมีประจุในสนามสม่ำเสมอเคลื่อนที่เป็นวงกลมรัศมี r = mv/qB"]],
   formula:["F = qvB sin θ        r = mv / qB","F = qvB sin θ        r = mv / qB"],
   flabel:["Perpendicular · does no work","ตั้งฉาก · ไม่ทำงาน"],
-  viz:"vector",
+  viz:"stage",
+  vizcfg:{
+    anim:true,
+    spellName:["The Circling Wisp","ภูตวนวง"],
+    question:["A charged wisp flies into a magnetic field pointing into the page. Why does it turn into a circle — and what sets its size?",
+              "ภูตประจุบินเข้าสนามแม่เหล็กที่ชี้เข้าหน้ากระดาษ ทำไมมันจึงเลี้ยวเป็นวงกลม และอะไรกำหนดขนาดวง"],
+    ctrls:[
+      {k:"v", lab:["Speed (× 10⁶ m/s)","อัตราเร็ว (× 10⁶ ม./วิ)"], min:.5, max:5, step:.5, def:2, unit:""},
+      {k:"B", lab:["Field B","สนาม B"], min:.05, max:1, step:.05, def:.2, unit:" T"},
+      {k:"m", lab:["Mass (proton masses)","มวล (เท่าของโปรตอน)"], min:1, max:4, step:1, def:1, unit:""},
+      {k:"qs", lab:["Charge","ประจุ"], min:0, max:2, step:1, def:0, opts:[["+e","+e"],["+2e","+2e"],["−e","−e"]]},
+      {k:"T", lab:["Watch for","ดูนาน"], min:2, max:20, step:1, def:8, unit:" s", isT:true}
+    ],
+    readouts:[
+      {lab:["Radius r = mv / qB","รัศมี r = mv / qB"], f:function(S){ return fmt2(C15.r(S.p))+" cm"; }},
+      {lab:["One loop takes","วนหนึ่งรอบใช้เวลา"], f:function(S){ return fmt(C15.Tns(S.p))+" ns"; }},
+      {lab:["Force qvB","แรง qvB"], f:function(S){ return fmt2(C15.F(S.p))+" fN"; }},
+      {lab:["Work done by the field","งานที่สนามทำ"], f:function(){ return L()?"ศูนย์ — แรงตั้งฉากกับการเคลื่อนที่":"zero — the force is at right angles to the motion"; }}
+    ],
+    world:{ kind:"free" },
+    scene:function(o,S,W){
+      var p=S.p, x0=C15.x0, y0=C15.y0;
+      o.push('<clipPath id="c15clip"><rect x="40" y="34" width="480" height="262" rx="10"/></clipPath>');
+      o.push('<rect x="40" y="34" width="480" height="262" rx="10" fill="var(--surface)" fill-opacity=".25" stroke="var(--rule)"/>');
+      for(var gx=64; gx<520; gx+=40) for(var gy=56; gy<296; gy+=40)
+        o.push('<path d="M'+(gx-3.5)+' '+(gy-3.5)+' l7 7 M'+(gx+3.5)+' '+(gy-3.5)+' l-7 7" stroke="var(--ink-faint)" stroke-width="'+(S.hl==="B"?1.8:1.1)+'" opacity=".55"/>');
+      fitText(o, 512, 50, ["B into the page","B ชี้เข้าหน้ากระดาษ"], 160, 10, "var(--ink-faint)", "end");
+      var g=S.trial && S.trial.goal;
+      if(g && g.kind==="radius"){
+        var gr=g.r*C15.k, sgn=C15.q(p)>0?-1:1;
+        o.push('<circle cx="'+x0+'" cy="'+fmt2(y0+sgn*gr)+'" r="'+fmt2(gr)+'" fill="none" stroke="var(--good)" stroke-width="1.2" stroke-dasharray="4 5" opacity=".6"/>');
+        role("goal")(o, x0, y0+sgn*2*gr+30, {clock:STAGE.clock, on:false});
+      }
+      o.push('<g clip-path="url(#c15clip)">');
+      var P=C15.at(p,S.t), c=C15.center(p);
+      if(!STAGE.guessing(S) && !(S.trial && S.trial.goal)){
+        o.push('<line x1="'+fmt2(c[0])+'" y1="'+fmt2(c[1])+'" x2="'+fmt2(P[0])+'" y2="'+fmt2(P[1])+'" stroke="var(--good)" stroke-width="'+(S.hl==="r"?2.6:1.1)+'" stroke-dasharray="3 4"/>');
+        o.push('<circle cx="'+fmt2(c[0])+'" cy="'+fmt2(c[1])+'" r="2.5" fill="var(--good)"/>');
+      }
+      var vd=C15.vdir(p,S.t), Lv=20+p.v*12, fd=[c[0]-P[0], c[1]-P[1]], fm=Math.hypot(fd[0],fd[1])||1, Lf=22+Math.min(40,C15.F(p)/4);
+      role("vector")(o, P[0], P[1], P[0]+vd[0]*Lv, P[1]+vd[1]*Lv, {col:"var(--accent)", hl:S.hl==="v"});
+      role("vector")(o, P[0], P[1], P[0]+fd[0]/fm*Lf, P[1]+fd[1]/fm*Lf, {col:"var(--warn)", hl:S.hl==="F"});
+      role("charge")(o, P[0], P[1], {q:C15.q(p), size:5+p.m*1.4, clock:STAGE.clock});
+      o.push('</g>');
+    },
+    trace:function(p,S){ return C15.at(p,S.t); },
+    traceCol:"accent",
+    handles:[
+      {k:"v", at:function(p){ return {px:C15.x0+20+p.v*12, py:C15.y0}; }, set:function(px){ return {v:(px-C15.x0-20)/12}; },
+       lab:["drag the speed","ลากความเร็ว"], labBelow:true, col:"accent"}
+    ],
+    instrument:{ kind:"bar",
+      ylab:["femtonewtons","เฟมโตนิวตัน"],
+      bars:[
+        {lab:["Magnetic force qvB","แรงแม่เหล็ก qvB"], f:function(p){ return C15.F(p); }, col:"warn"},
+        {lab:["Needed to turn, mv²/r","ที่ต้องใช้เลี้ยว mv²/r"], f:function(p){ var r=C15.r(p)/100, v=p.v*1e6; return p.m*C15.mp*v*v/r*1e15; }, col:"accent"}
+      ]
+    },
+    spell:{
+      tex:function(p){ var q=C15.q(p);
+        return "r = \\dfrac{mv}{qB} = \\dfrac{("+p.m+"\\times1.67\\times10^{-27})("+fmt2(p.v)+"\\times10^{6})}{("+Math.abs(q)+"\\times1.6\\times10^{-19})("+fmt2(p.B)+")} = "+fmt2(C15.r(p))+"\\,\\text{cm}"; },
+      terms:[
+        {k:"v", sym:"v", lab:["speed","อัตราเร็ว"], col:"accent", f:function(p){ return fmt2(p.v)+"×10⁶ m/s"; }},
+        {k:"B", sym:"B", lab:["field strength","ความเข้มสนาม"], col:"faint", f:function(p){ return fmt2(p.B)+" T"; }},
+        {k:"r", sym:"r", lab:["radius of the circle","รัศมีวงกลม"], col:"good", f:function(p){ return fmt2(C15.r(p))+" cm"; }},
+        {k:"F", sym:"F", lab:["force · always toward the centre","แรง · ชี้เข้าศูนย์กลางเสมอ"], col:"warn", f:function(p){ return fmt2(C15.F(p))+" fN"; }}
+      ]
+    },
+    predict:{ kind:"choice",
+      ask:["If the wisp flew twice as fast, how long would one full loop take?","ถ้าภูตบินเร็วเป็นสองเท่า การวนครบหนึ่งรอบจะใช้เวลาเท่าใด"],
+      opts:[["Half as long","ครึ่งหนึ่ง"],["Exactly the same","เท่าเดิมพอดี"],["Twice as long","สองเท่า"]],
+      actual:function(){ return 1; },
+      explain:function(p){ return ["Twice as fast means a circle twice as big (r = mv / qB), so the longer path exactly cancels the higher speed: T = 2πm / qB = "+fmt(C15.Tns(p))+" ns, with no v in it. Cyclotrons rely on this.",
+                                   "เร็วขึ้นสองเท่าทำให้วงใหญ่ขึ้นสองเท่า (r = mv / qB) ระยะทางที่ยาวขึ้นหักล้างความเร็วที่เพิ่มขึ้นพอดี T = 2πm / qB = "+fmt(C15.Tns(p))+" ns ไม่มี v อยู่ในสูตร ไซโคลตรอนอาศัยข้อนี้"]; }
+    },
+    trials:{
+      veil:true, play:false,
+      make:function(){
+        if(Math.random()<0.55){
+          var n=0, v, B, m, qs, r; do{ v=ri(1,10)/2; B=ri(2,8)*0.05; m=ri(1,2); qs=ri(0,2); r=C15.r({v:v,B:B,m:m,qs:qs}); n++; } while((r<4 || r>16) && n<300);
+          return {kind:"radius", v:v, B:+B.toFixed(2), m:m, qs:qs, r:r, set:{B:+B.toFixed(2), m:m, qs:qs, v:(v>2.5?0.5:5)}};
+        }
+        var Bt=ri(2,16)*0.05, mt=ri(1,4), qt=ri(0,2);
+        return {kind:"period", B:+Bt.toFixed(2), m:mt, qs:qt, Tns:C15.Tns({B:Bt,m:mt,qs:qt}), set:{m:mt, qs:qt, B:(Bt>0.5?0.05:1)}};
+      },
+      lockFor:function(g){ return g.kind==="radius" ? ["B","m","qs"] : ["m","qs","v"]; },
+      say:function(g){
+        if(g.kind==="radius") return ["Field "+g.B+" T, mass "+g.m+" proton mass"+(g.m>1?"es":"")+", charge "+["+e","+2e","−e"][g.qs]+". Choose the speed that makes the wisp circle with radius exactly "+fmt2(g.r)+" cm and pass through {@goal}.",
+                                      "สนาม "+g.B+" T มวล "+g.m+" เท่าของโปรตอน ประจุ "+["+e","+2e","−e"][g.qs]+" เลือกอัตราเร็วที่ทำให้ภูตวนด้วยรัศมี "+fmt2(g.r)+" ซม. พอดี และผ่าน{@goal}"];
+        return ["Mass "+g.m+" proton mass"+(g.m>1?"es":"")+", charge "+["+e","+2e","−e"][g.qs]+". Choose the field that makes one loop take exactly "+fmt(g.Tns)+" ns.",
+                "มวล "+g.m+" เท่าของโปรตอน ประจุ "+["+e","+2e","−e"][g.qs]+" เลือกสนามที่ทำให้การวนหนึ่งรอบใช้เวลา "+fmt(g.Tns)+" ns พอดี"];
+      },
+      check:function(p,S,g){
+        if(g.kind==="radius"){
+          if(Math.abs(C15.r(p)-g.r)<1e-6) return {ok:true, msg:["Through the portal. v = qBr / m = "+fmt2(g.v)+" × 10⁶ m/s.","ผ่านประตูมิติ v = qBr / m = "+fmt2(g.v)+" × 10⁶ ม./วิ"]};
+          return {ok:false, msg:["It circled with r = "+fmt2(C15.r(p))+" cm. Radius grows in step with speed: r = mv / qB.","มันวนด้วยรัศมี "+fmt2(C15.r(p))+" ซม. รัศมีโตตามความเร็ว: r = mv / qB"]};
+        }
+        if(Math.abs(p.B-g.B)<1e-6) return {ok:true, msg:["One loop in "+fmt(g.Tns)+" ns. T = 2πm / qB, so B = 2πm / qT = "+g.B+" T — and the speed never mattered.",
+                                                         "วนหนึ่งรอบใน "+fmt(g.Tns)+" ns T = 2πm / qB ดังนั้น B = 2πm / qT = "+g.B+" T และความเร็วไม่มีผลเลย"]};
+        return {ok:false, msg:["That field gives a loop of "+fmt(C15.Tns(p))+" ns. A stronger field turns it faster.","สนามนี้ให้การวนรอบละ "+fmt(C15.Tns(p))+" ns สนามที่แรงกว่าทำให้เลี้ยวเร็วกว่า"]};
+      }
+    },
+    note:["the orange force always points at the centre, so it bends the path but never speeds the wisp up or slows it down",
+          "แรงสีส้มชี้เข้าศูนย์กลางเสมอ จึงดัดเส้นทาง แต่ไม่เคยทำให้ภูตเร็วขึ้นหรือช้าลง"]
+  },
   guide:[
-    {say:["Take one arrow as the velocity and the other as the field. The force comes out perpendicular to both.",
-          "ให้ลูกศรหนึ่งเป็นความเร็วและอีกอันเป็นสนาม แรงจะออกมาตั้งฉากกับทั้งสอง"], set:{A:12,tA:0,B:12,tB:90}},
-    {say:["Line them up at 0°. sin θ is zero, so the force vanishes — a charge moving along the field feels nothing.",
-          "จัดให้ทับกันที่ 0° sin θ เป็นศูนย์ แรงจึงหายไป ประจุที่วิ่งตามแนวสนามไม่รู้สึกแรงเลย"], set:{A:12,tA:0,B:12,tB:0}},
-    {say:["At 90° the force is maximum. Everything in between scales with sin θ.",
-          "ที่ 90° แรงมากที่สุด มุมระหว่างนั้นแปรตาม sin θ"], set:{A:12,tA:0,B:12,tB:90}}
-  ]},
+    {say:["A positive wisp enters the field. The force is always at right angles to its velocity, so it curls into a circle.",
+          "ภูตประจุบวกเข้าสู่สนาม แรงตั้งฉากกับความเร็วเสมอ มันจึงม้วนเป็นวงกลม"], set:{v:2,B:.2,m:1,qs:0,T:8}},
+    {say:["Double the speed and cast again. The circle doubles — yet each loop takes the same time, as the faint last loop shows.",
+          "เพิ่มความเร็วเป็นสองเท่าแล้วร่ายอีกครั้ง วงกลมใหญ่ขึ้นสองเท่า แต่แต่ละรอบใช้เวลาเท่าเดิม ดูจากรอยจางของรอบก่อน"], set:{v:4,B:.2,m:1,qs:0,T:8}},
+    {say:["Flip the charge. The same field now curls it the other way.",
+          "กลับเครื่องหมายประจุ สนามเดิมดัดให้มันม้วนไปอีกทาง"], set:{v:2,B:.2,m:1,qs:2,T:8}}
+  ]
+},
 
 { id:"force-wire", x:370, y:150, requires:["field"], methods:["M-03"],
   title:["Force on a current","แรงต่อลวดที่มีกระแส"],

@@ -2524,6 +2524,7 @@ var STAGE = {
     if(STAGE.guessing(S)) return;
     (cfg.handles || []).forEach(function(h, i){
       if(S.trial && h.k && S.trial.lock.indexOf(h.k) >= 0) return;
+      if(h.hide && h.hide(S.p, S)) return;
       var P = STAGE.handlePos(S, W, G, h); if(!P) return;
       var active = (S.drag && S.drag.i === i) || (S.kbd && S.kbd.on && S.kbd.i === i);
       if(S.kbd && S.kbd.on && S.kbd.i === i)
@@ -3562,6 +3563,17 @@ VIZLIB.stage = {
       o.push('<ellipse cx="' + F2(x) + '" cy="' + F2(y + 0.5) + '" rx="1.6" ry="' + F2(1.4 + Math.abs(w) * 0.4) + '" fill="#2a1f4d"/>');
     },
 
+    /* a charged wisp: ember-red for positive, frost-blue for negative */
+    charge: function(o, x, y, opt){
+      var pos = (opt.q || 0) >= 0, r = opt.size || 11, k = opt.clock || 0;
+      var core = pos ? "#ff9b7a" : "#8fd8ff", rim = pos ? "#ff5a6e" : "#3d8bff";
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + F2(r * 2.2) + '" fill="' + rim + '" opacity=".16"/>');
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + F2(r * (1.35 + 0.08 * Math.sin(k * 4))) + '" fill="none" stroke="' + rim + '" stroke-width="1" stroke-dasharray="3 3" opacity=".8"/>');
+      o.push('<circle cx="' + F2(x) + '" cy="' + F2(y) + '" r="' + F2(r) + '" fill="' + core + '" stroke="#fff" stroke-width=".8" filter="url(#ak-glow)"/>');
+      o.push('<path d="M' + F2(x - r * .45) + ' ' + F2(y) + ' h' + F2(r * .9) + (pos ? ' M' + F2(x) + ' ' + F2(y - r * .45) + ' v' + F2(r * .9) : '') +
+             '" stroke="#2a1f4d" stroke-width="2" stroke-linecap="round"/>');
+    },
+
     /* a prophecy stone: the learner's prediction, planted on the ley line */
     prophecy: function(o, x, y, opt){
       var c = opt.done ? (opt.hit ? "#9cf5b5" : "#ffcf6e") : "#d6a8ff", k = opt.clock || 0;
@@ -3781,6 +3793,14 @@ SKINS.add({
   wisp: function(o, x, y, opt){
     o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="8" fill="' + (opt.col || "var(--warn)") + '"/>');
     o.push('<path d="M' + fmt2(x - 4) + ' ' + fmt2(y - 3) + ' h8 M' + fmt2(x - 4) + ' ' + fmt2(y + 3) + ' h8" stroke="var(--surface)" stroke-width="1.6"/>');
+  },
+
+  /* a point charge about its centre; opt.q its sign and size, opt.size its radius */
+  charge: function(o, x, y, opt){
+    var pos = (opt.q || 0) >= 0, r = opt.size || 11, c = pos ? "var(--accent2)" : "var(--accent)";
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="' + r + '" fill="var(--surface)" stroke="' + c + '" stroke-width="2.4"/>');
+    o.push('<path d="M' + fmt2(x - r * .5) + ' ' + fmt2(y) + ' h' + fmt2(r) + (pos ? ' M' + fmt2(x) + ' ' + fmt2(y - r * .5) + ' v' + fmt2(r) : '') +
+           '" stroke="' + c + '" stroke-width="2"/>');
   },
 
   prophecy: function(o, x, y, opt){

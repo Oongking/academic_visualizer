@@ -194,6 +194,14 @@ SKINS.add({
     o.push('<path d="M' + fmt2(x - 4) + ' ' + fmt2(y - 3) + ' h8 M' + fmt2(x - 4) + ' ' + fmt2(y + 3) + ' h8" stroke="var(--surface)" stroke-width="1.6"/>');
   },
 
+  /* a point charge about its centre; opt.q its sign and size, opt.size its radius */
+  charge: function(o, x, y, opt){
+    var pos = (opt.q || 0) >= 0, r = opt.size || 11, c = pos ? "var(--accent2)" : "var(--accent)";
+    o.push('<circle cx="' + fmt2(x) + '" cy="' + fmt2(y) + '" r="' + r + '" fill="var(--surface)" stroke="' + c + '" stroke-width="2.4"/>');
+    o.push('<path d="M' + fmt2(x - r * .5) + ' ' + fmt2(y) + ' h' + fmt2(r) + (pos ? ' M' + fmt2(x) + ' ' + fmt2(y - r * .5) + ' v' + fmt2(r) : '') +
+           '" stroke="' + c + '" stroke-width="2"/>');
+  },
+
   prophecy: function(o, x, y, opt){
     var c = opt.done ? (opt.hit ? "var(--good)" : "var(--warn)") : "var(--accent2)";
     if(opt.tower){

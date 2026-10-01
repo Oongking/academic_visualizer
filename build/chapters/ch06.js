@@ -197,7 +197,7 @@ nodes:[
     },
     spell:{
       tex:function(p){ var r=C06.out(p);
-        return "m_1u_1 + m_2u_2 = m_1v_1 + m_2v_2:\\quad ("+fmt2(p.m1)+")("+fmt2(p.u1)+") + ("+fmt2(p.m2)+")("+fmt2(p.u2)+") = ("+fmt2(p.m1)+")("+fmt2(r.v1)+") + ("+fmt2(p.m2)+")("+fmt2(r.v2)+") = "+fmt2(r.p)+"\\,\\text{kg·m/s}"; },
+        return "m_1u_1 + m_2u_2 = m_1v_1 + m_2v_2:\\quad ("+fmt2(p.m1)+")("+fmt2(p.u1)+") + ("+fmt2(p.m2)+")("+fmt2(p.u2)+") = ("+fmt2(p.m1)+")("+fmt2(r.v1)+") + ("+fmt2(p.m2)+")("+fmt2(r.v2)+") = "+fmt2(r.p)+"\\,\\text{kg}\\cdot\\text{m/s}"; },
       terms:[
         {k:"p", sym:"Σp", lab:["total momentum · always kept","โมเมนตัมรวม · อยู่รอดเสมอ"], col:"accent", f:function(p){ return fmt2(C06.out(p).p)+" kg·m/s"; }},
         {k:"ke", sym:"ΔE", lab:["energy lost to heat and sound","พลังงานที่สูญเป็นความร้อนและเสียง"], col:"warn", f:function(p){ var r=C06.out(p); return fmt2(r.ke0-r.ke1)+" J"; }}
