@@ -379,6 +379,20 @@ reads each chapter's saved `trials` and `preds` to show which spells are
 mastered and the prediction score. A new stage lab with a `spellName`
 appears there automatically.
 
+**Performance.** A lab repaints its whole SVG on every change, so the
+engine keeps that from filling the main thread.
+- **Frame budget:** each lab times what a repaint really costs (script plus
+  the browser's style, layout and paint) and spaces repaints during a drag
+  to about twice that, never more than 100 ms apart. Fast machines still
+  draw every frame; slow phones draw less often but keep handling input.
+- **The formula:** the live spell is re-typeset at most every 150 ms (or 8×
+  its own cost) and once more when changes stop. The term chips update
+  every frame.
+- **Ambient motion** only fills frames that nothing else has just drawn.
+- **Unchanged text is never rewritten**, because each write costs a layout.
+- **New art:** animate groups, not hundreds of separate elements. One CSS
+  animation per star made the browser restyle the whole sky every frame.
+
 **Checks.** `node build/check_math.js` also renders every stage lab's live
 spell in both languages: for the defaults, every guided step, and a sample
 of trial setups. A bad TeX string or a NaN term fails the build check

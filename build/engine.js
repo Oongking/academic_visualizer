@@ -1288,12 +1288,14 @@ function makeLab(nd, host){
       el.classList.toggle("on",on);
       el.setAttribute("aria-pressed",on?"true":"false");
     });
+    /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")];
-      el.textContent=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){
-      el.textContent=readouts[+el.getAttribute("data-i")].f(S);
+      var v=String(readouts[+el.getAttribute("data-i")].f(S));
+      if(el.textContent!==v) el.textContent=v;
     });
   }
   /* Art changes only when a file finishes loading or fails, so it is painted
@@ -1317,10 +1319,32 @@ function makeLab(nd, host){
      an animation frame keeps the handler O(1) - the last value before the frame
      is the one drawn, which is exactly what the reader should see - and stops
      the play loop and a drag from painting the same frame twice. */
-  var frame=null;
-  function paint(){ frame=null; var o=[]; viz.draw(S,o,cfg); svg.innerHTML=o.join(""); labels();
-                    if(S.afterPaint) S.afterPaint(); }
-  function draw(){ if(frame===null) frame=requestAnimationFrame(paint); }
+  /* A frame budget, too. Each lab measures what a repaint really costs —
+     its own script plus the style, layout and painting the browser does
+     after it, read as the time until the next frame can start — and while
+     a slider is being dragged it waits about twice that long between
+     repaints. Drawing then never fills the main thread: a fast machine
+     still repaints every frame, a slow phone repaints less often but keeps
+     up with the finger instead of freezing. */
+  var frame=null, waitT=null, cost=0, lastStart=-1e9;
+  var now=function(){ return (typeof performance!=="undefined"?performance:Date).now(); };
+  function paint(){
+    frame=null; var t0=now(), o=[];
+    viz.draw(S,o,cfg); svg.innerHTML=o.join(""); labels();
+    if(S.afterPaint) S.afterPaint();
+    var js=now()-t0; lastStart=t0;
+    requestAnimationFrame(function(){
+      var busy=Math.max(js, now()-t0-16.7);
+      cost=cost?cost*0.6+busy*0.4:busy;
+    });
+  }
+  function draw(){
+    if(frame!==null||waitT!==null) return;
+    /* never longer than 100 ms, so the picture always keeps pace with the hand */
+    var wait=Math.min(100, lastStart+cost*2-now());
+    if(wait>4) waitT=setTimeout(function(){ waitT=null; if(frame===null) frame=requestAnimationFrame(paint); }, wait);
+    else frame=requestAnimationFrame(paint);
+  }
   function applyStep(){
     var st=S.script[S.step]; if(!st) return;
     q(".g-step").textContent=t("lab.step")+" "+(S.step+1)+" / "+S.script.length;

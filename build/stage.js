@@ -492,7 +492,16 @@ var STAGE = {
     };
 
     /* --- the spell: live formula plus hoverable terms --- */
-    var sp = cfg.spell, lastTex = null;
+    var sp = cfg.spell, lastTex = null, texAt = 0, texTimer = null, texCost = 0;
+    var setTex = function(tex){
+      if(tex === lastTex) return;
+      lastTex = tex;
+      var el = host.querySelector(".spell-tex"); if(!el) return;
+      var t0 = Date.now();
+      try{ katex.render(tex, el, { throwOnError: false, strict: "ignore", trust: false, displayMode: false }); }
+      catch(e){ el.textContent = tex; }
+      var c = Date.now() - t0; texCost = texCost ? texCost * 0.6 + c * 0.4 : c;
+    };
     if(sp){
       var box = document.createElement("div");
       box.className = "spell";
@@ -521,19 +530,24 @@ var STAGE = {
       (host.querySelector(".spell") || q(".lab-stage")).insertAdjacentElement("afterend", nEl);
     }
     S.afterPaint = function(){
+      S.paintedAt = Date.now();
       var qt = curQ(), qs = qt ? tx(qt) : "";
       if(qEl.textContent !== qs){ qEl.textContent = qs; qEl.hidden = !qs; }
       if(!sp) return;
+      /* Typesetting is the dearest thing a frame does. While the numbers keep
+         changing, the formula is re-set no more often than every 150 ms or
+         eight times its own cost, whichever is longer, and always once more
+         120 ms after the change stops. The term chips stay live. */
       var tex = sp.tex(S.p, S);
       if(tex !== lastTex){
-        lastTex = tex;
-        var el = host.querySelector(".spell-tex");
-        try{ katex.render(tex, el, { throwOnError: false, strict: "ignore", trust: false, displayMode: false }); }
-        catch(e){ el.textContent = tex; }
+        var now = Date.now(), gap = Math.max(150, texCost * 8);
+        if(texTimer) clearTimeout(texTimer);
+        if(now - texAt >= gap){ texAt = now; setTex(tex); texTimer = null; }
+        else texTimer = setTimeout(function(){ texTimer = null; texAt = Date.now(); setTex(sp.tex(S.p, S)); }, 120);
       }
       host.querySelectorAll(".term").forEach(function(b){
-        var tm = sp.terms[+b.getAttribute("data-i")];
-        b.querySelector(".term-v").textContent = "= " + tm.f(S.p, S);
+        var tm = sp.terms[+b.getAttribute("data-i")], v = "= " + tm.f(S.p, S), el = b.querySelector(".term-v");
+        if(el.textContent !== v) el.textContent = v;
         b.classList.toggle("on", S.hl === tm.k);
       });
     };
@@ -860,7 +874,9 @@ var STAGE = {
       S.ambRaf = null;
       if(!S.visible || document.hidden) return;
       if(!(sk.ambient || S.fx.length)) return;
-      if(!S.playing && now - last > 40){ last = now; api.paint(); }
+      /* the idle shimmer only fills gaps: a frame a slider or a run has just
+         drawn is not drawn again */
+      if(!S.playing && !S.drag && now - last > 40 && Date.now() - (S.paintedAt || 0) > 40){ last = now; api.paint(); }
       S.ambRaf = requestAnimationFrame(loop);
     };
     S.wake = function(){
@@ -876,6 +892,7 @@ var STAGE = {
       io.observe(host);
     }
     S.dispose = function(){
+      if(texTimer){ clearTimeout(texTimer); texTimer = null; }
       if(io) io.disconnect();
       if(ro) ro.disconnect();
       if(S.ambRaf != null) cancelAnimationFrame(S.ambRaf);

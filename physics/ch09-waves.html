@@ -2852,7 +2852,16 @@ var STAGE = {
     };
 
     /* --- the spell: live formula plus hoverable terms --- */
-    var sp = cfg.spell, lastTex = null;
+    var sp = cfg.spell, lastTex = null, texAt = 0, texTimer = null, texCost = 0;
+    var setTex = function(tex){
+      if(tex === lastTex) return;
+      lastTex = tex;
+      var el = host.querySelector(".spell-tex"); if(!el) return;
+      var t0 = Date.now();
+      try{ katex.render(tex, el, { throwOnError: false, strict: "ignore", trust: false, displayMode: false }); }
+      catch(e){ el.textContent = tex; }
+      var c = Date.now() - t0; texCost = texCost ? texCost * 0.6 + c * 0.4 : c;
+    };
     if(sp){
       var box = document.createElement("div");
       box.className = "spell";
@@ -2881,19 +2890,24 @@ var STAGE = {
       (host.querySelector(".spell") || q(".lab-stage")).insertAdjacentElement("afterend", nEl);
     }
     S.afterPaint = function(){
+      S.paintedAt = Date.now();
       var qt = curQ(), qs = qt ? tx(qt) : "";
       if(qEl.textContent !== qs){ qEl.textContent = qs; qEl.hidden = !qs; }
       if(!sp) return;
+      /* Typesetting is the dearest thing a frame does. While the numbers keep
+         changing, the formula is re-set no more often than every 150 ms or
+         eight times its own cost, whichever is longer, and always once more
+         120 ms after the change stops. The term chips stay live. */
       var tex = sp.tex(S.p, S);
       if(tex !== lastTex){
-        lastTex = tex;
-        var el = host.querySelector(".spell-tex");
-        try{ katex.render(tex, el, { throwOnError: false, strict: "ignore", trust: false, displayMode: false }); }
-        catch(e){ el.textContent = tex; }
+        var now = Date.now(), gap = Math.max(150, texCost * 8);
+        if(texTimer) clearTimeout(texTimer);
+        if(now - texAt >= gap){ texAt = now; setTex(tex); texTimer = null; }
+        else texTimer = setTimeout(function(){ texTimer = null; texAt = Date.now(); setTex(sp.tex(S.p, S)); }, 120);
       }
       host.querySelectorAll(".term").forEach(function(b){
-        var tm = sp.terms[+b.getAttribute("data-i")];
-        b.querySelector(".term-v").textContent = "= " + tm.f(S.p, S);
+        var tm = sp.terms[+b.getAttribute("data-i")], v = "= " + tm.f(S.p, S), el = b.querySelector(".term-v");
+        if(el.textContent !== v) el.textContent = v;
         b.classList.toggle("on", S.hl === tm.k);
       });
     };
@@ -3220,7 +3234,9 @@ var STAGE = {
       S.ambRaf = null;
       if(!S.visible || document.hidden) return;
       if(!(sk.ambient || S.fx.length)) return;
-      if(!S.playing && now - last > 40){ last = now; api.paint(); }
+      /* the idle shimmer only fills gaps: a frame a slider or a run has just
+         drawn is not drawn again */
+      if(!S.playing && !S.drag && now - last > 40 && Date.now() - (S.paintedAt || 0) > 40){ last = now; api.paint(); }
       S.ambRaf = requestAnimationFrame(loop);
     };
     S.wake = function(){
@@ -3236,6 +3252,7 @@ var STAGE = {
       io.observe(host);
     }
     S.dispose = function(){
+      if(texTimer){ clearTimeout(texTimer); texTimer = null; }
       if(io) io.disconnect();
       if(ro) ro.disconnect();
       if(S.ambRaf != null) cancelAnimationFrame(S.ambRaf);
@@ -3493,16 +3510,21 @@ VIZLIB.stage = {
       var r = rng(7), div = opt.div || 250;
       o.push('<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="#0d0b2a"/>');
       o.push('<rect x="0" y="0" width="' + w + '" height="' + (div - 30) + '" fill="url(#ak-sky)"/>');
-      /* stars */
+      /* stars, twinkling in four groups out of step with one another: four
+         animations rather than one per star, which kept the browser
+         restyling the whole sky on every frame */
+      var groups = [[], [], [], []];
       for(var i = 0; i < 70; i++){
         var sx = r() * w, sy = 30 + r() * (div - 110), sr = 0.5 + r() * 1.1;
-        o.push('<circle class="ak-tw" cx="' + F2(sx) + '" cy="' + F2(sy) + '" r="' + F2(sr) + '" fill="#fff" ' +
-               'style="animation-delay:' + F2(-r() * 3.4) + 's"/>');
+        groups[i % 4].push('<circle cx="' + F2(sx) + '" cy="' + F2(sy) + '" r="' + F2(sr) + '" fill="#fff"/>');
       }
       for(var j = 0; j < 5; j++){
         var bx = 40 + r() * (w - 80), by = 40 + r() * 90;
-        o.push('<path class="ak-tw" d="' + star4(bx, by, 3.4) + '" fill="#fff6d8" style="animation-delay:' + F2(-r() * 3.4) + 's"/>');
+        groups[j % 4].push('<path d="' + star4(bx, by, 3.4) + '" fill="#fff6d8"/>');
       }
+      groups.forEach(function(gr, k){
+        o.push('<g class="ak-tw" style="animation-delay:' + F2(-k * 0.85) + 's">' + gr.join("") + '</g>');
+      });
       /* a faint constellation */
       o.push('<path d="M70 70 L104 58 L132 74 L160 62 M104 58 L112 40" stroke="#bfb6ff" stroke-width=".6" opacity=".35" fill="none"/>');
       /* moon */
@@ -4453,12 +4475,14 @@ function makeLab(nd, host){
       el.classList.toggle("on",on);
       el.setAttribute("aria-pressed",on?"true":"false");
     });
+    /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")];
-      el.textContent=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){
-      el.textContent=readouts[+el.getAttribute("data-i")].f(S);
+      var v=String(readouts[+el.getAttribute("data-i")].f(S));
+      if(el.textContent!==v) el.textContent=v;
     });
   }
   /* Art changes only when a file finishes loading or fails, so it is painted
@@ -4482,10 +4506,32 @@ function makeLab(nd, host){
      an animation frame keeps the handler O(1) - the last value before the frame
      is the one drawn, which is exactly what the reader should see - and stops
      the play loop and a drag from painting the same frame twice. */
-  var frame=null;
-  function paint(){ frame=null; var o=[]; viz.draw(S,o,cfg); svg.innerHTML=o.join(""); labels();
-                    if(S.afterPaint) S.afterPaint(); }
-  function draw(){ if(frame===null) frame=requestAnimationFrame(paint); }
+  /* A frame budget, too. Each lab measures what a repaint really costs —
+     its own script plus the style, layout and painting the browser does
+     after it, read as the time until the next frame can start — and while
+     a slider is being dragged it waits about twice that long between
+     repaints. Drawing then never fills the main thread: a fast machine
+     still repaints every frame, a slow phone repaints less often but keeps
+     up with the finger instead of freezing. */
+  var frame=null, waitT=null, cost=0, lastStart=-1e9;
+  var now=function(){ return (typeof performance!=="undefined"?performance:Date).now(); };
+  function paint(){
+    frame=null; var t0=now(), o=[];
+    viz.draw(S,o,cfg); svg.innerHTML=o.join(""); labels();
+    if(S.afterPaint) S.afterPaint();
+    var js=now()-t0; lastStart=t0;
+    requestAnimationFrame(function(){
+      var busy=Math.max(js, now()-t0-16.7);
+      cost=cost?cost*0.6+busy*0.4:busy;
+    });
+  }
+  function draw(){
+    if(frame!==null||waitT!==null) return;
+    /* never longer than 100 ms, so the picture always keeps pace with the hand */
+    var wait=Math.min(100, lastStart+cost*2-now());
+    if(wait>4) waitT=setTimeout(function(){ waitT=null; if(frame===null) frame=requestAnimationFrame(paint); }, wait);
+    else frame=requestAnimationFrame(paint);
+  }
   function applyStep(){
     var st=S.script[S.step]; if(!st) return;
     q(".g-step").textContent=t("lab.step")+" "+(S.step+1)+" / "+S.script.length;

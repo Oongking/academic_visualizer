@@ -107,16 +107,21 @@
       var r = rng(7), div = opt.div || 250;
       o.push('<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="#0d0b2a"/>');
       o.push('<rect x="0" y="0" width="' + w + '" height="' + (div - 30) + '" fill="url(#ak-sky)"/>');
-      /* stars */
+      /* stars, twinkling in four groups out of step with one another: four
+         animations rather than one per star, which kept the browser
+         restyling the whole sky on every frame */
+      var groups = [[], [], [], []];
       for(var i = 0; i < 70; i++){
         var sx = r() * w, sy = 30 + r() * (div - 110), sr = 0.5 + r() * 1.1;
-        o.push('<circle class="ak-tw" cx="' + F2(sx) + '" cy="' + F2(sy) + '" r="' + F2(sr) + '" fill="#fff" ' +
-               'style="animation-delay:' + F2(-r() * 3.4) + 's"/>');
+        groups[i % 4].push('<circle cx="' + F2(sx) + '" cy="' + F2(sy) + '" r="' + F2(sr) + '" fill="#fff"/>');
       }
       for(var j = 0; j < 5; j++){
         var bx = 40 + r() * (w - 80), by = 40 + r() * 90;
-        o.push('<path class="ak-tw" d="' + star4(bx, by, 3.4) + '" fill="#fff6d8" style="animation-delay:' + F2(-r() * 3.4) + 's"/>');
+        groups[j % 4].push('<path d="' + star4(bx, by, 3.4) + '" fill="#fff6d8"/>');
       }
+      groups.forEach(function(gr, k){
+        o.push('<g class="ak-tw" style="animation-delay:' + F2(-k * 0.85) + 's">' + gr.join("") + '</g>');
+      });
       /* a faint constellation */
       o.push('<path d="M70 70 L104 58 L132 74 L160 62 M104 58 L112 40" stroke="#bfb6ff" stroke-width=".6" opacity=".35" fill="none"/>');
       /* moon */
