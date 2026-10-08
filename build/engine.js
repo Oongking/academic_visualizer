@@ -10,6 +10,8 @@ var KEY = "lp." + CHAPTER.id + ".v1";
 function load(){ try{ var r=localStorage.getItem(KEY); return r?JSON.parse(r):null; }catch(e){ return null; } }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(STATE)); }catch(e){} }
 var STATE = load() || { lang:"en", theme:null, read:{}, cov:{}, current:(CHAPTER.nodes[0]||{}).id };
+/* the language is shared by every page, so it is chosen once */
+try{ var gl=localStorage.getItem("edu-lang"); if(gl==="en"||gl==="th") STATE.lang=gl; }catch(e){}
 
 /* ---------- 1 · strings ---------- */
 var BASE = {
@@ -1720,7 +1722,7 @@ document.querySelectorAll("nav.surfaces button").forEach(function(b){
   b.addEventListener("click",function(){ setView(b.dataset.view); });
 });
 document.getElementById("langBtn").addEventListener("click",function(){
-  STATE.lang = STATE.lang==="en"?"th":"en"; save(); applyLang();
+  STATE.lang = STATE.lang==="en"?"th":"en"; save(); try{ localStorage.setItem("edu-lang",STATE.lang); }catch(e){} applyLang();
 });
 document.addEventListener("readingthemechange",function(){
   ART.repaint();

@@ -473,3 +473,8 @@ them for nested pages. Do not use this local theme script alongside the site's
   check that generated pages have no broken
   links or unresolved build tokens. Changes to a deployed site require a
   separate deployment and live verification.
+
+**Language is shared.** Every page (home, bridge, subject indexes, chapters)
+reads and writes one `edu-lang` key (`en` or `th`) in localStorage, so the
+choice made on any page carries to all the others. Keep it that way in any
+new page template.
