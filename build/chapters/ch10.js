@@ -1,3 +1,21 @@
+/* Chapter 10 scrying pool: two runes ripple in step; brightness on the
+   screen comes from the exact path difference, not the small-angle sum. */
+var C10 = {
+  x0: 70, y0: 150, k: 7.6, v: 10,
+  dx: function(p){ return p.lam * p.L / p.d; },
+  I: function(p, y){
+    var r1 = Math.sqrt(p.L * p.L + (y + p.d / 2) * (y + p.d / 2)), r2 = Math.sqrt(p.L * p.L + (y - p.d / 2) * (y - p.d / 2));
+    var c = Math.cos(Math.PI * (r1 - r2) / p.lam); return c * c;
+  },
+  /* ripple colour follows wavelength, violet to red, as light's would */
+  hue: function(lam){ return "hsl(" + Math.round(275 - (lam - 1) / 2 * 275) + " 95% 62%)"; },
+  cands: function(p){
+    var c = [p.lam * p.L / p.d, p.lam * p.d / p.L, p.lam * p.L / (2 * p.d), 2 * p.lam * p.L / p.d], u = [];
+    c.forEach(function(v){ if(u.every(function(w){ return Math.abs(w - v) > 0.05; })) u.push(v); });
+    return u.sort(function(a, b){ return a - b; });
+  }
+};
+
 var CHAPTER = {
 id:"ch10", num:"10", slug:"wave-optics", subject:"physics",
 kicker:["Physics · Chapter 10","ฟิสิกส์ · บทที่ 10"],
@@ -63,58 +81,126 @@ nodes:[
          "สำหรับมุมเล็ก แถบสว่างจะเรียงห่างเท่าๆ กัน Δx = λL/d สังเกตว่า d คือระยะห่างระหว่างสลิต และ L คือระยะจากสลิตถึงฉาก การสลับกันคือกับดัก T-03 และเป็นข้อผิดพลาดทางเลขที่พบบ่อยที่สุดในบทนี้"]],
   formula:["Bright: d sin θ = nλ        Δx = λL / d","สว่าง: d sin θ = nλ        Δx = λL / d"],
   flabel:["n = 0, 1, 2, … from the centre","n = 0, 1, 2, … นับจากกึ่งกลาง"],
-  viz:{
-    vb:"0 0 560 300", anim:false,
+  viz:"stage",
+  vizcfg:{
+    anim:true,
+    spellName:["Two Runes in the Pool: path difference makes fringes","สองรูนในสระ: ผลต่างระยะทางทำให้เกิดแถบ"],
+    question:["Two runes ripple in step. Why does the far screen light up in bands — and what spaces them out?",
+              "รูนสองอันส่งระลอกพร้อมกัน ทำไมฉากฝั่งไกลจึงสว่างเป็นแถบ และอะไรกำหนดระยะห่างของแถบ"],
     ctrls:[
-      {k:"lam", lab:["Wavelength λ","ความยาวคลื่น λ"], min:400, max:700, step:10, def:550, unit:" nm"},
-      {k:"d",   lab:["Slit separation d","ระยะห่างสลิต d"], min:0.1, max:1, step:.05, def:0.3, unit:" mm"},
-      {k:"L",   lab:["Screen distance L","ระยะถึงฉาก L"],  min:0.5, max:4, step:.1, def:2, unit:" m"}
+      {k:"lam", lab:["Ripple wavelength λ","ความยาวคลื่นระลอก λ"], min:1, max:3, step:.1, def:2, unit:" cm"},
+      {k:"d",   lab:["Rune separation d","ระยะห่างรูน d"], min:3, max:12, step:.5, def:6, unit:" cm"},
+      {k:"L",   lab:["Distance to screen L","ระยะถึงฉาก L"], min:20, max:55, step:1, def:40, unit:" cm"}
     ],
+    duration:function(p){ return Math.sqrt(p.L*p.L+15*15)/C10.v+1.5; },
     readouts:[
-      {lab:["Fringe spacing Δx","ระยะแถบ Δx"], f:function(S){
-        return fmt(S.p.lam*1e-9*S.p.L/(S.p.d*1e-3)*1000)+" mm"; }},
-      {lab:["Fringes across 40 mm","แถบใน 40 มม."], f:function(S){
-        return String(Math.round(40/(S.p.lam*1e-9*S.p.L/(S.p.d*1e-3)*1000))); }}
+      {lab:["Band spacing Δx","ระยะห่างแถบ Δx"], f:function(S){ return fmt2(C10.dx(S.p))+" cm"; }},
+      {lab:["Bright bands on the screen","แถบสว่างบนฉาก"], f:function(S){ return String(2*Math.floor(15/C10.dx(S.p))+1); }},
+      {lab:["Same spell for light","สูตรเดียวกันกับแสง"], f:function(){ return "550 nm · 0.3 mm · 2 m → 3.7 mm"; }}
     ],
-    draw:function(S,o){
-      var dx=S.p.lam*1e-9*S.p.L/(S.p.d*1e-3)*1000;   /* fringe spacing in mm */
-      var half=20;                                    /* show ±20 mm of screen */
-      var A=axes(o,{x:58,y:56,w:462,h:150,xmin:-half,xmax:half,ymin:0,ymax:1.15,
-                    title:["INTENSITY ON THE SCREEN","ความเข้มบนฉาก"],xlab:["position on screen (mm)","ตำแหน่งบนฉาก (มม.)"],ylab:"I / I₀"});
-      var dpath="";
-      for(var i=0;i<=300;i++){
-        var x=-half+2*half*i/300;
-        var I=Math.pow(Math.cos(Math.PI*x/dx),2);
-        dpath+=(i?" L":"M")+A.X(x)+" "+A.Y(I);
+    world:{ kind:"free" },
+    scene:function(o,S,W){
+      var p=S.p, x0=C10.x0, y0=C10.y0, k=C10.k, sx=x0+p.L*k, top=y0-15*k, bot=y0+15*k, col=C10.hue(p.lam);
+      var s1=[x0, y0-p.d/2*k], s2=[x0, y0+p.d/2*k], R=C10.v*S.t;
+      o.push('<rect x="'+(x0-18)+'" y="'+fmt2(top-8)+'" width="'+fmt2(sx-x0+36)+'" height="'+fmt2(bot-top+16)+'" rx="10" fill="var(--surface)" fill-opacity=".35" stroke="var(--rule)"/>');
+      o.push('<clipPath id="c10clip"><rect x="'+(x0-18)+'" y="'+fmt2(top-8)+'" width="'+fmt2(sx-x0+18)+'" height="'+fmt2(bot-top+16)+'"/></clipPath>');
+      o.push('<g clip-path="url(#c10clip)">');
+      [[s1,"var(--accent)","l1"],[s2,"var(--accent2)","l2"]].forEach(function(s){
+        for(var r=R; r>0; r-=p.lam){
+          o.push('<circle cx="'+s[0][0]+'" cy="'+fmt2(s[0][1])+'" r="'+fmt2(r*k)+'" fill="none" stroke="'+s[1]+'" stroke-width="'+(S.hl==="lam"?1.8:1.1)+'" opacity="'+fmt2(Math.max(0.12,0.55-r/120))+'"/>');
+        }
+      });
+      o.push('</g>');
+      /* the separation and the distance, measured on the pool itself */
+      var hd=S.hl==="d", hL=S.hl==="L";
+      o.push('<line x1="'+(x0-10)+'" y1="'+fmt2(s1[1])+'" x2="'+(x0-10)+'" y2="'+fmt2(s2[1])+'" stroke="var(--warn)" stroke-width="'+(hd?3:1.5)+'"/>');
+      fitText(o, x0-14, y0+4, ["d","d"], 30, 11, "var(--warn)", "end");
+      o.push('<line x1="'+x0+'" y1="'+fmt2(bot+16)+'" x2="'+fmt2(sx)+'" y2="'+fmt2(bot+16)+'" stroke="var(--good)" stroke-width="'+(hL?3:1.4)+'"/>');
+      fitText(o, (x0+sx)/2, bot+30, ["L = "+p.L+" cm","L = "+p.L+" ซม."], 120, 10.5, "var(--good)", "middle");
+      role("source")(o, s1[0], s1[1], {clock:STAGE.clock, col:"var(--accent)"});
+      role("source")(o, s2[0], s2[1], {clock:STAGE.clock, col:"var(--accent2)"});
+      role("screen")(o, sx, top, bot);
+      /* the screen lights only where both ripples have arrived */
+      if(!STAGE.guessing(S)) for(var y=-15; y<=15.001; y+=0.25){
+        var r1=Math.sqrt(p.L*p.L+(y+p.d/2)*(y+p.d/2)), r2=Math.sqrt(p.L*p.L+(y-p.d/2)*(y-p.d/2));
+        if(R<Math.max(r1,r2)) continue;
+        var I=C10.I(p,y);
+        if(I>0.04) o.push('<rect x="'+fmt2(sx+5)+'" y="'+fmt2(y0+y*k-1.1)+'" width="16" height="2.4" fill="'+col+'" opacity="'+fmt2(I)+'"/>');
       }
-      o.push('<path d="'+dpath+' L'+A.X(half)+' '+A.Y(0)+' L'+A.X(-half)+' '+A.Y(0)+' Z" fill="var(--accent)" fill-opacity=".13"/>');
-      o.push('<path d="'+dpath+'" stroke="var(--accent)" stroke-width="2.2" fill="none"/>');
-      /* the fringe spacing measured off the same scale */
-      if(dx<half){
-        o.push('<line x1="'+A.X(0)+'" y1="'+(A.Y(0)+26)+'" x2="'+A.X(dx)+'" y2="'+(A.Y(0)+26)+'" stroke="var(--ink-soft)" stroke-width="2"/>');
-        o.push('<line x1="'+A.X(0)+'" y1="'+(A.Y(0)+21)+'" x2="'+A.X(0)+'" y2="'+(A.Y(0)+31)+'" stroke="var(--ink-soft)" stroke-width="1.4"/>');
-        o.push('<line x1="'+A.X(dx)+'" y1="'+(A.Y(0)+21)+'" x2="'+A.X(dx)+'" y2="'+(A.Y(0)+31)+'" stroke="var(--ink-soft)" stroke-width="1.4"/>');
-        o.push('<text x="'+A.X(dx/2)+'" y="'+(A.Y(0)+44)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">Δx = '+fmt(dx)+' mm</text>');
+    },
+    handles:[
+      {k:"d", at:function(p){ return {px:C10.x0, py:C10.y0+p.d/2*C10.k}; }, set:function(px,py){ return {d:2*(py-C10.y0)/C10.k}; },
+       lab:["drag the rune","ลากรูน"], labBelow:true, col:"accent2"},
+      {k:"L", at:function(p){ return {px:C10.x0+p.L*C10.k+34, py:C10.y0}; }, set:function(px){ return {L:(px-34-C10.x0)/C10.k}; },
+       lab:["drag the screen","ลากฉาก"], labBelow:true, col:"good"}
+    ],
+    instrument:{ kind:"graph",
+      xmin:-15, xmax:15, ymin:0, ymax:1,
+      xlab:["position on the screen (cm)","ตำแหน่งบนฉาก (ซม.)"], ylab:["brightness","ความสว่าง"],
+      fn:function(x,p){ return C10.I(p,x); }
+    },
+    overlay:function(o,S,G){
+      var dx=C10.dx(S.p), y=G.Y(0)+0, hl=S.hl==="dx";
+      if(dx<15){
+        var x1=G.X(0), x2=G.X(dx), yy=G.Y(1)+12;
+        o.push('<line x1="'+fmt2(x1)+'" y1="'+fmt2(yy)+'" x2="'+fmt2(x2)+'" y2="'+fmt2(yy)+'" stroke="var(--warn)" stroke-width="'+(hl?3.4:2)+'"/>');
+        o.push('<text x="'+fmt2((x1+x2)/2)+'" y="'+fmt2(yy-5)+'" fill="var(--warn)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">Δx = '+fmt2(dx)+' cm</text>');
       }
-      /* a strip showing the fringes as they would actually look */
-      for(var j=-8;j<=8;j++){
-        var fx=j*dx; if(Math.abs(fx)>half) continue;
-        var w=Math.max(2,A.X(dx)-A.X(0)-4);
-        o.push('<rect x="'+(A.X(fx)-w/2)+'" y="266" width="'+w+'" height="20" fill="var(--accent)" fill-opacity="'+(j===0?0.9:0.55)+'"/>');
+    },
+    spell:{
+      tex:function(p){ return "\\Delta x = \\dfrac{\\lambda L}{d} = \\dfrac{("+fmt2(p.lam)+")("+p.L+")}{"+fmt2(p.d)+"} = "+fmt2(C10.dx(p))+"\\,\\text{cm}"+
+                              "\\qquad\\left[\\tfrac{\\text{cm}\\cdot\\text{cm}}{\\text{cm}}=\\text{cm}\\right]"; },
+      terms:[
+        {k:"lam", sym:"λ", lab:["ripple wavelength","ความยาวคลื่น"], col:"accent", f:function(p){ return fmt2(p.lam)+" cm"; }},
+        {k:"L", sym:"L", lab:["runes to screen","รูนถึงฉาก"], col:"good", f:function(p){ return p.L+" cm"; }},
+        {k:"d", sym:"d", lab:["between the runes","ระหว่างรูน"], col:"warn", f:function(p){ return fmt2(p.d)+" cm"; }},
+        {k:"dx", sym:"Δx", lab:["band spacing","ระยะแถบ"], col:"warn", f:function(p){ return fmt2(C10.dx(p))+" cm"; }}
+      ]
+    },
+    predict:{ kind:"choice",
+      ask:["How far apart will the bright bands on the screen be?","แถบสว่างบนฉากจะห่างกันเท่าใด"],
+      opts:function(p){ return C10.cands(p).map(function(v){ return ["≈ "+fmt2(v)+" cm","≈ "+fmt2(v)+" ซม."]; }); },
+      actual:function(p){ var c=C10.cands(p), v=C10.dx(p), b=0; c.forEach(function(w,i){ if(Math.abs(w-v)<Math.abs(c[b]-v)) b=i; }); return b; },
+      explain:function(p){ return ["Δx = λL / d = "+fmt2(p.lam)+" × "+p.L+" / "+fmt2(p.d)+" = "+fmt2(C10.dx(p))+" cm. Writing λd / L instead swaps the slit gap and the screen distance — trap T-03.",
+                                   "Δx = λL / d = "+fmt2(p.lam)+" × "+p.L+" / "+fmt2(p.d)+" = "+fmt2(C10.dx(p))+" ซม. ถ้าเขียน λd / L จะเป็นการสลับระยะห่างสลิตกับระยะถึงฉาก — กับดัก T-03"]; }
+    },
+    trials:{
+      veil:true,
+      make:function(){
+        var kind=pick(["d","L","lam"]), lam, d, L, n=0;
+        do{ lam=ri(10,30)/10; d=ri(6,24)/2; L=ri(20,55); n++; } while((lam*L/d<2 || lam*L/d>12) && n<500);
+        return {kind:kind, lam:lam, d:d, L:L, X:lam*L/d, set:kind==="d"?{lam:lam,L:L,d:(d>7?3:12)}:(kind==="L"?{lam:lam,d:d,L:(L>37?20:55)}:{d:d,L:L,lam:(lam>2?1:3)})};
+      },
+      lockFor:function(g){ return g.kind==="d" ? ["lam","L"] : (g.kind==="L" ? ["lam","d"] : ["d","L"]); },
+      say:function(g){
+        var X=fmt2(g.X);
+        if(g.kind==="d") return ["With λ = "+g.lam+" cm and the screen "+g.L+" cm away, place the runes so the bright bands are exactly "+X+" cm apart.",
+                                 "เมื่อ λ = "+g.lam+" ซม. และฉากอยู่ห่าง "+g.L+" ซม. วางรูนให้แถบสว่างห่างกัน "+X+" ซม. พอดี"];
+        if(g.kind==="L") return ["With λ = "+g.lam+" cm and the runes "+g.d+" cm apart, move the screen so the bright bands are exactly "+X+" cm apart.",
+                                 "เมื่อ λ = "+g.lam+" ซม. และรูนห่างกัน "+g.d+" ซม. เลื่อนฉากให้แถบสว่างห่างกัน "+X+" ซม. พอดี"];
+        return ["The runes are "+g.d+" cm apart and the screen "+g.L+" cm away. Choose the ripple wavelength that spaces the bands exactly "+X+" cm apart.",
+                "รูนห่างกัน "+g.d+" ซม. และฉากอยู่ห่าง "+g.L+" ซม. เลือกความยาวคลื่นที่ทำให้แถบห่างกัน "+X+" ซม. พอดี"];
+      },
+      check:function(p,S,g){
+        var dx=C10.dx(p), ok=Math.abs(dx-g.X)<0.01;
+        if(ok) return {ok:true, msg:["Bands "+fmt2(dx)+" cm apart. Rearranging Δx = λL / d: "+(g.kind==="d"?"d = λL / Δx = "+fmt2(g.d)+" cm":g.kind==="L"?"L = Δx·d / λ = "+g.L+" cm":"λ = Δx·d / L = "+fmt2(g.lam)+" cm")+".",
+                                       "แถบห่างกัน "+fmt2(dx)+" ซม. จัดรูป Δx = λL / d: "+(g.kind==="d"?"d = λL / Δx = "+fmt2(g.d)+" ซม.":g.kind==="L"?"L = Δx·d / λ = "+g.L+" ซม.":"λ = Δx·d / L = "+fmt2(g.lam)+" ซม.")]};
+        return {ok:false, msg:["The bands came out "+fmt2(dx)+" cm apart. Wider runes squeeze the bands; a farther screen spreads them.",
+                               "แถบห่างกัน "+fmt2(dx)+" ซม. รูนที่ห่างกันมากทำให้แถบชิดกัน ฉากที่ไกลขึ้นทำให้แถบห่างกัน"]};
       }
-      o.push('<text x="58" y="262" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["WHAT YOU WOULD SEE","สิ่งที่จะมองเห็น"])+'</text>');
-    }
+    },
+    note:["where crest meets crest the pool swells and the screen glows; where crest meets trough it stays dark",
+          "ที่ยอดพบยอด น้ำในสระนูนขึ้นและฉากเรืองแสง ที่ยอดพบท้อง ฉากยังคงมืด"]
   },
   guide:[
-    {say:["Green light, slits a third of a millimetre apart. Read the fringe spacing straight off the scale.",
-          "แสงสีเขียว สลิตห่างกันหนึ่งในสามมิลลิเมตร อ่านระยะแถบได้จากสเกลโดยตรง"], set:{lam:550,d:0.3,L:2}},
-    {say:["Move to red light. Longer wavelength, wider fringes — the pattern stretches out.",
-          "เปลี่ยนเป็นแสงสีแดง ความยาวคลื่นยาวกว่า แถบกว้างขึ้น ลวดลายยืดออก"], set:{lam:700,d:0.3,L:2}},
-    {say:["Now widen the slit separation. Bigger d, narrower fringes — d is on the bottom of the formula.",
-          "ทีนี้เพิ่มระยะห่างสลิต d มากขึ้น แถบแคบลง เพราะ d อยู่ตัวส่วนของสูตร"], set:{lam:700,d:0.8,L:2}},
-    {say:["Push the screen further away and the pattern magnifies. L is on the top, so it works the other way from d.",
-          "ย้ายฉากออกไปไกลขึ้น ลวดลายขยายใหญ่ขึ้น L อยู่ตัวเศษ จึงทำงานตรงข้ามกับ d"], set:{lam:700,d:0.8,L:4}}
-  ]},
+    {say:["Press play. Ripples spread from both runes; once both reach the screen, it lights up in evenly spaced bands.",
+          "กดเล่น ระลอกแผ่จากรูนทั้งสอง เมื่อทั้งสองไปถึงฉาก ฉากจะสว่างเป็นแถบที่ห่างเท่า ๆ กัน"], set:{lam:2,d:6,L:40}},
+    {say:["Pull the runes further apart. The bands squeeze together — d is on the bottom of the spell.",
+          "ดึงรูนให้ห่างกันมากขึ้น แถบจะชิดกันเข้า d อยู่ตัวส่วนของบทร่าย"], set:{lam:2,d:12,L:40}},
+    {say:["Longer ripples, farther screen: the bands spread wide. Mixing up d and L is trap T-03.",
+          "ระลอกยาวขึ้น ฉากไกลขึ้น แถบกระจายห่าง การสลับ d กับ L คือกับดัก T-03"], set:{lam:3,d:6,L:55}}
+  ]
+},
 
 { id:"single-slit", x:370, y:150, requires:["coherence"], methods:["M-03"],
   title:["The single slit","สลิตเดี่ยว"],

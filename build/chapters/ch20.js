@@ -1,3 +1,24 @@
+/* Chapter 20 crucible: every mote gets its own decay day, drawn from the
+   exponential law with a seed that changes each run, so the brew is truly
+   random yet repeatable frame to frame. */
+var C20 = {
+  cache: {},
+  times: function(S){
+    var p = S.p, key = p.N0 + "|" + p.Th + "|" + (S.c20seed || 7);
+    if(C20.cache[key]) return C20.cache[key];
+    var r = PHYS.rng(97 * (S.c20seed || 7) + p.N0), tau = p.Th / Math.LN2, out = [];
+    for(var i = 0; i < p.N0; i++) out.push(-tau * Math.log(1 - r()));
+    C20.cache[key] = out;
+    return out;
+  },
+  left: function(S, t){ var n = 0; C20.times(S).forEach(function(d){ if(d > t) n++; }); return n; },
+  cands: function(p){
+    var n = p.D / p.Th, c = [p.N0 * Math.pow(0.5, n), p.N0 / Math.max(n, 1), p.N0 / (2 * Math.max(n, 0.5)), p.N0 * Math.max(0, 1 - n / 8)], u = [];
+    c.forEach(function(v){ if(u.every(function(w){ return Math.abs(Math.round(w) - Math.round(v)) >= 1; })) u.push(v); });
+    return u.sort(function(a, b){ return a - b; });
+  }
+};
+
 var CHAPTER = {
 id:"ch20", num:"20", slug:"nuclear-physics", subject:"physics",
 kicker:["Physics · Chapter 20","ฟิสิกส์ · บทที่ 20"],
@@ -84,37 +105,114 @@ nodes:[
          "เส้นกราฟไม่มีวันถึงศูนย์ มันเพียงลดครึ่งไปเรื่อยๆ การหารด้วย n แทนที่จะเป็น 2ⁿ คือกับดัก T-02 และเป็นความผิดพลาดทางเลขที่พบบ่อยที่สุดในบทนี้"]],
   formula:["N = N₀ / 2ⁿ        A = λN        λ = ln2 / T½","N = N₀ / 2ⁿ        A = λN        λ = ln2 / T½"],
   flabel:["Halves forever, never reaches zero","ลดครึ่งไปเรื่อยๆ ไม่ถึงศูนย์"],
-  viz:"plot",
+  viz:"stage",
   vizcfg:{
-    fn:function(x,p){ return p.N0*Math.pow(0.5, x/p.T); },
-    xmin:0, xmax:40, fill:true,
-    title:["RADIOACTIVE DECAY","การสลายกัมมันตรังสี"],
-    xlab:["time (days)","เวลา (วัน)"], ylab:["N remaining","N ที่เหลือ"],
-    mark:function(p){ return p.t; },
+    anim:true, rate:2.5,
+    spellName:["The Half-life Crucible: halves every half-life","หม้อครึ่งชีวิต: ลดลงครึ่งหนึ่งทุกครึ่งชีวิต"],
+    question:["No one can say which mote will fade next. So why can you predict, almost exactly, how many are left?",
+              "ไม่มีใครบอกได้ว่าอนุภาคไหนจะดับเป็นลำดับถัดไป แล้วทำไมคุณจึงทำนายได้เกือบแม่นยำว่าเหลืออยู่กี่อนุภาค"],
     ctrls:[
-      {k:"N0", lab:["Initial nuclei N₀","จำนวนเริ่มต้น N₀"], min:100, max:1000, step:100, def:800, unit:""},
-      {k:"T",  lab:["Half-life","ครึ่งชีวิต"],                min:2,   max:20,   step:1,   def:5,   unit:" d"},
-      {k:"t",  lab:["Time elapsed","เวลาที่ผ่านไป"],           min:0,   max:40,   step:1,   def:10,  unit:" d"}
+      {k:"N0", lab:["Motes at the start N₀","จำนวนเริ่มต้น N₀"], min:100, max:400, step:50, def:200, unit:""},
+      {k:"Th", lab:["Half-life","ครึ่งชีวิต"], min:2, max:20, step:1, def:5, unit:" d"},
+      {k:"D",  lab:["Watch for","ดูนาน"], min:5, max:40, step:5, def:20, unit:" d", isT:true}
     ],
     readouts:[
-      {lab:["Remaining","เหลืออยู่"], f:function(S){
-        return String(Math.round(S.p.N0*Math.pow(0.5,S.p.t/S.p.T))); }},
-      {lab:["Half-lives elapsed","ครึ่งชีวิตที่ผ่านไป"], f:function(S){
-        return fmt(S.p.t/S.p.T); }},
-      {lab:["Fraction left","สัดส่วนที่เหลือ"], f:function(S){
-        return fmt2(Math.pow(0.5,S.p.t/S.p.T)*100)+" %"; }}
-    ]
+      {lab:["Left in this brew","เหลือในหม้อนี้"], f:function(S){ return String(C20.left(S,S.t)); }},
+      {lab:["The spell predicts","บทร่ายทำนาย"], f:function(S){ return fmt(S.p.N0*Math.pow(0.5,S.t/S.p.Th)); }},
+      {lab:["Half-lives so far","ครึ่งชีวิตที่ผ่านไป"], f:function(S){ return fmt2(S.t/S.p.Th); }},
+      {lab:["Day","วันที่"], f:function(S){ return fmt(S.t); }}
+    ],
+    world:{ kind:"free" },
+    scene:function(o,S,W){
+      var p=S.p, t=S.t, cx=280, rim=98;
+      if(S.playing && S.t<0.2 && !S.c20new){ S.c20seed=(S.c20seed||7)+1; S.c20new=true; }
+      if(!S.playing) S.c20new=false;
+      role("crucible")(o, cx, rim, {w:330, h:150, clock:STAGE.clock});
+      var dt=C20.times(S), cols=25, gap=11.2, rows=Math.ceil(p.N0/cols);
+      for(var i=0;i<p.N0;i++){
+        var c=i%cols, r=Math.floor(i/cols), x=cx-(cols-1)*gap/2+c*gap+(r%2?gap/2:0), y=rim+16+r*gap;
+        var gone=dt[i]<=t, fresh=gone && t-dt[i]<0.6;
+        if(fresh) o.push('<circle cx="'+fmt2(x)+'" cy="'+fmt2(y)+'" r="5.5" fill="#fff" opacity="'+fmt2(1-(t-dt[i])/0.6)+'"/>');
+        o.push('<circle cx="'+fmt2(x)+'" cy="'+fmt2(y)+'" r="'+(gone?2:3.3)+'" fill="'+(gone?"var(--ink-faint)":"var(--good)")+'" opacity="'+(gone?.35:.95)+'"/>');
+      }
+      fitText(o, cx, 64, [C20.left(S,t)+" of "+p.N0+" still glowing", "ยังเรืองแสง "+C20.left(S,t)+" จาก "+p.N0], 300, 12, "var(--ink)", "middle");
+      fitText(o, cx, 82, ["day "+fmt(t)+" · "+fmt2(t/p.Th)+" half-lives","วันที่ "+fmt(t)+" · "+fmt2(t/p.Th)+" ครึ่งชีวิต"], 300, 10.5, "var(--ink-faint)", "middle");
+    },
+    instrument:{ kind:"graph",
+      xmin:0, xmax:40, ymin:0, ymax:400,
+      xlab:["days","วัน"], ylab:["motes left","จำนวนที่เหลือ"],
+      fn:function(x,p){ return p.N0*Math.pow(0.5,x/p.Th); },
+      mark:function(p,S){ return S.t; }
+    },
+    /* this brew's own count, ragged, laid over the smooth promise of the spell */
+    overlay:function(o,S,G){
+      var p=S.p, d="", hl=S.hl==="Th";
+      for(var x=0;x<=Math.min(40,S.t)+1e-9;x+=0.25) d+=(d?" L":"M")+fmt2(G.X(x))+" "+fmt2(G.Y(C20.left(S,x)));
+      if(d) o.push('<path d="'+d+'" fill="none" stroke="var(--good)" stroke-width="1.8"/>');
+      for(var k=1;k*p.Th<=40;k++){
+        var X=G.X(k*p.Th), Y=G.Y(p.N0/Math.pow(2,k));
+        o.push('<line x1="'+fmt2(X)+'" y1="'+fmt2(Y)+'" x2="'+fmt2(X)+'" y2="'+fmt2(G.Y(0))+'" stroke="var(--accent2)" stroke-width="'+(hl?1.6:1)+'" stroke-dasharray="2 3" opacity=".8"/>');
+        if(k<=4) o.push('<text x="'+fmt2(X+3)+'" y="'+fmt2(Y-4)+'" fill="var(--accent2)" font-family="IBM Plex Sans" font-size="9.5">'+p.N0+'/'+Math.pow(2,k)+'</text>');
+      }
+    },
+    spell:{
+      tex:function(p,S){ return "N = \\dfrac{N_0}{2^{\\,t/T_{1/2}}} = \\dfrac{"+p.N0+"}{2^{\\,"+fmt(S.t)+"/"+p.Th+"}} = "+fmt(p.N0*Math.pow(0.5,S.t/p.Th)); },
+      terms:[
+        {k:"N0", sym:"N₀", lab:["at the start","ตอนเริ่ม"], col:"good", f:function(p){ return String(p.N0); }},
+        {k:"Th", sym:"T½", lab:["half-life","ครึ่งชีวิต"], col:"accent2", f:function(p){ return p.Th+" d"; }},
+        {k:"n", sym:"n = t/T½", lab:["halvings so far","จำนวนครั้งที่ลดครึ่ง"], col:"accent", f:function(p,S){ return fmt2(S.t/p.Th); }}
+      ]
+    },
+    predict:{ kind:"choice",
+      ask:["When the watch ends, roughly how many motes will still be glowing?","เมื่อจบการเฝ้าดู จะยังมีอนุภาคเรืองแสงอยู่ประมาณกี่อนุภาค"],
+      opts:function(p){ return C20.cands(p).map(function(v){ return ["≈ "+Math.round(v), "≈ "+Math.round(v)]; }); },
+      actual:function(p){ var c=C20.cands(p), v=p.N0*Math.pow(0.5,p.D/p.Th), b=0; c.forEach(function(w,i){ if(Math.abs(w-v)<Math.abs(c[b]-v)) b=i; }); return b; },
+      explain:function(p){ var n=p.D/p.Th; return ["n = "+p.D+" / "+p.Th+" = "+fmt2(n)+" half-lives, so N = "+p.N0+" / 2^"+fmt2(n)+" ≈ "+Math.round(p.N0*Math.pow(0.5,n))+". Dividing by n instead of 2ⁿ is trap T-02. Your brew wobbles around the spell's value because each mote is random.",
+                                            "n = "+p.D+" / "+p.Th+" = "+fmt2(n)+" ครึ่งชีวิต ดังนั้น N = "+p.N0+" / 2^"+fmt2(n)+" ≈ "+Math.round(p.N0*Math.pow(0.5,n))+" การหารด้วย n แทน 2ⁿ คือกับดัก T-02 ค่าจริงในหม้อแกว่งรอบค่าทำนายเพราะแต่ละอนุภาคสุ่ม"]; }
+    },
+    trials:{
+      veil:true,
+      make:function(){
+        if(Math.random()<0.5){
+          /* 200 = 8 × 25 and 400 = 16 × 25, so these halvings leave whole motes */
+          var Th=pick([2,4,5,8,10]), N0=pick([200,400]), k=ri(2,Math.min(N0===400?4:3,Math.floor(40/Th)));
+          return {kind:"half", Th:Th, k:k, N0:N0, X:k*Th, Y:N0/Math.pow(2,k), set:{N0:N0, D:Math.min(40,5*Math.ceil(k*Th/5)), Th:(Th>8?2:20)}};
+        }
+        var T2=pick([5,10]), k2=ri(1, T2===5?8:4);
+        return {kind:"stop", Th:T2, k:k2, set:{Th:T2, N0:200, D:5}};
+      },
+      lockFor:function(g){ return g.kind==="half" ? ["N0"] : ["Th","N0"]; },
+      say:function(g){
+        if(g.kind==="half") return ["A brew of "+g.N0+" motes is down to "+fmt(g.Y)+" after "+g.X+" days. Set the half-life to match.",
+                                    "หม้อที่มี "+g.N0+" อนุภาคเหลือ "+fmt(g.Y)+" หลังผ่านไป "+g.X+" วัน ตั้งครึ่งชีวิตให้ตรงกัน"];
+        return ["Half-life "+g.Th+" days. Set the hourglass to run out exactly when only 1/"+Math.pow(2,g.k)+" of the motes should remain.",
+                "ครึ่งชีวิต "+g.Th+" วัน ตั้งนาฬิกาทรายให้หมดพอดีเมื่ออนุภาคควรเหลือเพียง 1/"+Math.pow(2,g.k)];
+      },
+      check:function(p,S,g){
+        if(g.kind==="half"){
+          if(p.Th===g.Th) return {ok:true, msg:[g.N0+" → "+fmt(g.Y)+" is "+g.k+" halvings, so "+g.X+" days hold "+g.k+" half-lives: T½ = "+g.X+" / "+g.k+" = "+g.Th+" days.",
+                                                g.N0+" → "+fmt(g.Y)+" คือการลดครึ่ง "+g.k+" ครั้ง ดังนั้น "+g.X+" วันมี "+g.k+" ครึ่งชีวิต: T½ = "+g.X+" / "+g.k+" = "+g.Th+" วัน"]};
+          return {ok:false, msg:["With T½ = "+p.Th+" d, "+g.X+" days leave "+fmt(g.N0*Math.pow(0.5,g.X/p.Th))+". Count the halvings from "+g.N0+" to "+fmt(g.Y)+" first.",
+                                 "ที่ T½ = "+p.Th+" วัน ผ่านไป "+g.X+" วันจะเหลือ "+fmt(g.N0*Math.pow(0.5,g.X/p.Th))+" นับจำนวนครั้งที่ลดครึ่งจาก "+g.N0+" ถึง "+fmt(g.Y)+" ก่อน"]};
+        }
+        if(p.D===g.k*g.Th) return {ok:true, msg:["1/"+Math.pow(2,g.k)+" means "+g.k+" halving"+(g.k>1?"s":"")+": "+g.k+" × "+g.Th+" = "+(g.k*g.Th)+" days.",
+                                                 "1/"+Math.pow(2,g.k)+" หมายถึงลดครึ่ง "+g.k+" ครั้ง: "+g.k+" × "+g.Th+" = "+(g.k*g.Th)+" วัน"]};
+        return {ok:false, msg:["At "+p.D+" days, "+fmt2(p.D/g.Th)+" half-lives have passed. Each one halves what is left; 1/"+Math.pow(2,g.k)+" needs "+g.k+" of them.",
+                               "ที่ "+p.D+" วัน ผ่านไป "+fmt2(p.D/g.Th)+" ครึ่งชีวิต แต่ละครั้งลดสิ่งที่เหลือลงครึ่งหนึ่ง 1/"+Math.pow(2,g.k)+" ต้องใช้ "+g.k+" ครั้ง"]};
+      }
+    },
+    note:["each mote's moment is pure chance, yet every half-life the glowing ones halve — the green line hugs the spell's curve",
+          "เวลาดับของแต่ละอนุภาคเป็นเรื่องบังเอิญล้วน ๆ แต่ทุกครึ่งชีวิต อนุภาคที่เรืองแสงลดลงครึ่งหนึ่ง เส้นสีเขียวเกาะเส้นโค้งของบทร่าย"]
   },
   guide:[
-    {say:["Half-life 5 days. Set the time to 5 and read the count — exactly half of what you started with.",
-          "ครึ่งชีวิต 5 วัน ตั้งเวลาเป็น 5 แล้วอ่านจำนวน จะเหลือครึ่งหนึ่งของที่เริ่มต้นพอดี"], set:{N0:800,T:5,t:5}},
-    {say:["Now 10 days — two half-lives. A quarter remains, not zero. Each halving applies to what is left.",
-          "ทีนี้ 10 วัน คือสองครึ่งชีวิต เหลือหนึ่งในสี่ ไม่ใช่ศูนย์ การลดครึ่งแต่ละครั้งคิดจากสิ่งที่เหลืออยู่"], set:{N0:800,T:5,t:10}},
-    {say:["Push time to 40 days — eight half-lives. Under four nuclei left, but the curve still has not touched zero.",
-          "ดันเวลาไปที่ 40 วัน คือแปดครึ่งชีวิต เหลือไม่ถึงสี่นิวเคลียส แต่เส้นกราฟยังไม่แตะศูนย์"], set:{N0:800,T:5,t:40}},
-    {say:["Lengthen the half-life and the whole curve stretches out. A long half-life means a weakly active source.",
-          "เพิ่มครึ่งชีวิตแล้วเส้นกราฟทั้งเส้นยืดออก ครึ่งชีวิตยาวหมายถึงแหล่งกำเนิดที่มีกัมมันตภาพต่ำ"], set:{N0:800,T:15,t:10}}
-  ]},
+    {say:["Half-life 5 days. Press play and watch the brew: by day 5 about half the motes have faded — but never the same ones twice.",
+          "ครึ่งชีวิต 5 วัน กดเล่นแล้วดูหม้อ พอถึงวันที่ 5 อนุภาคดับไปราวครึ่งหนึ่ง แต่ไม่เคยเป็นชุดเดิม"], set:{N0:200,Th:5,D:20}},
+    {say:["By day 10, two half-lives: a quarter remain, not zero. Each halving applies to what is left.",
+          "ถึงวันที่ 10 คือสองครึ่งชีวิต เหลือหนึ่งในสี่ ไม่ใช่ศูนย์ การลดครึ่งแต่ละครั้งใช้กับสิ่งที่เหลืออยู่"], set:{N0:200,Th:5,D:10}},
+    {say:["Bigger brews follow the curve more closely. Fill the crucible to 400 and cast again: the green line hugs the spell.",
+          "หม้อที่ใหญ่ขึ้นเกาะเส้นโค้งได้แนบกว่า เติมให้เต็ม 400 แล้วร่ายอีกครั้ง เส้นสีเขียวเกาะบทร่ายแน่น"], set:{N0:400,Th:5,D:30}}
+  ]
+},
 
 { id:"mass-energy", x:235, y:248, requires:["decay","half-life"], methods:["M-05"],
   title:["Mass and binding energy","มวลและพลังงานยึดเหนี่ยว"],

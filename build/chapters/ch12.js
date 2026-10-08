@@ -1,3 +1,14 @@
+/* Chapter 12 wisp: a moving source and the wavefronts it leaves behind.
+   On screen, sound travels 80 px/s and the wisp at 80·v_s/v px/s, so the
+   picture keeps the real ratio of the two speeds. */
+var C12 = {
+  y: 108, c: 80, Te: 0.4, at: 110, lx: 330,
+  fa: function(p){ return p.fs * p.v / (p.v - p.vs); },
+  fr: function(p){ return p.fs * p.v / (p.v + p.vs); },
+  x: function(p, t){ return C12.at + C12.c * p.vs / p.v * t; },
+  tpass: function(p){ return p.vs > 0 ? (C12.lx - C12.at) / (C12.c * p.vs / p.v) : Infinity; }
+};
+
 var CHAPTER = {
 id:"ch12", num:"12", slug:"sound", subject:"physics",
 kicker:["Physics · Chapter 12","ฟิสิกส์ · บทที่ 12"],
@@ -159,41 +170,115 @@ nodes:[
          "ระดับเสียงตกลงตอนที่แหล่งกำเนิดผ่านไปพอดี ไม่ใช่ก่อนหน้า การคาดว่าจะค่อยๆ ไล่ลงเป็นความเข้าใจผิดที่พบบ่อย การเลื่อนมีค่าหนึ่งตอนเข้าหาและอีกค่าหนึ่งตอนออกห่าง"]],
   formula:["f_L = f_s (v ± v_L) / (v ∓ v_s)","f_L = f_s (v ± v_L) / (v ∓ v_s)"],
   flabel:["Approaching raises · receding lowers","เข้าหา สูงขึ้น · ออกห่าง ต่ำลง"],
-  viz:"bars",
+  viz:"stage",
   vizcfg:{
-    title:["THE SAME SIREN, HEARD THREE WAYS","ไซเรนเดียวกัน ได้ยินสามแบบ"],
-    ylab:["frequency (Hz)","ความถี่ (Hz)"],
+    anim:true,
+    spellName:["The Wailing Wisp: a moving source shifts the pitch","ภูตโหยหวน: แหล่งกำเนิดที่เคลื่อนที่ทำให้เสียงเพี้ยน"],
+    question:["The wisp sings one steady note as it flies. Why does the listener ahead hear it higher, and the one behind lower?",
+              "ภูตร้องโน้ตเดียวคงที่ขณะบิน ทำไมผู้ฟังข้างหน้าจึงได้ยินเสียงสูงขึ้น และคนข้างหลังได้ยินต่ำลง"],
     ctrls:[
-      {k:"fs", lab:["Source frequency","ความถี่แหล่งกำเนิด"], min:200, max:1200, step:20, def:500, unit:" Hz"},
-      {k:"vs", lab:["Source speed","อัตราเร็วแหล่งกำเนิด"], min:0, max:80, step:2, def:30, unit:" m/s"},
-      {k:"v",  lab:["Speed of sound","อัตราเร็วเสียง"], min:300, max:360, step:5, def:340, unit:" m/s"}
+      {k:"fs", lab:["The wisp's own note","โน้ตของภูต"], min:200, max:1200, step:20, def:500, unit:" Hz"},
+      {k:"vs", lab:["The wisp's speed","อัตราเร็วของภูต"], min:0, max:300, step:10, def:150, unit:" m/s"},
+      {k:"v",  lab:["Speed of sound","อัตราเร็วเสียง"], min:300, max:360, step:5, def:340, unit:" m/s"},
+      {k:"T",  lab:["Watch for","ดูนาน"], min:4, max:14, step:1, def:11, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Approaching","ขณะเข้าหา"], f:function(S){
-        return fmt2(S.p.fs*S.p.v/(S.p.v-S.p.vs))+" Hz"; }},
-      {lab:["Receding","ขณะออกห่าง"], f:function(S){
-        return fmt2(S.p.fs*S.p.v/(S.p.v+S.p.vs))+" Hz"; }},
-      {lab:["Emitted","ที่ปล่อยออกมา"], f:function(S){ return fmt2(S.p.fs)+" Hz"; }},
+      {lab:["Ahead hears","ข้างหน้าได้ยิน"], f:function(S){ return fmt(C12.fa(S.p))+" Hz"; }},
+      {lab:["Behind hears","ข้างหลังได้ยิน"], f:function(S){ return fmt(C12.fr(S.p))+" Hz"; }},
+      {lab:["The wisp sings","ภูตร้อง"], f:function(S){ return S.p.fs+" Hz"; }},
       {lab:["Is the shift symmetric?","การเลื่อนสมมาตรไหม"], f:function(S){
-        var p=S.p, up=p.fs*p.v/(p.v-p.vs)-p.fs, dn=p.fs-p.fs*p.v/(p.v+p.vs);
-        return Math.abs(up-dn)<1 ? (L()?"เกือบสมมาตรที่ความเร็วต่ำ":"nearly, at low speed")
-                                 : (L()?"ไม่ — ขาเข้าเลื่อนมากกว่า":"no — the approach shifts more"); }}
+        var p=S.p, up=C12.fa(p)-p.fs, dn=p.fs-C12.fr(p);
+        return Math.abs(up-dn)<2 ? (L()?"เกือบ ที่ความเร็วต่ำ":"nearly, at low speed") : (L()?"ไม่ — ขาเข้าเลื่อนมากกว่า":"no — the approach shifts more"); }}
     ],
-    bars:[
-      {lab:["Approaching","เข้าหา"], f:function(p){ return p.fs*p.v/(p.v-p.vs); }, col:"accent"},
-      {lab:["Emitted","ปล่อยออกมา"], f:function(p){ return p.fs; }, col:"ink"},
-      {lab:["Receding","ออกห่าง"],   f:function(p){ return p.fs*p.v/(p.v+p.vs); }, col:"good"}
+    world:{ kind:"free" },
+    scene:function(o,S,W){
+      var p=S.p, t=S.t, x=C12.x(p,t), y=C12.y, c=C12.c;
+      /* each wavefront remembers where the wisp was when it left */
+      o.push('<clipPath id="c12clip"><rect x="0" y="0" width="560" height="'+(STAGE.FRAME.div-4)+'"/></clipPath><g clip-path="url(#c12clip)">');
+      for(var te=Math.floor(t/C12.Te)*C12.Te; te>=0 && c*(t-te)<520; te-=C12.Te){
+        var r=c*(t-te); if(r<1) continue;
+        o.push('<circle cx="'+fmt2(C12.x(p,te))+'" cy="'+y+'" r="'+fmt2(r)+'" fill="none" stroke="var(--accent)" stroke-width="'+(S.hl==="fs"?1.8:1.2)+'" opacity="'+fmt2(Math.max(0.12,0.75-r/600))+'"/>');
+      }
+      o.push('</g>');
+      /* each listener hears the squeezed note until the wisp passes it, then the stretched one */
+      var hear=function(px, lab){
+        var gone=x>=px, hz=t>0||p.vs>0 ? (gone ? C12.fr(p) : C12.fa(p)) : p.fs, col=gone ? "var(--good)" : "var(--accent)";
+        role("marker")(o, px, y+44, {on:true});
+        fitText(o, px, y+60, lab, 120, 10, "var(--ink-faint)", "middle");
+        fitText(o, px, y+74, [fmt(hz)+" Hz", fmt(hz)+" Hz"], 120, 12, col, "middle");
+      };
+      hear(500, ["far listener","ผู้ฟังไกล"]);
+      hear(46, ["behind","ข้างหลัง"]);
+      hear(C12.lx, ["listener","ผู้ฟัง"]);
+      role("wisp")(o, x, y, {clock:STAGE.clock});
+    },
+    handles:[
+      {k:"vs", at:function(p,S){ return {px:C12.x(p,S.t)+30+p.vs*0.25, py:C12.y-28}; },
+       set:function(px,py,p,S){ return {vs:(px-30-C12.at)/0.25}; },
+       lab:["drag its speed","ลากความเร็ว"], col:"accent2"}
     ],
-    note:["the source never changes its note — only the spacing of the arriving wavefronts does","แหล่งกำเนิดไม่เคยเปลี่ยนเสียง มีเพียงระยะห่างของหน้าคลื่นที่มาถึงเท่านั้นที่เปลี่ยน"]
+    instrument:{ kind:"graph",
+      xmin:0, xmax:14, ymin:0, ymax:2500,
+      xlab:["seconds","วินาที"], ylab:["Hz the listener hears","Hz ที่ผู้ฟังได้ยิน"],
+      fn:function(x,p){ var tp=C12.tpass(p); return x<tp ? C12.fa(p) : C12.fr(p); },
+      mark:function(p,S){ return S.t; }
+    },
+    overlay:function(o,S,G){
+      var y=fmt2(G.Y(S.p.fs));
+      o.push('<line x1="'+fmt2(G.X(0))+'" y1="'+y+'" x2="'+fmt2(G.X(14))+'" y2="'+y+'" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="4 4"/>');
+      o.push('<text x="'+fmt2(G.X(14)-4)+'" y="'+(+y-5)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">'+(L()?"โน้ตที่ภูตร้อง":"the note it sings")+'</text>');
+    },
+    spell:{
+      tex:function(p){ return "f_\\text{ahead} = f_s\\,\\dfrac{v}{v - v_s} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" - "+p.vs+"} = "+fmt(C12.fa(p))+"\\,\\text{Hz}"+
+                              "\\qquad f_\\text{behind} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" + "+p.vs+"} = "+fmt(C12.fr(p))+"\\,\\text{Hz}"; },
+      terms:[
+        {k:"fs", sym:"f_s", lab:["the note it sings","โน้ตที่ร้อง"], col:"faint", f:function(p){ return p.fs+" Hz"; }},
+        {k:"vs", sym:"v_s", lab:["the wisp's speed","อัตราเร็วภูต"], col:"accent2", f:function(p){ return p.vs+" m/s"; }}
+      ]
+    },
+    predict:{ kind:"choice",
+      ask:["As the wisp flies past the listener, what happens to the pitch they hear?","ขณะที่ภูตบินผ่านผู้ฟัง เสียงที่ผู้ฟังได้ยินเป็นอย่างไร"],
+      opts:[["It slides down gradually","ค่อย ๆ ต่ำลง"],["It drops suddenly as it passes","ต่ำลงทันทีตอนผ่าน"],["It stays the same","คงเดิม"],["It rises","สูงขึ้น"]],
+      actual:function(p){ return p.vs>0 ? 1 : 2; },
+      explain:function(p){ return ["Coming in, every wavefront is squeezed by the same amount, so the pitch is a steady "+fmt(C12.fa(p))+" Hz; going away it is a steady "+fmt(C12.fr(p))+" Hz. The change happens at the instant it passes — not a slow slide.",
+                                   "ขาเข้า หน้าคลื่นทุกลูกถูกบีบเท่ากัน เสียงจึงคงที่ "+fmt(C12.fa(p))+" Hz ขาออกคงที่ "+fmt(C12.fr(p))+" Hz การเปลี่ยนเกิดขึ้นทันทีขณะผ่าน ไม่ใช่ค่อย ๆ ไล่ลง"]; }
+    },
+    trials:{
+      veil:true,
+      make:function(){
+        var vs=10*ri(3,28), fs=20*ri(15,40), v=340, ahead=Math.random()<0.6;
+        return {kind:ahead?"ahead":"behind", vs:vs, fs:fs, v:v, X:ahead?fs*v/(v-vs):fs*v/(v+vs), set:{fs:fs, v:v, vs:0, T:11}};
+      },
+      lock:["fs","v"],
+      say:function(g){
+        return g.kind==="ahead"
+          ? ["The wisp sings "+g.fs+" Hz. How fast must it fly so the listener ahead hears exactly "+fmt(g.X)+" Hz? (v = 340 m/s)",
+             "ภูตร้อง "+g.fs+" Hz ต้องบินเร็วเท่าใดให้ผู้ฟังข้างหน้าได้ยิน "+fmt(g.X)+" Hz พอดี (v = 340 ม./วิ)"]
+          : ["The wisp sings "+g.fs+" Hz. How fast must it fly so the listener behind hears exactly "+fmt(g.X)+" Hz? (v = 340 m/s)",
+             "ภูตร้อง "+g.fs+" Hz ต้องบินเร็วเท่าใดให้ผู้ฟังข้างหลังได้ยิน "+fmt(g.X)+" Hz พอดี (v = 340 ม./วิ)"];
+      },
+      check:function(p,S,g){
+        if(p.vs===g.vs) return {ok:true, msg:[g.kind==="ahead" ? "Exactly "+fmt(g.X)+" Hz ahead. From f = f_s·v / (v − v_s): v_s = v(1 − f_s / f) = "+g.vs+" m/s."
+                                                                : "Exactly "+fmt(g.X)+" Hz behind. From f = f_s·v / (v + v_s): v_s = v(f_s / f − 1) = "+g.vs+" m/s.",
+                                              g.kind==="ahead" ? "ข้างหน้าได้ยิน "+fmt(g.X)+" Hz พอดี จาก f = f_s·v / (v − v_s) ได้ v_s = v(1 − f_s / f) = "+g.vs+" ม./วิ"
+                                                                : "ข้างหลังได้ยิน "+fmt(g.X)+" Hz พอดี จาก f = f_s·v / (v + v_s) ได้ v_s = v(f_s / f − 1) = "+g.vs+" ม./วิ"]};
+        var got=g.kind==="ahead"?C12.fa(p):C12.fr(p);
+        return {ok:false, msg:["That listener heard "+fmt(got)+" Hz. Ahead the wisp chases its own waves (v − v_s); behind it runs from them (v + v_s).",
+                               "ผู้ฟังได้ยิน "+fmt(got)+" Hz ข้างหน้าภูตไล่ตามคลื่นของตัวเอง (v − v_s) ข้างหลังมันหนีคลื่น (v + v_s)"]};
+      }
+    },
+    note:["the wisp never changes its note — only the spacing of the arriving wavefronts does",
+          "ภูตไม่เคยเปลี่ยนโน้ต มีเพียงระยะห่างของหน้าคลื่นที่มาถึงเท่านั้นที่เปลี่ยน"]
   },
   guide:[
-    {say:["A stationary siren. All three bars are identical — there is no shift at all.",
-          "ไซเรนที่อยู่นิ่ง แถบทั้งสามเท่ากัน ไม่มีการเลื่อนเลย"], set:{fs:500,vs:0,v:340}},
-    {say:["Set it moving and the bars split apart. Higher coming, lower going — the classic drop as it passes.",
-          "ทำให้มันเคลื่อนที่ แถบแยกออกจากกัน สูงตอนเข้ามา ต่ำตอนผ่านไป คือเสียงตกที่คุ้นเคย"], set:{fs:500,vs:30,v:340}},
-    {say:["Push it near the speed of sound. The approaching bar runs away — the shift is not symmetric.",
-          "ดันให้เข้าใกล้อัตราเร็วเสียง แถบขาเข้าพุ่งหนีไป การเลื่อนไม่สมมาตร"], set:{fs:500,vs:80,v:340}}
-  ] }
+    {say:["A wisp hovering still. The rings are evenly spaced and everyone hears 500 Hz.",
+          "ภูตลอยนิ่ง วงคลื่นห่างเท่ากัน ทุกคนได้ยิน 500 Hz"], set:{fs:500,vs:0,v:340,T:11}},
+    {say:["Set it flying. Rings bunch up ahead and stretch out behind. Watch the listener's graph drop in one step as it passes.",
+          "ให้มันบิน วงคลื่นเบียดกันข้างหน้าและยืดออกข้างหลัง ดูกราฟของผู้ฟังตกลงทีเดียวตอนภูตผ่าน"], set:{fs:500,vs:150,v:340,T:11}},
+    {say:["Near the speed of sound the rings ahead pile up and that pitch runs away — the shift is not symmetric.",
+          "ใกล้อัตราเร็วเสียง วงคลื่นข้างหน้าอัดแน่นและเสียงสูงพุ่งขึ้น การเลื่อนไม่สมมาตร"], set:{fs:500,vs:300,v:340,T:7}}
+  ]
+}
 ],
 
 methods:[

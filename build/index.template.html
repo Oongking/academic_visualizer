@@ -82,6 +82,22 @@ a.card:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .pill{border:1px solid var(--rule);padding:2px 7px}
 .pill.live{background:var(--ink);color:var(--ground);border-color:var(--ink)}
 .card.soon{opacity:.55}
+/* the spellbook: one card per stage lab, progress read from each chapter */
+.spellbook{margin:8px 0 40px}
+.spellbook h2{font-size:clamp(22px,3vw,28px);margin:8px 0 6px}
+.sb-lede{max-width:760px;color:var(--ink-soft);margin:0 0 6px}
+.sb-sum{font-family:var(--f-ui);font-size:13px;font-weight:600;color:var(--accent2);margin:0 0 14px}
+.spells{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:12px}
+.spell-card{display:flex;flex-direction:column;gap:6px;padding:16px 16px 14px;border:1px solid var(--rule);
+  border-radius:12px;background:var(--surface);text-decoration:none;color:var(--ink);
+  border-top:3px solid var(--accent2);transition:transform .14s,border-color .14s}
+.spell-card:hover{transform:translateY(-2px);border-color:var(--accent2)}
+.spell-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.spell-card .sp-ch{font-family:var(--f-ui);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.spell-card .sp-topic{font-size:18px;line-height:1.25}
+.spell-card .sp-name{font-size:13px;line-height:1.4;color:var(--ink-soft)}
+.spell-card .sp-name::before{content:"✦ ";color:var(--accent2)}
+@media (prefers-reduced-motion:reduce){ .spell-card:hover{transform:none} }
 .card.soon h3{color:var(--ink-soft)}
 
 __COURSE_CSS__
@@ -143,6 +159,8 @@ __PAGENAV__
   </figure>
 </section>
 
+__SPELLBOOK__
+
 __CARDS__
 
 <footer class="foot">
@@ -157,6 +175,8 @@ __CARDS__
 (function(){
   var K="lp.index.v1", st={lang:"en",theme:null};
   try{ var r=localStorage.getItem(K); if(r) st=JSON.parse(r); }catch(e){}
+  /* the language is shared by every page, so it is chosen once */
+  try{ var gl=localStorage.getItem("edu-lang"); if(gl==="en"||gl==="th") st.lang=gl; }catch(e){}
   function save(){ try{ localStorage.setItem(K,JSON.stringify(st)); }catch(e){} }
   function apply(){
     document.documentElement.setAttribute("lang",st.lang);
@@ -165,7 +185,7 @@ __CARDS__
     document.getElementById("langBtn").textContent = st.lang==="en"?"ไทย":"English";
   }
   document.getElementById("langBtn").addEventListener("click",function(){
-    st.lang = st.lang==="en"?"th":"en"; save(); apply();
+    st.lang = st.lang==="en"?"th":"en"; save(); try{ localStorage.setItem("edu-lang",st.lang); }catch(e){} apply();
   });
   document.querySelectorAll('.chip[data-href]').forEach(function(g){
     g.setAttribute("tabindex","0"); g.setAttribute("role","link");
