@@ -478,3 +478,7 @@ them for nested pages. Do not use this local theme script alongside the site's
 reads and writes one `edu-lang` key (`en` or `th`) in localStorage, so the
 choice made on any page carries to all the others. Keep it that way in any
 new page template.
+
+**Names.** Wherever a stage lab is titled (its header and the world bar) the
+lesson topic is the main name, the chapter sits above it, and the spell name
+follows as a sub line (`.lab-sub`). Skins without spell names show only the topic.

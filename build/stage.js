@@ -455,8 +455,14 @@ var STAGE = {
     host.setAttribute("data-skin", sk.id);
     host.classList.add("stage-lab");
     var head = host.querySelector(".lab-head .label");
-    if(head) head.textContent = cfg.spellName && sk.spellNames
-      ? ui("labTitle") + " · " + tx(cfg.spellName) : t("lab.title");
+    /* the lesson topic leads; the spell name, where the skin has one, follows it */
+    var sec0 = host.closest(".node-sec"), nd0 = sec0 && node(sec0.getAttribute("data-node"));
+    if(head){
+      head.textContent = nd0 ? tx(nd0.title) : t("lab.title");
+      var sub = cfg.spellName && sk.spellNames ? tx(cfg.spellName) : "";
+      if(sub){ var sp0 = document.createElement("span"); sp0.className = "lab-sub"; sp0.textContent = "✦ " + sub;
+        head.insertAdjacentElement("afterend", sp0); }
+    }
     /* step inside: the lab fills the screen */
     var wb = document.createElement("button");
     wb.type = "button"; wb.className = "btn m-world"; wb.textContent = "⤢";
@@ -1002,8 +1008,9 @@ var WORLD = {
     var head = host && host.querySelector(".lab-head .label");
     var sec = WORLD.ph && WORLD.ph.closest(".node-sec"), nd = sec && node(sec.getAttribute("data-node"));
     WORLD.el.querySelector(".w-ch").textContent = tx(CHAPTER.kicker) + " · " + tx(CHAPTER.title);
+    var subEl = host && host.querySelector(".lab-head .lab-sub");
     WORLD.el.querySelector(".w-name").textContent = head ? head.textContent : "";
-    WORLD.el.querySelector(".w-topic").textContent = nd ? tx(nd.title) : "";
+    WORLD.el.querySelector(".w-topic").textContent = subEl ? subEl.textContent : "";
     WORLD.el.querySelector(".w-count").textContent = (WORLD.i + 1) + " / " + n;
     WORLD.el.querySelector(".w-exit").textContent = ui("lesson");
     WORLD.el.querySelector(".w-lang").textContent = STATE.lang === "en" ? "ไทย" : "English";

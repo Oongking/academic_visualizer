@@ -102,6 +102,7 @@ html.world-open,html.world-open body{overflow:hidden}
 :where(#world) .lab-stage{background:var(--surface)}
 #world .lab-stage .labsvg,#world .lab-stage .labart{position:absolute;inset:0;width:100%;height:100%}
 #world .lab > :not(.lab-stage){border-left:1px solid var(--rule)}
+.lab-head .lab-sub{flex:1;min-width:0;font-family:var(--f-ui);font-size:12px;color:var(--ink-soft)}
 #world .lab-head{position:sticky;top:0;z-index:3}
 #world .m-world{display:none}
 .w-enter{position:fixed;right:18px;bottom:18px;z-index:55;background:var(--accent2);border-color:var(--accent2);
