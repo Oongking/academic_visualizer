@@ -187,7 +187,7 @@ nodes:[
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["The Mana Coaster","รถรางพลังเวท"],
+    spellName:["The Mana Coaster: energy changes form, the total stays","รถรางพลังเวท: พลังงานเปลี่ยนรูป ผลรวมคงเดิม"],
     question:["Drag the starting height and the second hill. Can the cart cross it — and how fast is it going at the bottom?",
               "ลากความสูงจุดปล่อยและเนินที่สอง รถจะข้ามเนินได้ไหม และที่ก้นหุบเร็วแค่ไหน"],
     ctrls:[

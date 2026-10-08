@@ -374,7 +374,7 @@ keeps working. Tests that pick labs by their position on the page should set
 `edu-world` to `off` first.
 
 **Spellbook.** The physics index lists every stage lab that has a
-`spellName`, in chapter order, and links to its section (`#sec-<id>`). It
+`spellName`, in chapter order (the card's main name is the lesson topic, with the chapter above it and the spell name below), and links to its section (`#sec-<id>`). It
 reads each chapter's saved `trials` and `preds` to show which spells are
 mastered and the prediction score. A new stage lab with a `spellName`
 appears there automatically.

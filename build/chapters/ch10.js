@@ -84,7 +84,7 @@ nodes:[
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["Two Runes in the Scrying Pool","สองรูนในสระพยากรณ์"],
+    spellName:["Two Runes in the Pool: path difference makes fringes","สองรูนในสระ: ผลต่างระยะทางทำให้เกิดแถบ"],
     question:["Two runes ripple in step. Why does the far screen light up in bands — and what spaces them out?",
               "รูนสองอันส่งระลอกพร้อมกัน ทำไมฉากฝั่งไกลจึงสว่างเป็นแถบ และอะไรกำหนดระยะห่างของแถบ"],
     ctrls:[

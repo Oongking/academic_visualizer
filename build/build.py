@@ -770,12 +770,12 @@ def spellbook_html(man, built):
             cards.append(
                 '<a class="spell-card" href="%s#sec-%s" data-ch="%s" data-node="%s" data-trials="%d" data-pred="%d">'
                 '<span class="sp-ch" data-en="Chapter %s · %s" data-th="บทที่ %s · %s"></span>'
-                '<b class="sp-name" data-en="%s" data-th="%s"></b>'
-                '<span class="sp-topic" data-en="%s" data-th="%s"></span>'
+                '<b class="sp-topic" data-en="%s" data-th="%s"></b>'
+                '<span class="sp-name" data-en="%s" data-th="%s"></span>'
                 '<span class="sp-stats"><span class="sp-m"></span><span class="sp-f"></span></span></a>'
                 % (fname, nid, chid, nid, has_trials, has_pred,
                    int(num), esc(ch["title"]["en"]), int(num), esc(ch["title"]["th"]),
-                   esc(sm.group(1)), esc(sm.group(2)), esc(tm.group(1)), esc(tm.group(2))))
+                   esc(tm.group(1)), esc(tm.group(2)), esc(sm.group(1)), esc(sm.group(2))))
     if not cards:
         return ""
     return ('<section class="spellbook" aria-labelledby="sb-title">'

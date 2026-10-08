@@ -68,7 +68,7 @@ nodes:[
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["The Circling Wisp","ภูตวนวง"],
+    spellName:["The Circling Wisp: magnetic force bends the path","ภูตวนวง: แรงแม่เหล็กทำให้วิถีโค้ง"],
     question:["A charged wisp flies into a magnetic field pointing into the page. Why does it turn into a circle — and what sets its size?",
               "ภูตประจุบินเข้าสนามแม่เหล็กที่ชี้เข้าหน้ากระดาษ ทำไมมันจึงเลี้ยวเป็นวงกลม และอะไรกำหนดขนาดวง"],
     ctrls:[

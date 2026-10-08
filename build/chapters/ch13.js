@@ -108,7 +108,7 @@ nodes:[
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["Charged Wisps","ภูตประจุ"],
+    spellName:["Charged Wisps: field is force per unit charge","ภูตประจุ: สนามคือแรงต่อประจุหนึ่งหน่วย"],
     question:["Drag the wisps and the little test charge. The field lines are drawn by the space itself — what does the test charge feel, and why?",
               "ลากภูตประจุและประจุทดสอบ เส้นสนามถูกวาดโดยที่ว่างเอง ประจุทดสอบรู้สึกอะไร และเพราะอะไร"],
     ctrls:[

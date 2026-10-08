@@ -144,7 +144,7 @@ nodes:[
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["The Enchanted Rope","เชือกต้องมนตร์"],
+    spellName:["The Enchanted Rope: overlapping waves add","เชือกต้องมนตร์: คลื่นที่ซ้อนทับรวมกัน"],
     question:["Two pulses race toward each other along the rope. What happens where they meet — and afterwards?",
               "คลื่นดลสองลูกวิ่งเข้าหากันบนเชือก เกิดอะไรขึ้นตรงที่พบกัน และหลังจากนั้น"],
     ctrls:[

@@ -74,7 +74,7 @@ nodes:[
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["The Fireball Arc","วิถีลูกไฟ"],
+    spellName:["The Fireball Arc: two independent motions","วิถีลูกไฟ: สองการเคลื่อนที่อิสระต่อกัน"],
     question:["Pull back the aiming rune and cast. Why does the fireball's sideways arrow never change?",
               "ดึงรูนเล็งแล้วร่ายเวท ทำไมลูกศรแนวราบของลูกไฟจึงไม่เปลี่ยนเลย"],
     ctrls:[

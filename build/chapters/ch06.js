@@ -145,7 +145,7 @@ nodes:[
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["Clash of the Orbs","การปะทะของลูกแก้ว"],
+    spellName:["Clash of the Orbs: total momentum is conserved","การปะทะของลูกแก้ว: โมเมนตัมรวมคงตัว"],
     question:["Fling the two orbs together. What survives every collision — and what can be lost?",
               "เหวี่ยงลูกแก้วสองลูกเข้าหากัน อะไรอยู่รอดทุกการชน และอะไรสูญหายได้"],
     ctrls:[
