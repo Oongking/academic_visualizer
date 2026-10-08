@@ -745,8 +745,7 @@ def track_legend(man, built, key, keyn):
 
 def spellbook_html(man, built):
     """The spellbook: one card per stage lab ("spell") in the subject, in
-    chapter order. Each card links to its section; the page's script fills in
-    trials mastered and foresight from that chapter's saved progress."""
+    chapter order. Each card links to its section."""
     cards = []
     for ch in man["chapters"]:
         num = ch["num"]
@@ -772,7 +771,7 @@ def spellbook_html(man, built):
                 '<span class="sp-ch" data-en="Chapter %s · %s" data-th="บทที่ %s · %s"></span>'
                 '<b class="sp-topic" data-en="%s" data-th="%s"></b>'
                 '<span class="sp-name" data-en="%s" data-th="%s"></span>'
-                '<span class="sp-stats"><span class="sp-m"></span><span class="sp-f"></span></span></a>'
+                '</a>'
                 % (fname, nid, chid, nid, has_trials, has_pred,
                    int(num), esc(ch["title"]["en"]), int(num), esc(ch["title"]["th"]),
                    esc(tm.group(1)), esc(tm.group(2)), esc(sm.group(1)), esc(sm.group(2))))
@@ -782,11 +781,9 @@ def spellbook_html(man, built):
             '<span class="label" data-en="The spellbook" data-th="ตำราเวท"></span>'
             '<h2 id="sb-title" data-en="Physics is the knowledge that makes the magic work" '
             'data-th="ฟิสิกส์คือความรู้ที่ทำให้เวทมนตร์ได้ผล"></h2>'
-            '<p class="sb-lede" data-en="Every spell below is a formula you can drive by hand. Master its trials and '
-            'foresee its outcome before you cast; your progress is kept in this browser." '
-            'data-th="เวททุกบทด้านล่างคือสูตรที่คุณควบคุมได้ด้วยมือ ผ่านบททดสอบและทำนายผลก่อนร่าย '
-            'ความคืบหน้าถูกเก็บไว้ในเบราว์เซอร์นี้"></p>'
-            '<p class="sb-sum" id="sbSum"></p>'
+            '<p class="sb-lede" data-en="Every spell below is a formula you can drive by hand. Open one to '
+            'predict the outcome and take its trials." '
+            'data-th="เวททุกบทด้านล่างคือสูตรที่คุณควบคุมได้ด้วยมือ เปิดดู ทำนายผล และลองบททดสอบได้เลย"></p>'
             '<div class="spells">%s</div></section>' % "".join(cards))
 
 

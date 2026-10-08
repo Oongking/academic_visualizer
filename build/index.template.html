@@ -97,12 +97,6 @@ a.card:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .spell-card .sp-topic{font-size:18px;line-height:1.25}
 .spell-card .sp-name{font-size:13px;line-height:1.4;color:var(--ink-soft)}
 .spell-card .sp-name::before{content:"✦ ";color:var(--accent2)}
-.spell-card .sp-stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
-.spell-card .sp-stats span{font-family:var(--f-ui);font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;
-  border:1px solid var(--rule);color:var(--ink-soft)}
-.spell-card .sp-stats span:empty{display:none}
-.spell-card.mastered{border-top-color:var(--good)}
-.spell-card.mastered .sp-m{border-color:var(--good);color:var(--good)}
 @media (prefers-reduced-motion:reduce){ .spell-card:hover{transform:none} }
 .card.soon h3{color:var(--ink-soft)}
 
@@ -197,27 +191,6 @@ __CARDS__
     g.addEventListener("click",go);
     g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
   });
-  /* the spellbook reads each chapter's own saved progress */
-  function spellbook(){
-    var cards=document.querySelectorAll(".spell-card"); if(!cards.length) return;
-    var memo={}, mastered=0, th=st.lang==="th";
-    function chapter(id){
-      if(!(id in memo)){ memo[id]=null; try{ var r=localStorage.getItem("lp."+id+".v1"); if(r) memo[id]=JSON.parse(r); }catch(e){} }
-      return memo[id];
-    }
-    cards.forEach(function(c){
-      var s=chapter(c.getAttribute("data-ch"))||{}, n=c.getAttribute("data-node");
-      var tr=(s.trials&&s.trials[n])||0, pr=(s.preds&&s.preds[n])||null;
-      c.classList.toggle("mastered", tr>0); if(tr>0) mastered++;
-      c.querySelector(".sp-m").textContent = c.getAttribute("data-trials")==="1"
-        ? (tr>0 ? (th?"✓ ผ่าน ":"✓ mastered ")+tr+(th?" ครั้ง":"×") : (th?"ยังไม่ผ่านบททดสอบ":"no trials yet")) : "";
-      c.querySelector(".sp-f").textContent = pr ? (th?"ทำนายแม่น ":"foresight ")+pr.hit+" / "+pr.n : "";
-    });
-    var sum=document.getElementById("sbSum");
-    if(sum) sum.textContent = th ? "ผ่านแล้ว "+mastered+" จาก "+cards.length+" เวท" : mastered+" of "+cards.length+" spells mastered";
-  }
-  var applyBase=apply;
-  apply=function(){ applyBase(); spellbook(); };
   apply();
 })();
 </script>

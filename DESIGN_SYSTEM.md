@@ -374,9 +374,10 @@ keeps working. Tests that pick labs by their position on the page should set
 `edu-world` to `off` first.
 
 **Spellbook.** The physics index lists every stage lab that has a
-`spellName`, in chapter order (the card's main name is the lesson topic, with the chapter above it and the spell name below), and links to its section (`#sec-<id>`). It
-reads each chapter's saved `trials` and `preds` to show which spells are
-mastered and the prediction score. A new stage lab with a `spellName`
+`spellName`, in chapter order (the card's main name is the lesson topic, with the chapter above it and the spell name below), and links to its section (`#sec-<id>`). The
+cards show no progress or "already viewed" state, because learners are
+meant to come back to them many times (the chapters still keep trials and
+predictions inside each lab). A new stage lab with a `spellName`
 appears there automatically.
 
 **Performance.** A lab repaints its whole SVG on every change, so the
