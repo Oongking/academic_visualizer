@@ -93,7 +93,7 @@ Use this reading order:
 
 1. A small path back to the parent course or hub.
 2. A kicker, one `h1`, and a brief explanation of what the learner will do.
-3. If meaningful, a compact row of progress or chapter facts.
+3. If meaningful, a compact row of chapter facts (never learner progress).
 4. The map, simulation, or main content in a bordered panel.
 5. Supporting explanation and navigation to the next lesson.
 
@@ -107,8 +107,7 @@ shape, fill, or an icon. Provide keyboard focus with a visible accent outline.
 For bilingual high-school content, use `[English, Thai]` pairs in chapter data
 and `data-en`/`data-th` attributes in templates. Keep diagrams, captions,
 controls, readouts, explanations, and questions bilingual, not just headings.
-The root `lang` attribute changes with the language control. Keep existing
-progress storage keys intact when extending content.
+The root `lang` attribute changes with the language control. Do not store learner progress.
 
 ## Mathematical notation
 
@@ -482,3 +481,10 @@ new page template.
 **Names.** Wherever a stage lab is titled (its header and the world bar) the
 lesson topic is the main name, the chapter sits above it, and the spell name
 follows as a sub line (`.lab-sub`). Skins without spell names show only the topic.
+
+**No progress is stored.** The pages remember only preferences: reading theme
+(`edu-reading-theme`), language (`edu-lang`), art style (`edu-art-skin`) and
+whether labs open in the world (`edu-world`). What was read, which trials were
+solved and how predictions went live in memory for the visit only, and the
+map shows connections and the current topic, never read/trained status. Do not
+add a new key that records what a learner has done.

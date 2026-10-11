@@ -35,7 +35,6 @@ __PAGENAV__
       </select></label>
     <label class="reading-theme art-skin" id="artSkinWrap" hidden><span data-en="Art" data-th="ภาพ">Art</span>
       <select id="artSkin" aria-label="Art style for the labs"></select></label>
-    <button class="btn" id="resetBtn" type="button" data-i18n="ui.reset">Reset progress</button>
   </div>
 </header>
 
@@ -57,8 +56,8 @@ __PAGENAV__
              chapter in the reader's language, not from the build token -->
         <title id="chmap-title">__TITLE__ knowledge map</title>
         <desc id="chmap-desc"
-              data-en="The concepts in this chapter and the order they unlock in: an arrow runs from a concept to the ones that need it first. Each box is a link to that concept, and its outline shows whether it is upcoming, next up, read, or trained."
-              data-th="แนวคิดในบทนี้และลำดับก่อนหลังของมัน ลูกศรชี้จากแนวคิดหนึ่งไปยังแนวคิดที่ต้องใช้แนวคิดนั้นก่อน แต่ละกล่องเป็นลิงก์ไปยังแนวคิดนั้น เส้นขอบบอกสถานะว่ายังไม่ถึง ถึงคิวแล้ว อ่านแล้ว หรือฝึกครบแล้ว">The concepts in this chapter and the order they unlock in.</desc>
+              data-en="The concepts in this chapter and the order they unlock in: an arrow runs from a concept to the ones that need it first. Each box is a link to that concept, and the outlined one is the topic you are reading."
+              data-th="แนวคิดในบทนี้และลำดับก่อนหลังของมัน ลูกศรชี้จากแนวคิดหนึ่งไปยังแนวคิดที่ต้องใช้แนวคิดนั้นก่อน แต่ละกล่องเป็นลิงก์ไปยังแนวคิดนั้น กล่องที่มีเส้นขอบเข้มคือหัวข้อที่คุณกำลังอ่านอยู่">The concepts in this chapter and the order they unlock in.</desc>
         <defs>
           <marker id="ah" markerWidth="7" markerHeight="7" refX="6" refY="3.5"
                   orient="auto" markerUnits="userSpaceOnUse">
@@ -73,15 +72,8 @@ __PAGENAV__
     </figure>
 
     <div class="legend">
-      <div class="prog">
-        <span class="label" data-i18n="map.progress">Progress</span>
-        <div class="big"><span id="progNum">0</span><span id="progTot" style="color:var(--ink-faint)"></span></div>
-        <span style="font-size:13.5px;color:var(--ink-soft)" data-i18n="map.progressSub">nodes read</span>
-      </div>
-      <div class="legend-row"><span class="swatch up"></span><span><b data-i18n="map.s1"></b><span data-i18n="map.s1d"></span></span></div>
-      <div class="legend-row"><span class="swatch avail"></span><span><b data-i18n="map.s2"></b><span data-i18n="map.s2d"></span></span></div>
-      <div class="legend-row"><span class="swatch read"></span><span><b data-i18n="map.s3"></b><span data-i18n="map.s3d"></span></span></div>
-      <div class="legend-row"><span class="swatch trained"></span><span><b data-i18n="map.s4"></b><span data-i18n="map.s4d"></span></span></div>
+      <div class="legend-row"><span class="swatch arrow"></span><span><b data-i18n="map.l1"></b><span data-i18n="map.l1d"></span></span></div>
+      <div class="legend-row"><span class="swatch here"></span><span><b data-i18n="map.l2"></b><span data-i18n="map.l2d"></span></span></div>
     </div>
   </div>
 

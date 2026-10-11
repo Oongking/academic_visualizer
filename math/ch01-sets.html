@@ -126,32 +126,20 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .mnode rect{fill:var(--ground);stroke:var(--rule);stroke-width:1.5;transition:all .18s}
 .mnode text{font-family:var(--f-ui);font-size:11.5px;font-weight:600;
   fill:var(--ink-faint);text-anchor:middle;dominant-baseline:middle;pointer-events:none}
-.mnode[data-state="upcoming"]{opacity:.5}
-.mnode[data-state="available"] rect{stroke:var(--ink-soft)}
-.mnode[data-state="available"] text{fill:var(--ink)}
-.mnode[data-state="read"] rect{fill:var(--ink);stroke:var(--ink)}
-.mnode[data-state="read"] text{fill:var(--ground)}
-.mnode[data-state="trained"] rect{fill:var(--ink);stroke:var(--accent);stroke-width:2.5}
-.mnode[data-state="trained"] text{fill:var(--ground)}
 .mnode[data-current="1"] rect{stroke:var(--accent);stroke-width:3}
 .mnode:hover rect{stroke:var(--accent)}
 .mnode:focus-visible rect{stroke:var(--accent);stroke-width:3}
 .medge{stroke:var(--rule);stroke-width:1.5;fill:none}
-.medge.lit{stroke:var(--ink-soft)}
 .medge.ext{stroke-dasharray:4 4;stroke:var(--ink-faint);opacity:.6}
 .mext text{font-family:var(--f-ui);font-size:10.5px;fill:var(--ink-faint);text-anchor:middle}
 
 .legend{display:flex;flex-direction:column;gap:15px}
 .legend-row{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--ink-soft)}
 .swatch{width:34px;height:20px;flex:0 0 auto;border:1.5px solid var(--rule);background:var(--ground);margin-top:2px}
-.swatch.up{opacity:.5}
-.swatch.avail{border-color:var(--ink-soft)}
-.swatch.read{background:var(--ink);border-color:var(--ink)}
-.swatch.trained{background:var(--ink);border-color:var(--accent);border-width:2.5px}
+.swatch.arrow{height:0;border:0;border-top:2px solid var(--ink-soft);margin-top:11px}
+.swatch.here{border-color:var(--accent);border-width:3px}
 .legend-row b{display:block;color:var(--ink);font-family:var(--f-ui);font-size:11px;
   letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
-.prog{border:1px solid var(--rule);padding:16px 18px;background:var(--surface)}
-.prog .big{font-family:var(--f-display);font-size:34px;line-height:1;margin:6px 0 2px}
 
 /* ---------- NODE SECTIONS ---------- */
 .chapter-rule{border:none;border-top:1px solid var(--rule);margin:56px 0 0}
@@ -552,9 +540,8 @@ a.way:hover,a.card:hover {transform:translateY(-3px);background:var(--card-hover
 .grp hr {display:none}
 .tracks,.matrix {border:1px solid var(--rule);background:var(--surface);border-radius:14px;padding:18px;margin:0 0 30px}
 .chip rect,.mnode rect {rx:8px}
-.plate,.lab,.prog,.bp,.q,.methods-here,.q-fig {border-radius:12px;background:var(--surface)}
+.plate,.lab,.bp,.q,.methods-here,.q-fig {border-radius:12px;background:var(--surface)}
 .plate {padding:18px}
-.prog .big {font-weight:800;color:var(--accent)}
 .map-wrap {gap:24px}
 nav.surfaces {gap:8px;border-bottom:0;margin-bottom:30px;flex-wrap:wrap}
 nav.surfaces button {border:1px solid var(--rule);border-radius:999px;padding:10px 22px;font-size:12px;letter-spacing:.04em;background:var(--surface)}
@@ -778,7 +765,6 @@ var MATH = (function () {
       </select></label>
     <label class="reading-theme art-skin" id="artSkinWrap" hidden><span data-en="Art" data-th="ภาพ">Art</span>
       <select id="artSkin" aria-label="Art style for the labs"></select></label>
-    <button class="btn" id="resetBtn" type="button" data-i18n="ui.reset">Reset progress</button>
   </div>
 </header>
 
@@ -800,8 +786,8 @@ var MATH = (function () {
              chapter in the reader's language, not from the build token -->
         <title id="chmap-title">Sets knowledge map</title>
         <desc id="chmap-desc"
-              data-en="The concepts in this chapter and the order they unlock in: an arrow runs from a concept to the ones that need it first. Each box is a link to that concept, and its outline shows whether it is upcoming, next up, read, or trained."
-              data-th="แนวคิดในบทนี้และลำดับก่อนหลังของมัน ลูกศรชี้จากแนวคิดหนึ่งไปยังแนวคิดที่ต้องใช้แนวคิดนั้นก่อน แต่ละกล่องเป็นลิงก์ไปยังแนวคิดนั้น เส้นขอบบอกสถานะว่ายังไม่ถึง ถึงคิวแล้ว อ่านแล้ว หรือฝึกครบแล้ว">The concepts in this chapter and the order they unlock in.</desc>
+              data-en="The concepts in this chapter and the order they unlock in: an arrow runs from a concept to the ones that need it first. Each box is a link to that concept, and the outlined one is the topic you are reading."
+              data-th="แนวคิดในบทนี้และลำดับก่อนหลังของมัน ลูกศรชี้จากแนวคิดหนึ่งไปยังแนวคิดที่ต้องใช้แนวคิดนั้นก่อน แต่ละกล่องเป็นลิงก์ไปยังแนวคิดนั้น กล่องที่มีเส้นขอบเข้มคือหัวข้อที่คุณกำลังอ่านอยู่">The concepts in this chapter and the order they unlock in.</desc>
         <defs>
           <marker id="ah" markerWidth="7" markerHeight="7" refX="6" refY="3.5"
                   orient="auto" markerUnits="userSpaceOnUse">
@@ -816,15 +802,8 @@ var MATH = (function () {
     </figure>
 
     <div class="legend">
-      <div class="prog">
-        <span class="label" data-i18n="map.progress">Progress</span>
-        <div class="big"><span id="progNum">0</span><span id="progTot" style="color:var(--ink-faint)"></span></div>
-        <span style="font-size:13.5px;color:var(--ink-soft)" data-i18n="map.progressSub">nodes read</span>
-      </div>
-      <div class="legend-row"><span class="swatch up"></span><span><b data-i18n="map.s1"></b><span data-i18n="map.s1d"></span></span></div>
-      <div class="legend-row"><span class="swatch avail"></span><span><b data-i18n="map.s2"></b><span data-i18n="map.s2d"></span></span></div>
-      <div class="legend-row"><span class="swatch read"></span><span><b data-i18n="map.s3"></b><span data-i18n="map.s3d"></span></span></div>
-      <div class="legend-row"><span class="swatch trained"></span><span><b data-i18n="map.s4"></b><span data-i18n="map.s4d"></span></span></div>
+      <div class="legend-row"><span class="swatch arrow"></span><span><b data-i18n="map.l1"></b><span data-i18n="map.l1d"></span></span></div>
+      <div class="legend-row"><span class="swatch here"></span><span><b data-i18n="map.l2"></b><span data-i18n="map.l2d"></span></span></div>
     </div>
   </div>
 
@@ -1215,25 +1194,23 @@ gen:{
 
 /* ---------- 0 · storage (every access guarded) ---------- */
 var KEY = "lp." + CHAPTER.id + ".v1";
-function load(){ try{ var r=localStorage.getItem(KEY); return r?JSON.parse(r):null; }catch(e){ return null; } }
-function save(){ try{ localStorage.setItem(KEY,JSON.stringify(STATE)); }catch(e){} }
-var STATE = load() || { lang:"en", theme:null, read:{}, cov:{}, current:(CHAPTER.nodes[0]||{}).id };
+/* Nothing about what a learner has read, answered or solved is kept: that lives
+   in memory for the visit only. Only preferences (language, theme) are saved. */
+function load(){ try{ var r=localStorage.getItem(KEY); if(!r) return null; var o=JSON.parse(r); return {lang:o.lang,theme:o.theme}; }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify({lang:STATE.lang,theme:STATE.theme})); }catch(e){} }
+var STATE = load() || { lang:"en", theme:null };
+STATE.read = {}; STATE.cov = {}; STATE.current = (CHAPTER.nodes[0]||{}).id;
 /* the language is shared by every page, so it is chosen once */
 try{ var gl=localStorage.getItem("edu-lang"); if(gl==="en"||gl==="th") STATE.lang=gl; }catch(e){}
 
 /* ---------- 1 · strings ---------- */
 var BASE = {
   "ui.theme":["Dark","มืด"], "ui.themeLight":["Light","สว่าง"],
-  "ui.reset":["Reset progress","ล้างความคืบหน้า"],
   "nav.learn":["Learn","เรียน"], "nav.forge":["Forge","ฝึก"],
   "map.eyebrow":["The knowledge map","แผนที่ความรู้"],
   "map.fig":["prerequisite graph · click a node to jump to it","ผังลำดับความรู้ · คลิกที่โหนดเพื่อไปยังหัวข้อนั้น"],
-  "map.progress":["Progress","ความคืบหน้า"], "map.progressSub":["nodes read","โหนดที่อ่านแล้ว"],
-  "map.s1":["Upcoming","ยังไม่ถึง"],
-  "map.s1d":["Its prerequisites are not read yet. Advisory only — the content is right below.","ยังไม่ได้อ่านหัวข้อที่ควรรู้ก่อน เป็นเพียงคำแนะนำ เนื้อหาอยู่ด้านล่างแล้ว"],
-  "map.s2":["Next up","ถัดไป"], "map.s2d":["Prerequisites done. This is where to go.","อ่านหัวข้อก่อนหน้าครบแล้ว ไปต่อที่นี่"],
-  "map.s3":["Read","อ่านแล้ว"], "map.s3d":["You have scrolled through it.","เลื่อนผ่านเนื้อหานี้แล้ว"],
-  "map.s4":["Trained","ฝึกครบ"], "map.s4d":["Its methods answered correctly in the Forge.","ตอบวิธีของหัวข้อนี้ถูกในห้องฝึกแล้ว"],
+  "map.l1":["Arrow","ลูกศร"], "map.l1d":["Runs from a concept to the ones that need it first.","ชี้จากแนวคิดหนึ่งไปยังแนวคิดที่ต้องใช้แนวคิดนั้นก่อน"],
+  "map.l2":["Outlined box","กล่องที่มีเส้นขอบเข้ม"], "map.l2d":["The topic you are reading now. Click any box to jump to its topic.","หัวข้อที่คุณกำลังอ่านอยู่ คลิกกล่องใดก็ได้เพื่อข้ามไปยังหัวข้อนั้น"],
   "study.methods":["Methods trained by this node","วิธีที่ฝึกจากโหนดนี้"],
   "lab.title":["Lab","ห้องทดลอง"],
   "strip.title":["Visualizers in this chapter","ตัวช่วยมองภาพในบทนี้"],
@@ -3271,7 +3248,6 @@ var WORLD = {
   hosts: function(){ return Array.prototype.slice.call(document.querySelectorAll("#nodeSections .lab.stage-lab")); },
   pref: function(){ try{ return localStorage.getItem(WORLD.KEY) !== "off"; }catch(e){ return true; } },
   setPref: function(on){ try{ localStorage.setItem(WORLD.KEY, on ? "on" : "off"); }catch(e){} },
-  lastKey: function(){ return "edu-world-at." + CHAPTER.id; },
 
   build: function(){
     if(WORLD.el) return;
@@ -3330,7 +3306,6 @@ var WORLD = {
     WORLD.on = true; WORLD.el.hidden = false; WORLD.enterBtn.hidden = true;
     document.documentElement.classList.add("world-open");
     WORLD.setPref(true);
-    try{ localStorage.setItem(WORLD.lastKey(), String(WORLD.i)); }catch(e){}
     WORLD.label();
     host.scrollTop = 0;
     LABS.forEach(function(l){ if(l.redraw && l.svg && host.contains(l.svg)){ if(l.wake) l.wake(); l.redraw(); } });
@@ -3386,7 +3361,7 @@ var WORLD = {
     WORLD.build();
     var h = (location.hash || "").slice(1), at = -1;
     if(h) hs.forEach(function(x, i){ var s = x.closest(".node-sec"); if(s && s.id === h) at = i; });
-    if(at < 0){ try{ at = +localStorage.getItem(WORLD.lastKey()) || 0; }catch(e){ at = 0; } }
+    if(at < 0) at = 0;
     if(h && at >= 0 && (location.hash || "").indexOf("sec-") === 1){ WORLD.open(at); return true; }
     if(WORLD.pref()){ WORLD.open(at); return true; }
     WORLD.i = Math.min(at, hs.length - 1); WORLD.enterBtn.hidden = false; WORLD.label();
@@ -4215,21 +4190,6 @@ SKINS.add({
 /* ---------- 4 · map ---------- */
 var NW=150, NH=38;
 function node(id){ for(var i=0;i<CHAPTER.nodes.length;i++) if(CHAPTER.nodes[i].id===id) return CHAPTER.nodes[i]; return null; }
-function methodMastered(m){ var c=STATE.cov[m]; if(!c) return false; for(var k in c) if(c[k]>0) return true; return false; }
-function stateOf(id){
-  var n=node(id);
-  if(STATE.read[id]){
-    if(n.methods && n.methods.length){
-      var all=true;
-      for(var i=0;i<n.methods.length;i++) if(!methodMastered(n.methods[i])) all=false;
-      if(all) return "trained";
-    }
-    return "read";
-  }
-  var req=n.requires||[];
-  for(var j=0;j<req.length;j++) if(!STATE.read[req[j]]) return "upcoming";
-  return "available";
-}
 /* Orthogonal edge routing for the chapter map.
 
    Nodes sit on a fixed grid (columns 135 apart, rows 98 apart) but the boxes
@@ -4382,14 +4342,13 @@ function drawMap(){
   list.forEach(function(e){
     var path=document.createElementNS("http://www.w3.org/2000/svg","path");
     path.setAttribute("d",edgePath(e.pts));
-    path.setAttribute("class","medge"+(STATE.read[e.r]?" lit":""));
+    path.setAttribute("class","medge");
     path.setAttribute("marker-end","url(#ah)");
     E.appendChild(path);
   });
   CHAPTER.nodes.forEach(function(n){
     var g=document.createElementNS("http://www.w3.org/2000/svg","g");
     g.setAttribute("class","mnode");
-    g.setAttribute("data-state",stateOf(n.id));
     g.setAttribute("data-current",STATE.current===n.id?"1":"0");
     g.setAttribute("tabindex","0"); g.setAttribute("role","button");
     var r=document.createElementNS("http://www.w3.org/2000/svg","rect");
@@ -4404,9 +4363,6 @@ function drawMap(){
     g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
     N.appendChild(g);
   });
-  var done=0; CHAPTER.nodes.forEach(function(n){ if(STATE.read[n.id]) done++; });
-  document.getElementById("progNum").textContent=done;
-  document.getElementById("progTot").textContent="/"+CHAPTER.nodes.length;
 }
 
 /* ---------- 5 · lab factory ---------- */
@@ -4754,7 +4710,7 @@ var OBS = null;
 function observeSections(){
   if(OBS) OBS.disconnect();
   if(!("IntersectionObserver" in window)){
-    CHAPTER.nodes.forEach(function(n){ STATE.read[n.id]=true; }); save(); drawMap(); return;
+    return;
   }
   OBS=new IntersectionObserver(function(en){
     var ch=false;
@@ -4762,10 +4718,9 @@ function observeSections(){
       if(e.isIntersecting && e.intersectionRatio>=0.3){
         var id=e.target.getAttribute("data-node");
         if(STATE.current!==id){ STATE.current=id; ch=true; }
-        if(!STATE.read[id]){ STATE.read[id]=true; ch=true; }
       }
     });
-    if(ch){ save(); drawMap(); }
+    if(ch) drawMap();
   },{threshold:[0.3]});
   document.querySelectorAll(".node-sec").forEach(function(s){ OBS.observe(s); });
 }
@@ -4928,10 +4883,6 @@ document.getElementById("langBtn").addEventListener("click",function(){
 document.addEventListener("readingthemechange",function(){
   ART.repaint();
   LABS.forEach(function(l){ if(l.redraw) l.redraw(); if(l.repaintArt) l.repaintArt(); });
-});
-document.getElementById("resetBtn").addEventListener("click",function(){
-  STATE={lang:STATE.lang,theme:STATE.theme,read:{},cov:{},current:CHAPTER.nodes[0].id};
-  save(); applyLang(); setView("learn"); window.scrollTo({top:0,behavior:"smooth"});
 });
 document.getElementById("genBtn").addEventListener("click",generate);
 

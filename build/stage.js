@@ -918,7 +918,6 @@ var WORLD = {
   hosts: function(){ return Array.prototype.slice.call(document.querySelectorAll("#nodeSections .lab.stage-lab")); },
   pref: function(){ try{ return localStorage.getItem(WORLD.KEY) !== "off"; }catch(e){ return true; } },
   setPref: function(on){ try{ localStorage.setItem(WORLD.KEY, on ? "on" : "off"); }catch(e){} },
-  lastKey: function(){ return "edu-world-at." + CHAPTER.id; },
 
   build: function(){
     if(WORLD.el) return;
@@ -977,7 +976,6 @@ var WORLD = {
     WORLD.on = true; WORLD.el.hidden = false; WORLD.enterBtn.hidden = true;
     document.documentElement.classList.add("world-open");
     WORLD.setPref(true);
-    try{ localStorage.setItem(WORLD.lastKey(), String(WORLD.i)); }catch(e){}
     WORLD.label();
     host.scrollTop = 0;
     LABS.forEach(function(l){ if(l.redraw && l.svg && host.contains(l.svg)){ if(l.wake) l.wake(); l.redraw(); } });
@@ -1033,7 +1031,7 @@ var WORLD = {
     WORLD.build();
     var h = (location.hash || "").slice(1), at = -1;
     if(h) hs.forEach(function(x, i){ var s = x.closest(".node-sec"); if(s && s.id === h) at = i; });
-    if(at < 0){ try{ at = +localStorage.getItem(WORLD.lastKey()) || 0; }catch(e){ at = 0; } }
+    if(at < 0) at = 0;
     if(h && at >= 0 && (location.hash || "").indexOf("sec-") === 1){ WORLD.open(at); return true; }
     if(WORLD.pref()){ WORLD.open(at); return true; }
     WORLD.i = Math.min(at, hs.length - 1); WORLD.enterBtn.hidden = false; WORLD.label();

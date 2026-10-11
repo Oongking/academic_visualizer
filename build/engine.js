@@ -7,25 +7,23 @@
 
 /* ---------- 0 · storage (every access guarded) ---------- */
 var KEY = "lp." + CHAPTER.id + ".v1";
-function load(){ try{ var r=localStorage.getItem(KEY); return r?JSON.parse(r):null; }catch(e){ return null; } }
-function save(){ try{ localStorage.setItem(KEY,JSON.stringify(STATE)); }catch(e){} }
-var STATE = load() || { lang:"en", theme:null, read:{}, cov:{}, current:(CHAPTER.nodes[0]||{}).id };
+/* Nothing about what a learner has read, answered or solved is kept: that lives
+   in memory for the visit only. Only preferences (language, theme) are saved. */
+function load(){ try{ var r=localStorage.getItem(KEY); if(!r) return null; var o=JSON.parse(r); return {lang:o.lang,theme:o.theme}; }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify({lang:STATE.lang,theme:STATE.theme})); }catch(e){} }
+var STATE = load() || { lang:"en", theme:null };
+STATE.read = {}; STATE.cov = {}; STATE.current = (CHAPTER.nodes[0]||{}).id;
 /* the language is shared by every page, so it is chosen once */
 try{ var gl=localStorage.getItem("edu-lang"); if(gl==="en"||gl==="th") STATE.lang=gl; }catch(e){}
 
 /* ---------- 1 · strings ---------- */
 var BASE = {
   "ui.theme":["Dark","มืด"], "ui.themeLight":["Light","สว่าง"],
-  "ui.reset":["Reset progress","ล้างความคืบหน้า"],
   "nav.learn":["Learn","เรียน"], "nav.forge":["Forge","ฝึก"],
   "map.eyebrow":["The knowledge map","แผนที่ความรู้"],
   "map.fig":["prerequisite graph · click a node to jump to it","ผังลำดับความรู้ · คลิกที่โหนดเพื่อไปยังหัวข้อนั้น"],
-  "map.progress":["Progress","ความคืบหน้า"], "map.progressSub":["nodes read","โหนดที่อ่านแล้ว"],
-  "map.s1":["Upcoming","ยังไม่ถึง"],
-  "map.s1d":["Its prerequisites are not read yet. Advisory only — the content is right below.","ยังไม่ได้อ่านหัวข้อที่ควรรู้ก่อน เป็นเพียงคำแนะนำ เนื้อหาอยู่ด้านล่างแล้ว"],
-  "map.s2":["Next up","ถัดไป"], "map.s2d":["Prerequisites done. This is where to go.","อ่านหัวข้อก่อนหน้าครบแล้ว ไปต่อที่นี่"],
-  "map.s3":["Read","อ่านแล้ว"], "map.s3d":["You have scrolled through it.","เลื่อนผ่านเนื้อหานี้แล้ว"],
-  "map.s4":["Trained","ฝึกครบ"], "map.s4d":["Its methods answered correctly in the Forge.","ตอบวิธีของหัวข้อนี้ถูกในห้องฝึกแล้ว"],
+  "map.l1":["Arrow","ลูกศร"], "map.l1d":["Runs from a concept to the ones that need it first.","ชี้จากแนวคิดหนึ่งไปยังแนวคิดที่ต้องใช้แนวคิดนั้นก่อน"],
+  "map.l2":["Outlined box","กล่องที่มีเส้นขอบเข้ม"], "map.l2d":["The topic you are reading now. Click any box to jump to its topic.","หัวข้อที่คุณกำลังอ่านอยู่ คลิกกล่องใดก็ได้เพื่อข้ามไปยังหัวข้อนั้น"],
   "study.methods":["Methods trained by this node","วิธีที่ฝึกจากโหนดนี้"],
   "lab.title":["Lab","ห้องทดลอง"],
   "strip.title":["Visualizers in this chapter","ตัวช่วยมองภาพในบทนี้"],
@@ -1032,21 +1030,6 @@ VIZLIB.plate = {
 /* ---------- 4 · map ---------- */
 var NW=150, NH=38;
 function node(id){ for(var i=0;i<CHAPTER.nodes.length;i++) if(CHAPTER.nodes[i].id===id) return CHAPTER.nodes[i]; return null; }
-function methodMastered(m){ var c=STATE.cov[m]; if(!c) return false; for(var k in c) if(c[k]>0) return true; return false; }
-function stateOf(id){
-  var n=node(id);
-  if(STATE.read[id]){
-    if(n.methods && n.methods.length){
-      var all=true;
-      for(var i=0;i<n.methods.length;i++) if(!methodMastered(n.methods[i])) all=false;
-      if(all) return "trained";
-    }
-    return "read";
-  }
-  var req=n.requires||[];
-  for(var j=0;j<req.length;j++) if(!STATE.read[req[j]]) return "upcoming";
-  return "available";
-}
 /* Orthogonal edge routing for the chapter map.
 
    Nodes sit on a fixed grid (columns 135 apart, rows 98 apart) but the boxes
@@ -1199,14 +1182,13 @@ function drawMap(){
   list.forEach(function(e){
     var path=document.createElementNS("http://www.w3.org/2000/svg","path");
     path.setAttribute("d",edgePath(e.pts));
-    path.setAttribute("class","medge"+(STATE.read[e.r]?" lit":""));
+    path.setAttribute("class","medge");
     path.setAttribute("marker-end","url(#ah)");
     E.appendChild(path);
   });
   CHAPTER.nodes.forEach(function(n){
     var g=document.createElementNS("http://www.w3.org/2000/svg","g");
     g.setAttribute("class","mnode");
-    g.setAttribute("data-state",stateOf(n.id));
     g.setAttribute("data-current",STATE.current===n.id?"1":"0");
     g.setAttribute("tabindex","0"); g.setAttribute("role","button");
     var r=document.createElementNS("http://www.w3.org/2000/svg","rect");
@@ -1221,9 +1203,6 @@ function drawMap(){
     g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
     N.appendChild(g);
   });
-  var done=0; CHAPTER.nodes.forEach(function(n){ if(STATE.read[n.id]) done++; });
-  document.getElementById("progNum").textContent=done;
-  document.getElementById("progTot").textContent="/"+CHAPTER.nodes.length;
 }
 
 /* ---------- 5 · lab factory ---------- */
@@ -1571,7 +1550,7 @@ var OBS = null;
 function observeSections(){
   if(OBS) OBS.disconnect();
   if(!("IntersectionObserver" in window)){
-    CHAPTER.nodes.forEach(function(n){ STATE.read[n.id]=true; }); save(); drawMap(); return;
+    return;
   }
   OBS=new IntersectionObserver(function(en){
     var ch=false;
@@ -1579,10 +1558,9 @@ function observeSections(){
       if(e.isIntersecting && e.intersectionRatio>=0.3){
         var id=e.target.getAttribute("data-node");
         if(STATE.current!==id){ STATE.current=id; ch=true; }
-        if(!STATE.read[id]){ STATE.read[id]=true; ch=true; }
       }
     });
-    if(ch){ save(); drawMap(); }
+    if(ch) drawMap();
   },{threshold:[0.3]});
   document.querySelectorAll(".node-sec").forEach(function(s){ OBS.observe(s); });
 }
@@ -1745,10 +1723,6 @@ document.getElementById("langBtn").addEventListener("click",function(){
 document.addEventListener("readingthemechange",function(){
   ART.repaint();
   LABS.forEach(function(l){ if(l.redraw) l.redraw(); if(l.repaintArt) l.repaintArt(); });
-});
-document.getElementById("resetBtn").addEventListener("click",function(){
-  STATE={lang:STATE.lang,theme:STATE.theme,read:{},cov:{},current:CHAPTER.nodes[0].id};
-  save(); applyLang(); setView("learn"); window.scrollTo({top:0,behavior:"smooth"});
 });
 document.getElementById("genBtn").addEventListener("click",generate);
 

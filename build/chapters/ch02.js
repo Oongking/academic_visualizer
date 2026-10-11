@@ -3,8 +3,8 @@ id:"ch02", num:"02", slug:"linear-motion", subject:"physics",
 kicker:["Physics · Chapter 02","ฟิสิกส์ · บทที่ 2"],
 title:["Linear Motion","การเคลื่อนที่แนวตรง"],
 mapTitle:["Six ideas, one chain","หกแนวคิด หนึ่งสายโซ่"],
-lede:["Nothing here stands alone. Displacement defines velocity, velocity defines acceleration, and the graph ties them together before the five equations fall out of it. The map tracks where you are — everything below it is one continuous read.",
-      "ไม่มีหัวข้อใดอยู่ลำพัง การกระจัดนิยามความเร็ว ความเร็วนิยามความเร่ง และกราฟผูกทั้งหมดเข้าด้วยกันก่อนที่สมการทั้งห้าจะตามมา แผนที่คอยบอกว่าคุณอยู่ตรงไหน ส่วนเนื้อหาทั้งหมดด้านล่างอ่านต่อเนื่องได้เลย"],
+lede:["Nothing here stands alone. Displacement defines velocity, velocity defines acceleration, and the graph ties them together before the five equations fall out of it. The map shows how they connect — everything below it is one continuous read.",
+      "ไม่มีหัวข้อใดอยู่ลำพัง การกระจัดนิยามความเร็ว ความเร็วนิยามความเร่ง และกราฟผูกทั้งหมดเข้าด้วยกันก่อนที่สมการทั้งห้าจะตามมา แผนที่แสดงว่าทั้งหมดเชื่อมกันอย่างไร ส่วนเนื้อหาทั้งหมดด้านล่างอ่านต่อเนื่องได้เลย"],
 next:["→ continues in Chapter 07 · Curved Motion","→ ต่อในบทที่ 7 · การเคลื่อนที่แนวโค้ง"],
 
 nodes:[
