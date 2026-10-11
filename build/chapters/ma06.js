@@ -4,7 +4,7 @@ kicker:["Mathematics · Chapter 06","คณิตศาสตร์ · บทท
 title:["Matrices","เมทริกซ์"],
 mapTitle:["Arithmetic with its own rules","เลขคณิตที่มีกฎของตัวเอง"],
 lede:["A matrix looks like a table of numbers, but it behaves like a single object with its own arithmetic — one where multiplication does not commute and division does not exist. Most mistakes in this chapter come from assuming otherwise.",
-      "เมทริกซ์ดูเหมือนตารางตัวเลข แต่มันทำตัวเป็นวัตถุชิ้นเดียวที่มีเลขคณิตของตัวเอง เป็นเลขคณิตที่การคูณสลับที่ไม่ได้และไม่มีการหาร ข้อผิดพลาดส่วนใหญ่ในบทนี้เกิดจากการเผลอคิดว่ามันเหมือนจำนวนธรรมดา"],
+      "เมทริกซ์ดูเหมือนตารางตัวเลข แต่จริงๆ แล้วเป็นวัตถุชิ้นเดียวที่มีเลขคณิตเป็นของตัวเอง คือการคูณสลับที่ไม่ได้และไม่มีการหาร ข้อผิดพลาดส่วนใหญ่ในบทนี้เกิดจากการเผลอคิดว่าเมทริกซ์ใช้กฎเหมือนจำนวนธรรมดา"],
 next:["→ continues in Chapter 07 · Exponentials and Logs","→ ต่อในบทที่ 7 · เอกซ์โพเนนเชียลและลอการิทึม"],
 
 nodes:[
@@ -12,9 +12,9 @@ nodes:[
   title:["Dimensions and addition","มิติและการบวก"],
   body:[["A matrix is described m × n, rows first then columns. Addition, subtraction and scalar multiplication all work entry by entry, and all of them require the matrices to have identical dimensions — there is no way to add a 2×3 to a 3×2.",
          "The transpose Aᵗ swaps rows and columns, turning an m × n into an n × m. It obeys (A + B)ᵗ = Aᵗ + Bᵗ and, importantly, (AB)ᵗ = BᵗAᵗ with the order reversed — the same reversal that will reappear for inverses."],
-        ["เมทริกซ์ระบุขนาดเป็น m × n โดยบอกแถวก่อนแล้วจึงบอกหลัก การบวก การลบ และการคูณด้วยสเกลาร์ ทำทีละสมาชิกตรงตำแหน่งกัน และทั้งหมดต้องการให้เมทริกซ์มีมิติเท่ากันพอดี ไม่มีทางบวก 2×3 กับ 3×2 ได้",
-         "ทรานสโพส Aᵗ สลับแถวกับหลัก เปลี่ยน m × n เป็น n × m มันเป็นไปตาม (A + B)ᵗ = Aᵗ + Bᵗ และที่สำคัญคือ (AB)ᵗ = BᵗAᵗ ซึ่งกลับลำดับ เป็นการกลับลำดับแบบเดียวกับที่จะปรากฏอีกครั้งในเรื่องอินเวอร์ส"]],
-  formula:["A ± B needs equal dimensions        (AB)ᵗ = BᵗAᵗ","A ± B ต้องมิติเท่ากัน        (AB)ᵗ = BᵗAᵗ"],
+        ["ขนาดของเมทริกซ์เขียนเป็น m × n โดยบอกจำนวนแถวก่อนแล้วจึงบอกจำนวนหลัก การบวก การลบ และการคูณด้วยสเกลาร์ ทำทีละสมาชิกที่อยู่ตำแหน่งตรงกัน และเมทริกซ์ต้องมีขนาดเท่ากันทุกกรณี จึงบวก 2×3 กับ 3×2 ไม่ได้",
+         "ทรานสโพส Aᵗ คือการสลับแถวกับหลัก ทำให้ m × n กลายเป็น n × m สมบัติที่ใช้บ่อยคือ (A + B)ᵗ = Aᵗ + Bᵗ และที่สำคัญคือ (AB)ᵗ = BᵗAᵗ ซึ่งลำดับกลับกัน ลำดับจะกลับแบบเดียวกันนี้อีกครั้งในเรื่องอินเวอร์ส"]],
+  formula:["A ± B needs equal dimensions        (AB)ᵗ = BᵗAᵗ","A ± B ต้องมีขนาดเท่ากัน        (AB)ᵗ = BᵗAᵗ"],
   flabel:["Entry by entry, same size only","ทีละสมาชิก ขนาดเท่ากันเท่านั้น"],
   viz:"grid",
   vizcfg:{
@@ -22,9 +22,9 @@ nodes:[
     cols:[["Matrix A","เมทริกซ์ A"],["Matrix B","เมทริกซ์ B"],["A + B allowed?","บวกได้ไหม"],["Result","ผลลัพธ์"]],
     ctrls:[
       {k:"r1", lab:["Rows of A","แถวของ A"], min:1, max:4, step:1, def:2, unit:""},
-      {k:"c1", lab:["Columns of A","คอลัมน์ของ A"], min:1, max:4, step:1, def:3, unit:""},
+      {k:"c1", lab:["Columns of A","หลักของ A"], min:1, max:4, step:1, def:3, unit:""},
       {k:"r2", lab:["Rows of B","แถวของ B"], min:1, max:4, step:1, def:2, unit:""},
-      {k:"c2", lab:["Columns of B","คอลัมน์ของ B"], min:1, max:4, step:1, def:3, unit:""}
+      {k:"c2", lab:["Columns of B","หลักของ B"], min:1, max:4, step:1, def:3, unit:""}
     ],
     readouts:[
       {lab:["Order of A","มิติของ A"], f:function(S){ return S.p.r1+" × "+S.p.c1; }},
@@ -43,15 +43,15 @@ nodes:[
                {v:ok?"✓":"✗", on:true, col:ok?"good":"warn"},
                {v:ok?(p.r1+" × "+p.c1):(L()?"ไม่นิยาม":"undefined"), on:true, col:ok?"ink":"warn"}]];
     },
-    note:["addition demands identical orders — unlike multiplication, which only needs a shared inner size","การบวกต้องมีมิติเหมือนกันเป๊ะ ต่างจากการคูณที่ต้องการเพียงขนาดด้านในตรงกัน"]
+    note:["addition demands identical orders — unlike multiplication, which only needs a shared inner size","การบวกต้องมีมิติเท่ากันทุกประการ ส่วนการคูณขอแค่มิติด้านในตรงกัน"]
   } },
 
 { id:"multiplication", x:100, y:150, requires:["basics"], methods:["M-02"],
   title:["Multiplication","การคูณ"],
   body:[["To multiply A by B the inner dimensions must agree: an m × p times a p × n gives an m × n. The entry in row i, column j is the row i of A paired term by term with column j of B and summed.",
          "Matrix multiplication is not commutative. AB and BA are usually different, and often only one of them is even defined. Assuming AB = BA is trap T-01 and it invalidates every step that follows it."],
-        ["การคูณ A กับ B ต้องให้มิติด้านในตรงกัน เมทริกซ์ m × p คูณ p × n ได้ผลลัพธ์ m × n สมาชิกในแถวที่ i หลักที่ j คือแถวที่ i ของ A จับคู่ทีละพจน์กับหลักที่ j ของ B แล้วบวกกัน",
-         "การคูณเมทริกซ์สลับที่ไม่ได้ AB กับ BA มักไม่เท่ากัน และบ่อยครั้งมีเพียงตัวเดียวที่นิยามได้ด้วยซ้ำ การสมมติว่า AB = BA คือกับดัก T-01 และมันทำให้ทุกขั้นตอนหลังจากนั้นใช้ไม่ได้"]],
+        ["การคูณ A กับ B ได้ก็ต่อเมื่อขนาดด้านในตรงกัน เมทริกซ์ m × p คูณ p × n ได้ผลลัพธ์ขนาด m × n สมาชิกแถวที่ i หลักที่ j หาได้โดยนำแถวที่ i ของ A มาคูณกับหลักที่ j ของ B ทีละคู่ แล้วบวกกัน",
+         "การคูณเมทริกซ์สลับที่ไม่ได้ AB กับ BA มักไม่เท่ากัน และหลายครั้งหาได้แค่ตัวเดียวด้วยซ้ำ ถ้าคิดว่า AB = BA จะตกกับดัก T-01 และขั้นตอนหลังจากนั้นผิดทั้งหมด"]],
   formula:["(m×p)(p×n) = m×n        AB ≠ BA in general","(m×p)(p×n) = m×n        โดยทั่วไป AB ≠ BA"],
   flabel:["Inner dimensions must match","มิติด้านในต้องตรงกัน"],
   viz:"grid",
@@ -60,8 +60,8 @@ nodes:[
     cols:[["A","A"],["B","B"],["Inner sizes","ขนาดด้านใน"],["AB","AB"],["BA","BA"]],
     ctrls:[
       {k:"r1", lab:["Rows of A","แถวของ A"], min:1, max:4, step:1, def:2, unit:""},
-      {k:"c1", lab:["Columns of A","คอลัมน์ของ A"], min:1, max:4, step:1, def:3, unit:""},
-      {k:"c2", lab:["Columns of B","คอลัมน์ของ B"], min:1, max:4, step:1, def:2, unit:""}
+      {k:"c1", lab:["Columns of A","หลักของ A"], min:1, max:4, step:1, def:3, unit:""},
+      {k:"c2", lab:["Columns of B","หลักของ B"], min:1, max:4, step:1, def:2, unit:""}
     ],
     readouts:[
       {lab:["A × B","A × B"], f:function(S){ return S.p.r1+" × "+S.p.c2; }},
@@ -70,7 +70,7 @@ nodes:[
       {lab:["Is AB = BA?","AB เท่ากับ BA ไหม"], f:function(S){
         return S.p.c2===S.p.r1 && S.p.r1===S.p.c1
           ? (L()?"มิติเท่ากัน แต่ค่ามักต่างกันอยู่ดี":"same order, but usually still different")
-          : (L()?"ไม่ — คนละมิติหรือทำไม่ได้เลย":"no — different orders, or not even defined"); }},
+          : (L()?"ไม่เท่ากัน — มิติต่างกัน หรือหาค่าไม่ได้เลย":"no — different orders, or not even defined"); }},
       {lab:["The rule","กฎ"], f:function(){
         return L()?"(m × n)(n × p) = m × p":"(m × n)(n × p) = m × p"; }}
     ],
@@ -82,15 +82,15 @@ nodes:[
                {v:p.r1+" × "+p.c2, on:true, col:"ink"},
                {v:ba?(p.c1+" × "+p.c1):(L()?"ไม่นิยาม":"undefined"), on:true, col:ba?"ink":"warn"}]];
     },
-    note:["AB can exist while BA does not — matrix multiplication is not commutative","AB อาจมีอยู่ขณะที่ BA ไม่มี การคูณเมทริกซ์ไม่มีสมบัติสลับที่"]
+    note:["AB can exist while BA does not — matrix multiplication is not commutative","AB อาจหาได้ แต่ BA หาไม่ได้ เพราะการคูณเมทริกซ์สลับที่ไม่ได้"]
   } },
 
 { id:"determinant", x:370, y:150, requires:["basics"], methods:["M-03"],
   title:["The determinant","ดีเทอร์มิแนนต์"],
   body:[["For a 2×2 the determinant is ad − bc; for larger square matrices you expand along a row or column using cofactors, choosing whichever line has the most zeros. Only square matrices have one at all.",
          "Geometrically the 2×2 determinant is the signed area of the parallelogram spanned by the two columns. Drive the lab until that area collapses to nothing: the columns have become parallel, the determinant is zero, and the matrix is singular — which is precisely why it cannot be inverted."],
-        ["สำหรับ 2×2 ดีเทอร์มิแนนต์คือ ad − bc สำหรับเมทริกซ์จัตุรัสที่ใหญ่กว่าให้กระจายตามแถวหรือหลักด้วยโคแฟกเตอร์ โดยเลือกแนวที่มีศูนย์มากที่สุด มีเพียงเมทริกซ์จัตุรัสเท่านั้นที่มีดีเทอร์มิแนนต์",
-         "ในเชิงเรขาคณิต ดีเทอร์มิแนนต์ของ 2×2 คือพื้นที่มีเครื่องหมายของสี่เหลี่ยมด้านขนานที่สร้างจากสองหลัก ลองปรับในห้องทดลองจนพื้นที่ยุบเป็นศูนย์ หลักทั้งสองจะขนานกัน ดีเทอร์มิแนนต์เป็นศูนย์ และเมทริกซ์เป็นเอกฐาน ซึ่งเป็นเหตุผลว่าทำไมจึงหาอินเวอร์สไม่ได้"]],
+        ["เมทริกซ์ 2×2 มีดีเทอร์มิแนนต์เท่ากับ ad − bc ส่วนเมทริกซ์จัตุรัสที่ใหญ่กว่านั้น ให้กระจายตามแถวหรือหลักโดยใช้โคแฟกเตอร์ และเลือกแนวที่มีศูนย์มากที่สุด เฉพาะเมทริกซ์จัตุรัสเท่านั้นที่มีดีเทอร์มิแนนต์",
+         "ในเชิงเรขาคณิต ดีเทอร์มิแนนต์ของ 2×2 คือพื้นที่แบบมีเครื่องหมายของสี่เหลี่ยมด้านขนานที่สร้างจากสองหลัก ลองปรับในห้องทดลองจนพื้นที่เหลือศูนย์ เมื่อนั้นสองหลักขนานกัน ดีเทอร์มิแนนต์เป็นศูนย์ และเมทริกซ์เป็นเอกฐาน นี่คือเหตุผลที่หาอินเวอร์สไม่ได้"]],
   formula:["det = ad − bc        det(AB) = det(A)·det(B)","det = ad − bc        det(AB) = det(A)·det(B)"],
   flabel:["Zero determinant means singular","ดีเทอร์มิแนนต์ศูนย์คือเอกฐาน"],
   viz:{
@@ -103,9 +103,9 @@ nodes:[
     ],
     readouts:[
       {lab:["det = ad − bc","det = ad − bc"], f:function(S){
-        return fmt(S.p.a*S.p.d - S.p.b*S.p.c); }},
+        return num(S.p.a*S.p.d - S.p.b*S.p.c); }},
       {lab:["Area","พื้นที่"], f:function(S){
-        return fmt(Math.abs(S.p.a*S.p.d - S.p.b*S.p.c))+" sq units"; }},
+        return num(Math.abs(S.p.a*S.p.d - S.p.b*S.p.c))+(L()?" ตารางหน่วย":" sq units"); }},
       {lab:["Invertible","หาอินเวอร์สได้"], f:function(S){
         var d=S.p.a*S.p.d-S.p.b*S.p.c;
         return Math.abs(d)<1e-9 ? (L()?"ไม่ได้ · เอกฐาน":"no · singular") : (L()?"ได้":"yes"); }}
@@ -132,33 +132,33 @@ nodes:[
       arrow(v2[0],v2[1],"var(--ink-soft)","col 2");
       /* the matrix written out, and the verdict */
       o.push('<text x="58" y="292" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["MATRIX","เมทริกซ์"])+'</text>');
-      o.push('<text x="58" y="312" fill="var(--ink)" font-family="Bodoni Moda" font-size="17">[ '+p.a+'  '+p.b+' ;  '+p.c+'  '+p.d+' ]</text>');
+      o.push('<text x="58" y="312" fill="var(--ink)" font-family="Bodoni Moda" font-size="17">[ '+num(p.a)+'  '+num(p.b)+' ;  '+num(p.c)+'  '+num(p.d)+' ]</text>');
       var msg = Math.abs(det)<1e-9
         ? tx(["det = 0 — the columns are parallel, the area collapsed, no inverse exists",
-              "det = 0 — คอลัมน์ขนานกัน พื้นที่ยุบเป็นศูนย์ จึงไม่มีเมทริกซ์ผกผัน"])
-        : tx(["det = "+fmt(det)+" — the shaded area, signed",
-              "det = "+fmt(det)+" — พื้นที่แรเงา คิดเครื่องหมายด้วย"]);
+              "det = 0 หลักทั้งสองขนานกัน พื้นที่เหลือศูนย์ จึงไม่มีอินเวอร์ส"])
+        : tx(["det = "+num(det)+" — the shaded area, signed",
+              "det = "+num(det)+" — พื้นที่แรเงา คิดเครื่องหมายด้วย"]);
       o.push('<text x="300" y="312" fill="'+(Math.abs(det)<1e-9?"var(--warn)":"var(--ink-faint)")+
              '" font-family="IBM Plex Sans" font-size="10.5">'+msg+'</text>');
     }
   },
   guide:[
     {say:["The two columns of the matrix, drawn as vectors from the origin. The shaded parallelogram is what they span.",
-          "สองหลักของเมทริกซ์ วาดเป็นเวกเตอร์จากจุดกำเนิด สี่เหลี่ยมด้านขนานที่แรเงาคือสิ่งที่ทั้งสองสร้างขึ้น"], set:{a:3,c:1,b:1,d:4}},
+          "สองหลักของเมทริกซ์ วาดเป็นเวกเตอร์จากจุดกำเนิด ส่วนสี่เหลี่ยมด้านขนานที่แรเงาคือรูปที่เวกเตอร์สองตัวนี้สร้างขึ้น"], set:{a:3,c:1,b:1,d:4}},
     {say:["Read the determinant and the area. They are the same number — the sign only records the orientation.",
-          "อ่านค่าดีเทอร์มิแนนต์กับพื้นที่ ทั้งสองคือตัวเลขเดียวกัน เครื่องหมายเพียงบันทึกทิศการวน"], set:{a:4,c:0,b:0,d:3}},
+          "ดูค่าดีเทอร์มิแนนต์เทียบกับพื้นที่ จะเห็นว่าเป็นตัวเลขเดียวกัน เครื่องหมายแค่บอกทิศการวน"], set:{a:4,c:0,b:0,d:3}},
     {say:["Now make column 2 a multiple of column 1. The parallelogram flattens to a line and the area vanishes.",
-          "ทีนี้ทำให้หลัก 2 เป็นจำนวนเท่าของหลัก 1 สี่เหลี่ยมด้านขนานแบนเป็นเส้น และพื้นที่หายไป"], set:{a:2,c:1,b:4,d:2}},
+          "ต่อไปลองทำให้หลัก 2 เป็นจำนวนเท่าของหลัก 1 สี่เหลี่ยมด้านขนานจะแบนเป็นเส้นตรง และพื้นที่หายไป"], set:{a:2,c:1,b:4,d:2}},
     {say:["det = 0. There is no inverse, because the matrix has squashed the plane onto a line and nothing can undo that.",
-          "det = 0 ไม่มีอินเวอร์ส เพราะเมทริกซ์บีบระนาบลงเป็นเส้น และไม่มีอะไรย้อนกลับได้"], set:{a:2,c:1,b:4,d:2}}
+          "det = 0 ไม่มีอินเวอร์ส เพราะเมทริกซ์บีบระนาบให้เหลือเป็นเส้นเดียว และไม่มีอะไรดึงกลับมาได้"], set:{a:2,c:1,b:4,d:2}}
   ]},
 
 { id:"inverse", x:235, y:248, requires:["multiplication","determinant"], methods:["M-04"],
   title:["The inverse","อินเวอร์ส"],
   body:[["A⁻¹ is the matrix satisfying AA⁻¹ = I. For a 2×2 it is the swap-and-negate pattern divided by the determinant, which makes the requirement obvious: divide by zero and nothing exists. A singular matrix has no inverse, full stop.",
          "For larger matrices A⁻¹ = adj(A)/det(A). The property that catches people is (AB)⁻¹ = B⁻¹A⁻¹ — the order reverses, exactly as it did for transposes. Writing A⁻¹B⁻¹ is trap T-02."],
-        ["A⁻¹ คือเมทริกซ์ที่ทำให้ AA⁻¹ = I สำหรับ 2×2 มันคือรูปแบบสลับและใส่เครื่องหมายลบ แล้วหารด้วยดีเทอร์มิแนนต์ ซึ่งทำให้เงื่อนไขชัดเจน หารด้วยศูนย์แล้วไม่มีอะไรเหลือ เมทริกซ์เอกฐานไม่มีอินเวอร์ส จบ",
-         "สำหรับเมทริกซ์ที่ใหญ่กว่า A⁻¹ = adj(A)/det(A) สมบัติที่ดักคนคือ (AB)⁻¹ = B⁻¹A⁻¹ ลำดับกลับด้าน เหมือนกับที่เกิดกับทรานสโพส การเขียน A⁻¹B⁻¹ คือกับดัก T-02"]],
+        ["A⁻¹ คือเมทริกซ์ที่ทำให้ AA⁻¹ = I สำหรับ 2×2 หาได้โดยสลับตำแหน่งสมาชิก ใส่เครื่องหมายลบ แล้วหารด้วยดีเทอร์มิแนนต์ จึงเห็นชัดว่าทำไมต้องมีเงื่อนไข ถ้าหารด้วยศูนย์ก็หาอินเวอร์สไม่ได้ เมทริกซ์เอกฐานไม่มีอินเวอร์สแน่นอน",
+         "สำหรับเมทริกซ์ที่ใหญ่กว่า A⁻¹ = adj(A)/det(A) สมบัติที่คนมักพลาดคือ (AB)⁻¹ = B⁻¹A⁻¹ ลำดับกลับกัน เหมือนกับที่เกิดกับทรานสโพส ถ้าเขียน A⁻¹B⁻¹ จะตกกับดัก T-02"]],
   formula:["A⁻¹ = adj(A) / det(A)        (AB)⁻¹ = B⁻¹A⁻¹","A⁻¹ = adj(A) / det(A)        (AB)⁻¹ = B⁻¹A⁻¹"],
   flabel:["Order reverses, as with transposes","ลำดับกลับด้าน เหมือนทรานสโพส"],
   viz:"bars",
@@ -173,13 +173,13 @@ nodes:[
     ],
     readouts:[
       {lab:["Determinant ad − bc","ดีเทอร์มิแนนต์ ad − bc"], f:function(S){
-        return fmt2(S.p.a*S.p.d-S.p.b*S.p.c); }},
-      {lab:["Does an inverse exist?","มีตัวผกผันไหม"], f:function(S){
+        return num(S.p.a*S.p.d-S.p.b*S.p.c); }},
+      {lab:["Does an inverse exist?","มีอินเวอร์สไหม"], f:function(S){
         var D=S.p.a*S.p.d-S.p.b*S.p.c;
         return Math.abs(D)<1e-9 ? (L()?"ไม่มี — เมทริกซ์เอกฐาน":"no — the matrix is singular")
                                 : (L()?"มี":"yes"); }},
       {lab:["Area scale factor","ตัวคูณพื้นที่"], f:function(S){
-        return fmt2(Math.abs(S.p.a*S.p.d-S.p.b*S.p.c))+" ×"; }},
+        return num(Math.abs(S.p.a*S.p.d-S.p.b*S.p.c))+" ×"; }},
       {lab:["Determinant zero means","ดีเทอร์มิแนนต์เป็นศูนย์แปลว่า"], f:function(){
         return L()?"พื้นที่ยุบเป็นศูนย์ — ย้อนกลับไม่ได้":"area collapses to nothing — you cannot undo it"; }}
     ],
@@ -188,23 +188,23 @@ nodes:[
       {lab:["bc","bc"], f:function(p){ return p.b*p.c; }, col:"warn"},
       {lab:["det = ad − bc","det = ad − bc"], f:function(p){ return p.a*p.d-p.b*p.c; }, col:"accent"}
     ],
-    note:["make the first two bars equal and the determinant bar vanishes — no inverse exists there","ทำให้สองแถบแรกเท่ากัน แถบดีเทอร์มิแนนต์จะหายไป และตรงนั้นไม่มีตัวผกผัน"]
+    note:["make the first two bars equal and the determinant bar vanishes — no inverse exists there","ทำให้สองแถบแรกเท่ากัน แถบดีเทอร์มิแนนต์จะหายไป และตรงนั้นไม่มีอินเวอร์ส"]
   },
   guide:[
     {say:["A healthy determinant. The inverse exists and the transformation can be undone.",
-          "ดีเทอร์มิแนนต์ปกติ ตัวผกผันมีอยู่และการแปลงย้อนกลับได้"], set:{a:3,b:1,c:2,d:4}},
+          "ดีเทอร์มิแนนต์ปกติ มีอินเวอร์ส และการแปลงนี้ย้อนกลับได้"], set:{a:3,b:1,c:2,d:4}},
     {say:["Now tune the entries so ad equals bc. The determinant bar collapses to nothing.",
-          "ทีนี้ปรับค่าให้ ad เท่ากับ bc แถบดีเทอร์มิแนนต์ยุบเป็นศูนย์"], set:{a:2,b:1,c:4,d:2}},
+          "ลองปรับค่าให้ ad เท่ากับ bc แถบดีเทอร์มิแนนต์จะลดลงเหลือศูนย์"], set:{a:2,b:1,c:4,d:2}},
     {say:["A zero determinant means the matrix squashes the plane flat. Nothing can unflatten it.",
-          "ดีเทอร์มิแนนต์เป็นศูนย์แปลว่าเมทริกซ์บีบระนาบให้แบน ไม่มีอะไรคลี่มันกลับได้"], set:{a:2,b:1,c:4,d:2}}
+          "ดีเทอร์มิแนนต์เป็นศูนย์แปลว่าเมทริกซ์บีบระนาบจนแบน และไม่มีอะไรทำให้กลับมาเหมือนเดิมได้"], set:{a:2,b:1,c:4,d:2}}
   ] },
 
 { id:"systems", x:235, y:346, requires:["inverse"], methods:["M-05","M-06"],
   title:["Solving systems","การแก้ระบบสมการ"],
   body:[["Write the system as AX = B, where A holds the coefficients, X the unknowns and B the constants. Then X = A⁻¹B, provided A is invertible.",
          "Cramer's rule gives each unknown directly as a ratio of determinants: replace the relevant column of A with B and divide by det(A). Either way, det(A) = 0 means the system has no unique solution — either none at all, or infinitely many."],
-        ["เขียนระบบเป็น AX = B โดย A เก็บสัมประสิทธิ์ X เก็บตัวไม่รู้ค่า และ B เก็บค่าคงที่ จากนั้น X = A⁻¹B โดยมีเงื่อนไขว่า A ต้องหาอินเวอร์สได้",
-         "กฎของคราเมอร์ให้ตัวไม่รู้ค่าแต่ละตัวโดยตรงในรูปอัตราส่วนของดีเทอร์มิแนนต์ ให้แทนหลักที่เกี่ยวข้องของ A ด้วย B แล้วหารด้วย det(A) ไม่ว่าจะทางใด det(A) = 0 หมายความว่าระบบไม่มีคำตอบเดียว คือไม่มีคำตอบเลยหรือมีคำตอบมากมายไม่จำกัด"]],
+        ["เขียนระบบสมการเป็น AX = B โดย A คือเมทริกซ์ของสัมประสิทธิ์ X คือตัวไม่รู้ค่า และ B คือค่าคงที่ แล้ว X = A⁻¹B ถ้า A มีอินเวอร์ส",
+         "กฎของคราเมอร์หาตัวไม่รู้ค่าแต่ละตัวได้โดยตรงจากอัตราส่วนของดีเทอร์มิแนนต์ คือแทนหลักที่ต้องการของ A ด้วย B แล้วหารด้วย det(A) ไม่ว่าใช้วิธีใด ถ้า det(A) = 0 ระบบจะไม่มีคำตอบเดียว คือไม่มีคำตอบเลย หรือมีคำตอบมากมายไม่จำกัด"]],
   formula:["AX = B  ⟹  X = A⁻¹B        xᵢ = det(Aᵢ) / det(A)","AX = B  ⟹  X = A⁻¹B        xᵢ = det(Aᵢ) / det(A)"],
   flabel:["det = 0 means no unique solution","det = 0 คือไม่มีคำตอบเดียว"],
   viz:"bars",
@@ -218,7 +218,7 @@ nodes:[
       {k:"d", lab:["d","d"], min:-6, max:6, step:1, def:1, unit:""}
     ],
     readouts:[
-      {lab:["Determinant","ดีเทอร์มิแนนต์"], f:function(S){ return fmt2(S.p.a*S.p.d-S.p.b*S.p.c); }},
+      {lab:["Determinant","ดีเทอร์มิแนนต์"], f:function(S){ return num(S.p.a*S.p.d-S.p.b*S.p.c); }},
       {lab:["Number of solutions","จำนวนคำตอบ"], f:function(S){
         var D=S.p.a*S.p.d-S.p.b*S.p.c;
         return Math.abs(D)>1e-9 ? (L()?"หนึ่งคำตอบพอดี":"exactly one")
@@ -229,7 +229,7 @@ nodes:[
                                 : (L()?"เส้นขนานกัน หรือทับกันสนิท":"parallel lines, or the very same line"); }},
       {lab:["Which method to use","ใช้วิธีใด"], f:function(S){
         var D=S.p.a*S.p.d-S.p.b*S.p.c;
-        return Math.abs(D)>1e-9 ? (L()?"เมทริกซ์ผกผัน หรือกฎของคราเมอร์":"the inverse matrix, or Cramer's rule")
+        return Math.abs(D)>1e-9 ? (L()?"เมทริกซ์อินเวอร์ส หรือกฎของคราเมอร์":"the inverse matrix, or Cramer's rule")
                                 : (L()?"ทั้งสองวิธีใช้ไม่ได้":"neither method works"); }}
     ],
     bars:[
@@ -237,7 +237,7 @@ nodes:[
       {lab:["Slope of line 2","ความชันเส้นที่ 2"], f:function(p){ return Math.abs(p.d)<1e-9?0:-p.c/p.d; }, col:"good"},
       {lab:["Determinant","ดีเทอร์มิแนนต์"], f:function(p){ return p.a*p.d-p.b*p.c; }, col:"warn"}
     ],
-    note:["equal slopes mean parallel lines, and a determinant of zero says exactly that","ความชันเท่ากันแปลว่าเส้นขนาน และดีเทอร์มิแนนต์ที่เป็นศูนย์บอกอย่างนั้นพอดี"]
+    note:["equal slopes mean parallel lines, and a determinant of zero says exactly that","ความชันเท่ากันแปลว่าเส้นขนานกัน ดีเทอร์มิแนนต์เป็นศูนย์ก็บอกเรื่องเดียวกัน"]
   } }
 ],
 
@@ -251,20 +251,20 @@ methods:[
 ],
 
 traps:{
-"T-01":["Matrix multiplication does not commute. AB and BA are generally different.","การคูณเมทริกซ์สลับที่ไม่ได้ AB กับ BA โดยทั่วไปไม่เท่ากัน"],
-"T-02":["The order reverses: (AB)⁻¹ = B⁻¹A⁻¹, not A⁻¹B⁻¹.","ลำดับกลับด้าน (AB)⁻¹ = B⁻¹A⁻¹ ไม่ใช่ A⁻¹B⁻¹"],
-"T-03":["A matrix with zero determinant is singular and has no inverse at all.","เมทริกซ์ที่ดีเทอร์มิแนนต์เป็นศูนย์เป็นเอกฐาน และไม่มีอินเวอร์สเลย"],
-"T-04":["det(A + B) is not det A + det B. The determinant does not distribute over addition.","det(A + B) ไม่เท่ากับ det A + det B ดีเทอร์มิแนนต์ไม่กระจายบนการบวก"]
+"T-01":["Matrix multiplication does not commute. AB and BA are generally different.","การคูณเมทริกซ์สลับที่ไม่ได้ โดยทั่วไป AB กับ BA ไม่เท่ากัน"],
+"T-02":["The order reverses: (AB)⁻¹ = B⁻¹A⁻¹, not A⁻¹B⁻¹.","ลำดับกลับกัน (AB)⁻¹ = B⁻¹A⁻¹ ไม่ใช่ A⁻¹B⁻¹"],
+"T-03":["A matrix with zero determinant is singular and has no inverse at all.","เมทริกซ์ที่ดีเทอร์มิแนนต์เป็นศูนย์เป็นเมทริกซ์เอกฐาน และไม่มีอินเวอร์สเลย"],
+"T-04":["det(A + B) is not det A + det B. The determinant does not distribute over addition.","det(A + B) ไม่เท่ากับ det A + det B ดีเทอร์มิแนนต์ไม่กระจายเข้าไปในการบวก"]
 },
 
 gen:{
 "M-01": function(sf){
   var m=pick([2,3]), p=pick([3,4]), n=pick([2,5]);
   if(sf==="S-04") return {stem:["A matrix is 3 × 5. What are the dimensions of its transpose?",
-                                "เมทริกซ์มีขนาด 3 × 5 ทรานสโพสของมันมีขนาดเท่าใด"],
+                                "เมทริกซ์ขนาด 3 × 5 ทรานสโพสของมันมีขนาดเท่าใด"],
     opts:[{v:"5 × 3",ok:1},{v:"3 × 5"},{v:"5 × 5"},{v:"3 × 3"}],unit:""};
   if(sf==="S-05") return {stem:["Two matrices can be added. What must be true of their dimensions?",
-                                "เมทริกซ์สองตัวบวกกันได้ มิติของทั้งสองต้องเป็นอย่างไร"],
+                                "เมทริกซ์สองตัวบวกกันได้ ขนาดของทั้งสองต้องเป็นอย่างไร"],
     opts:[{v:["Identical","เท่ากันทุกประการ"],ok:1},
           {v:["Inner dimensions match","มิติด้านในตรงกัน"],trap:"T-01"},
           {v:["Both square","เป็นจัตุรัสทั้งคู่"]},{v:["Any dimensions","มิติใดก็ได้"]}],unit:""};
@@ -276,14 +276,15 @@ gen:{
           {v:["Only after transposing one","ได้หลังจากทรานสโพสตัวหนึ่ง"]}],unit:""};
 },
 "M-02": function(sf){
-  var m=pick([2,3]), p=pick([3,4]), n=pick([2,5]);
+  var m,p,n;
+  do{ m=pick([2,3]); p=pick([3,4]); n=pick([2,5]); } while(m===p || m===n);
   if(sf==="S-04") return {stem:["For AB to be defined, what must hold?","AB จะนิยามได้ต้องเป็นอย่างไร"],
     opts:[{v:["Columns of A equal rows of B","จำนวนหลักของ A เท่ากับจำนวนแถวของ B"],ok:1},
           {v:["A and B are the same size","A กับ B ขนาดเท่ากัน"],trap:"T-01"},
           {v:["Both are square","ทั้งคู่เป็นจัตุรัส"]},
           {v:["Rows of A equal rows of B","จำนวนแถวของ A เท่ากับจำนวนแถวของ B"],trap:"T-01"}],unit:""};
   if(sf==="S-03") return {stem:["If AB is defined and BA is also defined, must they be equal?",
-                                "ถ้า AB นิยามได้และ BA ก็นิยามได้ ทั้งสองต้องเท่ากันหรือไม่"],
+                                "ถ้า AB หาได้และ BA ก็หาได้ ทั้งสองต้องเท่ากันหรือไม่"],
     opts:[{v:["No — matrix multiplication does not commute","ไม่ การคูณเมทริกซ์สลับที่ไม่ได้"],ok:1},
           {v:["Yes, always","ใช่ เสมอ"],trap:"T-01"},
           {v:["Yes, if both are square","ใช่ ถ้าทั้งคู่เป็นจัตุรัส"],trap:"T-01"},
@@ -293,8 +294,9 @@ gen:{
     opts:[{v:m+" × "+n,ok:1},{v:p+" × "+p},{v:n+" × "+m,trap:"T-01"},{v:m+" × "+p}],unit:""};
 },
 "M-03": function(sf){
-  var a=ri(1,6), b=ri(1,6), c=ri(1,6), d=ri(1,6);
-  var det=a*d-b*c;
+  var a,b,c,d,det;
+  do{ a=ri(1,6); b=ri(1,6); c=ri(1,6); d=ri(1,6); det=a*d-b*c; }
+  while([det,a*d+b*c,a*b-c*d,a+d].some(function(v,i,r){ return r.indexOf(v)!==i; }));
   if(sf==="S-02"||sf==="S-04") return {stem:["The two columns of a 2×2 matrix are parallel. What is its determinant?",
                                              "สองหลักของเมทริกซ์ 2×2 ขนานกัน ดีเทอร์มิแนนต์เป็นเท่าใด"],
     opts:[{v:["Zero","ศูนย์"],ok:1},{v:["One","หนึ่ง"],trap:"T-03"},
@@ -307,23 +309,24 @@ gen:{
           {v:String(a*b-c*d)},{v:String(a+d)}],unit:""};
 },
 "M-04": function(sf){
-  var a=ri(1,5), b=ri(1,4), c=ri(1,4), d=ri(2,6);
-  var det=a*d-b*c;
+  var a,b,c,d,det;
+  do{ a=ri(1,5); b=ri(1,4); c=ri(1,4); d=ri(2,6); det=a*d-b*c; } while(det===0 || det===1);
   if(sf==="S-04") return {stem:["Simplify (AB)⁻¹.","จงลดรูป (AB)⁻¹"],
     opts:[{v:"B⁻¹A⁻¹",ok:1},{v:"A⁻¹B⁻¹",trap:"T-02"},{v:"(BA)⁻¹",trap:"T-02"},{v:"AB"}],unit:""};
   if(sf==="S-03") return {stem:["A 2×2 matrix has determinant zero. What can you say about its inverse?",
-                                "เมทริกซ์ 2×2 มีดีเทอร์มิแนนต์เป็นศูนย์ พูดอะไรได้เกี่ยวกับอินเวอร์สของมัน"],
+                                "เมทริกซ์ 2×2 มีดีเทอร์มิแนนต์เป็นศูนย์ เรารู้อะไรเกี่ยวกับอินเวอร์สของมัน"],
     opts:[{v:["It has none — the matrix is singular","ไม่มี เมทริกซ์เป็นเอกฐาน"],ok:1},
           {v:["Its inverse is the identity","อินเวอร์สคือเมทริกซ์เอกลักษณ์"],trap:"T-03"},
           {v:["Its inverse is itself","อินเวอร์สคือตัวมันเอง"],trap:"T-03"},
           {v:["The inverse is zero","อินเวอร์สเป็นศูนย์"],trap:"T-03"}],unit:""};
   return {stem:["For A = [ "+a+"  "+b+" ; "+c+"  "+d+" ], what scalar multiplies the adjugate in A⁻¹?",
                 "สำหรับ A = [ "+a+"  "+b+" ; "+c+"  "+d+" ] สเกลาร์ใดคูณกับ adj ใน A⁻¹"],
-    opts:[{v:"1/"+det,ok:1},{v:String(det),trap:"T-03"},{v:"1/"+(a*d+b*c),trap:"T-04"},{v:"1"}],unit:""};
+    opts:[{v:"1/"+num(det),ok:1},{v:num(det),trap:"T-03"},{v:"1/"+num(a*d+b*c),trap:"T-04"},{v:"1"}],unit:""};
 },
 "M-05": function(sf){
   var x=ri(1,5), y=ri(1,5);
-  var a=ri(1,3), b=ri(1,3), c=ri(1,3), d=ri(2,4);
+  var a,b,c,d;
+  do{ a=ri(1,3); b=ri(1,3); c=ri(1,3); d=ri(2,4); } while(b===c);
   var e=a*x+b*y, f=c*x+d*y;
   if(sf==="S-04") return {stem:["A system AX = B has det(A) = 0. What follows?",
                                 "ระบบ AX = B มี det(A) = 0 สรุปได้ว่าอย่างไร"],
@@ -339,21 +342,19 @@ gen:{
           {v:"[ x ; y ]"}],unit:""};
 },
 "M-06": function(sf){
-  var a=ri(1,4), b=ri(1,4), c=ri(1,4), d=ri(2,5);
-  var det=a*d-b*c;
-  var e=ri(3,12), f=ri(3,12);
-  var dx=e*d-b*f;
+  var a,b,c,d,det;
+  var e,f,dx;
+  do{ a=ri(1,4); b=ri(1,4); c=ri(1,4); d=ri(2,5); det=a*d-b*c; e=ri(3,12); f=ri(3,12); dx=e*d-b*f; } while(det===0 || dx===0 || [dx/det,det/dx,dx,(a*f-c*e)/det].map(function(v){ return num(v); }).some(function(v,i,r){ return r.indexOf(v)!==i; }));
   if(sf==="S-04") return {stem:["In Cramer's rule, how do you build the numerator for x?",
-                                "ในกฎของคราเมอร์ สร้างตัวเศษสำหรับ x อย่างไร"],
+                                "ในกฎของคราเมอร์ ตัวเศษของ x สร้างอย่างไร"],
     opts:[{v:["Replace the x-column of A with B, then take the determinant","แทนหลักของ x ใน A ด้วย B แล้วหาดีเทอร์มิแนนต์"],ok:1},
           {v:["Take the determinant of B","หาดีเทอร์มิแนนต์ของ B"]},
           {v:["Multiply det(A) by B","คูณ det(A) ด้วย B"]},
           {v:["Replace the y-column instead","แทนหลักของ y แทน"],trap:"T-01"}],unit:""};
-  if(det===0) det=1;
   return {stem:["For the system with A = [ "+a+"  "+b+" ; "+c+"  "+d+" ] and B = [ "+e+" ; "+f+" ], find x by Cramer's rule.",
                 "สำหรับระบบที่ A = [ "+a+"  "+b+" ; "+c+"  "+d+" ] และ B = [ "+e+" ; "+f+" ] จงหา x ด้วยกฎของคราเมอร์"],
-    opts:[{v:fmt2(dx/det),ok:1},{v:fmt2(det/dx),trap:"T-04"},
-          {v:fmt2(dx)},{v:fmt2((a*f-c*e)/det)}],unit:""};
+    opts:[{v:num(dx/det),ok:1},{v:num(det/dx),trap:"T-04"},
+          {v:num(dx)},{v:num((a*f-c*e)/det)}],unit:""};
 }
 }
 };

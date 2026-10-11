@@ -4,7 +4,7 @@ kicker:["Mathematics · Chapter 04","คณิตศาสตร์ · บทท
 title:["Relations and Functions","ความสัมพันธ์และฟังก์ชัน"],
 mapTitle:["One input, one output — and everything that follows from it","หนึ่งอินพุต หนึ่งเอาต์พุต และทุกอย่างที่ตามมา"],
 lede:["A relation is any bag of ordered pairs at all. A function is a relation that has made one promise — one input, one output — and almost every object in later mathematics is built from things that keep that promise. This chapter is about testing whether the promise holds, and what you are allowed to do once it does.",
-      "ความสัมพันธ์คือถุงที่บรรจุคู่อันดับกลุ่มใดก็ได้ ส่วนฟังก์ชันคือความสัมพันธ์ที่ให้คำสัญญาไว้ข้อหนึ่ง คือหนึ่งอินพุตต่อหนึ่งเอาต์พุต และสิ่งที่คณิตศาสตร์บทถัดๆ ไปสร้างขึ้นเกือบทั้งหมดล้วนรักษาคำสัญญานี้ บทนี้ว่าด้วยการตรวจว่าคำสัญญายังอยู่หรือไม่ และเมื่ออยู่แล้วเราทำอะไรกับมันได้บ้าง"],
+      "ความสัมพันธ์คือกลุ่มของคู่อันดับกลุ่มไหนก็ได้ ส่วนฟังก์ชันคือความสัมพันธ์ที่ต้องรักษาสัญญาข้อหนึ่ง คือหนึ่งอินพุตให้หนึ่งเอาต์พุต เรื่องในคณิตศาสตร์ที่เรียนต่อจากนี้เกือบทั้งหมดสร้างมาจากสิ่งที่รักษาสัญญานี้ บทนี้จะสอนตรวจว่าสัญญายังอยู่ไหม และถ้าอยู่แล้วทำอะไรกับมันได้บ้าง"],
 next:["→ continues in Chapter 05 · Analytic Geometry","→ ต่อในบทที่ 5 · เรขาคณิตวิเคราะห์"],
 
 nodes:[
@@ -12,8 +12,8 @@ nodes:[
   title:["Ordered pairs and relations","คู่อันดับและความสัมพันธ์"],
   body:[["An ordered pair (a, b) records two things and, unlike a set, insists on which one came first. So (2, 5) and (5, 2) are different objects, and (a, b) = (c, d) holds only when a = c and b = d. The Cartesian product A × B is the exhaustive catalogue of such pairs — every element of A matched against every element of B — which makes n(A × B) = n(A) · n(B).",
          "A relation from A to B is nothing more exotic than a subset of A × B: any collection of those pairs you care to select. Because each of the n(A)·n(B) pairs is independently either taken or left out, the number of possible relations is 2 raised to n(A)·n(B) — the power-set count from Chapter 1 wearing new clothes. The empty set counts as a relation too, and A × B is not the same thing as B × A unless the two sets are equal."],
-        ["คู่อันดับ (a, b) บันทึกสองสิ่งพร้อมกันโดยยืนกรานว่าสิ่งใดมาก่อน ต่างจากเซตตรงจุดนี้ (2, 5) กับ (5, 2) จึงเป็นคนละตัว และ (a, b) = (c, d) ก็ต่อเมื่อ a = c และ b = d ผลคูณคาร์ทีเซียน A × B คือรายการคู่อันดับทั้งหมดอย่างไม่ขาดตกบกพร่อง จับสมาชิกทุกตัวของ A กับสมาชิกทุกตัวของ B ทำให้ n(A × B) = n(A) · n(B)",
-         "ความสัมพันธ์จาก A ไป B ไม่ใช่อะไรที่แปลกไปกว่าสับเซตของ A × B คือกลุ่มคู่อันดับกลุ่มใดก็ได้ที่เราเลือกหยิบมา เพราะคู่อันดับแต่ละคู่ในทั้งหมด n(A)·n(B) คู่ เลือกได้อิสระว่าจะหยิบหรือไม่หยิบ จำนวนความสัมพันธ์ที่เป็นไปได้จึงเท่ากับ 2 ยกกำลัง n(A)·n(B) ซึ่งคือการนับเพาเวอร์เซตจากบทที่ 1 ที่เปลี่ยนเสื้อผ้าใหม่ เซตว่างก็นับเป็นความสัมพันธ์ด้วย และ A × B ไม่ใช่สิ่งเดียวกับ B × A เว้นแต่สองเซตนั้นจะเท่ากัน"]],
+        ["คู่อันดับ (a, b) เก็บสองค่า และต่างจากเซตตรงที่ระบุว่าตัวไหนมาก่อน (2, 5) กับ (5, 2) จึงไม่ใช่คู่เดียวกัน และ (a, b) = (c, d) ก็ต่อเมื่อ a = c และ b = d ผลคูณคาร์ทีเซียน A × B คือรายการคู่อันดับทั้งหมด จับสมาชิกทุกตัวของ A คู่กับสมาชิกทุกตัวของ B จึงได้ n(A × B) = n(A) · n(B)",
+         "ความสัมพันธ์จาก A ไป B ก็คือสับเซตของ A × B นั่นเอง เลือกคู่อันดับกลุ่มไหนมาก็ได้ คู่อันดับทั้ง n(A)·n(B) คู่ จะเลือกหรือไม่เลือกแต่ละคู่ก็ได้อย่างอิสระ จำนวนความสัมพันธ์ที่เป็นไปได้จึงเท่ากับ 2 ยกกำลัง n(A)·n(B) ซึ่งก็คือการนับเพาเวอร์เซตในบทที่ 1 แต่ในรูปใหม่ เซตว่างก็นับเป็นความสัมพันธ์ด้วย และ A × B ไม่เท่ากับ B × A เว้นแต่สองเซตนี้เท่ากัน"]],
   formula:["A × B = {(x, y) | x ∈ A, y ∈ B}        relations = 2^(n(A)·n(B))","A × B = {(x, y) | x ∈ A, y ∈ B}        จำนวนความสัมพันธ์ = 2^(n(A)·n(B))"],
   flabel:["Each pair is taken or left","คู่อันดับแต่ละคู่เลือกหยิบหรือไม่หยิบ"],
   viz:"table",
@@ -27,26 +27,26 @@ nodes:[
       {lab:["The rule","กฎ"], f:function(){
         return L()?"หนึ่งอินพุตให้ได้เอาต์พุตเดียวเท่านั้น":"each input may have exactly one output"; }},
       {lab:["Repeated outputs","เอาต์พุตซ้ำ"], f:function(){
-        return L()?"อนุญาต — ห้ามเฉพาะอินพุตซ้ำ":"allowed — only repeated inputs are fatal"; }}
+        return L()?"ซ้ำได้ — ที่ซ้ำไม่ได้มีแต่อินพุต":"allowed — only repeated inputs are fatal"; }}
     ],
     rows:function(p){
       var R=[[["{(1,2),(2,4),(3,6)}","{(1,2),(2,4),(3,6)}"],["yes","ใช่"],["every input used once","อินพุตแต่ละตัวใช้ครั้งเดียว"]],
              [["{(1,2),(1,5),(2,4)}","{(1,2),(1,5),(2,4)}"],["no","ไม่"],["input 1 has two outputs","อินพุต 1 มีสองเอาต์พุต"]],
              [["{(1,7),(2,7),(3,7)}","{(1,7),(2,7),(3,7)}"],["yes","ใช่"],["repeated OUTPUTS are fine","เอาต์พุตซ้ำไม่เป็นไร"]],
              [["y² = x","y² = x"],["no","ไม่"],["x = 4 gives y = ±2","x = 4 ให้ y = ±2"]],
-             [["y = x²","y = x²"],["yes","ใช่"],["one y for every x","แต่ละ x ให้ y เดียว"]]];
+             [["y = x²","y = x²"],["yes","ใช่"],["one y for every x","ทุก x ให้ y ตัวเดียว"]]];
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===1?([1,0,1,0,1][i]?"good":"warn"):"accent"}; }); });
     },
-    note:["the vertical line test is this rule drawn as a picture","การทดสอบเส้นแนวตั้งคือกฎข้อนี้ที่วาดออกมาเป็นภาพ"]
+    note:["the vertical line test is this rule drawn as a picture","การทดสอบด้วยเส้นแนวตั้งคือกฎข้อนี้ที่วาดเป็นภาพ"]
   } },
 
 { id:"domain-range", x:100, y:150, requires:["relations"], methods:["M-02"],
   title:["Domain and range","โดเมนและเรนจ์"],
   body:[["The domain of a relation is the set of all first members, the range the set of all second members. When the relation arrives as a list of pairs you simply read them off. When it arrives as a rule you have to ask a harder question — which x may be fed in at all, and which y can come back out. Arranging y in terms of x is what tests the domain; arranging x in terms of y is what tests the range.",
          "Four restrictions do nearly all the work. A denominator may never be zero. An even root may never be handed a negative number. A square is never negative, and neither is an absolute value, so those two limit the range rather than the domain. Declaring the answer to be all of R without checking these four is trap T-03, and it is the commonest way to lose a mark on algebra that was otherwise correct."],
-        ["โดเมนของความสัมพันธ์คือเซตของสมาชิกตัวหน้าทั้งหมด ส่วนเรนจ์คือเซตของสมาชิกตัวหลังทั้งหมด ถ้าโจทย์ให้มาเป็นรายการคู่อันดับก็อ่านออกมาได้ตรงๆ แต่ถ้าให้มาเป็นสมการต้องถามคำถามที่ยากกว่า คือ x ตัวใดใส่เข้าไปได้บ้าง และ y ตัวใดออกมาได้บ้าง การจัด y ในเทอมของ x คือการตรวจโดเมน การจัด x ในเทอมของ y คือการตรวจเรนจ์",
-         "ข้อจำกัดสี่แบบทำงานเกือบทั้งหมด ตัวส่วนห้ามเป็นศูนย์ กรณฑ์ที่เป็นคู่ห้ามรับจำนวนลบ กำลังสองไม่มีทางติดลบ และค่าสัมบูรณ์ก็เช่นกัน สองข้อหลังจึงจำกัดเรนจ์มากกว่าโดเมน การตอบว่าเป็นจำนวนจริงทั้งหมดโดยไม่ตรวจสี่ข้อนี้คือกับดัก T-03 และเป็นวิธีเสียคะแนนที่พบบ่อยที่สุดทั้งที่พีชคณิตถูกหมดแล้ว"]],
+        ["โดเมนของความสัมพันธ์คือเซตของสมาชิกตัวหน้าทั้งหมด เรนจ์คือเซตของสมาชิกตัวหลังทั้งหมด ถ้าโจทย์ให้เป็นรายการคู่อันดับ ก็อ่านออกมาได้เลย แต่ถ้าให้เป็นสมการ ต้องถามให้ลึกขึ้นว่า x ตัวไหนใส่เข้าไปได้ และ y ตัวไหนออกมาได้ ถ้าจัดรูปให้ y อยู่ในเทอมของ x จะตรวจโดเมนได้ ถ้าจัดรูปให้ x อยู่ในเทอมของ y จะตรวจเรนจ์ได้",
+         "ข้อจำกัดสี่ข้อนี้ใช้ได้เกือบทุกโจทย์ ตัวส่วนเป็นศูนย์ไม่ได้ กรณฑ์คู่ใส่จำนวนลบไม่ได้ กำลังสองไม่มีทางติดลบ ค่าสัมบูรณ์ก็เหมือนกัน สองข้อหลังนี้จึงจำกัดเรนจ์มากกว่าโดเมน ถ้าตอบว่าเป็นจำนวนจริงทั้งหมดโดยไม่ตรวจสี่ข้อนี้ ก็ตกกับดัก T-03 ซึ่งเป็นสาเหตุที่พบบ่อยที่สุดที่ทำให้เสียคะแนน ทั้งที่พีชคณิตถูกหมด"]],
   formula:["denominator ≠ 0 · even root ≥ 0 · square ≥ 0 · absolute value ≥ 0","ตัวส่วน ≠ 0 · กรณฑ์คู่ ≥ 0 · กำลังสอง ≥ 0 · ค่าสัมบูรณ์ ≥ 0"],
   flabel:["Four restrictions, checked every time","ข้อจำกัดสี่แบบ ตรวจทุกครั้ง"],
   viz:"numline",
@@ -71,17 +71,17 @@ nodes:[
               {a:R[0],b:R[1],col:"good",lab:["range (outputs)","เรนจ์ (เอาต์พุต)"]}];
     },
     points:function(p){
-      return p.f===1 ? [{v:0, lab:["excluded","ถูกตัดออก"], col:"warn", open:true}] : [];
+      return p.f===1 ? [{v:0, lab:["excluded","ตัดออก"], col:"warn", open:true}] : [];
     },
-    note:["the domain is what you are allowed to feed in; the range is what can actually come out","โดเมนคือสิ่งที่ใส่เข้าไปได้ เรนจ์คือสิ่งที่ออกมาได้จริง"]
+    note:["the domain is what you are allowed to feed in; the range is what can actually come out","โดเมนคือค่าที่ใส่เข้าไปได้ เรนจ์คือค่าที่ออกมาได้จริง"]
   } },
 
 { id:"functions", x:370, y:150, requires:["relations"], methods:["M-03","M-04"],
   title:["Functions and the two line tests","ฟังก์ชันและการทดสอบด้วยเส้นสองแบบ"],
   body:[["A function is a relation carrying one extra promise: no two of its pairs share a first member and then disagree about the second. Feed it an x and exactly one y comes back. On a graph that promise is visible — every line parallel to the y-axis meets the curve at most once. A relation that fails this test, such as a circle or a parabola lying on its side, is still a perfectly good relation. It is simply not a function.",
          "Being one-to-one is a second and stronger promise: no two different inputs may share an output. For that you draw lines parallel to the x-axis instead, and if any one of them cuts twice the function is not one-to-one. Slide both test lines across the four candidate curves in the lab and the parabola makes the point on its own — it passes the vertical test and fails the horizontal one. Keep the two other labels straight as well: f from A to B is into when the range sits inside B, and onto when the range fills B exactly. Confusing which line answers which question is trap T-02."],
-        ["ฟังก์ชันคือความสัมพันธ์ที่มีคำสัญญาเพิ่มมาอีกหนึ่งข้อ คือไม่มีคู่อันดับสองคู่ใดที่สมาชิกตัวหน้าเท่ากันแล้วสมาชิกตัวหลังต่างกัน ใส่ x เข้าไปแล้วได้ y กลับมาเพียงตัวเดียว บนกราฟคำสัญญานี้มองเห็นได้ เส้นทุกเส้นที่ขนานแกน y ตัดกราฟได้ไม่เกินหนึ่งจุด ความสัมพันธ์ที่สอบตกการทดสอบนี้ เช่น วงกลมหรือพาราโบลาที่นอนตะแคง ก็ยังเป็นความสัมพันธ์ที่ดีอยู่ เพียงแต่ไม่ใช่ฟังก์ชัน",
-         "การเป็นหนึ่งต่อหนึ่งคือคำสัญญาข้อที่สองซึ่งแข็งกว่า คือห้ามมีอินพุตสองตัวที่ต่างกันแล้วให้เอาต์พุตเดียวกัน คราวนี้ต้องลากเส้นขนานแกน x แทน ถ้ามีเส้นใดตัดสองจุด ฟังก์ชันนั้นก็ไม่เป็นหนึ่งต่อหนึ่ง ลองเลื่อนเส้นทดสอบทั้งสองบนกราฟทั้งสี่แบบในห้องทดลอง พาราโบลาจะแสดงประเด็นนี้ด้วยตัวมันเอง มันผ่านการทดสอบแนวตั้งแต่ไม่ผ่านแนวนอน อีกสองคำก็ต้องแยกให้ออก f จาก A ไป B เป็นฟังก์ชันไป B เมื่อเรนจ์อยู่ภายใน B และเป็นฟังก์ชันไปทั่วถึง B เมื่อเรนจ์เต็ม B พอดี การสับสนว่าเส้นใดตอบคำถามใดคือกับดัก T-02"]],
+        ["ฟังก์ชันคือความสัมพันธ์ที่มีสัญญาเพิ่มอีกข้อ คือห้ามมีคู่อันดับสองคู่ที่สมาชิกตัวหน้าเหมือนกันแต่สมาชิกตัวหลังต่างกัน ใส่ x เข้าไปแล้วต้องได้ y ออกมาตัวเดียว บนกราฟเห็นสัญญานี้ได้เลย เส้นที่ขนานแกน y ทุกเส้นตัดกราฟไม่เกินหนึ่งจุด ความสัมพันธ์ที่ไม่ผ่านการทดสอบนี้ เช่น วงกลมหรือพาราโบลาที่นอนตะแคง ก็ยังเป็นความสัมพันธ์ได้ แต่ไม่ใช่ฟังก์ชัน",
+         "การเป็นหนึ่งต่อหนึ่งคือสัญญาข้อที่สองที่เข้มกว่าเดิม คืออินพุตสองตัวที่ต่างกันต้องไม่ให้เอาต์พุตเดียวกัน คราวนี้ให้ลากเส้นขนานแกน x แทน ถ้ามีเส้นไหนตัดสองจุด ฟังก์ชันนั้นไม่เป็นหนึ่งต่อหนึ่ง ลองเลื่อนเส้นทดสอบทั้งสองเส้นบนกราฟสี่แบบในห้องทดลอง พาราโบลาจะแสดงให้เห็นเอง คือผ่านการทดสอบแนวตั้งแต่ไม่ผ่านแนวนอน ศัพท์อีกสองคำก็ต้องแยกให้ออก f จาก A ไป B เป็นฟังก์ชันไป B เมื่อเรนจ์อยู่ใน B และเป็นฟังก์ชันไปทั่วถึง B เมื่อเรนจ์เต็ม B พอดี ถ้าสับสนว่าเส้นไหนตอบคำถามไหน ก็ตกกับดัก T-02"]],
   formula:["vertical line cuts once → a function        horizontal line cuts once → 1-1","เส้นขนานแกน y ตัดจุดเดียว → เป็นฟังก์ชัน        เส้นขนานแกน x ตัดจุดเดียว → เป็น 1-1"],
   flabel:["Two lines, two different questions","สองเส้น สองคำถามคนละเรื่อง"],
   viz:"plot",
@@ -109,7 +109,7 @@ nodes:[
       {lab:["Vertical line meets the curve at","เส้นแนวตั้งพบกราฟที่"], f:function(S){
         var m=S.p.mode;
         var F=function(v){ return m===0?2*v-1 : m===1?0.5*v*v-3 : m===2?v*v*v/8 : Math.sqrt(Math.max(0,16-v*v)); };
-        return fmt2(F(S.p.c))+(L()?" · ค่าเดียว จึงเป็นฟังก์ชัน":" · one value, so it is a function"); }},
+        return num(F(S.p.c))+(L()?" · ค่าเดียว จึงเป็นฟังก์ชัน":" · one value, so it is a function"); }},
       {lab:["Horizontal line crossings","จำนวนจุดตัดของเส้นแนวนอน"], f:function(S){
         var m=S.p.mode, k=S.p.k, n=0, prev=null;
         var F=function(v){ return m===0?2*v-1 : m===1?0.5*v*v-3 : m===2?v*v*v/8 : Math.sqrt(Math.max(0,16-v*v)); };
@@ -119,7 +119,7 @@ nodes:[
           if(prev!==null && s!==prev) n++;
           prev=s;
         }
-        return String(n)+(n>1?(L()?" จุด · ไม่เป็น 1-1":" · not one-to-one"):(L()?" จุด":"")); }},
+        return String(n)+(n>1?(L()?" จุด · ไม่เป็นหนึ่งต่อหนึ่ง":" · not one-to-one"):(L()?" จุด":"")); }},
       {lab:["One-to-one","หนึ่งต่อหนึ่ง"], f:function(S){
         var one=(S.p.mode===0||S.p.mode===2);
         return one?(L()?"ใช่":"Yes"):(L()?"ไม่ใช่":"No"); }},
@@ -133,21 +133,21 @@ nodes:[
   },
   guide:[
     {say:["Start with the straight line. Slide the vertical marker anywhere you like — it always meets the curve exactly once, so this relation is a function. The horizontal line crosses once as well, so it is one-to-one into the bargain.",
-          "เริ่มที่เส้นตรง เลื่อนเครื่องหมายแนวตั้งไปที่ใดก็ได้ มันตัดกราฟหนึ่งจุดเสมอ ความสัมพันธ์นี้จึงเป็นฟังก์ชัน และเส้นแนวนอนก็ตัดจุดเดียวเช่นกัน จึงเป็นหนึ่งต่อหนึ่งไปด้วยในตัว"], set:{mode:0,c:2,k:3}},
+          "เริ่มจากเส้นตรง เลื่อนเส้นแนวตั้งไปตรงไหนก็ตัดกราฟจุดเดียวเสมอ ความสัมพันธ์นี้จึงเป็นฟังก์ชัน เส้นแนวนอนก็ตัดจุดเดียวเหมือนกัน จึงเป็นหนึ่งต่อหนึ่งด้วย"], set:{mode:0,c:2,k:3}},
     {say:["Now the parabola. The vertical line still cuts once, so it is still a function. But the horizontal line finds two crossings: two different inputs deliver the same output, and one-to-one has failed.",
-          "คราวนี้พาราโบลา เส้นแนวตั้งยังตัดจุดเดียว มันจึงยังเป็นฟังก์ชัน แต่เส้นแนวนอนพบจุดตัดสองจุด อินพุตสองตัวที่ต่างกันให้เอาต์พุตเดียวกัน ความเป็นหนึ่งต่อหนึ่งจึงตกไป"], set:{mode:1,c:2,k:1}},
+          "ต่อไปคือพาราโบลา เส้นแนวตั้งยังตัดจุดเดียว จึงยังเป็นฟังก์ชัน แต่เส้นแนวนอนตัดสองจุด แปลว่ามีอินพุตต่างกันสองตัวที่ให้เอาต์พุตเดียวกัน จึงไม่เป็นหนึ่งต่อหนึ่ง"], set:{mode:1,c:2,k:1}},
     {say:["The cubic climbs the whole way across, so no horizontal line can catch it twice. Both tests pass, and the last readout confirms that its reflection in the diagonal is still a function.",
-          "กราฟลูกบาศก์ไต่ขึ้นตลอดช่วง เส้นแนวนอนจึงไม่มีทางจับมันได้สองจุด ผ่านทั้งสองการทดสอบ และค่าที่อ่านได้ช่องสุดท้ายยืนยันว่าภาพสะท้อนผ่านเส้นทแยงของมันยังเป็นฟังก์ชัน"], set:{mode:2,c:2,k:3}},
-    {say:["The half-circle is an even function, symmetric about the vertical axis, so every horizontal line below the top cuts twice. Reflect it in the diagonal and you get the right half-circle, which a vertical line cuts twice — a relation, but no longer a function.",
-          "ครึ่งวงกลมเป็นฟังก์ชันคู่ สมมาตรรอบแกนตั้ง เส้นแนวนอนทุกเส้นที่ต่ำกว่ายอดจึงตัดสองจุด สะท้อนมันผ่านเส้นทแยงจะได้ครึ่งวงกลมด้านขวา ซึ่งเส้นแนวตั้งตัดสองจุด เป็นความสัมพันธ์ แต่ไม่ใช่ฟังก์ชันอีกต่อไป"], set:{mode:3,c:2,k:2}}
+          "กราฟลูกบาศก์ขึ้นไปเรื่อยๆ ตลอดช่วง เส้นแนวนอนจึงตัดไม่เกินหนึ่งจุด กราฟผ่านทั้งสองการทดสอบ และช่องสุดท้ายยืนยันว่าภาพสะท้อนผ่านเส้นทแยงก็ยังเป็นฟังก์ชัน"], set:{mode:2,c:2,k:3}},
+    {say:["The half-circle is an even function, symmetric about the vertical axis, so every horizontal line between its base and its top cuts twice. Reflect it in the diagonal and you get the right half-circle, which a vertical line cuts twice — a relation, but no longer a function.",
+          "ครึ่งวงกลมเป็นฟังก์ชันคู่ สมมาตรรอบแกนตั้ง เส้นแนวนอนทุกเส้นที่อยู่ระหว่างฐานกับจุดยอดจึงตัดสองจุด ถ้าสะท้อนผ่านเส้นทแยงจะได้ครึ่งวงกลมด้านขวา ซึ่งเส้นแนวตั้งตัดสองจุด จึงเป็นความสัมพันธ์ แต่ไม่เป็นฟังก์ชันแล้ว"], set:{mode:3,c:2,k:2}}
   ]},
 
 { id:"inverse", x:235, y:248, requires:["domain-range","functions"], methods:["M-05"],
   title:["Inverse functions","ฟังก์ชันผกผัน"],
   body:[["The inverse relation is built by turning every pair around: (a, b) becomes (b, a). For a rule that means writing the equation, swapping the two letters, and solving for the output again. Geometrically the swap is a reflection in the diagonal line where the two variables are equal, which is why a function and its inverse always look like mirror images across that line. And because the pairs have been reversed, the domain of the inverse is the range of the original and the range of the inverse is the original domain.",
          "Every function has an inverse relation. Only a one-to-one function has an inverse that is again a function. Reflect the parabola from the lab in the diagonal and you get a parabola lying on its side: one input, two outputs, vertical test failed. Assuming that the inverse of any function must be a function is trap T-02, and it is exactly why exam questions restrict the domain of a parabola before asking you to invert it."],
-        ["ความสัมพันธ์ผกผันสร้างขึ้นโดยกลับคู่อันดับทุกคู่ (a, b) กลายเป็น (b, a) ถ้าเป็นสมการก็คือเขียนสมการออกมา สลับที่ตัวแปรสองตัว แล้วจัดรูปหาเอาต์พุตใหม่ ในเชิงเรขาคณิตการสลับนี้คือการสะท้อนผ่านเส้นทแยงที่ตัวแปรทั้งสองเท่ากัน กราฟของฟังก์ชันกับอินเวอร์สของมันจึงเป็นภาพในกระจกของกันและกันผ่านเส้นนั้นเสมอ และเพราะคู่อันดับถูกกลับด้าน โดเมนของอินเวอร์สจึงเท่ากับเรนจ์ของตัวเดิม และเรนจ์ของอินเวอร์สก็เท่ากับโดเมนเดิม",
-         "ทุกฟังก์ชันมีความสัมพันธ์ผกผัน แต่มีเพียงฟังก์ชันหนึ่งต่อหนึ่งเท่านั้นที่ผกผันแล้วยังเป็นฟังก์ชัน ลองสะท้อนพาราโบลาในห้องทดลองผ่านเส้นทแยงจะได้พาราโบลาที่นอนตะแคง หนึ่งอินพุตให้สองเอาต์พุต สอบแนวตั้งไม่ผ่าน การเหมาว่าอินเวอร์สของฟังก์ชันใดก็ตามต้องเป็นฟังก์ชันคือกับดัก T-02 และนั่นคือเหตุผลที่โจทย์มักจำกัดโดเมนของพาราโบลาก่อนจะสั่งให้หาอินเวอร์ส"]],
+        ["ความสัมพันธ์ผกผันได้จากการกลับคู่อันดับทุกคู่ (a, b) เป็น (b, a) ถ้าโจทย์ให้เป็นสมการ ก็เขียนสมการ สลับตัวแปรสองตัว แล้วจัดรูปหาเอาต์พุตอีกครั้ง ในเชิงเรขาคณิต การสลับนี้คือการสะท้อนผ่านเส้นทแยงที่ตัวแปรสองตัวมีค่าเท่ากัน กราฟของฟังก์ชันกับอินเวอร์สจึงเป็นเงาในกระจกของกันและกันข้ามเส้นนี้เสมอ และเมื่อกลับคู่อันดับแล้ว โดเมนของอินเวอร์สจึงเป็นเรนจ์ของฟังก์ชันเดิม และเรนจ์ของอินเวอร์สเป็นโดเมนเดิม",
+         "ทุกฟังก์ชันมีความสัมพันธ์ผกผัน แต่เฉพาะฟังก์ชันหนึ่งต่อหนึ่งเท่านั้นที่อินเวอร์สยังเป็นฟังก์ชัน ลองสะท้อนพาราโบลาในห้องทดลองผ่านเส้นทแยง จะได้พาราโบลาที่นอนตะแคง หนึ่งอินพุตได้สองเอาต์พุต ไม่ผ่านการทดสอบแนวตั้ง ถ้าคิดว่าอินเวอร์สของฟังก์ชันใดๆ ก็เป็นฟังก์ชันเสมอ ก็ตกกับดัก T-02 เพราะอย่างนี้ข้อสอบจึงมักจำกัดโดเมนของพาราโบลาก่อนให้หาอินเวอร์ส"]],
   formula:["D(f⁻¹) = R(f)        R(f⁻¹) = D(f)","D(f⁻¹) = R(f)        R(f⁻¹) = D(f)"],
   flabel:["Domain and range trade places","โดเมนกับเรนจ์สลับที่กัน"],
   viz:"plot",
@@ -160,38 +160,39 @@ nodes:[
       return (x - p.c)/p.m;
     },
     ctrls:[
-      {k:"which", lab:["",""], opts:[["f(x)","f(x)"], ["its inverse","ตัวผกผัน"]], min:0, def:0, unit:""},
+      {k:"which", lab:["",""], opts:[["f(x)","f(x)"], ["its inverse","ฟังก์ชันผกผัน"]], min:0, def:0, unit:""},
       {k:"m",     lab:["Gradient m","ความชัน m"], min:.3, max:3, step:.1, def:2, unit:""},
       {k:"c",     lab:["Intercept c","จุดตัดแกน c"], min:-3, max:4, step:.5, def:1, unit:""}
     ],
     readouts:[
       {lab:["Showing","กำลังแสดง"], f:function(S){
-        return S.p.which===0 ? ("f(x) = "+fmt(S.p.m)+"x + "+fmt(S.p.c))
-                             : ("f⁻¹(x) = (x − "+fmt(S.p.c)+") / "+fmt(S.p.m)); }},
+        var m=S.p.m, c=S.p.c, ac=num(Math.abs(c));
+        return S.p.which===0 ? ("f(x) = "+num(m)+"x"+(c===0?"":(c<0?" − ":" + ")+ac))
+                             : ("f⁻¹(x) = "+(c===0?"x":"(x"+(c<0?" + ":" − ")+ac+")")+" / "+num(m)); }},
       {lab:["Gradient shown","ความชันที่แสดง"], f:function(S){
-        return fmt2(S.p.which===0 ? S.p.m : 1/S.p.m); }},
+        return num(S.p.which===0 ? S.p.m : 1/S.p.m); }},
       {lab:["Relationship","ความสัมพันธ์"], f:function(){
         return L()?"สะท้อนกันในเส้น y = x":"reflections of each other in the line y = x"; }},
       {lab:["f⁻¹ means","f⁻¹ หมายถึง"], f:function(){
         return L()?"ฟังก์ชันผกผัน ไม่ใช่ 1/f":"the inverse function, never 1/f"; }}
     ],
-    note:["switch between the two and watch the gradient turn into its reciprocal","สลับดูทั้งสอง แล้วสังเกตว่าความชันกลายเป็นส่วนกลับของมัน"]
+    note:["switch between the two and watch the gradient turn into its reciprocal","สลับดูทั้งสองเส้น แล้วสังเกตว่าความชันกลายเป็นส่วนกลับ"]
   },
   guide:[
     {say:["The original line climbs at gradient 2 and cuts the y-axis at 1.",
-          "เส้นเดิมไต่ขึ้นด้วยความชัน 2 และตัดแกน y ที่ 1"], set:{which:0,m:2,c:1}},
+          "เส้นเดิมมีความชัน 2 และตัดแกน y ที่ 1"], set:{which:0,m:2,c:1}},
     {say:["Its inverse has gradient ½ — reflecting in y = x turns any slope into its reciprocal.",
-          "ตัวผกผันมีความชัน ½ การสะท้อนในเส้น y = x เปลี่ยนความชันใดก็ตามเป็นส่วนกลับของมัน"], set:{which:1,m:2,c:1}},
-    {say:["Set the gradient to 1 and the two coincide. A line of slope 1 is its own inverse.",
-          "ตั้งความชันเป็น 1 แล้วทั้งสองทับกัน เส้นที่มีความชัน 1 เป็นตัวผกผันของตัวเอง"], set:{which:1,m:1,c:0}}
+          "ฟังก์ชันผกผันมีความชัน ½ การสะท้อนผ่านเส้น y = x เปลี่ยนความชันทุกค่าให้เป็นส่วนกลับ"], set:{which:1,m:2,c:1}},
+    {say:["Set the gradient to 1 and the two coincide. A line y = x + c with slope 1 and c = 0 is its own inverse.",
+          "ตั้งความชันเป็น 1 สองเส้นจะทับกัน เส้น y = x + c ที่ความชัน 1 และ c = 0 เป็นฟังก์ชันผกผันของตัวเอง"], set:{which:1,m:1,c:0}}
   ] },
 
 { id:"composite", x:235, y:346, requires:["inverse"], methods:["M-06"],
   title:["Composite functions","ฟังก์ชันประกอบ"],
   body:[["Composition feeds one machine's output straight into the next. The symbol g ∘ f applied to an input means g(f(x)): f runs first even though g is written first, because the input sits nearest to f. The composite can be evaluated wherever the middle step makes sense, which requires R(f) ∩ D(g) to be non-empty, and its domain is the set of inputs in D(f) whose images actually land inside D(g).",
          "Two facts about order cause most of the damage. Reading g ∘ f as g first and f second is trap T-04 — always work from the inside outwards. And undoing a composite reverses the queue: the inverse of f ∘ g is g⁻¹ ∘ f⁻¹, in the same way that removing shoes before socks undoes putting on socks before shoes. Writing f⁻¹ ∘ g⁻¹ instead is trap T-01, and the identical reversal turns up again for products in the matrix chapter."],
-        ["ฟังก์ชันประกอบคือการป้อนเอาต์พุตของเครื่องหนึ่งเข้าไปในอีกเครื่องโดยตรง สัญลักษณ์ g ∘ f ที่กระทำกับอินพุตหมายถึง g(f(x)) นั่นคือ f ทำงานก่อนทั้งที่ g เขียนอยู่ข้างหน้า เพราะอินพุตอยู่ติดกับ f มากกว่า ฟังก์ชันประกอบหาค่าได้เมื่อขั้นกลางมีความหมาย ซึ่งต้องมี R(f) ∩ D(g) ไม่เป็นเซตว่าง และโดเมนของมันคือเซตของอินพุตใน D(f) ที่ภาพของมันตกลงไปใน D(g) จริงๆ",
-         "ข้อเท็จจริงเรื่องลำดับสองข้อสร้างความเสียหายมากที่สุด การอ่าน g ∘ f ว่าทำ g ก่อนแล้วค่อย f คือกับดัก T-04 ให้ทำจากในออกนอกเสมอ และการแก้ฟังก์ชันประกอบกลับจะสลับคิว อินเวอร์สของ f ∘ g คือ g⁻¹ ∘ f⁻¹ ทำนองเดียวกับที่การถอดรองเท้าก่อนถุงเท้าเป็นการแก้การใส่ถุงเท้าก่อนรองเท้า การเขียนเป็น f⁻¹ ∘ g⁻¹ คือกับดัก T-01 และการสลับลำดับแบบเดียวกันนี้จะกลับมาอีกครั้งกับผลคูณในบทเมทริกซ์"]],
+        ["ฟังก์ชันประกอบคือการนำเอาต์พุตของเครื่องแรกไปป้อนเข้าเครื่องถัดไปโดยตรง g ∘ f เมื่อใส่อินพุตหมายถึง g(f(x)) คือ f ทำงานก่อน แม้จะเขียน g ไว้หน้า เพราะอินพุตอยู่ใกล้ f มากกว่า ฟังก์ชันประกอบหาค่าได้เมื่อขั้นตอนตรงกลางมีความหมาย คือต้องมี R(f) ∩ D(g) ไม่เป็นเซตว่าง และโดเมนของมันคืออินพุตใน D(f) ที่ภาพของมันตกอยู่ใน D(g) จริงๆ",
+         "เรื่องลำดับมีสองข้อที่ทำให้เสียคะแนนบ่อย ข้อแรก ถ้าอ่าน g ∘ f ว่าทำ g ก่อนแล้วค่อยทำ f ก็ตกกับดัก T-04 ให้ทำจากในออกนอกเสมอ ข้อสอง การย้อนฟังก์ชันประกอบต้องย้อนลำดับ อินเวอร์สของ f ∘ g คือ g⁻¹ ∘ f⁻¹ เหมือนกับว่า ใส่ถุงเท้าก่อนรองเท้า ตอนถอดต้องถอดรองเท้าก่อนถุงเท้า ถ้าเขียนเป็น f⁻¹ ∘ g⁻¹ ก็ตกกับดัก T-01 และการย้อนลำดับแบบเดียวกันนี้จะกลับมาอีกครั้งกับผลคูณในบทเมทริกซ์"]],
   formula:["(g ∘ f)(x) = g(f(x))        (f ∘ g)⁻¹ = g⁻¹ ∘ f⁻¹","(g ∘ f)(x) = g(f(x))        (f ∘ g)⁻¹ = g⁻¹ ∘ f⁻¹"],
   flabel:["Inside out, and reversed when undone","ทำจากในออกนอก และสลับลำดับเมื่อผกผัน"],
   viz:"plot",
@@ -212,21 +213,21 @@ nodes:[
       {k:"x",     lab:["Test x","ทดสอบที่ x"], min:-3, max:3, step:.25, def:2, unit:""}
     ],
     readouts:[
-      {lab:["f(x)","f(x)"], f:function(S){ return fmt2(S.p.a*S.p.x+S.p.b); }},
-      {lab:["g(x) = x²","g(x) = x²"], f:function(S){ return fmt2(S.p.x*S.p.x); }},
-      {lab:["f(g(x))","f(g(x))"], f:function(S){ return fmt2(S.p.a*S.p.x*S.p.x+S.p.b); }},
+      {lab:["f(x)","f(x)"], f:function(S){ return num(S.p.a*S.p.x+S.p.b); }},
+      {lab:["g(x) = x²","g(x) = x²"], f:function(S){ return num(S.p.x*S.p.x); }},
+      {lab:["f(g(x))","f(g(x))"], f:function(S){ return num(S.p.a*S.p.x*S.p.x+S.p.b); }},
       {lab:["g(f(x))","g(f(x))"], f:function(S){
-        var v=S.p.a*S.p.x+S.p.b; return fmt2(v*v); }}
+        var v=S.p.a*S.p.x+S.p.b; return num(v*v); }}
     ],
-    note:["the two readouts almost never agree — composition is not commutative","ค่าที่แสดงสองค่านี้แทบไม่เคยเท่ากัน การประกอบฟังก์ชันไม่มีสมบัติสลับที่"]
+    note:["the two readouts almost never agree — composition is not commutative","ค่าสองค่าที่แสดงแทบไม่เคยเท่ากัน เพราะการประกอบฟังก์ชันไม่มีสมบัติสลับที่"]
   },
   guide:[
     {say:["f(g(x)) squares first, then applies the linear step. The result is a plain parabola.",
           "f(g(x)) ยกกำลังสองก่อน แล้วค่อยทำขั้นเชิงเส้น ผลลัพธ์เป็นพาราโบลาธรรมดา"], set:{order:0,a:2,b:1,x:2}},
     {say:["Swap the order. Now the linear step comes first and the parabola shifts sideways.",
-          "สลับลำดับ ตอนนี้ขั้นเชิงเส้นมาก่อน และพาราโบลาเลื่อนไปด้านข้าง"], set:{order:1,a:2,b:1,x:2}},
+          "สลับลำดับ คราวนี้ขั้นเชิงเส้นมาก่อน พาราโบลาจึงเลื่อนไปทางด้านข้าง"], set:{order:1,a:2,b:1,x:2}},
     {say:["Compare the last two readouts at the same x. Different numbers, same two functions.",
-          "เทียบค่าสองค่าสุดท้ายที่ x เดียวกัน ตัวเลขต่างกัน ทั้งที่เป็นฟังก์ชันสองตัวเดิม"], set:{order:1,a:2,b:1,x:1.5}}
+          "เทียบค่าสองค่าสุดท้ายที่ x เดียวกัน ได้ตัวเลขต่างกัน ทั้งที่ใช้ฟังก์ชันสองตัวเดิม"], set:{order:1,a:2,b:1,x:1.5}}
   ] }
 ],
 
@@ -234,27 +235,27 @@ methods:[
 {id:"M-01", name:["Build A × B and count relations","สร้าง A × B และนับจำนวนความสัมพันธ์"]},
 {id:"M-02", name:["Find domain and range with restrictions","หาโดเมนและเรนจ์พร้อมข้อจำกัด"]},
 {id:"M-03", name:["Test for a function and for one-to-one","ตรวจการเป็นฟังก์ชันและการเป็นหนึ่งต่อหนึ่ง"]},
-{id:"M-04", name:["Distinguish into from onto and count functions","แยกฟังก์ชันไปกับไปทั่วถึง และนับจำนวนฟังก์ชัน"]},
+{id:"M-04", name:["Distinguish into from onto and count functions","แยกฟังก์ชันไป B กับฟังก์ชันไปทั่วถึง B และนับจำนวนฟังก์ชัน"]},
 {id:"M-05", name:["Find an inverse function","หาฟังก์ชันผกผัน"]},
 {id:"M-06", name:["Evaluate and unpick composite functions","หาค่าและแกะฟังก์ชันประกอบ"]}
 ],
 
 traps:{
-"T-01":["The inverse of a composite reverses the order: (f ∘ g)⁻¹ = g⁻¹ ∘ f⁻¹, not f⁻¹ ∘ g⁻¹.","อินเวอร์สของฟังก์ชันประกอบต้องสลับลำดับ (f ∘ g)⁻¹ = g⁻¹ ∘ f⁻¹ ไม่ใช่ f⁻¹ ∘ g⁻¹"],
-"T-02":["The vertical line decides whether it is a function; the horizontal line decides whether it is one-to-one. Only a one-to-one function has an inverse that is again a function.","เส้นขนานแกน y ตัดสินว่าเป็นฟังก์ชันหรือไม่ เส้นขนานแกน x ตัดสินว่าเป็นหนึ่งต่อหนึ่งหรือไม่ และมีเพียงฟังก์ชันหนึ่งต่อหนึ่งเท่านั้นที่อินเวอร์สยังเป็นฟังก์ชัน"],
-"T-03":["Check every restriction before answering: denominator ≠ 0, even root ≥ 0, and a square or absolute value is never negative.","ตรวจข้อจำกัดให้ครบก่อนตอบ ตัวส่วน ≠ 0 กรณฑ์คู่ ≥ 0 และกำลังสองหรือค่าสัมบูรณ์ไม่มีทางติดลบ"],
-"T-04":["g ∘ f means f runs first and g second. Work from the inside outwards, not left to right.","g ∘ f หมายถึง f ทำก่อนแล้ว g ทำทีหลัง ให้ไล่จากในออกนอก ไม่ใช่จากซ้ายไปขวา"]
+"T-01":["The inverse of a composite reverses the order: (f ∘ g)⁻¹ = g⁻¹ ∘ f⁻¹, not f⁻¹ ∘ g⁻¹.","อินเวอร์สของฟังก์ชันประกอบต้องย้อนลำดับ (f ∘ g)⁻¹ = g⁻¹ ∘ f⁻¹ ไม่ใช่ f⁻¹ ∘ g⁻¹"],
+"T-02":["The vertical line decides whether it is a function; the horizontal line decides whether it is one-to-one. Only a one-to-one function has an inverse that is again a function.","เส้นแนวตั้งใช้ตัดสินว่าเป็นฟังก์ชันหรือไม่ เส้นแนวนอนใช้ตัดสินว่าเป็นหนึ่งต่อหนึ่งหรือไม่ และเฉพาะฟังก์ชันหนึ่งต่อหนึ่งเท่านั้นที่อินเวอร์สยังเป็นฟังก์ชัน"],
+"T-03":["Check every restriction before answering: denominator ≠ 0, even root ≥ 0, and a square or absolute value is never negative.","ก่อนตอบ ให้ตรวจข้อจำกัดให้ครบ ตัวส่วน ≠ 0 กรณฑ์คู่ ≥ 0 และกำลังสองหรือค่าสัมบูรณ์ไม่มีทางติดลบ"],
+"T-04":["g ∘ f means f runs first and g second. Work from the inside outwards, not left to right.","g ∘ f หมายถึงทำ f ก่อนแล้วค่อยทำ g ให้ไล่จากในออกนอก ไม่ใช่จากซ้ายไปขวา"]
 },
 
 gen:{
 "M-01": function(sf){
-  if(sf==="S-04") return {stem:["Which statement about ordered pairs and products is always true?","ข้อใดเป็นจริงเสมอเกี่ยวกับคู่อันดับและผลคูณคาร์ทีเซียน"],
+  if(sf==="S-04") return {stem:["Which statement about ordered pairs and products is always true?","ข้อใดเกี่ยวกับคู่อันดับและผลคูณคาร์ทีเซียนเป็นจริงเสมอ"],
     opts:[{v:["(a, b) = (c, d) only when a = c and b = d","(a, b) = (c, d) ก็ต่อเมื่อ a = c และ b = d"],ok:1},
           {v:["(a, b) and (b, a) are the same pair","(a, b) กับ (b, a) เป็นคู่อันดับเดียวกัน"]},
           {v:["A × B = B × A for all sets A and B","A × B = B × A สำหรับทุกเซต A และ B"]},
           {v:["n(A × B) = n(A) + n(B)","n(A × B) = n(A) + n(B)"]}],unit:""};
   if(sf==="S-05"){
-    var q=pick([{a:3,b:2},{a:2,b:2},{a:4,b:2},{a:3,b:3}]);
+    var q=pick([{a:3,b:2},{a:2,b:3},{a:4,b:2},{a:3,b:3}]);
     var tot=Math.pow(2,q.a*q.b);
     return {stem:["There are "+tot+" different relations from A to B, and n(A) = "+q.a+". Find n(B).",
                   "มีความสัมพันธ์จาก A ไป B ทั้งหมด "+tot+" ความสัมพันธ์ และ n(A) = "+q.a+" จงหา n(B)"],
@@ -266,19 +267,19 @@ gen:{
                   "โรงอาหารมีอาหารจานหลัก "+m+" อย่างและของหวาน "+d+" อย่าง สั่งเป็นคู่อันดับ (จานหลัก, ของหวาน) ได้กี่แบบ"],
       opts:[{v:String(m*d),ok:1},{v:String(m+d)},{v:String(Math.pow(2,m*d))},{v:String(Math.pow(m,d))}],unit:""};
   }
-  var A=pick([2,3]), B=pick([2,3]);
+  var ab=pick([[2,3],[3,2],[3,3]]), A=ab[0], B=ab[1];
   return {stem:["n(A) = "+A+" and n(B) = "+B+". How many relations are there from A to B?",
                 "n(A) = "+A+" และ n(B) = "+B+" มีความสัมพันธ์จาก A ไป B กี่ความสัมพันธ์"],
     opts:[{v:String(Math.pow(2,A*B)),ok:1},{v:String(A*B)},{v:String(Math.pow(2,A+B))},{v:String(Math.pow(B,A))}],unit:""};
 },
 "M-02": function(sf){
-  if(sf==="S-04") return {stem:["Which restriction fixes the domain rather than the range?","ข้อจำกัดใดกำหนดโดเมน ไม่ใช่เรนจ์"],
+  if(sf==="S-04") return {stem:["Which restriction fixes the domain rather than the range?","ข้อจำกัดข้อใดกำหนดโดเมน ไม่ใช่เรนจ์"],
     opts:[{v:["A denominator may not be zero","ตัวส่วนห้ามเป็นศูนย์"],ok:1},
           {v:["A square is never negative","กำลังสองไม่มีทางติดลบ"],trap:"T-03"},
           {v:["An absolute value is never negative","ค่าสัมบูรณ์ไม่มีทางติดลบ"],trap:"T-03"},
           {v:["No restriction ever affects the domain","ไม่มีข้อจำกัดใดกระทบโดเมนเลย"],trap:"T-03"}],unit:""};
   if(sf==="S-05") return {stem:["A rule has domain {x | x ≥ 4} because of an even root. Which rule is it?",
-                                "สมการหนึ่งมีโดเมน {x | x ≥ 4} เพราะติดกรณฑ์คู่ สมการนั้นคือข้อใด"],
+                                "สมการหนึ่งมีโดเมน {x | x ≥ 4} เพราะมีกรณฑ์คู่ สมการนั้นคือข้อใด"],
     opts:[{v:"y = √(2x − 8)",ok:1},{v:"y = √(8 − 2x)"},{v:"y = 1/(x − 4)",trap:"T-03"},{v:"y = (x − 4)²",trap:"T-03"}],unit:""};
   if(sf==="S-03"){
     var f=pick([50,80,120]);
@@ -300,7 +301,7 @@ gen:{
 },
 "M-03": function(sf){
   if(sf==="S-02") return {stem:["A curve is drawn. Every line parallel to the y-axis meets it exactly once, but the line y = 2 meets it twice. What is the curve?",
-                                "กราฟเส้นหนึ่งถูกวาดไว้ เส้นทุกเส้นที่ขนานแกน y ตัดมันหนึ่งจุดพอดี แต่เส้น y = 2 ตัดมันสองจุด กราฟนี้คืออะไร"],
+                                "เส้นกราฟเส้นหนึ่ง ทุกเส้นที่ขนานแกน y ตัดกราฟหนึ่งจุดพอดี แต่เส้น y = 2 ตัดกราฟสองจุด กราฟนี้เป็นอะไร"],
     opts:[{v:["A function, but not one-to-one","เป็นฟังก์ชัน แต่ไม่เป็นหนึ่งต่อหนึ่ง"],ok:1},
           {v:["Not a function, because a horizontal line cuts twice","ไม่เป็นฟังก์ชัน เพราะเส้นแนวนอนตัดสองจุด"],trap:"T-02"},
           {v:["A one-to-one function","เป็นฟังก์ชันหนึ่งต่อหนึ่ง"],trap:"T-02"},
@@ -308,10 +309,10 @@ gen:{
   if(sf==="S-04") return {stem:["Classify r = {(1, 2), (2, 4), (3, 2)}.","จงจำแนก r = {(1, 2), (2, 4), (3, 2)}"],
     opts:[{v:["A function, but not one-to-one","เป็นฟังก์ชัน แต่ไม่เป็นหนึ่งต่อหนึ่ง"],ok:1},
           {v:["A one-to-one function","เป็นฟังก์ชันหนึ่งต่อหนึ่ง"],trap:"T-02"},
-          {v:["Not a function, because 2 appears twice as a second member","ไม่เป็นฟังก์ชัน เพราะเลข 2 ปรากฏเป็นสมาชิกตัวหลังสองครั้ง"],trap:"T-02"},
+          {v:["Not a function, because 2 appears twice as a second member","ไม่เป็นฟังก์ชัน เพราะ 2 ปรากฏเป็นสมาชิกตัวหลังสองครั้ง"],trap:"T-02"},
           {v:["Not a relation","ไม่เป็นความสัมพันธ์"]}],unit:""};
   if(sf==="S-05") return {stem:["A relation is a function, yet its inverse is not a function. What must be true of it?",
-                                "ความสัมพันธ์หนึ่งเป็นฟังก์ชัน แต่อินเวอร์สของมันไม่เป็นฟังก์ชัน ข้อใดต้องเป็นจริง"],
+                                "ความสัมพันธ์หนึ่งเป็นฟังก์ชัน แต่อินเวอร์สของมันไม่เป็นฟังก์ชัน ข้อใดต้องเป็นจริงกับความสัมพันธ์นั้น"],
     opts:[{v:["It is not one-to-one","มันไม่เป็นหนึ่งต่อหนึ่ง"],ok:1},
           {v:["It has no inverse relation at all","มันไม่มีความสัมพันธ์ผกผันเลย"],trap:"T-02"},
           {v:["Its domain is empty","โดเมนของมันเป็นเซตว่าง"]},
@@ -328,32 +329,32 @@ gen:{
           {v:["When f is one-to-one","เมื่อ f เป็นหนึ่งต่อหนึ่ง"],trap:"T-02"},
           {v:["When the domain of f is a proper subset of A","เมื่อโดเมนของ f เป็นสับเซตแท้ของ A"]}],unit:""};
   if(sf==="S-05"){
-    var nb=pick([2,3]), na=pick([2,3,4]);
+    var nbna=pick([[2,3],[3,4],[4,3]]), nb=nbna[0], na=nbna[1];
     var tot=Math.pow(nb,na);
     return {stem:["There are "+tot+" functions from A into B, and n(B) = "+nb+". Find n(A).",
                   "มีฟังก์ชันจาก A ไป B ทั้งหมด "+tot+" ฟังก์ชัน และ n(B) = "+nb+" จงหา n(A)"],
       opts:[{v:String(na),ok:1},{v:String(nb),trap:"T-02"},{v:String(tot/nb)},{v:String(na*nb)}],unit:""};
   }
   if(sf==="S-03") return {stem:["Six students each join exactly one of three clubs. Treating student as the input and club as the output, which statement is correct?",
-                                "นักเรียนหกคนต่างเข้าชมรมคนละหนึ่งชมรมจากสามชมรม ถ้าให้นักเรียนเป็นอินพุตและชมรมเป็นเอาต์พุต ข้อใดถูกต้อง"],
-    opts:[{v:["Always a function; onto only if every club gets at least one student","เป็นฟังก์ชันเสมอ และเป็นไปทั่วถึงก็ต่อเมื่อทุกชมรมมีสมาชิกอย่างน้อยหนึ่งคน"],ok:1},
-          {v:["Never a function, because six students share three clubs","ไม่เป็นฟังก์ชันเลย เพราะนักเรียนหกคนใช้ชมรมร่วมกันสามชมรม"],trap:"T-02"},
-          {v:["Always onto, since every student picks a club","เป็นไปทั่วถึงเสมอ เพราะนักเรียนทุกคนเลือกชมรม"]},
-          {v:["A function only if each club gets exactly two students","เป็นฟังก์ชันก็ต่อเมื่อทุกชมรมได้นักเรียนชมรมละสองคนพอดี"]}],unit:""};
-  var s=pick([{a:2,b:3},{a:2,b:4},{a:3,b:2},{a:3,b:4}]);
+                                "นักเรียนหกคนเข้าชมรมคนละหนึ่งชมรม จากทั้งหมดสามชมรม ถ้าให้นักเรียนเป็นอินพุตและชมรมเป็นเอาต์พุต ข้อใดถูก"],
+    opts:[{v:["Always a function; onto only if every club gets at least one student","เป็นฟังก์ชันเสมอ และเป็นฟังก์ชันไปทั่วถึงก็ต่อเมื่อทุกชมรมมีนักเรียนอย่างน้อยหนึ่งคน"],ok:1},
+          {v:["Never a function, because six students share three clubs","ไม่เป็นฟังก์ชัน เพราะนักเรียนหกคนต้องแบ่งกันเข้าสามชมรม"],trap:"T-02"},
+          {v:["Always onto, since every student picks a club","เป็นฟังก์ชันไปทั่วถึงเสมอ เพราะนักเรียนทุกคนเลือกชมรม"]},
+          {v:["A function only if each club gets exactly two students","เป็นฟังก์ชันก็ต่อเมื่อทุกชมรมมีนักเรียนชมรมละสองคนพอดี"]}],unit:""};
+  var s=pick([{a:2,b:3},{a:2,b:5},{a:3,b:2},{a:3,b:4}]);
   return {stem:["n(A) = "+s.a+" and n(B) = "+s.b+". How many functions are there from A into B?",
                 "n(A) = "+s.a+" และ n(B) = "+s.b+" มีฟังก์ชันจาก A ไป B กี่ฟังก์ชัน"],
     opts:[{v:String(Math.pow(s.b,s.a)),ok:1},{v:String(Math.pow(s.a,s.b))},
           {v:String(s.a*s.b)},{v:String(Math.pow(2,s.a*s.b))}],unit:""};
 },
 "M-05": function(sf){
-  if(sf==="S-04") return {stem:["Which functions have an inverse that is itself a function?","ฟังก์ชันแบบใดที่อินเวอร์สของมันยังเป็นฟังก์ชัน"],
+  if(sf==="S-04") return {stem:["Which functions have an inverse that is itself a function?","ฟังก์ชันแบบใดที่อินเวอร์สยังเป็นฟังก์ชัน"],
     opts:[{v:["Exactly the one-to-one functions","ฟังก์ชันหนึ่งต่อหนึ่งเท่านั้น"],ok:1},
           {v:["Every function without exception","ทุกฟังก์ชันโดยไม่มีข้อยกเว้น"],trap:"T-02"},
           {v:["Every function whose domain is R","ทุกฟังก์ชันที่มีโดเมนเป็นจำนวนจริง"],trap:"T-02"},
           {v:["Only increasing functions","ฟังก์ชันเพิ่มเท่านั้น"]}],unit:""};
-  if(sf==="S-02") return {stem:["How is the graph of the inverse obtained from the graph of f?","กราฟของอินเวอร์สได้มาจากกราฟของ f อย่างไร"],
-    opts:[{v:["Reflect it in the line where the two variables are equal","สะท้อนผ่านเส้นที่ตัวแปรทั้งสองเท่ากัน"],ok:1},
+  if(sf==="S-02") return {stem:["How is the graph of the inverse obtained from the graph of f?","ได้กราฟของอินเวอร์สจากกราฟของ f อย่างไร"],
+    opts:[{v:["Reflect it in the line where the two variables are equal","สะท้อนผ่านเส้นที่ตัวแปรสองตัวมีค่าเท่ากัน"],ok:1},
           {v:["Reflect it in the horizontal axis","สะท้อนผ่านแกนนอน"]},
           {v:["Reflect it in the vertical axis","สะท้อนผ่านแกนตั้ง"]},
           {v:["Turn it upside down about the origin","พลิกกลับหัวรอบจุดกำเนิด"]}],unit:""};

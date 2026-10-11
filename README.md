@@ -27,8 +27,8 @@ subject maps, chapter readers, and cross-subject page. Its typography, cards,
 and reading palettes follow the linear algebra and differential equation
 courses. `build/course-theme.js` shares their `edu-reading-theme` preference
 (Paper, Warm, Soft Blue, Dark); Paper is the default. Both files are embedded
-at build time so chapters continue to work offline. Language and learning
-progress retain their existing storage keys.
+at build time so chapters continue to work offline. Only preferences (language,
+theme, art style) are stored; no learning progress is kept.
 
 Chapter equations are typeset with bundled KaTeX 0.16.11. `build/math-notation.js`
 handles existing formula strings, prose equations, and equations in generated questions;

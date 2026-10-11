@@ -1,10 +1,14 @@
+/* z after n quarter-turns (multiplications by i) */
+function rotz(p){ var a=p.a, b=p.b, i, t;
+  for(i=0;i<p.mult;i++){ t=-b; b=a; a=t; }
+  return [a,b]; }
 var CHAPTER = {
 id:"ma10", num:"10", slug:"complex-numbers", subject:"math",
 kicker:["Mathematics · Chapter 10","คณิตศาสตร์ · บทที่ 10"],
 title:["Complex Numbers","จำนวนเชิงซ้อน"],
 mapTitle:["The number line becomes a plane","เส้นจำนวนกลายเป็นระนาบ"],
 lede:["Declaring that i² = −1 sounds like cheating. It is not: it is the one addition that makes every polynomial equation solvable, and the price is that numbers stop living on a line and start living on a plane.",
-      "การประกาศว่า i² = −1 ฟังดูเหมือนการโกง แต่ไม่ใช่ มันคือส่วนเพิ่มเพียงอย่างเดียวที่ทำให้สมการพหุนามทุกสมการแก้ได้ และราคาที่ต้องจ่ายคือจำนวนเลิกอยู่บนเส้นตรงแล้วย้ายไปอยู่บนระนาบ"],
+      "การประกาศว่า i² = −1 ฟังดูเหมือนโกง แต่ไม่ใช่เลย นี่เป็นสิ่งที่เติมเข้ามาเพียงอย่างเดียวก็ทำให้สมการพหุนามทุกสมการมีคำตอบ และสิ่งที่ต้องแลกคือจำนวนจะไม่อยู่บนเส้นตรงอีกต่อไป แต่ไปอยู่บนระนาบ"],
 next:["→ continues in Chapter 11 · Probability","→ ต่อในบทที่ 11 · ความน่าจะเป็น"],
 
 nodes:[
@@ -12,13 +16,13 @@ nodes:[
   title:["The imaginary unit","หน่วยจินตภาพ"],
   body:[["Define i so that i² = −1. Every complex number is then a + bi, with a the real part and b the imaginary part. Note that the imaginary part is b, a real number — not bi. Quoting bi as the imaginary part is trap T-01.",
          "Powers of i cycle with period four: i, −1, −i, 1, and then round again. So i to any power reduces to whichever of those four the exponent leaves on division by 4 — a fact that turns an intimidating question like i⁵⁰ into a remainder calculation."],
-        ["นิยาม i ให้ i² = −1 จากนั้นจำนวนเชิงซ้อนทุกตัวคือ a + bi โดย a คือส่วนจริงและ b คือส่วนจินตภาพ สังเกตว่าส่วนจินตภาพคือ b ซึ่งเป็นจำนวนจริง ไม่ใช่ bi การตอบว่า bi คือส่วนจินตภาพคือกับดัก T-01",
-         "กำลังของ i วนซ้ำด้วยคาบสี่ ได้แก่ i, −1, −i, 1 แล้ววนใหม่ ดังนั้น i ยกกำลังใดก็ตามจะลดรูปเหลือหนึ่งในสี่ตัวนั้นตามเศษที่เหลือจากการหารด้วย 4 ข้อเท็จจริงนี้เปลี่ยนคำถามที่ดูน่ากลัวอย่าง i⁵⁰ ให้กลายเป็นการหาเศษ"]],
+        ["นิยาม i ให้ i² = −1 จำนวนเชิงซ้อนทุกจำนวนจึงเขียนได้เป็น a + bi โดย a คือส่วนจริง และ b คือส่วนจินตภาพ ระวังว่าส่วนจินตภาพคือ b ซึ่งเป็นจำนวนจริง ไม่ใช่ bi ใครตอบว่า bi คือส่วนจินตภาพก็ตกกับดัก T-01",
+         "กำลังของ i วนซ้ำเป็นรอบละสี่ค่า คือ i, −1, −i, 1 แล้วกลับมาเริ่มใหม่ ดังนั้น i ยกกำลังเท่าไรก็ลดรูปได้เหลือหนึ่งในสี่ค่านี้ ขึ้นอยู่กับเศษเมื่อหารเลขชี้กำลังด้วย 4 วิธีนี้ทำให้โจทย์ที่ดูน่ากลัวอย่าง i⁵⁰ กลายเป็นแค่การหาเศษ"]],
   formula:["i² = −1        i¹ = i , i² = −1 , i³ = −i , i⁴ = 1","i² = −1        i¹ = i , i² = −1 , i³ = −i , i⁴ = 1"],
   flabel:["Powers of i cycle every four","กำลังของ i วนซ้ำทุกสี่"],
   viz:"table",
   vizcfg:{
-    title:["POWERS OF i GO ROUND IN FOURS","กำลังของ i วนซ้ำทีละสี่"],
+    title:["POWERS OF i GO ROUND IN FOURS","กำลังของ i วนซ้ำรอบละสี่"],
     cols:[["n","n"],["iⁿ","iⁿ"],["Remainder n ÷ 4","เศษของ n ÷ 4"]],
     rowKey:"n",
     readouts:[
@@ -27,7 +31,7 @@ nodes:[
       {lab:["i⁵⁰ for example","เช่น i⁵⁰"], f:function(){
         return L()?"50 ÷ 4 เหลือเศษ 2 จึงได้ −1":"50 leaves remainder 2, so it is −1"; }},
       {lab:["Why four","ทำไมต้องสี่"], f:function(){
-        return L()?"การคูณด้วย i หมุน 90° สี่ครั้งครบรอบ":"multiplying by i turns 90°, and four turns is a full circle"; }}
+        return L()?"คูณด้วย i หมุน 90° หนึ่งครั้ง ครบสี่ครั้งก็ครบรอบ":"multiplying by i turns 90°, and four turns is a full circle"; }}
     ],
     rows:function(p){
       var V=["1","i","−1","−i"];
@@ -37,15 +41,15 @@ nodes:[
                                       {v:String(n%4), on:n===p.n, col:"good"}]);
       return out;
     },
-    note:["read down the middle column and the same four symbols repeat forever","อ่านลงมาตามคอลัมน์กลาง สัญลักษณ์สี่ตัวเดิมวนซ้ำไม่รู้จบ"]
+    note:["read down the middle column and the same four symbols repeat forever","อ่านลงมาตามคอลัมน์กลาง จะเห็นสัญลักษณ์สี่ตัวเดิมวนซ้ำไปเรื่อยๆ"]
   } },
 
 { id:"arithmetic", x:100, y:150, requires:["imaginary"], methods:["M-02"],
   title:["Arithmetic","การคำนวณ"],
   body:[["Add and subtract componentwise, exactly as with vectors. Multiply by expanding as usual, then replace every i² with −1 and collect terms — that replacement is the only new step.",
          "Division needs a trick: multiply top and bottom by the conjugate of the denominator. Since (a + bi)(a − bi) = a² + b², the denominator becomes real and the answer separates cleanly into a + bi form. The plus sign in a² + b² comes from the i² turning negative twice; writing a² − b² there is trap T-02."],
-        ["บวกและลบทีละส่วนเหมือนเวกเตอร์ทุกประการ คูณโดยกระจายตามปกติ แล้วแทน i² ทุกตัวด้วย −1 และรวมพจน์ การแทนค่านั้นคือขั้นตอนใหม่เพียงขั้นเดียว",
-         "การหารต้องใช้เทคนิค คือคูณทั้งเศษและส่วนด้วยสังยุคของตัวส่วน เนื่องจาก (a + bi)(a − bi) = a² + b² ตัวส่วนจึงกลายเป็นจำนวนจริงและคำตอบแยกออกเป็นรูป a + bi ได้สะอาด เครื่องหมายบวกใน a² + b² มาจาก i² ที่ติดลบสองครั้ง การเขียน a² − b² ตรงนั้นคือกับดัก T-02"]],
+        ["การบวกและการลบทำทีละส่วน เหมือนกับเวกเตอร์ทุกอย่าง การคูณก็กระจายตามปกติ แล้วแทน i² ทุกตัวด้วย −1 จากนั้นรวมพจน์ การแทนค่านี้เป็นขั้นตอนใหม่ขั้นตอนเดียว",
+         "การหารต้องใช้เทคนิคเล็กน้อย คือคูณทั้งเศษและส่วนด้วยสังยุคของตัวส่วน เพราะ (a + bi)(a − bi) = a² + b² ตัวส่วนจึงเป็นจำนวนจริง และคำตอบแยกเป็นรูป a + bi ได้เรียบร้อย เครื่องหมายบวกใน a² + b² มาจาก i² ที่ให้ค่าลบสองครั้ง ถ้าเขียน a² − b² ตรงนั้นก็ตกกับดัก T-02"]],
   formula:["(a + bi)(a − bi) = a² + b²    ← plus, not minus","(a + bi)(a − bi) = a² + b²    ← บวก ไม่ใช่ลบ"],
   flabel:["Divide by multiplying by the conjugate","หารโดยคูณด้วยสังยุค"],
   viz:"grid",
@@ -59,32 +63,32 @@ nodes:[
       {k:"d", lab:["d","d"], min:-5, max:5, step:1, def:4, unit:""}
     ],
     readouts:[
-      {lab:["Real part","ส่วนจริง"], f:function(S){ return fmt2(S.p.a*S.p.c-S.p.b*S.p.d); }},
-      {lab:["Imaginary part","ส่วนจินตภาพ"], f:function(S){ return fmt2(S.p.a*S.p.d+S.p.b*S.p.c); }},
+      {lab:["Real part","ส่วนจริง"], f:function(S){ return num(S.p.a*S.p.c-S.p.b*S.p.d); }},
+      {lab:["Imaginary part","ส่วนจินตภาพ"], f:function(S){ return num(S.p.a*S.p.d+S.p.b*S.p.c); }},
       {lab:["Which term flips sign","พจน์ใดกลับเครื่องหมาย"], f:function(){
         return L()?"พจน์ bd เพราะมี i²":"the bd term, because it carries i²"; }},
       {lab:["Product with the conjugate","ผลคูณกับสังยุค"], f:function(S){
-        return fmt2(S.p.a*S.p.a+S.p.b*S.p.b)+(L()?" · จำนวนจริงเสมอ":" · always real"); }}
+        return num(S.p.a*S.p.a+S.p.b*S.p.b)+(L()?" · จำนวนจริงเสมอ":" · always real"); }}
     ],
     rows:function(p){
-      return [[{v:"a·c", on:false, col:"ink"}, {v:fmt2(p.a*p.c), on:true, col:"accent"},
-               {v:fmt2(p.a*p.c), on:true, col:"accent"}, {v:["real","ส่วนจริง"], on:true, col:"accent"}],
-              [{v:"a·di", on:false, col:"ink"}, {v:fmt2(p.a*p.d)+"i", on:true, col:"good"},
-               {v:fmt2(p.a*p.d)+"i", on:true, col:"good"}, {v:["imaginary","ส่วนจินตภาพ"], on:true, col:"good"}],
-              [{v:"bi·c", on:false, col:"ink"}, {v:fmt2(p.b*p.c)+"i", on:true, col:"good"},
-               {v:fmt2(p.b*p.c)+"i", on:true, col:"good"}, {v:["imaginary","ส่วนจินตภาพ"], on:true, col:"good"}],
-              [{v:"bi·di", on:false, col:"ink"}, {v:fmt2(p.b*p.d)+"i²", on:true, col:"warn"},
-               {v:fmt2(-p.b*p.d), on:true, col:"warn"}, {v:["real","ส่วนจริง"], on:true, col:"warn"}]];
+      return [[{v:"a·c", on:false, col:"ink"}, {v:num(p.a*p.c), on:true, col:"accent"},
+               {v:num(p.a*p.c), on:true, col:"accent"}, {v:["real","ส่วนจริง"], on:true, col:"accent"}],
+              [{v:"a·di", on:false, col:"ink"}, {v:num(p.a*p.d)+"i", on:true, col:"good"},
+               {v:num(p.a*p.d)+"i", on:true, col:"good"}, {v:["imaginary","ส่วนจินตภาพ"], on:true, col:"good"}],
+              [{v:"bi·c", on:false, col:"ink"}, {v:num(p.b*p.c)+"i", on:true, col:"good"},
+               {v:num(p.b*p.c)+"i", on:true, col:"good"}, {v:["imaginary","ส่วนจินตภาพ"], on:true, col:"good"}],
+              [{v:"bi·di", on:false, col:"ink"}, {v:num(p.b*p.d)+"i²", on:true, col:"warn"},
+               {v:num(-p.b*p.d), on:true, col:"warn"}, {v:["real","ส่วนจริง"], on:true, col:"warn"}]];
     },
-    note:["only the last row changes — i² turns it real and flips its sign","มีเพียงแถวสุดท้ายที่เปลี่ยน i² ทำให้มันเป็นจำนวนจริงและกลับเครื่องหมาย"]
+    note:["only the last row changes — i² turns it real and flips its sign","เปลี่ยนแค่แถวสุดท้าย เพราะ i² ทำให้เป็นจำนวนจริงและกลับเครื่องหมาย"]
   } },
 
 { id:"argand", x:370, y:150, requires:["imaginary"], methods:["M-03"],
   title:["The Argand plane","ระนาบเชิงซ้อน"],
   body:[["Plot the real part horizontally and the imaginary part vertically and a complex number becomes a point — or an arrow from the origin. Its length |z| = √(a² + b²) is the modulus and its angle from the positive real axis is the argument.",
          "The conjugate is the reflection in the real axis. That geometric reading explains why a conjugate pair has the same modulus and opposite arguments, and why multiplying a number by its conjugate lands you on the real axis at |z|². Drag the point in the lab and watch modulus, argument and conjugate move together."],
-        ["วาดส่วนจริงตามแนวนอนและส่วนจินตภาพตามแนวตั้ง จำนวนเชิงซ้อนก็กลายเป็นจุด หรือเป็นลูกศรจากจุดกำเนิด ความยาวของมัน |z| = √(a² + b²) คือมอดูลัส และมุมจากแกนจริงด้านบวกคืออาร์กิวเมนต์",
-         "สังยุคคือภาพสะท้อนในแกนจริง การอ่านเชิงเรขาคณิตนี้อธิบายว่าทำไมคู่สังยุคจึงมีมอดูลัสเท่ากันและอาร์กิวเมนต์ตรงข้ามกัน และทำไมการคูณจำนวนด้วยสังยุคของมันจึงไปตกบนแกนจริงที่ |z|² ลองลากจุดในห้องทดลองแล้วดูมอดูลัส อาร์กิวเมนต์ และสังยุคขยับไปพร้อมกัน"]],
+        ["ถ้าเขียนส่วนจริงตามแนวนอนและส่วนจินตภาพตามแนวตั้ง จำนวนเชิงซ้อนจะเป็นจุดหนึ่งจุด หรือเป็นลูกศรจากจุดกำเนิด ความยาว |z| = √(a² + b²) เรียกว่ามอดูลัส ส่วนมุมที่วัดจากแกนจริงด้านบวกเรียกว่าอาร์กิวเมนต์",
+         "สังยุคคือภาพสะท้อนในแกนจริง เมื่อมองเป็นรูปเรขาคณิต เราจึงเข้าใจได้ว่าทำไมคู่สังยุคมีมอดูลัสเท่ากันแต่อาร์กิวเมนต์ตรงข้ามกัน และทำไมคูณจำนวนหนึ่งด้วยสังยุคของมันแล้วได้จุดบนแกนจริงที่ |z|² ลองลากจุดในห้องทดลอง แล้วดูมอดูลัส อาร์กิวเมนต์ และสังยุคขยับไปพร้อมกัน"]],
   formula:["|z| = √(a² + b²)        arg z = tan⁻¹(b/a) , adjusted for quadrant","|z| = √(a² + b²)        arg z = tan⁻¹(b/a) , ปรับตามควอดรันต์"],
   flabel:["The conjugate is a reflection in the real axis","สังยุคคือการสะท้อนในแกนจริง"],
   viz:{
@@ -93,25 +97,26 @@ nodes:[
       {k:"a", lab:["Real part a","ส่วนจริง a"], min:-4, max:4, step:.1, def:3, unit:""},
       {k:"b", lab:["Imaginary part b","ส่วนจินตภาพ b"], min:-4, max:4, step:.1, def:2, unit:""},
       {k:"conj", lab:["",""], opts:[["hide","ซ่อน"], ["show conjugate","แสดงสังยุค"]], min:0, def:1, unit:""},
-      {k:"mult", lab:["Multiply by i, n times","คูณด้วย i, n ครั้ง"], min:0, max:4, step:1, def:0, unit:""}
+      {k:"mult", lab:["Multiply by i, n times","คูณด้วย i, n ครั้ง"], min:0, max:4, step:1, def:0, unit:"",
+       opts:[["n = 0","n = 0"],["n = 1","n = 1"],["n = 2","n = 2"],["n = 3","n = 3"],["n = 4","n = 4"]]}
     ],
     readouts:[
-      {lab:["z","z"], f:function(S){ var p=S.p;
-        return fmt2(p.a)+(p.b>=0?" + ":" − ")+fmt2(Math.abs(p.b))+"i"; }},
+      {lab:["z","z"], f:function(S){ var q=rotz(S.p);
+        return num(q[0])+(q[1]>=0?" + ":" − ")+num(Math.abs(q[1]))+"i"; }},
       {lab:["Modulus |z|","มอดูลัส |z|"], f:function(S){ var p=S.p;
-        return fmt2(Math.sqrt(p.a*p.a+p.b*p.b)); }},
-      {lab:["Argument","อาร์กิวเมนต์"], f:function(S){ var p=S.p;
-        if(Math.abs(p.a)<1e-9 && Math.abs(p.b)<1e-9) return L()?"ไม่นิยาม":"undefined";
-        return fmt2(Math.atan2(p.b,p.a)*180/Math.PI)+"°"; }},
+        return num(Math.sqrt(p.a*p.a+p.b*p.b)); }},
+      {lab:["Argument","อาร์กิวเมนต์"], f:function(S){ var q=rotz(S.p);
+        if(Math.abs(q[0])<1e-9 && Math.abs(q[1])<1e-9) return L()?"ไม่นิยาม":"undefined";
+        return num(Math.atan2(q[1],q[0])*180/Math.PI)+"°"; }},
       {lab:["z · z̄","z · z̄"], f:function(S){ var p=S.p;
-        return fmt2(p.a*p.a+p.b*p.b)+(L()?" · จำนวนจริงเสมอ":" · always real"); }}
+        return num(p.a*p.a+p.b*p.b)+(L()?" · จำนวนจริงเสมอ":" · always real"); }}
     ],
     draw:function(S,o){
       var p=S.p;
       /* multiplying by i is a quarter turn, applied n times */
       var a=p.a, b=p.b, i;
       for(i=0;i<p.mult;i++){ var na=-b, nb=a; a=na; b=nb; }
-      var A=axes(o,{x:80,y:30,w:400,h:246,xmin:-5,xmax:5,ymin:-5,ymax:5,
+      var A=axes(o,{x:157,y:30,w:246,h:246,xmin:-5,xmax:5,ymin:-5,ymax:5,
                     title:["ARGAND PLANE","ระนาบเชิงซ้อน"],xlab:"Re",ylab:"Im",xticks:5,yticks:5});
       var m=Math.sqrt(a*a+b*b);
       if(m>0.05){
@@ -138,28 +143,28 @@ nodes:[
       o.push('<circle cx="'+A.X(a)+'" cy="'+A.Y(b)+'" r="5.5" fill="var(--accent)"/>');
       o.push('<text x="'+(A.X(a)+9)+'" y="'+(A.Y(b)-9)+
              '" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11">'+
-             fmt2(a)+(b>=0?" + ":" − ")+fmt2(Math.abs(b))+'i</text>');
+             num(a)+(b>=0?" + ":" − ")+num(Math.abs(b))+'i</text>');
       o.push('<text x="80" y="304" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["dashed circle = modulus · amber arc = argument","วงกลมประ = มอดูลัส · ส่วนโค้งเหลืองอำพัน = อาร์กิวเมนต์"])+'</text>');
-      o.push('<text x="80" y="320" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["each multiplication by i rotates a quarter turn anticlockwise","การคูณด้วย i แต่ละครั้งหมุนไปหนึ่งในสี่รอบทวนเข็มนาฬิกา"])+'</text>');
+      o.push('<text x="80" y="320" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["each multiplication by i rotates a quarter turn anticlockwise","คูณด้วย i ทุกครั้ง จุดจะหมุนทวนเข็มนาฬิกาหนึ่งในสี่รอบ"])+'</text>');
     }
   },
   guide:[
     {say:["The red arrow is z = 3 + 2i. Its length is the modulus, and the amber arc is the argument.",
-          "ลูกศรสีแดงคือ z = 3 + 2i ความยาวคือมอดูลัส และส่วนโค้งสีเหลืองอำพันคืออาร์กิวเมนต์"], set:{a:3,b:2,conj:0,mult:0}},
+          "ลูกศรสีแดงคือ z = 3 + 2i ความยาวของมันคือมอดูลัส ส่วนโค้งสีเหลืองอำพันคืออาร์กิวเมนต์"], set:{a:3,b:2,conj:0,mult:0}},
     {say:["Bring in the conjugate. It is the mirror image in the real axis — same modulus, opposite argument.",
-          "เพิ่มสังยุคเข้ามา มันคือภาพสะท้อนในแกนจริง มอดูลัสเท่ากัน อาร์กิวเมนต์ตรงข้าม"], set:{a:3,b:2,conj:1,mult:0}},
+          "ลองเพิ่มสังยุค มันคือภาพสะท้อนในแกนจริง มอดูลัสเท่ากัน แต่อาร์กิวเมนต์ตรงข้ามกัน"], set:{a:3,b:2,conj:1,mult:0}},
     {say:["Multiply by i once. The arrow does not stretch — it turns a quarter circle. Multiplication by i is pure rotation.",
-          "คูณด้วย i หนึ่งครั้ง ลูกศรไม่ยืดออก แต่หมุนไปหนึ่งในสี่รอบ การคูณด้วย i คือการหมุนล้วนๆ"], set:{a:3,b:2,conj:0,mult:1}},
+          "ลองคูณด้วย i หนึ่งครั้ง ลูกศรไม่ยาวขึ้น แต่หมุนไปหนึ่งในสี่รอบ การคูณด้วย i คือการหมุนล้วนๆ"], set:{a:3,b:2,conj:0,mult:1}},
     {say:["Four multiplications return it exactly where it started. That is why powers of i cycle with period four.",
-          "คูณสี่ครั้งแล้วกลับมาที่เดิมพอดี นั่นคือเหตุผลที่กำลังของ i วนซ้ำด้วยคาบสี่"], set:{a:3,b:2,conj:0,mult:4}}
+          "คูณครบสี่ครั้งก็กลับมาที่เดิมพอดี กำลังของ i จึงวนซ้ำรอบละสี่ค่า"], set:{a:3,b:2,conj:0,mult:4}}
   ]},
 
 { id:"polar", x:235, y:248, requires:["argand"], methods:["M-04"],
   title:["Polar form","รูปเชิงขั้ว"],
   body:[["Writing z = r(cos θ + i sin θ) records the same number as a length and a direction instead of two coordinates. Nothing is gained for addition, but multiplication becomes trivial: multiply the moduli and add the arguments.",
          "That is why the lab's rotation demonstration works — multiplying by i means multiplying modulus by 1 and adding 90°, so the arrow only turns. De Moivre's theorem extends the same idea to powers: zⁿ has modulus rⁿ and argument nθ."],
-        ["การเขียน z = r(cos θ + i sin θ) บันทึกจำนวนเดียวกันในรูปความยาวกับทิศทางแทนที่จะเป็นสองพิกัด การบวกไม่ได้ประโยชน์อะไร แต่การคูณกลายเป็นเรื่องง่าย คือคูณมอดูลัสและบวกอาร์กิวเมนต์",
-         "นั่นคือเหตุผลที่การสาธิตการหมุนในห้องทดลองใช้ได้ การคูณด้วย i หมายถึงคูณมอดูลัสด้วย 1 และบวก 90° ลูกศรจึงแค่หมุน ทฤษฎีบทเดอมัวร์ขยายแนวคิดเดียวกันไปสู่การยกกำลัง zⁿ มีมอดูลัส rⁿ และอาร์กิวเมนต์ nθ"]],
+        ["เขียน z = r(cos θ + i sin θ) คือบอกจำนวนเดิมด้วยความยาวกับทิศทาง แทนที่จะบอกด้วยพิกัดสองค่า เรื่องการบวกไม่ได้ง่ายขึ้น แต่การคูณง่ายมาก คือคูณมอดูลัสและบวกอาร์กิวเมนต์",
+         "ด้วยเหตุนี้การสาธิตการหมุนในห้องทดลองจึงใช้ได้ การคูณด้วย i คือคูณมอดูลัสด้วย 1 แล้วบวก 90° ลูกศรจึงแค่หมุน ทฤษฎีบทเดอมัวร์ต่อยอดแนวคิดเดียวกันไปถึงการยกกำลัง zⁿ มีมอดูลัส rⁿ และอาร์กิวเมนต์ nθ"]],
   formula:["z₁z₂ : moduli multiply, arguments add        zⁿ = rⁿ(cos nθ + i sin nθ)","z₁z₂ : มอดูลัสคูณกัน อาร์กิวเมนต์บวกกัน        zⁿ = rⁿ(cos nθ + i sin nθ)"],
   flabel:["Arguments add — they do not multiply","อาร์กิวเมนต์บวกกัน ไม่ใช่คูณกัน"],
   viz:"bars",
@@ -173,8 +178,8 @@ nodes:[
       {k:"t2", lab:["arg z₂","arg z₂"], min:0, max:180, step:5, def:45, unit:"°"}
     ],
     readouts:[
-      {lab:["|z₁z₂|","|z₁z₂|"], f:function(S){ return fmt2(S.p.r1*S.p.r2); }},
-      {lab:["arg(z₁z₂)","arg(z₁z₂)"], f:function(S){ return fmt2(S.p.t1+S.p.t2)+"°"; }},
+      {lab:["|z₁z₂|","|z₁z₂|"], f:function(S){ return num(S.p.r1*S.p.r2); }},
+      {lab:["arg(z₁z₂)","arg(z₁z₂)"], f:function(S){ return num(S.p.t1+S.p.t2)+"°"; }},
       {lab:["Moduli","มอดูลัส"], f:function(){ return L()?"คูณกัน":"multiply"; }},
       {lab:["Arguments","อาร์กิวเมนต์"], f:function(){ return L()?"บวกกัน ไม่ใช่คูณกัน":"add — they never multiply"; }}
     ],
@@ -184,20 +189,20 @@ nodes:[
       {lab:["|z₁z₂| = product","|z₁z₂| = ผลคูณ"], f:function(p){ return p.r1*p.r2; }, col:"accent"},
       {lab:["arg sum (°)","ผลบวกมุม (°)"], f:function(p){ return p.t1+p.t2; }, col:"good"}
     ],
-    note:["De Moivre's theorem is this rule applied over and over to the same number","ทฤษฎีบทเดอมัวร์คือกฎข้อนี้ที่ใช้ซ้ำๆ กับจำนวนเดียวกัน"]
+    note:["De Moivre's theorem is this rule applied over and over to the same number","ทฤษฎีบทเดอมัวร์คือกฎข้อนี้ที่ใช้ซ้ำกับจำนวนเดิม"]
   } },
 
 { id:"roots", x:235, y:346, requires:["polar","arithmetic"], methods:["M-05"],
   title:["Complex roots","รากเชิงซ้อน"],
   body:[["When a quadratic with real coefficients has a negative discriminant, its roots are complex — and they always arrive as a conjugate pair, because the ± in the formula sits in front of an imaginary square root. Reporting only one root is trap T-03.",
          "This is what the fundamental theorem of algebra guarantees: a degree-n polynomial has exactly n roots over the complex numbers, counting multiplicity. Nothing is ever unsolvable any more; some solutions simply sit off the real line."],
-        ["เมื่อสมการกำลังสองที่มีสัมประสิทธิ์เป็นจำนวนจริงมีดิสคริมิแนนต์เป็นลบ รากของมันจะเป็นจำนวนเชิงซ้อน และมาเป็นคู่สังยุคเสมอ เพราะเครื่องหมาย ± ในสูตรอยู่หน้ารากที่สองที่เป็นจินตภาพ การตอบรากเดียวคือกับดัก T-03",
-         "นี่คือสิ่งที่ทฤษฎีบทมูลฐานของพีชคณิตรับประกันไว้ พหุนามดีกรี n มีราก n ตัวพอดีบนจำนวนเชิงซ้อน โดยนับพหุคูณ ไม่มีอะไรแก้ไม่ได้อีกต่อไป เพียงแต่คำตอบบางตัวอยู่นอกเส้นจำนวนจริง"]],
+        ["เมื่อสมการกำลังสองที่สัมประสิทธิ์เป็นจำนวนจริงมีดิสคริมิแนนต์ติดลบ รากจะเป็นจำนวนเชิงซ้อน และมาเป็นคู่สังยุคเสมอ เพราะเครื่องหมาย ± ในสูตรอยู่หน้ารากที่สองของจำนวนจินตภาพ ถ้าตอบรากเดียวก็ตกกับดัก T-03",
+         "ทฤษฎีบทมูลฐานของพีชคณิตรับประกันเรื่องนี้ไว้ว่า พหุนามดีกรี n มีรากบนจำนวนเชิงซ้อนครบ n ราก เมื่อนับพหุคูณด้วย ดังนั้นไม่มีสมการไหนแก้ไม่ได้อีกแล้ว เพียงแต่บางคำตอบไม่ได้อยู่บนเส้นจำนวนจริง"]],
   formula:["b² − 4ac < 0  ⟹  roots p ± qi , always a conjugate pair","b² − 4ac < 0  ⟹  ราก p ± qi เป็นคู่สังยุคเสมอ"],
   flabel:["Complex roots come in pairs","รากเชิงซ้อนมาเป็นคู่"],
   viz:"plot",
   vizcfg:{
-    title:["WHEN THE PARABOLA MISSES THE AXIS","เมื่อพาราโบลาพลาดแกน"],
+    title:["WHEN THE PARABOLA MISSES THE AXIS","เมื่อพาราโบลาไม่แตะแกน"],
     xlab:["x","x"], ylab:["y = x² + bx + c","y = x² + bx + c"],
     xmin:-6, xmax:6, fill:false,
     fn:function(x,p){ return x*x + p.b*x + p.c; },
@@ -207,29 +212,29 @@ nodes:[
     ],
     readouts:[
       {lab:["Discriminant b² − 4c","ดิสคริมิแนนต์ b² − 4c"], f:function(S){
-        return fmt2(S.p.b*S.p.b-4*S.p.c); }},
+        return num(S.p.b*S.p.b-4*S.p.c); }},
       {lab:["Roots","ราก"], f:function(S){
         var D=S.p.b*S.p.b-4*S.p.c;
-        if(D>1e-9) return fmt2((-S.p.b-Math.sqrt(D))/2)+"  "+(L()?"และ":"and")+"  "+fmt2((-S.p.b+Math.sqrt(D))/2);
-        if(Math.abs(D)<=1e-9) return fmt2(-S.p.b/2)+(L()?" · รากซ้ำ":" · a repeated root");
-        return fmt2(-S.p.b/2)+" ± "+fmt2(Math.sqrt(-D)/2)+"i"; }},
+        if(D>1e-9) return num((-S.p.b-Math.sqrt(D))/2)+"  "+(L()?"และ":"and")+"  "+num((-S.p.b+Math.sqrt(D))/2);
+        if(Math.abs(D)<=1e-9) return num(-S.p.b/2)+(L()?" · รากซ้ำ":" · a repeated root");
+        return num(-S.p.b/2)+" ± "+num(Math.sqrt(-D)/2)+"i"; }},
       {lab:["Kind of roots","ชนิดของราก"], f:function(S){
         var D=S.p.b*S.p.b-4*S.p.c;
         return D>1e-9 ? (L()?"จำนวนจริงสองราก":"two real roots")
              : Math.abs(D)<=1e-9 ? (L()?"รากจริงซ้ำหนึ่งราก":"one repeated real root")
              : (L()?"คู่สังยุคเชิงซ้อน":"a complex conjugate pair"); }},
       {lab:["Do the roots exist?","รากมีอยู่ไหม"], f:function(){
-        return L()?"มีเสมอ — เพียงแต่บางครั้งอยู่นอกเส้นจำนวนจริง":"always — sometimes just off the real line"; }}
+        return L()?"มีเสมอ แต่บางครั้งไม่อยู่บนเส้นจำนวนจริง":"always — sometimes just off the real line"; }}
     ],
-    note:["missing the x-axis does not mean there is no solution, only none you can see on this axis","การพลาดแกน x ไม่ได้แปลว่าไม่มีคำตอบ เพียงแต่ไม่มีคำตอบที่มองเห็นบนแกนนี้"]
+    note:["missing the x-axis does not mean there is no solution, only none you can see on this axis","กราฟไม่ตัดแกน x ไม่ได้แปลว่าไม่มีคำตอบ แค่ไม่มีคำตอบที่มองเห็นบนแกนนี้"]
   },
   guide:[
     {say:["The curve floats clear above the axis. No real root exists — but two complex ones do.",
-          "เส้นโค้งลอยพ้นเหนือแกน ไม่มีรากจริง แต่มีรากเชิงซ้อนสองราก"], set:{b:-4,c:8}},
+          "เส้นโค้งลอยอยู่เหนือแกนทั้งเส้น ไม่มีรากจริง แต่มีรากเชิงซ้อนสองราก"], set:{b:-4,c:8}},
     {say:["Lower it until it just kisses the axis. The discriminant hits zero and the roots merge into one.",
-          "ลดลงมาจนแตะแกนพอดี ดิสคริมิแนนต์เป็นศูนย์และรากสองรากรวมเป็นหนึ่ง"], set:{b:-4,c:4}},
+          "ลองลดเส้นโค้งลงจนแตะแกนพอดี ดิสคริมิแนนต์เป็นศูนย์ รากทั้งสองจึงรวมเป็นรากเดียว"], set:{b:-4,c:4}},
     {say:["Push it lower still and two real roots appear, spreading apart as the discriminant grows.",
-          "ดันลงต่ำกว่านั้นอีก รากจริงสองรากปรากฏขึ้น และแยกออกจากกันเมื่อดิสคริมิแนนต์โตขึ้น"], set:{b:-4,c:0}}
+          "ลดต่ำกว่านั้นอีก จะได้รากจริงสองราก ยิ่งดิสคริมิแนนต์มาก รากยิ่งห่างกัน"], set:{b:-4,c:0}}
   ] }
 ],
 
@@ -243,8 +248,8 @@ methods:[
 
 traps:{
 "T-01":["The imaginary part is b, a real number — not bi.","ส่วนจินตภาพคือ b ซึ่งเป็นจำนวนจริง ไม่ใช่ bi"],
-"T-02":["(a + bi)(a − bi) = a² + b², with a plus. The i² supplies the second sign flip.","(a + bi)(a − bi) = a² + b² ใช้เครื่องหมายบวก ตัว i² ให้การกลับเครื่องหมายครั้งที่สอง"],
-"T-03":["Complex roots of a real quadratic always come as a conjugate pair. Give both.","รากเชิงซ้อนของสมการกำลังสองจำนวนจริงมาเป็นคู่สังยุคเสมอ ต้องตอบทั้งคู่"],
+"T-02":["(a + bi)(a − bi) = a² + b², with a plus. The i² supplies the second sign flip.","(a + bi)(a − bi) = a² + b² เป็นเครื่องหมายบวก เพราะ i² ทำให้เครื่องหมายกลับครั้งที่สอง"],
+"T-03":["Complex roots of a real quadratic always come as a conjugate pair. Give both.","รากเชิงซ้อนของสมการกำลังสองที่สัมประสิทธิ์เป็นจำนวนจริงมาเป็นคู่สังยุคเสมอ ต้องตอบทั้งสองราก"],
 "T-04":["In polar multiplication the moduli multiply but the arguments ADD.","ในการคูณเชิงขั้ว มอดูลัสคูณกัน แต่อาร์กิวเมนต์บวกกัน"]
 },
 
@@ -268,10 +273,10 @@ gen:{
     opts:[{v:c+" − "+d+"i",ok:1},{v:c+" + "+d+"i",trap:"T-02"},{v:"i"},{v:String(c)}],unit:""};
   var re=a*c-b*d, im=a*d+b*c;
   return {stem:["Expand ("+a+" + "+b+"i)("+c+" + "+d+"i).","จงกระจาย ("+a+" + "+b+"i)("+c+" + "+d+"i)"],
-    opts:[{v:re+(im>=0?" + ":" − ")+Math.abs(im)+"i",ok:1},
-          {v:(a*c+b*d)+(im>=0?" + ":" − ")+Math.abs(im)+"i",trap:"T-02"},
+    opts:[{v:num(re)+(im>=0?" + ":" − ")+Math.abs(im)+"i",ok:1},
+          {v:num(a*c+b*d)+(im>=0?" + ":" − ")+Math.abs(im)+"i",trap:"T-02"},
           {v:(a*c)+" + "+(b*d)+"i",trap:"T-02"},
-          {v:re+(im>=0?" − ":" + ")+Math.abs(im)+"i"}],unit:""};
+          {v:num(re)+(im>=0?" − ":" + ")+Math.abs(im)+"i"}],unit:""};
 },
 "M-03": function(sf){
   var P=[{a:3,b:4,m:5},{a:6,b:8,m:10},{a:5,b:12,m:13},{a:8,b:15,m:17}];
@@ -286,16 +291,16 @@ gen:{
     opts:[{v:String(p.b),ok:1},{v:String(p.m-p.a),trap:"T-02"},{v:String(p.m+p.a)},{v:String(p.a)}],unit:""};
   return {stem:["Find |z| for z = "+p.a+" + "+p.b+"i.","จงหา |z| ของ z = "+p.a+" + "+p.b+"i"],
     opts:[{v:String(p.m),ok:1},{v:String(p.a+p.b),trap:"T-02"},
-          {v:fmt2(Math.abs(p.a*p.a-p.b*p.b)),trap:"T-02"},{v:String(p.a*p.b)}],unit:""};
+          {v:String(Math.abs(p.a*p.a-p.b*p.b)),trap:"T-02"},{v:String(p.a*p.b)}],unit:""};
 },
 "M-04": function(sf){
   var r1=pick([2,3,4]), r2=pick([2,5,6]), t1=pick([30,45,60]), t2=pick([20,30,90]);
   if(sf==="S-04") return {stem:["Multiplying two complex numbers in polar form does what to the arguments?",
-                                "การคูณจำนวนเชิงซ้อนสองตัวในรูปเชิงขั้วทำอะไรกับอาร์กิวเมนต์"],
+                                "เมื่อคูณจำนวนเชิงซ้อนสองจำนวนในรูปเชิงขั้ว อาร์กิวเมนต์เป็นอย่างไร"],
     opts:[{v:["Adds them","บวกกัน"],ok:1},{v:["Multiplies them","คูณกัน"],trap:"T-04"},
           {v:["Leaves them unchanged","ไม่เปลี่ยน"],trap:"T-04"},{v:["Subtracts them","ลบกัน"],trap:"T-04"}],unit:""};
   if(sf==="S-03") return {stem:["What does multiplying by i do to a point on the Argand plane?",
-                                "การคูณด้วย i ทำอะไรกับจุดบนระนาบเชิงซ้อน"],
+                                "การคูณด้วย i ทำให้จุดบนระนาบเชิงซ้อนเปลี่ยนไปอย่างไร"],
     opts:[{v:["Rotates it 90° anticlockwise","หมุน 90° ทวนเข็มนาฬิกา"],ok:1},
           {v:["Doubles its modulus","เพิ่มมอดูลัสเป็นสองเท่า"],trap:"T-04"},
           {v:["Reflects it in the real axis","สะท้อนในแกนจริง"],trap:"T-04"},
@@ -311,16 +316,16 @@ gen:{
   var p=pick([1,2,3]), q=pick([1,2,3]);
   var b=2*p, c=p*p+q*q;
   if(sf==="S-04") return {stem:["A real quadratic has one root 2 + 5i. What is the other?",
-                                "สมการกำลังสองจำนวนจริงมีรากหนึ่งเป็น 2 + 5i อีกรากคืออะไร"],
+                                "สมการกำลังสองที่สัมประสิทธิ์เป็นจำนวนจริงมีรากหนึ่งเป็น 2 + 5i อีกรากหนึ่งคืออะไร"],
     opts:[{v:"2 − 5i",ok:1},{v:"−2 + 5i",trap:"T-03"},{v:"−2 − 5i",trap:"T-03"},
           {v:["There is no other root","ไม่มีรากอื่น"],trap:"T-03"}],unit:""};
   if(sf==="S-03") return {stem:["How many roots does a degree-5 polynomial have over the complex numbers?",
-                                "พหุนามดีกรี 5 มีรากกี่ตัวบนจำนวนเชิงซ้อน"],
+                                "พหุนามดีกรี 5 มีรากกี่รากบนจำนวนเชิงซ้อน"],
     opts:[{v:"5",ok:1},{v:["It depends on the discriminant","ขึ้นกับดิสคริมิแนนต์"],trap:"T-03"},
           {v:"1"},{v:"10"}],unit:""};
   return {stem:["Solve x² − "+b+"x + "+c+" = 0.","จงแก้ x² − "+b+"x + "+c+" = 0"],
     opts:[{v:p+" ± "+q+"i",ok:1},{v:p+" + "+q+"i",trap:"T-03"},
-          {v:(-p)+" ± "+q+"i",trap:"T-03"},{v:["No solution","ไม่มีคำตอบ"],trap:"T-03"}],unit:""};
+          {v:"−"+p+" ± "+q+"i",trap:"T-03"},{v:["No solution","ไม่มีคำตอบ"],trap:"T-03"}],unit:""};
 }
 }
 };

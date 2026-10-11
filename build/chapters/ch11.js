@@ -4,7 +4,7 @@ kicker:["Physics · Chapter 11","ฟิสิกส์ · บทที่ 11"],
 title:["Ray Optics","แสงเชิงรังสี"],
 mapTitle:["When light can be drawn as lines","เมื่อแสงเขียนเป็นเส้นได้"],
 lede:["Whenever the objects light meets are far larger than its wavelength, the wave nature stops mattering and light can be treated as straight lines. Every mirror, lens and eye is designed in that approximation.",
-      "เมื่อใดที่วัตถุที่แสงพบมีขนาดใหญ่กว่าความยาวคลื่นมาก ความเป็นคลื่นก็หมดความสำคัญ และเราถือว่าแสงเดินทางเป็นเส้นตรงได้ กระจก เลนส์ และดวงตาทุกชิ้นถูกออกแบบภายใต้การประมาณนี้"],
+      "เมื่อวัตถุที่แสงไปพบมีขนาดใหญ่กว่าความยาวคลื่นมาก ความเป็นคลื่นก็ไม่มีผลแล้ว และเราคิดว่าแสงเดินทางเป็นเส้นตรงได้ กระจก เลนส์ และดวงตาทุกชนิดออกแบบตามการประมาณนี้"],
 next:["→ continues in Chapter 12 · Sound","→ ต่อในบทที่ 12 · เสียง"],
 
 nodes:[
@@ -12,14 +12,14 @@ nodes:[
   title:["Reflection","การสะท้อน"],
   body:[["The angle of incidence equals the angle of reflection, both measured from the normal rather than from the surface. Measuring from the surface is a small habit that produces consistently wrong answers.",
          "A plane mirror gives an image as far behind the glass as the object is in front, the same size, upright, and virtual — no light actually reaches where it appears to be."],
-        ["มุมตกกระทบเท่ากับมุมสะท้อน โดยวัดจากเส้นปกติไม่ใช่จากผิว การวัดจากผิวเป็นนิสัยเล็กๆ ที่ให้คำตอบผิดอย่างสม่ำเสมอ",
-         "กระจกเงาราบให้ภาพอยู่หลังกระจกเป็นระยะเท่ากับที่วัตถุอยู่หน้ากระจก ขนาดเท่าเดิม หัวตั้ง และเป็นภาพเสมือน ไม่มีแสงไปถึงตำแหน่งที่ภาพปรากฏจริงๆ"]],
+        ["มุมตกกระทบเท่ากับมุมสะท้อน โดยวัดจากเส้นปกติ ไม่ใช่วัดจากผิว การวัดจากผิวเป็นนิสัยเล็กๆ ที่ทำให้ตอบผิดซ้ำแล้วซ้ำเล่า",
+         "กระจกเงาราบให้ภาพอยู่หลังกระจกเป็นระยะเท่ากับที่วัตถุอยู่หน้ากระจก ภาพมีขนาดเท่าวัตถุ หัวตั้ง และเป็นภาพเสมือน เพราะจริงๆ แล้วไม่มีแสงไปถึงตำแหน่งที่เห็นภาพ"]],
   formula:["θ_incidence = θ_reflection","θ_incidence = θ_reflection"],
   flabel:["Both measured from the normal","วัดจากเส้นปกติทั้งคู่"],
   viz:"bars",
   vizcfg:{
     title:["THE ONE LAW THAT NEVER BENDS","กฎเดียวที่ไม่เคยเปลี่ยน"],
-    ylab:["degrees from the normal","องศาจากเส้นแนวฉาก"],
+    ylab:["degrees from the normal","องศาจากเส้นปกติ"],
     ctrls:[
       {k:"i", lab:["Angle of incidence","มุมตกกระทบ"], min:0, max:89, step:1, def:35, unit:"°"},
       {k:"rough", lab:["",""], opts:[["smooth","ผิวเรียบ"], ["rough surface","ผิวขรุขระ"]], min:0, def:0, unit:""}
@@ -28,25 +28,25 @@ nodes:[
       {lab:["Angle of incidence","มุมตกกระทบ"], f:function(S){ return S.p.i+"°"; }},
       {lab:["Angle of reflection","มุมสะท้อน"],  f:function(S){ return S.p.i+"°"; }},
       {lab:["Measured from","วัดจาก"], f:function(){
-        return L()?"เส้นแนวฉาก ไม่ใช่จากผิว":"the normal, never from the surface"; }},
+        return L()?"เส้นปกติ ไม่ใช่ผิวกระจก":"the normal, never from the surface"; }},
       {lab:["Kind of reflection","ชนิดการสะท้อน"], f:function(S){
-        return S.p.rough===0 ? (L()?"สะท้อนแบบราบเรียบ — เกิดภาพ":"specular — you get an image")
-                             : (L()?"สะท้อนแบบกระจาย — เห็นวัตถุแต่ไม่เห็นภาพ":"diffuse — you see the object, not an image"); }}
+        return S.p.rough===0 ? (L()?"สะท้อนแบบเรียบ — เกิดภาพ":"specular — you get an image")
+                             : (L()?"สะท้อนแบบกระจาย — เห็นวัตถุ แต่ไม่เกิดภาพ":"diffuse — you see the object, not an image"); }}
     ],
     bars:[
       {lab:["Incidence","ตกกระทบ"], f:function(p){ return p.i; }, col:"accent"},
       {lab:["Reflection","สะท้อน"],  f:function(p){ return p.i; }, col:"good"},
       {lab:["From the surface","วัดจากผิว"], f:function(p){ return 90-p.i; }, col:"faint"}
     ],
-    note:["the grey bar is the angle people quote by mistake — always use the normal","แถบสีเทาคือมุมที่คนมักตอบผิด ให้ใช้เส้นแนวฉากเสมอ"]
+    note:["the grey bar is the angle people quote by mistake — always use the normal","แถบสีเทาคือมุมที่คนมักตอบผิด จำไว้ว่าต้องวัดจากเส้นปกติเสมอ"]
   } },
 
 { id:"refraction", x:100, y:150, requires:["reflection"], methods:["M-02","M-06"],
   title:["Refraction","การหักเห"],
   body:[["Light changes speed when it enters a new medium, and that speed change bends it. The refractive index n = c/v measures the slowing, and Snell's law n₁ sin θ₁ = n₂ sin θ₂ measures the bending.",
          "Entering a denser medium slows the light and bends it towards the normal. Inverting the ratio is trap T-01 — check the direction of bending against physical sense before trusting the arithmetic."],
-        ["แสงเปลี่ยนอัตราเร็วเมื่อเข้าสู่ตัวกลางใหม่ และการเปลี่ยนอัตราเร็วนั้นทำให้มันเบน ดัชนีหักเห n = c/v วัดการช้าลง และกฎสเนลล์ n₁ sin θ₁ = n₂ sin θ₂ วัดการเบน",
-         "การเข้าสู่ตัวกลางที่หนาแน่นกว่าทำให้แสงช้าลงและเบนเข้าหาเส้นปกติ การกลับอัตราส่วนคือกับดัก T-01 ให้ตรวจทิศการเบนกับสามัญสำนึกทางฟิสิกส์ก่อนเชื่อผลการคำนวณ"]],
+        ["เมื่อแสงเข้าสู่ตัวกลางใหม่ อัตราเร็วจะเปลี่ยน และนั่นเองที่ทำให้แสงเบน ดัชนีหักเห n = c/v บอกว่าแสงช้าลงเท่าใด ส่วนกฎของสเนลล์ n₁ sin θ₁ = n₂ sin θ₂ บอกว่าแสงเบนเท่าใด",
+         "เมื่อแสงเข้าสู่ตัวกลางที่หนาแน่นกว่า แสงจะช้าลงและเบนเข้าหาเส้นปกติ ถ้ากลับอัตราส่วนจะตกกับดัก T-01 ก่อนเชื่อผลคำนวณ ให้ดูก่อนว่าทิศที่เบนสมเหตุสมผลทางฟิสิกส์หรือไม่"]],
   formula:["n = c/v        n₁ sin θ₁ = n₂ sin θ₂","n = c/v        n₁ sin θ₁ = n₂ sin θ₂"],
   flabel:["Denser medium · bends towards the normal","ตัวกลางหนาแน่นกว่า · เบนเข้าหาเส้นปกติ"],
   viz:"plot",
@@ -67,26 +67,26 @@ nodes:[
     readouts:[
       {lab:["Angle of refraction","มุมหักเห"], f:function(S){
         var p=S.p, s=p.n1*Math.sin(p.i*Math.PI/180)/p.n2;
-        return s>1 ? (L()?"ไม่มี — สะท้อนกลับหมด":"none — total internal reflection")
-                   : fmt2(Math.asin(s)*180/Math.PI)+"°"; }},
-      {lab:["Bends towards","หักเหเข้าหา"], f:function(S){
-        return S.p.n2>S.p.n1 ? (L()?"เส้นแนวฉาก — เข้าสู่ตัวกลางหนาแน่นกว่า":"the normal — entering a denser medium")
-             : S.p.n2<S.p.n1 ? (L()?"ออกจากเส้นแนวฉาก":"away from the normal")
-             : (L()?"ไม่หักเห":"not at all"); }},
+        return s>1 ? (L()?"ไม่มี — แสงสะท้อนกลับหมด":"none — total internal reflection")
+                   : num(Math.asin(s)*180/Math.PI)+"°"; }},
+      {lab:["Bends towards","แสงเบนไปทาง"], f:function(S){
+        return S.p.n2>S.p.n1 ? (L()?"เข้าหาเส้นปกติ — เพราะเข้าสู่ตัวกลางที่หนาแน่นกว่า":"the normal — entering a denser medium")
+             : S.p.n2<S.p.n1 ? (L()?"ออกจากเส้นปกติ":"away from the normal")
+             : (L()?"ไม่เบนเลย":"not at all"); }},
       {lab:["Speed in medium 2","อัตราเร็วในตัวกลางที่ 2"], f:function(S){
-        return fmt2(3e8/S.p.n2/1e8)+" × 10⁸ m/s"; }},
-      {lab:["Frequency change","การเปลี่ยนความถี่"], f:function(){
-        return L()?"ไม่มีเลย — ความยาวคลื่นเปลี่ยนแทน":"none at all — the wavelength changes instead"; }}
+        return un(3e8/S.p.n2,"m/s"); }},
+      {lab:["Frequency change","ความถี่เปลี่ยนไหม"], f:function(){
+        return L()?"ไม่เปลี่ยนเลย — ความยาวคลื่นเปลี่ยนแทน":"none at all — the wavelength changes instead"; }}
     ],
-    note:["the curve flattens at 90° once total internal reflection takes over","เส้นโค้งแบนที่ 90° เมื่อการสะท้อนกลับหมดเข้ามาแทน"]
+    note:["the curve flattens at 90° once total internal reflection takes over","เมื่อเกิดการสะท้อนกลับหมด เส้นโค้งจะแบนราบอยู่ที่ 90°"]
   } },
 
 { id:"tir", x:370, y:150, requires:["refraction"], methods:["M-03"],
   title:["Total internal reflection","การสะท้อนกลับหมด"],
   body:[["Going from a denser medium to a rarer one, the refracted ray bends away from the normal. Past a certain incident angle it would have to bend beyond 90°, which is impossible — so none of it escapes and all of it reflects.",
          "That angle is the critical angle, sin θc = n₂/n₁, and it only exists when n₁ > n₂. Looking for a critical angle going into a denser medium is trap T-02. Optical fibres are this effect used deliberately."],
-        ["เมื่อเดินทางจากตัวกลางหนาแน่นกว่าไปหาที่เบาบางกว่า รังสีหักเหจะเบนออกจากเส้นปกติ เลยมุมตกกระทบค่าหนึ่งไป มันจะต้องเบนเกิน 90° ซึ่งเป็นไปไม่ได้ จึงไม่มีแสงออกไปเลยและสะท้อนกลับทั้งหมด",
-         "มุมนั้นคือมุมวิกฤต sin θc = n₂/n₁ และมีอยู่เฉพาะเมื่อ n₁ > n₂ การหามุมวิกฤตขณะเข้าสู่ตัวกลางที่หนาแน่นกว่าคือกับดัก T-02 เส้นใยนำแสงคือการใช้ปรากฏการณ์นี้อย่างจงใจ"]],
+        ["เมื่อแสงเดินทางจากตัวกลางที่หนาแน่นกว่าไปสู่ตัวกลางที่เบาบางกว่า รังสีหักเหจะเบนออกจากเส้นปกติ ถ้ามุมตกกระทบมากกว่าค่าหนึ่ง รังสีจะต้องเบนเกิน 90° ซึ่งเป็นไปไม่ได้ แสงจึงออกไปไม่ได้เลยและสะท้อนกลับทั้งหมด",
+         "มุมค่านั้นคือมุมวิกฤต sin θc = n₂/n₁ ซึ่งมีได้เฉพาะเมื่อ n₁ > n₂ การหามุมวิกฤตตอนแสงเข้าสู่ตัวกลางที่หนาแน่นกว่าคือกับดัก T-02 เส้นใยนำแสงใช้ปรากฏการณ์นี้โดยตั้งใจ"]],
   formula:["sin θc = n₂ / n₁ ,  n₁ > n₂","sin θc = n₂ / n₁ ,  n₁ > n₂"],
   flabel:["Dense to rare only","จากหนาแน่นไปเบาบางเท่านั้น"],
   viz:"numline",
@@ -94,23 +94,23 @@ nodes:[
     title:["WHICH ANGLES ESCAPE, AND WHICH DO NOT","มุมใดออกไปได้ และมุมใดออกไม่ได้"],
     min:0, max:90,
     ctrls:[
-      {k:"n1", lab:["n inside","n ของตัวกลางใน"],  min:1.1, max:2.5, step:.05, def:1.5, unit:""},
-      {k:"n2", lab:["n outside","n ของตัวกลางนอก"], min:1, max:2.4, step:.05, def:1, unit:""},
+      {k:"n1", lab:["n inside","n ตัวกลางด้านใน"],  min:1.1, max:2.5, step:.05, def:1.5, unit:""},
+      {k:"n2", lab:["n outside","n ตัวกลางด้านนอก"], min:1, max:2.4, step:.05, def:1, unit:""},
       {k:"i",  lab:["Angle of incidence","มุมตกกระทบ"], min:0, max:89, step:1, def:30, unit:"°"}
     ],
     readouts:[
       {lab:["Critical angle","มุมวิกฤต"], f:function(S){
         var p=S.p;
-        return p.n2>=p.n1 ? (L()?"ไม่มี — ต้องออกจากตัวกลางหนาแน่นกว่า":"none — you must go dense to less dense")
-                          : fmt2(Math.asin(p.n2/p.n1)*180/Math.PI)+"°"; }},
+        return p.n2>=p.n1 ? (L()?"ไม่มี — แสงต้องออกจากตัวกลางที่หนาแน่นกว่า":"none — you must go dense to less dense")
+                          : num(Math.asin(p.n2/p.n1)*180/Math.PI)+"°"; }},
       {lab:["What happens","เกิดอะไรขึ้น"], f:function(S){
         var p=S.p;
         if(p.n2>=p.n1) return L()?"หักเหออกไปเสมอ":"it always refracts out";
         var c=Math.asin(p.n2/p.n1)*180/Math.PI;
         return p.i<c ? (L()?"หักเหออกไปได้":"refracts out") : (L()?"สะท้อนกลับหมด":"totally internally reflected"); }},
-      {lab:["Needs which direction?","ต้องเดินทางทิศใด"], f:function(){
-        return L()?"จากหนาแน่นมากไปหาหนาแน่นน้อย เท่านั้น":"dense to less dense, only"; }},
-      {lab:["Used in","ใช้ใน"], f:function(){
+      {lab:["Needs which direction?","แสงต้องไปทางไหน"], f:function(){
+        return L()?"จากตัวกลางที่หนาแน่นกว่าไปเบาบางกว่าเท่านั้น":"dense to less dense, only"; }},
+      {lab:["Used in","นำไปใช้ใน"], f:function(){
         return L()?"ใยแก้วนำแสง ปริซึมกล้องส่องทางไกล เพชร":"optical fibres, binocular prisms, diamonds"; }}
     ],
     regions:function(p){
@@ -120,27 +120,27 @@ nodes:[
               {a:c,b:90,col:"accent",lab:["total internal reflection","สะท้อนกลับหมด"]}];
     },
     points:function(p){
-      var pts=[{v:p.i, lab:["your ray","รังสีของคุณ"], col:"warn"}];
+      var pts=[{v:p.i, lab:["your ray","รังสีของเรา"], col:"warn"}];
       if(p.n2<p.n1) pts.push({v:Math.asin(p.n2/p.n1)*180/Math.PI, lab:["critical angle","มุมวิกฤต"], col:"ink"});
       return pts;
     },
-    note:["raise n outside towards n inside and the escape window widens until it swallows everything","เพิ่ม n ด้านนอกเข้าใกล้ n ด้านใน หน้าต่างที่ออกได้จะกว้างขึ้นจนกลืนทุกมุม"]
+    note:["raise n outside towards n inside and the escape window widens until it swallows everything","ลองเพิ่ม n ด้านนอกให้ใกล้ n ด้านใน ช่วงมุมที่แสงออกได้จะกว้างขึ้นจนครอบคลุมทุกมุม"]
   },
   guide:[
     {say:["Glass to air. Shallow angles escape, but past the critical angle the light is trapped completely.",
-          "จากแก้วสู่อากาศ มุมน้อยออกไปได้ แต่เลยมุมวิกฤตไปแสงถูกกักไว้ทั้งหมด"], set:{n1:1.5,n2:1,i:30}},
+          "จากแก้วสู่อากาศ ถ้ามุมเล็ก แสงออกไปได้ แต่พอเลยมุมวิกฤต แสงจะติดอยู่ข้างในทั้งหมด"], set:{n1:1.5,n2:1,i:30}},
     {say:["Push the ray past the critical angle and it lands in the red zone — none of it gets out.",
-          "ดันรังสีให้เลยมุมวิกฤต มันจะตกในโซนสีแดง ไม่มีแสงออกไปได้เลย"], set:{n1:1.5,n2:1,i:60}},
+          "ปรับรังสีให้เลยมุมวิกฤต รังสีจะอยู่ในโซนสีแดง และไม่มีแสงออกไปได้เลย"], set:{n1:1.5,n2:1,i:60}},
     {say:["A diamond has a very high n, so its critical angle is tiny — which is exactly why it sparkles.",
-          "เพชรมีค่า n สูงมาก มุมวิกฤตจึงเล็กมาก ซึ่งเป็นเหตุผลที่มันแวววาว"], set:{n1:2.4,n2:1,i:30}}
+          "เพชรมีค่า n สูงมาก มุมวิกฤตจึงเล็กมาก เพชรจึงแวววาว"], set:{n1:2.4,n2:1,i:30}}
   ] },
 
 { id:"lenses", x:235, y:248, requires:["refraction"], methods:["M-04"],
   title:["Lenses","เลนส์"],
   body:[["A converging lens brings parallel rays to a focus a distance f beyond it. Two rays are enough to locate any image: one arriving parallel to the axis leaves through the focus, and one through the centre carries straight on undeviated.",
          "The lens equation 1/f = 1/s + 1/s' does the same job arithmetically. Note that the reciprocals add — adding f, s and s' directly is trap T-04."],
-        ["เลนส์นูนรวมรังสีขนานให้ไปตัดกันที่ระยะ f หลังเลนส์ ใช้เพียงสองรังสีก็ระบุตำแหน่งภาพได้ รังสีที่มาขนานแกนจะออกผ่านจุดโฟกัส และรังสีที่ผ่านจุดกึ่งกลางจะทะลุตรงไปไม่เบน",
-         "สมการเลนส์ 1/f = 1/s + 1/s' ทำงานเดียวกันด้วยการคำนวณ สังเกตว่าเป็นการบวกส่วนกลับ การบวก f, s และ s' ตรงๆ คือกับดัก T-04"]],
+        ["เลนส์นูนรวมรังสีขนานให้ไปตัดกันที่ระยะ f หลังเลนส์ แค่สองรังสีก็หาตำแหน่งภาพได้แล้ว รังสีที่ขนานกับแกนจะออกจากเลนส์ผ่านจุดโฟกัส ส่วนรังสีที่ผ่านจุดกึ่งกลางเลนส์จะทะลุไปตรงๆ โดยไม่เบน",
+         "สมการเลนส์ 1/f = 1/s + 1/s' ใช้หาคำตอบเดียวกันด้วยการคำนวณ ให้สังเกตว่าเราบวกส่วนกลับ ถ้าบวก f, s และ s' ตรงๆ จะตกกับดัก T-04"]],
   formula:["1/f = 1/s + 1/s'","1/f = 1/s + 1/s'"],
   flabel:["Reciprocals, not the values","บวกส่วนกลับ ไม่ใช่บวกค่า"],
   viz:{
@@ -152,14 +152,14 @@ nodes:[
     ],
     readouts:[
       {lab:["Image distance s'","ระยะภาพ s'"], f:function(S){
-        var d=1/S.p.f-1/S.p.s; return Math.abs(d)<1e-6 ? "∞" : fmt(1/d)+" cm"; }},
+        var d=1/S.p.f-1/S.p.s; return Math.abs(d)<1e-6 ? "∞" : un(1/d,"cm"); }},
       {lab:["Magnification m","กำลังขยาย m"], f:function(S){
-        var d=1/S.p.f-1/S.p.s; return Math.abs(d)<1e-6 ? "∞" : fmt(-(1/d)/S.p.s); }},
+        var d=1/S.p.f-1/S.p.s; return Math.abs(d)<1e-6 ? "∞" : num(-(1/d)/S.p.s); }},
       {lab:["Image","ภาพ"], f:function(S){
         var d=1/S.p.f-1/S.p.s;
         if(Math.abs(d)<1e-6) return L()?"ไม่เกิดภาพ":"none";
         var sp=1/d;
-        return sp>0 ? (L()?"จริง หัวกลับ":"real, inverted") : (L()?"เสมือน หัวตั้ง":"virtual, upright"); }}
+        return sp>0 ? (L()?"ภาพจริง หัวกลับ":"real, inverted") : (L()?"ภาพเสมือน หัวตั้ง":"virtual, upright"); }}
     ],
     draw:function(S,o){
       var f=S.p.f, s=S.p.s, ho=S.p.h;
@@ -172,7 +172,7 @@ nodes:[
       for(var c=-70;c<=60;c+=10){
         var px=LX+c*sc; if(px<24||px>538) continue;
         o.push('<line x1="'+px+'" y1="'+AY+'" x2="'+px+'" y2="'+(AY+6)+'" stroke="var(--ink-faint)" stroke-width="1"/>');
-        if(c%20===0) o.push('<text x="'+px+'" y="'+(AY+19)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9.5" text-anchor="middle">'+c+'</text>');
+        if(c%20===0) o.push('<text x="'+px+'" y="'+(AY+19)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9.5" text-anchor="middle">'+tk(c)+'</text>');
       }
       o.push('<text x="538" y="'+(AY+19)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">cm</text>');
       /* the lens */
@@ -208,26 +208,26 @@ nodes:[
         /* dashed back-extensions showing where the rays appear to come from */
         o.push('<line x1="'+LX+'" y1="'+oy+'" x2="'+vx+'" y2="'+vy+'" stroke="var(--warn)" stroke-width="1" stroke-dasharray="3 3"/>');
       }
-      o.push('<text x="30" y="288" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["object — black    rays — red    image — green real / amber virtual","วัตถุ — ดำ    รังสี — แดง    ภาพ — เขียวคือภาพจริง / เหลืองอำพันคือภาพเสมือน"])+'</text>');
+      o.push('<text x="30" y="288" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["object — black    rays — red    image — green real / amber virtual","วัตถุ — ดำ    รังสี — แดง    ภาพจริง — เขียว    ภาพเสมือน — เหลืองอำพัน"])+'</text>');
     }
   },
   guide:[
     {say:["Object well outside the focus. Two red rays cross beyond the lens and the green image is real and inverted.",
-          "วัตถุอยู่นอกจุดโฟกัสมาก รังสีแดงสองเส้นตัดกันหลังเลนส์ ภาพสีเขียวเป็นภาพจริงหัวกลับ"], set:{f:15,s:40,h:6}},
+          "วัตถุอยู่ไกลจากจุดโฟกัสมาก รังสีสีแดงสองเส้นตัดกันหลังเลนส์ ภาพสีเขียวเป็นภาพจริงหัวกลับ"], set:{f:15,s:40,h:6}},
     {say:["Slide the object towards the focus. The image races away and grows — at s = f it would be infinitely far.",
-          "เลื่อนวัตถุเข้าหาจุดโฟกัส ภาพวิ่งออกไปไกลและใหญ่ขึ้น ที่ s = f ภาพจะอยู่ไกลอนันต์"], set:{f:15,s:18,h:6}},
+          "เลื่อนวัตถุเข้าหาจุดโฟกัส ภาพจะวิ่งห่างออกไปและใหญ่ขึ้น เมื่อ s = f ภาพจะอยู่ไกลอนันต์"], set:{f:15,s:18,h:6}},
     {say:["Now bring it inside the focus. The rays diverge, so the image goes virtual, upright and magnified — a magnifying glass.",
-          "ทีนี้เลื่อนเข้ามาในจุดโฟกัส รังสีบานออก ภาพจึงกลายเป็นภาพเสมือน หัวตั้ง และขยาย นี่คือแว่นขยาย"], set:{f:15,s:9,h:6}},
+          "ทีนี้เลื่อนวัตถุเข้ามาในระยะโฟกัส รังสีจะบานออก ภาพจึงเป็นภาพเสมือน หัวตั้ง และขยาย นี่คือหลักของแว่นขยาย"], set:{f:15,s:9,h:6}},
     {say:["Shorten the focal length instead. A stronger lens bends the rays harder and pulls the image in closer.",
-          "ลองลดความยาวโฟกัสแทน เลนส์ที่กำลังสูงกว่าหักเหรังสีมากกว่า และดึงภาพเข้ามาใกล้ขึ้น"], set:{f:8,s:20,h:6}}
+          "ลองลดความยาวโฟกัสแทน เลนส์ยิ่งแรงก็ยิ่งหักเหรังสีมาก และดึงภาพเข้ามาใกล้ขึ้น"], set:{f:8,s:20,h:6}}
   ]},
 
 { id:"images", x:235, y:346, requires:["lenses","tir"], methods:["M-05"],
   title:["Describing an image","การบรรยายภาพ"],
   body:[["Magnification is m = −s'/s, and its sign carries the orientation: negative means inverted. Its size carries the scale: |m| > 1 is enlarged.",
          "A real image has positive s' and can be caught on a screen; a virtual image has negative s' and cannot. Getting the sign convention backwards is trap T-03, and it turns every answer inside out."],
-        ["กำลังขยายคือ m = −s'/s และเครื่องหมายของมันบอกการวางตัว ค่าลบหมายถึงหัวกลับ ส่วนขนาดบอกอัตราส่วน |m| > 1 คือภาพขยาย",
-         "ภาพจริงมี s' เป็นบวกและรับบนฉากได้ ภาพเสมือนมี s' เป็นลบและรับไม่ได้ การใช้เครื่องหมายกลับด้านคือกับดัก T-03 ซึ่งทำให้คำตอบกลับตาลปัตรทั้งหมด"]],
+        ["กำลังขยายคือ m = −s'/s เครื่องหมายบอกว่าภาพหัวตั้งหรือหัวกลับ ค่าลบหมายถึงหัวกลับ ส่วนขนาดบอกว่าภาพใหญ่หรือเล็กเท่าใด |m| > 1 คือภาพขยาย",
+         "ภาพจริงมี s' เป็นบวกและรับบนฉากได้ ภาพเสมือนมี s' เป็นลบและรับบนฉากไม่ได้ ถ้าใช้เครื่องหมายสลับกันจะตกกับดัก T-03 และคำตอบจะกลับด้านไปหมด"]],
   formula:["m = −s'/s        s' > 0 real  ·  s' < 0 virtual","m = −s'/s        s' > 0 ภาพจริง  ·  s' < 0 ภาพเสมือน"],
   flabel:["Sign is orientation, size is scale","เครื่องหมายบอกการวางตัว ขนาดบอกอัตราส่วน"],
   viz:"table",
@@ -240,11 +240,11 @@ nodes:[
         return [["Do rays actually meet?","รังสีมาบรรจบจริงไหม"],["Catch it on a screen?","รับบนฉากได้ไหม"],
                 ["Orientation","การกลับหัว"],["Sign of image distance v","เครื่องหมายของ v"],
                 ["Everyday example","ตัวอย่างในชีวิตประจำวัน"]][S.p.i][L()]; }},
-      {lab:["The test that settles it","เกณฑ์ที่ตัดสินได้"], f:function(){
-        return L()?"รับบนฉากได้หรือไม่":"can you catch it on a screen"; }}
+      {lab:["The test that settles it","ใช้อะไรตัดสิน"], f:function(){
+        return L()?"รับภาพบนฉากได้หรือไม่":"can you catch it on a screen"; }}
     ],
     rows:function(p){
-      var R=[[["Rays actually meet?","รังสีบรรจบจริงไหม"],["yes","ใช่"],["no — they only appear to","ไม่ — แค่ดูเหมือนบรรจบ"]],
+      var R=[[["Rays actually meet?","รังสีบรรจบจริงไหม"],["yes","ใช่"],["no — they only appear to","ไม่ — แค่ดูเหมือนมาบรรจบ"]],
              [["On a screen?","รับบนฉาก"],["yes","ได้"],["never","ไม่ได้เลย"]],
              [["Orientation","การวางตัว"],["inverted","หัวกลับ"],["upright","หัวตั้ง"]],
              [["Image distance v","ระยะภาพ v"],["positive","เป็นบวก"],["negative","เป็นลบ"]],
@@ -252,7 +252,7 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"ink":(j===1?"good":"warn")}; }); });
     },
-    note:["a mirror image is virtual — that is why no screen behind the glass ever shows it","ภาพในกระจกเป็นภาพเสมือน จึงไม่มีฉากใดหลังกระจกที่รับภาพนั้นได้"]
+    note:["a mirror image is virtual — that is why no screen behind the glass ever shows it","ภาพในกระจกเป็นภาพเสมือน จึงเอาฉากไปรับภาพหลังกระจกไม่ได้"]
   } }
 ],
 
@@ -266,10 +266,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["Snell's law was inverted. Light entering a denser medium bends TOWARDS the normal.","กลับด้านกฎสเนลล์ แสงที่เข้าสู่ตัวกลางหนาแน่นกว่าจะเบนเข้าหาเส้นปกติ"],
-"T-02":["A critical angle exists only going from dense to rare. There is none in the other direction.","มุมวิกฤตมีเฉพาะตอนไปจากตัวกลางหนาแน่นสู่เบาบาง ทิศตรงข้ามไม่มี"],
-"T-03":["Sign convention. A virtual image has a negative image distance and a positive magnification.","เครื่องหมายผิด ภาพเสมือนมีระยะภาพเป็นลบและกำลังขยายเป็นบวก"],
-"T-04":["The lens equation adds reciprocals. You cannot add f, s and s' directly.","สมการเลนส์บวกส่วนกลับ จะบวก f, s และ s' ตรงๆ ไม่ได้"]
+"T-01":["Snell's law was inverted. Light entering a denser medium bends TOWARDS the normal.","ใช้กฎของสเนลล์กลับด้าน แสงที่เข้าสู่ตัวกลางที่หนาแน่นกว่าจะเบนเข้าหาเส้นปกติ"],
+"T-02":["A critical angle exists only going from dense to rare. There is none in the other direction.","มุมวิกฤตมีเฉพาะตอนแสงเดินทางจากตัวกลางที่หนาแน่นกว่าไปสู่ตัวกลางที่เบาบางกว่า ส่วนทิศตรงข้ามไม่มีมุมวิกฤต"],
+"T-03":["Sign convention. A virtual image has a negative image distance and a positive magnification.","ใช้เครื่องหมายผิด ภาพเสมือนมีระยะภาพเป็นลบ และกำลังขยายเป็นบวก"],
+"T-04":["The lens equation adds reciprocals. You cannot add f, s and s' directly.","สมการเลนส์เป็นการบวกส่วนกลับ จะบวก f, s และ s' ตรงๆ ไม่ได้"]
 },
 
 gen:{
@@ -286,7 +286,7 @@ gen:{
   var n=pick([1.33,1.5,1.6]), th=pick([30,45,60]);
   var s1={30:0.5,45:0.707,60:0.866}[th], s2=s1/n;
   if(sf==="S-04") return {stem:["Light passes from air into glass. Which way does it bend?",
-                                "แสงผ่านจากอากาศเข้าสู่แก้ว มันเบนไปทางใด"],
+                                "แสงผ่านจากอากาศเข้าสู่แก้ว แสงจะเบนไปทางใด"],
     opts:[{v:["Towards the normal","เข้าหาเส้นปกติ"],ok:1},{v:["Away from the normal","ออกจากเส้นปกติ"],trap:"T-01"},
           {v:["It does not bend","ไม่เบน"]},{v:["It reflects entirely","สะท้อนทั้งหมด"]}],unit:""};
   if(sf==="S-05") return {stem:["Light slows to "+fmt(3e8/n/1e8)+" × 10⁸ m/s in a medium. Find its refractive index.",
@@ -300,8 +300,8 @@ gen:{
   var n=pick([1.33,1.5,1.6,2.0]);
   var sc=1/n;
   if(sf==="S-04") return {stem:["Light travels from water into air. Under what condition can total internal reflection occur?",
-                                "แสงเดินทางจากน้ำสู่อากาศ เงื่อนไขใดที่ทำให้เกิดการสะท้อนกลับหมด"],
-    opts:[{v:["The incident angle exceeds the critical angle","มุมตกกระทบเกินมุมวิกฤต"],ok:1},
+                                "แสงเดินทางจากน้ำสู่อากาศ ต้องมีเงื่อนไขใดจึงเกิดการสะท้อนกลับหมด"],
+    opts:[{v:["The incident angle exceeds the critical angle","มุมตกกระทบมากกว่ามุมวิกฤต"],ok:1},
           {v:["It travels from air into water instead","เดินทางจากอากาศเข้าสู่น้ำแทน"],trap:"T-02"},
           {v:["The incident angle is zero","มุมตกกระทบเป็นศูนย์"]},
           {v:["It never can","เกิดไม่ได้เลย"],trap:"T-02"}],unit:""};
@@ -328,13 +328,13 @@ gen:{
   var f=pick([10,15,20]), s=pick([8,30,50]);
   var sp=1/(1/f-1/s), m=-sp/s;
   if(sf==="S-04") return {stem:["An image has magnification m = +2. What is it like?",
-                                "ภาพมีกำลังขยาย m = +2 ภาพเป็นอย่างไร"],
+                                "ภาพมีกำลังขยาย m = +2 ภาพนี้มีลักษณะอย่างไร"],
     opts:[{v:["Virtual, upright and twice the size","เสมือน หัวตั้ง และใหญ่เป็นสองเท่า"],ok:1},
           {v:["Real, inverted and twice the size","จริง หัวกลับ และใหญ่เป็นสองเท่า"],trap:"T-03"},
           {v:["Real, upright and half the size","จริง หัวตั้ง และเล็กลงครึ่งหนึ่ง"],trap:"T-03"},
           {v:["Virtual, inverted and half the size","เสมือน หัวกลับ และเล็กลงครึ่งหนึ่ง"],trap:"T-03"}],unit:""};
   if(sf==="S-03") return {stem:["An object sits inside the focal length of a converging lens. Describe the image.",
-                                "วางวัตถุไว้ในระยะโฟกัสของเลนส์นูน จงบรรยายภาพ"],
+                                "วางวัตถุไว้ในระยะโฟกัสของเลนส์นูน จงบอกลักษณะของภาพ"],
     opts:[{v:["Virtual, upright, enlarged","เสมือน หัวตั้ง ขยาย"],ok:1},
           {v:["Real, inverted, enlarged","จริง หัวกลับ ขยาย"],trap:"T-03"},
           {v:["Real, upright, reduced","จริง หัวตั้ง ย่อ"],trap:"T-03"},

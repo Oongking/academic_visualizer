@@ -203,6 +203,8 @@ __PAGENAV__
 (function(){
   var K="lp.bridge.v1", st={lang:"en",theme:null};
   try{ var r=localStorage.getItem(K); if(r) st=JSON.parse(r); }catch(e){}
+  /* the language is shared by every page, so it is chosen once */
+  try{ var gl=localStorage.getItem("edu-lang"); if(gl==="en"||gl==="th") st.lang=gl; }catch(e){}
   function save(){ try{ localStorage.setItem(K,JSON.stringify(st)); }catch(e){} }
   function apply(){
     document.documentElement.setAttribute("lang",st.lang);
@@ -211,7 +213,7 @@ __PAGENAV__
     document.getElementById("langBtn").textContent = st.lang==="en"?"ไทย":"English";
   }
   document.getElementById("langBtn").addEventListener("click",function(){
-    st.lang = st.lang==="en"?"th":"en"; save(); apply();
+    st.lang = st.lang==="en"?"th":"en"; save(); try{ localStorage.setItem("edu-lang",st.lang); }catch(e){} apply();
   });
   apply();
 })();

@@ -1117,11 +1117,31 @@ def build_bridge(subs, css, nav=""):
     return dest, write(dest, out)
 
 
+# ---------------------------------------------------------------- engine
+
+def assemble_engine():
+    """engine.js with the stage layer and every art skin spliced in at its
+    /*@@STAGE@@*/ marker - after the visualizer library it builds on, before
+    the page code that renders labs. A skin is one file in build/skins/; adding
+    a file there is all it takes to offer a new art style. models.js, the
+    shared physics, goes first so every stage lab can reach it."""
+    engine = read(os.path.join(BUILD, "engine.js"))
+    marker = "/*@@STAGE@@*/"
+    if engine.count(marker) != 1:
+        raise ValueError("engine.js must contain exactly one %s marker" % marker)
+    skins = sorted(glob.glob(os.path.join(BUILD, "skins", "*.js")))
+    parts = [read(os.path.join(BUILD, "models.js")), read(os.path.join(BUILD, "stage.js"))] + \
+            [read(p) for p in skins]
+    return engine.replace(marker, "\n".join(parts))
+
+
 # ---------------------------------------------------------------- main
 
 def main():
     css = read(os.path.join(BUILD, "engine.css"))
-    engine = read(os.path.join(BUILD, "engine.js"))
+    # stage labs only live in chapters, so only chapters carry their styles
+    chapter_css = css + "\n" + read(os.path.join(BUILD, "stage.css"))
+    engine = assemble_engine()
     shell = read(os.path.join(BUILD, "shell.html"))
 
     manifests = sorted(glob.glob(os.path.join(BUILD, "manifest-*.json")))
@@ -1156,7 +1176,8 @@ def main():
             tt = re.search(r'title\s*:\s*\[\s*"((?:[^"\\]|\\.)*)"\s*,\s*"((?:[^"\\]|\\.)*)"', s)
             filemap[num] = ("ch%s-%s.html" % (num, slug),
                             tt.group(1) if tt else (tm.group(1) if tm else slug),
-                            tt.group(2) if tt else (tm.group(1) if tm else slug))
+                            tt.group(2) if tt else (tm.group(1) if tm else slug),
+                            f)
             stats[num] = (len(re.findall(r'\{\s*id:"[\w-]+",\s*x:', s)),
                           len(re.findall(r'\{id:"M-\d+"', s)))
 
@@ -1177,7 +1198,7 @@ def main():
         for f in todo:
             num = unquote(field(read(f), "num"))
             here = "%s/%s" % (subject, filemap[num][0]) if num in filemap else ""
-            dest, size, _, _ = build_chapter(f, css, engine, shell, filemap, order,
+            dest, size, _, _ = build_chapter(f, chapter_css, engine, shell, filemap, order,
                                              page_nav(pages, here))
             total += size
             print("  %-46s %6.1f KB" % (os.path.relpath(dest, ROOT).replace("\\", "/"), size / 1024.0))

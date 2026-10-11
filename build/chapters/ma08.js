@@ -4,7 +4,7 @@ kicker:["Mathematics · Chapter 08","คณิตศาสตร์ · บทท
 title:["Trigonometry","ตรีโกณมิติ"],
 mapTitle:["Ratios that escape the triangle","อัตราส่วนที่หลุดออกจากสามเหลี่ยม"],
 lede:["Sine and cosine start as ratios of sides in a right triangle, which caps them at 90°. The unit circle frees them: they become the coordinates of a point going round, and suddenly every angle has a value.",
-      "ไซน์และโคไซน์เริ่มต้นจากอัตราส่วนของด้านในสามเหลี่ยมมุมฉาก ซึ่งจำกัดไว้ที่ 90° วงกลมหนึ่งหน่วยปลดปล่อยมัน ทั้งสองกลายเป็นพิกัดของจุดที่วิ่งรอบวง และทันใดนั้นทุกมุมก็มีค่า"],
+      "ไซน์และโคไซน์เริ่มจากอัตราส่วนของด้านในสามเหลี่ยมมุมฉาก จึงใช้ได้แค่มุมไม่เกิน 90° วงกลมหนึ่งหน่วยปลดข้อจำกัดนี้ ไซน์กับโคไซน์กลายเป็นพิกัดของจุดที่เคลื่อนรอบวงกลม และทุกมุมก็มีค่าของมันทันที"],
 next:["→ continues in Chapter 09 · Vectors","→ ต่อในบทที่ 9 · เวกเตอร์"],
 
 nodes:[
@@ -12,8 +12,8 @@ nodes:[
   title:["The ratios","อัตราส่วนตรีโกณ"],
   body:[["In a right triangle sine is opposite over hypotenuse, cosine is adjacent over hypotenuse, tangent is opposite over adjacent. The reciprocals — cosec, sec, cot — are simply those three turned upside down, and sec pairs with cos rather than with sin, which surprises people.",
          "The exact values at 30°, 45° and 60° come from two triangles worth drawing from memory: the half-equilateral and the half-square. Radians replace degrees for anything analytic, with π radians equal to 180°; substituting degrees where radians are needed is trap T-03."],
-        ["ในสามเหลี่ยมมุมฉาก ไซน์คือด้านตรงข้ามหารด้านตรงข้ามมุมฉาก โคไซน์คือด้านประชิดหารด้านตรงข้ามมุมฉาก แทนเจนต์คือด้านตรงข้ามหารด้านประชิด ส่วนอัตราส่วนกลับ โคเซแคนต์ เซแคนต์ โคแทนเจนต์ ก็คือสามตัวนั้นกลับหัว และเซแคนต์จับคู่กับโคไซน์ไม่ใช่ไซน์ ซึ่งทำให้หลายคนแปลกใจ",
-         "ค่าที่แน่นอนที่ 30° 45° และ 60° มาจากสามเหลี่ยมสองรูปที่ควรวาดจากความจำได้ คือครึ่งสามเหลี่ยมด้านเท่าและครึ่งสี่เหลี่ยมจัตุรัส เรเดียนแทนที่องศาในงานเชิงวิเคราะห์ทุกอย่าง โดย π เรเดียนเท่ากับ 180° การแทนองศาในที่ที่ต้องใช้เรเดียนคือกับดัก T-03"]],
+        ["ในสามเหลี่ยมมุมฉาก ไซน์คือด้านตรงข้ามมุมหารด้วยด้านตรงข้ามมุมฉาก โคไซน์คือด้านประชิดมุมหารด้วยด้านตรงข้ามมุมฉาก และแทนเจนต์คือด้านตรงข้ามมุมหารด้วยด้านประชิดมุม ส่วนอัตราส่วนกลับอย่างโคเซแคนต์ เซแคนต์ และโคแทนเจนต์ ก็คือสามตัวนี้กลับเศษเป็นส่วน ที่หลายคนแปลกใจคือเซแคนต์คู่กับโคไซน์ ไม่ใช่ไซน์",
+         "ค่าที่แน่นอนของ 30° 45° และ 60° มาจากสามเหลี่ยมสองรูปที่ควรวาดได้จากความจำ คือครึ่งหนึ่งของสามเหลี่ยมด้านเท่า กับครึ่งหนึ่งของสี่เหลี่ยมจัตุรัส ในงานเชิงวิเคราะห์ใช้เรเดียนแทนองศา โดย π เรเดียนเท่ากับ 180° ถ้าแทนองศาในที่ที่ต้องใช้เรเดียนก็ตกกับดัก T-03"]],
   formula:["sin = opp/hyp    cos = adj/hyp    tan = opp/adj        π rad = 180°","sin = ข้าม/ฉาก    cos = ชิด/ฉาก    tan = ข้าม/ชิด        π rad = 180°"],
   flabel:["sec pairs with cos, not sin","sec จับคู่กับ cos ไม่ใช่ sin"],
   viz:"tri",
@@ -26,30 +26,30 @@ nodes:[
     ],
     readouts:[
       {lab:["Hypotenuse","ด้านตรงข้ามมุมฉาก"], f:function(S){
-        return fmt2(Math.sqrt(S.p.a*S.p.a+S.p.b*S.p.b)); }},
+        return num(Math.sqrt(S.p.a*S.p.a+S.p.b*S.p.b)); }},
       {lab:["sin of angle A","sin ของมุม A"], f:function(S){
-        return fmt2(S.p.a/Math.sqrt(S.p.a*S.p.a+S.p.b*S.p.b)); }},
+        return num(S.p.a/Math.sqrt(S.p.a*S.p.a+S.p.b*S.p.b)); }},
       {lab:["cos of angle A","cos ของมุม A"], f:function(S){
-        return fmt2(S.p.b/Math.sqrt(S.p.a*S.p.a+S.p.b*S.p.b)); }},
-      {lab:["tan of angle A","tan ของมุม A"], f:function(S){ return fmt2(S.p.a/S.p.b); }}
+        return num(S.p.b/Math.sqrt(S.p.a*S.p.a+S.p.b*S.p.b)); }},
+      {lab:["tan of angle A","tan ของมุม A"], f:function(S){ return num(S.p.a/S.p.b); }}
     ],
-    note:["scale both sides together and every ratio holds — that is why they depend on the angle alone","ขยายทั้งสองด้านพร้อมกัน อัตราส่วนทุกตัวคงเดิม จึงเป็นเหตุผลที่มันขึ้นกับมุมเท่านั้น"]
+    note:["scale both sides together and every ratio holds — that is why they depend on the angle alone","ขยายทั้งสองด้านพร้อมกัน อัตราส่วนทุกตัวก็ยังเท่าเดิม เพราะอย่างนี้อัตราส่วนจึงขึ้นกับมุมอย่างเดียว"]
   },
   guide:[
     {say:["The classic 3–4–5 triangle. Read the three ratios off the sides.",
-          "สามเหลี่ยม 3–4–5 คลาสสิก อ่านอัตราส่วนทั้งสามจากด้านต่างๆ"], set:{a:3,b:4}},
+          "สามเหลี่ยม 3–4–5 ที่ทุกคนรู้จัก ลองอ่านอัตราส่วนทั้งสามจากความยาวด้าน"], set:{a:3,b:4}},
     {say:["Double both sides to 6 and 8. The sides changed, but every ratio is exactly the same.",
-          "เพิ่มทั้งสองด้านเป็นสองเท่าเป็น 6 กับ 8 ด้านเปลี่ยน แต่อัตราส่วนทุกตัวเท่าเดิมพอดี"], set:{a:6,b:8}},
+          "ขยายด้านทั้งสองเป็นสองเท่า คือ 6 กับ 8 ด้านเปลี่ยนไป แต่อัตราส่วนทุกตัวเท่าเดิมเป๊ะ"], set:{a:6,b:8}},
     {say:["Now change the shape instead. Only now do the ratios move — they track the angle, not the size.",
-          "ทีนี้เปลี่ยนรูปทรงแทน ตอนนี้เท่านั้นที่อัตราส่วนขยับ มันตามมุม ไม่ใช่ตามขนาด"], set:{a:8,b:3}}
+          "ลองเปลี่ยนรูปร่างของสามเหลี่ยมแทน ตอนนี้อัตราส่วนถึงจะเปลี่ยน เพราะมันขึ้นกับมุม ไม่ใช่ขนาด"], set:{a:8,b:3}}
   ] },
 
 { id:"unit-circle", x:100, y:150, requires:["ratios"], methods:["M-02"],
   title:["The unit circle","วงกลมหนึ่งหน่วย"],
   body:[["Put a point on a circle of radius 1 at angle θ from the positive x-axis. Its x-coordinate is cos θ and its y-coordinate is sin θ. That is the whole definition, and it works for any angle at all — obtuse, reflex, negative, beyond a full turn.",
          "The signs then fall out for free. In the first quadrant both coordinates are positive, in the second only y, in the third neither, in the fourth only x — which is the ASTC rule, except now you can derive it instead of memorising it. Ignoring the quadrant is trap T-01."],
-        ["วางจุดบนวงกลมรัศมี 1 ที่มุม θ จากแกน x ด้านบวก พิกัด x ของมันคือ cos θ และพิกัด y คือ sin θ นั่นคือนิยามทั้งหมด และใช้ได้กับทุกมุม ไม่ว่ามุมป้าน มุมกลับ มุมลบ หรือเกินหนึ่งรอบ",
-         "เครื่องหมายจึงตามมาเอง ในควอดรันต์ที่หนึ่งพิกัดทั้งสองเป็นบวก ที่สองมีเพียง y ที่สามไม่มีเลย ที่สี่มีเพียง x ซึ่งคือกฎ ASTC เพียงแต่ตอนนี้เราหาเองได้แทนที่จะท่องจำ การมองข้ามควอดรันต์คือกับดัก T-01"]],
+        ["วางจุดบนวงกลมรัศมี 1 ที่มุม θ จากแกน x ด้านบวก พิกัด x ของจุดคือ cos θ และพิกัด y คือ sin θ นี่คือนิยามทั้งหมด และใช้ได้กับมุมทุกแบบ ไม่ว่าจะเป็นมุมป้าน มุมกลับ มุมลบ หรือมุมที่เกินหนึ่งรอบ",
+         "เครื่องหมายก็ตามมาเองโดยไม่ต้องท่อง ควอดรันต์ที่หนึ่งพิกัดทั้งสองเป็นบวก ควอดรันต์ที่สองเป็นบวกเฉพาะ y ควอดรันต์ที่สามไม่เป็นบวกเลย ควอดรันต์ที่สี่เป็นบวกเฉพาะ x นี่คือกฎ ASTC ต่างกันที่ตอนนี้เราหาได้เอง ไม่ต้องท่องจำ ถ้ามองข้ามควอดรันต์ก็ตกกับดัก T-01"]],
   formula:["cos θ = x        sin θ = y        on radius 1","cos θ = x        sin θ = y        บนวงรัศมี 1"],
   flabel:["Coordinates, not just ratios","เป็นพิกัด ไม่ใช่แค่อัตราส่วน"],
   viz:{
@@ -58,11 +58,11 @@ nodes:[
       {k:"th", lab:["Angle θ","มุม θ"], min:0, max:360, step:5, def:35, unit:"°"}
     ],
     readouts:[
-      {lab:["cos θ","cos θ"], f:function(S){ return fmt2(Math.cos(S.p.th*Math.PI/180)); }},
-      {lab:["sin θ","sin θ"], f:function(S){ return fmt2(Math.sin(S.p.th*Math.PI/180)); }},
+      {lab:["cos θ","cos θ"], f:function(S){ return num(Math.round((Math.cos(S.p.th*Math.PI/180))*1e9)/1e9); }},
+      {lab:["sin θ","sin θ"], f:function(S){ return num(Math.round((Math.sin(S.p.th*Math.PI/180))*1e9)/1e9); }},
       {lab:["tan θ","tan θ"], f:function(S){
         var c=Math.cos(S.p.th*Math.PI/180);
-        return Math.abs(c)<1e-6 ? (L()?"ไม่นิยาม":"undefined") : fmt2(Math.tan(S.p.th*Math.PI/180)); }},
+        return Math.abs(c)<1e-6 ? (L()?"ไม่นิยาม":"undefined") : num(Math.round((Math.tan(S.p.th*Math.PI/180))*1e9)/1e9); }},
       {lab:["Quadrant","ควอดรันต์"], f:function(S){
         var t=((S.p.th%360)+360)%360;
         var q = t<90?1 : t<180?2 : t<270?3 : 4;
@@ -96,8 +96,8 @@ nodes:[
       o.push('<line x1="'+cx+'" y1="'+cy+'" x2="'+px+'" y2="'+py+
              '" stroke="var(--accent)" stroke-width="2.4"/>');
       o.push('<circle cx="'+px+'" cy="'+py+'" r="5" fill="var(--accent)"/>');
-      o.push('<text x="'+((cx+px)/2)+'" y="'+(cy+16)+'" fill="var(--ink)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">cos θ = '+fmt2(Math.cos(th))+'</text>');
-      o.push('<text x="'+(px+8)+'" y="'+((cy+py)/2)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5">sin θ = '+fmt2(Math.sin(th))+'</text>');
+      o.push('<text x="'+((cx+px)/2)+'" y="'+(cy+16)+'" fill="var(--ink)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">cos θ = '+num(Math.round(Math.cos(th)*1e9)/1e9)+'</text>');
+      o.push('<text x="'+(px+8)+'" y="'+((cy+py)/2)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5">sin θ = '+num(Math.round(Math.sin(th)*1e9)/1e9)+'</text>');
       /* quadrant sign table, so ASTC is derived rather than recited */
       var t2=((S.p.th%360)+360)%360, q = t2<90?1 : t2<180?2 : t2<270?3 : 4;
       var rows=[["I","sin +","cos +","tan +"],["II","sin +","cos −","tan −"],
@@ -114,21 +114,21 @@ nodes:[
   },
   guide:[
     {say:["An acute angle. The red arm reaches a point whose coordinates are exactly cos θ and sin θ — both positive here.",
-          "มุมแหลม แขนสีแดงไปถึงจุดที่มีพิกัดเป็น cos θ และ sin θ พอดี ตรงนี้เป็นบวกทั้งคู่"], set:{th:35}},
+          "มุมแหลม แขนสีแดงชี้ไปที่จุดที่มีพิกัดเป็น cos θ และ sin θ พอดี และตรงนี้เป็นบวกทั้งคู่"], set:{th:35}},
     {say:["Swing past 90°. The horizontal leg crosses to the left, so cos turns negative while sin stays positive.",
-          "หมุนเลย 90° ขาแนวนอนข้ามไปทางซ้าย cos จึงกลายเป็นลบขณะที่ sin ยังเป็นบวก"], set:{th:130}},
+          "หมุนผ่าน 90° ไป ขาแนวนอนข้ามไปทางซ้าย cos จึงเป็นลบ ส่วน sin ยังเป็นบวก"], set:{th:130}},
     {say:["Third quadrant: both coordinates negative, so both sin and cos are negative — but tan, their ratio, is positive again.",
-          "ควอดรันต์ที่สาม พิกัดทั้งสองเป็นลบ sin และ cos จึงเป็นลบทั้งคู่ แต่ tan ซึ่งเป็นอัตราส่วนของทั้งสองกลับเป็นบวกอีกครั้ง"], set:{th:215}},
+          "ควอดรันต์ที่สาม พิกัดทั้งสองเป็นลบ sin กับ cos จึงเป็นลบทั้งคู่ แต่ tan เป็นอัตราส่วนของสองตัวนี้ จึงกลับเป็นบวกอีกครั้ง"], set:{th:215}},
     {say:["Fourth quadrant: cos back to positive, sin still negative. You have just derived ASTC instead of memorising it.",
-          "ควอดรันต์ที่สี่ cos กลับเป็นบวก sin ยังเป็นลบ คุณเพิ่งหากฎ ASTC ได้เองแทนที่จะท่องจำ"], set:{th:315}}
+          "ควอดรันต์ที่สี่ cos กลับเป็นบวก ส่วน sin ยังเป็นลบ เราเพิ่งหากฎ ASTC ได้เองโดยไม่ต้องท่องจำ"], set:{th:315}}
   ]},
 
 { id:"identities", x:370, y:150, requires:["ratios"], methods:["M-03"],
   title:["Identities","เอกลักษณ์"],
   body:[["sin²θ + cos²θ = 1 is Pythagoras written on the unit circle, and dividing it through by cos²θ or sin²θ produces the other two Pythagorean identities for free. That derivation is worth doing once rather than memorising three separate facts.",
          "The compound-angle formulas give sin(A ± B) and cos(A ∓ B) — note that cosine's signs are the reverse of sine's. Setting B = A collapses them into the double-angle formulas, and cos 2A has three interchangeable forms, which is what makes it so useful for substitution."],
-        ["sin²θ + cos²θ = 1 คือพีทาโกรัสที่เขียนบนวงกลมหนึ่งหน่วย และการหารตลอดด้วย cos²θ หรือ sin²θ จะให้เอกลักษณ์พีทาโกรัสอีกสองตัวมาฟรีๆ การพิสูจน์นี้คุ้มค่าที่จะทำสักครั้งมากกว่าท่องจำข้อเท็จจริงสามข้อแยกกัน",
-         "สูตรผลบวกมุมให้ sin(A ± B) และ cos(A ∓ B) สังเกตว่าเครื่องหมายของโคไซน์กลับกับของไซน์ การตั้ง B = A ยุบสูตรเหล่านี้เป็นสูตรมุมสองเท่า และ cos 2A มีสามรูปที่ใช้แทนกันได้ ซึ่งทำให้มันมีประโยชน์มากในการแทนค่า"]],
+        ["sin²θ + cos²θ = 1 ก็คือทฤษฎีบทพีทาโกรัสที่เขียนบนวงกลมหนึ่งหน่วย พอหารทั้งสมการด้วย cos²θ หรือ sin²θ ก็ได้เอกลักษณ์พีทาโกรัสอีกสองตัวมาเลย ลองพิสูจน์สักครั้งดีกว่าท่องสามสูตรแยกกัน",
+         "สูตรผลบวกและผลต่างของมุมให้ sin(A ± B) และ cos(A ∓ B) สังเกตว่าเครื่องหมายของโคไซน์กลับกับไซน์ ถ้าให้ B = A สูตรเหล่านี้จะกลายเป็นสูตรมุมสองเท่า และ cos 2A เขียนได้สามรูปที่ใช้แทนกันได้ จึงสะดวกมากเวลาแทนค่า"]],
   formula:["sin²θ + cos²θ = 1        sin(A±B) = sinA cosB ± cosA sinB","sin²θ + cos²θ = 1        sin(A±B) = sinA cosB ± cosA sinB"],
   flabel:["Cosine's signs run opposite to sine's","เครื่องหมายของโคไซน์กลับกับไซน์"],
   viz:"plot",
@@ -147,32 +147,32 @@ nodes:[
     ],
     readouts:[
       {lab:["sin²θ","sin²θ"], f:function(S){
-        var s=Math.sin(S.p.th*Math.PI/180); return fmt2(s*s); }},
+        var s=Math.sin(S.p.th*Math.PI/180); return num(Math.round(s*s*1e9)/1e9); }},
       {lab:["cos²θ","cos²θ"], f:function(S){
-        var c=Math.cos(S.p.th*Math.PI/180); return fmt2(c*c); }},
+        var c=Math.cos(S.p.th*Math.PI/180); return num(Math.round(c*c*1e9)/1e9); }},
       {lab:["Their sum","ผลบวก"], f:function(S){
         var r=S.p.th*Math.PI/180;
-        return fmt2(Math.sin(r)*Math.sin(r)+Math.cos(r)*Math.cos(r)); }},
-      {lab:["Why it is fixed","ทำไมจึงคงที่"], f:function(){
+        return num(Math.round((Math.sin(r)*Math.sin(r)+Math.cos(r)*Math.cos(r))*1e9)/1e9); }},
+      {lab:["Why it is fixed","ทำไมถึงคงที่"], f:function(){
         return L()?"เป็นพีทาโกรัสบนวงกลมรัศมี 1":"it is Pythagoras on a circle of radius 1"; }}
     ],
-    note:["the two squares rise and fall in perfect opposition, so their sum is a dead flat line","กำลังสองทั้งสองขึ้นลงตรงข้ามกันพอดี ผลบวกจึงเป็นเส้นราบสนิท"]
+    note:["the two squares rise and fall in perfect opposition, so their sum is a dead flat line","กำลังสองสองตัวขึ้นลงสวนกันพอดี ผลบวกจึงเป็นเส้นราบ"]
   },
   guide:[
     {say:["A perfectly flat line at 1. However far you go, the sum never moves.",
-          "เส้นราบสนิทที่ค่า 1 ไม่ว่าจะไปไกลแค่ไหน ผลบวกไม่เคยขยับ"], set:{show:0,th:35}},
+          "เส้นราบเรียบที่ค่า 1 ไม่ว่าจะไปไกลแค่ไหน ผลบวกก็ไม่ขยับ"], set:{show:0,th:35}},
     {say:["Look at sin²θ alone — it swings between 0 and 1, so it is certainly not constant.",
-          "ดู sin²θ ตัวเดียว มันแกว่งระหว่าง 0 กับ 1 จึงไม่คงที่แน่นอน"], set:{show:1,th:35}},
+          "ลองดู sin²θ ตัวเดียว มันแกว่งระหว่าง 0 กับ 1 จึงไม่คงที่แน่ ๆ"], set:{show:1,th:35}},
     {say:["And cos²θ does the same, but exactly out of step. Add them and the wobbles cancel completely.",
-          "และ cos²θ ก็ทำแบบเดียวกัน แต่สวนเฟสกันพอดี บวกเข้าด้วยกันแล้วการแกว่งหักล้างกันหมด"], set:{show:2,th:35}}
+          "cos²θ ก็แกว่งแบบเดียวกัน แต่สวนกับ sin²θ พอดี พอบวกกัน ส่วนที่แกว่งก็หักล้างกันหมด"], set:{show:2,th:35}}
   ] },
 
 { id:"equations", x:235, y:248, requires:["unit-circle","identities"], methods:["M-04"],
   title:["Trigonometric equations","สมการตรีโกณมิติ"],
   body:[["Reduce the equation to a single ratio, find the reference angle from the inverse function, then use the unit circle to place every solution inside the required interval.",
          "The calculator gives you one angle. Over a full revolution sine and cosine each hit any given value twice, so there is almost always a second solution — reporting only the calculator's answer is trap T-02, and it costs half the marks on these questions routinely."],
-        ["ลดรูปสมการให้เหลืออัตราส่วนเดียว หามุมอ้างอิงจากฟังก์ชันผกผัน แล้วใช้วงกลมหนึ่งหน่วยวางคำตอบทุกค่าลงในช่วงที่โจทย์กำหนด",
-         "เครื่องคิดเลขให้มุมมาหนึ่งค่า แต่ในหนึ่งรอบ ไซน์และโคไซน์แต่ละตัวให้ค่าเดียวกันสองครั้ง จึงมีคำตอบที่สองแทบทุกครั้ง การตอบเฉพาะค่าจากเครื่องคิดเลขคือกับดัก T-02 และมันทำให้เสียคะแนนครึ่งหนึ่งในข้อแบบนี้เป็นประจำ"]],
+        ["ลดรูปสมการให้เหลืออัตราส่วนเดียว หามุมอ้างอิงจากฟังก์ชันผกผัน แล้วใช้วงกลมหนึ่งหน่วยหาคำตอบทุกค่าที่อยู่ในช่วงที่โจทย์กำหนด",
+         "เครื่องคิดเลขให้มุมมาเพียงค่าเดียว แต่ในหนึ่งรอบ ไซน์และโคไซน์แต่ละตัวมีค่าเท่ากับค่าที่กำหนดได้สองครั้ง จึงเกือบทุกครั้งมีคำตอบที่สองด้วย ถ้าตอบเฉพาะค่าจากเครื่องคิดเลขก็ตกกับดัก T-02 และข้อแบบนี้มักเสียคะแนนไปครึ่งหนึ่ง"]],
   formula:["One value of sin θ  ⟹  two angles per revolution","sin θ หนึ่งค่า  ⟹  สองมุมต่อหนึ่งรอบ"],
   flabel:["The calculator gives one, not all","เครื่องคิดเลขให้หนึ่งค่า ไม่ใช่ทั้งหมด"],
   viz:"plot",
@@ -189,31 +189,33 @@ nodes:[
     ],
     readouts:[
       {lab:["Calculator gives","เครื่องคิดเลขให้"], f:function(S){
-        return fmt2(Math.asin(S.p.v)*180/Math.PI)+"°"; }},
+        var v=Math.max(-1,Math.min(1,S.p.v));
+        return num(Math.asin(v)*180/Math.PI)+"°"; }},
       {lab:["The second solution","คำตอบที่สอง"], f:function(S){
-        return fmt2(180-Math.asin(S.p.v)*180/Math.PI)+"°"; }},
+        var v=Math.max(-1,Math.min(1,S.p.v));
+        return num(180-Math.asin(v)*180/Math.PI)+"°"; }},
       {lab:["Solutions in 0° to 720°","คำตอบในช่วง 0° ถึง 720°"], f:function(S){
-        return Math.abs(Math.abs(S.p.v)-1)<1e-9 ? "2" : "4"; }},
+        return Math.abs(Math.abs(S.p.v)-1)<1e-9 ? "2" : Math.abs(S.p.v)<1e-9 ? "5" : "4"; }},
       {lab:["The trap","กับดัก"], f:function(){
         return L()?"ตอบเฉพาะค่าจากเครื่องคิดเลข":"reporting only the calculator's answer"; }}
     ],
-    note:["draw a horizontal line at your target and count how many times the curve crosses it","ลากเส้นนอนที่ค่าเป้าหมายแล้วนับว่าเส้นโค้งตัดกี่ครั้ง"]
+    note:["draw a horizontal line at your target and count how many times the curve crosses it","ลากเส้นนอนที่ค่าเป้าหมาย แล้วนับว่าเส้นโค้งตัดเส้นนั้นกี่ครั้ง"]
   },
   guide:[
     {say:["Target 0.5. Over two full turns the sine curve reaches this height four separate times.",
-          "ค่าเป้าหมาย 0.5 ในสองรอบเต็ม เส้นโค้งไซน์ไปถึงความสูงนี้สี่ครั้งแยกกัน"], set:{v:.5}},
+          "ค่าเป้าหมาย 0.5 ในสองรอบเต็ม เส้นโค้งไซน์ผ่านความสูงนี้สี่ครั้ง"], set:{v:.5}},
     {say:["A negative target lands in the troughs instead, but there are still four crossings.",
-          "ค่าเป้าหมายที่เป็นลบตกอยู่ในท้องคลื่นแทน แต่ก็ยังมีสี่จุดตัดอยู่ดี"], set:{v:-.5}},
+          "ถ้าค่าเป้าหมายเป็นลบ เส้นจะอยู่ที่ท้องคลื่นแทน แต่ก็ยังตัดสี่ครั้งเท่าเดิม"], set:{v:-.5}},
     {say:["Only at the very peak does the count drop to one per revolution. Everywhere else, two.",
-          "เฉพาะที่ยอดสูงสุดเท่านั้นที่เหลือหนึ่งครั้งต่อรอบ ที่อื่นเป็นสองครั้งทั้งหมด"], set:{v:1}}
+          "เฉพาะตรงยอดพอดีที่เหลือหนึ่งครั้งต่อรอบ ที่อื่นเป็นสองครั้งหมด"], set:{v:1}}
   ] },
 
 { id:"triangles", x:235, y:346, requires:["equations"], methods:["M-05","M-06"],
   title:["Solving triangles","การแก้สามเหลี่ยม"],
   body:[["The sine rule a/sin A = b/sin B = c/sin C handles a triangle when you have a matched side–angle pair. Its extended form equals 2R, where R is the radius of the **circumcircle** — the circle through all three vertices, not the one inscribed inside.",
          "The cosine rule takes over when you have two sides and the included angle, or all three sides. Area is ½ab sin C, using the angle *between* the two sides — picking any other angle is trap T-04."],
-        ["กฎของไซน์ a/sin A = b/sin B = c/sin C ใช้ได้เมื่อมีคู่ด้านกับมุมที่ตรงกัน รูปขยายของมันเท่ากับ 2R โดย R คือรัศมีของวงกลมล้อมรอบ คือวงกลมที่ผ่านจุดยอดทั้งสาม ไม่ใช่วงกลมที่แนบอยู่ข้างใน",
-         "กฎของโคไซน์เข้ามาแทนเมื่อมีสองด้านกับมุมระหว่างด้าน หรือมีครบทั้งสามด้าน พื้นที่คือ ½ab sin C โดยใช้มุมที่อยู่ระหว่างสองด้านนั้น การหยิบมุมอื่นมาใช้คือกับดัก T-04"]],
+        ["กฎของไซน์ a/sin A = b/sin B = c/sin C ใช้กับสามเหลี่ยมที่มีคู่ด้านกับมุมตรงข้ามกันครบหนึ่งคู่ รูปขยายของกฎนี้มีค่าเท่ากับ 2R โดย R คือรัศมีของ**วงกลมล้อมรอบ** ซึ่งเป็นวงกลมที่ผ่านจุดยอดทั้งสามจุด ไม่ใช่วงกลมที่แนบอยู่ข้างใน",
+         "ถ้ามีสองด้านกับมุมระหว่างด้านนั้น หรือมีครบทั้งสามด้าน ให้ใช้กฎของโคไซน์แทน พื้นที่คือ ½ab sin C โดยใช้มุม*ระหว่าง*สองด้านนั้น ถ้าไปหยิบมุมอื่นมาใช้ก็ตกกับดัก T-04"]],
   formula:["a/sin A = 2R (circumcircle)        c² = a² + b² − 2ab cos C","a/sin A = 2R (วงกลมล้อมรอบ)        c² = a² + b² − 2ab cos C"],
   flabel:["2R is the circumcircle diameter","2R คือเส้นผ่านศูนย์กลางวงกลมล้อมรอบ"],
   viz:"tri",
@@ -228,24 +230,24 @@ nodes:[
     readouts:[
       {lab:["Third side c","ด้านที่สาม c"], f:function(S){
         var p=S.p;
-        return fmt2(Math.sqrt(p.a*p.a+p.b*p.b-2*p.a*p.b*Math.cos(p.C*Math.PI/180))); }},
+        return num(Math.sqrt(p.a*p.a+p.b*p.b-2*p.a*p.b*Math.cos(p.C*Math.PI/180))); }},
       {lab:["Area ½ab sin C","พื้นที่ ½ab sin C"], f:function(S){
-        var p=S.p; return fmt2(0.5*p.a*p.b*Math.sin(p.C*Math.PI/180)); }},
+        var p=S.p; return num(0.5*p.a*p.b*Math.sin(p.C*Math.PI/180)); }},
       {lab:["At C = 90°","ที่ C = 90°"], f:function(S){
-        return L()?"กฎโคไซน์ยุบเป็นพีทาโกรัส":"the cosine rule collapses to Pythagoras"; }},
+        return L()?"กฎของโคไซน์ลดรูปเป็นพีทาโกรัส":"the cosine rule collapses to Pythagoras"; }},
       {lab:["Circumcircle radius R","รัศมีวงกลมล้อมรอบ R"], f:function(S){
         var p=S.p, c=Math.sqrt(p.a*p.a+p.b*p.b-2*p.a*p.b*Math.cos(p.C*Math.PI/180));
-        return fmt2(c/(2*Math.sin(p.C*Math.PI/180))); }}
+        return num(c/(2*Math.sin(p.C*Math.PI/180))); }}
     ],
-    note:["watch the cosine term vanish as C passes 90° — that is the whole difference from Pythagoras","สังเกตพจน์โคไซน์ที่หายไปเมื่อ C ผ่าน 90° นั่นคือความต่างทั้งหมดจากพีทาโกรัส"]
+    note:["watch the cosine term vanish as C passes 90° — that is the whole difference from Pythagoras","ดูพจน์โคไซน์ตอน C ผ่าน 90° มันหายไปที่ 90° พอดี และนี่คือสิ่งเดียวที่ต่างจากพีทาโกรัส"]
   },
   guide:[
     {say:["Two sides with a 60° angle between them. The cosine rule finds the third side directly.",
-          "สองด้านที่มีมุม 60° ระหว่างกัน กฎโคไซน์หาด้านที่สามได้โดยตรง"], set:{a:5,b:7,C:60}},
+          "สองด้านที่มีมุม 60° อยู่ระหว่างกัน ใช้กฎของโคไซน์หาด้านที่สามได้เลย"], set:{a:5,b:7,C:60}},
     {say:["Open the angle to 90°. The cosine term drops to zero and Pythagoras takes over.",
-          "เปิดมุมเป็น 90° พจน์โคไซน์กลายเป็นศูนย์และพีทาโกรัสเข้ามาแทน"], set:{a:5,b:7,C:90}},
+          "เปิดมุมไปที่ 90° พจน์โคไซน์เป็น 0 เหลือแค่พีทาโกรัส"], set:{a:5,b:7,C:90}},
     {say:["Push past 90° and the cosine turns negative, so the third side grows longer than Pythagoras predicts.",
-          "ดันเลย 90° ไป โคไซน์กลายเป็นลบ ด้านที่สามจึงยาวกว่าที่พีทาโกรัสทำนาย"], set:{a:5,b:7,C:140}}
+          "เปิดเกิน 90° ไป โคไซน์เป็นลบ ด้านที่สามจึงยาวกว่าที่พีทาโกรัสทำนายไว้"], set:{a:5,b:7,C:140}}
   ] }
 ],
 
@@ -259,8 +261,8 @@ methods:[
 ],
 
 traps:{
-"T-01":["Quadrant ignored, so the sign is wrong. Locate the angle on the circle first.","มองข้ามควอดรันต์ เครื่องหมายจึงผิด ให้หาตำแหน่งมุมบนวงกลมก่อน"],
-"T-02":["Only one solution given. Sine and cosine each take any value twice per revolution.","ให้คำตอบเพียงค่าเดียว ไซน์และโคไซน์ให้ค่าเดียวกันสองครั้งต่อหนึ่งรอบ"],
+"T-01":["Quadrant ignored, so the sign is wrong. Locate the angle on the circle first.","มองข้ามควอดรันต์ เครื่องหมายจึงผิด ต้องหาตำแหน่งของมุมบนวงกลมก่อน"],
+"T-02":["Only one solution given. Sine and cosine each take any value twice per revolution.","ตอบแค่คำตอบเดียว ทั้งที่ไซน์และโคไซน์มีค่าเดียวกันสองครั้งต่อหนึ่งรอบ"],
 "T-03":["Degrees used where radians are required, or the conversion applied backwards.","ใช้องศาในที่ที่ต้องใช้เรเดียน หรือแปลงหน่วยกลับทาง"],
 "T-04":["Area needs the angle BETWEEN the two sides, and 2R is the circumcircle, not the incircle.","พื้นที่ต้องใช้มุมระหว่างสองด้าน และ 2R คือวงกลมล้อมรอบ ไม่ใช่วงกลมแนบใน"]
 },
@@ -289,7 +291,7 @@ gen:{
     opts:[{v:["Third","ที่สาม"],ok:1},{v:["Second","ที่สอง"],trap:"T-01"},
           {v:["Fourth","ที่สี่"],trap:"T-01"},{v:["First","ที่หนึ่ง"]}],unit:""};
   if(sf==="S-02") return {stem:["A point on the unit circle has coordinates (−0.6, 0.8). What is cos θ?",
-                                "จุดบนวงกลมหนึ่งหน่วยมีพิกัด (−0.6, 0.8) cos θ เป็นเท่าใด"],
+                                "จุดบนวงกลมหนึ่งหน่วยมีพิกัด (−0.6, 0.8) cos θ เท่ากับเท่าไร"],
     opts:[{v:"−0.6",ok:1},{v:"0.8",trap:"T-01"},{v:"0.6",trap:"T-01"},{v:"−0.8"}],unit:""};
   return {stem:["Is "+c.r+" "+c.th+"° positive or negative?","ค่า "+c.r+" "+c.th+"° เป็นบวกหรือลบ"],
     opts:[{v:[c.v,c.v==="positive"?"เป็นบวก":"เป็นลบ"],ok:1},
@@ -316,14 +318,15 @@ gen:{
          {e:"cos θ = 1/2",int:"0° ≤ θ < 360°",a:"60° and 300°",w:["60° only","60° and 120°","300° only"]},
          {e:"sin θ = −1/2",int:"0° ≤ θ < 360°",a:"210° and 330°",w:["210° only","30° and 150°","330° only"]}];
   var c=pick(C);
+  var T=function(s){ return [s, s.replace(/ and /g," กับ ").replace(/ only/g," เท่านั้น")]; };
   if(sf==="S-04") return {stem:["Your calculator returns one angle for sin⁻¹(0.5). How many solutions are there in 0° ≤ θ < 360°?",
                                 "เครื่องคิดเลขให้มุมเดียวสำหรับ sin⁻¹(0.5) ในช่วง 0° ≤ θ < 360° มีคำตอบกี่ค่า"],
     opts:[{v:"2",ok:1},{v:"1",trap:"T-02"},{v:"4"},{v:"0"}],unit:""};
   return {stem:["Solve "+c.e+" for "+c.int+".","จงแก้ "+c.e+" ในช่วง "+c.int],
-    opts:[{v:c.a,ok:1},{v:c.w[0],trap:"T-02"},{v:c.w[1],trap:"T-01"},{v:c.w[2],trap:"T-02"}],unit:""};
+    opts:[{v:T(c.a),ok:1},{v:T(c.w[0]),trap:"T-02"},{v:T(c.w[1]),trap:"T-01"},{v:T(c.w[2]),trap:"T-02"}],unit:""};
 },
 "M-05": function(sf){
-  var a=pick([5,7,8]), b=pick([6,9,10]), C=pick([60,90,120]);
+  var a=pick([5,7,8]), b=pick([6,9,10]), C=pick([60,120]);
   var cosC={60:0.5,90:0,120:-0.5}[C];
   var c2=a*a+b*b-2*a*b*cosC;
   if(sf==="S-04") return {stem:["In the extended sine rule a/sin A = 2R, what is R?",
@@ -333,26 +336,26 @@ gen:{
           {v:["Half the longest side","ครึ่งหนึ่งของด้านที่ยาวที่สุด"],trap:"T-04"},
           {v:["The triangle's area","พื้นที่สามเหลี่ยม"]}],unit:""};
   if(sf==="S-03") return {stem:["You know two sides and the angle between them. Which rule applies?",
-                                "คุณรู้สองด้านและมุมระหว่างด้านทั้งสอง ควรใช้กฎใด"],
+                                "รู้ความยาวสองด้านและมุมระหว่างด้านทั้งสอง ควรใช้กฎข้อใด"],
     opts:[{v:["The cosine rule","กฎของโคไซน์"],ok:1},{v:["The sine rule","กฎของไซน์"],trap:"T-04"},
           {v:["Pythagoras","พีทาโกรัส"]},{v:["Neither works","ใช้ไม่ได้ทั้งคู่"]}],unit:""};
   return {stem:["A triangle has sides "+a+" and "+b+" with an included angle of "+C+"°. Find the third side.",
-                "สามเหลี่ยมมีด้าน "+a+" และ "+b+" โดยมีมุมระหว่างด้าน "+C+"° จงหาด้านที่สาม"],
-    opts:[{v:fmt2(Math.sqrt(c2)),ok:1},{v:fmt2(Math.sqrt(a*a+b*b)),trap:"T-04"},
-          {v:fmt2(a+b)},{v:fmt2(Math.sqrt(a*a+b*b+2*a*b*cosC)),trap:"T-04"}],unit:""};
+                "สามเหลี่ยมมีด้านยาว "+a+" และ "+b+" โดยมุมระหว่างสองด้านนี้เป็น "+C+"° จงหาด้านที่สาม"],
+    opts:[{v:num(Math.sqrt(c2)),ok:1},{v:num(Math.sqrt(a*a+b*b)),trap:"T-04"},
+          {v:num(a+b)},{v:num(Math.sqrt(a*a+b*b+2*a*b*cosC)),trap:"T-04"}],unit:""};
 },
 "M-06": function(sf){
-  var a=pick([6,8,10]), b=pick([5,7,12]), C=pick([30,60,90,150]);
-  var sinC={30:0.5,60:0.866,90:1,150:0.5}[C];
+  var a=pick([6,8,10]), b=pick([5,7,12]), C=pick([30,60,120,150]);
+  var sinC=Math.round(Math.sin(C*Math.PI/180)*1e12)/1e12;
   if(sf==="S-04") return {stem:["The area formula ½ab sin C uses which angle?","สูตรพื้นที่ ½ab sin C ใช้มุมใด"],
     opts:[{v:["The angle between sides a and b","มุมระหว่างด้าน a กับ b"],ok:1},
           {v:["Any angle of the triangle","มุมใดก็ได้ของสามเหลี่ยม"],trap:"T-04"},
           {v:["The largest angle","มุมที่ใหญ่ที่สุด"],trap:"T-04"},
           {v:["The angle opposite side a","มุมตรงข้ามด้าน a"],trap:"T-04"}],unit:""};
   return {stem:["Find the area of a triangle with sides "+a+" and "+b+" enclosing an angle of "+C+"°.",
-                "จงหาพื้นที่สามเหลี่ยมที่มีด้าน "+a+" และ "+b+" ประกอบมุม "+C+"°"],
-    opts:[{v:fmt2(0.5*a*b*sinC),ok:1},{v:fmt2(a*b*sinC),trap:"T-04"},
-          {v:fmt2(0.5*a*b)},{v:fmt2(0.5*a*b*Math.sqrt(1-sinC*sinC))}],unit:""};
+                "จงหาพื้นที่สามเหลี่ยมที่มีด้านยาว "+a+" และ "+b+" และมุมระหว่างสองด้านนี้เป็น "+C+"°"],
+    opts:[{v:num(0.5*a*b*sinC),ok:1},{v:num(a*b*sinC),trap:"T-04"},
+          {v:num(a*b)},{v:num(0.5*a*b*Math.sqrt(1-sinC*sinC))}],unit:""};
 }
 }
 };

@@ -126,32 +126,20 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .mnode rect{fill:var(--ground);stroke:var(--rule);stroke-width:1.5;transition:all .18s}
 .mnode text{font-family:var(--f-ui);font-size:11.5px;font-weight:600;
   fill:var(--ink-faint);text-anchor:middle;dominant-baseline:middle;pointer-events:none}
-.mnode[data-state="upcoming"]{opacity:.5}
-.mnode[data-state="available"] rect{stroke:var(--ink-soft)}
-.mnode[data-state="available"] text{fill:var(--ink)}
-.mnode[data-state="read"] rect{fill:var(--ink);stroke:var(--ink)}
-.mnode[data-state="read"] text{fill:var(--ground)}
-.mnode[data-state="trained"] rect{fill:var(--ink);stroke:var(--accent);stroke-width:2.5}
-.mnode[data-state="trained"] text{fill:var(--ground)}
 .mnode[data-current="1"] rect{stroke:var(--accent);stroke-width:3}
 .mnode:hover rect{stroke:var(--accent)}
 .mnode:focus-visible rect{stroke:var(--accent);stroke-width:3}
 .medge{stroke:var(--rule);stroke-width:1.5;fill:none}
-.medge.lit{stroke:var(--ink-soft)}
 .medge.ext{stroke-dasharray:4 4;stroke:var(--ink-faint);opacity:.6}
 .mext text{font-family:var(--f-ui);font-size:10.5px;fill:var(--ink-faint);text-anchor:middle}
 
 .legend{display:flex;flex-direction:column;gap:15px}
 .legend-row{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--ink-soft)}
 .swatch{width:34px;height:20px;flex:0 0 auto;border:1.5px solid var(--rule);background:var(--ground);margin-top:2px}
-.swatch.up{opacity:.5}
-.swatch.avail{border-color:var(--ink-soft)}
-.swatch.read{background:var(--ink);border-color:var(--ink)}
-.swatch.trained{background:var(--ink);border-color:var(--accent);border-width:2.5px}
+.swatch.arrow{height:0;border:0;border-top:2px solid var(--ink-soft);margin-top:11px}
+.swatch.here{border-color:var(--accent);border-width:3px}
 .legend-row b{display:block;color:var(--ink);font-family:var(--f-ui);font-size:11px;
   letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
-.prog{border:1px solid var(--rule);padding:16px 18px;background:var(--surface)}
-.prog .big{font-family:var(--f-display);font-size:34px;line-height:1;margin:6px 0 2px}
 
 /* ---------- NODE SECTIONS ---------- */
 .chapter-rule{border:none;border-top:1px solid var(--rule);margin:56px 0 0}
@@ -164,8 +152,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .xtable figcaption{margin-bottom:12px}
 .xscroll{overflow-x:auto}
 .xtable table{border-collapse:collapse;width:100%;font-size:14px}
-.xtable th{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+.xtable th{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);text-align:left;
   padding:0 16px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
 .xtable td{padding:10px 16px 10px 0;border-bottom:1px solid var(--rule);
   color:var(--ink-soft);vertical-align:top;line-height:1.5}
@@ -175,8 +163,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   line-height:1.6}
 .xfacts{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
   font-size:14px}
-.xfacts dt{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.xfacts dt{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);padding-top:3px}
 .xfacts dd{margin:0;color:var(--ink-soft)}
 .node-sec:last-child{border-bottom:none}
 .node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
@@ -212,6 +200,10 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   padding:12px 16px;border-bottom:1px solid var(--rule)}
 .lab-mode{display:flex;gap:6px}
 .lab svg{display:block;width:100%;height:auto}
+/* Drawing code names "IBM Plex Sans" alone; where it is not installed the
+   SVG fell back to a serif. CSS outranks the attribute, so this restores the
+   page's full UI stack everywhere a diagram asks for that face. */
+svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 /* Art plate. The picture is its own layer under the scene so an animating
    visualizer never re-decodes it, and the caption sits beneath the frame in
    the utility face, the way every plate in this house style is captioned. */
@@ -232,7 +224,7 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
 .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
 .ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-ui);
-  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;
   color:var(--ink-faint);margin-bottom:5px}
 .ctrl label span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
 /* touch-action:none is what keeps a drag on the control from being handed to
@@ -246,7 +238,7 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 /* A choice reads as its options, not as a number on a track. Hairline boxes
    sharing an edge, the picked one filled - the same language as the mode
    switch above the plate. */
-.ctrl.choice .opts{display:flex;flex-wrap:wrap;gap:0;margin-top:2px}
+.ctrl.choice .opts{display:flex;flex-direction:row;flex-wrap:wrap;gap:0;margin-top:2px}
 .opt-b{font-family:var(--f-ui);font-size:11.5px;font-weight:500;
   padding:7px 12px;border:1px solid var(--rule);background:transparent;
   color:var(--ink-soft);cursor:pointer;border-radius:var(--radius);
@@ -256,11 +248,18 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   font-weight:600;position:relative;z-index:2}
 .opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
   position:relative;z-index:3}
-.readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
-.ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
+/* a grid, not a wrapping flex row: each readout owns a fixed column, so a value
+   getting longer or shorter never pushes its neighbours sideways */
+.readouts{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px 22px;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
+.ro{min-width:0}
+.ro span{overflow-wrap:anywhere}
+.ro b{display:block;font-family:var(--f-ui);font-size:11.5px;letter-spacing:.02em;
+  color:var(--ink-faint);font-weight:600;margin-bottom:3px}
 .ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
 .transport{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+/* .guide and .transport set display, which beats the UA's [hidden] rule; a
+   hidden guide in sandbox mode must actually disappear */
+.guide[hidden],.transport[hidden],.trial[hidden]{display:none}
 
 /* ---------- FORGE ---------- */
 .forge-grid{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:36px;align-items:start}
@@ -480,9 +479,8 @@ a.way:hover,a.card:hover {transform:translateY(-3px);background:var(--card-hover
 .grp hr {display:none}
 .tracks,.matrix {border:1px solid var(--rule);background:var(--surface);border-radius:14px;padding:18px;margin:0 0 30px}
 .chip rect,.mnode rect {rx:8px}
-.plate,.lab,.prog,.bp,.q,.methods-here,.q-fig {border-radius:12px;background:var(--surface)}
+.plate,.lab,.bp,.q,.methods-here,.q-fig {border-radius:12px;background:var(--surface)}
 .plate {padding:18px}
-.prog .big {font-weight:800;color:var(--accent)}
 .map-wrap {gap:24px}
 nav.surfaces {gap:8px;border-bottom:0;margin-bottom:30px;flex-wrap:wrap}
 nav.surfaces button {border:1px solid var(--rule);border-radius:999px;padding:10px 22px;font-size:12px;letter-spacing:.04em;background:var(--surface)}
@@ -660,6 +658,7 @@ footer {font-size:13px}
   </figure>
 </section>
 
+
 <section class="grp">
 <h2 data-en="Foundations" data-th="พื้นฐาน"></h2><hr>
 <div class="cards">
@@ -713,6 +712,8 @@ footer {font-size:13px}
 (function(){
   var K="lp.index.v1", st={lang:"en",theme:null};
   try{ var r=localStorage.getItem(K); if(r) st=JSON.parse(r); }catch(e){}
+  /* the language is shared by every page, so it is chosen once */
+  try{ var gl=localStorage.getItem("edu-lang"); if(gl==="en"||gl==="th") st.lang=gl; }catch(e){}
   function save(){ try{ localStorage.setItem(K,JSON.stringify(st)); }catch(e){} }
   function apply(){
     document.documentElement.setAttribute("lang",st.lang);
@@ -721,7 +722,7 @@ footer {font-size:13px}
     document.getElementById("langBtn").textContent = st.lang==="en"?"ไทย":"English";
   }
   document.getElementById("langBtn").addEventListener("click",function(){
-    st.lang = st.lang==="en"?"th":"en"; save(); apply();
+    st.lang = st.lang==="en"?"th":"en"; save(); try{ localStorage.setItem("edu-lang",st.lang); }catch(e){} apply();
   });
   document.querySelectorAll('.chip[data-href]').forEach(function(g){
     g.setAttribute("tabindex","0"); g.setAttribute("role","link");

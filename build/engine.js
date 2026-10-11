@@ -7,25 +7,27 @@
 
 /* ---------- 0 · storage (every access guarded) ---------- */
 var KEY = "lp." + CHAPTER.id + ".v1";
-function load(){ try{ var r=localStorage.getItem(KEY); return r?JSON.parse(r):null; }catch(e){ return null; } }
-function save(){ try{ localStorage.setItem(KEY,JSON.stringify(STATE)); }catch(e){} }
-var STATE = load() || { lang:"en", theme:null, read:{}, cov:{}, current:(CHAPTER.nodes[0]||{}).id };
+/* Nothing about what a learner has read, answered or solved is kept: that lives
+   in memory for the visit only. Only preferences (language, theme) are saved. */
+function load(){ try{ var r=localStorage.getItem(KEY); if(!r) return null; var o=JSON.parse(r); return {lang:o.lang,theme:o.theme}; }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify({lang:STATE.lang,theme:STATE.theme})); }catch(e){} }
+var STATE = load() || { lang:"en", theme:null };
+STATE.read = {}; STATE.cov = {}; STATE.current = (CHAPTER.nodes[0]||{}).id;
+/* the language is shared by every page, so it is chosen once */
+try{ var gl=localStorage.getItem("edu-lang"); if(gl==="en"||gl==="th") STATE.lang=gl; }catch(e){}
 
 /* ---------- 1 · strings ---------- */
 var BASE = {
   "ui.theme":["Dark","มืด"], "ui.themeLight":["Light","สว่าง"],
-  "ui.reset":["Reset progress","ล้างความคืบหน้า"],
   "nav.learn":["Learn","เรียน"], "nav.forge":["Forge","ฝึก"],
   "map.eyebrow":["The knowledge map","แผนที่ความรู้"],
   "map.fig":["prerequisite graph · click a node to jump to it","ผังลำดับความรู้ · คลิกที่โหนดเพื่อไปยังหัวข้อนั้น"],
-  "map.progress":["Progress","ความคืบหน้า"], "map.progressSub":["nodes read","โหนดที่อ่านแล้ว"],
-  "map.s1":["Upcoming","ยังไม่ถึง"],
-  "map.s1d":["Its prerequisites are not read yet. Advisory only — the content is right below.","ยังไม่ได้อ่านหัวข้อที่ควรรู้ก่อน เป็นเพียงคำแนะนำ เนื้อหาอยู่ด้านล่างแล้ว"],
-  "map.s2":["Next up","ถัดไป"], "map.s2d":["Prerequisites done. This is where to go.","อ่านหัวข้อก่อนหน้าครบแล้ว ไปต่อที่นี่"],
-  "map.s3":["Read","อ่านแล้ว"], "map.s3d":["You have scrolled through it.","เลื่อนผ่านเนื้อหานี้แล้ว"],
-  "map.s4":["Trained","ฝึกครบ"], "map.s4d":["Its methods answered correctly in the Forge.","ตอบวิธีของหัวข้อนี้ถูกในห้องฝึกแล้ว"],
+  "map.l1":["Arrow","ลูกศร"], "map.l1d":["Runs from a concept to the ones that need it first.","ชี้จากแนวคิดหนึ่งไปยังแนวคิดที่ต้องใช้แนวคิดนั้นก่อน"],
+  "map.l2":["Outlined box","กล่องที่มีเส้นขอบเข้ม"], "map.l2d":["The topic you are reading now. Click any box to jump to its topic.","หัวข้อที่คุณกำลังอ่านอยู่ คลิกกล่องใดก็ได้เพื่อข้ามไปยังหัวข้อนั้น"],
   "study.methods":["Methods trained by this node","วิธีที่ฝึกจากโหนดนี้"],
   "lab.title":["Lab","ห้องทดลอง"],
+  "strip.title":["Visualizers in this chapter","ตัวช่วยมองภาพในบทนี้"],
+  "strip.hint":["Each topic has one you can drive by hand. Pick one to jump to it.","แต่ละหัวข้อมีตัวช่วยที่คุณควบคุมด้วยมือได้ เลือกเพื่อข้ามไปที่หัวข้อนั้น"],
   "lab.guided":["Guided tour","ทัวร์นำชม"], "lab.sandbox":["Sandbox","เล่นอิสระ"],
   "lab.prev":["Back","ย้อน"], "lab.next":["Next","ถัดไป"], "lab.skip":["Skip to sandbox","ข้ามไปเล่นอิสระ"],
   "lab.play":["Play","เล่น"], "lab.pause":["Pause","หยุด"], "lab.reset":["Reset","เริ่มใหม่"],
@@ -54,7 +56,12 @@ for(var bk in BASE) STR[bk]=BASE[bk];
 if(CHAPTER.str) for(var ck in CHAPTER.str) STR[ck]=CHAPTER.str[ck];
 function L(){ return STATE.lang==="th"?1:0; }
 function t(k){ var e=STR[k]; return e?e[L()]:k; }
-function tx(pair){ return Array.isArray(pair)?pair[L()]:pair; }
+function tx(pair){
+  var s=Array.isArray(pair)?pair[L()]:pair;
+  /* {@noun} is filled by the active art skin, so one sentence reads
+     "the apprentice" in one style and "the rider" in another. */
+  return (typeof s==="string" && s.indexOf("{@")>=0 && typeof skinWords==="function") ? skinWords(s) : s;
+}
 function esc(v){ return String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;")
                         .replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
@@ -63,13 +70,58 @@ function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
 function fmt(n){ return (Math.round(n*10)/10).toString(); }
 function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+/* ---- numbers as a scientist writes them ----
+   fmt / fmt2 round to a fixed number of decimals; they are for geometry and
+   coordinates only. Anything a learner READS as a physical value goes through
+   num(), which keeps significant figures instead of decimal places, switches to
+   standard form (A × 10ⁿ, 1 ≤ |A| < 10) for very large or very small values,
+   never shows a non-zero value as 0, and uses a real minus sign.
+     num(0.000000123)   "1.23 × 10⁻⁷"      num(299792458)  "3 × 10⁸"
+     num(12345.6)       "12300"            num(−4.2)       "−4.2"
+     numTex(n,s)  the same value as LaTeX (for the live formula)
+     un(n,"m/s")  number, a no-break space, then the unit                    */
+var SUPS={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
+function sciParts(n,s){
+  var e=Math.floor(Math.log10(Math.abs(n))), m=n/Math.pow(10,e);
+  m=+m.toPrecision(s); if(Math.abs(m)>=10){ m/=10; e++; }
+  return [m,e];
+}
+function num(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "—";
+  if(n===0) return "0";
+  var a=Math.abs(n), out;
+  if(a<1e-3 || a>=1e5){
+    var q=sciParts(n,s);
+    out=String(q[0])+" × 10"+String(q[1]).split("").map(function(c){ return SUPS[c]; }).join("");
+  } else {
+    out=String(+n.toPrecision(s));
+    if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  }
+  return out.replace("-","−");
+}
+function numTex(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "\\text{—}";
+  if(n===0) return "0";
+  var a=Math.abs(n);
+  if(a<1e-3 || a>=1e5){ var q=sciParts(n,s); return q[0]+"\\times10^{"+q[1]+"}"; }
+  var out=String(+n.toPrecision(s));
+  if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  return out;
+}
+/* 10ⁿ for SVG text: the exponent is a real raised, smaller tspan, so "10³" can never be misread as 103 */
+function pow10Svg(e){ return '10<tspan dy="-4.5" font-size="70%">'+(e<0?"−":"")+Math.abs(e)+'</tspan>'; }
+function sciSvg(m,e){ return num(m,3)+" × "+pow10Svg(e); }
+function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
   if(!(range>0)) return 1;
   var raw=range/target, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
   return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag;
 }
-function tk(n){ var r=Math.round(n*100)/100; return (Math.abs(r)<1e-9?0:r).toString(); }
+/* axis tick labels: significant figures and standard form, never "0" for a small value */
+function tk(n){ return num(n,3); }
 var FT='fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10"';
 
 /* Shared, fully scaled axis frame. Returns mapping functions. */
@@ -131,10 +183,10 @@ VIZLIB.motion = {
     {k:"T", lab:["Duration","ช่วงเวลา"],                min:2,  max:12,step:1, def:6,  unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Time","เวลา"],            f:function(S){ return fmt(S.t)+" s"; }},
-    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return fmt(S.p.u+S.p.a*S.t)+" m/s"; }},
-    {lab:["Displacement s","การกระจัด s"], f:function(S){ return fmt(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
-    {lab:["Slope","ความชัน"],        f:function(S){ return fmt(S.p.a)+" m/s²"; }}
+    {lab:["Time","เวลา"],            f:function(S){ return num(S.t)+" s"; }},
+    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return num(S.p.u+S.p.a*S.t)+" m/s"; }},
+    {lab:["Displacement s","การกระจัด s"], f:function(S){ return num(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
+    {lab:["Slope","ความชัน"],        f:function(S){ return num(S.p.a)+" m/s²"; }}
   ],
   draw:function(S,o){
     var u=S.p.u,a=S.p.a,T=S.p.T,tt=Math.min(S.t,T);
@@ -219,11 +271,11 @@ VIZLIB.vector = {
     {lab:["Resultant R","ผลลัพธ์ R"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      return fmt(Math.sqrt(rx*rx+ry*ry)); }},
+      return num(Math.sqrt(rx*rx+ry*ry)); }},
     {lab:["Direction","ทิศทาง"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return fmt(d)+"°"; }}
+      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return num(d)+"°"; }}
   ],
   draw:function(S,o){
     var p=S.p, cx=280, cy=180, sc=6.5;
@@ -237,8 +289,8 @@ VIZLIB.vector = {
     o.push('<line x1="'+(cx-250)+'" y1="'+cy+'" x2="'+(cx+250)+'" y2="'+cy+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     o.push('<line x1="'+cx+'" y1="'+(cy-140)+'" x2="'+cx+'" y2="'+(cy+140)+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     for(var s=-20;s<=20;s+=10){ if(!s) continue;
-      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+s+'</text>');
-      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+s+'</text>');
+      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+tk(s)+'</text>');
+      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+tk(s)+'</text>');
     }
     function arrow(x1,y1,x2,y2,col,w,dash){
       var ang=Math.atan2(y2-y1,x2-x1), hl=9;
@@ -265,9 +317,9 @@ VIZLIB.wave = {
     {k:"T",  lab:["Run for","เล่นนาน"],            min:2,max:12,step:1, def:8, unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return fmt(S.p.f*S.p.lam)+" m/s"; }},
-    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return fmt(1/S.p.f)+" s"; }},
-    {lab:["Time","เวลา"],                     f:function(S){ return fmt(S.t)+" s"; }}
+    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return num(S.p.f*S.p.lam)+" m/s"; }},
+    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return num(1/S.p.f)+" s"; }},
+    {lab:["Time","เวลา"],                     f:function(S){ return num(S.t)+" s"; }}
   ],
   draw:function(S,o){
     var p=S.p, xmax=24;
@@ -318,7 +370,7 @@ VIZLIB.bars = {
       o.push('<rect x="'+(cx-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+
              '" height="'+Math.abs(y1-y0)+'" fill="'+b.c+'" opacity="0.9"/>');
       o.push('<text x="'+cx+'" y="'+(y1+(b.v<0?15:-7))+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-size="11" font-weight="600" text-anchor="middle">'+num(b.v)+'</text>');
       o.push('<text x="'+cx+'" y="'+(A.Y(lo)+34)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" '+
              'font-size="10" text-anchor="middle">'+tx(b.lab)+'</text>');
     });
@@ -391,7 +443,7 @@ VIZLIB.tri = {
            ' Z" fill="var(--accent)" fill-opacity="0.10" stroke="var(--ink)" stroke-width="2.2"/>');
     function side(p,q,lab,val,c2){
       o.push('<text x="'+((p[0]+q[0])/2)+'" y="'+((p[1]+q[1])/2-6)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+fmt2(val)+'</text>');
+             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+num(val)+'</text>');
     }
     side(tC,tA,"b",b,"var(--ink-soft)");
     side(tC,tB,"a",a,"var(--ink-soft)");
@@ -399,15 +451,15 @@ VIZLIB.tri = {
     [[tC,"C",g.C],[tA,"A",A1*180/Math.PI],[tB,"B",B1*180/Math.PI]].forEach(function(v){
       o.push('<circle cx="'+v[0][0]+'" cy="'+v[0][1]+'" r="3.5" fill="var(--ink)"/>');
       o.push('<text x="'+(v[0][0]-14)+'" y="'+(v[0][1]+14)+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="10.5" font-weight="600">'+v[1]+' '+fmt(v[2])+'°</text>');
+             'font-size="10.5" font-weight="600">'+v[1]+' '+num(v[2])+'°</text>');
     });
     var area=0.5*a*b*Math.sin(C);
     o.push('<text x="404" y="86" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["THIRD SIDE","ด้านที่สาม"])+'</text>');
-    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+fmt2(c)+'</text>');
+    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+num(c)+'</text>');
     o.push('<text x="404" y="152" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["AREA ½ ab sin C","พื้นที่ ½ ab sin C"])+'</text>');
-    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+fmt2(area)+'</text>');
+    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+num(area)+'</text>');
     if(cfg.note) cap(o,44,286,cfg.note,"note");
   }
 };
@@ -448,7 +500,7 @@ VIZLIB.scale = {
     for(var e=Math.ceil(lo);e<=hi;e+=step){
       var gx=X(e);
       o.push('<line x1="'+gx+'" y1="'+(y-6)+'" x2="'+gx+'" y2="'+(y+6)+'" stroke="var(--ink-faint)" stroke-width="1"/>');
-      o.push('<text x="'+gx+'" y="'+(y+22)+'" '+FT+' text-anchor="middle">10^'+e+'</text>');
+      o.push('<text x="'+gx+'" y="'+(y+22)+'" '+FT+' text-anchor="middle">'+pow10Svg(e)+'</text>');
     }
     (cfg.marks?cfg.marks(S.p):[]).forEach(function(m,k){
       var gx=X(m.e), yy=y-24-(k%3)*20;
@@ -480,7 +532,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+(cx-L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56-H)+
              ' Z" fill="var(--surface)" stroke="var(--ink-faint)" stroke-width="1.5"/>');
       o.push('<text x="'+(cx-L/2+26)+'" y="'+(cy+50)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-             'font-size="10">'+fmt(inc)+'°</text>');
+             'font-size="10">'+num(inc)+'°</text>');
     } else {
       o.push('<line x1="'+(cx-120)+'" y1="'+(cy+34)+'" x2="'+(cx+120)+'" y2="'+(cy+34)+
              '" stroke="var(--ink-faint)" stroke-width="1.5"/>');
@@ -498,7 +550,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+ex+' '+ey+' L'+(ex-hl*Math.cos(aa-0.4))+' '+(ey-hl*Math.sin(aa-0.4))+
              ' L'+(ex-hl*Math.cos(aa+0.4))+' '+(ey-hl*Math.sin(aa+0.4))+' Z" fill="'+c2+'"/>');
       o.push('<text x="'+(cx+Math.cos(aa)*(len+24))+'" y="'+(cy+Math.sin(aa)*(len+24)+4)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+fmt(Math.abs(f.mag))+'</text>');
+             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+num(Math.abs(f.mag))+'</text>');
     });
     if(cfg.note) cap(o,44,300,cfg.note,"note");
   }
@@ -517,7 +569,7 @@ VIZLIB.stack = {
       var pw=Math.max(0,p.v)/tot*w;
       o.push('<rect x="'+x+'" y="'+y+'" width="'+pw+'" height="'+h+'" fill="'+col(p.col)+'" opacity="0.88"/>');
       if(pw>34) o.push('<text x="'+(x+pw/2)+'" y="'+(y+h/2+4)+'" fill="#fff" font-family="IBM Plex Sans" '+
-                       'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(p.v)+'</text>');
+                       'font-size="11" font-weight="600" text-anchor="middle">'+num(p.v)+'</text>');
       x+=pw;
     });
     o.push('<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="none" stroke="var(--ink)" stroke-width="1.6"/>');
@@ -529,7 +581,7 @@ VIZLIB.stack = {
              'font-size="10.5">'+tx(p.lab)+'</text>');
     });
     if(cfg.total) o.push('<text x="'+(x0+w)+'" y="'+(y-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+fmt2(tot)+'</text>');
+                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+num(tot)+'</text>');
     if(cfg.note) cap(o,x0,236,cfg.note,"note");
   }
 };
@@ -773,7 +825,16 @@ function instrument(S, o, ins, ctx){
     var hi=Math.max.apply(null,ys.concat([0])), lo=Math.min.apply(null,ys.concat([0]));
     if(ins.ymin!=null) lo=ins.ymin;
     if(ins.ymax!=null) hi=ins.ymax;
-    var pad=Math.max(.4,(hi-lo)*0.16); hi+=pad; if(lo<0) lo-=pad;
+    /* A fixed range is used exactly: the axis then never moves when a slider
+       does, so the change shows up as the line moving. Only an end the
+       caller left free gets breathing room. */
+    var pad=Math.max(.4,(hi-lo)*0.16);
+    if(ins.ymax==null) hi+=pad;
+    if(ins.ymin==null && lo<0) lo-=pad;
+    /* a drag holds the scale still, or the axis would slide under the pointer */
+    if(ins.lockY){ lo=ins.lockY[0]; hi=ins.lockY[1]; }
+    var fixedY = ins.ymin!=null && ins.ymax!=null;
+    if(fixedY) for(i=0;i<=N;i++) ys[i]=Math.max(lo,Math.min(hi,ys[i]));
     var A=axes(o,{x:FR.ix,y:FR.iy,w:FR.iw,h:FR.ih,xmin:ins.xmin,xmax:ins.xmax,ymin:lo,ymax:hi,
                   xlab:ins.xlab, ylab:ins.ylab, xticks:ins.xticks, yticks:ins.yticks});
     var d="";
@@ -785,7 +846,8 @@ function instrument(S, o, ins, ctx){
       var fd="";
       for(i=0;i<=N;i++){
         var fx=ins.xmin+(upto-ins.xmin)*i/N;
-        fd+=(i?" L":"M")+fmt2(A.X(fx))+" "+fmt2(A.Y(ins.fn(fx,S.p,S)));
+        var fy=ins.fn(fx,S.p,S); if(fixedY) fy=Math.max(lo,Math.min(hi,fy));
+        fd+=(i?" L":"M")+fmt2(A.X(fx))+" "+fmt2(A.Y(fy));
       }
       if(upto>ins.xmin)
         o.push('<path d="'+fd+' L'+fmt2(A.X(upto))+' '+fmt2(A.zy)+' L'+fmt2(A.X(ins.xmin))+' '+
@@ -794,29 +856,36 @@ function instrument(S, o, ins, ctx){
     o.push('<path d="'+d+'" stroke="var(--accent)" stroke-width="2.4" fill="none"/>');
     if(ins.mark!=null){
       var mx=ins.mark(S.p,S), my=ins.fn(mx,S.p,S);
+      if(fixedY) my=Math.max(lo,Math.min(hi,my));
       o.push('<line x1="'+fmt2(A.X(mx))+'" y1="'+fmt2(A.Y(my))+'" x2="'+fmt2(A.X(mx))+'" y2="'+fmt2(A.zy)+
              '" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2 3" opacity=".7"/>');
       o.push('<circle cx="'+fmt2(A.X(mx))+'" cy="'+fmt2(A.Y(my))+'" r="4.5" fill="var(--accent)"/>');
-      return { X:A.X, markX:A.X(mx) };
+      return { X:A.X, Y:A.Y, lo:lo, hi:hi, markX:A.X(mx) };
     }
-    return { X:A.X };
+    return { X:A.X, Y:A.Y, lo:lo, hi:hi };
   }
 
   if(k === "bar"){
     var B=ins.bars.map(function(b){ return {lab:b.lab, v:b.f(S.p,S), c:col(b.col)}; });
     var vs=B.map(function(b){ return b.v; });
     var h2=Math.max.apply(null,vs.concat([0])), l2=Math.min.apply(null,vs.concat([0]));
-    if(ins.ymax!=null) h2=ins.ymax;
-    var pd=Math.max(1e-6,(h2-l2)*0.2); h2+=pd; if(l2<0) l2-=pd;
+    var fixedB = ins.ymax!=null;
+    if(fixedB){ h2=ins.ymax; if(ins.ymin!=null) l2=ins.ymin; }
+    else { var pd=Math.max(1e-6,(h2-l2)*0.2); h2+=pd; if(l2<0) l2-=pd; }
     var A2=axes(o,{x:FR.ix,y:FR.iy,w:FR.iw,h:FR.ih-18,xmin:0,xmax:B.length,ymin:l2,ymax:h2,
                    ylab:ins.ylab, xticks:0, yticks:4});
     var w=FR.iw/B.length, bw=Math.min(66,w*0.5);
     B.forEach(function(b,j){
-      var cx=A2.X(j+0.5), y0=A2.Y(0), y1=A2.Y(b.v);
+      /* on a fixed scale a bar taller than the axis stops at the top, marked
+         as running off it, and still says its true value */
+      var over=fixedB && b.v>h2, under=fixedB && b.v<l2;
+      var cx=A2.X(j+0.5), y0=A2.Y(0), y1=A2.Y(Math.max(l2,Math.min(h2,b.v)));
       o.push('<rect x="'+fmt2(cx-bw/2)+'" y="'+fmt2(Math.min(y0,y1))+'" width="'+fmt2(bw)+
              '" height="'+fmt2(Math.abs(y1-y0))+'" fill="'+b.c+'" opacity=".9"/>');
+      if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
+                      'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+num(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -1001,24 +1070,11 @@ VIZLIB.plate = {
   }
 };
 
+/*@@STAGE@@*/
+
 /* ---------- 4 · map ---------- */
 var NW=150, NH=38;
 function node(id){ for(var i=0;i<CHAPTER.nodes.length;i++) if(CHAPTER.nodes[i].id===id) return CHAPTER.nodes[i]; return null; }
-function methodMastered(m){ var c=STATE.cov[m]; if(!c) return false; for(var k in c) if(c[k]>0) return true; return false; }
-function stateOf(id){
-  var n=node(id);
-  if(STATE.read[id]){
-    if(n.methods && n.methods.length){
-      var all=true;
-      for(var i=0;i<n.methods.length;i++) if(!methodMastered(n.methods[i])) all=false;
-      if(all) return "trained";
-    }
-    return "read";
-  }
-  var req=n.requires||[];
-  for(var j=0;j<req.length;j++) if(!STATE.read[req[j]]) return "upcoming";
-  return "available";
-}
 /* Orthogonal edge routing for the chapter map.
 
    Nodes sit on a fixed grid (columns 135 apart, rows 98 apart) but the boxes
@@ -1171,14 +1227,13 @@ function drawMap(){
   list.forEach(function(e){
     var path=document.createElementNS("http://www.w3.org/2000/svg","path");
     path.setAttribute("d",edgePath(e.pts));
-    path.setAttribute("class","medge"+(STATE.read[e.r]?" lit":""));
+    path.setAttribute("class","medge");
     path.setAttribute("marker-end","url(#ah)");
     E.appendChild(path);
   });
   CHAPTER.nodes.forEach(function(n){
     var g=document.createElementNS("http://www.w3.org/2000/svg","g");
     g.setAttribute("class","mnode");
-    g.setAttribute("data-state",stateOf(n.id));
     g.setAttribute("data-current",STATE.current===n.id?"1":"0");
     g.setAttribute("tabindex","0"); g.setAttribute("role","button");
     var r=document.createElementNS("http://www.w3.org/2000/svg","rect");
@@ -1193,9 +1248,6 @@ function drawMap(){
     g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
     N.appendChild(g);
   });
-  var done=0; CHAPTER.nodes.forEach(function(n){ if(STATE.read[n.id]) done++; });
-  document.getElementById("progNum").textContent=done;
-  document.getElementById("progTot").textContent="/"+CHAPTER.nodes.length;
 }
 
 /* ---------- 5 · lab factory ---------- */
@@ -1231,7 +1283,7 @@ function makeLab(nd, host){
       h+='<div class="opts" role="group">';
       c.opts.forEach(function(o,j){
         h+='<button type="button" class="opt-b" data-i="'+i+'" data-v="'+
-           (c.min!=null?c.min+j:j)+'">'+esc(tx(o))+'</button>';
+           (c.vals?c.vals[j]:(c.min!=null?c.min+j:j))+'">'+esc(tx(o))+'</button>';
       });
       h+='</div></div>';
       return;
@@ -1258,18 +1310,20 @@ function makeLab(nd, host){
   var Tkey=null; ctrls.forEach(function(c){ if(c.isT) Tkey=c.k; });
 
   function labels(){
-    host.querySelectorAll(".opt-b").forEach(function(el){
+    host.querySelectorAll(".ctrl .opt-b").forEach(function(el){
       var c=ctrls[+el.getAttribute("data-i")];
       var on = String(S.p[c.k])===el.getAttribute("data-v");
       el.classList.toggle("on",on);
       el.setAttribute("aria-pressed",on?"true":"false");
     });
+    /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")];
-      el.textContent=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=num(S.p[c.k],6)+(c.unit||"");
+      if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){
-      el.textContent=readouts[+el.getAttribute("data-i")].f(S);
+      var v=String(readouts[+el.getAttribute("data-i")].f(S));
+      if(el.textContent!==v) el.textContent=v;
     });
   }
   /* Art changes only when a file finishes loading or fails, so it is painted
@@ -1277,6 +1331,7 @@ function makeLab(nd, host){
   function paintArt(){
     if(!artsvg) return;
     var a=[];
+    if(viz.backdrop) a.push(viz.backdrop(S, cfg, viz.vb));
     if(cfg.art)    a.push(ART.tag(cfg.art, viz.vb));
     if(cfg.artTop) a.push(ART.tag(cfg.artTop, viz.vb));
     artsvg.innerHTML=a.join("");
@@ -1292,9 +1347,32 @@ function makeLab(nd, host){
      an animation frame keeps the handler O(1) - the last value before the frame
      is the one drawn, which is exactly what the reader should see - and stops
      the play loop and a drag from painting the same frame twice. */
-  var frame=null;
-  function paint(){ frame=null; var o=[]; viz.draw(S,o,cfg); svg.innerHTML=o.join(""); labels(); }
-  function draw(){ if(frame===null) frame=requestAnimationFrame(paint); }
+  /* A frame budget, too. Each lab measures what a repaint really costs —
+     its own script plus the style, layout and painting the browser does
+     after it, read as the time until the next frame can start — and while
+     a slider is being dragged it waits about twice that long between
+     repaints. Drawing then never fills the main thread: a fast machine
+     still repaints every frame, a slow phone repaints less often but keeps
+     up with the finger instead of freezing. */
+  var frame=null, waitT=null, cost=0, lastStart=-1e9;
+  var now=function(){ return (typeof performance!=="undefined"?performance:Date).now(); };
+  function paint(){
+    frame=null; var t0=now(), o=[];
+    viz.draw(S,o,cfg); svg.innerHTML=o.join(""); labels();
+    if(S.afterPaint) S.afterPaint();
+    var js=now()-t0; lastStart=t0;
+    requestAnimationFrame(function(){
+      var busy=Math.max(js, now()-t0-16.7);
+      cost=cost?cost*0.6+busy*0.4:busy;
+    });
+  }
+  function draw(){
+    if(frame!==null||waitT!==null) return;
+    /* never longer than 100 ms, so the picture always keeps pace with the hand */
+    var wait=Math.min(100, lastStart+cost*2-now());
+    if(wait>4) waitT=setTimeout(function(){ waitT=null; if(frame===null) frame=requestAnimationFrame(paint); }, wait);
+    else frame=requestAnimationFrame(paint);
+  }
   function applyStep(){
     var st=S.script[S.step]; if(!st) return;
     q(".g-step").textContent=t("lab.step")+" "+(S.step+1)+" / "+S.script.length;
@@ -1312,15 +1390,20 @@ function makeLab(nd, host){
     S.mode=m;
     q(".m-guided").classList.toggle("on",m==="guided");
     q(".m-sandbox").classList.toggle("on",m==="sandbox");
+    if(S.onMode) S.onMode(m);
     var g=(m==="guided"&&S.script);
     q(".guide").hidden=!g; q(".g-nav").hidden=!g;
     if(g) applyStep(); else draw();
   }
+  /* how long a run lasts: the duration slider, or a length the scene
+     computes from its own physics (a stop, a landing) */
+  function limit(){ return Tkey ? S.p[Tkey] : (cfg.duration ? cfg.duration(S.p,S) : 10); }
   function tick(){
     if(!S.playing) return;
-    var lim = Tkey ? S.p[Tkey] : 10;
-    S.t+=0.035;
-    if(S.t>=lim){ S.t=lim; S.playing=false; var b=q(".b-play"); if(b) b.textContent=t("lab.play"); }
+    var lim = limit();
+    S.t+=0.035*(cfg.rate||1);   /* a lab whose clock counts days can run faster */
+    if(S.t>=lim){ S.t=lim; S.playing=false; var b=q(".b-play"); if(b) b.textContent=t("lab.play");
+                  if(S.onEnd){ var f=S.onEnd; S.onEnd=null; f(); } }
     paint();   /* already inside a frame - scheduling another would cost one */
     if(S.playing) S.raf=requestAnimationFrame(tick);
   }
@@ -1329,6 +1412,7 @@ function makeLab(nd, host){
       var c=ctrls[+el.getAttribute("data-i")];
       S.p[c.k]=parseFloat(el.value);
       if(Tkey && S.t>S.p[Tkey]) S.t=S.p[Tkey];
+      if(S.onInput) S.onInput(c.k);
       draw();
     });
   });
@@ -1348,7 +1432,7 @@ function makeLab(nd, host){
   if(animated){
     q(".b-play").addEventListener("click",function(){
       S.playing=!S.playing; this.textContent=S.playing?t("lab.pause"):t("lab.play");
-      var lim=Tkey?S.p[Tkey]:10;
+      var lim=limit();
       if(S.playing){ if(S.t>=lim) S.t=0; S.raf=requestAnimationFrame(tick); }
     });
     q(".b-rew").addEventListener("click",function(){
@@ -1357,6 +1441,22 @@ function makeLab(nd, host){
   }
   if(!S.script) q(".m-guided").hidden=true;
   S.redraw=draw;
+  /* A visualizer that needs more than a picture - pointer handles, a live
+     formula, challenges - adds them through this one door. */
+  if(viz.mount) viz.mount(S, host, {
+    nd:nd, cfg:cfg, ctrls:ctrls, svg:svg, q:q, draw:draw, paint:paint, labels:labels,
+    setMode:setMode, limit:limit,
+    sync:function(){
+      host.querySelectorAll(".cv").forEach(function(el){ el.value=S.p[ctrls[+el.getAttribute("data-i")].k]; });
+      labels();
+    },
+    play:function(){
+      var b=q(".b-play");
+      if(!b){ S.t=limit(); paint(); if(S.onEnd){ var f=S.onEnd; S.onEnd=null; f(); } return; }
+      cancelAnimationFrame(S.raf); S.t=0; S.playing=true; b.textContent=t("lab.pause");
+      S.raf=requestAnimationFrame(tick);
+    }
+  });
   /* A caption is text in the DOM, so it follows the language switch. */
   S.repaintArt=function(){ paintArt(); var c=q(".lab-cap"); if(c&&cfg.caption){ c.textContent=tx(cfg.caption); MATH.renderInline(c); } };
   paintArt();
@@ -1436,7 +1536,7 @@ function tableHTML(nd){
 
 
 function buildSections(){
-  LABS.forEach(function(l){ l.playing=false; if(l.raf) cancelAnimationFrame(l.raf); });
+  LABS.forEach(function(l){ l.playing=false; if(l.raf) cancelAnimationFrame(l.raf); if(l.dispose) l.dispose(); });
   LABS=[];
   var host=document.getElementById("nodeSections"); host.innerHTML="";
   CHAPTER.nodes.forEach(function(n,i){
@@ -1473,13 +1573,29 @@ function buildSections(){
     }
     host.appendChild(sec);
   });
+  buildStrip();
   observeSections();
+}
+/* one card per visualizer in the chapter: the topic leads, the spell name follows */
+function buildStrip(){
+  var el=document.getElementById("spellStrip"); if(!el) return;
+  var sk=(typeof SK==="function")?SK():null;
+  var h="", n=0;
+  CHAPTER.nodes.forEach(function(nd,i){
+    if(nd.viz!=="stage") return;
+    var sn=(nd.vizcfg||{}).spellName;
+    n++;
+    h+='<a class="spell-card" href="#sec-'+nd.id+'"><span class="sp-ch">'+String(i+1).padStart(2,"0")+'</span>'+
+       '<b class="sp-topic">'+tx(nd.title)+'</b>'+(sn&&sk&&sk.spellNames?'<span class="sp-name">'+tx(sn)+'</span>':'')+'</a>';
+  });
+  el.innerHTML = n ? '<div class="strip"><span class="label">'+t("strip.title")+'</span>'+
+    '<p class="strip-hint">'+t("strip.hint")+'</p><div class="spells">'+h+'</div></div>' : "";
 }
 var OBS = null;
 function observeSections(){
   if(OBS) OBS.disconnect();
   if(!("IntersectionObserver" in window)){
-    CHAPTER.nodes.forEach(function(n){ STATE.read[n.id]=true; }); save(); drawMap(); return;
+    return;
   }
   OBS=new IntersectionObserver(function(en){
     var ch=false;
@@ -1487,10 +1603,9 @@ function observeSections(){
       if(e.isIntersecting && e.intersectionRatio>=0.3){
         var id=e.target.getAttribute("data-node");
         if(STATE.current!==id){ STATE.current=id; ch=true; }
-        if(!STATE.read[id]){ STATE.read[id]=true; ch=true; }
       }
     });
-    if(ch){ save(); drawMap(); }
+    if(ch) drawMap();
   },{threshold:[0.3]});
   document.querySelectorAll(".node-sec").forEach(function(s){ OBS.observe(s); });
 }
@@ -1624,24 +1739,45 @@ function applyLang(){
   if(CHAPTER.next){ ext.textContent=tx(CHAPTER.next); ext.style.display=""; } else { ext.style.display="none"; }
   document.getElementById("langBtn").textContent = STATE.lang==="en"?"ไทย":"English";
   document.querySelectorAll("[data-"+STATE.lang+"]").forEach(function(el){ el.textContent=el.getAttribute("data-"+STATE.lang); });
+  fillSkinPicker();
   buildSections(); drawMap(); drawBlueprint(); drawCoverage();
+  if(typeof WORLD!=="undefined") WORLD.refresh();
 }
+/* The art picker only appears on a chapter that has a stage lab to restyle. */
+function fillSkinPicker(){
+  var wrap=document.getElementById("artSkinWrap"), sel=document.getElementById("artSkin");
+  if(!wrap||!sel||typeof SKINS==="undefined") return;
+  var any=CHAPTER.nodes.some(function(n){ return n.viz==="stage"; });
+  wrap.hidden=!any||SKINS.list.length<2;
+  if(wrap.hidden) return;
+  var cur=SK().id;
+  sel.innerHTML=SKINS.list.map(function(s){
+    return '<option value="'+esc(s.id)+'"'+(s.id===cur?' selected':'')+'>'+esc(tx(s.name))+'</option>';
+  }).join("");
+}
+(function(){
+  var sel=document.getElementById("artSkin");
+  if(sel) sel.addEventListener("change",function(){ SKINS.use(sel.value); applyLang(); });
+})();
 document.querySelectorAll("nav.surfaces button").forEach(function(b){
   b.addEventListener("click",function(){ setView(b.dataset.view); });
 });
 document.getElementById("langBtn").addEventListener("click",function(){
-  STATE.lang = STATE.lang==="en"?"th":"en"; save(); applyLang();
+  STATE.lang = STATE.lang==="en"?"th":"en"; save(); try{ localStorage.setItem("edu-lang",STATE.lang); }catch(e){} applyLang();
 });
 document.addEventListener("readingthemechange",function(){
   ART.repaint();
   LABS.forEach(function(l){ if(l.redraw) l.redraw(); if(l.repaintArt) l.repaintArt(); });
-});
-document.getElementById("resetBtn").addEventListener("click",function(){
-  STATE={lang:STATE.lang,theme:STATE.theme,read:{},cov:{},current:CHAPTER.nodes[0].id};
-  save(); applyLang(); setView("learn"); window.scrollTo({top:0,behavior:"smooth"});
 });
 document.getElementById("genBtn").addEventListener("click",generate);
 
 applyLang();
 setView("learn");
 generate();
+/* a chapter with spells opens inside them; otherwise a link such as the
+   a visualizer card's link lands on its section once sections exist */
+(function(){
+  if(typeof WORLD!=="undefined" && WORLD.init()) return;
+  var h=(location.hash||"").slice(1), el=h&&document.getElementById(h);
+  if(el) setTimeout(function(){ el.scrollIntoView({block:"start"}); }, 60);
+})();

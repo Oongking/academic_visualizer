@@ -74,9 +74,8 @@ a.way:hover,a.card:hover {transform:translateY(-3px);background:var(--card-hover
 .grp hr {display:none}
 .tracks,.matrix {border:1px solid var(--rule);background:var(--surface);border-radius:14px;padding:18px;margin:0 0 30px}
 .chip rect,.mnode rect {rx:8px}
-.plate,.lab,.prog,.bp,.q,.methods-here,.q-fig {border-radius:12px;background:var(--surface)}
+.plate,.lab,.bp,.q,.methods-here,.q-fig {border-radius:12px;background:var(--surface)}
 .plate {padding:18px}
-.prog .big {font-weight:800;color:var(--accent)}
 .map-wrap {gap:24px}
 nav.surfaces {gap:8px;border-bottom:0;margin-bottom:30px;flex-wrap:wrap}
 nav.surfaces button {border:1px solid var(--rule);border-radius:999px;padding:10px 22px;font-size:12px;letter-spacing:.04em;background:var(--surface)}
