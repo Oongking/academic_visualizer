@@ -5,6 +5,10 @@ var C06 = {
   r: function(m){ return 5 + 4 * Math.cbrt(m); },
   rm: function(m){ return C06.r(m) / 12; },          /* radius in metres on this 40 m lane */
   meets: function(p){ return p.u1 > p.u2; },
+  /* readable numbers: float noise (1e-15) must never print as a tiny non-zero value */
+  z: function(x){ return Math.abs(x) < 1e-9 ? 0 : x; },
+  n: function(x, s){ return num(C06.z(x), s); },
+  t: function(x){ return numTex(C06.z(x), 3); },
   out: function(p){
     var e = C06.E[p.e], c = C06.meets(p) ? PHYS.collide(p.m1, p.u1, p.m2, p.u2, e) : { v1: p.u1, v2: p.u2, p: p.m1 * p.u1 + p.m2 * p.u2 };
     c.ke0 = 0.5 * p.m1 * p.u1 * p.u1 + 0.5 * p.m2 * p.u2 * p.u2;
@@ -57,18 +61,18 @@ nodes:[
       {k:"v2", lab:["Bullet speed","อัตราเร็วกระสุน"], min:100, max:1200, step:50, def:800, unit:" m/s"}
     ],
     readouts:[
-      {lab:["Truck momentum","โมเมนตัมรถบรรทุก"], f:function(S){ return fmt2(S.p.m1*S.p.v1)+" kg·m/s"; }},
-      {lab:["Bullet momentum","โมเมนตัมกระสุน"],  f:function(S){ return fmt2(S.p.m2*S.p.v2)+" kg·m/s"; }},
-      {lab:["Which carries more?","อันไหนมากกว่า"], f:function(S){
+      {lab:["Truck momentum","โมเมนตัมรถบรรทุก"], f:function(S){ return un(S.p.m1*S.p.v1,"kg·m/s"); }},
+      {lab:["Bullet momentum","โมเมนตัมกระสุน"],  f:function(S){ return un(S.p.m2*S.p.v2,"kg·m/s"); }},
+      {lab:["Which carries more?","ตัวไหนมากกว่า"], f:function(S){
         return S.p.m1*S.p.v1>S.p.m2*S.p.v2 ? (L()?"รถบรรทุก":"the truck") : (L()?"กระสุน":"the bullet"); }},
       {lab:["Kinetic energy ratio","อัตราส่วนพลังงานจลน์"], f:function(S){
-        var p=S.p; return fmt2((0.5*p.m1*p.v1*p.v1)/(0.5*p.m2*p.v2*p.v2))+" ×"; }}
+        var p=S.p; return num((0.5*p.m1*p.v1*p.v1)/(0.5*p.m2*p.v2*p.v2))+" ×"; }}
     ],
     bars:[
       {lab:["Truck p = mv","รถบรรทุก p = mv"], f:function(p){ return p.m1*p.v1; }, col:"accent"},
       {lab:["Bullet p = mv","กระสุน p = mv"],  f:function(p){ return p.m2*p.v2; }, col:"warn"}
     ],
-    note:["momentum is linear in speed, but kinetic energy is quadratic — they rank things differently","โมเมนตัมแปรตามอัตราเร็วแบบเส้นตรง แต่พลังงานจลน์แปรตามกำลังสอง สองปริมาณนี้จึงเรียงลำดับสิ่งของไม่เหมือนกัน"]
+    note:["momentum is linear in speed, but kinetic energy is quadratic — they rank things differently","โมเมนตัมแปรผันตรงกับอัตราเร็ว แต่พลังงานจลน์แปรตามกำลังสอง สองปริมาณนี้จึงจัดอันดับไม่ตรงกัน"]
   } },
 
 { id:"impulse", x:235, y:150, requires:["momentum"], methods:["M-02"],
@@ -82,11 +86,11 @@ nodes:[
   viz:"motion",
   guide:[
     {say:["A steady force acting over a duration changes the velocity. That change, times the mass, is the impulse.",
-          "แรงคงที่ที่กระทำเป็นเวลาหนึ่งทำให้ความเร็วเปลี่ยน เอาความเร็วที่เปลี่ยนนั้นคูณมวลก็ได้การดล"], set:{u:0,a:5,T:4}},
+          "แรงคงที่ที่ออกแรงอยู่ช่วงหนึ่งทำให้ความเร็วเปลี่ยน เอาความเร็วที่เปลี่ยนไปคูณมวล ก็ได้การดล"], set:{u:0,a:5,T:4}},
     {say:["Halve the force and double the time. The velocity change comes out the same — same impulse, gentler ride.",
-          "ลดแรงลงครึ่งหนึ่งและเพิ่มเวลาเป็นสองเท่า ความเร็วจะเปลี่ยนเท่าเดิม การดลเท่ากัน แต่นุ่มนวลกว่า"], set:{u:0,a:2.5,T:8}},
+          "ลดแรงลงครึ่งหนึ่ง แล้วเพิ่มเวลาเป็นสองเท่า ความเร็วเปลี่ยนเท่าเดิม การดลเท่ากัน แต่นุ่มนวลกว่า"], set:{u:0,a:2.5,T:8}},
     {say:["A large negative acceleration over a very short time is a crash. Same Δp, enormous force.",
-          "ความเร่งลบมากๆ ในเวลาสั้นมากคือการชน Δp เท่าเดิม แต่แรงมหาศาล"], set:{u:20,a:-10,T:2}}
+          "ความเร่งลบสูงๆ ในเวลาสั้นมากก็คือการชน Δp เท่าเดิม แต่แรงมหาศาล"], set:{u:20,a:-10,T:2}}
   ]},
 
 { id:"conservation", x:235, y:248, requires:["impulse"], methods:["M-03"],
@@ -109,13 +113,13 @@ nodes:[
     ],
     readouts:[
       {lab:["Total before","รวมก่อนชน"], f:function(S){
-        return fmt2(S.p.m1*S.p.u1+S.p.m2*S.p.u2)+" kg·m/s"; }},
+        return un(S.p.m1*S.p.u1+S.p.m2*S.p.u2,"kg·m/s"); }},
       {lab:["Total after (they stick)","รวมหลังชน (ติดกัน)"], f:function(S){
-        return fmt2(S.p.m1*S.p.u1+S.p.m2*S.p.u2)+" kg·m/s"; }},
+        return un(S.p.m1*S.p.u1+S.p.m2*S.p.u2,"kg·m/s"); }},
       {lab:["Common velocity","ความเร็วร่วม"], f:function(S){
-        var p=S.p; return fmt2((p.m1*p.u1+p.m2*p.u2)/(p.m1+p.m2))+" m/s"; }},
+        var p=S.p; return un((p.m1*p.u1+p.m2*p.u2)/(p.m1+p.m2),"m/s"); }},
       {lab:["Any external force?","มีแรงภายนอกไหม"], f:function(){
-        return L()?"ไม่มี — จึงอนุรักษ์ได้":"none — which is why it is conserved"; }}
+        return L()?"ไม่มี จึงอนุรักษ์ได้":"none — which is why it is conserved"; }}
     ],
     bars:[
       {lab:["A before","A ก่อน"],    f:function(p){ return p.m1*p.u1; }, col:"faint"},
@@ -123,15 +127,15 @@ nodes:[
       {lab:["Total before","รวมก่อน"], f:function(p){ return p.m1*p.u1+p.m2*p.u2; }, col:"accent"},
       {lab:["Total after","รวมหลัง"],  f:function(p){ return p.m1*p.u1+p.m2*p.u2; }, col:"good"}
     ],
-    note:["momentum is a vector — a body moving backwards contributes a negative bar","โมเมนตัมเป็นเวกเตอร์ วัตถุที่วิ่งย้อนกลับจะมีแถบเป็นค่าลบ"]
+    note:["momentum is a vector — a body moving backwards contributes a negative bar","โมเมนตัมเป็นเวกเตอร์ วัตถุที่วิ่งย้อนกลับจะมีแถบเป็นลบ"]
   },
   guide:[
     {say:["A moves right, B moves left. B's bar hangs below the axis because its momentum is negative.",
-          "A วิ่งไปทางขวา B วิ่งไปทางซ้าย แถบของ B จึงห้อยลงใต้แกน เพราะโมเมนตัมเป็นลบ"], set:{m1:3,u1:6,m2:2,u2:-2}},
+          "A วิ่งไปทางขวา B วิ่งไปทางซ้าย แถบของ B จึงห้อยลงใต้แกน เพราะโมเมนตัมของ B เป็นลบ"], set:{m1:3,u1:6,m2:2,u2:-2}},
     {say:["The last two bars are always identical, whatever you set. That is conservation, drawn.",
-          "แถบสองอันสุดท้ายเท่ากันเสมอ ไม่ว่าจะตั้งค่าอะไร นี่คือการอนุรักษ์ที่เห็นเป็นภาพ"], set:{m1:3,u1:6,m2:2,u2:-9}},
+          "สองแถบสุดท้ายเท่ากันเสมอ ไม่ว่าจะตั้งค่าอะไร นี่คือการอนุรักษ์ที่วาดให้เห็น"], set:{m1:3,u1:6,m2:2,u2:-8}},
     {say:["Tune B so the two contributions cancel. Total momentum is zero — and stays zero after the crash.",
-          "ปรับ B ให้โมเมนตัมของสองก้อนหักล้างกัน โมเมนตัมรวมจะเป็นศูนย์ และยังเป็นศูนย์หลังชนด้วย"], set:{m1:3,u1:4,m2:6,u2:-2}}
+          "ปรับ B ให้โมเมนตัมของสองก้อนหักล้างกัน โมเมนตัมรวมจะเป็นศูนย์ และหลังชนก็ยังเป็นศูนย์"], set:{m1:3,u1:4,m2:6,u2:-2}}
   ] },
 
 { id:"collisions", x:100, y:346, requires:["conservation"], methods:["M-04","M-05"],
@@ -147,7 +151,7 @@ nodes:[
     anim:true,
     spellName:["Clash of the Orbs: total momentum is conserved","การปะทะของลูกแก้ว: โมเมนตัมรวมคงที่"],
     question:["Fling the two orbs together. What survives every collision — and what can be lost?",
-              "ปาลูกแก้วสองลูกเข้าหากัน อะไรคงอยู่ทุกครั้งที่ชน และอะไรที่หายไปได้"],
+              "ปาลูกแก้วสองลูกเข้าหากัน อะไรอยู่ครบทุกครั้งที่ชน แล้วอะไรหายไปได้"],
     ctrls:[
       {k:"e",  lab:["Kind of collision","ชนิดการชน"], min:0, max:2, step:1, def:0,
        opts:[["Elastic","ยืดหยุ่น"],["Half-bouncy","กึ่งยืดหยุ่น"],["They stick","ติดกัน"]]},
@@ -158,20 +162,20 @@ nodes:[
       {k:"T",  lab:["Watch for","ดูนาน"], min:3, max:10, step:1, def:6, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Total momentum","โมเมนตัมรวม"], f:function(S){ return fmt2(C06.out(S.p).p)+" kg·m/s"; }},
-      {lab:["A after","A หลังชน"], f:function(S){ return fmt2(C06.out(S.p).v1)+" m/s"; }},
-      {lab:["B after","B หลังชน"], f:function(S){ return fmt2(C06.out(S.p).v2)+" m/s"; }},
-      {lab:["Kinetic energy lost","พลังงานจลน์ที่สูญไป"], f:function(S){ var r=C06.out(S.p); return fmt2(r.ke0-r.ke1)+" J"; }}
+      {lab:["Total momentum","โมเมนตัมรวม"], f:function(S){ return C06.n(C06.out(S.p).p)+" kg·m/s"; }},
+      {lab:["A after","A หลังชน"], f:function(S){ return C06.n(C06.out(S.p).v1)+" m/s"; }},
+      {lab:["B after","B หลังชน"], f:function(S){ return C06.n(C06.out(S.p).v2)+" m/s"; }},
+      {lab:["Kinetic energy lost","พลังงานจลน์ที่สูญไป"], f:function(S){ var r=C06.out(S.p); return C06.n(r.ke0-r.ke1)+" J"; }}
     ],
     world:{ kind:"lane", span:function(p){ return C06.view(p).span; } },
     cast:function(p,S){
       var st=C06.at(p,S.t), r=C06.out(p), hit=st.hit;
       var A=hit?r.v1:p.u1, B=hit?r.v2:p.u2;
       return [
-        {role:"orb", x:st.a, size:C06.r(p.m1), col:"accent", term:"p", lab:["A · "+fmt2(p.m1)+" kg","A · "+fmt2(p.m1)+" กก."],
-         labLift:C06.r(p.m1)*2+22, vel:A, velScale:5, velLift:C06.r(p.m1)*2+38, velCol:"accent", velLab:["p = "+fmt2(p.m1*A),"p = "+fmt2(p.m1*A)]},
-        {role:"orb", x:st.b, size:C06.r(p.m2), col:"accent2", variant:"rose", term:"p", lab:["B · "+fmt2(p.m2)+" kg","B · "+fmt2(p.m2)+" กก."],
-         labLift:C06.r(p.m2)*2+22, vel:B, velScale:5, velLift:C06.r(p.m2)*2+38, velCol:"accent2", velLab:["p = "+fmt2(p.m2*B),"p = "+fmt2(p.m2*B)]}
+        {role:"orb", x:st.a, size:C06.r(p.m1), col:"accent", term:"p", lab:["A · "+un(p.m1,"kg"),"A · "+un(p.m1,"kg")],
+         labLift:C06.r(p.m1)*2+22, vel:A, velScale:5, velLift:C06.r(p.m1)*2+38, velCol:"accent", velLab:["p = "+C06.n(p.m1*A),"p = "+C06.n(p.m1*A)]},
+        {role:"orb", x:st.b, size:C06.r(p.m2), col:"accent2", variant:"rose", term:"p", lab:["B · "+un(p.m2,"kg"),"B · "+un(p.m2,"kg")],
+         labLift:C06.r(p.m2)*2+22, vel:B, velScale:5, velLift:C06.r(p.m2)*2+38, velCol:"accent2", velLab:["p = "+C06.n(p.m2*B),"p = "+C06.n(p.m2*B)]}
       ];
     },
     handles:[
@@ -195,19 +199,19 @@ nodes:[
     },
     spell:{
       tex:function(p){ var r=C06.out(p);
-        return "m_1u_1 + m_2u_2 = m_1v_1 + m_2v_2:\\quad ("+fmt2(p.m1)+")("+fmt2(p.u1)+") + ("+fmt2(p.m2)+")("+fmt2(p.u2)+") = ("+fmt2(p.m1)+")("+fmt2(r.v1)+") + ("+fmt2(p.m2)+")("+fmt2(r.v2)+") = "+fmt2(r.p)+"\\,\\text{kg}\\cdot\\text{m/s}"; },
+        return "m_1u_1 + m_2u_2 = m_1v_1 + m_2v_2:\\quad ("+C06.t(p.m1)+")("+C06.t(p.u1)+") + ("+C06.t(p.m2)+")("+C06.t(p.u2)+") = ("+C06.t(p.m1)+")("+C06.t(r.v1)+") + ("+C06.t(p.m2)+")("+C06.t(r.v2)+") = "+C06.t(r.p)+"\\,\\text{kg}\\cdot\\text{m/s}"; },
       terms:[
-        {k:"p", sym:"Σp", lab:["total momentum · always kept","โมเมนตัมรวม · อยู่รอดเสมอ"], col:"accent", f:function(p){ return fmt2(C06.out(p).p)+" kg·m/s"; }},
-        {k:"ke", sym:"ΔE", lab:["energy lost to heat and sound","พลังงานที่สูญเป็นความร้อนและเสียง"], col:"warn", f:function(p){ var r=C06.out(p); return fmt2(r.ke0-r.ke1)+" J"; }}
+        {k:"p", sym:"Σp", lab:["total momentum · always kept","โมเมนตัมรวม · คงอยู่เสมอ"], col:"accent", f:function(p){ return C06.n(C06.out(p).p)+" kg·m/s"; }},
+        {k:"ke", sym:"ΔE", lab:["energy lost to heat and sound","พลังงานที่สูญเป็นความร้อนและเสียง"], col:"warn", f:function(p){ var r=C06.out(p); return C06.n(r.ke0-r.ke1)+" J"; }}
       ]
     },
     predict:{ kind:"choice",
-      ask:["After the clash, what will orb A do?","หลังการปะทะ ลูกแก้ว A จะทำอะไร"],
+      ask:["After the clash, what will orb A do?","หลังชนกัน ลูกแก้ว A จะเป็นอย่างไร"],
       opts:[["Stop dead","หยุดนิ่ง"],["Keep going forward","ไปข้างหน้าต่อ"],["Bounce back","กระเด้งกลับ"]],
-      actual:function(p){ var r=C06.out(p); if(!C06.meets(p)) return 1; return Math.abs(r.v1)<0.05 ? 0 : (r.v1>0 ? 1 : 2); },
+      actual:function(p){ var r=C06.out(p); if(!C06.meets(p)) return Math.abs(p.u1)<0.05 ? 0 : 1; return Math.abs(r.v1)<0.05 ? 0 : (r.v1>0 ? 1 : 2); },
       explain:function(p){ var r=C06.out(p); return [
-        "Momentum before is "+fmt2(r.p)+" kg·m/s and must still be "+fmt2(r.p)+" after: A leaves at "+fmt2(r.v1)+" m/s and B at "+fmt2(r.v2)+" m/s. A light orb hitting a heavy one bounces back; equal orbs in an elastic hit swap speeds.",
-        "โมเมนตัมก่อนชนคือ "+fmt2(r.p)+" kg·m/s และหลังชนต้องยังเป็น "+fmt2(r.p)+" A ออกไปด้วย "+fmt2(r.v1)+" ม./วิ และ B ด้วย "+fmt2(r.v2)+" ม./วิ ลูกเบาชนลูกหนักจะกระเด้งกลับ ลูกเท่ากันชนแบบยืดหยุ่นจะสลับความเร็วกัน"]; }
+        "Momentum before is "+C06.n(r.p)+" kg·m/s and must still be "+C06.n(r.p)+" after: A leaves at "+C06.n(r.v1)+" m/s and B at "+C06.n(r.v2)+" m/s. A light orb hitting a heavy one bounces back; equal orbs in an elastic hit swap speeds.",
+        "โมเมนตัมก่อนชนคือ "+C06.n(r.p)+" kg·m/s หลังชนก็ต้องเท่านี้ A ออกไปด้วย "+C06.n(r.v1)+" m/s ส่วน B ออกไปด้วย "+C06.n(r.v2)+" m/s ลูกเบาชนลูกหนักจะกระเด้งกลับ ถ้าลูกเท่ากันชนกันแบบยืดหยุ่นจะสลับความเร็วกัน"]; }
     },
     trials:{
       veil:true,
@@ -225,44 +229,44 @@ nodes:[
       },
       lockFor:function(g){ return g.kind==="stop" ? ["e","m2","u1","u2"] : ["e","m1","m2","u2"]; },
       say:function(g){
-        if(g.kind==="stick") return ["The orbs will stick. A is "+g.m1+" kg, B is "+g.m2+" kg and waits at rest. How fast must A fly so the joined pair drifts off at exactly "+g.V+" m/s?",
-                                     "ลูกแก้วจะติดกัน A หนัก "+g.m1+" กก. B หนัก "+g.m2+" กก. และอยู่นิ่ง A ต้องพุ่งเร็วเท่าใดให้คู่ที่ติดกันเคลื่อนไปด้วย "+g.V+" ม./วิ พอดี"];
-        if(g.kind==="stop") return ["In an elastic clash with B ("+g.m2+" kg, at rest), choose A's mass so that A stops dead and B takes all its motion.",
-                                    "ในการชนแบบยืดหยุ่นกับ B ("+g.m2+" กก. อยู่นิ่ง) เลือกมวลของ A ให้ A หยุดนิ่ง และ B รับการเคลื่อนที่ไปทั้งหมด"];
-        return ["Elastic clash: A ("+g.m1+" kg) hits B ("+g.m2+" kg, at rest). How fast must A fly so that B shoots off at exactly "+g.V+" m/s?",
-                "ชนแบบยืดหยุ่น: A ("+g.m1+" กก.) ชน B ("+g.m2+" กก. อยู่นิ่ง) A ต้องพุ่งเร็วเท่าใดให้ B พุ่งออกไปด้วย "+g.V+" ม./วิ พอดี"];
+        if(g.kind==="stick") return ["The orbs will stick. A is "+num(g.m1)+" kg, B is "+num(g.m2)+" kg and waits at rest. How fast must A fly so the joined pair drifts off at exactly "+num(g.V)+" m/s?",
+                                     "ลูกแก้วจะติดกัน A หนัก "+num(g.m1)+" kg B หนัก "+num(g.m2)+" kg และอยู่นิ่ง A ต้องพุ่งเร็วเท่าไร คู่ที่ติดกันจึงจะเคลื่อนไปด้วย "+num(g.V)+" m/s พอดี"];
+        if(g.kind==="stop") return ["In an elastic clash with B ("+num(g.m2)+" kg, at rest), choose A's mass so that A stops dead and B takes all its motion.",
+                                    "ชนกับ B ("+num(g.m2)+" kg อยู่นิ่ง) แบบยืดหยุ่น เลือกมวลของ A ให้ A หยุดนิ่ง และ B รับการเคลื่อนที่ไปทั้งหมด"];
+        return ["Elastic clash: A ("+num(g.m1)+" kg) hits B ("+num(g.m2)+" kg, at rest). How fast must A fly so that B shoots off at exactly "+num(g.V)+" m/s?",
+                "ชนแบบยืดหยุ่น: A ("+num(g.m1)+" kg) ชน B ("+num(g.m2)+" kg อยู่นิ่ง) A ต้องพุ่งเร็วเท่าไร B จึงจะพุ่งออกไปด้วย "+num(g.V)+" m/s พอดี"];
       },
       at:function(){ return {x:22, lift:30}; },
       check:function(p,S,g){
         var r=C06.out(p);
         if(g.kind==="stick"){
-          if(p.u1===g.u1) return {ok:true, msg:["Stuck together at "+g.V+" m/s. Momentum in = momentum out: m₁u₁ = (m₁ + m₂)v, so u₁ = "+g.V+" × "+(g.m1+g.m2)+" / "+g.m1+" = "+g.u1+" m/s. Kinetic energy is NOT conserved — "+fmt2(r.ke0-r.ke1)+" J went to heat (trap T-02).",
-                                                "ติดกันไปด้วย "+g.V+" ม./วิ โมเมนตัมเข้า = โมเมนตัมออก: m₁u₁ = (m₁ + m₂)v ดังนั้น u₁ = "+g.V+" × "+(g.m1+g.m2)+" / "+g.m1+" = "+g.u1+" ม./วิ พลังงานจลน์ไม่อนุรักษ์ — "+fmt2(r.ke0-r.ke1)+" J กลายเป็นความร้อน (กับดัก T-02)"]};
-          return {ok:false, msg:["The pair moved at "+fmt2(r.v1)+" m/s. Sticking means one velocity after: use momentum, not energy.",
-                                 "คู่ที่ติดกันเคลื่อนที่ "+fmt2(r.v1)+" ม./วิ ติดกันหมายถึงมีความเร็วเดียวหลังชน ใช้โมเมนตัม ไม่ใช่พลังงาน"]};
+          if(Math.abs(p.u1-g.u1)<1e-6) return {ok:true, msg:["Stuck together at "+num(g.V)+" m/s. Momentum in = momentum out: m₁u₁ = (m₁ + m₂)v, so u₁ = "+num(g.V)+" × "+num(g.m1+g.m2)+" / "+num(g.m1)+" = "+num(g.u1)+" m/s. Kinetic energy is NOT conserved — "+C06.n(r.ke0-r.ke1)+" J went to heat (trap T-02).",
+                                                "ติดกันแล้วไปด้วย "+num(g.V)+" m/s โมเมนตัมก่อนชนเท่ากับหลังชน m₁u₁ = (m₁ + m₂)v ดังนั้น u₁ = "+num(g.V)+" × "+num(g.m1+g.m2)+" / "+num(g.m1)+" = "+num(g.u1)+" m/s พลังงานจลน์ไม่อนุรักษ์ — "+C06.n(r.ke0-r.ke1)+" J กลายเป็นความร้อน (กับดัก T-02)"]};
+          return {ok:false, msg:["The pair moved at "+C06.n(r.v1)+" m/s. Sticking means one velocity after: use momentum, not energy.",
+                                 "คู่ที่ติดกันเคลื่อนที่ด้วย "+C06.n(r.v1)+" m/s ติดกันแปลว่าหลังชนมีความเร็วเดียว ให้ใช้โมเมนตัม ไม่ใช่พลังงาน"]};
         }
         if(g.kind==="stop"){
           if(p.m1===g.m2) return {ok:true, msg:["A stops dead and B leaves at A's old speed. In an elastic clash between equal masses the two simply swap velocities.",
-                                                "A หยุดนิ่ง ส่วน B ออกไปด้วยความเร็วเดิมของ A เมื่อมวลเท่ากันชนกันแบบยืดหยุ่น ทั้งสองจะสลับความเร็วกัน"]};
-          return {ok:false, msg:[r.v1>0 ? "A kept going at "+fmt2(r.v1)+" m/s — it is too heavy." : "A bounced back at "+fmt2(-r.v1)+" m/s — it is too light.",
-                                 r.v1>0 ? "A ยังไปต่อที่ "+fmt2(r.v1)+" ม./วิ หนักเกินไป" : "A กระเด้งกลับที่ "+fmt2(-r.v1)+" ม./วิ เบาเกินไป"]};
+                                                "A หยุดนิ่ง ส่วน B ออกไปด้วยความเร็วเดิมของ A มวลเท่ากันชนกันแบบยืดหยุ่น ทั้งสองจะสลับความเร็วกัน"]};
+          return {ok:false, msg:[r.v1>0 ? "A kept going at "+C06.n(r.v1)+" m/s — it is too heavy." : "A bounced back at "+C06.n(-r.v1)+" m/s — it is too light.",
+                                 r.v1>0 ? "A ยังไปต่อด้วย "+C06.n(r.v1)+" m/s หนักเกินไป" : "A กระเด้งกลับด้วย "+C06.n(-r.v1)+" m/s เบาเกินไป"]};
         }
-        if(p.u1===g.u1) return {ok:true, msg:["B shoots off at "+g.V+" m/s. In an elastic clash with B at rest, v₂ = 2m₁u₁ / (m₁ + m₂), so u₁ = "+g.V+" × "+(g.m1+g.m2)+" / (2 × "+g.m1+") = "+g.u1+" m/s.",
-                                              "B พุ่งออกไปด้วย "+g.V+" ม./วิ ในการชนแบบยืดหยุ่นที่ B อยู่นิ่ง v₂ = 2m₁u₁ / (m₁ + m₂) ดังนั้น u₁ = "+g.V+" × "+(g.m1+g.m2)+" / (2 × "+g.m1+") = "+g.u1+" ม./วิ"]};
-        return {ok:false, msg:["B left at "+fmt2(r.v2)+" m/s. Both momentum and kinetic energy are kept in an elastic clash — together they fix v₂.",
-                               "B ออกไปด้วย "+fmt2(r.v2)+" ม./วิ การชนแบบยืดหยุ่นเก็บทั้งโมเมนตัมและพลังงานจลน์ ทั้งสองอย่างร่วมกันกำหนด v₂"]};
+        if(Math.abs(p.u1-g.u1)<1e-6) return {ok:true, msg:["B shoots off at "+num(g.V)+" m/s. In an elastic clash with B at rest, v₂ = 2m₁u₁ / (m₁ + m₂), so u₁ = "+num(g.V)+" × "+num(g.m1+g.m2)+" / (2 × "+num(g.m1)+") = "+num(g.u1)+" m/s.",
+                                              "B พุ่งออกไปด้วย "+num(g.V)+" m/s ชนแบบยืดหยุ่นขณะที่ B อยู่นิ่ง v₂ = 2m₁u₁ / (m₁ + m₂) ดังนั้น u₁ = "+num(g.V)+" × "+num(g.m1+g.m2)+" / (2 × "+num(g.m1)+") = "+num(g.u1)+" m/s"]};
+        return {ok:false, msg:["B left at "+C06.n(r.v2)+" m/s. Both momentum and kinetic energy are kept in an elastic clash — together they fix v₂.",
+                               "B ออกไปด้วย "+C06.n(r.v2)+" m/s ชนแบบยืดหยุ่นอนุรักษ์ทั้งโมเมนตัมและพลังงานจลน์ สองอย่างนี้ร่วมกันกำหนด v₂"]};
       }
     },
     note:["the two momentum bars always match; the two energy bars match only when nothing sticks or squashes",
-          "แถบโมเมนตัมสองแถบเท่ากันเสมอ แต่แถบพลังงานสองแถบจะเท่ากันก็ต่อเมื่อไม่มีการติดกันหรือบุบ"]
+          "แถบโมเมนตัมสองแถบเท่ากันเสมอ ส่วนแถบพลังงานสองแถบจะเท่ากันได้ก็ต่อเมื่อไม่มีการติดกันหรือบุบ"]
   },
   guide:[
     {say:["Equal orbs, elastic. Press play: A stops dead and B carries on at A's speed — they swap.",
-          "ลูกแก้วมวลเท่ากัน ชนแบบยืดหยุ่น กดเล่นเลย A จะหยุดนิ่ง และ B ไปต่อด้วยความเร็วของ A ทั้งสองสลับความเร็วกัน"], set:{e:0,m1:3,u1:6,m2:3,u2:0,T:6}},
+          "ลูกแก้วมวลเท่ากัน ชนแบบยืดหยุ่น กดเล่นเลย A จะหยุดนิ่ง ส่วน B ไปต่อด้วยความเร็วของ A สองลูกสลับความเร็วกัน"], set:{e:0,m1:3,u1:6,m2:3,u2:0,T:6}},
     {say:["Now make them stick. Both momentum bars still match, but the energy-after bar drops: that energy became heat.",
-          "ทีนี้ให้ลูกแก้วติดกัน แถบโมเมนตัมสองแถบยังเท่ากัน แต่แถบพลังงานหลังชนลดลง พลังงานส่วนนั้นกลายเป็นความร้อน"], set:{e:2,m1:3,u1:6,m2:3,u2:0,T:6}},
+          "คราวนี้ให้ลูกแก้วติดกัน แถบโมเมนตัมสองแถบยังเท่ากัน แต่แถบพลังงานหลังชนลดลง เพราะพลังงานส่วนนั้นกลายเป็นความร้อน"], set:{e:2,m1:3,u1:6,m2:3,u2:0,T:6}},
     {say:["A light orb into a heavy one, elastic: A bounces back. Its momentum turns negative, and B's grows to keep the total the same.",
-          "ลูกเบาชนลูกหนักแบบยืดหยุ่น A จะกระเด้งกลับ โมเมนตัมของ A เป็นลบ ส่วนของ B เพิ่มขึ้นเพื่อให้ผลรวมเท่าเดิม"], set:{e:0,m1:1,u1:8,m2:6,u2:0,T:6}}
+          "ลูกเบาชนลูกหนักแบบยืดหยุ่น A จะกระเด้งกลับ โมเมนตัมของ A กลายเป็นลบ ส่วนของ B เพิ่มขึ้น เพื่อให้ผลรวมเท่าเดิม"], set:{e:0,m1:1,u1:8,m2:6,u2:0,T:6}}
   ]
 },
 
@@ -277,11 +281,11 @@ nodes:[
   viz:"vector",
   guide:[
     {say:["Treat the two outgoing momenta as vectors. Their resultant must equal the incoming momentum.",
-          "มองโมเมนตัมของสองก้อนหลังชนเป็นเวกเตอร์ ผลรวมของเวกเตอร์ทั้งสองต้องเท่ากับโมเมนตัมก่อนชน"], set:{A:10,tA:35,B:10,tB:-35}},
+          "ให้มองโมเมนตัมของสองก้อนหลังชนเป็นเวกเตอร์ ผลรวมของสองเวกเตอร์นี้ต้องเท่ากับโมเมนตัมก่อนชน"], set:{A:10,tA:35,B:10,tB:-35}},
     {say:["Equal masses, elastic, one initially at rest — the two paths open to exactly 90°.",
-          "มวลเท่ากัน ชนแบบยืดหยุ่น ก้อนหนึ่งอยู่นิ่งมาก่อน เส้นทางของทั้งสองจะแยกกันเป็นมุม 90° พอดี"], set:{A:10,tA:45,B:10,tB:-45}},
+          "มวลเท่ากัน ชนแบบยืดหยุ่น และก้อนหนึ่งอยู่นิ่งมาก่อน เส้นทางทั้งสองจะแยกกันเป็นมุม 90° พอดี"], set:{A:10,tA:45,B:10,tB:-45}},
     {say:["Unequal masses break the symmetry. The heavier body takes the smaller angle.",
-          "ถ้ามวลไม่เท่ากัน ความสมมาตรจะหายไป ก้อนที่หนักกว่าจะเบนเป็นมุมที่เล็กกว่า"], set:{A:14,tA:20,B:7,tB:-55}}
+          "ถ้ามวลไม่เท่ากัน ความสมมาตรจะหายไป ก้อนที่หนักกว่าจะเบนน้อยกว่า"], set:{A:14,tA:20,B:7,tB:-55}}
   ]}
 ],
 
@@ -307,10 +311,10 @@ gen:{
   if(sf==="S-04") return {stem:["A ball of momentum p bounces straight back with the same speed. What is its change in momentum?",
                                 "ลูกบอลมีโมเมนตัม p กระดอนกลับตรงๆ ด้วยอัตราเร็วเท่าเดิม โมเมนตัมเปลี่ยนไปเท่าไร"],
     opts:[{v:"2p",ok:1},{v:"0",trap:"T-01"},{v:"p",trap:"T-01"},{v:"p/2"}],unit:""};
-  if(sf==="S-05") return {stem:["A body of momentum "+(m*v)+" kg·m/s moves at "+v+" m/s. Find its mass.",
+  if(sf==="S-05") return {stem:["A body of momentum "+(m*v)+" kg·m/s moves at "+v+" m/s. Find its mass.",
                                 "วัตถุมีโมเมนตัม "+(m*v)+" กก.·ม./วินาที เคลื่อนที่ด้วย "+v+" ม./วินาที จงหามวล"],
     opts:[{v:String(m),ok:1},{v:fmt(m*v*v)},{v:fmt(v/m)},{v:fmt(m*2)}],unit:" kg"};
-  return {stem:["Find the momentum of a "+m+" kg body moving at "+v+" m/s.",
+  return {stem:["Find the momentum of a "+m+" kg body moving at "+v+" m/s.",
                 "จงหาโมเมนตัมของวัตถุมวล "+m+" กิโลกรัม ที่เคลื่อนที่ด้วย "+v+" ม./วินาที"],
     opts:[{v:String(m*v),ok:1},{v:fmt(0.5*m*v*v),trap:"T-03"},{v:fmt(m/v)},{v:fmt(m+v)}],unit:" kg·m/s"};
 },
@@ -323,10 +327,10 @@ gen:{
           {v:["It reduces the momentum change","มันลดการเปลี่ยนแปลงโมเมนตัม"],trap:"T-03"},
           {v:["It reduces your mass","มันลดมวลของคุณ"]},
           {v:["It shortens the stopping distance","มันลดระยะหยุด"],trap:"T-03"}],unit:""};
-  if(sf==="S-03") return {stem:["A "+m+" kg ball hits a wall at "+u+" m/s and stops in "+t+" s. Find the average force.",
+  if(sf==="S-03") return {stem:["A "+m+" kg ball hits a wall at "+u+" m/s and stops in "+t+" s. Find the average force.",
                                 "ลูกบอลมวล "+m+" กิโลกรัม ชนกำแพงด้วย "+u+" ม./วินาที และหยุดใน "+t+" วินาที จงหาแรงเฉลี่ย"],
     opts:[{v:fmt(F),ok:1},{v:fmt(m*u),trap:"T-03"},{v:fmt(m*u*t)},{v:fmt(u/t)}],unit:" N"};
-  return {stem:["A force acts on a "+m+" kg body for "+t+" s and brings it from rest to "+u+" m/s. Find the force.",
+  return {stem:["A force acts on a "+m+" kg body for "+t+" s and brings it from rest to "+u+" m/s. Find the force.",
                 "แรงกระทำต่อวัตถุมวล "+m+" กิโลกรัม เป็นเวลา "+t+" วินาที ทำให้จากหยุดนิ่งเป็น "+u+" ม./วินาที จงหาแรง"],
     opts:[{v:fmt(F),ok:1},{v:fmt(m*u),trap:"T-03"},{v:fmt(m/t)},{v:fmt(u*t)}],unit:" N"};
 },
@@ -337,11 +341,11 @@ gen:{
     /* recoil: a stationary rifle fires a bullet, total momentum stays zero */
     var M=pick([3,4,5]), mb=pick([0.01,0.02,0.05]), vb=pick([300,400,500]);
     var recoil=mb*vb/M;
-    return {stem:["A "+M+" kg rifle at rest fires a "+mb+" kg bullet at "+vb+" m/s. Find the recoil speed of the rifle.",
+    return {stem:["A "+M+" kg rifle at rest fires a "+mb+" kg bullet at "+vb+" m/s. Find the recoil speed of the rifle.",
                   "ปืนมวล "+M+" กิโลกรัม ที่หยุดนิ่ง ยิงกระสุนมวล "+mb+" กิโลกรัม ด้วย "+vb+" ม./วินาที จงหาอัตราเร็วการถอยหลังของปืน"],
       opts:[{v:fmt(recoil),ok:1},{v:fmt(M*vb/mb)},{v:String(vb),trap:"T-01"},{v:fmt(recoil*2)}],unit:" m/s"};
   }
-  return {stem:["A "+m1+" kg body at "+u1+" m/s collides with a stationary "+m2+" kg body, which moves off at "+v2+" m/s. Find the first body's new velocity.",
+  return {stem:["A "+m1+" kg body at "+u1+" m/s collides with a stationary "+m2+" kg body, which moves off at "+v2+" m/s. Find the first body's new velocity.",
                 "วัตถุมวล "+m1+" กิโลกรัม ที่ "+u1+" ม./วินาที ชนวัตถุมวล "+m2+" กิโลกรัม ที่หยุดนิ่ง ซึ่งเคลื่อนที่ออกด้วย "+v2+" ม./วินาที จงหาความเร็วใหม่ของวัตถุแรก"],
     opts:[{v:fmt(v1),ok:1},{v:fmt(u1+v2),trap:"T-01"},{v:String(u1)},{v:fmt(m2*v2/m1)}],unit:" m/s"};
 },
@@ -349,7 +353,7 @@ gen:{
   var m1=pick([2,3,4]), u1=pick([6,8,10]), m2=pick([1,2,6]);
   var v=m1*u1/(m1+m2);
   var Ek1=0.5*m1*u1*u1, Ek2=0.5*(m1+m2)*v*v;
-  if(sf==="S-05") return {stem:["Two bodies stick together and move at "+fmt(v)+" m/s. The second, of mass "+m2+" kg, was at rest and the first has mass "+m1+" kg. Find the first body's initial speed.",
+  if(sf==="S-05") return {stem:["Two bodies stick together and move at "+fmt(v)+" m/s. The second, of mass "+m2+" kg, was at rest and the first has mass "+m1+" kg. Find the first body's initial speed.",
                                 "วัตถุสองก้อนติดกันแล้วเคลื่อนที่ด้วย "+fmt(v)+" ม./วินาที ก้อนที่สองมวล "+m2+" กิโลกรัม หยุดนิ่งอยู่ และก้อนแรกมวล "+m1+" กิโลกรัม จงหาอัตราเร็วเริ่มต้นของก้อนแรก"],
     opts:[{v:String(u1),ok:1},{v:fmt(v*m2/m1)},{v:fmt(v),trap:"T-02"},{v:fmt(u1/2)}],unit:" m/s"};
   if(sf==="S-04") return {stem:["Two lumps of clay collide and stick. Which quantities are conserved?",
@@ -358,7 +362,7 @@ gen:{
           {v:["Both momentum and kinetic energy","ทั้งโมเมนตัมและพลังงานจลน์"],trap:"T-02"},
           {v:["Kinetic energy only","พลังงานจลน์เท่านั้น"],trap:"T-02"},
           {v:["Neither","ไม่มีเลย"]}],unit:""};
-  return {stem:["A "+m1+" kg body at "+u1+" m/s strikes a stationary "+m2+" kg body and they stick. Find their common velocity.",
+  return {stem:["A "+m1+" kg body at "+u1+" m/s strikes a stationary "+m2+" kg body and they stick. Find their common velocity.",
                 "วัตถุมวล "+m1+" กิโลกรัม ที่ "+u1+" ม./วินาที ชนวัตถุมวล "+m2+" กิโลกรัม ที่หยุดนิ่งแล้วติดกัน จงหาความเร็วร่วม"],
     opts:[{v:fmt(v),ok:1},{v:String(u1),trap:"T-02"},{v:fmt(m1*u1/m2)},{v:fmt(u1/2)}],unit:" m/s"};
 },
@@ -379,7 +383,7 @@ gen:{
   if(sf==="S-04") return {stem:["Two equal masses collide elastically, one initially at rest. What angle separates them afterwards?",
                                 "มวลเท่ากันสองก้อนชนกันแบบยืดหยุ่น โดยก้อนหนึ่งอยู่นิ่งมาก่อน หลังชนทั้งสองแยกจากกันเป็นมุมเท่าไร"],
     opts:[{v:"90°",ok:1},{v:"180°"},{v:"45°"},{v:["It depends on the speeds","ขึ้นกับอัตราเร็ว"],trap:"T-04"}],unit:""};
-  return {stem:["A "+m+" kg body moving at "+u+" m/s is deflected to "+th+"° from its original path. Find the x-component of its new momentum, given its speed is unchanged.",
+  return {stem:["A "+m+" kg body moving at "+u+" m/s is deflected to "+th+"° from its original path. Find the x-component of its new momentum, given its speed is unchanged.",
                 "วัตถุมวล "+m+" กิโลกรัม เคลื่อนที่ด้วย "+u+" ม./วินาที ถูกเบนไป "+th+"° จากแนวเดิม โดยอัตราเร็วไม่เปลี่ยน จงหาองค์ประกอบ x ของโมเมนตัมใหม่"],
     opts:[{v:fmt(m*u*cos),ok:1},{v:String(m*u),trap:"T-04"},{v:fmt(m*u*Math.sqrt(1-cos*cos))},{v:fmt(m*cos)}],unit:" kg·m/s"};
 }

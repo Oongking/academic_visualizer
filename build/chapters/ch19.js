@@ -28,16 +28,16 @@ nodes:[
       {k:"n", lab:["How many photons","จำนวนโฟตอน"], min:1, max:100, step:1, def:1, unit:""}
     ],
     readouts:[
-      {lab:["Energy of one photon","พลังงานของโฟตอนหนึ่งตัว"], f:function(S){
-        return fmt2(4.136e-15*S.p.f*1e14)+" eV"; }},
+      {lab:["Energy of one photon","พลังงานของโฟตอน 1 ตัว"], f:function(S){
+        return un(4.136e-15*S.p.f*1e14,"eV"); }},
       {lab:["Wavelength","ความยาวคลื่น"], f:function(S){
-        return fmt2(3e8/(S.p.f*1e14)*1e9)+" nm"; }},
+        return un(3e8/(S.p.f*1e14)*1e9,"nm"); }},
       {lab:["Total energy delivered","พลังงานรวมที่ส่งมา"], f:function(S){
-        return fmt2(S.p.n*4.136e-15*S.p.f*1e14)+" eV"; }},
+        return un(S.p.n*4.136e-15*S.p.f*1e14,"eV"); }},
       {lab:["Brighter light means","แสงสว่างขึ้นแปลว่า"], f:function(){
-        return L()?"โฟตอนมากขึ้น ไม่ใช่โฟตอนที่แรงขึ้น":"more photons, not stronger photons"; }}
+        return L()?"มีโฟตอนมากขึ้น ไม่ใช่โฟตอนแรงขึ้น":"more photons, not stronger photons"; }}
     ],
-    note:["turning up the brightness slides no point along this line — it only adds more points","ความสว่างที่เพิ่มขึ้นไม่ได้เลื่อนจุดไปตามเส้นนี้ มีแต่เพิ่มจำนวนจุด"]
+    note:["turning up the brightness slides no point along this line — it only adds more points","เพิ่มความสว่างไม่ได้ทำให้จุดเลื่อนไปตามเส้นนี้ แต่เพิ่มจำนวนจุดเท่านั้น"]
   } },
 
 { id:"photoelectric", x:100, y:150, requires:["photon"], methods:["M-02"],
@@ -62,26 +62,26 @@ nodes:[
     ],
     readouts:[
       {lab:["Threshold frequency","ความถี่ขีดเริ่ม"], f:function(S){
-        return fmt2(S.p.phi/4.136e-15/1e14)+" ×10¹⁴ Hz"; }},
+        return un(S.p.phi/4.136e-15,"Hz"); }},
       {lab:["Maximum kinetic energy","พลังงานจลน์สูงสุด"], f:function(S){
         var e=4.136e-15*S.p.f*1e14-S.p.phi;
-        return e<=0 ? (L()?"ไม่มีอิเล็กตรอนหลุดออกมา":"no electrons emitted at all") : fmt2(e)+" eV"; }},
+        return e<=0 ? (L()?"ไม่มีอิเล็กตรอนหลุดออกมา":"no electrons emitted at all") : un(e,"eV"); }},
       {lab:["Effect of intensity","ผลของความเข้ม"], f:function(){
-        return L()?"เพิ่มจำนวนอิเล็กตรอน ไม่เพิ่มพลังงาน":"more electrons, never more energy each"; }},
+        return L()?"อิเล็กตรอนมากขึ้น แต่พลังงานต่อตัวไม่เพิ่ม":"more electrons, never more energy each"; }},
       {lab:["Slope of the line","ความชันของเส้น"], f:function(){
-        return L()?"คือค่าคงตัวของพลังค์ h":"is Planck's constant h"; }}
+        return L()?"เท่ากับค่าคงตัวของพลังค์ h":"is Planck's constant h"; }}
     ],
-    note:["drag the intensity slider all the way — the line will not move by one pixel","ลองลากแถบความเข้มไปสุด เส้นกราฟจะไม่ขยับเลยแม้แต่พิกเซลเดียว"]
+    note:["drag the intensity slider all the way — the line will not move by one pixel","ลองลากแถบความเข้มไปสุดทาง เส้นกราฟจะไม่ขยับเลยแม้แต่พิกเซลเดียว"]
   },
   guide:[
     {say:["Below the threshold nothing happens at all, however long you wait. The line sits on the floor.",
-          "ถ้าความถี่ต่ำกว่าค่าขีดเริ่ม จะไม่เกิดอะไรขึ้นเลย รอนานแค่ไหนก็เหมือนเดิม เส้นกราฟอยู่ที่พื้น"], set:{phi:2.3,f:4,I:5}},
+          "ถ้าความถี่ต่ำกว่าค่าขีดเริ่ม จะไม่เกิดอะไรขึ้นเลย ต่อให้รอนานแค่ไหน เส้นกราฟก็ติดพื้น"], set:{phi:2.3,f:4,I:5}},
     {say:["Cross the threshold and electrons appear immediately, with energy that climbs in a straight line.",
-          "พอความถี่เลยค่าขีดเริ่ม อิเล็กตรอนก็หลุดออกมาทันที และพลังงานของมันเพิ่มขึ้นเป็นเส้นตรง"], set:{phi:2.3,f:8,I:5}},
+          "พอความถี่สูงกว่าค่าขีดเริ่ม อิเล็กตรอนก็หลุดออกมาทันที และพลังงานของมันเพิ่มขึ้นเป็นเส้นตรง"], set:{phi:2.3,f:8,I:5}},
     {say:["Now crank the intensity to maximum. Nothing moves — this is exactly what broke the wave theory.",
-          "ทีนี้ลองเพิ่มความเข้มจนสุด ไม่มีอะไรขยับ นี่แหละคือสิ่งที่ทำให้ทฤษฎีคลื่นใช้อธิบายไม่ได้"], set:{phi:2.3,f:8,I:20}},
+          "ทีนี้ลองเพิ่มความเข้มจนสุด จะเห็นว่าไม่มีอะไรขยับ นี่แหละที่ทำให้ทฤษฎีคลื่นอธิบายไม่ได้"], set:{phi:2.3,f:8,I:20}},
     {say:["A different metal shifts the whole line sideways, but the slope stays h — the same for every metal.",
-          "ถ้าเปลี่ยนชนิดโลหะ เส้นทั้งเส้นจะเลื่อนไปด้านข้าง แต่ความชันยังเป็น h เท่าเดิมกับทุกโลหะ"], set:{phi:5,f:16,I:5}}
+          "ถ้าเปลี่ยนชนิดโลหะ เส้นทั้งเส้นจะเลื่อนไปทางข้าง แต่ความชันยังเป็น h เท่าเดิมกับโลหะทุกชนิด"], set:{phi:5,f:16,I:5}}
   ] },
 
 { id:"bohr", x:370, y:150, requires:["photon"], methods:["M-03","M-04"],
@@ -101,13 +101,14 @@ nodes:[
     readouts:[
       {lab:["Photon energy","พลังงานโฟตอน"], f:function(S){
         var dE=13.6*(1/(S.p.nf*S.p.nf)-1/(S.p.ni*S.p.ni));
-        return dE>0 ? fmt2(dE)+" eV" : (L()?"ต้องดูดกลืน":"absorbed"); }},
+        return dE>0 ? un(dE,"eV") : dE<0 ? (L()?"ดูดกลืน":"absorbed") : (L()?"ไม่เปลี่ยนระดับ":"no change"); }},
       {lab:["Wavelength","ความยาวคลื่น"], f:function(S){
         var dE=13.6*(1/(S.p.nf*S.p.nf)-1/(S.p.ni*S.p.ni));
-        return dE>0 ? String(Math.round(1240/dE))+" nm" : "—"; }},
+        return dE>0 ? un(1240/dE,"nm") : "—"; }},
       {lab:["Series","อนุกรม"], f:function(S){
-        var N={1:"Lyman (UV)",2:"Balmer (visible)",3:"Paschen (IR)"};
-        return N[String(S.p.nf)]||(L()?"อินฟราเรดไกล":"far IR"); }}
+        if(S.p.ni<=S.p.nf) return "—";
+        var N={1:["Lyman (UV)","ไลมัน (UV)"],2:["Balmer (visible)","บัลเมอร์ (แสงที่มองเห็น)"],3:["Paschen (IR)","พาสเชน (IR)"]};
+        return (N[String(S.p.nf)]||["far IR","อินฟราเรดไกล"])[L()]; }}
     ],
     draw:function(S,o){
       var ni=S.p.ni, nf=S.p.nf;
@@ -118,7 +119,7 @@ nodes:[
       for(var e=0;e>=-14;e-=2){
         var gy=Y(e);
         o.push('<line x1="'+(x0-8)+'" y1="'+gy+'" x2="'+(x0-2)+'" y2="'+gy+'" stroke="var(--ink-faint)" stroke-width="1"/>');
-        o.push('<text x="'+(x0-12)+'" y="'+(gy+3.5)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">'+e+'</text>');
+        o.push('<text x="'+(x0-12)+'" y="'+(gy+3.5)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">'+String(e).replace("-","−")+'</text>');
       }
       o.push('<text transform="rotate(-90 34 '+((top+bot)/2)+')" x="34" y="'+((top+bot)/2)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">E (eV)</text>');
       /* the levels */
@@ -127,7 +128,7 @@ nodes:[
         var on=(n===ni||n===nf);
         o.push('<line x1="'+x0+'" y1="'+y+'" x2="'+x1+'" y2="'+y+'" stroke="'+(on?"var(--accent)":"var(--ink-soft)")+'" stroke-width="'+(on?2.4:1.4)+'"/>');
         o.push('<text x="'+(x1+10)+'" y="'+(y+4)+'" fill="'+(on?"var(--accent)":"var(--ink-faint)")+'" font-family="IBM Plex Sans" font-size="11" font-weight="600">n='+n+'</text>');
-        o.push('<text x="'+(x1+56)+'" y="'+(y+4)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9.5">'+fmt2(E)+'</text>');
+        o.push('<text x="'+(x1+56)+'" y="'+(y+4)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9.5">'+num(E)+'</text>');
       }
       o.push('<line x1="'+x0+'" y1="'+Y(0)+'" x2="'+x1+'" y2="'+Y(0)+'" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="4 3"/>');
       o.push('<text x="'+(x1+10)+'" y="'+(Y(0)+4)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["free","อิสระ"])+'</text>');
@@ -135,14 +136,16 @@ nodes:[
       var yi=Y(-13.6/(ni*ni)), yf=Y(-13.6/(nf*nf)), txx=(x0+x1)/2;
       var dE=13.6*(1/(nf*nf)-1/(ni*ni));
       var down=(yf>yi);
-      o.push('<line x1="'+txx+'" y1="'+yi+'" x2="'+txx+'" y2="'+yf+'" stroke="var(--accent)" stroke-width="2.4"/>');
-      var ay=down?yf:yf;
-      o.push('<path d="M'+txx+' '+ay+' l-5 '+(down?-9:9)+' l10 0 z" fill="var(--accent)"/>');
+      if(ni!==nf){
+        o.push('<line x1="'+txx+'" y1="'+yi+'" x2="'+txx+'" y2="'+yf+'" stroke="var(--accent)" stroke-width="2.4"/>');
+        var ay=down?yf:yf;
+        o.push('<path d="M'+txx+' '+ay+' l-5 '+(down?-9:9)+' l10 0 z" fill="var(--accent)"/>');
+      }
       if(dE>0){
-        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2)+'" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11" font-weight="600">'+fmt2(dE)+' eV</text>');
-        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2+15)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+Math.round(1240/dE)+' nm emitted</text>');
-      } else {
-        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2)+'" fill="var(--warn)" font-family="IBM Plex Sans" font-size="11">absorbs '+fmt2(-dE)+' eV</text>');
+        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2)+'" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11" font-weight="600">'+un(dE,"eV")+'</text>');
+        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2+15)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx([un(1240/dE,"nm")+" emitted","ปล่อยแสง "+un(1240/dE,"nm")])+'</text>');
+      } else if(dE<0){
+        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2)+'" fill="var(--warn)" font-family="IBM Plex Sans" font-size="11">'+tx(["absorbs "+un(-dE,"eV"),"ดูดกลืน "+un(-dE,"eV")])+'</text>');
       }
       o.push('<text x="24" y="320" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["levels crowd together towards zero — that is why series converge","ระดับพลังงานยิ่งใกล้ศูนย์ยิ่งอยู่ชิดกัน เส้นในแต่ละอนุกรมจึงลู่เข้า"])+'</text>');
     }
@@ -151,9 +154,9 @@ nodes:[
     {say:["Six levels, drawn against a real energy scale. Notice how they crowd together as they approach zero.",
           "หกระดับ วาดตามสเกลพลังงานจริง สังเกตว่ายิ่งใกล้ศูนย์ ระดับยิ่งอยู่ชิดกัน"], set:{ni:3,nf:2}},
     {say:["A drop from n=3 to n=2 emits 1.89 eV — red light, and the first line of the Balmer series.",
-          "อิเล็กตรอนตกจาก n=3 ไป n=2 ปล่อยพลังงาน 1.89 eV เป็นแสงสีแดง และเป็นเส้นแรกของอนุกรมบัลเมอร์"], set:{ni:3,nf:2}},
+          "อิเล็กตรอนตกจาก n=3 ไป n=2 ปล่อยโฟตอนพลังงาน 1.89 eV เป็นแสงสีแดง และเป็นเส้นแรกของอนุกรมบัลเมอร์"], set:{ni:3,nf:2}},
     {say:["Drop all the way to n=1 instead. Far more energy, far shorter wavelength — the Lyman series is ultraviolet.",
-          "ลองให้ตกลงไปถึง n=1 แทน ได้พลังงานมากกว่ามาก ความยาวคลื่นสั้นกว่ามาก อนุกรมไลมันอยู่ในย่านอัลตราไวโอเลต"], set:{ni:3,nf:1}},
+          "ลองให้ตกลงไปถึง n=1 แทน พลังงานมากกว่ามาก ความยาวคลื่นสั้นกว่ามาก อนุกรมไลมันอยู่ในย่านอัลตราไวโอเลต"], set:{ni:3,nf:1}},
     {say:["Now set nᵢ below n_f. The electron must climb, so a photon is absorbed rather than emitted.",
           "ทีนี้ลองตั้ง nᵢ ให้ต่ำกว่า n_f อิเล็กตรอนต้องขึ้นไปอยู่ระดับที่สูงกว่า จึงดูดกลืนโฟตอนแทนที่จะปล่อย"], set:{ni:2,nf:4}}
   ]},
@@ -175,16 +178,16 @@ nodes:[
     ],
     readouts:[
       {lab:["Series name","ชื่ออนุกรม"], f:function(S){
-        return [["Lyman · ultraviolet","ไลมัน · อัลตราไวโอเลต"],["Balmer · visible","บัลเมอร์ · ที่ตามองเห็น"],
+        return [["Lyman · ultraviolet","ไลมัน · อัลตราไวโอเลต"],["Balmer · visible","บัลเมอร์ · แสงที่มองเห็น"],
                 ["Paschen · infrared","พาสเชน · อินฟราเรด"],["Brackett · infrared","แบร็กเกตต์ · อินฟราเรด"]][S.p.nf-1][L()]; }},
-      {lab:["Longest wavelength","ความยาวคลื่นมากสุด"], f:function(S){
+      {lab:["Longest wavelength","ความยาวคลื่นยาวที่สุด"], f:function(S){
         var nf=S.p.nf, ni=nf+1;
-        return fmt2(1/(1.097e-2*(1/(nf*nf)-1/(ni*ni))))+" nm"; }},
+        return un(1/(1.097e-2*(1/(nf*nf)-1/(ni*ni))),"nm",4); }},
       {lab:["Series limit","ขีดจำกัดอนุกรม"], f:function(S){
         var nf=S.p.nf;
-        return fmt2(1/(1.097e-2*(1/(nf*nf))))+" nm"; }},
+        return un(1/(1.097e-2*(1/(nf*nf))),"nm",4); }},
       {lab:["Why they bunch up","ทำไมจึงเบียดกัน"], f:function(){
-        return L()?"ระดับพลังงานสูงๆ อยู่ชิดกันมากขึ้น":"the upper energy levels crowd closer and closer"; }}
+        return L()?"ระดับพลังงานที่สูงขึ้นไปยิ่งอยู่ชิดกัน":"the upper energy levels crowd closer and closer"; }}
     ],
     bars:[
       {lab:["nᵢ = nf+1","nᵢ = nf+1"], f:function(p){ var n=p.nf+1; return 1/(1.097e-2*(1/(p.nf*p.nf)-1/(n*n))); }, col:"accent"},
@@ -193,7 +196,7 @@ nodes:[
       {lab:["nᵢ = nf+4","nᵢ = nf+4"], f:function(p){ var n=p.nf+4; return 1/(1.097e-2*(1/(p.nf*p.nf)-1/(n*n))); }, col:"good"},
       {lab:["limit","ขีดจำกัด"], f:function(p){ return 1/(1.097e-2*(1/(p.nf*p.nf))); }, col:"warn"}
     ],
-    note:["the bars converge on the amber one — every series has a limit it never passes","แถบทั้งหลายลู่เข้าหาแถบสีเหลืองอำพัน ทุกอนุกรมมีขีดจำกัดที่ไปไม่เกิน"]
+    note:["the bars converge on the amber one — every series has a limit it never passes","แถบอื่นๆ ลู่เข้าหาแถบสีเหลืองอำพัน ทุกอนุกรมมีขีดจำกัดที่ไม่มีวันผ่านไปได้"]
   } },
 
 { id:"debroglie", x:235, y:346, requires:["photoelectric","spectra"], methods:["M-05"],
@@ -207,26 +210,26 @@ nodes:[
   viz:"plot",
   vizcfg:{
     title:["WAVELENGTH OF A MOVING PARTICLE","ความยาวคลื่นของอนุภาคที่เคลื่อนที่"],
-    xlab:["momentum (10⁻²⁴ kg m/s)","โมเมนตัม (10⁻²⁴ kg m/s)"], ylab:["wavelength (nm)","ความยาวคลื่น (nm)"],
+    xlab:["momentum (10⁻²⁴ kg·m/s)","โมเมนตัม (10⁻²⁴ kg·m/s)"], ylab:["wavelength (nm)","ความยาวคลื่น (nm)"],
     xmin:.2, xmax:10, ymin:0, fill:false,
-    fn:function(x,p){ return 6.626e-34/(x*1e-24)*1e9; },
+    fn:function(x,p){ return 6.63e-34/(x*1e-24)*1e9; },
     mark:function(p){ return p.pm; },
     ctrls:[
-      {k:"pm", lab:["Momentum","โมเมนตัม"], min:.3, max:9.5, step:.1, def:2, unit:" ×10⁻²⁴"}
+      {k:"pm", lab:["Momentum","โมเมนตัม"], min:.3, max:9.5, step:.1, def:2, unit:" ×10⁻²⁴ kg·m/s"}
     ],
     readouts:[
       {lab:["Wavelength","ความยาวคลื่น"], f:function(S){
-        return fmt2(6.626e-34/(S.p.pm*1e-24)*1e9)+" nm"; }},
+        return un(6.63e-34/(S.p.pm*1e-24)*1e9,"nm"); }},
       {lab:["Compared with an atom","เทียบกับอะตอม"], f:function(S){
-        var l=6.626e-34/(S.p.pm*1e-24)*1e9;
-        return l>0.3 ? (L()?"ใหญ่กว่าอะตอม — เห็นการเลี้ยวเบนได้":"bigger than an atom — diffraction is observable")
+        var l=6.63e-34/(S.p.pm*1e-24)*1e9;
+        return l>0.3 ? (L()?"ใหญ่กว่าอะตอม จึงเห็นการเลี้ยวเบนได้":"bigger than an atom — diffraction is observable")
                      : (L()?"เล็กกว่าอะตอม":"smaller than an atom"); }},
       {lab:["For a cricket ball","สำหรับลูกคริกเก็ต"], f:function(){
-        return L()?"ราว 10⁻³⁴ เมตร — วัดไม่ได้เลย":"about 10⁻³⁴ m — utterly unmeasurable"; }},
+        return L()?"ราว 10⁻³⁴ m วัดไม่ได้เลย":"about 10⁻³⁴ m — utterly unmeasurable"; }},
       {lab:["Why we never notice it","ทำไมเราไม่เคยสังเกตเห็น"], f:function(){
-        return L()?"h เล็กมาก โมเมนตัมของสิ่งของทั่วไปจึงใหญ่เกินไป":"h is tiny, so everyday momenta are far too large"; }}
+        return L()?"h เล็กมาก ขณะที่โมเมนตัมของสิ่งของทั่วไปใหญ่เกินไป":"h is tiny, so everyday momenta are far too large"; }}
     ],
-    note:["a hyperbola: double the momentum and the wavelength halves","ไฮเพอร์โบลา โมเมนตัมเพิ่มเป็นสองเท่า ความยาวคลื่นจะเหลือครึ่งหนึ่ง"]
+    note:["a hyperbola: double the momentum and the wavelength halves","กราฟเป็นไฮเพอร์โบลา โมเมนตัมเพิ่มเป็นสองเท่า ความยาวคลื่นก็เหลือครึ่งเดียว"]
   } }
 ],
 
@@ -276,7 +279,7 @@ gen:{
           {v:(f0/2).toExponential(2)},{v:(h/W).toExponential(2)}],unit:" Hz"};
   return {stem:["A photon of "+E+" eV strikes a metal of work function "+W+" eV. Find the maximum kinetic energy of the electron.",
                 "โฟตอนพลังงาน "+E+" eV ชนโลหะที่มีฟังก์ชันงาน "+W+" eV จงหาพลังงานจลน์สูงสุดของอิเล็กตรอน"],
-    opts:[{v:fmt2(Ek),ok:1},{v:fmt2(E+W),trap:"T-01"},{v:String(E)},{v:String(W)}],unit:" eV"};
+    opts:[{v:num(Ek),ok:1},{v:num(E+W),trap:"T-01"},{v:String(E)},{v:String(W)}],unit:" eV"};
 },
 "M-03": function(sf){
   var n=pick([1,2,3,4]);
@@ -287,12 +290,12 @@ gen:{
           {v:["It is only a convention","เป็นเพียงข้อตกลง"],trap:"T-03"},
           {v:["The electron has negative charge","อิเล็กตรอนมีประจุลบ"],trap:"T-03"},
           {v:["Energy is always negative","พลังงานเป็นลบเสมอ"],trap:"T-03"}],unit:""};
-  if(sf==="S-05") return {stem:["A hydrogen level sits at "+fmt2(E)+" eV. Which level is it?",
-                                "ระดับพลังงานของไฮโดรเจนอยู่ที่ "+fmt2(E)+" eV เป็นระดับใด"],
+  if(sf==="S-05") return {stem:["A hydrogen level sits at "+num(E)+" eV. Which level is it?",
+                                "ระดับพลังงานของไฮโดรเจนอยู่ที่ "+num(E)+" eV เป็นระดับใด"],
     opts:[{v:"n = "+n,ok:1},{v:"n = "+(n+1)},{v:"n = "+(n+2)},{v:"n = 1",trap:"T-03"}],unit:""};
   return {stem:["Find the energy of the n = "+n+" level in hydrogen.",
                 "จงหาพลังงานของระดับ n = "+n+" ในไฮโดรเจน"],
-    opts:[{v:fmt2(E),ok:1},{v:fmt2(-E),trap:"T-03"},{v:fmt2(-13.6/n),trap:"T-03"},{v:"-13.6"}],unit:" eV"};
+    opts:[{v:num(E),ok:1},{v:num(-E),trap:"T-03"},{v:num(-13.6/n),trap:"T-03"},{v:"-13.6"}],unit:" eV"};
 },
 "M-04": function(sf){
   var ni=pick([3,4,5]), nf=pick([1,2]);
@@ -306,10 +309,10 @@ gen:{
           {v:["No series at all","ไม่เกิดอนุกรมใด"]}],unit:""};
   if(sf==="S-02"||sf==="S-05") return {stem:["A hydrogen transition emits a photon of wavelength "+Math.round(lam)+" nm. Find its energy in eV, using E = 1240/λ.",
                                              "การเปลี่ยนระดับของไฮโดรเจนปล่อยโฟตอนความยาวคลื่น "+Math.round(lam)+" นาโนเมตร จงหาพลังงานเป็น eV โดยใช้ E = 1240/λ"],
-    opts:[{v:fmt2(dE),ok:1},{v:fmt2(dE*1.6e-19),trap:"T-02"},{v:fmt2(lam/1240)},{v:fmt2(dE/2)}],unit:" eV"};
+    opts:[{v:num(dE),ok:1},{v:num(dE*1.6e-19),trap:"T-02"},{v:num(lam/1240)},{v:num(dE/2)}],unit:" eV"};
   return {stem:["An electron falls from n = "+ni+" to n = "+nf+" in hydrogen. Find the photon energy.",
                 "อิเล็กตรอนตกจาก n = "+ni+" ไป n = "+nf+" ในไฮโดรเจน จงหาพลังงานโฟตอน"],
-    opts:[{v:fmt2(dE),ok:1},{v:fmt2(-dE),trap:"T-03"},{v:fmt2(13.6/nf)},{v:fmt2(13.6)}],unit:" eV"};
+    opts:[{v:num(dE),ok:1},{v:num(-dE),trap:"T-03"},{v:num(13.6/nf)},{v:num(13.6)}],unit:" eV"};
 },
 "M-05": function(sf){
   var m=9.11e-31, v=pick([1e6,2e6,5e6]), h=6.63e-34;

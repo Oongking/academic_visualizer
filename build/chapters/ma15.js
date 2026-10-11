@@ -26,27 +26,27 @@ nodes:[
     ],
     readouts:[
       {lab:["From the left","จากทางซ้าย"], f:function(S){
-        var p=S.p, x=p.a-p.h; return fmt2((x*x-p.a*p.a)/(x-p.a)); }},
+        var p=S.p, x=p.a-p.h; return num((x*x-p.a*p.a)/(x-p.a),5); }},
       {lab:["From the right","จากทางขวา"], f:function(S){
-        var p=S.p, x=p.a+p.h; return fmt2((x*x-p.a*p.a)/(x-p.a)); }},
+        var p=S.p, x=p.a+p.h; return num((x*x-p.a*p.a)/(x-p.a),5); }},
       {lab:["Exactly at x = a","ที่ x = a พอดี"], f:function(){
-        return L()?"0/0 — รูปไม่กำหนด ไม่ใช่คำตอบ":"0/0 — indeterminate, not an answer"; }},
-      {lab:["The limit","ลิมิต"], f:function(S){ return fmt2(2*S.p.a); }}
+        return L()?"0/0 — รูปไม่กำหนด ยังไม่ใช่คำตอบ":"0/0 — indeterminate, not an answer"; }},
+      {lab:["The limit","ลิมิต"], f:function(S){ return num(2*S.p.a); }}
     ],
     bars:[
       {lab:["Left of a","ซ้ายของ a"], f:function(p){ var x=p.a-p.h; return (x*x-p.a*p.a)/(x-p.a); }, col:"good"},
       {lab:["Right of a","ขวาของ a"], f:function(p){ var x=p.a+p.h; return (x*x-p.a*p.a)/(x-p.a); }, col:"warn"},
       {lab:["The limit 2a","ลิมิต 2a"], f:function(p){ return 2*p.a; }, col:"accent"}
     ],
-    note:["shrink the gap and both bars converge on the red one — without ever reaching x = a","ยิ่งลดช่องว่าง แถบทั้งสองยิ่งเข้าใกล้แถบสีแดง แต่ไม่เคยไปถึง x = a"]
+    note:["shrink the gap and both bars converge on the red one — without ever reaching x = a","ยิ่งลดช่องว่าง แถบทั้งสองยิ่งเข้าใกล้แถบสีแดง แต่ไม่ถึง x = a สักที"]
   },
   guide:[
     {say:["Half a unit either side. The two approaches already bracket the answer closely.",
-          "ห่างครึ่งหน่วยทั้งสองข้าง การเข้าหาจากสองฝั่งก็ขนาบคำตอบไว้ค่อนข้างใกล้แล้ว"], set:{a:2,h:.5}},
+          "ห่างครึ่งหน่วยทั้งสองข้าง สองฝั่งก็ขนาบคำตอบไว้ค่อนข้างใกล้แล้ว"], set:{a:2,h:.5}},
     {say:["Close the gap to a thousandth. Both bars are now indistinguishable from the limit.",
-          "ลดช่องว่างเหลือหนึ่งในพัน แถบทั้งสองแทบไม่ต่างจากค่าลิมิตแล้ว"], set:{a:2,h:.001}},
+          "ลดช่องว่างเหลือหนึ่งในพัน แถบทั้งสองแทบเท่ากับค่าลิมิตแล้ว"], set:{a:2,h:.001}},
     {say:["The function is genuinely undefined AT x = a. Yet the limit is perfectly well behaved.",
-          "ฟังก์ชันไม่นิยามที่ x = a จริงๆ แต่ลิมิตกลับหาค่าได้ปกติ"], set:{a:5,h:.01}}
+          "ที่ x = a ฟังก์ชันไม่นิยามจริงๆ แต่ลิมิตหาค่าได้ตามปกติ"], set:{a:5,h:.01}}
   ] },
 
 { id:"derivative", x:100, y:150, requires:["limits"], methods:["M-02","M-03"],
@@ -68,16 +68,16 @@ nodes:[
     ],
     readouts:[
       {lab:["f(x)","f(x)"], f:function(S){ var p=S.p,x=p.x;
-        return fmt2(p.a*x*x*x + p.b*x*x + p.c*x); }},
+        var v=p.a*x*x*x + p.b*x*x + p.c*x; return num(Math.abs(v)<1e-9?0:v); }},
       {lab:["f′(x) = slope","f′(x) = ความชัน"], f:function(S){ var p=S.p,x=p.x;
-        return fmt2(3*p.a*x*x + 2*p.b*x + p.c); }},
+        var v=3*p.a*x*x + 2*p.b*x + p.c; return num(Math.abs(v)<1e-9?0:v); }},
       {lab:["Behaviour","พฤติกรรม"], f:function(S){ var p=S.p,x=p.x;
         var d=3*p.a*x*x + 2*p.b*x + p.c;
         if(Math.abs(d)<0.06) return L()?"จุดวกกลับ · f′ ≈ 0":"turning point · f′ ≈ 0";
         return d>0 ? (L()?"กำลังเพิ่ม":"increasing") : (L()?"กำลังลด":"decreasing"); }},
       {lab:["f″(x)","f″(x)"], f:function(S){ var p=S.p,x=p.x;
         var dd=6*p.a*x + 2*p.b;
-        return fmt2(dd)+" · "+(dd>0?(L()?"หงาย":"concave up"):(L()?"คว่ำ":"concave down")); }}
+        return num(Math.abs(dd)<1e-9?0:dd)+" · "+(dd>0?(L()?"หงาย":"concave up"):(L()?"คว่ำ":"concave down")); }}
     ],
     draw:function(S,o){
       var p=S.p;
@@ -114,7 +114,7 @@ nodes:[
              '" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3 3"/>');
       o.push('<circle cx="'+A.X(x0)+'" cy="'+A.Y(y0)+'" r="5.5" fill="var(--accent)"/>');
       o.push('<text x="'+(A.X(x0)+10)+'" y="'+(A.Y(y0)-10)+
-             '" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11">slope = '+fmt2(m)+'</text>');
+             '" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11">slope = '+num(Math.abs(m)<1e-9?0:m)+'</text>');
       /* mark the stationary points, which is where f′ crosses zero */
       var disc=4*p.b*p.b-12*p.a*p.c;
       if(Math.abs(p.a)>0.02 && disc>0){
@@ -124,18 +124,18 @@ nodes:[
                    '" r="4" fill="none" stroke="var(--warn)" stroke-width="2"/>');
         });
       }
-      o.push('<text x="56" y="322" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["amber rings mark stationary points, where f′ = 0","วงสีเหลืองอำพันคือจุดวิกฤต ซึ่ง f′ = 0"])+'</text>');
+      o.push('<text x="56" y="322" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["amber rings mark stationary points, where f′ = 0","วงสีเหลืองอำพันคือจุดวิกฤต ที่ f′ = 0"])+'</text>');
     }
   },
   guide:[
     {say:["The red line is the tangent at the marked point. On the way down the slope reads negative.",
-          "เส้นสีแดงคือเส้นสัมผัสที่จุดที่ทำเครื่องหมายไว้ ช่วงที่กราฟลง ความชันที่อ่านได้เป็นลบ"], set:{a:0.25,b:-1,c:0,x:-1.4,show:0}},
+          "เส้นสีแดงคือเส้นสัมผัสที่จุดที่ทำเครื่องหมายไว้ ตรงที่กราฟลง ความชันที่อ่านได้เป็นลบ"], set:{a:0.25,b:-1,c:0,x:-1.4,show:0}},
     {say:["Slide the point onto an amber ring. The tangent goes flat and f′ reads zero — that is a stationary point.",
-          "เลื่อนจุดไปที่วงสีเหลืองอำพัน เส้นสัมผัสจะอยู่ในแนวราบและ f′ มีค่าเป็นศูนย์ นี่คือจุดวิกฤต"], set:{a:0.25,b:-1,c:0,x:0,show:0}},
+          "เลื่อนจุดไปที่วงสีเหลืองอำพัน เส้นสัมผัสจะราบ และ f′ เป็นศูนย์ นี่คือจุดวิกฤต"], set:{a:0.25,b:-1,c:0,x:0,show:0}},
     {say:["Past the turning point the curve climbs and the slope turns positive. Slope sign tells you the direction of travel.",
           "เลยจุดวกกลับไป เส้นโค้งไต่ขึ้นและความชันเป็นบวก เครื่องหมายของความชันบอกว่ากราฟกำลังไปทางไหน"], set:{a:0.25,b:-1,c:0,x:2.2,show:0}},
     {say:["Now switch on the green dashed curve — that is f′ itself. It crosses zero exactly beneath each amber ring.",
-          "ทีนี้เปิดเส้นประสีเขียว ซึ่งก็คือ f′ เอง มันตัดแกนศูนย์ใต้วงสีเหลืองอำพันแต่ละวงพอดี"], set:{a:0.25,b:-1,c:0,x:2.2,show:1}}
+          "ทีนี้เปิดเส้นประสีเขียว นั่นคือ f′ เอง เส้นนี้ตัดแกน x ใต้วงสีเหลืองอำพันแต่ละวงพอดี"], set:{a:0.25,b:-1,c:0,x:2.2,show:1}}
   ]},
 
 { id:"applications", x:370, y:150, requires:["derivative"], methods:["M-04"],
@@ -156,11 +156,11 @@ nodes:[
       {k:"x", lab:["Test at x","ทดสอบที่ x"], min:-5, max:5, step:.5, def:2, unit:""}
     ],
     readouts:[
-      {lab:["f′(x)","f′(x)"], f:function(S){ return fmt2(2*S.p.a*S.p.x+S.p.b); }},
-      {lab:["f″(x)","f″(x)"], f:function(S){ return fmt2(2*S.p.a); }},
+      {lab:["f′(x)","f′(x)"], f:function(S){ var v=2*S.p.a*S.p.x+S.p.b; return num(Math.abs(v)<1e-9?0:v); }},
+      {lab:["f″(x)","f″(x)"], f:function(S){ return num(2*S.p.a); }},
       {lab:["Stationary point at","จุดวิกฤตที่"], f:function(S){
-        return Math.abs(S.p.a)<1e-9 ? (L()?"ไม่มี — เป็นเส้นตรง":"none — the graph is a line")
-                                    : "x = "+fmt2(-S.p.b/(2*S.p.a)); }},
+        return Math.abs(S.p.a)<1e-9 ? (L()?"ไม่มี — กราฟเป็นเส้นตรง":"none — the graph is a line")
+                                    : "x = "+num(-S.p.b/(2*S.p.a)); }},
       {lab:["Which kind","ชนิดใด"], f:function(S){
         return S.p.a>0 ? (L()?"ค่าต่ำสุด — f″ เป็นบวก":"a minimum — f″ is positive")
              : S.p.a<0 ? (L()?"ค่าสูงสุด — f″ เป็นลบ":"a maximum — f″ is negative")
@@ -170,7 +170,7 @@ nodes:[
       {lab:["f′(x)","f′(x)"], f:function(p){ return 2*p.a*p.x+p.b; }, col:"accent"},
       {lab:["f″(x)","f″(x)"], f:function(p){ return 2*p.a; }, col:"good"},
       {lab:["Distance to the turning point","ระยะถึงจุดวกกลับ"], f:function(p){
-        return Math.abs(p.a)<1e-9 ? 0 : p.x+p.b/(2*p.a); }, col:"warn"}
+        return Math.abs(p.a)<1e-9 ? 0 : Math.abs(p.x+p.b/(2*p.a)); }, col:"warn"}
     ],
     note:["a NEGATIVE second derivative gives a MAXIMUM — the pairing feels backwards until you picture the curvature","อนุพันธ์อันดับสองที่เป็นลบให้ค่าสูงสุด ตอนแรกอาจรู้สึกว่ากลับกัน แต่ลองนึกถึงความโค้งดู"]
   } },
@@ -196,23 +196,23 @@ nodes:[
     ],
     readouts:[
       {lab:["F(x) = x³/3 + C","F(x) = x³/3 + C"], f:function(S){
-        return fmt2(S.p.x*S.p.x*S.p.x/3+S.p.c); }},
+        var v=S.p.x*S.p.x*S.p.x/3+S.p.c; return num(Math.abs(v)<1e-9?0:v); }},
       {lab:["Its derivative F′(x)","อนุพันธ์ F′(x)"], f:function(S){
-        return fmt2(S.p.x*S.p.x)+(L()?" · ไม่ขึ้นกับ C เลย":" · completely independent of C"); }},
+        return num(S.p.x*S.p.x)+(L()?" · ไม่ขึ้นกับ C เลย":" · completely independent of C"); }},
       {lab:["Why C is invisible","ทำไม C จึงมองไม่เห็น"], f:function(){
         return L()?"ค่าคงที่หาอนุพันธ์แล้วได้ศูนย์":"a constant differentiates to zero"; }},
       {lab:["In a definite integral","ในปริพันธ์จำกัดเขต"], f:function(){
-        return L()?"C ตัดกันหมด จึงไม่ต้องเขียน":"the C cancels, so you never write it"; }}
+        return L()?"C หักล้างกันหมด จึงไม่ต้องเขียน":"the C cancels, so you never write it"; }}
     ],
     note:["slide C and the whole curve rides up and down — but its slope at every x never changes","เลื่อน C แล้วเส้นโค้งทั้งเส้นขึ้นลงตามไป แต่ความชันที่ทุกค่า x ไม่เปลี่ยน"]
   },
   guide:[
     {say:["One member of the family, with C = 0.",
-          "สมาชิกหนึ่งของตระกูล โดยที่ C = 0"], set:{c:0,x:1}},
+          "สมาชิกหนึ่งของตระกูล เมื่อ C = 0"], set:{c:0,x:1}},
     {say:["Raise C and the whole curve lifts bodily. Check the derivative readout — it has not moved.",
           "เพิ่ม C แล้วเส้นโค้งทั้งเส้นยกสูงขึ้น ลองดูค่าอนุพันธ์ จะเห็นว่าไม่เปลี่ยนเลย"], set:{c:5,x:1}},
     {say:["Lower it below the axis. Same slope everywhere, still the same antiderivative.",
-          "ลดลงไปต่ำกว่าแกน ความชันยังเท่าเดิมทุกจุด และยังเป็นปฏิยานุพันธ์ตัวเดิม"], set:{c:-5,x:1}}
+          "ลด C ลงไปต่ำกว่าแกน ความชันยังเท่าเดิมทุกจุด และยังเป็นปฏิยานุพันธ์ตัวเดิม"], set:{c:-5,x:1}}
   ] },
 
 { id:"area", x:235, y:346, requires:["integration"], methods:["M-06"],
@@ -231,24 +231,24 @@ nodes:[
     fn:function(x,p){ return x*x - p.c; },
     mark:function(p){ return p.b; },
     ctrls:[
-      {k:"c", lab:["Shift the curve down by","เลื่อนเส้นโค้งลง"], min:0, max:6, step:.5, def:2, unit:""},
+      {k:"c", lab:["Shift the curve down by","เลื่อนเส้นโค้งลงเป็นระยะ"], min:0, max:6, step:.5, def:2, unit:""},
       {k:"b", lab:["Upper limit","ขอบบน"], min:-2.8, max:2.8, step:.2, def:2, unit:""}
     ],
     readouts:[
       {lab:["Roots","ราก"], f:function(S){
         return S.p.c<=0 ? (L()?"ไม่ตัดแกน":"the curve never crosses")
-                        : "±"+fmt2(Math.sqrt(S.p.c)); }},
+                        : "±"+num(Math.sqrt(S.p.c)); }},
       {lab:["Integral from 0 to b","ปริพันธ์จาก 0 ถึง b"], f:function(S){
-        var p=S.p; return fmt2(p.b*p.b*p.b/3-p.c*p.b); }},
+        var p=S.p, v=p.b*p.b*p.b/3-p.c*p.b; return num(Math.abs(v)<1e-9?0:v); }},
       {lab:["Does it cross inside?","ตัดแกนภายในช่วงไหม"], f:function(S){
         var p=S.p;
         return (p.c>0 && Math.abs(p.b)>Math.sqrt(p.c))
           ? (L()?"ตัด — ต้องแบ่งที่ราก":"yes — you must split at the root")
           : (L()?"ไม่ตัด — อินทิเกรตรวดเดียวได้":"no — a single integral is safe"); }},
       {lab:["Below the axis counts as","ส่วนใต้แกนนับเป็น"], f:function(){
-        return L()?"ลบ — จึงหักล้างส่วนที่อยู่เหนือแกน":"negative — so it cancels area above"; }}
+        return L()?"ลบ — จึงหักล้างกับส่วนที่อยู่เหนือแกน":"negative — so it cancels area above"; }}
     ],
-    note:["when the curve dips below the axis, one integral gives you a difference, not a total","เมื่อเส้นโค้งลงไปอยู่ใต้แกน ปริพันธ์ตัวเดียวจะให้ผลต่าง ไม่ใช่ผลรวม"]
+    note:["when the curve dips below the axis, one integral gives you a difference, not a total","เมื่อเส้นโค้งลงไปอยู่ใต้แกน ปริพันธ์ตัวเดียวจะได้ผลต่าง ไม่ใช่ผลรวม"]
   } }
 ],
 
@@ -262,9 +262,9 @@ methods:[
 ],
 
 traps:{
-"T-01":["0/0 is indeterminate, not the answer. Factor, cancel, then substitute again.","0/0 อยู่ในรูปไม่กำหนด ไม่ใช่คำตอบ ให้แยกตัวประกอบ ตัดกัน แล้วแทนค่าอีกครั้ง"],
+"T-01":["0/0 is indeterminate, not the answer. Factor, cancel, then substitute again.","0/0 อยู่ในรูปไม่กำหนด ยังไม่ใช่คำตอบ ให้แยกตัวประกอบ ตัดกัน แล้วแทนค่าอีกครั้ง"],
 "T-02":["(uv)′ is not u′v′. Use u′v + uv′.","(uv)′ ไม่เท่ากับ u′v′ ให้ใช้ u′v + uv′"],
-"T-03":["+ C missing from an indefinite integral, or n = −1 handled with the power rule.","ลืม + C ในปริพันธ์ไม่จำกัดเขต หรือใช้กฎยกกำลังกับ n = −1"],
+"T-03":["+ C missing from an indefinite integral, or n = −1 handled with the power rule.","ลืม + C ในปริพันธ์ไม่จำกัดเขต หรือเอากฎยกกำลังไปใช้กับ n = −1"],
 "T-04":["Limits substituted the wrong way round, or area below the axis counted as positive.","แทนขอบเขตสลับกัน หรือนับพื้นที่ใต้แกนเป็นบวก"]
 },
 
@@ -272,12 +272,12 @@ gen:{
 "M-01": function(sf){
   var a=pick([2,3,4,5]);
   if(sf==="S-04") return {stem:["Substituting gives 0/0. What does that tell you?","แทนค่าแล้วได้ 0/0 แปลว่าอะไร"],
-    opts:[{v:["It is indeterminate — factor and cancel","อยู่ในรูปไม่กำหนด ให้แยกตัวประกอบและตัดทอน"],ok:1},
+    opts:[{v:["It is indeterminate — factor and cancel","อยู่ในรูปไม่กำหนด ให้แยกตัวประกอบแล้วตัดกัน"],ok:1},
           {v:["The limit is 0","ลิมิตเป็น 0"],trap:"T-01"},
           {v:["The limit does not exist","ลิมิตไม่มีอยู่"],trap:"T-01"},
           {v:["The limit is 1","ลิมิตเป็น 1"],trap:"T-01"}],unit:""};
   if(sf==="S-03") return {stem:["Can a function have a limit at a point where it is undefined?",
-                                "ฟังก์ชันมีลิมิตที่จุดซึ่งมันไม่นิยามได้ไหม"],
+                                "ฟังก์ชันมีลิมิตที่จุดที่ไม่นิยามได้ไหม"],
     opts:[{v:["Yes — a limit is about approach, not arrival","ได้ ลิมิตพูดถึงการเข้าใกล้ ไม่ใช่การไปถึง"],ok:1},
           {v:["No, never","ไม่ได้ ไม่มีทาง"],trap:"T-01"},
           {v:["Only for polynomials","เฉพาะพหุนาม"]},
@@ -320,14 +320,15 @@ gen:{
           {v:["An inflection point","จุดเปลี่ยนเว้า"]},{v:["Cannot be determined","ระบุไม่ได้"]}],unit:""};
   if(sf==="S-03") return {stem:["A tangent has gradient "+b+". What is the gradient of the normal there?",
                                 "เส้นสัมผัสมีความชัน "+b+" เส้นตั้งฉากที่จุดนั้นมีความชันเท่าใด"],
-    opts:[{v:"−1/"+b,ok:1},{v:"1/"+b,trap:"T-04"},{v:String(-b),trap:"T-04"},{v:String(b)}],unit:""};
+    opts:[{v:"−1/"+b,ok:1},{v:"1/"+b,trap:"T-04"},{v:num(-b),trap:"T-04"},{v:String(b)}],unit:""};
   return {stem:["Find the x-coordinate of the stationary point of f(x) = x² − "+(2*b)+"x + 1.",
                 "จงหาพิกัด x ของจุดวิกฤตของ f(x) = x² − "+(2*b)+"x + 1"],
-    opts:[{v:String(b),ok:1},{v:String(-b),trap:"T-04"},{v:String(2*b),trap:"T-03"},{v:"0"}],unit:""};
+    opts:[{v:String(b),ok:1},{v:num(-b),trap:"T-04"},{v:String(2*b),trap:"T-03"},{v:"0"}],unit:""};
 },
 "M-05": function(sf){
   var a=pick([2,3,6,12]), n=pick([1,2,3]);
-  var k=a/(n+1);
+  var gcd=function(x,y){ return y?gcd(y,x%y):x; }, g=gcd(a,n+1);
+  var k=(n+1)/g===1 ? String(a/g) : "("+(a/g)+"/"+((n+1)/g)+")";
   if(sf==="S-04") return {stem:["Why does an indefinite integral need + C?","ทำไมปริพันธ์ไม่จำกัดเขตจึงต้องมี + C"],
     opts:[{v:["Every constant differentiates to zero, so it is invisible","ค่าคงที่ทุกตัวหาอนุพันธ์แล้วเป็นศูนย์ อนุพันธ์จึงมองไม่เห็น"],ok:1},
           {v:["It is just notation","เป็นเพียงสัญกรณ์"],trap:"T-03"},
@@ -339,18 +340,18 @@ gen:{
           {v:["The + C vanishes","+ C หายไป"],trap:"T-03"},
           {v:["It does work","จริงๆ แล้วใช้ได้"],trap:"T-03"}],unit:""};
   return {stem:["Find ∫ "+a+"x^"+n+" dx.","จงหา ∫ "+a+"x^"+n+" dx"],
-    opts:[{v:fmt(k)+"x^"+(n+1)+" + C",ok:1},
-          {v:fmt(k)+"x^"+(n+1),trap:"T-03"},
+    opts:[{v:k+"x^"+(n+1)+" + C",ok:1},
+          {v:k+"x^"+(n+1),trap:"T-03"},
           {v:(a*n)+"x^"+(n-1)+" + C",trap:"T-03"},
           {v:a+"x^"+(n+1)+" + C"}],unit:""};
 },
 "M-06": function(sf){
   var b=pick([2,3,4]);
-  var I=b*b*b/3;
+  var I=(b%3===0 ? String(b*b*b/3) : (b*b*b)+"/3");
   if(sf==="S-04") return {stem:["A curve crosses the x-axis inside your limits. What must you do?",
                                 "เส้นโค้งตัดแกน x อยู่ภายในขอบเขตที่กำหนด ต้องทำอย่างไร"],
     opts:[{v:["Split at the root and take each piece in absolute value","แบ่งที่ราก แล้วเอาค่าสัมบูรณ์ของแต่ละส่วน"],ok:1},
-          {v:["Integrate straight across","อินทิเกรตพรวดข้ามไปเลย"],trap:"T-04"},
+          {v:["Integrate straight across","อินทิเกรตรวดเดียวข้ามไปเลย"],trap:"T-04"},
           {v:["Ignore the negative part","ไม่ต้องสนใจส่วนที่เป็นลบ"],trap:"T-04"},
           {v:["Double the answer","คูณคำตอบด้วยสอง"],trap:"T-04"}],unit:""};
   if(sf==="S-03") return {stem:["Swapping the limits of a definite integral does what?",
@@ -358,8 +359,8 @@ gen:{
     opts:[{v:["Flips the sign","กลับเครื่องหมาย"],ok:1},{v:["Nothing","ไม่เกิดอะไร"],trap:"T-04"},
           {v:["Doubles it","ได้สองเท่า"],trap:"T-04"},{v:["Makes it zero","กลายเป็นศูนย์"]}],unit:""};
   return {stem:["Evaluate ∫₀^"+b+" x² dx.","จงหาค่า ∫₀^"+b+" x² dx"],
-    opts:[{v:fmt2(I),ok:1},{v:fmt2(-I),trap:"T-04"},
-          {v:fmt2(b*b*b),trap:"T-03"},{v:fmt2(2*b)}],unit:""};
+    opts:[{v:I,ok:1},{v:"−"+I,trap:"T-04"},
+          {v:String(b*b*b),trap:"T-03"},{v:String(2*b)}],unit:""};
 }
 }
 };

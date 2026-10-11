@@ -25,22 +25,22 @@ nodes:[
     mark:function(p){ return p.x; },
     ctrls:[
       {k:"m", lab:["Gradient m","ความชัน m"], min:-4, max:4, step:.25, def:1.5, unit:""},
-      {k:"c", lab:["y-intercept c","จุดตัดแกน y คือ c"], min:-6, max:6, step:.5, def:1, unit:""},
+      {k:"c", lab:["y-intercept c","จุดตัดแกน y (c)"], min:-6, max:6, step:.5, def:1, unit:""},
       {k:"x", lab:["Point at x","จุดที่ x"], min:-5.5, max:5.5, step:.5, def:2, unit:""}
     ],
     readouts:[
       {lab:["Equation","สมการ"], f:function(S){
-        return "y = "+fmt(S.p.m)+"x "+(S.p.c>=0?"+ ":"− ")+fmt(Math.abs(S.p.c)); }},
+        return "y = "+num(S.p.m)+"x "+(S.p.c>=0?"+ ":"− ")+num(Math.abs(S.p.c)); }},
       {lab:["x-intercept","จุดตัดแกน x"], f:function(S){
-        return Math.abs(S.p.m)<1e-9 ? (L()?"ไม่มี — เส้นขนานแกน x":"none — the line is horizontal")
-                                    : fmt2(-S.p.c/S.p.m); }},
+        return Math.abs(S.p.m)<1e-9 ? (L()?"ไม่มี — เส้นขนานกับแกน x":"none — the line is horizontal")
+                                    : num(-S.p.c/S.p.m); }},
       {lab:["Perpendicular gradient","ความชันของเส้นตั้งฉาก"], f:function(S){
-        return Math.abs(S.p.m)<1e-9 ? (L()?"ไม่นิยาม — แนวดิ่ง":"undefined — vertical")
-                                    : fmt2(-1/S.p.m); }},
+        return Math.abs(S.p.m)<1e-9 ? (L()?"หาค่าไม่ได้ — เส้นตั้งฉากอยู่แนวดิ่ง":"undefined — vertical")
+                                    : num(-1/S.p.m); }},
       {lab:["Distance from the origin","ระยะจากจุดกำเนิด"], f:function(S){
-        return fmt2(Math.abs(S.p.c)/Math.sqrt(S.p.m*S.p.m+1)); }}
+        return num(Math.abs(S.p.c)/Math.sqrt(S.p.m*S.p.m+1)); }}
     ],
-    note:["perpendicular gradients multiply to −1 — not to +1, and not to zero","ความชันของเส้นตั้งฉากคูณกันได้ −1 ไม่ใช่ +1 และไม่ใช่ศูนย์"]
+    note:["perpendicular gradients multiply to −1 — not to +1, and not to zero","ความชันของเส้นตั้งฉากคูณกันได้ −1 ไม่ใช่ +1 และไม่ใช่ 0"]
   } },
 
 { id:"circle", x:100, y:150, requires:["points-lines"], methods:["M-02"],
@@ -62,19 +62,19 @@ nodes:[
     readouts:[
       {lab:["Equation","สมการ"], f:function(S){
         var p=S.p;
-        return "(x "+(p.h>=0?"− ":"+ ")+fmt(Math.abs(p.h))+")² + (y "+(p.k>=0?"− ":"+ ")+fmt(Math.abs(p.k))+")² = "+fmt2(p.r*p.r); }},
-      {lab:["Centre","จุดศูนย์กลาง"], f:function(S){ return "("+fmt(S.p.h)+", "+fmt(S.p.k)+")"; }},
+        return "(x "+(p.h>=0?"− ":"+ ")+num(Math.abs(p.h))+")² + (y "+(p.k>=0?"− ":"+ ")+num(Math.abs(p.k))+")² = "+num(p.r*p.r,6); }},
+      {lab:["Centre","จุดศูนย์กลาง"], f:function(S){ return "("+num(S.p.h)+", "+num(S.p.k)+")"; }},
       {lab:["Distance to test point","ระยะถึงจุดทดสอบ"], f:function(S){
-        var p=S.p; return fmt2(Math.abs(p.px-p.h)); }},
+        var p=S.p; return num(Math.abs(p.px-p.h)); }},
       {lab:["Test point lies","จุดทดสอบอยู่"], f:function(S){
         var p=S.p, d=Math.abs(p.px-p.h);
-        return d<p.r ? (L()?"ภายในวง":"inside the circle") : d>p.r ? (L()?"ภายนอกวง":"outside the circle")
-                     : (L()?"บนเส้นรอบวงพอดี":"exactly on the circle"); }}
+        return d<p.r ? (L()?"อยู่ภายในวง":"inside the circle") : d>p.r ? (L()?"อยู่ภายนอกวง":"outside the circle")
+                     : (L()?"อยู่บนเส้นรอบวงพอดี":"exactly on the circle"); }}
     ],
     draw:function(S,o){
       var p=S.p;
       var A=axes(o,{x:110,y:30,w:300,h:250,xmin:-8,xmax:8,ymin:-6.5,ymax:6.5,
-                    title:["A CIRCLE IS A CONSTANT DISTANCE","วงกลมคือระยะทางที่คงที่"],
+                    title:["A CIRCLE IS A CONSTANT DISTANCE","วงกลมคือระยะห่างที่คงที่"],
                     xlab:"x", ylab:"y", xticks:5, yticks:5});
       var cx=A.X(p.h), cy=A.Y(p.k);
       var rx=A.X(p.r)-A.X(0), ry=A.Y(0)-A.Y(p.r);
@@ -84,22 +84,22 @@ nodes:[
       o.push('<line x1="'+cx+'" y1="'+cy+'" x2="'+A.X(p.h+p.r)+'" y2="'+cy+
              '" stroke="var(--ink-soft)" stroke-width="1.8" stroke-dasharray="4 3"/>');
       o.push('<text x="'+((cx+A.X(p.h+p.r))/2)+'" y="'+(cy-8)+'" fill="var(--ink-soft)" '+
-             'font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">r = '+fmt(p.r)+'</text>');
+             'font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">r = '+num(p.r)+'</text>');
       var tx2=A.X(p.px), ty=A.Y(p.k);
       var d=Math.abs(p.px-p.h);
       var c2 = d<p.r ? "var(--good)" : d>p.r ? "var(--warn)" : "var(--accent)";
       o.push('<circle cx="'+tx2+'" cy="'+ty+'" r="5.5" fill="'+c2+'"/>');
       cap(o,110,308,["green inside · amber outside · the radius never changes",
-                     "สีเขียวคืออยู่ภายใน · สีเหลืองอำพันคืออยู่ภายนอก · รัศมีไม่เปลี่ยน"],"note");
+                     "เขียว = อยู่ภายในวง · เหลืองอำพัน = อยู่ภายนอก · รัศมีไม่เปลี่ยน"],"note");
     }
   },
   guide:[
     {say:["Every point on the ring is exactly r from the centre. That single sentence is the equation.",
-          "ทุกจุดบนวงกลมห่างจากจุดศูนย์กลางเท่ากับ r พอดี ประโยคเดียวนี้ก็คือสมการของวงกลม"], set:{h:0,k:0,r:3,px:5}},
+          "ทุกจุดบนวงกลมอยู่ห่างจากจุดศูนย์กลางเท่ากับ r พอดี แค่ประโยคนี้ก็คือสมการของวงกลมแล้ว"], set:{h:0,k:0,r:3,px:5}},
     {say:["Move the centre and the equation gains the (x − h) and (y − k) brackets. Nothing else changes.",
-          "ย้ายจุดศูนย์กลาง สมการจะมีวงเล็บ (x − h) และ (y − k) เพิ่มเข้ามา ส่วนอย่างอื่นไม่เปลี่ยน"], set:{h:3,k:-2,r:3,px:5}},
+          "ลองย้ายจุดศูนย์กลาง สมการจะมีวงเล็บ (x − h) และ (y − k) เพิ่มมา อย่างอื่นเหมือนเดิม"], set:{h:3,k:-2,r:3,px:5}},
     {say:["Note the minus signs: a centre at +3 appears as (x − 3). That sign flip is the classic slip.",
-          "ให้สังเกตเครื่องหมายลบ จุดศูนย์กลางที่ +3 จะเขียนเป็น (x − 3) การเปลี่ยนเครื่องหมายตรงนี้คือจุดที่คนพลาดบ่อยที่สุด"], set:{h:3,k:-2,r:4,px:0}}
+          "ดูเครื่องหมายลบด้วย จุดศูนย์กลางที่ +3 เขียนเป็น (x − 3) ตรงนี้แหละที่คนพลาดบ่อยที่สุด"], set:{h:3,k:-2,r:4,px:0}}
   ] },
 
 { id:"conics", x:370, y:150, requires:["points-lines"], methods:["M-03"],
@@ -124,15 +124,15 @@ nodes:[
       {lab:["c","c"], f:function(S){
         var a=S.p.a,b=S.p.b,k=S.p.kind;
         if(k===0) return "0";
-        if(k===1) return fmt2(Math.sqrt(Math.max(a*a-b*b,0)));
-        if(k===3) return fmt2(Math.sqrt(a*a+b*b));
-        return fmt2(a/4); }},
+        if(k===1) return num(Math.sqrt(Math.abs(a*a-b*b)));
+        if(k===3) return num(Math.sqrt(a*a+b*b));
+        return num(a/4); }},
       {lab:["Eccentricity e","ความเยื้องศูนย์กลาง e"], f:function(S){
         var a=S.p.a,b=S.p.b,k=S.p.kind;
         if(k===0) return "0";
-        if(k===1) return fmt2(Math.sqrt(Math.max(a*a-b*b,0))/a);
+        if(k===1) return num(Math.sqrt(Math.abs(a*a-b*b))/Math.max(a,b));
         if(k===2) return "1";
-        return fmt2(Math.sqrt(a*a+b*b)/a); }}
+        return num(Math.sqrt(a*a+b*b)/a); }}
     ],
     draw:function(S,o){
       var a=S.p.a, b=S.p.b, k=S.p.kind;
@@ -146,9 +146,9 @@ nodes:[
           d+=(i?" L":"M")+A.X(xx)+" "+A.Y(yy);
         }
         o.push('<path d="'+d+'" stroke="var(--accent)" stroke-width="2.4" fill="none"/>');
-        var cc=(k===0)?0:Math.sqrt(Math.max(ra*ra-rb*rb,0));
+        var cc=(k===0)?0:Math.sqrt(Math.abs(ra*ra-rb*rb));
         [cc,-cc].forEach(function(fx){
-          if(cc>0.01) o.push('<circle cx="'+A.X(fx)+'" cy="'+A.Y(0)+'" r="4" fill="var(--ink)"/>');
+          if(cc>0.01) o.push('<circle cx="'+(rb>ra?A.X(0):A.X(fx))+'" cy="'+(rb>ra?A.Y(fx):A.Y(0))+'" r="4" fill="var(--ink)"/>');
         });
       } else if(k===2){
         var c4=a/4;
@@ -191,13 +191,13 @@ nodes:[
   },
   guide:[
     {say:["A circle: both axes equal, both foci collapsed onto the centre, eccentricity exactly zero.",
-          "วงกลม แกนทั้งสองยาวเท่ากัน โฟกัสทั้งสองรวมเป็นจุดเดียวกับจุดศูนย์กลาง และความเยื้องศูนย์กลางเป็นศูนย์พอดี"], set:{kind:0,a:4,b:4}},
+          "วงกลม แกนสองแกนยาวเท่ากัน โฟกัสทั้งสองซ้อนกันที่จุดศูนย์กลาง และความเยื้องศูนย์กลางเป็น 0 พอดี"], set:{kind:0,a:4,b:4}},
     {say:["Now an ellipse. Pull b down and the foci slide outwards — c² = a² − b², so c grows as b shrinks.",
-          "ทีนี้เป็นวงรี ลดค่า b โฟกัสจะเลื่อนออกจากกัน เพราะ c² = a² − b² เมื่อ b เล็กลง c จึงใหญ่ขึ้น"], set:{kind:1,a:5,b:2}},
+          "ต่อไปเป็นวงรี ลองลดค่า b โฟกัสจะเลื่อนออกจากกัน เพราะ c² = a² − b² พอ b เล็กลง c ก็ใหญ่ขึ้น"], set:{kind:1,a:5,b:2}},
     {say:["The parabola sits exactly at e = 1 — the boundary case between the closed and open families.",
-          "พาราโบลามี e = 1 พอดี เป็นกรณีที่อยู่ตรงรอยต่อระหว่างเส้นโค้งปิดกับเส้นโค้งเปิด"], set:{kind:2,a:4,b:2}},
+          "พาราโบลามี e = 1 พอดี อยู่ตรงรอยต่อระหว่างเส้นโค้งปิดกับเส้นโค้งเปิด"], set:{kind:2,a:4,b:2}},
     {say:["The hyperbola. Note the relation on screen flipped to c² = a² + b² — a PLUS. That single sign is the classic error.",
-          "ไฮเพอร์โบลา ให้สังเกตว่าความสัมพันธ์บนจอเปลี่ยนเป็น c² = a² + b² คือเครื่องหมายบวก เครื่องหมายนี้เองคือจุดที่คนพลาดบ่อยที่สุด"], set:{kind:3,a:3,b:2}}
+          "ไฮเพอร์โบลา ดูความสัมพันธ์บนจอที่เปลี่ยนเป็น c² = a² + b² เป็นเครื่องหมายบวก ตรงนี้แหละที่คนพลาดบ่อยที่สุด"], set:{kind:3,a:3,b:2}}
   ]},
 
 { id:"parabola-ellipse", x:235, y:248, requires:["circle","conics"], methods:["M-04"],
@@ -221,13 +221,13 @@ nodes:[
       {k:"k", lab:["Vertex y","จุดยอด y"], min:-4, max:4, step:.5, def:-2, unit:""}
     ],
     readouts:[
-      {lab:["Vertex","จุดยอด"], f:function(S){ return "("+fmt(S.p.h)+", "+fmt(S.p.k)+")"; }},
-      {lab:["Focus","จุดโฟกัส"], f:function(S){ return "("+fmt(S.p.h)+", "+fmt(S.p.k+S.p.a)+")"; }},
-      {lab:["Directrix","ไดเรกทริกซ์"], f:function(S){ return "y = "+fmt(S.p.k-S.p.a); }},
-      {lab:["Defining property","สมบัติที่เป็นนิยาม"], f:function(){
-        return L()?"ทุกจุดห่างจากโฟกัสเท่ากับห่างจากไดเรกทริกซ์":"every point is equally far from the focus and the directrix"; }}
+      {lab:["Vertex","จุดยอด"], f:function(S){ return "("+num(S.p.h)+", "+num(S.p.k)+")"; }},
+      {lab:["Focus","จุดโฟกัส"], f:function(S){ return "("+num(S.p.h)+", "+num(S.p.k+S.p.a)+")"; }},
+      {lab:["Directrix","ไดเรกทริกซ์"], f:function(S){ return "y = "+num(S.p.k-S.p.a); }},
+      {lab:["Defining property","สมบัติที่ใช้เป็นนิยาม"], f:function(){
+        return L()?"ทุกจุดอยู่ห่างจากโฟกัสเท่ากับห่างจากไดเรกทริกซ์":"every point is equally far from the focus and the directrix"; }}
     ],
-    note:["a larger focal distance makes a wider, lazier curve — the focus moves away from the vertex","ระยะโฟกัสมากขึ้นทำให้เส้นโค้งกว้างและแบนลง โฟกัสจึงเลื่อนห่างจากจุดยอด"]
+    note:["a larger focal distance makes a wider, lazier curve — the focus moves away from the vertex","ระยะโฟกัสมาก เส้นโค้งจะกว้างและแบน โฟกัสก็อยู่ไกลจากจุดยอดขึ้น"]
   } },
 
 { id:"hyperbola", x:235, y:346, requires:["parabola-ellipse"], methods:["M-05","M-06"],
@@ -250,14 +250,14 @@ nodes:[
       {k:"x", lab:["Point at x","จุดที่ x"], min:.4, max:7.5, step:.1, def:2, unit:""}
     ],
     readouts:[
-      {lab:["y at that x","ค่า y ที่ x นั้น"], f:function(S){ return fmt2(S.p.k/S.p.x); }},
+      {lab:["y at that x","ค่า y ที่ x นั้น"], f:function(S){ return num(S.p.k/S.p.x); }},
       {lab:["Product x·y","ผลคูณ x·y"], f:function(S){
-        return fmt2(S.p.k)+(L()?" · คงที่เสมอ":" · constant, always"); }},
+        return num(S.p.k)+(L()?" · คงที่เสมอ":" · constant, always"); }},
       {lab:["Asymptotes","เส้นกำกับ"], f:function(){ return "x = 0  " + (L()?"และ":"and") + "  y = 0"; }},
       {lab:["Does it ever touch them?","แตะเส้นกำกับไหม"], f:function(){
-        return L()?"ไม่เลย — เข้าใกล้ตลอดไป":"never — it approaches forever"; }}
+        return L()?"ไม่แตะเลย — เข้าใกล้ไปเรื่อย ๆ":"never — it approaches forever"; }}
     ],
-    note:["this is the same curve as a gas isotherm, where PV stays constant","เส้นโค้งนี้เหมือนกับเส้นไอโซเทอร์มของแก๊ส ซึ่ง PV คงที่"]
+    note:["this is the same curve as a gas isotherm, where PV stays constant","เส้นโค้งนี้เหมือนเส้นไอโซเทอร์มของแก๊ส ที่ PV คงที่"]
   } }
 ],
 
@@ -279,24 +279,28 @@ traps:{
 
 gen:{
 "M-01": function(sf){
-  var x1=ri(-4,4), y1=ri(-4,4), x2=ri(-4,4)+5, y2=ri(-4,4)+5;
+  var x1,y1,x2,y2;
+  do{ x1=ri(-4,4); y1=ri(-4,4); x2=ri(-4,4)+5; y2=ri(-4,4)+5; } while(x1===0 || y1===0 || y2===y1 || x2===x1 || (x2-x1===-x2 && y2-y1===-y2) ||
+         [Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1)),Math.abs(x2-x1)+Math.abs(y2-y1),(x2-x1)*(x2-x1)+(y2-y1)*(y2-y1),(y2-y1)/(x2-x1)]
+           .map(function(v){ return num(v); }).some(function(v,i,r){ return r.indexOf(v)!==i; }));
   var m=(y2-y1)/(x2-x1);
   if(sf==="S-04") return {stem:["A line has gradient 3. What is the gradient of any line perpendicular to it?",
                                 "เส้นตรงเส้นหนึ่งมีความชัน 3 เส้นตรงที่ตั้งฉากกับเส้นนี้มีความชันเท่าใด"],
     opts:[{v:"−1/3",ok:1},{v:"1/3",trap:"T-02"},{v:"3",trap:"T-02"},{v:"−3",trap:"T-02"}],unit:""};
-  if(sf==="S-05") return {stem:["The midpoint of AB is ("+fmt((x1+x2)/2)+", "+fmt((y1+y2)/2)+") and A is ("+x1+", "+y1+"). Find B.",
-                                "จุดกึ่งกลางของ AB คือ ("+fmt((x1+x2)/2)+", "+fmt((y1+y2)/2)+") และ A คือ ("+x1+", "+y1+") จงหา B"],
-    opts:[{v:"("+x2+", "+y2+")",ok:1},{v:"("+(-x2)+", "+(-y2)+")"},
-          {v:"("+fmt((x1+x2)/2)+", "+fmt((y1+y2)/2)+")"},{v:"("+(x2-x1)+", "+(y2-y1)+")"}],unit:""};
-  return {stem:["Find the distance between ("+x1+", "+y1+") and ("+x2+", "+y2+").",
-                "จงหาระยะระหว่างจุด ("+x1+", "+y1+") และ ("+x2+", "+y2+")"],
-    opts:[{v:fmt2(Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))),ok:1},
-          {v:fmt2(Math.abs(x2-x1)+Math.abs(y2-y1))},
-          {v:fmt2((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))},
-          {v:fmt2(m)}],unit:""};
+  if(sf==="S-05") return {stem:["The midpoint of AB is ("+num((x1+x2)/2)+", "+num((y1+y2)/2)+") and A is ("+num(x1)+", "+num(y1)+"). Find B.",
+                                "จุดกึ่งกลางของ AB คือ ("+num((x1+x2)/2)+", "+num((y1+y2)/2)+") และ A คือ ("+num(x1)+", "+num(y1)+") จงหา B"],
+    opts:[{v:"("+num(x2)+", "+num(y2)+")",ok:1},{v:"("+num(-x2)+", "+num(-y2)+")"},
+          {v:"("+num((x1+x2)/2)+", "+num((y1+y2)/2)+")"},{v:"("+num(x2-x1)+", "+num(y2-y1)+")"}],unit:""};
+  return {stem:["Find the distance between ("+num(x1)+", "+num(y1)+") and ("+num(x2)+", "+num(y2)+").",
+                "จงหาระยะระหว่างจุด ("+num(x1)+", "+num(y1)+") และ ("+num(x2)+", "+num(y2)+")"],
+    opts:[{v:num(Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))),ok:1},
+          {v:num(Math.abs(x2-x1)+Math.abs(y2-y1))},
+          {v:num((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))},
+          {v:num(m)}],unit:""};
 },
 "M-02": function(sf){
-  var h=ri(-4,4), k=ri(-4,4), r=ri(2,6);
+  var h,k,r;
+  do{ h=ri(-4,4); k=ri(-4,4); r=ri(2,6); } while(h===0 || k===0 || h===k);
   var a=-2*h, b=-2*k, c=h*h+k*k-r*r;
   if(sf==="S-04") return {stem:["What must you do before reading the centre of x² + y² + ax + by + c = 0?",
                                 "ก่อนอ่านจุดศูนย์กลางของ x² + y² + ax + by + c = 0 ต้องทำอะไรก่อน"],
@@ -306,8 +310,8 @@ gen:{
           {v:["Divide everything by c","หารทุกพจน์ด้วย c"]}],unit:""};
   return {stem:["Find the centre of x² + y² "+(a>=0?"+ ":"− ")+Math.abs(a)+"x "+(b>=0?"+ ":"− ")+Math.abs(b)+"y "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0.",
                 "จงหาจุดศูนย์กลางของ x² + y² "+(a>=0?"+ ":"− ")+Math.abs(a)+"x "+(b>=0?"+ ":"− ")+Math.abs(b)+"y "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0"],
-    opts:[{v:"("+h+", "+k+")",ok:1},{v:"("+a+", "+b+")",trap:"T-03"},
-          {v:"("+(-h)+", "+(-k)+")",trap:"T-03"},{v:"("+r+", "+r+")"}],unit:""};
+    opts:[{v:"("+num(h)+", "+num(k)+")",ok:1},{v:"("+num(a)+", "+num(b)+")",trap:"T-03"},
+          {v:"("+num(-h)+", "+num(-k)+")",trap:"T-03"},{v:"("+num(r)+", "+num(r)+")"}],unit:""};
 },
 "M-03": function(sf){
   var C=[{e:"4x² + 4y² − 8x = 0", a:["Circle","วงกลม"], w:[["Ellipse","วงรี"],["Hyperbola","ไฮเพอร์โบลา"],["Parabola","พาราโบลา"]]},
@@ -328,16 +332,17 @@ gen:{
           {v:["Two foci","โฟกัสสองจุด"],trap:"T-04"},
           {v:["A centre and a vertex","จุดศูนย์กลางและจุดยอด"]},
           {v:["Two directrices","ไดเรกทริกซ์สองเส้น"]}],unit:""};
-  if(sf==="S-05") return {stem:["An ellipse has a = "+a+" and c = "+fmt2(c)+". Find b.",
-                                "วงรีมี a = "+a+" และ c = "+fmt2(c)+" จงหา b"],
-    opts:[{v:String(b),ok:1},{v:fmt2(Math.sqrt(a*a+c*c)),trap:"T-01"},
-          {v:fmt2(a-c)},{v:fmt2(a+c)}],unit:""};
+  if(sf==="S-05") return {stem:["An ellipse has a = "+a+" and c = "+num(c,4)+". Find b.",
+                                "วงรีมี a = "+a+" และ c = "+num(c,4)+" จงหา b"],
+    opts:[{v:String(b),ok:1},{v:num(Math.sqrt(a*a+c*c)),trap:"T-01"},
+          {v:num(a-c)},{v:num(a+c)}],unit:""};
   return {stem:["An ellipse has a = "+a+" and b = "+b+". Find c.","วงรีมี a = "+a+" และ b = "+b+" จงหา c"],
-    opts:[{v:fmt2(c),ok:1},{v:fmt2(Math.sqrt(a*a+b*b)),trap:"T-01"},
-          {v:fmt2(a-b)},{v:fmt2(a*b)}],unit:""};
+    opts:[{v:num(c),ok:1},{v:num(Math.sqrt(a*a+b*b)),trap:"T-01"},
+          {v:num(a-b)},{v:num(a*b)}],unit:""};
 },
 "M-05": function(sf){
-  var a=pick([3,4,5]), b=pick([2,3,12]);
+  var a,b;
+  do{ a=pick([3,4,5]); b=pick([2,3,12]); } while(a===b);
   var c=Math.sqrt(a*a+b*b);
   if(sf==="S-04") return {stem:["For a hyperbola, which relation connects a, b and c?",
                                 "สำหรับไฮเพอร์โบลา ความสัมพันธ์ใดเชื่อม a, b และ c"],
@@ -348,8 +353,8 @@ gen:{
     opts:[{v:"y = ±("+b+"/"+a+")x",ok:1},{v:"y = ±("+a+"/"+b+")x",trap:"T-04"},
           {v:"y = ±"+a+"x"},{v:"y = ±"+b+"x"}],unit:""};
   return {stem:["A hyperbola has a = "+a+" and b = "+b+". Find c.","ไฮเพอร์โบลามี a = "+a+" และ b = "+b+" จงหา c"],
-    opts:[{v:fmt2(c),ok:1},{v:fmt2(Math.sqrt(Math.abs(a*a-b*b))),trap:"T-01"},
-          {v:String(a+b)},{v:fmt2(c/2)}],unit:""};
+    opts:[{v:num(c),ok:1},{v:num(Math.sqrt(Math.abs(a*a-b*b))),trap:"T-01"},
+          {v:String(a+b)},{v:num(c/2)}],unit:""};
 },
 "M-06": function(sf){
   var C=[{q:["a circle","วงกลม"],a:"e = 0",w:["0 < e < 1","e = 1","e > 1"]},

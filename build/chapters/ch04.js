@@ -1,3 +1,6 @@
+/* the load cannot sit past the far support, even if the beam is shortened under it */
+var C04 = { xe: function(p){ return Math.min(p.x, p.Lb); } };
+
 var CHAPTER = {
 id:"ch04", num:"04", slug:"equilibrium", subject:"physics",
 kicker:["Physics · Chapter 04","ฟิสิกส์ · บทที่ 4"],
@@ -19,11 +22,11 @@ nodes:[
   viz:"vector",
   guide:[
     {say:["Two forces exactly opposite and equal. The red resultant collapses to nothing — this is force balance.",
-          "แรงสองแรงขนาดเท่ากันและทิศตรงข้ามกันพอดี ลัพธ์สีแดงหายไปเป็นศูนย์ นี่คือสมดุลของแรง"], set:{A:12,tA:0,B:12,tB:180}},
+          "แรงสองแรงเท่ากันและทิศตรงข้ามกันพอดี ลัพธ์สีแดงหายไปเป็นศูนย์ นี่คือสมดุลของแรง"], set:{A:12,tA:0,B:12,tB:180}},
     {say:["Break the balance by turning B. The moment a resultant appears, the body accelerates.",
-          "ลองหมุน B เพื่อทำลายสมดุล พอเกิดแรงลัพธ์ขึ้นมา วัตถุก็เริ่มมีความเร่ง"], set:{A:12,tA:0,B:12,tB:120}},
+          "ลองหมุน B ให้สมดุลเสียไป พอมีแรงลัพธ์ วัตถุก็เริ่มมีความเร่ง"], set:{A:12,tA:0,B:12,tB:120}},
     {say:["Three forces in equilibrium close into a triangle. That closure is Lami's theorem in picture form.",
-          "แรงสามแรงที่สมดุลกันจะต่อกันเป็นรูปสามเหลี่ยมปิด รูปนี้คือทฤษฎีบทของลามีที่เห็นเป็นภาพ"], set:{A:10,tA:210,B:10,tB:330}}
+          "แรงสามแรงที่สมดุลกันต่อกันเป็นสามเหลี่ยมปิด ภาพนี้คือทฤษฎีบทของลามี"], set:{A:10,tA:210,B:10,tB:330}}
   ]},
 
 { id:"moment", x:235, y:150, requires:["translational"], methods:["M-02","M-03"],
@@ -36,8 +39,8 @@ nodes:[
   flabel:["Perpendicular distance only","ระยะตั้งฉากเท่านั้น"],
   viz:"bars",
   vizcfg:{
-    title:["A SEESAW BALANCES ON MOMENTS, NOT WEIGHTS","ไม้กระดกสมดุลที่โมเมนต์ ไม่ใช่ที่น้ำหนัก"],
-    ylab:["N·m","N·m"],
+    title:["A SEESAW BALANCES ON MOMENTS, NOT WEIGHTS","ไม้กระดกสมดุลเพราะโมเมนต์ ไม่ใช่เพราะน้ำหนัก"],
+    ylab:["N  and  N·m","N  และ  N·m"],
     ctrls:[
       {k:"F1", lab:["Force on the left","แรงด้านซ้าย"],   min:5, max:80, step:1, def:40, unit:" N"},
       {k:"d1", lab:["Its distance","ระยะจากจุดหมุน"],     min:.2, max:3, step:.1, def:1, unit:" m"},
@@ -45,14 +48,14 @@ nodes:[
       {k:"d2", lab:["Its distance","ระยะจากจุดหมุน"],     min:.2, max:3, step:.1, def:2, unit:" m"}
     ],
     readouts:[
-      {lab:["Anticlockwise F₁d₁","ทวนเข็ม F₁d₁"], f:function(S){ return fmt2(S.p.F1*S.p.d1)+" N·m"; }},
-      {lab:["Clockwise F₂d₂","ตามเข็ม F₂d₂"],     f:function(S){ return fmt2(S.p.F2*S.p.d2)+" N·m"; }},
-      {lab:["Balanced?","สมดุลไหม"], f:function(S){
+      {lab:["Anticlockwise F₁d₁","ทวนเข็ม F₁d₁"], f:function(S){ return un(S.p.F1*S.p.d1,"N·m"); }},
+      {lab:["Clockwise F₂d₂","ตามเข็ม F₂d₂"],     f:function(S){ return un(S.p.F2*S.p.d2,"N·m"); }},
+      {lab:["Balanced?","สมดุลหรือเปล่า"], f:function(S){
         var d=S.p.F1*S.p.d1-S.p.F2*S.p.d2;
-        return Math.abs(d)<0.5 ? (L()?"สมดุล":"balanced")
+        return Math.abs(d)<0.05 ? (L()?"สมดุล":"balanced")
           : (L()?(d>0?"หมุนทวนเข็ม":"หมุนตามเข็ม"):(d>0?"turns anticlockwise":"turns clockwise")); }},
       {lab:["Bigger force wins?","แรงมากกว่าชนะไหม"], f:function(S){
-        return L()?"ไม่เสมอไป — ระยะทางชดเชยแรงได้":"not necessarily — distance can beat force"; }}
+        return L()?"ไม่เสมอไป — ระยะชดเชยแรงได้":"not necessarily — distance can beat force"; }}
     ],
     bars:[
       {lab:["Left force","แรงซ้าย"],       f:function(p){ return p.F1; },       col:"faint"},
@@ -66,9 +69,9 @@ nodes:[
     {say:["40 N at 1 m against 20 N at 2 m. The forces are wildly unequal — the moments are identical.",
           "แรง 40 N ที่ระยะ 1 m กับแรง 20 N ที่ระยะ 2 m แรงต่างกันมาก แต่โมเมนต์เท่ากันพอดี"], set:{F1:40,d1:1,F2:20,d2:2}},
     {say:["Slide the right force inward. Its moment shrinks and the seesaw tips, though its force never changed.",
-          "ลองเลื่อนแรงทางขวาเข้ามาใกล้จุดหมุน โมเมนต์ของมันลดลงและไม้กระดานก็เอียง ทั้งที่แรงยังเท่าเดิม"], set:{F1:40,d1:1,F2:20,d2:1}},
+          "ลองเลื่อนแรงด้านขวาเข้าใกล้จุดหมุน โมเมนต์ของมันลดลง ไม้กระดกเลยเอียง ทั้งที่แรงเท่าเดิม"], set:{F1:40,d1:1,F2:20,d2:1}},
     {say:["A small child can balance an adult simply by sitting further out. That is the whole lever principle.",
-          "เด็กตัวเล็กนั่งสมดุลกับผู้ใหญ่ได้ แค่นั่งให้ไกลจากจุดหมุนกว่า นี่คือหลักการของคานทั้งหมด"], set:{F1:70,d1:0.4,F2:14,d2:2}}
+          "เด็กตัวเล็กนั่งให้สมดุลกับผู้ใหญ่ได้ แค่นั่งให้ห่างจุดหมุนกว่า นี่คือหลักการของคานทั้งหมด"], set:{F1:70,d1:0.4,F2:14,d2:2}}
   ] },
 
 { id:"pivot", x:100, y:248, requires:["moment"], methods:["M-04"],
@@ -85,33 +88,33 @@ nodes:[
     ylab:["N  ·  N·m","N  ·  N·m"],
     ctrls:[
       {k:"W", lab:["Load","น้ำหนักที่วาง"],        min:20, max:200, step:5, def:100, unit:" N"},
-      {k:"x", lab:["Load position from A","ตำแหน่งจาก A"], min:.2, max:3.8, step:.1, def:1, unit:" m"},
+      {k:"x", lab:["Load position from A","ตำแหน่งห่างจาก A"], min:.2, max:3.8, step:.1, def:1, unit:" m"},
       {k:"Lb", lab:["Beam length","ความยาวคาน"],   min:2, max:4, step:.2, def:4, unit:" m"}
     ],
     readouts:[
       {lab:["Reaction at A","แรงปฏิกิริยาที่ A"], f:function(S){
-        return fmt2(S.p.W*(S.p.Lb-S.p.x)/S.p.Lb)+" N"; }},
+        return un(S.p.W*(S.p.Lb-C04.xe(S.p))/S.p.Lb,"N"); }},
       {lab:["Reaction at B","แรงปฏิกิริยาที่ B"], f:function(S){
-        return fmt2(S.p.W*S.p.x/S.p.Lb)+" N"; }},
+        return un(S.p.W*C04.xe(S.p)/S.p.Lb,"N"); }},
       {lab:["Σ moments about A","Σโมเมนต์รอบ A"], f:function(){ return "0"; }},
       {lab:["Σ moments about B","Σโมเมนต์รอบ B"], f:function(){
-        return L()?"0 — จุดหมุนไหนก็ให้ศูนย์":"0 — either pivot gives zero"; }}
+        return L()?"0 — เลือกจุดหมุนไหนก็ได้ศูนย์":"0 — either pivot gives zero"; }}
     ],
     bars:[
-      {lab:["Reaction A","ปฏิกิริยา A"], f:function(p){ return p.W*(p.Lb-p.x)/p.Lb; }, col:"accent"},
-      {lab:["Reaction B","ปฏิกิริยา B"], f:function(p){ return p.W*p.x/p.Lb; },        col:"good"},
+      {lab:["Reaction A","ปฏิกิริยา A"], f:function(p){ return p.W*(p.Lb-C04.xe(p))/p.Lb; }, col:"accent"},
+      {lab:["Reaction B","ปฏิกิริยา B"], f:function(p){ return p.W*C04.xe(p)/p.Lb; },        col:"good"},
       {lab:["Load W","น้ำหนัก W"],       f:function(p){ return p.W; },                 col:"ink"},
       {lab:["A + B","A + B"],            f:function(p){ return p.W; },                 col:"warn"}
     ],
-    note:["the two reactions always add back to the load — pick whichever pivot kills an unknown","แรงปฏิกิริยาสองแรงรวมกันได้เท่ากับน้ำหนักที่แบกเสมอ ให้เลือกจุดหมุนที่ทำให้แรงที่ไม่รู้ค่าตัวหนึ่งหายไป"]
+    note:["the two reactions always add back to the load — pick whichever pivot kills an unknown","แรงปฏิกิริยาสองแรงรวมกันได้เท่ากับน้ำหนักเสมอ เลือกจุดหมุนที่ทำให้แรงที่ไม่รู้ค่าหายไปหนึ่งแรง"]
   },
   guide:[
     {say:["Load near A. A carries most of it — the closer support takes the bigger share.",
-          "วางน้ำหนักใกล้ A จุด A จึงรับน้ำหนักมากกว่า จุดรองรับที่อยู่ใกล้กว่าจะรับส่วนที่มากกว่า"], set:{W:100,x:1,Lb:4}},
+          "วางน้ำหนักไว้ใกล้ A จุด A เลยรับมากกว่า ที่รองรับที่อยู่ใกล้กว่าจะรับส่วนใหญ่"], set:{W:100,x:1,Lb:4}},
     {say:["Slide the load to the middle and the two reactions become equal, each half the load.",
-          "เลื่อนน้ำหนักมาตรงกลางคาน แรงปฏิกิริยาทั้งสองจะเท่ากัน แรงละครึ่งหนึ่งของน้ำหนัก"], set:{W:100,x:2,Lb:4}},
+          "เลื่อนน้ำหนักมาตรงกลางคาน แรงปฏิกิริยาสองแรงก็เท่ากัน แรงละครึ่งหนึ่งของน้ำหนัก"], set:{W:100,x:2,Lb:4}},
     {say:["Wherever it sits, A + B equals the load exactly. Taking moments about A or about B gives the same answer.",
-          "ไม่ว่าวางไว้ตรงไหน A + B ก็เท่ากับน้ำหนักพอดี และจะคิดโมเมนต์รอบ A หรือรอบ B ก็ได้คำตอบเท่ากัน"], set:{W:100,x:3.2,Lb:4}}
+          "วางไว้ตรงไหน A + B ก็เท่ากับน้ำหนักพอดี และจะคิดโมเมนต์รอบ A หรือรอบ B ก็ได้คำตอบเท่ากัน"], set:{W:100,x:3.2,Lb:4}}
   ] },
 
 { id:"centre-gravity", x:370, y:248, requires:["moment"], methods:["M-05"],
@@ -124,7 +127,7 @@ nodes:[
   flabel:["Weighted mean of the parts","ค่าเฉลี่ยถ่วงน้ำหนักของส่วนย่อย"],
   viz:"numline",
   vizcfg:{
-    title:["WHERE THE WEIGHT EFFECTIVELY ACTS","จุดที่น้ำหนักกระทำอย่างมีผลจริง"],
+    title:["WHERE THE WEIGHT EFFECTIVELY ACTS","จุดที่เสมือนน้ำหนักทั้งหมดกระทำ"],
     min:0, max:10,
     ctrls:[
       {k:"m1", lab:["Mass at the left","มวลด้านซ้าย"],  min:1, max:20, step:1, def:6, unit:" kg"},
@@ -134,12 +137,12 @@ nodes:[
     ],
     readouts:[
       {lab:["Centre of gravity","จุดศูนย์ถ่วง"], f:function(S){
-        var p=S.p; return fmt2((p.m1*p.x1+p.m2*p.x2)/(p.m1+p.m2))+" m"; }},
-      {lab:["Total mass","มวลรวม"], f:function(S){ return fmt(S.p.m1+S.p.m2)+" kg"; }},
-      {lab:["Nearer to","อยู่ใกล้ฝั่ง"], f:function(S){
-        var p=S.p, g=(p.m1*p.x1+p.m2*p.x2)/(p.m1+p.m2);
-        return Math.abs(g-p.x1)<Math.abs(g-p.x2)
-          ? (L()?"มวลที่มากกว่า (ซ้าย)":"the heavier mass (left)")
+        var p=S.p; return un((p.m1*p.x1+p.m2*p.x2)/(p.m1+p.m2),"m"); }},
+      {lab:["Total mass","มวลรวม"], f:function(S){ return un(S.p.m1+S.p.m2,"kg"); }},
+      {lab:["Nearer to","อยู่ใกล้"], f:function(S){
+        var p=S.p;
+        return p.m1===p.m2 ? (L()?"กึ่งกลางระหว่างสองก้อน — มวลเท่ากัน":"midway — the masses are equal")
+          : p.m1>p.m2 ? (L()?"มวลที่มากกว่า (ซ้าย)":"the heavier mass (left)")
           : (L()?"มวลที่มากกว่า (ขวา)":"the heavier mass (right)"); }},
       {lab:["Is it on an object?","อยู่บนวัตถุไหม"], f:function(){
         return L()?"ไม่จำเป็น — อาจอยู่ในที่ว่าง":"not necessarily — it can sit in empty space"; }}
@@ -151,7 +154,7 @@ nodes:[
               {v:p.x2, lab:["m₂","m₂"], col:"soft"},
               {v:g,    lab:["centre of gravity","จุดศูนย์ถ่วง"], col:"accent"}];
     },
-    note:["the centre of gravity is a weighted average — it always leans towards the heavier mass","จุดศูนย์ถ่วงคือค่าเฉลี่ยถ่วงน้ำหนัก จึงเอียงเข้าหาก้อนมวลที่มากกว่าเสมอ"]
+    note:["the centre of gravity is a weighted average — it always leans towards the heavier mass","จุดศูนย์ถ่วงเป็นค่าเฉลี่ยถ่วงน้ำหนัก จึงขยับเข้าใกล้มวลที่มากกว่าเสมอ"]
   } },
 
 { id:"stability", x:235, y:346, requires:["pivot","centre-gravity"], methods:["M-06"],
@@ -164,7 +167,7 @@ nodes:[
   flabel:["Watch the centre of gravity","ดูที่จุดศูนย์ถ่วง"],
   viz:"plot",
   vizcfg:{
-    title:["POTENTIAL ENERGY DECIDES STABILITY","พลังงานศักย์เป็นตัวตัดสินเสถียรภาพ"],
+    title:["POTENTIAL ENERGY DECIDES STABILITY","พลังงานศักย์ตัดสินว่าเสถียรหรือไม่"],
     xlab:["displacement from rest","การกระจัดจากตำแหน่งสมดุล"], ylab:["potential energy","พลังงานศักย์"],
     xmin:-4, xmax:4, fill:false,
     fn:function(x,p){ return p.kind===0 ? 0.5*x*x : p.kind===1 ? -0.5*x*x : 0; },
@@ -177,19 +180,19 @@ nodes:[
       {lab:["Kind","ชนิด"], f:function(S){
         return [["Stable","เสถียร"],["Unstable","ไม่เสถียร"],["Neutral","สะเทิน"]][S.p.kind][L()]; }},
       {lab:["Centre of gravity","จุดศูนย์ถ่วง"], f:function(S){
-        return [["rises when nudged","ยกขึ้นเมื่อถูกผลัก"],["falls when nudged","ลดลงเมื่อถูกผลัก"],
+        return [["rises when nudged","สูงขึ้นเมื่อโดนผลัก"],["falls when nudged","ต่ำลงเมื่อโดนผลัก"],
                 ["stays level","อยู่ระดับเดิม"]][S.p.kind][L()]; }},
       {lab:["What happens next","จะเกิดอะไรต่อ"], f:function(S){
         return [["returns to rest","กลับสู่ตำแหน่งเดิม"],["runs further away","ยิ่งออกห่างไปอีก"],
-                ["stays where you left it","อยู่ที่ที่ปล่อยไว้"]][S.p.kind][L()]; }}
+                ["stays where you left it","อยู่ตรงที่เราวางไว้"]][S.p.kind][L()]; }}
     ],
-    note:["a valley traps, a hilltop repels, a flat plain does neither","หุบเขาจะรั้งไว้ ยอดเขาจะผลักออก ส่วนที่ราบไม่ทำทั้งสองอย่าง"]
+    note:["a valley traps, a hilltop repels, a flat plain does neither","หุบเขารั้งไว้ ยอดเขาผลักออก ที่ราบไม่ทำทั้งสองอย่าง"]
   },
   guide:[
     {say:["A valley. Nudging the object raises its energy, so it rolls back — stable equilibrium.",
-          "หุบเขา ถ้าขยับวัตถุเล็กน้อย พลังงานจะสูงขึ้น วัตถุจึงกลิ้งกลับมา นี่คือสมดุลเสถียร"], set:{kind:0,d:1.2}},
+          "หุบเขา ขยับวัตถุนิดหน่อย พลังงานก็สูงขึ้น วัตถุจึงกลิ้งกลับมา นี่คือสมดุลเสถียร"], set:{kind:0,d:1.2}},
     {say:["A hilltop. Any nudge lowers the energy, so it accelerates away — unstable.",
-          "ยอดเขา ถ้าขยับเพียงเล็กน้อย พลังงานจะลดลง วัตถุจึงเร่งออกไปไกลขึ้น นี่คือสมดุลไม่เสถียร"], set:{kind:1,d:1.2}},
+          "ยอดเขา ขยับนิดเดียวพลังงานก็ลดลง วัตถุจึงเร่งออกไปไกลขึ้น นี่คือสมดุลไม่เสถียร"], set:{kind:1,d:1.2}},
     {say:["A flat plain. Energy does not change, so it simply stays put — neutral.",
           "ที่ราบ พลังงานไม่เปลี่ยน วัตถุจึงอยู่ที่เดิม นี่คือสมดุลสะเทิน"], set:{kind:2,d:1.2}}
   ] }

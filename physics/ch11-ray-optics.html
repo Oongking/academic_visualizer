@@ -152,8 +152,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .xtable figcaption{margin-bottom:12px}
 .xscroll{overflow-x:auto}
 .xtable table{border-collapse:collapse;width:100%;font-size:14px}
-.xtable th{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+.xtable th{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);text-align:left;
   padding:0 16px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
 .xtable td{padding:10px 16px 10px 0;border-bottom:1px solid var(--rule);
   color:var(--ink-soft);vertical-align:top;line-height:1.5}
@@ -163,8 +163,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   line-height:1.6}
 .xfacts{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
   font-size:14px}
-.xfacts dt{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.xfacts dt{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);padding-top:3px}
 .xfacts dd{margin:0;color:var(--ink-soft)}
 .node-sec:last-child{border-bottom:none}
 .node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
@@ -224,7 +224,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
   text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
 .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
 .ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-ui);
-  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;
   color:var(--ink-faint);margin-bottom:5px}
 .ctrl label span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
 /* touch-action:none is what keeps a drag on the control from being handed to
@@ -249,8 +249,8 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 .opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
   position:relative;z-index:3}
 .readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
-.ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
+.ro b{display:block;font-family:var(--f-ui);font-size:11.5px;letter-spacing:.02em;
+  color:var(--ink-faint);font-weight:600;margin-bottom:3px}
 .ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
 .transport{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 /* .guide and .transport set display, which beats the UA's [hidden] rule; a
@@ -870,7 +870,7 @@ nodes:[
   viz:"bars",
   vizcfg:{
     title:["THE ONE LAW THAT NEVER BENDS","กฎเดียวที่ไม่เคยเปลี่ยน"],
-    ylab:["degrees from the normal","องศาจากเส้นแนวฉาก"],
+    ylab:["degrees from the normal","องศาจากเส้นปกติ"],
     ctrls:[
       {k:"i", lab:["Angle of incidence","มุมตกกระทบ"], min:0, max:89, step:1, def:35, unit:"°"},
       {k:"rough", lab:["",""], opts:[["smooth","ผิวเรียบ"], ["rough surface","ผิวขรุขระ"]], min:0, def:0, unit:""}
@@ -879,17 +879,17 @@ nodes:[
       {lab:["Angle of incidence","มุมตกกระทบ"], f:function(S){ return S.p.i+"°"; }},
       {lab:["Angle of reflection","มุมสะท้อน"],  f:function(S){ return S.p.i+"°"; }},
       {lab:["Measured from","วัดจาก"], f:function(){
-        return L()?"เส้นแนวฉาก ไม่ใช่จากผิว":"the normal, never from the surface"; }},
+        return L()?"เส้นปกติ ไม่ใช่ผิวกระจก":"the normal, never from the surface"; }},
       {lab:["Kind of reflection","ชนิดการสะท้อน"], f:function(S){
-        return S.p.rough===0 ? (L()?"สะท้อนแบบราบเรียบ — เกิดภาพ":"specular — you get an image")
-                             : (L()?"สะท้อนแบบกระจาย — เห็นวัตถุแต่ไม่เห็นภาพ":"diffuse — you see the object, not an image"); }}
+        return S.p.rough===0 ? (L()?"สะท้อนแบบเรียบ — เกิดภาพ":"specular — you get an image")
+                             : (L()?"สะท้อนแบบกระจาย — เห็นวัตถุ แต่ไม่เกิดภาพ":"diffuse — you see the object, not an image"); }}
     ],
     bars:[
       {lab:["Incidence","ตกกระทบ"], f:function(p){ return p.i; }, col:"accent"},
       {lab:["Reflection","สะท้อน"],  f:function(p){ return p.i; }, col:"good"},
       {lab:["From the surface","วัดจากผิว"], f:function(p){ return 90-p.i; }, col:"faint"}
     ],
-    note:["the grey bar is the angle people quote by mistake — always use the normal","แถบสีเทาคือมุมที่คนมักตอบผิด ให้วัดจากเส้นปกติเสมอ"]
+    note:["the grey bar is the angle people quote by mistake — always use the normal","แถบสีเทาคือมุมที่คนมักตอบผิด จำไว้ว่าต้องวัดจากเส้นปกติเสมอ"]
   } },
 
 { id:"refraction", x:100, y:150, requires:["reflection"], methods:["M-02","M-06"],
@@ -918,18 +918,18 @@ nodes:[
     readouts:[
       {lab:["Angle of refraction","มุมหักเห"], f:function(S){
         var p=S.p, s=p.n1*Math.sin(p.i*Math.PI/180)/p.n2;
-        return s>1 ? (L()?"ไม่มี — สะท้อนกลับหมด":"none — total internal reflection")
-                   : fmt2(Math.asin(s)*180/Math.PI)+"°"; }},
-      {lab:["Bends towards","หักเหเข้าหา"], f:function(S){
-        return S.p.n2>S.p.n1 ? (L()?"เส้นแนวฉาก — เข้าสู่ตัวกลางหนาแน่นกว่า":"the normal — entering a denser medium")
-             : S.p.n2<S.p.n1 ? (L()?"ออกจากเส้นแนวฉาก":"away from the normal")
-             : (L()?"ไม่หักเห":"not at all"); }},
+        return s>1 ? (L()?"ไม่มี — แสงสะท้อนกลับหมด":"none — total internal reflection")
+                   : num(Math.asin(s)*180/Math.PI)+"°"; }},
+      {lab:["Bends towards","แสงเบนไปทาง"], f:function(S){
+        return S.p.n2>S.p.n1 ? (L()?"เข้าหาเส้นปกติ — เพราะเข้าสู่ตัวกลางที่หนาแน่นกว่า":"the normal — entering a denser medium")
+             : S.p.n2<S.p.n1 ? (L()?"ออกจากเส้นปกติ":"away from the normal")
+             : (L()?"ไม่เบนเลย":"not at all"); }},
       {lab:["Speed in medium 2","อัตราเร็วในตัวกลางที่ 2"], f:function(S){
-        return fmt2(3e8/S.p.n2/1e8)+" × 10⁸ m/s"; }},
-      {lab:["Frequency change","การเปลี่ยนความถี่"], f:function(){
-        return L()?"ไม่มีเลย — ความยาวคลื่นเปลี่ยนแทน":"none at all — the wavelength changes instead"; }}
+        return un(3e8/S.p.n2,"m/s"); }},
+      {lab:["Frequency change","ความถี่เปลี่ยนไหม"], f:function(){
+        return L()?"ไม่เปลี่ยนเลย — ความยาวคลื่นเปลี่ยนแทน":"none at all — the wavelength changes instead"; }}
     ],
-    note:["the curve flattens at 90° once total internal reflection takes over","เส้นโค้งแบนราบที่ 90° เมื่อเกิดการสะท้อนกลับหมด"]
+    note:["the curve flattens at 90° once total internal reflection takes over","เมื่อเกิดการสะท้อนกลับหมด เส้นโค้งจะแบนราบอยู่ที่ 90°"]
   } },
 
 { id:"tir", x:370, y:150, requires:["refraction"], methods:["M-03"],
@@ -945,23 +945,23 @@ nodes:[
     title:["WHICH ANGLES ESCAPE, AND WHICH DO NOT","มุมใดออกไปได้ และมุมใดออกไม่ได้"],
     min:0, max:90,
     ctrls:[
-      {k:"n1", lab:["n inside","n ของตัวกลางใน"],  min:1.1, max:2.5, step:.05, def:1.5, unit:""},
-      {k:"n2", lab:["n outside","n ของตัวกลางนอก"], min:1, max:2.4, step:.05, def:1, unit:""},
+      {k:"n1", lab:["n inside","n ตัวกลางด้านใน"],  min:1.1, max:2.5, step:.05, def:1.5, unit:""},
+      {k:"n2", lab:["n outside","n ตัวกลางด้านนอก"], min:1, max:2.4, step:.05, def:1, unit:""},
       {k:"i",  lab:["Angle of incidence","มุมตกกระทบ"], min:0, max:89, step:1, def:30, unit:"°"}
     ],
     readouts:[
       {lab:["Critical angle","มุมวิกฤต"], f:function(S){
         var p=S.p;
-        return p.n2>=p.n1 ? (L()?"ไม่มี — ต้องออกจากตัวกลางหนาแน่นกว่า":"none — you must go dense to less dense")
-                          : fmt2(Math.asin(p.n2/p.n1)*180/Math.PI)+"°"; }},
+        return p.n2>=p.n1 ? (L()?"ไม่มี — แสงต้องออกจากตัวกลางที่หนาแน่นกว่า":"none — you must go dense to less dense")
+                          : num(Math.asin(p.n2/p.n1)*180/Math.PI)+"°"; }},
       {lab:["What happens","เกิดอะไรขึ้น"], f:function(S){
         var p=S.p;
         if(p.n2>=p.n1) return L()?"หักเหออกไปเสมอ":"it always refracts out";
         var c=Math.asin(p.n2/p.n1)*180/Math.PI;
         return p.i<c ? (L()?"หักเหออกไปได้":"refracts out") : (L()?"สะท้อนกลับหมด":"totally internally reflected"); }},
-      {lab:["Needs which direction?","ต้องเดินทางทิศใด"], f:function(){
-        return L()?"จากหนาแน่นมากไปหาหนาแน่นน้อย เท่านั้น":"dense to less dense, only"; }},
-      {lab:["Used in","ใช้ใน"], f:function(){
+      {lab:["Needs which direction?","แสงต้องไปทางไหน"], f:function(){
+        return L()?"จากตัวกลางที่หนาแน่นกว่าไปเบาบางกว่าเท่านั้น":"dense to less dense, only"; }},
+      {lab:["Used in","นำไปใช้ใน"], f:function(){
         return L()?"ใยแก้วนำแสง ปริซึมกล้องส่องทางไกล เพชร":"optical fibres, binocular prisms, diamonds"; }}
     ],
     regions:function(p){
@@ -971,19 +971,19 @@ nodes:[
               {a:c,b:90,col:"accent",lab:["total internal reflection","สะท้อนกลับหมด"]}];
     },
     points:function(p){
-      var pts=[{v:p.i, lab:["your ray","รังสีของคุณ"], col:"warn"}];
+      var pts=[{v:p.i, lab:["your ray","รังสีของเรา"], col:"warn"}];
       if(p.n2<p.n1) pts.push({v:Math.asin(p.n2/p.n1)*180/Math.PI, lab:["critical angle","มุมวิกฤต"], col:"ink"});
       return pts;
     },
-    note:["raise n outside towards n inside and the escape window widens until it swallows everything","เพิ่ม n ด้านนอกให้ใกล้ n ด้านใน ช่วงมุมที่แสงออกได้จะกว้างขึ้นจนครอบคลุมทุกมุม"]
+    note:["raise n outside towards n inside and the escape window widens until it swallows everything","ลองเพิ่ม n ด้านนอกให้ใกล้ n ด้านใน ช่วงมุมที่แสงออกได้จะกว้างขึ้นจนครอบคลุมทุกมุม"]
   },
   guide:[
     {say:["Glass to air. Shallow angles escape, but past the critical angle the light is trapped completely.",
-          "จากแก้วสู่อากาศ ถ้ามุมน้อย แสงออกไปได้ แต่ถ้าเลยมุมวิกฤต แสงจะถูกกักไว้ทั้งหมด"], set:{n1:1.5,n2:1,i:30}},
+          "จากแก้วสู่อากาศ ถ้ามุมเล็ก แสงออกไปได้ แต่พอเลยมุมวิกฤต แสงจะติดอยู่ข้างในทั้งหมด"], set:{n1:1.5,n2:1,i:30}},
     {say:["Push the ray past the critical angle and it lands in the red zone — none of it gets out.",
-          "ปรับรังสีให้เลยมุมวิกฤต รังสีจะตกในโซนสีแดง และไม่มีแสงออกไปได้เลย"], set:{n1:1.5,n2:1,i:60}},
+          "ปรับรังสีให้เลยมุมวิกฤต รังสีจะอยู่ในโซนสีแดง และไม่มีแสงออกไปได้เลย"], set:{n1:1.5,n2:1,i:60}},
     {say:["A diamond has a very high n, so its critical angle is tiny — which is exactly why it sparkles.",
-          "เพชรมีค่า n สูงมาก มุมวิกฤตจึงเล็กมาก นี่คือเหตุผลที่เพชรแวววาว"], set:{n1:2.4,n2:1,i:30}}
+          "เพชรมีค่า n สูงมาก มุมวิกฤตจึงเล็กมาก เพชรจึงแวววาว"], set:{n1:2.4,n2:1,i:30}}
   ] },
 
 { id:"lenses", x:235, y:248, requires:["refraction"], methods:["M-04"],
@@ -1003,14 +1003,14 @@ nodes:[
     ],
     readouts:[
       {lab:["Image distance s'","ระยะภาพ s'"], f:function(S){
-        var d=1/S.p.f-1/S.p.s; return Math.abs(d)<1e-6 ? "∞" : fmt(1/d)+" cm"; }},
+        var d=1/S.p.f-1/S.p.s; return Math.abs(d)<1e-6 ? "∞" : un(1/d,"cm"); }},
       {lab:["Magnification m","กำลังขยาย m"], f:function(S){
-        var d=1/S.p.f-1/S.p.s; return Math.abs(d)<1e-6 ? "∞" : fmt(-(1/d)/S.p.s); }},
+        var d=1/S.p.f-1/S.p.s; return Math.abs(d)<1e-6 ? "∞" : num(-(1/d)/S.p.s); }},
       {lab:["Image","ภาพ"], f:function(S){
         var d=1/S.p.f-1/S.p.s;
         if(Math.abs(d)<1e-6) return L()?"ไม่เกิดภาพ":"none";
         var sp=1/d;
-        return sp>0 ? (L()?"จริง หัวกลับ":"real, inverted") : (L()?"เสมือน หัวตั้ง":"virtual, upright"); }}
+        return sp>0 ? (L()?"ภาพจริง หัวกลับ":"real, inverted") : (L()?"ภาพเสมือน หัวตั้ง":"virtual, upright"); }}
     ],
     draw:function(S,o){
       var f=S.p.f, s=S.p.s, ho=S.p.h;
@@ -1023,7 +1023,7 @@ nodes:[
       for(var c=-70;c<=60;c+=10){
         var px=LX+c*sc; if(px<24||px>538) continue;
         o.push('<line x1="'+px+'" y1="'+AY+'" x2="'+px+'" y2="'+(AY+6)+'" stroke="var(--ink-faint)" stroke-width="1"/>');
-        if(c%20===0) o.push('<text x="'+px+'" y="'+(AY+19)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9.5" text-anchor="middle">'+c+'</text>');
+        if(c%20===0) o.push('<text x="'+px+'" y="'+(AY+19)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9.5" text-anchor="middle">'+tk(c)+'</text>');
       }
       o.push('<text x="538" y="'+(AY+19)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">cm</text>');
       /* the lens */
@@ -1059,18 +1059,18 @@ nodes:[
         /* dashed back-extensions showing where the rays appear to come from */
         o.push('<line x1="'+LX+'" y1="'+oy+'" x2="'+vx+'" y2="'+vy+'" stroke="var(--warn)" stroke-width="1" stroke-dasharray="3 3"/>');
       }
-      o.push('<text x="30" y="288" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["object — black    rays — red    image — green real / amber virtual","วัตถุ — ดำ    รังสี — แดง    ภาพ — เขียวคือภาพจริง / เหลืองอำพันคือภาพเสมือน"])+'</text>');
+      o.push('<text x="30" y="288" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["object — black    rays — red    image — green real / amber virtual","วัตถุ — ดำ    รังสี — แดง    ภาพจริง — เขียว    ภาพเสมือน — เหลืองอำพัน"])+'</text>');
     }
   },
   guide:[
     {say:["Object well outside the focus. Two red rays cross beyond the lens and the green image is real and inverted.",
           "วัตถุอยู่ไกลจากจุดโฟกัสมาก รังสีสีแดงสองเส้นตัดกันหลังเลนส์ ภาพสีเขียวเป็นภาพจริงหัวกลับ"], set:{f:15,s:40,h:6}},
     {say:["Slide the object towards the focus. The image races away and grows — at s = f it would be infinitely far.",
-          "เลื่อนวัตถุเข้าหาจุดโฟกัส ภาพจะเลื่อนออกไปไกลและใหญ่ขึ้น เมื่อ s = f ภาพจะอยู่ไกลอนันต์"], set:{f:15,s:18,h:6}},
+          "เลื่อนวัตถุเข้าหาจุดโฟกัส ภาพจะวิ่งห่างออกไปและใหญ่ขึ้น เมื่อ s = f ภาพจะอยู่ไกลอนันต์"], set:{f:15,s:18,h:6}},
     {say:["Now bring it inside the focus. The rays diverge, so the image goes virtual, upright and magnified — a magnifying glass.",
-          "ทีนี้เลื่อนวัตถุเข้ามาในระยะโฟกัส รังสีจะบานออก ภาพจึงกลายเป็นภาพเสมือน หัวตั้ง และขยาย นี่คือหลักของแว่นขยาย"], set:{f:15,s:9,h:6}},
+          "ทีนี้เลื่อนวัตถุเข้ามาในระยะโฟกัส รังสีจะบานออก ภาพจึงเป็นภาพเสมือน หัวตั้ง และขยาย นี่คือหลักของแว่นขยาย"], set:{f:15,s:9,h:6}},
     {say:["Shorten the focal length instead. A stronger lens bends the rays harder and pulls the image in closer.",
-          "ลองลดความยาวโฟกัสแทน เลนส์ที่แรงกว่าจะหักเหรังสีมากกว่า และดึงภาพให้เข้ามาใกล้ขึ้น"], set:{f:8,s:20,h:6}}
+          "ลองลดความยาวโฟกัสแทน เลนส์ยิ่งแรงก็ยิ่งหักเหรังสีมาก และดึงภาพเข้ามาใกล้ขึ้น"], set:{f:8,s:20,h:6}}
   ]},
 
 { id:"images", x:235, y:346, requires:["lenses","tir"], methods:["M-05"],
@@ -1091,11 +1091,11 @@ nodes:[
         return [["Do rays actually meet?","รังสีมาบรรจบจริงไหม"],["Catch it on a screen?","รับบนฉากได้ไหม"],
                 ["Orientation","การกลับหัว"],["Sign of image distance v","เครื่องหมายของ v"],
                 ["Everyday example","ตัวอย่างในชีวิตประจำวัน"]][S.p.i][L()]; }},
-      {lab:["The test that settles it","เกณฑ์ที่ตัดสินได้"], f:function(){
-        return L()?"รับบนฉากได้หรือไม่":"can you catch it on a screen"; }}
+      {lab:["The test that settles it","ใช้อะไรตัดสิน"], f:function(){
+        return L()?"รับภาพบนฉากได้หรือไม่":"can you catch it on a screen"; }}
     ],
     rows:function(p){
-      var R=[[["Rays actually meet?","รังสีบรรจบจริงไหม"],["yes","ใช่"],["no — they only appear to","ไม่ — แค่ดูเหมือนบรรจบ"]],
+      var R=[[["Rays actually meet?","รังสีบรรจบจริงไหม"],["yes","ใช่"],["no — they only appear to","ไม่ — แค่ดูเหมือนมาบรรจบ"]],
              [["On a screen?","รับบนฉาก"],["yes","ได้"],["never","ไม่ได้เลย"]],
              [["Orientation","การวางตัว"],["inverted","หัวกลับ"],["upright","หัวตั้ง"]],
              [["Image distance v","ระยะภาพ v"],["positive","เป็นบวก"],["negative","เป็นลบ"]],
@@ -1283,13 +1283,55 @@ function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
 function fmt(n){ return (Math.round(n*10)/10).toString(); }
 function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+/* ---- numbers as a scientist writes them ----
+   fmt / fmt2 round to a fixed number of decimals; they are for geometry and
+   coordinates only. Anything a learner READS as a physical value goes through
+   num(), which keeps significant figures instead of decimal places, switches to
+   standard form (A × 10ⁿ, 1 ≤ |A| < 10) for very large or very small values,
+   never shows a non-zero value as 0, and uses a real minus sign.
+     num(0.000000123)   "1.23 × 10⁻⁷"      num(299792458)  "3 × 10⁸"
+     num(12345.6)       "12300"            num(−4.2)       "−4.2"
+     numTex(n,s)  the same value as LaTeX (for the live formula)
+     un(n,"m/s")  number, a no-break space, then the unit                    */
+var SUPS={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
+function sciParts(n,s){
+  var e=Math.floor(Math.log10(Math.abs(n))), m=n/Math.pow(10,e);
+  m=+m.toPrecision(s); if(Math.abs(m)>=10){ m/=10; e++; }
+  return [m,e];
+}
+function num(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "—";
+  if(n===0) return "0";
+  var a=Math.abs(n), out;
+  if(a<1e-3 || a>=1e5){
+    var q=sciParts(n,s);
+    out=String(q[0])+" × 10"+String(q[1]).split("").map(function(c){ return SUPS[c]; }).join("");
+  } else {
+    out=String(+n.toPrecision(s));
+    if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  }
+  return out.replace("-","−");
+}
+function numTex(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "\\text{—}";
+  if(n===0) return "0";
+  var a=Math.abs(n);
+  if(a<1e-3 || a>=1e5){ var q=sciParts(n,s); return q[0]+"\\times10^{"+q[1]+"}"; }
+  var out=String(+n.toPrecision(s));
+  if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  return out;
+}
+function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
   if(!(range>0)) return 1;
   var raw=range/target, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
   return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag;
 }
-function tk(n){ var r=Math.round(n*100)/100; return (Math.abs(r)<1e-9?0:r).toString(); }
+/* axis tick labels: significant figures and standard form, never "0" for a small value */
+function tk(n){ return num(n,3); }
 var FT='fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10"';
 
 /* Shared, fully scaled axis frame. Returns mapping functions. */
@@ -1351,10 +1393,10 @@ VIZLIB.motion = {
     {k:"T", lab:["Duration","ช่วงเวลา"],                min:2,  max:12,step:1, def:6,  unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Time","เวลา"],            f:function(S){ return fmt(S.t)+" s"; }},
-    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return fmt(S.p.u+S.p.a*S.t)+" m/s"; }},
-    {lab:["Displacement s","การกระจัด s"], f:function(S){ return fmt(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
-    {lab:["Slope","ความชัน"],        f:function(S){ return fmt(S.p.a)+" m/s²"; }}
+    {lab:["Time","เวลา"],            f:function(S){ return num(S.t)+" s"; }},
+    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return num(S.p.u+S.p.a*S.t)+" m/s"; }},
+    {lab:["Displacement s","การกระจัด s"], f:function(S){ return num(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
+    {lab:["Slope","ความชัน"],        f:function(S){ return num(S.p.a)+" m/s²"; }}
   ],
   draw:function(S,o){
     var u=S.p.u,a=S.p.a,T=S.p.T,tt=Math.min(S.t,T);
@@ -1439,11 +1481,11 @@ VIZLIB.vector = {
     {lab:["Resultant R","ผลลัพธ์ R"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      return fmt(Math.sqrt(rx*rx+ry*ry)); }},
+      return num(Math.sqrt(rx*rx+ry*ry)); }},
     {lab:["Direction","ทิศทาง"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return fmt(d)+"°"; }}
+      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return num(d)+"°"; }}
   ],
   draw:function(S,o){
     var p=S.p, cx=280, cy=180, sc=6.5;
@@ -1457,8 +1499,8 @@ VIZLIB.vector = {
     o.push('<line x1="'+(cx-250)+'" y1="'+cy+'" x2="'+(cx+250)+'" y2="'+cy+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     o.push('<line x1="'+cx+'" y1="'+(cy-140)+'" x2="'+cx+'" y2="'+(cy+140)+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     for(var s=-20;s<=20;s+=10){ if(!s) continue;
-      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+s+'</text>');
-      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+s+'</text>');
+      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+tk(s)+'</text>');
+      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+tk(s)+'</text>');
     }
     function arrow(x1,y1,x2,y2,col,w,dash){
       var ang=Math.atan2(y2-y1,x2-x1), hl=9;
@@ -1485,9 +1527,9 @@ VIZLIB.wave = {
     {k:"T",  lab:["Run for","เล่นนาน"],            min:2,max:12,step:1, def:8, unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return fmt(S.p.f*S.p.lam)+" m/s"; }},
-    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return fmt(1/S.p.f)+" s"; }},
-    {lab:["Time","เวลา"],                     f:function(S){ return fmt(S.t)+" s"; }}
+    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return num(S.p.f*S.p.lam)+" m/s"; }},
+    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return num(1/S.p.f)+" s"; }},
+    {lab:["Time","เวลา"],                     f:function(S){ return num(S.t)+" s"; }}
   ],
   draw:function(S,o){
     var p=S.p, xmax=24;
@@ -1538,7 +1580,7 @@ VIZLIB.bars = {
       o.push('<rect x="'+(cx-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+
              '" height="'+Math.abs(y1-y0)+'" fill="'+b.c+'" opacity="0.9"/>');
       o.push('<text x="'+cx+'" y="'+(y1+(b.v<0?15:-7))+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-size="11" font-weight="600" text-anchor="middle">'+num(b.v)+'</text>');
       o.push('<text x="'+cx+'" y="'+(A.Y(lo)+34)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" '+
              'font-size="10" text-anchor="middle">'+tx(b.lab)+'</text>');
     });
@@ -1611,7 +1653,7 @@ VIZLIB.tri = {
            ' Z" fill="var(--accent)" fill-opacity="0.10" stroke="var(--ink)" stroke-width="2.2"/>');
     function side(p,q,lab,val,c2){
       o.push('<text x="'+((p[0]+q[0])/2)+'" y="'+((p[1]+q[1])/2-6)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+fmt2(val)+'</text>');
+             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+num(val)+'</text>');
     }
     side(tC,tA,"b",b,"var(--ink-soft)");
     side(tC,tB,"a",a,"var(--ink-soft)");
@@ -1619,15 +1661,15 @@ VIZLIB.tri = {
     [[tC,"C",g.C],[tA,"A",A1*180/Math.PI],[tB,"B",B1*180/Math.PI]].forEach(function(v){
       o.push('<circle cx="'+v[0][0]+'" cy="'+v[0][1]+'" r="3.5" fill="var(--ink)"/>');
       o.push('<text x="'+(v[0][0]-14)+'" y="'+(v[0][1]+14)+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="10.5" font-weight="600">'+v[1]+' '+fmt(v[2])+'°</text>');
+             'font-size="10.5" font-weight="600">'+v[1]+' '+num(v[2])+'°</text>');
     });
     var area=0.5*a*b*Math.sin(C);
     o.push('<text x="404" y="86" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["THIRD SIDE","ด้านที่สาม"])+'</text>');
-    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+fmt2(c)+'</text>');
+    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+num(c)+'</text>');
     o.push('<text x="404" y="152" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["AREA ½ ab sin C","พื้นที่ ½ ab sin C"])+'</text>');
-    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+fmt2(area)+'</text>');
+    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+num(area)+'</text>');
     if(cfg.note) cap(o,44,286,cfg.note,"note");
   }
 };
@@ -1700,7 +1742,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+(cx-L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56-H)+
              ' Z" fill="var(--surface)" stroke="var(--ink-faint)" stroke-width="1.5"/>');
       o.push('<text x="'+(cx-L/2+26)+'" y="'+(cy+50)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-             'font-size="10">'+fmt(inc)+'°</text>');
+             'font-size="10">'+num(inc)+'°</text>');
     } else {
       o.push('<line x1="'+(cx-120)+'" y1="'+(cy+34)+'" x2="'+(cx+120)+'" y2="'+(cy+34)+
              '" stroke="var(--ink-faint)" stroke-width="1.5"/>');
@@ -1718,7 +1760,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+ex+' '+ey+' L'+(ex-hl*Math.cos(aa-0.4))+' '+(ey-hl*Math.sin(aa-0.4))+
              ' L'+(ex-hl*Math.cos(aa+0.4))+' '+(ey-hl*Math.sin(aa+0.4))+' Z" fill="'+c2+'"/>');
       o.push('<text x="'+(cx+Math.cos(aa)*(len+24))+'" y="'+(cy+Math.sin(aa)*(len+24)+4)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+fmt(Math.abs(f.mag))+'</text>');
+             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+num(Math.abs(f.mag))+'</text>');
     });
     if(cfg.note) cap(o,44,300,cfg.note,"note");
   }
@@ -1737,7 +1779,7 @@ VIZLIB.stack = {
       var pw=Math.max(0,p.v)/tot*w;
       o.push('<rect x="'+x+'" y="'+y+'" width="'+pw+'" height="'+h+'" fill="'+col(p.col)+'" opacity="0.88"/>');
       if(pw>34) o.push('<text x="'+(x+pw/2)+'" y="'+(y+h/2+4)+'" fill="#fff" font-family="IBM Plex Sans" '+
-                       'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(p.v)+'</text>');
+                       'font-size="11" font-weight="600" text-anchor="middle">'+num(p.v)+'</text>');
       x+=pw;
     });
     o.push('<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="none" stroke="var(--ink)" stroke-width="1.6"/>');
@@ -1749,7 +1791,7 @@ VIZLIB.stack = {
              'font-size="10.5">'+tx(p.lab)+'</text>');
     });
     if(cfg.total) o.push('<text x="'+(x0+w)+'" y="'+(y-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+fmt2(tot)+'</text>');
+                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+num(tot)+'</text>');
     if(cfg.note) cap(o,x0,236,cfg.note,"note");
   }
 };
@@ -2053,7 +2095,7 @@ function instrument(S, o, ins, ctx){
       if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
                       'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+num(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -2570,7 +2612,7 @@ var STAGE = {
         o.push('<text x="' + (FR.sx + 166) + '" y="' + fmt2(+gy + 3.5) + '" ' + FT + ' text-anchor="end">' + tk(h) + '</text>');
       }
       o.push('<text x="' + (FR.sx + 166) + '" y="' + (W.top - 8) + '" ' + FT + ' text-anchor="end">' +
-             tx(W.unit || ["m", "ม."]) + '</text>');
+             tx(W.unit || ["m", "m"]) + '</text>');
     }
   },
 
@@ -2794,7 +2836,7 @@ var STAGE = {
     var on = S.kbd && S.kbd.on;
     role("prophecy")(o, P[0], P[1], { clock: STAGE.clock, active: on || !!S.dragGuess,
                                        done: pr.phase === "done", hit: pr.hit, tower: W.kind === "tower" });
-    var txt = ui("yourGuess") + " · " + fmt2(pr.guess) + tx(pc.unit || [" m", " ม."]);
+    var txt = ui("yourGuess") + " · " + num(pr.guess) + tx(pc.unit || [" m", " m"]);
     fitText(o, P[0], P[1] - (W.kind === "tower" ? 12 : 78), [txt, txt], 150, 10.5, "var(--accent2)", "middle");
   },
 
@@ -3064,9 +3106,9 @@ var STAGE = {
         } else {
           var err = Math.abs(g - actual), tol = pc.tol ? pc.tol(S.p) : 1;
           hit = err <= tol;
-          var u = tx(pc.unit || [" m", " ม."]);
-          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + fmt2(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + fmt2(actual) + u +
-                  " · " + (L() ? "คลาดไป " : "off by ") + fmt2(err) + u ];
+          var u = tx(pc.unit || [" m", " m"]);
+          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + num(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + num(actual) + u +
+                  " · " + (L() ? "ต่างไป " : "off by ") + num(err) + u ];
         }
         S.pred.phase = "done"; S.pred.hit = hit;
         STATE.preds = STATE.preds || {};
@@ -4459,7 +4501,7 @@ function makeLab(nd, host){
     });
     /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=num(S.p[c.k],6)+(c.unit||"");
       if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){

@@ -152,8 +152,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .xtable figcaption{margin-bottom:12px}
 .xscroll{overflow-x:auto}
 .xtable table{border-collapse:collapse;width:100%;font-size:14px}
-.xtable th{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+.xtable th{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);text-align:left;
   padding:0 16px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
 .xtable td{padding:10px 16px 10px 0;border-bottom:1px solid var(--rule);
   color:var(--ink-soft);vertical-align:top;line-height:1.5}
@@ -163,8 +163,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   line-height:1.6}
 .xfacts{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
   font-size:14px}
-.xfacts dt{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.xfacts dt{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);padding-top:3px}
 .xfacts dd{margin:0;color:var(--ink-soft)}
 .node-sec:last-child{border-bottom:none}
 .node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
@@ -224,7 +224,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
   text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
 .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
 .ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-ui);
-  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;
   color:var(--ink-faint);margin-bottom:5px}
 .ctrl label span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
 /* touch-action:none is what keeps a drag on the control from being handed to
@@ -249,8 +249,8 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 .opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
   position:relative;z-index:3}
 .readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
-.ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
+.ro b{display:block;font-family:var(--f-ui);font-size:11.5px;letter-spacing:.02em;
+  color:var(--ink-faint);font-weight:600;margin-bottom:3px}
 .ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
 .transport{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 /* .guide and .transport set display, which beats the UA's [hidden] rule; a
@@ -869,7 +869,7 @@ nodes:[
   flabel:["Take differences to find the rule","หาผลต่างเพื่อหากฎ"],
   viz:"bars",
   vizcfg:{
-    title:["TAKE DIFFERENCES UNTIL THEY GO CONSTANT","หาผลต่างไปเรื่อยจนกว่าจะคงที่"],
+    title:["TAKE DIFFERENCES UNTIL THEY GO CONSTANT","หาผลต่างไปเรื่อยๆ จนกว่าจะคงที่"],
     ylab:["value","ค่า"],
     ctrls:[
       {k:"kind", lab:["",""], opts:[["linear","เชิงเส้น"], ["quadratic","กำลังสอง"], ["geometric","เรขาคณิต"]], min:0, def:0, unit:""},
@@ -879,18 +879,18 @@ nodes:[
       {lab:["Sequence","ลำดับ"], f:function(S){
         var p=S.p, out=[];
         for(var n=1;n<=5;n++) out.push(p.kind===0 ? p.a*n+1 : p.kind===1 ? p.a*n*n : p.a*Math.pow(2,n-1));
-        return out.join(", "); }},
+        return out.map(function(v){ return num(v); }).join(", "); }},
       {lab:["First differences","ผลต่างชั้นที่หนึ่ง"], f:function(S){
         var p=S.p, t=[], d=[];
         for(var n=1;n<=5;n++) t.push(p.kind===0 ? p.a*n+1 : p.kind===1 ? p.a*n*n : p.a*Math.pow(2,n-1));
         for(var i=1;i<5;i++) d.push(t[i]-t[i-1]);
-        return d.join(", "); }},
+        return d.map(function(v){ return num(v); }).join(", "); }},
       {lab:["Constant at which level?","คงที่ที่ชั้นใด"], f:function(S){
         return [["first — so the rule is linear","ชั้นที่หนึ่ง — กฎเป็นเชิงเส้น"],
                 ["second — so the rule is quadratic","ชั้นที่สอง — กฎเป็นกำลังสอง"],
                 ["never — the RATIOS are constant instead","ไม่มีเลย — อัตราส่วนคงที่แทน"]][S.p.kind][L()]; }},
       {lab:["What to look for","สิ่งที่ต้องมองหา"], f:function(){
-        return L()?"ผลต่างคงที่ หรือ อัตราส่วนคงที่":"a constant difference, or a constant ratio"; }}
+        return L()?"ผลต่างคงที่ หรืออัตราส่วนคงที่":"a constant difference, or a constant ratio"; }}
     ],
     bars:[
       {lab:["a₁","a₁"], f:function(p){ return p.kind===0?p.a+1:p.kind===1?p.a:p.a; }, col:"faint"},
@@ -899,7 +899,7 @@ nodes:[
       {lab:["a₄","a₄"], f:function(p){ return p.kind===0?4*p.a+1:p.kind===1?16*p.a:8*p.a; }, col:"accent"},
       {lab:["a₅","a₅"], f:function(p){ return p.kind===0?5*p.a+1:p.kind===1?25*p.a:16*p.a; }, col:"accent"}
     ],
-    note:["evenly stepped bars mean linear; accelerating bars mean quadratic or geometric","แถบที่สูงขึ้นทีละเท่าๆ กันคือเชิงเส้น ส่วนแถบที่สูงขึ้นเร็วขึ้นเรื่อยๆ คือกำลังสองหรือเรขาคณิต"]
+    note:["evenly stepped bars mean linear; accelerating bars mean quadratic or geometric","แถบที่สูงขึ้นทีละเท่าๆ กันคือเชิงเส้น แถบที่สูงขึ้นเร็วขึ้นเรื่อยๆ คือกำลังสองหรือเรขาคณิต"]
   } },
 
 { id:"arithmetic", x:100, y:150, requires:["sequences"], methods:["M-02"],
@@ -912,7 +912,7 @@ nodes:[
   flabel:["Note the plus, and the n − 1","สังเกตเครื่องหมายบวก และ n − 1"],
   viz:"bars",
   vizcfg:{
-    title:["THE TERM AND THE SUM ARE DIFFERENT THINGS","พจน์กับผลบวกเป็นคนละอย่าง"],
+    title:["THE TERM AND THE SUM ARE DIFFERENT THINGS","พจน์กับผลบวกเป็นคนละอย่างกัน"],
     ylab:["value","ค่า"],
     ctrls:[
       {k:"a1", lab:["First term a₁","พจน์แรก a₁"], min:-10, max:20, step:1, def:3, unit:""},
@@ -920,13 +920,13 @@ nodes:[
       {k:"n",  lab:["How many terms","จำนวนพจน์"], min:1, max:20, step:1, def:8, unit:""}
     ],
     readouts:[
-      {lab:["nth term aₙ","พจน์ที่ n"], f:function(S){ return String(S.p.a1+(S.p.n-1)*S.p.d); }},
+      {lab:["nth term aₙ","พจน์ที่ n"], f:function(S){ return num(S.p.a1+(S.p.n-1)*S.p.d); }},
       {lab:["Sum Sₙ","ผลบวก Sₙ"], f:function(S){
-        return String(S.p.n/2*(2*S.p.a1+(S.p.n-1)*S.p.d)); }},
+        return num(S.p.n/2*(2*S.p.a1+(S.p.n-1)*S.p.d)); }},
       {lab:["If you used n instead of n−1","ถ้าใช้ n แทน n−1"], f:function(S){
-        return String(S.p.a1+S.p.n*S.p.d)+(L()?" · ผิดไปหนึ่ง d":" · wrong by exactly one d"); }},
+        return num(S.p.a1+S.p.n*S.p.d)+(L()?" · ผิดไปหนึ่ง d":" · wrong by exactly one d"); }},
       {lab:["Average of first and last","ค่าเฉลี่ยพจน์แรกกับพจน์สุดท้าย"], f:function(S){
-        return fmt2((S.p.a1+S.p.a1+(S.p.n-1)*S.p.d)/2)+(L()?" × n = Sₙ":" × n = Sₙ"); }}
+        return num((S.p.a1+S.p.a1+(S.p.n-1)*S.p.d)/2)+" × n = Sₙ"; }}
     ],
     bars:[
       {lab:["First term","พจน์แรก"], f:function(p){ return p.a1; }, col:"faint"},
@@ -934,7 +934,7 @@ nodes:[
       {lab:["Sum Sₙ","ผลบวก Sₙ"], f:function(p){ return p.n/2*(2*p.a1+(p.n-1)*p.d); }, col:"good"},
       {lab:["Wrong: used n","ผิด: ใช้ n"], f:function(p){ return p.a1+p.n*p.d; }, col:"warn"}
     ],
-    note:["the amber bar is the classic off-by-one — it always sits exactly one d above the right answer","แถบสีเหลืองอำพันคือความผิดพลาดแบบคลาดไปหนึ่งขั้นที่พบบ่อย มันสูงกว่าคำตอบที่ถูกอยู่ d พอดี"]
+    note:["the amber bar is the classic off-by-one — it always sits exactly one d above the right answer","แถบสีเหลืองอำพันคือความผิดแบบคลาดไปหนึ่งขั้นที่พบบ่อย มันต่างจากคำตอบที่ถูก d พอดี"]
   } },
 
 { id:"geometric", x:370, y:150, requires:["sequences"], methods:["M-03"],
@@ -965,27 +965,27 @@ nodes:[
     readouts:[
       {lab:["Term aₙ","พจน์ aₙ"], f:function(S){
         var p=S.p;
-        return fmt2(p.kind===0 ? p.a1+(p.n-1)*p.d : p.a1*Math.pow(p.r,p.n-1)); }},
+        return num(p.kind===0 ? p.a1+(p.n-1)*p.d : p.a1*Math.pow(p.r,p.n-1)); }},
       {lab:["Sum Sₙ","ผลบวก Sₙ"], f:function(S){
         var p=S.p;
-        if(p.kind===0) return fmt2((p.n/2)*(2*p.a1+(p.n-1)*p.d));
-        if(Math.abs(p.r-1)<1e-9) return fmt2(p.a1*p.n);
-        return fmt2(p.a1*(1-Math.pow(p.r,p.n))/(1-p.r)); }},
+        if(p.kind===0) return num((p.n/2)*(2*p.a1+(p.n-1)*p.d));
+        if(Math.abs(p.r-1)<1e-9) return num(p.a1*p.n);
+        return num(p.a1*(1-Math.pow(p.r,p.n))/(1-p.r)); }},
       {lab:["Infinite sum S∞","ผลบวกอนันต์ S∞"], f:function(S){
         var p=S.p;
         if(p.kind===0) return L()?"ลู่ออก":"diverges";
-        return Math.abs(p.r)<1 ? fmt2(p.a1/(1-p.r)) : (L()?"ลู่ออก · |r| ≥ 1":"diverges · |r| ≥ 1"); }}
+        return Math.abs(p.r)<1-1e-9 ? num(p.a1/(1-p.r)) : (L()?"ลู่ออก · |r| ≥ 1":"diverges · |r| ≥ 1"); }}
     ]
   },
   guide:[
     {say:["Arithmetic first. The terms sit on a perfectly straight line — adding a constant is linear growth.",
-          "เริ่มที่เลขคณิตก่อน พจน์ทุกตัวอยู่บนเส้นตรงพอดี การบวกด้วยค่าคงที่ให้การเติบโตแบบเชิงเส้น"], set:{kind:0,a1:2,d:3,r:1.5,n:5}},
+          "เริ่มที่เลขคณิตก่อน พจน์ทุกตัวอยู่บนเส้นตรงพอดี บวกด้วยค่าคงที่ทีละขั้น ค่าจึงโตแบบเส้นตรง"], set:{kind:0,a1:2,d:3,r:1.5,n:5}},
     {say:["Switch to geometric with r = 1.5. Same start, but the line bends upward and runs away.",
-          "สลับเป็นเรขาคณิตที่ r = 1.5 เริ่มจากที่เดิม แต่เส้นโค้งขึ้นแล้วพุ่งสูงขึ้นเรื่อยๆ"], set:{kind:1,a1:2,d:3,r:1.5,n:5}},
+          "สลับเป็นเรขาคณิตที่ r = 1.5 เริ่มที่เดิม แต่เส้นโค้งขึ้นแล้วพุ่งสูงขึ้นเรื่อยๆ"], set:{kind:1,a1:2,d:3,r:1.5,n:5}},
     {say:["Now set r below 1. The terms shrink towards zero, and the infinite sum readout finally gives a number.",
-          "ทีนี้ตั้ง r ให้ต่ำกว่า 1 พจน์จะหดเข้าหาศูนย์ และช่องผลบวกอนันต์ก็แสดงตัวเลขออกมาได้"], set:{kind:1,a1:8,d:3,r:0.5,n:8}},
+          "ทีนี้ตั้ง r ให้ต่ำกว่า 1 พจน์จะหดเข้าหาศูนย์ และผลบวกอนันต์ก็แสดงตัวเลขได้ในที่สุด"], set:{kind:1,a1:8,d:3,r:0.5,n:8}},
     {say:["Push r back above 1 and the infinite sum reports divergence. That threshold at |r| = 1 is the whole rule.",
-          "ดัน r กลับไปเกิน 1 ผลบวกอนันต์จะรายงานว่าลู่ออก เกณฑ์ที่ |r| = 1 คือกฎทั้งหมดของเรื่องนี้"], set:{kind:1,a1:2,d:3,r:1.8,n:8}}
+          "ดัน r กลับไปเกิน 1 ผลบวกอนันต์จะขึ้นว่าลู่ออก เกณฑ์ที่ |r| = 1 คือกฎของเรื่องนี้ทั้งหมด"], set:{kind:1,a1:2,d:3,r:1.8,n:8}}
   ]},
 
 { id:"sigma", x:235, y:248, requires:["arithmetic","geometric"], methods:["M-04"],
@@ -998,13 +998,13 @@ nodes:[
   flabel:["Check the lower limit is 1","ตรวจว่าขอบล่างเป็น 1"],
   viz:"bars",
   vizcfg:{
-    title:["THE THREE STANDARD SIGMA RESULTS","ผลลัพธ์ซิกมามาตรฐานสามข้อ"],
+    title:["THE THREE STANDARD SIGMA RESULTS","สูตรซิกมามาตรฐานสามข้อ"],
     ylab:["value","ค่า"],
     ctrls:[{k:"n", lab:["Sum up to n","บวกถึง n"], min:1, max:20, step:1, def:10, unit:""}],
     readouts:[
-      {lab:["Σn","Σn"], f:function(S){ return String(S.p.n*(S.p.n+1)/2); }},
-      {lab:["Σn²","Σn²"], f:function(S){ return String(S.p.n*(S.p.n+1)*(2*S.p.n+1)/6); }},
-      {lab:["Σn³","Σn³"], f:function(S){ var t=S.p.n*(S.p.n+1)/2; return String(t*t); }},
+      {lab:["Σn","Σn"], f:function(S){ return num(S.p.n*(S.p.n+1)/2); }},
+      {lab:["Σn²","Σn²"], f:function(S){ return num(S.p.n*(S.p.n+1)*(2*S.p.n+1)/6); }},
+      {lab:["Σn³","Σn³"], f:function(S){ var t=S.p.n*(S.p.n+1)/2; return num(t*t); }},
       {lab:["A neat coincidence","ความบังเอิญที่สวยงาม"], f:function(){
         return L()?"Σn³ = (Σn)² เสมอ":"Σn³ is always exactly (Σn)²"; }}
     ],
@@ -1014,7 +1014,7 @@ nodes:[
       {lab:["(Σn)²","(Σn)²"], f:function(p){ var t=p.n*(p.n+1)/2; return t*t; }, col:"warn"},
       {lab:["Σn³","Σn³"], f:function(p){ var t=p.n*(p.n+1)/2; return t*t; }, col:"warn"}
     ],
-    note:["all three assume the sum starts at n = 1 — check the lower limit before using them","ทั้งสามสูตรสมมติว่าผลบวกเริ่มที่ n = 1 ให้ดูขอบล่างก่อนใช้"]
+    note:["all three assume the sum starts at n = 1 — check the lower limit before using them","ทั้งสามสูตรใช้ได้เมื่อผลบวกเริ่มที่ n = 1 ให้ดูขอบล่างก่อนใช้"]
   } },
 
 { id:"infinite", x:235, y:346, requires:["sigma"], methods:["M-05","M-06"],
@@ -1027,7 +1027,7 @@ nodes:[
   flabel:["Arithmetic series never converge","อนุกรมเลขคณิตไม่มีวันลู่เข้า"],
   viz:"plot",
   vizcfg:{
-    title:["PARTIAL SUMS: SETTLING OR RUNNING AWAY","ผลบวกย่อย: ลงตัวหรือวิ่งหนี"],
+    title:["PARTIAL SUMS: SETTLING OR RUNNING AWAY","ผลบวกย่อย: เข้าหาค่าหนึ่งหรือวิ่งหนี"],
     xlab:["number of terms","จำนวนพจน์"], ylab:["partial sum Sₙ","ผลบวกย่อย Sₙ"],
     xmin:1, xmax:25, fill:false,
     fn:function(x,p){
@@ -1044,24 +1044,24 @@ nodes:[
     readouts:[
       {lab:["Sₙ so far","Sₙ ถึงตอนนี้"], f:function(S){
         var p=S.p;
-        if(Math.abs(p.r-1)<1e-9) return fmt2(p.a1*p.n);
-        return fmt2(p.a1*(1-Math.pow(p.r,p.n))/(1-p.r)); }},
+        if(Math.abs(p.r-1)<1e-9) return num(p.a1*p.n);
+        return num(p.a1*(1-Math.pow(p.r,p.n))/(1-p.r)); }},
       {lab:["S∞","S∞"], f:function(S){
-        return Math.abs(S.p.r)<1 ? fmt2(S.p.a1/(1-S.p.r)) : (L()?"ไม่มี — ลู่ออก":"none — it diverges"); }},
+        return Math.abs(S.p.r)<1-1e-9 ? num(S.p.a1/(1-S.p.r)) : (L()?"ไม่มี — ลู่ออก":"none — it diverges"); }},
       {lab:["Converges?","ลู่เข้าไหม"], f:function(S){
-        return Math.abs(S.p.r)<1 ? (L()?"ลู่เข้า เพราะ |r| < 1":"yes, because |r| < 1")
+        return Math.abs(S.p.r)<1-1e-9 ? (L()?"ลู่เข้า เพราะ |r| < 1":"yes, because |r| < 1")
                                  : (L()?"ลู่ออก เพราะ |r| ≥ 1":"no, because |r| ≥ 1"); }},
       {lab:["The threshold","เกณฑ์ตัดสิน"], f:function(){ return "|r| = 1"; }}
     ],
-    note:["the curve either flattens onto a ceiling or climbs without limit — |r| = 1 is the switch","เส้นโค้งจะแบนลงชนเพดาน หรือไต่ขึ้นไม่มีที่สิ้นสุด โดย |r| = 1 เป็นตัวแบ่ง"]
+    note:["the curve either flattens onto a ceiling or climbs without limit — |r| = 1 is the switch","เส้นโค้งจะแบนลงชนเพดาน หรือไต่ขึ้นไม่หยุด โดย |r| = 1 เป็นตัวแบ่ง"]
   },
   guide:[
     {say:["With r = 0.5 the partial sums flatten quickly onto a ceiling. That ceiling is S∞.",
-          "เมื่อ r = 0.5 ผลบวกย่อยแบนลงเข้าหาเพดานอย่างรวดเร็ว เพดานนั้นคือ S∞"], set:{a1:6,r:.5,n:6}},
+          "เมื่อ r = 0.5 ผลบวกย่อยแบนลงชนเพดานอย่างรวดเร็ว เพดานนั้นคือ S∞"], set:{a1:6,r:.5,n:6}},
     {say:["Nudge r above 1 and the ceiling vanishes. The sum climbs forever and S∞ does not exist.",
           "ขยับ r ให้เกิน 1 เพดานก็หายไป ผลบวกเพิ่มขึ้นไม่หยุด และ S∞ ไม่มีค่า"], set:{a1:6,r:1.2,n:12}},
     {say:["A negative ratio makes it oscillate as it settles — still converging, just from both sides.",
-          "อัตราส่วนที่เป็นลบทำให้ผลบวกแกว่งไปมาขณะเข้าหาค่าหนึ่ง ยังลู่เข้าอยู่ แค่เข้าหาจากทั้งสองฝั่ง"], set:{a1:6,r:-.6,n:10}}
+          "ถ้าอัตราส่วนเป็นลบ ผลบวกจะแกว่งไปมาขณะเข้าหาค่าหนึ่ง ยังลู่เข้าอยู่ แค่เข้าหาจากสองฝั่งสลับกัน"], set:{a1:6,r:-.6,n:10}}
   ] }
 ],
 
@@ -1076,9 +1076,9 @@ methods:[
 
 traps:{
 "T-01":["The general term uses n − 1, not n. The first term has had d added zero times.","พจน์ทั่วไปใช้ n − 1 ไม่ใช่ n เพราะพจน์แรกยังไม่ได้บวก d เลยสักครั้ง"],
-"T-02":["S∞ only exists when |r| < 1. Outside that the series diverges.","S∞ มีค่าเฉพาะเมื่อ |r| < 1 ถ้าอยู่นอกช่วงนี้ อนุกรมลู่ออก"],
+"T-02":["S∞ only exists when |r| < 1. Outside that the series diverges.","S∞ มีค่าเฉพาะเมื่อ |r| < 1 ถ้า r อยู่นอกช่วงนี้ อนุกรมลู่ออก"],
 "T-03":["The nth term and the sum to n terms are different things.","พจน์ที่ n กับผลบวก n พจน์แรกเป็นคนละเรื่องกัน"],
-"T-04":["Sign error in the arithmetic sum. It is 2a₁ + (n−1)d, with a plus.","เครื่องหมายผิดในผลบวกเลขคณิต ที่ถูกคือ 2a₁ + (n−1)d ซึ่งเป็นเครื่องหมายบวก"]
+"T-04":["Sign error in the arithmetic sum. It is 2a₁ + (n−1)d, with a plus.","เครื่องหมายในผลบวกเลขคณิตผิด ที่ถูกคือ 2a₁ + (n−1)d เป็นเครื่องหมายบวก"]
 },
 
 gen:{
@@ -1098,21 +1098,21 @@ gen:{
   var an=a1+(n-1)*d, Sn=(n/2)*(2*a1+(n-1)*d);
   if(sf==="S-04") return {stem:["Why does the arithmetic general term use n − 1 rather than n?",
                                 "ทำไมพจน์ทั่วไปของลำดับเลขคณิตจึงใช้ n − 1 ไม่ใช่ n"],
-    opts:[{v:["The first term has had d added zero times","พจน์แรกยังไม่เคยถูกบวก d เลย"],ok:1},
+    opts:[{v:["The first term has had d added zero times","พจน์แรกยังไม่เคยบวก d เลย"],ok:1},
           {v:["It is only a convention","เป็นเพียงข้อตกลง"],trap:"T-01"},
           {v:["To keep the answer positive","เพื่อให้คำตอบเป็นบวก"]},
           {v:["Because n starts at 0","เพราะ n เริ่มที่ 0"],trap:"T-01"}],unit:""};
-  if(sf==="S-05") return {stem:["An arithmetic sequence has a₁ = "+a1+" and a"+n+" = "+an+". Find d.",
-                                "ลำดับเลขคณิตมี a₁ = "+a1+" และ a"+n+" = "+an+" จงหา d"],
-    opts:[{v:String(d),ok:1},{v:fmt2((an-a1)/n),trap:"T-01"},{v:String(an-a1)},{v:String(d*2)}],unit:""};
-  if(sf==="S-03") return {stem:["Find the sum of the first "+n+" terms when a₁ = "+a1+" and d = "+d+".",
-                                "จงหาผลบวก "+n+" พจน์แรก เมื่อ a₁ = "+a1+" และ d = "+d],
-    opts:[{v:fmt2(Sn),ok:1},{v:fmt2((n/2)*(2*a1-(n-1)*d)),trap:"T-04"},
-          {v:fmt2(an),trap:"T-03"},{v:fmt2(n*a1)}],unit:""};
-  return {stem:["Find the "+n+"th term when a₁ = "+a1+" and d = "+d+".",
-                "จงหาพจน์ที่ "+n+" เมื่อ a₁ = "+a1+" และ d = "+d],
-    opts:[{v:String(an),ok:1},{v:String(a1+n*d),trap:"T-01"},
-          {v:fmt2(Sn),trap:"T-03"},{v:String(a1*d)}],unit:""};
+  if(sf==="S-05") return {stem:["An arithmetic sequence has a₁ = "+a1+" and a"+n+" = "+num(an)+". Find d.",
+                                "ลำดับเลขคณิตมี a₁ = "+a1+" และ a"+n+" = "+num(an)+" จงหา d"],
+    opts:[{v:num(d),ok:1},{v:num((an-a1)/n),trap:"T-01"},{v:num(an-a1)},{v:num(d*2)}],unit:""};
+  if(sf==="S-03") return {stem:["Find the sum of the first "+n+" terms when a₁ = "+a1+" and d = "+num(d)+".",
+                                "จงหาผลบวก "+n+" พจน์แรก เมื่อ a₁ = "+a1+" และ d = "+num(d)],
+    opts:[{v:num(Sn),ok:1},{v:num((n/2)*(2*a1-(n-1)*d)),trap:"T-04"},
+          {v:num(an),trap:"T-03"},{v:num(n*a1)}],unit:""};
+  return {stem:["Find the "+n+"th term when a₁ = "+a1+" and d = "+num(d)+".",
+                "จงหาพจน์ที่ "+n+" เมื่อ a₁ = "+a1+" และ d = "+num(d)],
+    opts:[{v:num(an),ok:1},{v:num(a1+n*d),trap:"T-01"},
+          {v:num(Sn),trap:"T-03"},{v:num(a1*d)}],unit:""};
 },
 "M-03": function(sf){
   var a1=pick([2,3,5]), r=pick([2,3,0.5]), n=pick([5,6,7]);
@@ -1124,13 +1124,13 @@ gen:{
           {v:["The arithmetic one, always","แบบเลขคณิต เสมอ"]},
           {v:["They stay level","โตเท่ากันตลอด"]},
           {v:["It depends on a₁ only","ขึ้นกับ a₁ เท่านั้น"]}],unit:""};
-  if(sf==="S-05") return {stem:["A geometric sequence has a₁ = "+a1+" and a"+n+" = "+fmt2(an)+". Find r.",
-                                "ลำดับเรขาคณิตมี a₁ = "+a1+" และ a"+n+" = "+fmt2(an)+" จงหา r"],
-    opts:[{v:String(r),ok:1},{v:fmt2(an/a1),trap:"T-01"},{v:fmt2(r*2)},{v:fmt2(1/r)}],unit:""};
-  return {stem:["Find the "+n+"th term when a₁ = "+a1+" and r = "+r+".",
-                "จงหาพจน์ที่ "+n+" เมื่อ a₁ = "+a1+" และ r = "+r],
-    opts:[{v:fmt2(an),ok:1},{v:fmt2(a1*Math.pow(r,n)),trap:"T-01"},
-          {v:fmt2(Sn),trap:"T-03"},{v:fmt2(a1*r*n)}],unit:""};
+  if(sf==="S-05") return {stem:["A geometric sequence has a₁ = "+a1+" and a"+n+" = "+num(an,6)+". Find r.",
+                                "ลำดับเรขาคณิตมี a₁ = "+a1+" และ a"+n+" = "+num(an,6)+" จงหา r"],
+    opts:[{v:num(r),ok:1},{v:num(an/a1,6),trap:"T-01"},{v:num(r*2),},{v:num(1/r)}],unit:""};
+  return {stem:["Find the "+n+"th term when a₁ = "+a1+" and r = "+num(r)+".",
+                "จงหาพจน์ที่ "+n+" เมื่อ a₁ = "+a1+" และ r = "+num(r)],
+    opts:[{v:num(an,6),ok:1},{v:num(a1*Math.pow(r,n),6),trap:"T-01"},
+          {v:num(Sn,6),trap:"T-03"},{v:num(a1*r*n,6)}],unit:""};
 },
 "M-04": function(sf){
   var n=pick([10,20,50]);
@@ -1153,8 +1153,8 @@ gen:{
           {v:["Yes, if d is small","ได้ ถ้า d เล็ก"],trap:"T-02"},
           {v:["Yes, if d is negative","ได้ ถ้า d เป็นลบ"],trap:"T-02"},
           {v:["Only if a₁ = 0","เฉพาะเมื่อ a₁ = 0"]}],unit:""};
-  return {stem:["Does an infinite geometric series with r = "+r+" converge?",
-                "อนุกรมเรขาคณิตอนันต์ที่ r = "+r+" ลู่เข้าหรือไม่"],
+  return {stem:["Does an infinite geometric series with r = "+num(r)+" converge?",
+                "อนุกรมเรขาคณิตอนันต์ที่ r = "+num(r)+" ลู่เข้าหรือไม่"],
     opts:[{v:[conv?"Yes, |r| < 1":"No, |r| ≥ 1", conv?"ลู่เข้า เพราะ |r| < 1":"ไม่ลู่เข้า เพราะ |r| ≥ 1"],ok:1},
           {v:[conv?"No, |r| ≥ 1":"Yes, |r| < 1", conv?"ไม่ลู่เข้า เพราะ |r| ≥ 1":"ลู่เข้า เพราะ |r| < 1"],trap:"T-02"},
           {v:["Only if a₁ > 0","เฉพาะเมื่อ a₁ > 0"]},
@@ -1162,17 +1162,18 @@ gen:{
 },
 "M-06": function(sf){
   var a1=pick([4,6,9,12]), r=pick([0.5,0.25,1/3]);
-  var S=a1/(1-r);
+  var S=a1/(1-r), rt=(r===1/3?"1/3":num(r));
+  var Sa=num(S,4);
   if(sf==="S-03") return {stem:["Express 0.444… as a fraction using an infinite geometric series.",
                                 "จงเขียน 0.444… เป็นเศษส่วน โดยใช้อนุกรมเรขาคณิตอนันต์"],
     opts:[{v:"4/9",ok:1},{v:"4/10",trap:"T-02"},{v:"44/99"},{v:"2/5"}],unit:""};
-  if(sf==="S-05") return {stem:["An infinite geometric series sums to "+fmt2(S)+" with r = "+fmt2(r)+". Find a₁.",
-                                "อนุกรมเรขาคณิตอนันต์มีผลบวก "+fmt2(S)+" โดย r = "+fmt2(r)+" จงหา a₁"],
-    opts:[{v:String(a1),ok:1},{v:fmt2(S*r),trap:"T-02"},{v:fmt2(S/r)},{v:fmt2(S)}],unit:""};
-  return {stem:["Find the sum to infinity when a₁ = "+a1+" and r = "+fmt2(r)+".",
-                "จงหาผลบวกอนันต์ เมื่อ a₁ = "+a1+" และ r = "+fmt2(r)],
-    opts:[{v:fmt2(S),ok:1},{v:fmt2(a1/(1+r)),trap:"T-02"},
-          {v:fmt2(a1*r)},{v:String(a1)}],unit:""};
+  if(sf==="S-05") return {stem:["An infinite geometric series sums to "+Sa+" with r = "+rt+". Find a₁.",
+                                "อนุกรมเรขาคณิตอนันต์มีผลบวก "+Sa+" โดย r = "+rt+" จงหา a₁"],
+    opts:[{v:String(a1),ok:1},{v:num(Math.abs(S*r-a1)<1e-9?S+a1:S*r),trap:"T-02"},{v:num(S/r)},{v:num(S)}],unit:""};
+  return {stem:["Find the sum to infinity when a₁ = "+a1+" and r = "+rt+".",
+                "จงหาผลบวกอนันต์ เมื่อ a₁ = "+a1+" และ r = "+rt],
+    opts:[{v:num(S),ok:1},{v:num(a1/(1+r)),trap:"T-02"},
+          {v:num(a1*r)},{v:String(a1)}],unit:""};
 }
 }
 };
@@ -1251,13 +1252,55 @@ function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
 function fmt(n){ return (Math.round(n*10)/10).toString(); }
 function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+/* ---- numbers as a scientist writes them ----
+   fmt / fmt2 round to a fixed number of decimals; they are for geometry and
+   coordinates only. Anything a learner READS as a physical value goes through
+   num(), which keeps significant figures instead of decimal places, switches to
+   standard form (A × 10ⁿ, 1 ≤ |A| < 10) for very large or very small values,
+   never shows a non-zero value as 0, and uses a real minus sign.
+     num(0.000000123)   "1.23 × 10⁻⁷"      num(299792458)  "3 × 10⁸"
+     num(12345.6)       "12300"            num(−4.2)       "−4.2"
+     numTex(n,s)  the same value as LaTeX (for the live formula)
+     un(n,"m/s")  number, a no-break space, then the unit                    */
+var SUPS={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
+function sciParts(n,s){
+  var e=Math.floor(Math.log10(Math.abs(n))), m=n/Math.pow(10,e);
+  m=+m.toPrecision(s); if(Math.abs(m)>=10){ m/=10; e++; }
+  return [m,e];
+}
+function num(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "—";
+  if(n===0) return "0";
+  var a=Math.abs(n), out;
+  if(a<1e-3 || a>=1e5){
+    var q=sciParts(n,s);
+    out=String(q[0])+" × 10"+String(q[1]).split("").map(function(c){ return SUPS[c]; }).join("");
+  } else {
+    out=String(+n.toPrecision(s));
+    if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  }
+  return out.replace("-","−");
+}
+function numTex(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "\\text{—}";
+  if(n===0) return "0";
+  var a=Math.abs(n);
+  if(a<1e-3 || a>=1e5){ var q=sciParts(n,s); return q[0]+"\\times10^{"+q[1]+"}"; }
+  var out=String(+n.toPrecision(s));
+  if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  return out;
+}
+function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
   if(!(range>0)) return 1;
   var raw=range/target, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
   return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag;
 }
-function tk(n){ var r=Math.round(n*100)/100; return (Math.abs(r)<1e-9?0:r).toString(); }
+/* axis tick labels: significant figures and standard form, never "0" for a small value */
+function tk(n){ return num(n,3); }
 var FT='fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10"';
 
 /* Shared, fully scaled axis frame. Returns mapping functions. */
@@ -1319,10 +1362,10 @@ VIZLIB.motion = {
     {k:"T", lab:["Duration","ช่วงเวลา"],                min:2,  max:12,step:1, def:6,  unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Time","เวลา"],            f:function(S){ return fmt(S.t)+" s"; }},
-    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return fmt(S.p.u+S.p.a*S.t)+" m/s"; }},
-    {lab:["Displacement s","การกระจัด s"], f:function(S){ return fmt(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
-    {lab:["Slope","ความชัน"],        f:function(S){ return fmt(S.p.a)+" m/s²"; }}
+    {lab:["Time","เวลา"],            f:function(S){ return num(S.t)+" s"; }},
+    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return num(S.p.u+S.p.a*S.t)+" m/s"; }},
+    {lab:["Displacement s","การกระจัด s"], f:function(S){ return num(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
+    {lab:["Slope","ความชัน"],        f:function(S){ return num(S.p.a)+" m/s²"; }}
   ],
   draw:function(S,o){
     var u=S.p.u,a=S.p.a,T=S.p.T,tt=Math.min(S.t,T);
@@ -1407,11 +1450,11 @@ VIZLIB.vector = {
     {lab:["Resultant R","ผลลัพธ์ R"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      return fmt(Math.sqrt(rx*rx+ry*ry)); }},
+      return num(Math.sqrt(rx*rx+ry*ry)); }},
     {lab:["Direction","ทิศทาง"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return fmt(d)+"°"; }}
+      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return num(d)+"°"; }}
   ],
   draw:function(S,o){
     var p=S.p, cx=280, cy=180, sc=6.5;
@@ -1425,8 +1468,8 @@ VIZLIB.vector = {
     o.push('<line x1="'+(cx-250)+'" y1="'+cy+'" x2="'+(cx+250)+'" y2="'+cy+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     o.push('<line x1="'+cx+'" y1="'+(cy-140)+'" x2="'+cx+'" y2="'+(cy+140)+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     for(var s=-20;s<=20;s+=10){ if(!s) continue;
-      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+s+'</text>');
-      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+s+'</text>');
+      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+tk(s)+'</text>');
+      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+tk(s)+'</text>');
     }
     function arrow(x1,y1,x2,y2,col,w,dash){
       var ang=Math.atan2(y2-y1,x2-x1), hl=9;
@@ -1453,9 +1496,9 @@ VIZLIB.wave = {
     {k:"T",  lab:["Run for","เล่นนาน"],            min:2,max:12,step:1, def:8, unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return fmt(S.p.f*S.p.lam)+" m/s"; }},
-    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return fmt(1/S.p.f)+" s"; }},
-    {lab:["Time","เวลา"],                     f:function(S){ return fmt(S.t)+" s"; }}
+    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return num(S.p.f*S.p.lam)+" m/s"; }},
+    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return num(1/S.p.f)+" s"; }},
+    {lab:["Time","เวลา"],                     f:function(S){ return num(S.t)+" s"; }}
   ],
   draw:function(S,o){
     var p=S.p, xmax=24;
@@ -1506,7 +1549,7 @@ VIZLIB.bars = {
       o.push('<rect x="'+(cx-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+
              '" height="'+Math.abs(y1-y0)+'" fill="'+b.c+'" opacity="0.9"/>');
       o.push('<text x="'+cx+'" y="'+(y1+(b.v<0?15:-7))+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-size="11" font-weight="600" text-anchor="middle">'+num(b.v)+'</text>');
       o.push('<text x="'+cx+'" y="'+(A.Y(lo)+34)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" '+
              'font-size="10" text-anchor="middle">'+tx(b.lab)+'</text>');
     });
@@ -1579,7 +1622,7 @@ VIZLIB.tri = {
            ' Z" fill="var(--accent)" fill-opacity="0.10" stroke="var(--ink)" stroke-width="2.2"/>');
     function side(p,q,lab,val,c2){
       o.push('<text x="'+((p[0]+q[0])/2)+'" y="'+((p[1]+q[1])/2-6)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+fmt2(val)+'</text>');
+             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+num(val)+'</text>');
     }
     side(tC,tA,"b",b,"var(--ink-soft)");
     side(tC,tB,"a",a,"var(--ink-soft)");
@@ -1587,15 +1630,15 @@ VIZLIB.tri = {
     [[tC,"C",g.C],[tA,"A",A1*180/Math.PI],[tB,"B",B1*180/Math.PI]].forEach(function(v){
       o.push('<circle cx="'+v[0][0]+'" cy="'+v[0][1]+'" r="3.5" fill="var(--ink)"/>');
       o.push('<text x="'+(v[0][0]-14)+'" y="'+(v[0][1]+14)+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="10.5" font-weight="600">'+v[1]+' '+fmt(v[2])+'°</text>');
+             'font-size="10.5" font-weight="600">'+v[1]+' '+num(v[2])+'°</text>');
     });
     var area=0.5*a*b*Math.sin(C);
     o.push('<text x="404" y="86" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["THIRD SIDE","ด้านที่สาม"])+'</text>');
-    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+fmt2(c)+'</text>');
+    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+num(c)+'</text>');
     o.push('<text x="404" y="152" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["AREA ½ ab sin C","พื้นที่ ½ ab sin C"])+'</text>');
-    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+fmt2(area)+'</text>');
+    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+num(area)+'</text>');
     if(cfg.note) cap(o,44,286,cfg.note,"note");
   }
 };
@@ -1668,7 +1711,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+(cx-L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56-H)+
              ' Z" fill="var(--surface)" stroke="var(--ink-faint)" stroke-width="1.5"/>');
       o.push('<text x="'+(cx-L/2+26)+'" y="'+(cy+50)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-             'font-size="10">'+fmt(inc)+'°</text>');
+             'font-size="10">'+num(inc)+'°</text>');
     } else {
       o.push('<line x1="'+(cx-120)+'" y1="'+(cy+34)+'" x2="'+(cx+120)+'" y2="'+(cy+34)+
              '" stroke="var(--ink-faint)" stroke-width="1.5"/>');
@@ -1686,7 +1729,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+ex+' '+ey+' L'+(ex-hl*Math.cos(aa-0.4))+' '+(ey-hl*Math.sin(aa-0.4))+
              ' L'+(ex-hl*Math.cos(aa+0.4))+' '+(ey-hl*Math.sin(aa+0.4))+' Z" fill="'+c2+'"/>');
       o.push('<text x="'+(cx+Math.cos(aa)*(len+24))+'" y="'+(cy+Math.sin(aa)*(len+24)+4)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+fmt(Math.abs(f.mag))+'</text>');
+             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+num(Math.abs(f.mag))+'</text>');
     });
     if(cfg.note) cap(o,44,300,cfg.note,"note");
   }
@@ -1705,7 +1748,7 @@ VIZLIB.stack = {
       var pw=Math.max(0,p.v)/tot*w;
       o.push('<rect x="'+x+'" y="'+y+'" width="'+pw+'" height="'+h+'" fill="'+col(p.col)+'" opacity="0.88"/>');
       if(pw>34) o.push('<text x="'+(x+pw/2)+'" y="'+(y+h/2+4)+'" fill="#fff" font-family="IBM Plex Sans" '+
-                       'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(p.v)+'</text>');
+                       'font-size="11" font-weight="600" text-anchor="middle">'+num(p.v)+'</text>');
       x+=pw;
     });
     o.push('<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="none" stroke="var(--ink)" stroke-width="1.6"/>');
@@ -1717,7 +1760,7 @@ VIZLIB.stack = {
              'font-size="10.5">'+tx(p.lab)+'</text>');
     });
     if(cfg.total) o.push('<text x="'+(x0+w)+'" y="'+(y-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+fmt2(tot)+'</text>');
+                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+num(tot)+'</text>');
     if(cfg.note) cap(o,x0,236,cfg.note,"note");
   }
 };
@@ -2021,7 +2064,7 @@ function instrument(S, o, ins, ctx){
       if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
                       'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+num(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -2538,7 +2581,7 @@ var STAGE = {
         o.push('<text x="' + (FR.sx + 166) + '" y="' + fmt2(+gy + 3.5) + '" ' + FT + ' text-anchor="end">' + tk(h) + '</text>');
       }
       o.push('<text x="' + (FR.sx + 166) + '" y="' + (W.top - 8) + '" ' + FT + ' text-anchor="end">' +
-             tx(W.unit || ["m", "ม."]) + '</text>');
+             tx(W.unit || ["m", "m"]) + '</text>');
     }
   },
 
@@ -2762,7 +2805,7 @@ var STAGE = {
     var on = S.kbd && S.kbd.on;
     role("prophecy")(o, P[0], P[1], { clock: STAGE.clock, active: on || !!S.dragGuess,
                                        done: pr.phase === "done", hit: pr.hit, tower: W.kind === "tower" });
-    var txt = ui("yourGuess") + " · " + fmt2(pr.guess) + tx(pc.unit || [" m", " ม."]);
+    var txt = ui("yourGuess") + " · " + num(pr.guess) + tx(pc.unit || [" m", " m"]);
     fitText(o, P[0], P[1] - (W.kind === "tower" ? 12 : 78), [txt, txt], 150, 10.5, "var(--accent2)", "middle");
   },
 
@@ -3032,9 +3075,9 @@ var STAGE = {
         } else {
           var err = Math.abs(g - actual), tol = pc.tol ? pc.tol(S.p) : 1;
           hit = err <= tol;
-          var u = tx(pc.unit || [" m", " ม."]);
-          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + fmt2(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + fmt2(actual) + u +
-                  " · " + (L() ? "คลาดไป " : "off by ") + fmt2(err) + u ];
+          var u = tx(pc.unit || [" m", " m"]);
+          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + num(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + num(actual) + u +
+                  " · " + (L() ? "ต่างไป " : "off by ") + num(err) + u ];
         }
         S.pred.phase = "done"; S.pred.hit = hit;
         STATE.preds = STATE.preds || {};
@@ -4427,7 +4470,7 @@ function makeLab(nd, host){
     });
     /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=num(S.p[c.k],6)+(c.unit||"");
       if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){

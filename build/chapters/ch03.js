@@ -40,11 +40,11 @@ nodes:[
                     "รูป 03.1 — เวกเตอร์รวมกันแบบหัวต่อหาง ไม่ใช่บวกเลขธรรมดา"] },
   guide:[
     {say:["Two vectors at right angles. The red resultant closes the triangle, and its length is √(A²+B²).",
-          "เวกเตอร์สองตัวตั้งฉากกัน เวกเตอร์ลัพธ์สีแดงปิดรูปสามเหลี่ยม และมีความยาว √(A²+B²)"], set:{A:12,tA:0,B:9,tB:90}},
+          "เวกเตอร์สองตัวตั้งฉากกัน เวกเตอร์ลัพธ์สีแดงปิดรูปสามเหลี่ยม ความยาวของมันคือ √(A²+B²)"], set:{A:12,tA:0,B:9,tB:90}},
     {say:["Swing B round to 180°. Opposing vectors subtract — the resultant shrinks to the difference.",
-          "หมุน B ไปที่ 180° เวกเตอร์ที่ทิศตรงข้ามกันจะหักล้างกัน ลัพธ์จึงเหลือเท่ากับผลต่าง"], set:{A:12,tA:0,B:9,tB:180}},
+          "หมุน B ไปที่ 180° เวกเตอร์ที่ทิศตรงข้ามกันหักล้างกัน ลัพธ์จึงเหลือเท่าผลต่าง"], set:{A:12,tA:0,B:9,tB:180}},
     {say:["Now try 60°. Neither Pythagoras nor simple subtraction works — this is where the cosine rule earns its keep.",
-          "ลองที่ 60° ดู จะใช้พีทาโกรัสก็ไม่ได้ จะลบตรง ๆ ก็ไม่ได้ ตรงนี้เองที่ต้องใช้กฎของโคไซน์"], set:{A:12,tA:0,B:9,tB:60}}
+          "ลองที่ 60° ดู ใช้พีทาโกรัสก็ไม่ได้ ลบตรง ๆ ก็ไม่ได้ ตรงนี้แหละที่ต้องใช้กฎโคไซน์"], set:{A:12,tA:0,B:9,tB:60}}
   ]},
 
 { id:"force-types", x:100, y:150, requires:["vectors"], methods:["M-06"],
@@ -57,30 +57,30 @@ nodes:[
   flabel:["N equals mg only on level ground","N เท่ากับ mg เฉพาะบนพื้นราบเท่านั้น"],
   viz:"fbd",
   vizcfg:{
-    title:["EVERY FORCE ON ONE BLOCK","แรงทุกแรงที่กระทำต่อวัตถุก้อนเดียว"],
+    title:["EVERY FORCE ON ONE BLOCK","แรงทุกแรงบนวัตถุก้อนเดียว"],
     ctrls:[
       {k:"m",    lab:["Mass","มวล"],            min:1, max:12, step:.5, def:4, unit:" kg"},
       {k:"push", lab:["Push","แรงผลัก"],         min:0, max:60, step:1,  def:20, unit:" N"},
       {k:"mu",   lab:["Friction coefficient μ","สัมประสิทธิ์เสียดทาน μ"], min:0, max:1, step:.05, def:.3, unit:""}
     ],
     readouts:[
-      {lab:["Weight W = mg","น้ำหนัก W = mg"], f:function(S){ return fmt(S.p.m*9.8)+" N"; }},
-      {lab:["Normal N","แรงตั้งฉาก N"],        f:function(S){ return fmt(S.p.m*9.8)+" N"; }},
-      {lab:["Friction f = μN","เสียดทาน f = μN"], f:function(S){
-        return fmt(Math.min(S.p.push, S.p.mu*S.p.m*9.8))+" N"; }},
+      {lab:["Weight W = mg","น้ำหนัก W = mg"], f:function(S){ return un(S.p.m*10,"N"); }},
+      {lab:["Normal N","แรงตั้งฉาก N"],        f:function(S){ return un(S.p.m*10,"N"); }},
+      {lab:["Friction f = μN","แรงเสียดทาน f = μN"], f:function(S){
+        return un(Math.min(S.p.push, S.p.mu*S.p.m*10),"N"); }},
       {lab:["Net force","แรงลัพธ์"], f:function(S){
-        var f=Math.min(S.p.push, S.p.mu*S.p.m*9.8);
+        var f=Math.min(S.p.push, S.p.mu*S.p.m*10);
         var net=S.p.push-f;
-        return fmt(net)+" N"+(net<1e-9?(L()?" · อยู่นิ่ง":" · stays put"):(L()?" · เร่ง":" · accelerates")); }}
+        return un(net,"N")+(net<1e-9?(L()?" · อยู่นิ่ง":" · stays put"):(L()?" · มีความเร่ง":" · accelerates")); }}
     ],
     forces:function(p){
-      var W=p.m*9.8;
+      var W=p.m*10;
       return [{mag:W, ang:270, lab:["W","W"], col:"ink"},
               {mag:W, ang:90,  lab:["N","N"], col:"good"},
               {mag:p.push, ang:0, lab:["push","ผลัก"], col:"accent"},
               {mag:Math.min(p.push, p.mu*W), ang:180, lab:["f","f"], col:"warn"}];
     },
-    note:["N balances W here, so only the horizontal pair decides the motion","ในที่นี้ N สมดุลกับ W พอดี ดังนั้นการเคลื่อนที่จึงขึ้นอยู่กับแรงคู่ในแนวระดับเท่านั้น"]
+    note:["N balances W here, so only the horizontal pair decides the motion","N กับ W หักล้างกันพอดี การเคลื่อนที่จึงขึ้นกับแรงคู่ในแนวระดับเท่านั้น"]
   } },
 
 { id:"newton1", x:370, y:150, requires:["vectors"], methods:[],
@@ -93,35 +93,35 @@ nodes:[
   flabel:["Inertia","ความเฉื่อย"],
   viz:"fbd",
   vizcfg:{
-    title:["BALANCED FORCES CHANGE NOTHING","แรงที่สมดุลไม่เปลี่ยนอะไรเลย"],
+    title:["BALANCED FORCES CHANGE NOTHING","แรงสมดุลไม่ทำให้อะไรเปลี่ยน"],
     ctrls:[
       {k:"left",  lab:["Pull left","ดึงซ้าย"],  min:0, max:50, step:1, def:20, unit:" N"},
       {k:"right", lab:["Pull right","ดึงขวา"],  min:0, max:50, step:1, def:20, unit:" N"},
       {k:"m",     lab:["Mass","มวล"],           min:1, max:20, step:1, def:5,  unit:" kg"}
     ],
     readouts:[
-      {lab:["Net force","แรงลัพธ์"], f:function(S){ return fmt(S.p.right-S.p.left)+" N"; }},
-      {lab:["Acceleration","ความเร่ง"], f:function(S){ return fmt2((S.p.right-S.p.left)/S.p.m)+" m/s²"; }},
+      {lab:["Net force","แรงลัพธ์"], f:function(S){ return un(S.p.right-S.p.left,"N"); }},
+      {lab:["Acceleration","ความเร่ง"], f:function(S){ return un((S.p.right-S.p.left)/S.p.m,"m/s²"); }},
       {lab:["State","สถานะ"], f:function(S){
         return Math.abs(S.p.right-S.p.left)<1e-9
-          ? (L()?"ความเร็วคงเดิม — นิ่งหรือแล่นตรงสม่ำเสมอ":"velocity unchanged — at rest OR moving steadily")
-          : (L()?"ความเร็วกำลังเปลี่ยน":"velocity is changing"); }},
-      {lab:["Does zero net force mean at rest?","แรงลัพธ์ศูนย์แปลว่าอยู่นิ่งไหม"], f:function(){
-        return L()?"ไม่ — แปลว่าความเร็วไม่เปลี่ยน":"no — it means velocity does not change"; }}
+          ? (L()?"ความเร็วไม่เปลี่ยน — อาจนิ่งหรือเคลื่อนที่ตรงด้วยความเร็วคงที่":"velocity unchanged — at rest OR moving steadily")
+          : (L()?"ความเร็วกำลังเปลี่ยนอยู่":"velocity is changing"); }},
+      {lab:["Does zero net force mean at rest?","แรงลัพธ์เป็นศูนย์ แปลว่าวัตถุนิ่งหรือเปล่า"], f:function(){
+        return L()?"ไม่ใช่ — แปลว่าความเร็วไม่เปลี่ยน":"no — it means velocity does not change"; }}
     ],
     forces:function(p){
       return [{mag:p.left,  ang:180, lab:["F","F"], col:"soft"},
               {mag:p.right, ang:0,   lab:["F","F"], col:"accent"}];
     },
-    note:["the first law is about CHANGE of velocity, not about being still","กฎข้อที่หนึ่งพูดถึงการเปลี่ยนแปลงของความเร็ว ไม่ได้พูดถึงการอยู่นิ่ง"]
+    note:["the first law is about CHANGE of velocity, not about being still","กฎข้อที่หนึ่งว่าด้วยความเร็วที่เปลี่ยน ไม่ใช่เรื่องการอยู่นิ่ง"]
   },
   guide:[
     {say:["Equal and opposite pulls. Net force is zero, so whatever the block was doing, it keeps doing.",
-          "ดึงด้วยแรงเท่ากันในทิศตรงข้าม แรงลัพธ์เป็นศูนย์ ก้อนวัตถุจึงทำสิ่งที่ทำอยู่ต่อไป"], set:{left:20,right:20,m:5}},
+          "ดึงสองข้างด้วยแรงเท่ากัน แรงลัพธ์จึงเป็นศูนย์ วัตถุทำอะไรอยู่ก็ทำอย่างนั้นต่อไป"], set:{left:20,right:20,m:5}},
     {say:["Tip the balance by 5 N and an acceleration appears. Only an imbalance changes velocity.",
-          "ถ้าแรงไม่สมดุลอยู่ 5 N ก็จะเกิดความเร่ง ความเร็วเปลี่ยนได้ก็ต่อเมื่อแรงไม่สมดุลเท่านั้น"], set:{left:20,right:25,m:5}},
+          "ลองให้แรงสองข้างต่างกัน 5 N ความเร่งก็ปรากฏขึ้น ความเร็วเปลี่ยนได้ก็ต่อเมื่อแรงไม่สมดุล"], set:{left:20,right:25,m:5}},
     {say:["Same imbalance, four times the mass. The acceleration drops — that is inertia, quantified.",
-          "แรงไม่สมดุลเท่าเดิม แต่มวลมากขึ้นสี่เท่า ความเร่งจึงลดลง นี่คือความเฉื่อยที่วัดเป็นตัวเลขได้"], set:{left:20,right:25,m:20}}
+          "แรงต่างกันเท่าเดิม แต่มวลเป็นสี่เท่า ความเร่งเลยลดลง นี่คือความเฉื่อยที่วัดออกมาเป็นตัวเลข"], set:{left:20,right:25,m:20}}
   ] },
 
 { id:"newton2", x:235, y:248, requires:["force-types","newton1"], methods:["M-03"],
@@ -137,7 +137,7 @@ nodes:[
     anim:true,
     spellName:["The Golem's Push: a = F / m","แรงผลักโกเลม: a = F / m"],
     question:["Drag the push. Why does {@golem} sometimes refuse to move — and when it moves, what sets how fast it speeds up?",
-              "ลองลากแรงผลัก ทำไมบางครั้ง{@golem}ไม่ขยับเลย และเมื่อขยับแล้ว อะไรกำหนดว่ามันจะเร่งเร็วแค่ไหน"],
+              "ลองลากแรงผลักดู ทำไมบางครั้ง{@golem}ไม่ขยับเลย แล้วพอขยับแล้ว อะไรกำหนดว่ามันเร่งได้เร็วแค่ไหน"],
     ctrls:[
       {k:"F", lab:["Push F","แรงผลัก F"], min:0, max:100, step:5, def:60, unit:" N"},
       {k:"m", lab:["Mass of {@golem}","มวลของ{@golem}"], min:4, max:20, step:1, def:8, unit:" kg"},
@@ -146,10 +146,10 @@ nodes:[
       {k:"T", lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:4, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Friction","แรงเสียดทาน"], f:function(S){ return fmt(C03.r(S.p,S.t).fric)+" N"; }},
-      {lab:["Resultant ΣF","แรงลัพธ์ ΣF"], f:function(S){ return fmt(C03.r(S.p,S.t).net)+" N"; }},
-      {lab:["Acceleration a","ความเร่ง a"], f:function(S){ return fmt2(C03.r(S.p,S.t).a)+" m/s²"; }},
-      {lab:["Speed now","ความเร็วขณะนี้"], f:function(S){ return fmt2(C03.r(S.p,S.t).v)+" m/s"; }}
+      {lab:["Friction","แรงเสียดทาน"], f:function(S){ return un(C03.r(S.p,S.t).fric,"N"); }},
+      {lab:["Resultant ΣF","แรงลัพธ์ ΣF"], f:function(S){ return un(C03.r(S.p,S.t).net,"N"); }},
+      {lab:["Acceleration a","ความเร่ง a"], f:function(S){ return un(C03.r(S.p,S.t).a,"m/s²"); }},
+      {lab:["Speed now","อัตราเร็วตอนนี้"], f:function(S){ return un(C03.r(S.p,S.t).v,"m/s"); }}
     ],
     /* fixed 60 m arena; a fast golem stops against the far wall */
     world:{ kind:"lane", left:84, span:function(){ return 60; } },
@@ -163,7 +163,7 @@ nodes:[
     cast:function(p,S){
       var r=C03.r(p,S.t);
       return [{role:"golem", x:r.x, size:0.75+p.m/40, moving:r.moves && S.t>0, term:"a",
-               vel:r.v, velScale:3, velLift:66, velLab:[fmt(r.v)+" m/s", fmt(r.v)+" ม./วิ"]}];
+               vel:r.v, velScale:3, velLift:66, velLab:[un(r.v,"m/s"), un(r.v,"m/s")]}];
     },
     /* the push on the golem's back, its friction at the feet, and a
        free-body diagram to scale in the corner */
@@ -176,7 +176,7 @@ nodes:[
       /* to scale with each other: the largest force fills the box */
       var cx=96, cy=88, wg=p.m*10, sc=38/Math.max(wg, p.F, r.fric, 1);
       o.push('<rect x="34" y="30" width="124" height="112" rx="8" fill="var(--surface)" fill-opacity=".55" stroke="var(--rule)"/>');
-      fitText(o, 96, 43, ["free-body diagram","แผนภาพแรงอิสระ"], 116, 9.5, "var(--ink-faint)", "middle");
+      fitText(o, 96, 43, ["free-body diagram","แผนภาพวัตถุอิสระ"], 116, 9.5, "var(--ink-faint)", "middle");
       o.push('<rect x="'+(cx-9)+'" y="'+(cy-9)+'" width="18" height="18" fill="var(--ink-faint)" opacity=".5"/>');
       var arr=function(dx,dy,c,lab,hl){
         if(Math.abs(dx)+Math.abs(dy)<1) return;
@@ -204,23 +204,25 @@ nodes:[
     },
     spell:{
       tex:function(p){ var r=C03.r(p,0);
-        return "a = \\dfrac{\\Sigma F}{m} = \\dfrac{F - f}{m} = \\dfrac{"+p.F+" - "+fmt(r.fric)+"}{"+p.m+"} = "+fmt2(r.a)+"\\,\\text{m/s}^2"+
+        return "a = \\dfrac{\\Sigma F}{m} = \\dfrac{F - f}{m} = \\dfrac{"+numTex(p.F)+" - "+numTex(r.fric)+"}{"+numTex(p.m)+"} = "+numTex(r.a)+"\\,\\text{m/s}^2"+
                "\\qquad\\left[\\tfrac{\\text{N}}{\\text{kg}}=\\tfrac{\\text{m}}{\\text{s}^2}\\right]"; },
       terms:[
-        {k:"F", sym:"F", lab:["your push","แรงผลักของคุณ"], col:"accent2", f:function(p){ return p.F+" N"; }},
-        {k:"f", sym:"f", lab:["friction · at most μmg","แรงเสียดทาน · ไม่เกิน μmg"], col:"warn", f:function(p){ return fmt(C03.r(p,0).fric)+" N"; }},
-        {k:"a", sym:"a", lab:["acceleration","ความเร่ง"], col:"accent", f:function(p){ return fmt2(C03.r(p,0).a)+" m/s²"; }}
+        {k:"F", sym:"F", lab:["your push","แรงผลักของเรา"], col:"accent2", f:function(p){ return un(p.F,"N"); }},
+        {k:"f", sym:"f", lab:["friction · at most μmg","แรงเสียดทาน · มากสุด μmg"], col:"warn", f:function(p){ return un(C03.r(p,0).fric,"N"); }},
+        {k:"a", sym:"a", lab:["acceleration","ความเร่ง"], col:"accent", f:function(p){ return un(C03.r(p,0).a,"m/s²"); }}
       ]
     },
     predict:{ kind:"x",
-      ask:["Where will {@golem} be when the run ends?","เมื่อจบการทดลอง {@golem}จะอยู่ตรงไหน"],
+      ask:["Where will {@golem} be when the run ends?","พอจบการทดลอง {@golem}จะอยู่ตรงไหน"],
       actual:function(p){ return C03.r(p,p.T).x; },
       tol:function(p){ return Math.max(0.6, 0.08*C03.r(p,p.T).x); },
       explain:function(p){ var r=C03.r(p,p.T);
-        if(!r.moves) return ["Friction can grip up to μmg = "+fmt(C03.mu[p.s]*p.m*10)+" N, more than your "+p.F+" N push, so it matches the push exactly and nothing moves.",
-                             "แรงเสียดทานยึดได้ถึง μmg = "+fmt(C03.mu[p.s]*p.m*10)+" N มากกว่าแรงผลัก "+p.F+" N จึงต้านพอดีและไม่มีอะไรขยับ"];
-        return ["a = (F − μmg) / m = ("+p.F+" − "+fmt(r.fric)+") / "+p.m+" = "+fmt2(r.a)+" m/s², so s = ½at² = "+fmt2(r.x)+" m.",
-                "a = (F − μmg) / m = ("+p.F+" − "+fmt(r.fric)+") / "+p.m+" = "+fmt2(r.a)+" ม./วิ² ดังนั้น s = ½at² = "+fmt2(r.x)+" ม."]; }
+        if(!r.moves) return ["Friction can grip up to μmg = "+un(C03.mu[p.s]*p.m*10,"N")+", more than your "+un(p.F,"N")+" push, so it matches the push exactly and nothing moves.",
+                             "แรงเสียดทานต้านได้สูงสุด μmg = "+un(C03.mu[p.s]*p.m*10,"N")+" มากกว่าแรงผลัก "+un(p.F,"N")+" แรงเสียดทานจึงเท่ากับแรงผลักพอดี และไม่มีอะไรขยับ"];
+        if(r.wall) return ["It hits the far wall and stops at "+un(C03.WALL,"m")+". With no wall, s = ½at² would be "+un(0.5*r.a*p.T*p.T,"m")+".",
+                           "{@golem}ชนกำแพงสุดทางแล้วหยุดที่ "+un(C03.WALL,"m")+" ถ้าไม่มีกำแพง s = ½at² จะได้ "+un(0.5*r.a*p.T*p.T,"m")];
+        return ["a = (F − μmg) / m = ("+num(p.F)+" − "+num(r.fric)+") / "+num(p.m)+" = "+un(r.a,"m/s²")+", so s = ½at² = "+un(r.x,"m")+".",
+                "a = (F − μmg) / m = ("+num(p.F)+" − "+num(r.fric)+") / "+num(p.m)+" = "+un(r.a,"m/s²")+" ดังนั้น s = ½at² = "+un(r.x,"m")]; }
     },
     trials:{
       veil:true,
@@ -241,45 +243,45 @@ nodes:[
       },
       lockFor:function(g){ return g.kind==="reach" ? ["s","m","T"] : (g.kind==="budge" ? ["s","m"] : ["s","F"]); },
       say:function(g){
-        if(g.kind==="reach") return ["On "+C03.word(g.s)+", push {@golem} ("+g.m+" kg) from rest to {@goal} "+fmt2(g.D)+" m away in exactly "+g.T+" s. How hard must you push?",
-                                     "บน"+C03.word(g.s)+" ผลัก{@golem} ("+g.m+" กก.) จากหยุดนิ่งไปถึง{@goal}ที่ห่าง "+fmt2(g.D)+" ม. ในเวลา "+g.T+" วินาทีพอดี ต้องผลักแรงเท่าใด"];
-        if(g.kind==="budge") return ["{@Golem} ("+g.m+" kg) stands on "+C03.word(g.s)+". Find the smallest push, to the nearest 5 N, that makes it move at all.",
-                                     "{@golem} ("+g.m+" กก.) ยืนอยู่บน"+C03.word(g.s)+" จงหาแรงผลักน้อยที่สุด (ละเอียดถึง 5 N) ที่ทำให้มันขยับได้"];
-        return ["On ice, a "+g.F+" N push must give {@golem} an acceleration of exactly "+g.a+" m/s². How heavy must {@golem} be?",
-                "บนน้ำแข็ง แรงผลัก "+g.F+" N ต้องทำให้{@golem}มีความเร่ง "+g.a+" ม./วิ² พอดี {@golem}ต้องมีมวลเท่าใด"];
+        if(g.kind==="reach") return ["On "+C03.word(g.s)+", push {@golem} ("+un(g.m,"kg")+") from rest to {@goal} "+un(g.D,"m",4)+" away in exactly "+un(g.T,"s")+". How hard must you push?",
+                                     "บน"+C03.word(g.s)+" ผลัก{@golem} ("+un(g.m,"kg")+") จากหยุดนิ่งไปถึง{@goal}ที่ห่างออกไป "+un(g.D,"m",4)+" ให้ได้ภายใน "+un(g.T,"s")+" พอดี ต้องผลักแรงเท่าไร"];
+        if(g.kind==="budge") return ["{@Golem} ("+un(g.m,"kg")+") stands on "+C03.word(g.s)+". Find the smallest push, to the nearest 5 N, that makes it move at all.",
+                                     "{@golem} ("+un(g.m,"kg")+") ยืนอยู่บน"+C03.word(g.s)+" หาแรงผลักที่น้อยที่สุดที่ทำให้มันขยับได้ ตอบเป็นจำนวนเท่าของ 5 N"];
+        return ["On ice, a "+un(g.F,"N")+" push must give {@golem} an acceleration of exactly "+un(g.a,"m/s²")+". How heavy must {@golem} be?",
+                "บนน้ำแข็ง ผลักด้วยแรง "+un(g.F,"N")+" แล้วต้องให้{@golem}มีความเร่ง "+un(g.a,"m/s²")+" พอดี {@golem}ต้องมีมวลเท่าไร"];
       },
       at:function(g){ return {x:(g.D||4), lift:30}; },
       check:function(p,S,g){
         var r=C03.r(p,0);
         if(g.kind==="reach"){
-          if(p.F===g.F) return {ok:true, msg:["Right on {@goal}. a = 2s / t² = "+g.a+" m/s², and F = ma + μmg = "+g.m+" × "+g.a+" + "+fmt(C03.mu[g.s]*g.m*10)+" = "+g.F+" N.",
-                                              "ถึง{@goal}พอดี a = 2s / t² = "+g.a+" ม./วิ² และ F = ma + μmg = "+g.m+" × "+g.a+" + "+fmt(C03.mu[g.s]*g.m*10)+" = "+g.F+" N"]};
-          return {ok:false, msg:["It slid "+fmt2(C03.r(p,g.T).x)+" m. Work out the acceleration you need first, then add the friction you must beat.",
-                                 "มันไถลไป "+fmt2(C03.r(p,g.T).x)+" ม. หาความเร่งที่ต้องการก่อน แล้วบวกแรงเสียดทานที่ต้องเอาชนะ"]};
+          if(p.F===g.F) return {ok:true, msg:["Right on {@goal}. a = 2s / t² = "+un(g.a,"m/s²")+", and F = ma + μmg = "+num(g.m)+" × "+num(g.a)+" + "+num(C03.mu[g.s]*g.m*10)+" = "+un(g.F,"N")+".",
+                                              "ถึง{@goal}พอดี a = 2s / t² = "+un(g.a,"m/s²")+" และ F = ma + μmg = "+num(g.m)+" × "+num(g.a)+" + "+num(C03.mu[g.s]*g.m*10)+" = "+un(g.F,"N")]};
+          return {ok:false, msg:["It slid "+un(C03.r(p,g.T).x,"m")+". Work out the acceleration you need first, then add the friction you must beat.",
+                                 "มันไถลไป "+un(C03.r(p,g.T).x,"m")+" ลองหาความเร่งที่ต้องการก่อน แล้วบวกแรงเสียดทานที่ต้องชนะ"]};
         }
         if(g.kind==="budge"){
-          if(p.F===g.F) return {ok:true, msg:["It budges. Friction grips up to μmg = "+fmt(g.lim)+" N; "+g.F+" N is the first push past that.",
-                                              "มันขยับแล้ว แรงเสียดทานยึดได้ถึง μmg = "+fmt(g.lim)+" N และ "+g.F+" N คือแรงแรกที่เกินค่านั้น"]};
-          if(!r.moves) return {ok:false, msg:["Nothing moves: friction simply matched your "+p.F+" N. How much can it grip at most?",
-                                              "ไม่ขยับ แรงเสียดทานต้านแรง "+p.F+" N ได้พอดี มันยึดได้มากที่สุดเท่าใด"]};
-          return {ok:false, msg:["It moves — but a smaller push would too. Friction holds up to μmg.","ขยับแล้ว แต่แรงที่น้อยกว่านี้ก็ขยับได้เหมือนกัน เพราะแรงเสียดทานต้านได้มากสุด μmg"]};
+          if(p.F===g.F) return {ok:true, msg:["It budges. Friction grips up to μmg = "+un(g.lim,"N")+"; "+un(g.F,"N")+" is the first push past that.",
+                                              "มันขยับแล้ว แรงเสียดทานต้านได้สูงสุด μmg = "+un(g.lim,"N")+" และ "+un(g.F,"N")+" คือแรงแรกที่เกินค่านี้"]};
+          if(!r.moves) return {ok:false, msg:["Nothing moves: friction simply matched your "+un(p.F,"N")+". How much can it grip at most?",
+                                              "ไม่ขยับเลย แรงเสียดทานเท่ากับแรงผลัก "+un(p.F,"N")+" พอดี แล้วมันต้านได้มากที่สุดเท่าไร"]};
+          return {ok:false, msg:["It moves — but a smaller push would too. Friction holds up to μmg.","ขยับแล้ว แต่แรงที่น้อยกว่านี้ก็ขยับได้เหมือนกัน เพราะแรงเสียดทานต้านได้มากสุดแค่ μmg"]};
         }
-        if(p.m===g.m) return {ok:true, msg:["m = F / (a + μg) = "+g.F+" / ("+g.a+" + 0.5) = "+g.m+" kg. Friction's share, μg = 0.5 m/s², comes off whatever the mass; the rest of a is F / m.",
-                                           "m = F / (a + μg) = "+g.F+" / ("+g.a+" + 0.5) = "+g.m+" กก. ส่วนของแรงเสียดทาน μg = 0.5 ม./วิ² ถูกหักออกเสมอไม่ว่ามวลเท่าใด ส่วนที่เหลือของ a คือ F / m"]};
-        return {ok:false, msg:["That mass gives "+fmt2(r.a)+" m/s². Remember the ice still takes a little: f = 0.05 × m × 10.",
-                               "มวลนี้ให้ความเร่ง "+fmt2(r.a)+" ม./วิ² อย่าลืมว่าน้ำแข็งยังมีแรงเสียดทานเล็กน้อย f = 0.05 × m × 10"]};
+        if(p.m===g.m) return {ok:true, msg:["m = F / (a + μg) = "+num(g.F)+" / ("+num(g.a)+" + 0.5) = "+un(g.m,"kg")+". Friction's share, μg = 0.5 m/s², comes off whatever the mass; the rest of a is F / m.",
+                                           "m = F / (a + μg) = "+num(g.F)+" / ("+num(g.a)+" + 0.5) = "+un(g.m,"kg")+" ส่วนที่เสียดทานกินไป μg = 0.5 m/s² หักออกเสมอ ไม่ว่ามวลเท่าไร ส่วนที่เหลือของ a คือ F / m"]};
+        return {ok:false, msg:["That mass gives "+un(r.a,"m/s²")+". Remember the ice still takes a little: f = 0.05 × m × 10.",
+                               "มวลนี้ให้ความเร่ง "+un(r.a,"m/s²")+" อย่าลืมว่าบนน้ำแข็งก็ยังมีแรงเสียดทานอยู่นิดหน่อย f = 0.05 × m × 10"]};
       }
     },
     note:["the resultant force, not the push, sets the acceleration — and friction only pushes back as hard as it has to",
-          "ความเร่งขึ้นกับแรงลัพธ์ ไม่ใช่แรงผลัก และแรงเสียดทานต้านกลับเท่าที่จำเป็นเท่านั้น"]
+          "แรงลัพธ์ต่างหากที่กำหนดความเร่ง ไม่ใช่แรงผลัก และแรงเสียดทานต้านแค่เท่าที่จำเป็น"]
   },
   guide:[
     {say:["On ice a modest push is plenty: friction takes only a sliver, so nearly all of F becomes ma. Press play.",
-          "บนน้ำแข็งผลักเบา ๆ ก็พอ เพราะแรงเสียดทานมีนิดเดียว F เกือบทั้งหมดจึงกลายเป็น ma กดเล่นดู"], set:{F:40,m:8,s:0,T:4}},
+          "บนน้ำแข็งผลักเบา ๆ ก็พอ เพราะแรงเสียดทานมีนิดเดียว F เกือบทั้งหมดจึงกลายเป็น ma กดเล่นได้เลย"], set:{F:40,m:8,s:0,T:4}},
     {say:["Same push on moss. Friction can grip up to μmg = 48 N, more than 40 N, so it matches the push and nothing moves.",
-          "ผลักด้วยแรงเท่าเดิมบนมอส แรงเสียดทานต้านได้ถึง μmg = 48 N ซึ่งมากกว่า 40 N จึงเท่ากับแรงผลักพอดี และไม่มีอะไรขยับ"], set:{F:40,m:8,s:2,T:4}},
+          "ผลักด้วยแรงเท่าเดิมบนมอส แรงเสียดทานต้านได้สูงสุด μmg = 48 N มากกว่า 40 N จึงเท่ากับแรงผลักพอดี และไม่มีอะไรขยับ"], set:{F:40,m:8,s:2,T:4}},
     {say:["Push harder than the grip and {@golem} goes — but only the resultant, F − f, accelerates it. Watch the last two bars match.",
-          "ถ้าผลักแรงกว่าที่เสียดทานจะต้านไหว {@golem}ก็เคลื่อนที่ แต่ที่ทำให้เกิดความเร่งคือแรงลัพธ์ F − f เท่านั้น ลองดูว่าสองแถบสุดท้ายมีขนาดเท่ากัน"], set:{F:80,m:8,s:2,T:4}}
+          "ผลักแรงกว่าที่เสียดทานต้านไหว {@golem}ก็เคลื่อนที่ แต่ที่ทำให้เร่งคือแรงลัพธ์ F − f เท่านั้น สังเกตว่าสองแถบสุดท้ายเท่ากัน"], set:{F:80,m:8,s:2,T:4}}
   ]
 },
 
@@ -293,11 +295,11 @@ nodes:[
   flabel:["μ_s > μ_k always","μ_s > μ_k เสมอ"],
   viz:"plot",
   vizcfg:{
-    title:["FRICTION AGAINST APPLIED FORCE","แรงเสียดทาน เทียบ แรงที่กระทำ"],
+    title:["FRICTION AGAINST APPLIED FORCE","แรงเสียดทาน เทียบกับแรงที่กระทำ"],
     xlab:["applied force (N)","แรงที่กระทำ (N)"], ylab:["friction (N)","แรงเสียดทาน (N)"],
     xmin:0, xmax:60, ymin:0, fill:false,
     fn:function(x,p){
-      var s=p.mus*p.m*9.8, k=p.muk*p.m*9.8;
+      var s=p.mus*p.m*10, k=p.muk*p.m*10;
       return x<=s ? x : k;
     },
     mark:function(p){ return p.F; },
@@ -308,27 +310,27 @@ nodes:[
       {k:"F",   lab:["Applied force","แรงที่กระทำ"], min:0, max:58, step:1, def:8, unit:" N"}
     ],
     readouts:[
-      {lab:["Maximum static friction","เสียดทานสถิตสูงสุด"], f:function(S){ return fmt(S.p.mus*S.p.m*9.8)+" N"; }},
-      {lab:["Friction right now","เสียดทานขณะนี้"], f:function(S){
-        var s=S.p.mus*S.p.m*9.8;
-        return fmt(S.p.F<=s ? S.p.F : S.p.muk*S.p.m*9.8)+" N"; }},
-      {lab:["Moving?","เคลื่อนที่ไหม"], f:function(S){
-        return S.p.F<=S.p.mus*S.p.m*9.8
-          ? (L()?"ยังไม่ขยับ — เสียดทานปรับตัวตาม":"still stuck — friction matches the push")
-          : (L()?"ลื่นไถลแล้ว":"sliding"); }},
+      {lab:["Maximum static friction","แรงเสียดทานสถิตสูงสุด"], f:function(S){ return un(S.p.mus*S.p.m*10,"N"); }},
+      {lab:["Friction right now","แรงเสียดทานตอนนี้"], f:function(S){
+        var s=S.p.mus*S.p.m*10;
+        return un(S.p.F<=s ? S.p.F : S.p.muk*S.p.m*10,"N"); }},
+      {lab:["Moving?","ขยับหรือยัง"], f:function(S){
+        return S.p.F<=S.p.mus*S.p.m*10
+          ? (L()?"ยังไม่ขยับ — แรงเสียดทานเพิ่มตามแรงผลัก":"still stuck — friction matches the push")
+          : (L()?"ไถลแล้ว":"sliding"); }},
       {lab:["Net force","แรงลัพธ์"], f:function(S){
-        var s=S.p.mus*S.p.m*9.8;
-        return fmt(S.p.F<=s ? 0 : S.p.F-S.p.muk*S.p.m*9.8)+" N"; }}
+        var s=S.p.mus*S.p.m*10;
+        return un(S.p.F<=s ? 0 : S.p.F-S.p.muk*S.p.m*10,"N"); }}
     ],
-    note:["static friction is not a fixed number — it grows to match, up to a limit","แรงเสียดทานสถิตไม่ใช่ค่าคงที่ แต่เพิ่มขึ้นตามแรงที่ผลักจนถึงค่าสูงสุด"]
+    note:["static friction is not a fixed number — it grows to match, up to a limit","แรงเสียดทานสถิตไม่ใช่ค่าคงที่ มันเพิ่มตามแรงที่ผลักไปจนถึงขีดสูงสุด"]
   },
   guide:[
     {say:["Push gently. Friction rises to exactly cancel the push — the line is a 45° diagonal.",
-          "ผลักเบา ๆ แรงเสียดทานจะเพิ่มขึ้นมาหักล้างแรงผลักพอดี กราฟจึงเป็นเส้นทแยงมุม 45°"], set:{m:3,mus:.5,muk:.3,F:8}},
+          "ผลักเบา ๆ แรงเสียดทานก็เพิ่มตามมาหักล้างพอดี กราฟจึงเป็นเส้นทแยง 45°"], set:{m:3,mus:.5,muk:.3,F:8}},
     {say:["Push harder and you climb the diagonal. Nothing moves yet, but friction is working harder.",
-          "ผลักแรงขึ้น เราก็ไต่ขึ้นไปตามเส้นทแยงมุม วัตถุยังไม่ขยับ แต่แรงเสียดทานต้องออกแรงต้านมากขึ้น"], set:{m:3,mus:.5,muk:.3,F:14}},
+          "ผลักแรงขึ้น จุดก็ไต่ขึ้นไปตามเส้นทแยง วัตถุยังไม่ขยับ แต่แรงเสียดทานต้องต้านมากขึ้น"], set:{m:3,mus:.5,muk:.3,F:14}},
     {say:["Cross the peak and it breaks loose. Friction DROPS to the kinetic value — that is the sudden lurch.",
-          "พอผ่านจุดสูงสุด วัตถุก็หลุดไถล แรงเสียดทานลดลงมาเป็นค่าจลน์ นี่คือสาเหตุที่รู้สึกว่าวัตถุกระตุกพุ่งไปทันที"], set:{m:3,mus:.5,muk:.3,F:22}}
+          "ผ่านจุดสูงสุดไปแล้ววัตถุก็หลุดไถล แรงเสียดทานตกลงมาเป็นค่าจลน์ จึงรู้สึกว่าวัตถุกระตุกพุ่งไปทันที"], set:{m:3,mus:.5,muk:.3,F:22}}
   ] },
 
 { id:"newton3", x:370, y:346, requires:["newton2"], methods:["M-05"],
@@ -344,13 +346,13 @@ nodes:[
     title:["EQUAL FORCES, UNEQUAL ACCELERATIONS","แรงเท่ากัน แต่ความเร่งไม่เท่ากัน"],
     ylab:["N  and  m/s²","N  และ  m/s²"],
     ctrls:[
-      {k:"F",  lab:["Force of the pair","ขนาดแรงของคู่นี้"], min:5, max:80, step:1, def:30, unit:" N"},
+      {k:"F",  lab:["Force of the pair","ขนาดแรงของคู่แรง"], min:5, max:80, step:1, def:30, unit:" N"},
       {k:"mA", lab:["Mass of A","มวลของ A"], min:1, max:20, step:1, def:2,  unit:" kg"},
       {k:"mB", lab:["Mass of B","มวลของ B"], min:1, max:20, step:1, def:10, unit:" kg"}
     ],
     readouts:[
-      {lab:["Force on A","แรงที่กระทำต่อ A"], f:function(S){ return fmt(S.p.F)+" N"; }},
-      {lab:["Force on B","แรงที่กระทำต่อ B"], f:function(S){ return fmt(S.p.F)+" N"; }},
+      {lab:["Force on A","แรงที่กระทำต่อ A"], f:function(S){ return un(S.p.F,"N"); }},
+      {lab:["Force on B","แรงที่กระทำต่อ B"], f:function(S){ return un(S.p.F,"N"); }},
       {lab:["Are they equal?","เท่ากันไหม"], f:function(){
         return L()?"เท่ากันเสมอ — เป็นคู่แรงกิริยา-ปฏิกิริยา":"always equal — they are the action-reaction pair"; }},
       {lab:["Why the different motion?","ทำไมเคลื่อนที่ต่างกัน"], f:function(S){
@@ -362,15 +364,15 @@ nodes:[
       {lab:["Acceleration of A","ความเร่ง A"], f:function(p){ return p.F/p.mA; }, col:"good"},
       {lab:["Acceleration of B","ความเร่ง B"], f:function(p){ return p.F/p.mB; }, col:"warn"}
     ],
-    note:["the two red bars can never differ — only the green and amber ones can","แถบสีแดงสองแถบไม่มีทางต่างกัน ต่างกันได้เฉพาะแถบสีเขียวกับสีเหลืองอำพัน"]
+    note:["the two red bars can never differ — only the green and amber ones can","แถบสีแดงสองแถบไม่มีวันต่างกัน ต่างกันได้เฉพาะแถบสีเขียวกับสีเหลืองอำพัน"]
   },
   guide:[
     {say:["The two force bars are identical. That is the third law, and no setting can break it.",
-          "แถบแรงสองแถบเท่ากันเป๊ะ นี่คือกฎข้อที่สาม และไม่ว่าจะตั้งค่าอย่างไรก็ทำให้ต่างกันไม่ได้"], set:{F:30,mA:2,mB:10}},
+          "แถบแรงสองแถบเท่ากันเป๊ะ นี่คือกฎข้อที่สาม ตั้งค่ายังไงก็ทำให้ต่างกันไม่ได้"], set:{F:30,mA:2,mB:10}},
     {say:["Yet the accelerations differ five-fold, because the masses do. Equal forces, unequal effects.",
-          "แต่ความเร่งต่างกันห้าเท่า เพราะมวลต่างกันห้าเท่า แรงเท่ากันแต่ให้ผลไม่เท่ากัน"], set:{F:30,mA:2,mB:10}},
+          "แต่ความเร่งต่างกันห้าเท่า เพราะมวลต่างกันห้าเท่า แรงเท่ากัน แต่ผลที่ได้ไม่เท่ากัน"], set:{F:30,mA:2,mB:10}},
     {say:["Make the masses equal and the accelerations match too. The forces were never the difference.",
-          "ลองทำให้มวลเท่ากัน ความเร่งก็จะเท่ากันด้วย แรงไม่ใช่ตัวที่ทำให้ต่างกัน"], set:{F:30,mA:6,mB:6}}
+          "ลองทำให้มวลเท่ากัน ความเร่งก็เท่ากันด้วย แรงไม่ใช่ตัวที่ทำให้ต่างกัน"], set:{F:30,mA:6,mB:6}}
   ] }
 ],
 

@@ -1,3 +1,7 @@
+/* z after n quarter-turns (multiplications by i) */
+function rotz(p){ var a=p.a, b=p.b, i, t;
+  for(i=0;i<p.mult;i++){ t=-b; b=a; a=t; }
+  return [a,b]; }
 var CHAPTER = {
 id:"ma10", num:"10", slug:"complex-numbers", subject:"math",
 kicker:["Mathematics · Chapter 10","คณิตศาสตร์ · บทที่ 10"],
@@ -18,7 +22,7 @@ nodes:[
   flabel:["Powers of i cycle every four","กำลังของ i วนซ้ำทุกสี่"],
   viz:"table",
   vizcfg:{
-    title:["POWERS OF i GO ROUND IN FOURS","กำลังของ i วนซ้ำทีละสี่"],
+    title:["POWERS OF i GO ROUND IN FOURS","กำลังของ i วนซ้ำรอบละสี่"],
     cols:[["n","n"],["iⁿ","iⁿ"],["Remainder n ÷ 4","เศษของ n ÷ 4"]],
     rowKey:"n",
     readouts:[
@@ -27,7 +31,7 @@ nodes:[
       {lab:["i⁵⁰ for example","เช่น i⁵⁰"], f:function(){
         return L()?"50 ÷ 4 เหลือเศษ 2 จึงได้ −1":"50 leaves remainder 2, so it is −1"; }},
       {lab:["Why four","ทำไมต้องสี่"], f:function(){
-        return L()?"การคูณด้วย i หมุน 90° สี่ครั้งครบรอบ":"multiplying by i turns 90°, and four turns is a full circle"; }}
+        return L()?"คูณด้วย i หมุน 90° หนึ่งครั้ง ครบสี่ครั้งก็ครบรอบ":"multiplying by i turns 90°, and four turns is a full circle"; }}
     ],
     rows:function(p){
       var V=["1","i","−1","−i"];
@@ -37,7 +41,7 @@ nodes:[
                                       {v:String(n%4), on:n===p.n, col:"good"}]);
       return out;
     },
-    note:["read down the middle column and the same four symbols repeat forever","ลองอ่านลงมาตามคอลัมน์กลาง จะเห็นสัญลักษณ์สี่ตัวเดิมวนซ้ำไปเรื่อยๆ"]
+    note:["read down the middle column and the same four symbols repeat forever","อ่านลงมาตามคอลัมน์กลาง จะเห็นสัญลักษณ์สี่ตัวเดิมวนซ้ำไปเรื่อยๆ"]
   } },
 
 { id:"arithmetic", x:100, y:150, requires:["imaginary"], methods:["M-02"],
@@ -59,24 +63,24 @@ nodes:[
       {k:"d", lab:["d","d"], min:-5, max:5, step:1, def:4, unit:""}
     ],
     readouts:[
-      {lab:["Real part","ส่วนจริง"], f:function(S){ return fmt2(S.p.a*S.p.c-S.p.b*S.p.d); }},
-      {lab:["Imaginary part","ส่วนจินตภาพ"], f:function(S){ return fmt2(S.p.a*S.p.d+S.p.b*S.p.c); }},
+      {lab:["Real part","ส่วนจริง"], f:function(S){ return num(S.p.a*S.p.c-S.p.b*S.p.d); }},
+      {lab:["Imaginary part","ส่วนจินตภาพ"], f:function(S){ return num(S.p.a*S.p.d+S.p.b*S.p.c); }},
       {lab:["Which term flips sign","พจน์ใดกลับเครื่องหมาย"], f:function(){
         return L()?"พจน์ bd เพราะมี i²":"the bd term, because it carries i²"; }},
       {lab:["Product with the conjugate","ผลคูณกับสังยุค"], f:function(S){
-        return fmt2(S.p.a*S.p.a+S.p.b*S.p.b)+(L()?" · จำนวนจริงเสมอ":" · always real"); }}
+        return num(S.p.a*S.p.a+S.p.b*S.p.b)+(L()?" · จำนวนจริงเสมอ":" · always real"); }}
     ],
     rows:function(p){
-      return [[{v:"a·c", on:false, col:"ink"}, {v:fmt2(p.a*p.c), on:true, col:"accent"},
-               {v:fmt2(p.a*p.c), on:true, col:"accent"}, {v:["real","ส่วนจริง"], on:true, col:"accent"}],
-              [{v:"a·di", on:false, col:"ink"}, {v:fmt2(p.a*p.d)+"i", on:true, col:"good"},
-               {v:fmt2(p.a*p.d)+"i", on:true, col:"good"}, {v:["imaginary","ส่วนจินตภาพ"], on:true, col:"good"}],
-              [{v:"bi·c", on:false, col:"ink"}, {v:fmt2(p.b*p.c)+"i", on:true, col:"good"},
-               {v:fmt2(p.b*p.c)+"i", on:true, col:"good"}, {v:["imaginary","ส่วนจินตภาพ"], on:true, col:"good"}],
-              [{v:"bi·di", on:false, col:"ink"}, {v:fmt2(p.b*p.d)+"i²", on:true, col:"warn"},
-               {v:fmt2(-p.b*p.d), on:true, col:"warn"}, {v:["real","ส่วนจริง"], on:true, col:"warn"}]];
+      return [[{v:"a·c", on:false, col:"ink"}, {v:num(p.a*p.c), on:true, col:"accent"},
+               {v:num(p.a*p.c), on:true, col:"accent"}, {v:["real","ส่วนจริง"], on:true, col:"accent"}],
+              [{v:"a·di", on:false, col:"ink"}, {v:num(p.a*p.d)+"i", on:true, col:"good"},
+               {v:num(p.a*p.d)+"i", on:true, col:"good"}, {v:["imaginary","ส่วนจินตภาพ"], on:true, col:"good"}],
+              [{v:"bi·c", on:false, col:"ink"}, {v:num(p.b*p.c)+"i", on:true, col:"good"},
+               {v:num(p.b*p.c)+"i", on:true, col:"good"}, {v:["imaginary","ส่วนจินตภาพ"], on:true, col:"good"}],
+              [{v:"bi·di", on:false, col:"ink"}, {v:num(p.b*p.d)+"i²", on:true, col:"warn"},
+               {v:num(-p.b*p.d), on:true, col:"warn"}, {v:["real","ส่วนจริง"], on:true, col:"warn"}]];
     },
-    note:["only the last row changes — i² turns it real and flips its sign","มีแถวสุดท้ายแถวเดียวที่เปลี่ยน เพราะ i² ทำให้มันเป็นจำนวนจริงและกลับเครื่องหมาย"]
+    note:["only the last row changes — i² turns it real and flips its sign","เปลี่ยนแค่แถวสุดท้าย เพราะ i² ทำให้เป็นจำนวนจริงและกลับเครื่องหมาย"]
   } },
 
 { id:"argand", x:370, y:150, requires:["imaginary"], methods:["M-03"],
@@ -96,22 +100,22 @@ nodes:[
       {k:"mult", lab:["Multiply by i, n times","คูณด้วย i, n ครั้ง"], min:0, max:4, step:1, def:0, unit:""}
     ],
     readouts:[
-      {lab:["z","z"], f:function(S){ var p=S.p;
-        return fmt2(p.a)+(p.b>=0?" + ":" − ")+fmt2(Math.abs(p.b))+"i"; }},
+      {lab:["z","z"], f:function(S){ var q=rotz(S.p);
+        return num(q[0])+(q[1]>=0?" + ":" − ")+num(Math.abs(q[1]))+"i"; }},
       {lab:["Modulus |z|","มอดูลัส |z|"], f:function(S){ var p=S.p;
-        return fmt2(Math.sqrt(p.a*p.a+p.b*p.b)); }},
-      {lab:["Argument","อาร์กิวเมนต์"], f:function(S){ var p=S.p;
-        if(Math.abs(p.a)<1e-9 && Math.abs(p.b)<1e-9) return L()?"ไม่นิยาม":"undefined";
-        return fmt2(Math.atan2(p.b,p.a)*180/Math.PI)+"°"; }},
+        return num(Math.sqrt(p.a*p.a+p.b*p.b)); }},
+      {lab:["Argument","อาร์กิวเมนต์"], f:function(S){ var q=rotz(S.p);
+        if(Math.abs(q[0])<1e-9 && Math.abs(q[1])<1e-9) return L()?"ไม่นิยาม":"undefined";
+        return num(Math.atan2(q[1],q[0])*180/Math.PI)+"°"; }},
       {lab:["z · z̄","z · z̄"], f:function(S){ var p=S.p;
-        return fmt2(p.a*p.a+p.b*p.b)+(L()?" · จำนวนจริงเสมอ":" · always real"); }}
+        return num(p.a*p.a+p.b*p.b)+(L()?" · จำนวนจริงเสมอ":" · always real"); }}
     ],
     draw:function(S,o){
       var p=S.p;
       /* multiplying by i is a quarter turn, applied n times */
       var a=p.a, b=p.b, i;
       for(i=0;i<p.mult;i++){ var na=-b, nb=a; a=na; b=nb; }
-      var A=axes(o,{x:80,y:30,w:400,h:246,xmin:-5,xmax:5,ymin:-5,ymax:5,
+      var A=axes(o,{x:157,y:30,w:246,h:246,xmin:-5,xmax:5,ymin:-5,ymax:5,
                     title:["ARGAND PLANE","ระนาบเชิงซ้อน"],xlab:"Re",ylab:"Im",xticks:5,yticks:5});
       var m=Math.sqrt(a*a+b*b);
       if(m>0.05){
@@ -138,20 +142,20 @@ nodes:[
       o.push('<circle cx="'+A.X(a)+'" cy="'+A.Y(b)+'" r="5.5" fill="var(--accent)"/>');
       o.push('<text x="'+(A.X(a)+9)+'" y="'+(A.Y(b)-9)+
              '" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11">'+
-             fmt2(a)+(b>=0?" + ":" − ")+fmt2(Math.abs(b))+'i</text>');
+             num(a)+(b>=0?" + ":" − ")+num(Math.abs(b))+'i</text>');
       o.push('<text x="80" y="304" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["dashed circle = modulus · amber arc = argument","วงกลมประ = มอดูลัส · ส่วนโค้งเหลืองอำพัน = อาร์กิวเมนต์"])+'</text>');
-      o.push('<text x="80" y="320" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["each multiplication by i rotates a quarter turn anticlockwise","คูณด้วย i แต่ละครั้งจะหมุนไปหนึ่งในสี่รอบทวนเข็มนาฬิกา"])+'</text>');
+      o.push('<text x="80" y="320" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["each multiplication by i rotates a quarter turn anticlockwise","คูณด้วย i ทุกครั้ง จุดจะหมุนทวนเข็มนาฬิกาหนึ่งในสี่รอบ"])+'</text>');
     }
   },
   guide:[
     {say:["The red arrow is z = 3 + 2i. Its length is the modulus, and the amber arc is the argument.",
-          "ลูกศรสีแดงคือ z = 3 + 2i ความยาวของลูกศรคือมอดูลัส และส่วนโค้งสีเหลืองอำพันคืออาร์กิวเมนต์"], set:{a:3,b:2,conj:0,mult:0}},
+          "ลูกศรสีแดงคือ z = 3 + 2i ความยาวของมันคือมอดูลัส ส่วนโค้งสีเหลืองอำพันคืออาร์กิวเมนต์"], set:{a:3,b:2,conj:0,mult:0}},
     {say:["Bring in the conjugate. It is the mirror image in the real axis — same modulus, opposite argument.",
-          "ลองเพิ่มสังยุคเข้ามา มันคือภาพสะท้อนในแกนจริง มอดูลัสเท่ากัน แต่อาร์กิวเมนต์ตรงข้ามกัน"], set:{a:3,b:2,conj:1,mult:0}},
+          "ลองเพิ่มสังยุค มันคือภาพสะท้อนในแกนจริง มอดูลัสเท่ากัน แต่อาร์กิวเมนต์ตรงข้ามกัน"], set:{a:3,b:2,conj:1,mult:0}},
     {say:["Multiply by i once. The arrow does not stretch — it turns a quarter circle. Multiplication by i is pure rotation.",
-          "ลองคูณด้วย i หนึ่งครั้ง ลูกศรไม่ได้ยาวขึ้น แต่หมุนไปหนึ่งในสี่รอบ การคูณด้วย i จึงเป็นการหมุนล้วนๆ"], set:{a:3,b:2,conj:0,mult:1}},
+          "ลองคูณด้วย i หนึ่งครั้ง ลูกศรไม่ยาวขึ้น แต่หมุนไปหนึ่งในสี่รอบ การคูณด้วย i คือการหมุนล้วนๆ"], set:{a:3,b:2,conj:0,mult:1}},
     {say:["Four multiplications return it exactly where it started. That is why powers of i cycle with period four.",
-          "คูณสี่ครั้งก็กลับมาที่เดิมพอดี กำลังของ i จึงวนซ้ำเป็นรอบละสี่ค่า"], set:{a:3,b:2,conj:0,mult:4}}
+          "คูณครบสี่ครั้งก็กลับมาที่เดิมพอดี กำลังของ i จึงวนซ้ำรอบละสี่ค่า"], set:{a:3,b:2,conj:0,mult:4}}
   ]},
 
 { id:"polar", x:235, y:248, requires:["argand"], methods:["M-04"],
@@ -173,8 +177,8 @@ nodes:[
       {k:"t2", lab:["arg z₂","arg z₂"], min:0, max:180, step:5, def:45, unit:"°"}
     ],
     readouts:[
-      {lab:["|z₁z₂|","|z₁z₂|"], f:function(S){ return fmt2(S.p.r1*S.p.r2); }},
-      {lab:["arg(z₁z₂)","arg(z₁z₂)"], f:function(S){ return fmt2(S.p.t1+S.p.t2)+"°"; }},
+      {lab:["|z₁z₂|","|z₁z₂|"], f:function(S){ return num(S.p.r1*S.p.r2); }},
+      {lab:["arg(z₁z₂)","arg(z₁z₂)"], f:function(S){ return num(S.p.t1+S.p.t2)+"°"; }},
       {lab:["Moduli","มอดูลัส"], f:function(){ return L()?"คูณกัน":"multiply"; }},
       {lab:["Arguments","อาร์กิวเมนต์"], f:function(){ return L()?"บวกกัน ไม่ใช่คูณกัน":"add — they never multiply"; }}
     ],
@@ -184,7 +188,7 @@ nodes:[
       {lab:["|z₁z₂| = product","|z₁z₂| = ผลคูณ"], f:function(p){ return p.r1*p.r2; }, col:"accent"},
       {lab:["arg sum (°)","ผลบวกมุม (°)"], f:function(p){ return p.t1+p.t2; }, col:"good"}
     ],
-    note:["De Moivre's theorem is this rule applied over and over to the same number","ทฤษฎีบทเดอมัวร์ก็คือกฎข้อนี้ที่ใช้ซ้ำๆ กับจำนวนเดียวกัน"]
+    note:["De Moivre's theorem is this rule applied over and over to the same number","ทฤษฎีบทเดอมัวร์คือกฎข้อนี้ที่ใช้ซ้ำกับจำนวนเดิม"]
   } },
 
 { id:"roots", x:235, y:346, requires:["polar","arithmetic"], methods:["M-05"],
@@ -197,7 +201,7 @@ nodes:[
   flabel:["Complex roots come in pairs","รากเชิงซ้อนมาเป็นคู่"],
   viz:"plot",
   vizcfg:{
-    title:["WHEN THE PARABOLA MISSES THE AXIS","เมื่อพาราโบลาพลาดแกน"],
+    title:["WHEN THE PARABOLA MISSES THE AXIS","เมื่อพาราโบลาไม่แตะแกน"],
     xlab:["x","x"], ylab:["y = x² + bx + c","y = x² + bx + c"],
     xmin:-6, xmax:6, fill:false,
     fn:function(x,p){ return x*x + p.b*x + p.c; },
@@ -207,19 +211,19 @@ nodes:[
     ],
     readouts:[
       {lab:["Discriminant b² − 4c","ดิสคริมิแนนต์ b² − 4c"], f:function(S){
-        return fmt2(S.p.b*S.p.b-4*S.p.c); }},
+        return num(S.p.b*S.p.b-4*S.p.c); }},
       {lab:["Roots","ราก"], f:function(S){
         var D=S.p.b*S.p.b-4*S.p.c;
-        if(D>1e-9) return fmt2((-S.p.b-Math.sqrt(D))/2)+"  "+(L()?"และ":"and")+"  "+fmt2((-S.p.b+Math.sqrt(D))/2);
-        if(Math.abs(D)<=1e-9) return fmt2(-S.p.b/2)+(L()?" · รากซ้ำ":" · a repeated root");
-        return fmt2(-S.p.b/2)+" ± "+fmt2(Math.sqrt(-D)/2)+"i"; }},
+        if(D>1e-9) return num((-S.p.b-Math.sqrt(D))/2)+"  "+(L()?"และ":"and")+"  "+num((-S.p.b+Math.sqrt(D))/2);
+        if(Math.abs(D)<=1e-9) return num(-S.p.b/2)+(L()?" · รากซ้ำ":" · a repeated root");
+        return num(-S.p.b/2)+" ± "+num(Math.sqrt(-D)/2)+"i"; }},
       {lab:["Kind of roots","ชนิดของราก"], f:function(S){
         var D=S.p.b*S.p.b-4*S.p.c;
         return D>1e-9 ? (L()?"จำนวนจริงสองราก":"two real roots")
              : Math.abs(D)<=1e-9 ? (L()?"รากจริงซ้ำหนึ่งราก":"one repeated real root")
              : (L()?"คู่สังยุคเชิงซ้อน":"a complex conjugate pair"); }},
       {lab:["Do the roots exist?","รากมีอยู่ไหม"], f:function(){
-        return L()?"มีเสมอ — เพียงแต่บางครั้งอยู่นอกเส้นจำนวนจริง":"always — sometimes just off the real line"; }}
+        return L()?"มีเสมอ แต่บางครั้งไม่อยู่บนเส้นจำนวนจริง":"always — sometimes just off the real line"; }}
     ],
     note:["missing the x-axis does not mean there is no solution, only none you can see on this axis","กราฟไม่ตัดแกน x ไม่ได้แปลว่าไม่มีคำตอบ แค่ไม่มีคำตอบที่มองเห็นบนแกนนี้"]
   },
@@ -227,9 +231,9 @@ nodes:[
     {say:["The curve floats clear above the axis. No real root exists — but two complex ones do.",
           "เส้นโค้งลอยอยู่เหนือแกนทั้งเส้น ไม่มีรากจริง แต่มีรากเชิงซ้อนสองราก"], set:{b:-4,c:8}},
     {say:["Lower it until it just kisses the axis. The discriminant hits zero and the roots merge into one.",
-          "ลองลดลงมาจนแตะแกนพอดี ดิสคริมิแนนต์เป็นศูนย์ และรากทั้งสองรวมเป็นรากเดียว"], set:{b:-4,c:4}},
+          "ลองลดเส้นโค้งลงจนแตะแกนพอดี ดิสคริมิแนนต์เป็นศูนย์ รากทั้งสองจึงรวมเป็นรากเดียว"], set:{b:-4,c:4}},
     {say:["Push it lower still and two real roots appear, spreading apart as the discriminant grows.",
-          "ลดลงต่ำกว่านั้นอีก จะเกิดรากจริงสองราก และยิ่งดิสคริมิแนนต์มาก รากก็ยิ่งห่างกัน"], set:{b:-4,c:0}}
+          "ลดต่ำกว่านั้นอีก จะได้รากจริงสองราก ยิ่งดิสคริมิแนนต์มาก รากยิ่งห่างกัน"], set:{b:-4,c:0}}
   ] }
 ],
 
@@ -268,10 +272,10 @@ gen:{
     opts:[{v:c+" − "+d+"i",ok:1},{v:c+" + "+d+"i",trap:"T-02"},{v:"i"},{v:String(c)}],unit:""};
   var re=a*c-b*d, im=a*d+b*c;
   return {stem:["Expand ("+a+" + "+b+"i)("+c+" + "+d+"i).","จงกระจาย ("+a+" + "+b+"i)("+c+" + "+d+"i)"],
-    opts:[{v:re+(im>=0?" + ":" − ")+Math.abs(im)+"i",ok:1},
-          {v:(a*c+b*d)+(im>=0?" + ":" − ")+Math.abs(im)+"i",trap:"T-02"},
+    opts:[{v:num(re)+(im>=0?" + ":" − ")+Math.abs(im)+"i",ok:1},
+          {v:num(a*c+b*d)+(im>=0?" + ":" − ")+Math.abs(im)+"i",trap:"T-02"},
           {v:(a*c)+" + "+(b*d)+"i",trap:"T-02"},
-          {v:re+(im>=0?" − ":" + ")+Math.abs(im)+"i"}],unit:""};
+          {v:num(re)+(im>=0?" − ":" + ")+Math.abs(im)+"i"}],unit:""};
 },
 "M-03": function(sf){
   var P=[{a:3,b:4,m:5},{a:6,b:8,m:10},{a:5,b:12,m:13},{a:8,b:15,m:17}];
@@ -286,7 +290,7 @@ gen:{
     opts:[{v:String(p.b),ok:1},{v:String(p.m-p.a),trap:"T-02"},{v:String(p.m+p.a)},{v:String(p.a)}],unit:""};
   return {stem:["Find |z| for z = "+p.a+" + "+p.b+"i.","จงหา |z| ของ z = "+p.a+" + "+p.b+"i"],
     opts:[{v:String(p.m),ok:1},{v:String(p.a+p.b),trap:"T-02"},
-          {v:fmt2(Math.abs(p.a*p.a-p.b*p.b)),trap:"T-02"},{v:String(p.a*p.b)}],unit:""};
+          {v:String(Math.abs(p.a*p.a-p.b*p.b)),trap:"T-02"},{v:String(p.a*p.b)}],unit:""};
 },
 "M-04": function(sf){
   var r1=pick([2,3,4]), r2=pick([2,5,6]), t1=pick([30,45,60]), t2=pick([20,30,90]);
@@ -320,7 +324,7 @@ gen:{
           {v:"1"},{v:"10"}],unit:""};
   return {stem:["Solve x² − "+b+"x + "+c+" = 0.","จงแก้ x² − "+b+"x + "+c+" = 0"],
     opts:[{v:p+" ± "+q+"i",ok:1},{v:p+" + "+q+"i",trap:"T-03"},
-          {v:(-p)+" ± "+q+"i",trap:"T-03"},{v:["No solution","ไม่มีคำตอบ"],trap:"T-03"}],unit:""};
+          {v:"−"+p+" ± "+q+"i",trap:"T-03"},{v:["No solution","ไม่มีคำตอบ"],trap:"T-03"}],unit:""};
 }
 }
 };

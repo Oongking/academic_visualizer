@@ -9,6 +9,12 @@ var C09 = {
   p1: function(p, x, t){ var u = (x - C09.c1(t)) / C09.w; return p.A1 * Math.exp(-u * u); },
   p2: function(p, x, t){ var u = (x - C09.c2(t)) / C09.w; return p.A2 * Math.exp(-u * u); },
   y: function(p, x, t){ return C09.p1(p, x, t) + C09.p2(p, x, t); },
+  /* what the learner reads at the meeting point: heights rounded to 0.01 (so a far-off pulse tail shows 0, not 4e-11) */
+  h: function(v){ return Math.round(v * 100) / 100; },
+  show: function(p, t){ var a = C09.h(C09.p1(p, 10, t)), b = C09.h(C09.p2(p, 10, t)); return [a, b, C09.h(a + b)]; },
+  /* what the learner reads at the meeting point: heights rounded to 0.01 (so a far-off pulse tail shows 0, not 4e-11) */
+  h: function(v){ return Math.round(v * 100) / 100; },
+  show: function(p, t){ var a = C09.h(C09.p1(p, 10, t)), b = C09.h(C09.p2(p, 10, t)); return [a, b, C09.h(a + b)]; },
   cands: function(p){
     var c = [p.A1 + p.A2, p.A1 - p.A2, p.A2 - p.A1, 0, Math.max(Math.abs(p.A1), Math.abs(p.A2))], u = [];
     c.forEach(function(v){ if(u.every(function(w){ return Math.abs(w - v) > 1e-9; })) u.push(v); });
@@ -47,13 +53,13 @@ nodes:[
   viz:"wave",
   guide:[
     {say:["Press Play. The wave travels right, but watch the red dot — it only moves up and down, never sideways.",
-          "กดเล่น คลื่นเคลื่อนที่ไปทางขวา แต่ลองดูจุดสีแดง มันขยับขึ้นลงอย่างเดียว ไม่เคยเลื่อนไปทางข้างเลย"], set:{A:5,lam:8,f:1,T:8}},
+          "กดเล่น คลื่นจะวิ่งไปทางขวา แต่ลองดูจุดสีแดง มันขยับขึ้นลงอย่างเดียว ไม่เคยเลื่อนไปด้านข้างเลย"], set:{A:5,lam:8,f:1,T:8}},
     {say:["Double the wavelength at the same frequency. The bar on the axis stretches, and the wave moves twice as fast.",
-          "เพิ่มความยาวคลื่นเป็นสองเท่าโดยให้ความถี่เท่าเดิม แถบบนแกนจะยาวขึ้น และคลื่นเคลื่อนที่เร็วขึ้นสองเท่า"], set:{A:5,lam:16,f:1,T:8}},
+          "ทำให้ความยาวคลื่นเป็นสองเท่า โดยความถี่เท่าเดิม แถบบนแกนจะยาวขึ้น และคลื่นวิ่งเร็วขึ้นสองเท่า"], set:{A:5,lam:16,f:1,T:8}},
     {say:["Now raise the frequency instead. The shape is unchanged but it passes faster — v = fλ, both ways.",
           "คราวนี้เพิ่มความถี่แทน รูปคลื่นยังเหมือนเดิมแต่ผ่านไปเร็วขึ้น v = fλ ใช้ได้ทั้งสองทาง"], set:{A:5,lam:8,f:2,T:8}},
     {say:["Amplitude changes the height and nothing else. Speed and wavelength are untouched — amplitude is energy alone.",
-          "แอมพลิจูดเปลี่ยนแค่ความสูงของคลื่น อัตราเร็วและความยาวคลื่นไม่เปลี่ยน แอมพลิจูดบอกเรื่องพลังงานอย่างเดียว"], set:{A:9,lam:8,f:1,T:8}}
+          "แอมพลิจูดเปลี่ยนแค่ความสูงของคลื่น อัตราเร็วและความยาวคลื่นไม่เปลี่ยน แอมพลิจูดเกี่ยวกับพลังงานเท่านั้น"], set:{A:9,lam:8,f:1,T:8}}
   ]},
 
 { id:"types", x:100, y:248, requires:["anatomy"], methods:["M-03"],
@@ -66,7 +72,7 @@ nodes:[
   flabel:["Only transverse waves polarise","เฉพาะคลื่นตามขวางที่โพลาไรซ์ได้"],
   viz:"table",
   vizcfg:{
-    title:["TRANSVERSE AGAINST LONGITUDINAL","คลื่นตามขวาง เทียบ คลื่นตามยาว"],
+    title:["TRANSVERSE AGAINST LONGITUDINAL","คลื่นตามขวางเทียบกับคลื่นตามยาว"],
     cols:[["Property","สมบัติ"],["Transverse","ตามขวาง"],["Longitudinal","ตามยาว"]],
     rowKey:"i",
     readouts:[
@@ -75,13 +81,13 @@ nodes:[
                 ["Can it polarise?","โพลาไรซ์ได้ไหม"],["Travels in a vacuum?","ผ่านสุญญากาศได้ไหม"],
                 ["Named features","ชื่อส่วนประกอบ"]][S.p.i][L()]; }},
       {lab:["The key difference","ความต่างสำคัญ"], f:function(){
-        return L()?"ทิศการสั่นเทียบกับทิศการเดินทาง":"vibration direction relative to travel direction"; }}
+        return L()?"ทิศการสั่นเทียบกับทิศที่คลื่นเคลื่อนที่":"vibration direction relative to travel direction"; }}
     ],
     rows:function(p){
-      var R=[[["Particle motion","การสั่นของอนุภาค"],["perpendicular to travel","ตั้งฉากกับการเดินทาง"],["along the travel","ตามแนวการเดินทาง"]],
+      var R=[[["Particle motion","การสั่นของอนุภาค"],["perpendicular to travel","ตั้งฉากกับทิศที่คลื่นเคลื่อนที่"],["along the travel","ตามทิศที่คลื่นเคลื่อนที่"]],
              [["Example","ตัวอย่าง"],["light, water ripples","แสง คลื่นผิวน้ำ"],["sound","เสียง"]],
              [["Polarisable?","โพลาไรซ์ได้ไหม"],["yes","ได้"],["no","ไม่ได้"]],
-             [["In a vacuum?","ผ่านสุญญากาศ"],["only if electromagnetic","เฉพาะคลื่นแม่เหล็กไฟฟ้า"],["never","ไม่ได้เลย"]],
+             [["In a vacuum?","ผ่านสุญญากาศได้ไหม"],["only if electromagnetic","ได้เฉพาะคลื่นแม่เหล็กไฟฟ้า"],["never","ไม่ได้เลย"]],
              [["Features","ส่วนประกอบ"],["crest and trough","สันและท้อง"],["compression and rarefaction","ส่วนอัดและส่วนขยาย"]]];
       return R.map(function(r,i){ return r.map(function(c,j){ return {v:c, on:i===p.i, col:j===0?"soft":(j===1?"accent":"good")}; }); });
     },
@@ -98,17 +104,17 @@ nodes:[
   flabel:["Snell's law · f unchanged","กฎสเนลล์ · f ไม่เปลี่ยน"],
   viz:"table",
   vizcfg:{
-    title:["WHAT SURVIVES EACH BEHAVIOUR","อะไรที่ยังคงเดิมในแต่ละพฤติกรรม"],
-    cols:[["Behaviour","พฤติกรรม"],["Frequency","ความถี่"],["Wavelength","ความยาวคลื่น"],["Speed","อัตราเร็ว"],["Direction","ทิศทาง"]],
+    title:["WHAT SURVIVES EACH BEHAVIOUR","ในสมบัติแต่ละแบบ อะไรไม่เปลี่ยน"],
+    cols:[["Behaviour","สมบัติ"],["Frequency","ความถี่"],["Wavelength","ความยาวคลื่น"],["Speed","อัตราเร็ว"],["Direction","ทิศทาง"]],
     rowKey:"i",
     readouts:[
-      {lab:["Behaviour","พฤติกรรม"], f:function(S){
+      {lab:["Behaviour","สมบัติ"], f:function(S){
         return [["Reflection","การสะท้อน"],["Refraction","การหักเห"],
                 ["Diffraction","การเลี้ยวเบน"],["Interference","การแทรกสอด"]][S.p.i][L()]; }},
       {lab:["Frequency","ความถี่"], f:function(){
-        return L()?"ไม่เคยเปลี่ยนเลย ในทั้งสี่กรณี":"never changes — in any of the four"; }},
+        return L()?"ไม่เปลี่ยนเลย ทั้งสี่กรณี":"never changes — in any of the four"; }},
       {lab:["Why","เพราะ"], f:function(){
-        return L()?"ความถี่ถูกกำหนดโดยแหล่งกำเนิด ไม่ใช่ตัวกลาง":"frequency is set by the source, not the medium"; }}
+        return L()?"แหล่งกำเนิดเป็นตัวกำหนดความถี่ ไม่ใช่ตัวกลาง":"frequency is set by the source, not the medium"; }}
     ],
     rows:function(p){
       var R=[[["Reflection","การสะท้อน"],["same","เท่าเดิม"],["same","เท่าเดิม"],["same","เท่าเดิม"],["changes","เปลี่ยน"]],
@@ -130,7 +136,7 @@ nodes:[
     {say:["Reflection changes only the direction. Everything else about the wave is untouched.",
           "การสะท้อนเปลี่ยนแค่ทิศทาง ส่วนอย่างอื่นของคลื่นไม่เปลี่ยนเลย"], set:{i:0}},
     {say:["Whichever row you pick, the frequency cell stays green. The source sets it, and nothing downstream can.",
-          "จะเลือกแถวไหนก็ตาม ช่องความถี่ยังเป็นสีเขียวเหมือนเดิม เพราะแหล่งกำเนิดเป็นตัวกำหนดความถี่ และไม่มีอะไรหลังจากนั้นเปลี่ยนได้"], set:{i:3}}
+          "เลือกแถวไหนก็ตาม ช่องความถี่ก็ยังเป็นสีเขียว แหล่งกำเนิดเป็นตัวกำหนดความถี่ และไม่มีอะไรที่ตามมาเปลี่ยนมันได้"], set:{i:3}}
   ] },
 
 { id:"superposition", x:235, y:346, requires:["types","behaviours"], methods:["M-05","M-06"],
@@ -153,9 +159,9 @@ nodes:[
       {k:"T",  lab:["Watch for","ดูนาน"], min:1, max:4, step:.25, def:3.5, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["At the meeting point now","ที่จุดพบขณะนี้"], f:function(S){ return fmt2(C09.y(S.p,10,S.t)); }},
-      {lab:["When they overlap fully","เมื่อซ้อนกันสนิท"], f:function(S){ return fmt2(S.p.A1+S.p.A2); }},
-      {lab:["Kind of meeting","ลักษณะการพบ"], f:function(S){
+      {lab:["At the meeting point now","ที่จุดพบตอนนี้"], f:function(S){ return num(C09.show(S.p,S.t)[2]); }},
+      {lab:["When they overlap fully","เมื่อซ้อนกันสนิท"], f:function(S){ return num(S.p.A1+S.p.A2); }},
+      {lab:["Kind of meeting","แบบที่พบกัน"], f:function(S){
         var a=S.p.A1, b=S.p.A2;
         if(a*b>0) return L()?"เสริมกัน":"constructive";
         if(a*b<0) return a+b===0 ? (L()?"หักล้างสมบูรณ์":"complete cancelling") : (L()?"หักล้างบางส่วน":"partly cancelling");
@@ -194,21 +200,21 @@ nodes:[
       mark:function(p,S){ return S.t; }
     },
     spell:{
-      tex:function(p,S){ var a=C09.p1(p,10,S.t), b=C09.p2(p,10,S.t);
-        return "y = y_1 + y_2 = ("+fmt2(a)+") + ("+fmt2(b)+") = "+fmt2(a+b)+"\\quad\\text{"+(L()?"ที่จุดพบ":"at the meeting point")+"}"; },
+      tex:function(p,S){ var q=C09.show(p,S.t);
+        return "y = y_1 + y_2 = ("+numTex(q[0])+") + ("+numTex(q[1])+") = "+numTex(q[2])+"\\quad\\text{"+(L()?"ที่จุดพบ":"at the meeting point")+"}"; },
       terms:[
-        {k:"y1", sym:"y₁", lab:["pulse 1 alone","คลื่นดล 1 เดี่ยว ๆ"], col:"accent", f:function(p,S){ return fmt2(C09.p1(p,10,S.t)); }},
-        {k:"y2", sym:"y₂", lab:["pulse 2 alone","คลื่นดล 2 เดี่ยว ๆ"], col:"accent2", f:function(p,S){ return fmt2(C09.p2(p,10,S.t)); }},
-        {k:"y",  sym:"y",  lab:["the rope itself","ตัวเชือกจริง"], col:"good", f:function(p,S){ return fmt2(C09.y(p,10,S.t)); }}
+        {k:"y1", sym:"y₁", lab:["pulse 1 alone","คลื่นดล 1 ลูกเดียว"], col:"accent", f:function(p,S){ return num(C09.show(p,S.t)[0]); }},
+        {k:"y2", sym:"y₂", lab:["pulse 2 alone","คลื่นดล 2 ลูกเดียว"], col:"accent2", f:function(p,S){ return num(C09.show(p,S.t)[1]); }},
+        {k:"y",  sym:"y",  lab:["the rope itself","เชือกจริง"], col:"good", f:function(p,S){ return num(C09.show(p,S.t)[2]); }}
       ]
     },
     predict:{ kind:"choice",
       ask:["At the instant the two pulses sit exactly on top of each other, how high is the rope at the meeting point?",
            "ขณะที่คลื่นดลสองลูกซ้อนกันพอดี เชือกตรงจุดที่พบกันสูงเท่าใด"],
-      opts:function(p){ return C09.cands(p).map(function(v){ return [fmt2(v), fmt2(v)]; }); },
+      opts:function(p){ return C09.cands(p).map(function(v){ return [num(v), num(v)]; }); },
       actual:function(p){ return C09.cands(p).indexOf(p.A1+p.A2); },
-      explain:function(p){ return ["Displacements simply add: "+fmt2(p.A1)+" + ("+fmt2(p.A2)+") = "+fmt2(p.A1+p.A2)+". Then each pulse travels on as if the other had never been there.",
-                                   "การกระจัดบวกกันตรง ๆ: "+fmt2(p.A1)+" + ("+fmt2(p.A2)+") = "+fmt2(p.A1+p.A2)+" แล้วคลื่นดลแต่ละลูกก็เดินทางต่อเหมือนไม่เคยพบกันมาก่อน"]; }
+      explain:function(p){ return ["Displacements simply add: "+num(p.A1)+" + ("+num(p.A2)+") = "+num(p.A1+p.A2)+". Then each pulse travels on as if the other had never been there.",
+                                   "การกระจัดบวกกันตรง ๆ: "+num(p.A1)+" + ("+num(p.A2)+") = "+num(p.A1+p.A2)+" จากนั้นคลื่นดลแต่ละลูกก็เดินทางต่อ เหมือนไม่เคยพบกันเลย"]; }
     },
     trials:{
       veil:true,
@@ -220,30 +226,30 @@ nodes:[
       },
       lock:["A1","T"],
       say:function(g){
-        if(g.kind==="flat") return ["Pulse 1 has height "+g.A1+". Shape pulse 2 so that, at the meeting instant, the rope lies perfectly flat.",
-                                    "คลื่นดล 1 สูง "+g.A1+" ปั้นคลื่นดล 2 ให้เชือกแบนราบสนิทในขณะที่พบกัน"];
-        return ["Pulse 1 has height "+g.A1+". Shape pulse 2 so the rope reaches exactly "+fmt2(g.X)+" at the meeting instant.",
-                "คลื่นดล 1 สูง "+g.A1+" ปั้นคลื่นดล 2 ให้เชือกสูง "+fmt2(g.X)+" พอดีในขณะที่พบกัน"];
+        if(g.kind==="flat") return ["Pulse 1 has height "+num(g.A1)+". Shape pulse 2 so that, at the meeting instant, the rope lies perfectly flat.",
+                                    "คลื่นดล 1 สูง "+num(g.A1)+" ปรับคลื่นดล 2 ให้เชือกแบนราบสนิทตอนที่พบกัน"];
+        return ["Pulse 1 has height "+num(g.A1)+". Shape pulse 2 so the rope reaches exactly "+num(g.X)+" at the meeting instant.",
+                "คลื่นดล 1 สูง "+num(g.A1)+" ปรับคลื่นดล 2 ให้เชือกสูง "+num(g.X)+" พอดีตอนที่พบกัน"];
       },
       check:function(p,S,g){
-        if(p.A2===g.A2) return {ok:true, msg:[g.kind==="flat" ? "Flat for an instant: "+g.A1+" + ("+g.A2+") = 0 — yet both pulses re-emerge untouched. Nothing was destroyed."
-                                                               : "Exactly "+fmt2(g.X)+": y₂ = "+fmt2(g.X)+" − ("+g.A1+") = "+fmt2(g.A2)+". The rope just adds the two.",
-                                                g.kind==="flat" ? "เชือกแบนชั่วขณะ: "+g.A1+" + ("+g.A2+") = 0 แต่คลื่นดลทั้งสองก็กลับมาเหมือนเดิม ไม่มีอะไรถูกทำลาย"
-                                                               : "ได้ "+fmt2(g.X)+" พอดี: y₂ = "+fmt2(g.X)+" − ("+g.A1+") = "+fmt2(g.A2)+" เชือกแค่บวกสองคลื่นเข้าด้วยกัน"]};
-        return {ok:false, msg:["At the meeting point the rope reached "+fmt2(p.A1+p.A2)+". Heights add with their signs.",
-                               "ที่จุดพบเชือกสูง "+fmt2(p.A1+p.A2)+" ความสูงบวกกันโดยคิดเครื่องหมายด้วย"]};
+        if(p.A2===g.A2) return {ok:true, msg:[g.kind==="flat" ? "Flat for an instant: "+num(g.A1)+" + ("+num(g.A2)+") = 0 — yet both pulses re-emerge untouched. Nothing was destroyed."
+                                                               : "Exactly "+num(g.X)+": y₂ = "+num(g.X)+" − ("+num(g.A1)+") = "+num(g.A2)+". The rope just adds the two.",
+                                                g.kind==="flat" ? "เชือกแบนชั่วขณะ: "+num(g.A1)+" + ("+num(g.A2)+") = 0 แต่คลื่นดลทั้งสองก็กลับมาเหมือนเดิม ไม่มีอะไรสูญหาย"
+                                                               : "ได้ "+num(g.X)+" พอดี: y₂ = "+num(g.X)+" − ("+num(g.A1)+") = "+num(g.A2)+" เชือกแค่บวกสองคลื่นเข้าด้วยกัน"]};
+        return {ok:false, msg:["At the meeting point the rope reached "+num(p.A1+p.A2)+". Heights add with their signs.",
+                               "ที่จุดพบเชือกสูง "+num(p.A1+p.A2)+" ต้องบวกความสูงโดยคิดเครื่องหมายด้วย"]};
       }
     },
     note:["the dashed lines are each pulse alone; the glowing rope is their sum, point by point",
-          "เส้นประคือคลื่นดลแต่ละลูกเมื่อดูเดี่ยวๆ ส่วนเชือกที่เรืองแสงคือผลรวมของทั้งสองลูกทีละจุด"]
+          "เส้นประคือคลื่นดลแต่ละลูกเมื่อดูแยกกัน ส่วนเชือกที่เรืองแสงคือผลรวมของทั้งสองลูก ทีละจุด"]
   },
   guide:[
     {say:["Two crests. Press play: where they overlap the rope rises to 3 + 2 = 5, then both pulses walk away unchanged.",
-          "ยอดคลื่นสองลูก กดเล่น ตรงที่ซ้อนกัน เชือกสูงขึ้นเป็น 3 + 2 = 5 จากนั้นคลื่นดลทั้งสองก็แยกจากกันไปโดยรูปร่างไม่เปลี่ยน"], set:{A1:3,A2:2,T:3.5}},
+          "ยอดคลื่นสองลูก กดเล่นแล้วดู ตรงที่ซ้อนกันเชือกสูงขึ้นเป็น 3 + 2 = 5 จากนั้นคลื่นดลทั้งสองก็แยกกันไป โดยรูปร่างไม่เปลี่ยน"], set:{A1:3,A2:2,T:3.5}},
     {say:["A crest meets an equal trough. For one instant the rope is perfectly flat — and then both pulses reappear.",
-          "ยอดคลื่นมาพบท้องคลื่นที่ขนาดเท่ากัน ชั่วขณะหนึ่งเชือกจะแบนราบสนิท แล้วคลื่นดลทั้งสองก็กลับมาให้เห็นอีกครั้ง"], set:{A1:3,A2:-3,T:3.5}},
+          "ยอดคลื่นมาพบท้องคลื่นที่มีขนาดเท่ากัน ชั่วขณะหนึ่งเชือกจะแบนราบสนิท แล้วคลื่นดลทั้งสองก็โผล่กลับมาอีกครั้ง"], set:{A1:3,A2:-3,T:3.5}},
     {say:["Unequal crest and trough cannot fully cancel. Something always survives when the two do not match.",
-          "ยอดกับท้องที่ขนาดไม่เท่ากันหักล้างกันไม่หมด ถ้าสองลูกไม่เท่ากัน จะมีส่วนที่เหลืออยู่เสมอ"], set:{A1:4,A2:-1.5,T:3.5}}
+          "ยอดกับท้องที่ขนาดไม่เท่ากันหักล้างกันไม่หมด ถ้าสองลูกไม่เท่ากัน จะมีส่วนเหลืออยู่เสมอ"], set:{A1:4,A2:-1.5,T:3.5}}
   ]
 }
 ],
@@ -279,14 +285,14 @@ gen:{
           {v:["Twice the amplitude","สองเท่าของแอมพลิจูด"],trap:"T-01"}],unit:""};
   return {stem:["A wave has frequency "+f+" Hz. Find its period.",
                 "คลื่นมีความถี่ "+f+" เฮิรตซ์ จงหาคาบ"],
-    opts:[{v:fmt2(1/f),ok:1},{v:String(f),trap:"T-01"},{v:fmt(f*2)},{v:fmt2(2/f)}],unit:" s"};
+    opts:[{v:num(1/f),ok:1},{v:String(f),trap:"T-01"},{v:num(f*2)},{v:num(2/f)}],unit:" s"};
 },
 "M-02": function(sf){
   var f=pick([2,4,5,20,50]), lam=pick([0.4,1.5,2,3,8]);
   var v=f*lam;
-  if(sf==="S-05") return {stem:["A wave travels at "+fmt(v)+" m/s with wavelength "+lam+" m. Find its frequency.",
-                                "คลื่นเคลื่อนที่ด้วย "+fmt(v)+" ม./วินาที ความยาวคลื่น "+lam+" เมตร จงหาความถี่"],
-    opts:[{v:String(f),ok:1},{v:fmt(v*lam)},{v:fmt(lam/v)},{v:fmt(f*2)}],unit:" Hz"};
+  if(sf==="S-05") return {stem:["A wave travels at "+num(v)+" m/s with wavelength "+lam+" m. Find its frequency.",
+                                "คลื่นเคลื่อนที่ด้วย "+num(v)+" ม./วินาที ความยาวคลื่น "+lam+" เมตร จงหาความถี่"],
+    opts:[{v:String(f),ok:1},{v:num(v*lam)},{v:num(lam/v)},{v:num(f*2)}],unit:" Hz"};
   if(sf==="S-04") return {stem:["A wave passes from one medium into another where it travels faster. What happens to f and λ?",
                                 "คลื่นผ่านจากตัวกลางหนึ่งไปยังอีกตัวกลางที่คลื่นเคลื่อนที่ได้เร็วกว่า f และ λ เปลี่ยนอย่างไร"],
     opts:[{v:["f stays the same, λ increases","f เท่าเดิม λ เพิ่มขึ้น"],ok:1},
@@ -295,7 +301,7 @@ gen:{
           {v:["Both stay the same","เท่าเดิมทั้งคู่"]}],unit:""};
   return {stem:["Find the speed of a wave of frequency "+f+" Hz and wavelength "+lam+" m.",
                 "จงหาอัตราเร็วของคลื่นความถี่ "+f+" เฮิรตซ์ ความยาวคลื่น "+lam+" เมตร"],
-    opts:[{v:fmt(v),ok:1},{v:fmt(f/lam)},{v:fmt(lam/f)},{v:fmt(f+lam)}],unit:" m/s"};
+    opts:[{v:num(v),ok:1},{v:num(f/lam)},{v:num(lam/f)},{v:num(f+lam)}],unit:" m/s"};
 },
 "M-03": function(sf){
   var C=[{s:["Sound travelling through air is which kind of wave?","เสียงที่เดินทางผ่านอากาศเป็นคลื่นแบบใด"],
@@ -325,7 +331,7 @@ gen:{
           {v:["Interference","การแทรกสอด"]},{v:["Polarisation","โพลาไรเซชัน"]}],unit:""};
   return {stem:["A wave hits a boundary at "+th+"°, with speeds "+v1+" m/s and "+v2+" m/s either side. Find sin of the refracted angle.",
                 "คลื่นตกกระทบรอยต่อที่ "+th+"° โดยอัตราเร็วสองฝั่งเป็น "+v1+" และ "+v2+" ม./วินาที จงหาไซน์ของมุมหักเห"],
-    opts:[{v:fmt2(s2),ok:1},{v:fmt2(s1*v1/v2)},{v:fmt2(s1),trap:"T-02"},{v:fmt2(s2/2)}],unit:""};
+    opts:[{v:num(s2),ok:1},{v:num(s1*v1/v2)},{v:num(s1),trap:"T-02"},{v:num(s2/2)}],unit:""};
 },
 "M-05": function(sf){
   var lam=pick([2,4,5,6]), n=pick([1,2,3]);
@@ -338,10 +344,10 @@ gen:{
           {v:["Total reflection","การสะท้อนกลับหมด"]}],unit:""};
   if(sf==="S-05") return {stem:["Constructive interference is seen where the path difference is "+dc+" m, at order n = "+n+". Find the wavelength.",
                                 "พบการแทรกสอดแบบเสริมที่ผลต่างทางเดิน "+dc+" เมตร ที่อันดับ n = "+n+" จงหาความยาวคลื่น"],
-    opts:[{v:String(lam),ok:1},{v:fmt(dc),trap:"T-04"},{v:fmt(dc/2)},{v:fmt(lam*2)}],unit:" m"};
+    opts:[{v:String(lam),ok:1},{v:num(dc),trap:"T-04"},{v:num(dc/2)},{v:num(lam*2)}],unit:" m"};
   return {stem:["Two in-phase sources emit waves of wavelength "+lam+" m. Find the smallest non-zero path difference giving destructive interference.",
                 "แหล่งกำเนิดเฟสตรงกันสองแหล่งปล่อยคลื่นความยาวคลื่น "+lam+" เมตร จงหาผลต่างทางเดินที่น้อยที่สุดที่ไม่เป็นศูนย์ซึ่งให้การแทรกสอดแบบหักล้าง"],
-    opts:[{v:fmt(lam/2),ok:1},{v:String(lam),trap:"T-04"},{v:fmt(lam*2)},{v:fmt(lam/4)}],unit:" m"};
+    opts:[{v:num(lam/2),ok:1},{v:String(lam),trap:"T-04"},{v:num(lam*2)},{v:num(lam/4)}],unit:" m"};
 },
 "M-06": function(sf){
   var L=pick([0.6,1,1.2,2]), n=pick([1,2,3,4]);
@@ -350,12 +356,12 @@ gen:{
                                 "เส้นเชือกที่ถูกตรึงทั้งสองปลายสั่นในโหมดมูลฐาน บนเชือกมีความยาวคลื่นอยู่เท่าใด"],
     opts:[{v:["Half a wavelength","ครึ่งความยาวคลื่น"],ok:1},{v:["One wavelength","หนึ่งความยาวคลื่น"],trap:"T-04"},
           {v:["Two wavelengths","สองความยาวคลื่น"],trap:"T-04"},{v:["A quarter wavelength","หนึ่งในสี่ความยาวคลื่น"]}],unit:""};
-  if(sf==="S-05") return {stem:["A standing wave of wavelength "+fmt(lam)+" m sits on a string in harmonic "+n+". Find the string's length.",
-                                "คลื่นนิ่งความยาวคลื่น "+fmt(lam)+" เมตร อยู่บนเชือกในฮาร์มอนิกที่ "+n+" จงหาความยาวเชือก"],
-    opts:[{v:String(L),ok:1},{v:fmt(lam*n),trap:"T-04"},{v:fmt(lam/2)},{v:fmt(L*2)}],unit:" m"};
+  if(sf==="S-05") return {stem:["A standing wave of wavelength "+num(lam)+" m sits on a string in harmonic "+n+". Find the string's length.",
+                                "คลื่นนิ่งความยาวคลื่น "+num(lam)+" เมตร อยู่บนเชือกในฮาร์มอนิกที่ "+n+" จงหาความยาวเชือก"],
+    opts:[{v:String(L),ok:1},{v:num(lam*n),trap:"T-04"},{v:num(lam/2)},{v:num(L*2)}],unit:" m"};
   return {stem:["A string of length "+L+" m is fixed at both ends. Find the wavelength of harmonic "+n+".",
                 "เส้นเชือกยาว "+L+" เมตร ตรึงปลายทั้งสอง จงหาความยาวคลื่นของฮาร์มอนิกที่ "+n+""],
-    opts:[{v:fmt(lam),ok:1},{v:fmt(L/n),trap:"T-04"},{v:fmt(2*L*n)},{v:String(L)}],unit:" m"};
+    opts:[{v:num(lam),ok:1},{v:num(L/n),trap:"T-04"},{v:num(2*L*n)},{v:String(L)}],unit:" m"};
 }
 }
 };

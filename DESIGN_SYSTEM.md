@@ -488,3 +488,16 @@ whether labs open in the world (`edu-world`). What was read, which trials were
 solved and how predictions went live in memory for the visit only, and the
 map shows connections and the current topic, never read/trained status. Do not
 add a new key that records what a learner has done.
+
+**Numbers read like a scientist writes them.** Anything a learner reads as a
+physical value goes through `num(n, s=3)` (plain text), `numTex(n, s)` (the
+live formula) or `un(n, "m/s")` (number, no-break space, SI unit), all in
+`engine.js`: significant figures instead of fixed decimals, standard form
+(`1.60 × 10⁻¹⁹`) below 10⁻³ and from 10⁵ up, a real minus sign "−", and never
+a non-zero value shown as 0. `fmt` / `fmt2` are for SVG coordinates only, and
+axis ticks use `tk()` (which calls `num`). Units are SI symbols in both
+languages (m, m/s², kg, µ), never Thai unit words, and labels and units are
+never upper-cased (a variable `v` is not `V`). The course value is
+g = 10 m/s²; use the constants c = 3.00×10⁸, e = 1.60×10⁻¹⁹, h = 6.63×10⁻³⁴.
+Snap float residue (cos 90° = 6×10⁻¹⁷) to 0 before printing.
+`check_math.js` loads these helpers from `engine.js`, so a chapter may use them.

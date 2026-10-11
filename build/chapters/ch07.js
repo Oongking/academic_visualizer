@@ -41,26 +41,26 @@ nodes:[
       {k:"t", lab:["Time since release","เวลาหลังปล่อย"], min:.2, max:3, step:.1, def:1.5, unit:" s"}
     ],
     readouts:[
-      {lab:["Fired: fallen","ลูกที่ยิง: ตกไป"],    f:function(S){ return fmt2(4.9*S.p.t*S.p.t)+" m"; }},
-      {lab:["Dropped: fallen","ลูกที่ปล่อย: ตกไป"], f:function(S){ return fmt2(4.9*S.p.t*S.p.t)+" m"; }},
+      {lab:["Fired: fallen","ลูกที่ยิง: ตกลงไป"],    f:function(S){ return un(5*S.p.t*S.p.t,"m"); }},
+      {lab:["Dropped: fallen","ลูกที่ปล่อย: ตกลงไป"], f:function(S){ return un(5*S.p.t*S.p.t,"m"); }},
       {lab:["Difference","ต่างกัน"], f:function(){
-        return L()?"ศูนย์ — ตกพร้อมกันเสมอ":"zero — they always land together"; }},
-      {lab:["Horizontal travel","ระยะแนวราบ"], f:function(S){ return fmt2(S.p.u*S.p.t)+" m"; }}
+        return L()?"ศูนย์ — ตกถึงพื้นพร้อมกันเสมอ":"zero — they always land together"; }},
+      {lab:["Horizontal travel","ระยะแนวราบ"], f:function(S){ return un(S.p.u*S.p.t,"m"); }}
     ],
     bars:[
-      {lab:["Fired ball: drop","ลูกที่ยิง: ระยะตก"],   f:function(p){ return 4.9*p.t*p.t; }, col:"accent"},
-      {lab:["Dropped ball: drop","ลูกที่ปล่อย: ระยะตก"], f:function(p){ return 4.9*p.t*p.t; }, col:"good"},
-      {lab:["Fired ball: sideways","ลูกที่ยิง: ระยะข้าง"], f:function(p){ return p.u*p.t; }, col:"warn"}
+      {lab:["Fired ball: drop","ลูกที่ยิง: ระยะตก"],   f:function(p){ return 5*p.t*p.t; }, col:"accent"},
+      {lab:["Dropped ball: drop","ลูกที่ปล่อย: ระยะตก"], f:function(p){ return 5*p.t*p.t; }, col:"good"},
+      {lab:["Fired ball: sideways","ลูกที่ยิง: ระยะด้านข้าง"], f:function(p){ return p.u*p.t; }, col:"warn"}
     ],
-    note:["no setting can make the first two bars differ — gravity ignores sideways motion","ตั้งค่าอย่างไรสองแถบแรกก็ไม่ต่างกัน เพราะแรงโน้มถ่วงไม่เกี่ยวกับการเคลื่อนที่ไปด้านข้าง"]
+    note:["no setting can make the first two bars differ — gravity ignores sideways motion","ตั้งค่าอย่างไร สองแถบแรกก็เท่ากันเสมอ เพราะแรงโน้มถ่วงไม่สนใจการเคลื่อนที่ด้านข้าง"]
   },
   guide:[
     {say:["Both balls have fallen exactly the same distance, even though one was fired at 20 m/s.",
-          "ลูกทั้งสองตกลงมาได้ระยะเท่ากันพอดี ทั้งที่ลูกหนึ่งถูกยิงออกไปด้วยอัตราเร็ว 20 ม./วินาที"], set:{u:20,t:1.5}},
-    {say:["Triple the launch speed. The sideways bar leaps; the two drop bars do not budge.",
-          "เพิ่มอัตราเร็วที่ยิงเป็นสามเท่า แถบระยะด้านข้างพุ่งสูงขึ้น แต่แถบระยะตกสองแถบไม่ขยับเลย"], set:{u:40,t:1.5}},
+          "ลูกทั้งสองตกลงมาเป็นระยะเท่ากันพอดี ทั้งที่ลูกหนึ่งยิงออกไปด้วย 20 m/s"], set:{u:20,t:1.5}},
+    {say:["Double the launch speed. The sideways bar leaps; the two drop bars do not budge.",
+          "เพิ่มอัตราเร็วตอนยิงเป็นสองเท่า แถบระยะด้านข้างพุ่งสูงขึ้น แต่สองแถบระยะตกไม่ขยับเลย"], set:{u:40,t:1.5}},
     {say:["Set the launch speed to zero and the two situations become identical. The axes never talk.",
-          "ตั้งอัตราเร็วที่ยิงเป็นศูนย์ สองสถานการณ์จะเหมือนกันทุกอย่าง สองแกนไม่เกี่ยวข้องกันเลย"], set:{u:0,t:2.4}}
+          "ตั้งอัตราเร็วตอนยิงเป็นศูนย์ สองกรณีจะเหมือนกันทุกอย่าง สองแกนไม่เกี่ยวข้องกันเลย"], set:{u:0,t:2.4}}
   ] },
 
 { id:"projectile", x:100, y:150, requires:["independence"], methods:["M-02","M-03"],
@@ -76,18 +76,18 @@ nodes:[
     anim:true,
     spellName:["The Fireball Arc: two independent motions","วิถีลูกไฟ: สองการเคลื่อนที่อิสระต่อกัน"],
     question:["Pull back the aiming rune and cast. Why does the fireball's sideways arrow never change?",
-              "ดึงรูนเล็งแล้วร่ายเวท ทำไมลูกศรแนวราบของลูกไฟจึงไม่เปลี่ยนเลย"],
+              "ดึงรูนเล็งแล้วร่ายเวท ทำไมลูกศรแนวราบของลูกไฟถึงไม่เปลี่ยนเลย"],
     ctrls:[
       {k:"u",  lab:["Launch speed u","อัตราเร็วต้น u"], min:10, max:26, step:1, def:22, unit:" m/s"},
       {k:"th", lab:["Angle θ","มุม θ"],                  min:10, max:80, step:1, def:45, unit:"°"}
     ],
     duration:function(p,S){ return C07.shot(p,S).Tend+0.5; },
     readouts:[
-      {lab:["Range R","ระยะไกล R"], f:function(S){ return fmt(PHYS.arc(S.p.u,S.p.th,0,0).range)+" m"; }},
-      {lab:["Highest point","จุดสูงสุด"], f:function(S){ return fmt(PHYS.arc(S.p.u,S.p.th,0,0).apexY)+" m"; }},
-      {lab:["Time of flight","เวลาบิน"], f:function(S){ return fmt2(PHYS.arc(S.p.u,S.p.th,0,0).T)+" s"; }},
+      {lab:["Range R","ระยะไกล R"], f:function(S){ return un(PHYS.arc(S.p.u,S.p.th,0,0).range,"m"); }},
+      {lab:["Highest point","จุดสูงสุด"], f:function(S){ return un(PHYS.arc(S.p.u,S.p.th,0,0).apexY,"m"); }},
+      {lab:["Time of flight","เวลาบิน"], f:function(S){ return un(PHYS.arc(S.p.u,S.p.th,0,0).T,"s"); }},
       {lab:["Speed at the top","ความเร็วที่จุดสูงสุด"], f:function(S){
-        return fmt2(PHYS.arc(S.p.u,S.p.th,0,0).vx)+(L()?" ม./วิ · ไม่ใช่ศูนย์":" m/s · not zero"); }}
+        return un(PHYS.arc(S.p.u,S.p.th,0,0).vx,"m/s")+(L()?" · ไม่ใช่ศูนย์":" · not zero"); }}
     ],
     world:{ kind:"plane", left:40,
       /* fixed: 26 m/s reaches 68 m at 45° and 33 m at 80° */
@@ -116,7 +116,7 @@ nodes:[
         var ax=a.vx*a.apexT, hl=S.hl==="uy";
         o.push('<line x1="'+fmt2(W.X(ax))+'" y1="'+fmt2(W.Y(a.apexY))+'" x2="'+fmt2(W.X(ax))+'" y2="'+fmt2(W.g)+
                '" stroke="var(--ink-faint)" stroke-width="'+(hl?2:1)+'" stroke-dasharray="2 4"/>');
-        fitText(o, W.X(ax), W.Y(a.apexY)-10, [(L()?"สูงสุด ":"top ")+fmt(a.apexY)+" m", "สูงสุด "+fmt(a.apexY)+" ม."], 100, 10, "var(--ink-faint)", "middle");
+        fitText(o, W.X(ax), W.Y(a.apexY)-10, ["top "+un(a.apexY,"m"), "สูงสุด "+un(a.apexY,"m")], 100, 10, "var(--ink-faint)", "middle");
       }
       /* the fireball, and its velocity split into the two parts that never talk */
       var bx=W.X(st.x), by=W.Y(st.y), vy=st.vy, k=1.7;
@@ -131,7 +131,7 @@ nodes:[
     marks:function(p,S){
       if(S.trial) return [];
       var a=PHYS.arc(p.u,p.th,0,0);
-      return [{a:0, b:a.range, lab:["range R = "+fmt(a.range)+" m","ระยะ R = "+fmt(a.range)+" ม."], col:"accent", term:"R"}];
+      return [{a:0, b:a.range, lab:["range R = "+un(a.range,"m"),"ระยะ R = "+un(a.range,"m")], col:"accent", term:"R"}];
     },
     handles:[
       {k:"u", at:function(p){ var r=p.th*Math.PI/180, c=C07.k; return {x:Math.cos(r)*p.u*c, y:Math.sin(r)*p.u*c}; },
@@ -146,7 +146,7 @@ nodes:[
     },
     instrument:{ kind:"graph",
       xmin:0, xmax:6, ymin:-28, ymax:28,
-      xlab:["seconds","วินาที"], ylab:["m/s","ม./วิ"],
+      xlab:["seconds","วินาที"], ylab:["m/s","m/s"],
       fn:function(x,p){ var a=PHYS.arc(p.u,p.th,0,0); return a.vy0-10*Math.min(x,a.T); },
       mark:function(p,S){ return C07.shot(p,S).s.t; }
     },
@@ -159,14 +159,14 @@ nodes:[
     },
     spell:{
       tex:function(p){ var a=PHYS.arc(p.u,p.th,0,0);
-        return "R = \\dfrac{u^2\\sin 2\\theta}{g} = \\dfrac{"+p.u+"^2\\,\\sin "+(2*p.th)+"^\\circ}{10} = "+fmt(a.range)+"\\,\\text{m}"+
+        return "R = \\dfrac{u^2\\sin 2\\theta}{g} = \\dfrac{"+numTex(p.u)+"^2\\,\\sin "+numTex(2*p.th)+"^\\circ}{10} = "+numTex(a.range)+"\\,\\text{m}"+
                "\\qquad\\left[\\tfrac{(\\text{m/s})^2}{\\text{m/s}^2}=\\text{m}\\right]"; },
       terms:[
         {k:"ux", sym:"u cos θ", lab:["sideways · never changes","แนวราบ · ไม่เปลี่ยน"], col:"accent",
-         f:function(p){ return fmt2(PHYS.arc(p.u,p.th,0,0).vx)+" m/s"; }},
-        {k:"uy", sym:"u sin θ", lab:["upward · gravity eats it","แนวดิ่ง · แรงโน้มถ่วงกินไป"], col:"accent2",
-         f:function(p){ return fmt2(PHYS.arc(p.u,p.th,0,0).vy0)+" m/s"; }},
-        {k:"R", sym:"R", lab:["where it lands","จุดตก"], col:"good", f:function(p){ return fmt(PHYS.arc(p.u,p.th,0,0).range)+" m"; }}
+         f:function(p){ return un(PHYS.arc(p.u,p.th,0,0).vx,"m/s"); }},
+        {k:"uy", sym:"u sin θ", lab:["upward · gravity eats it","แนวดิ่ง · แรงโน้มถ่วงลดทอนไป"], col:"accent2",
+         f:function(p){ return un(PHYS.arc(p.u,p.th,0,0).vy0,"m/s"); }},
+        {k:"R", sym:"R", lab:["where it lands","จุดที่ตก"], col:"good", f:function(p){ return un(PHYS.arc(p.u,p.th,0,0).range,"m"); }}
       ]
     },
     predict:{ kind:"x",
@@ -174,14 +174,14 @@ nodes:[
       actual:function(p){ return PHYS.arc(p.u,p.th,0,0).range; },
       tol:function(p){ return Math.max(2, 0.06*PHYS.arc(p.u,p.th,0,0).range); },
       explain:function(p){ var a=PHYS.arc(p.u,p.th,0,0); return [
-        "R = u² sin 2θ / g = "+p.u+"² × sin "+(2*p.th)+"° / 10 = "+fmt(a.range)+" m. The flight lasts 2u sin θ / g = "+fmt2(a.T)+" s, and all that time it drifts sideways at a steady "+fmt2(a.vx)+" m/s.",
-        "R = u² sin 2θ / g = "+p.u+"² × sin "+(2*p.th)+"° / 10 = "+fmt(a.range)+" ม. บินนาน 2u sin θ / g = "+fmt2(a.T)+" วินาที และตลอดเวลานั้นเคลื่อนแนวราบคงที่ "+fmt2(a.vx)+" ม./วิ"]; }
+        "R = u² sin 2θ / g = "+num(p.u)+"² × sin "+num(2*p.th)+"° / 10 = "+un(a.range,"m")+". The flight lasts 2u sin θ / g = "+un(a.T,"s")+", and all that time it drifts sideways at a steady "+un(a.vx,"m/s")+".",
+        "R = u² sin 2θ / g = "+num(p.u)+"² × sin "+num(2*p.th)+"° / 10 = "+un(a.range,"m")+" ลูกไฟบินอยู่นาน 2u sin θ / g = "+un(a.T,"s")+" และตลอดเวลานั้นมันเคลื่อนไปทางด้านข้างด้วยอัตราเร็วคงที่ "+un(a.vx,"m/s")]; }
     },
     trials:{
       veil:true,
       make:function(){
         var kind=pick(["land","twin","top","wall"]);
-        if(kind==="land"){ var u=ri(12,26); return {kind:kind, u:u, D:u*u/10, lock:["th"], set:{th:45, u:(u>20?12:28)}}; }
+        if(kind==="land"){ var u=ri(12,26); return {kind:kind, u:u, D:u*u/10, lock:["th"], set:{th:45, u:(u>20?12:26)}}; }
         if(kind==="twin"){ var u2=ri(16,26), t1=pick([20,25,30,35,40]);
           return {kind:kind, u:u2, t1:t1, D:u2*u2*Math.sin(2*t1*Math.PI/180)/10, set:{u:u2, th:t1}}; }
         if(kind==="top"){ var ts=pick([30,40,50,60]); return {kind:kind, u:20, ts:ts, X:20*Math.cos(ts*Math.PI/180), set:{u:20, th:78}}; }
@@ -190,53 +190,53 @@ nodes:[
       },
       lockFor:function(g){ return g.kind==="land" ? ["th"] : ["u"]; },
       say:function(g){
-        if(g.kind==="land") return ["Launching at 45°, choose the speed that lands the fireball on the rune circle "+fmt2(g.D)+" m away.",
-                                    "ยิงที่มุม 45° เลือกอัตราเร็วที่ทำให้ลูกไฟตกบนวงรูนที่ห่าง "+fmt2(g.D)+" ม."];
-        if(g.kind==="twin") return ["At "+g.u+" m/s and "+g.t1+"°, the fireball lands on the rune "+fmt(g.D)+" m away. Find the other angle that lands on the very same rune.",
-                                    "ที่ "+g.u+" ม./วิ และมุม "+g.t1+"° ลูกไฟตกบนรูนที่ห่าง "+fmt(g.D)+" ม. จงหามุมอีกมุมหนึ่งที่ตกบนรูนเดียวกันพอดี"];
-        if(g.kind==="top") return ["At "+g.u+" m/s, set the angle so that at the very top of its arc the fireball is moving at exactly "+fmt2(g.X)+" m/s.",
-                                   "ที่ "+g.u+" ม./วิ ตั้งมุมให้ลูกไฟมีอัตราเร็ว "+fmt2(g.X)+" ม./วิ พอดีที่จุดสูงสุดของวิถี"];
-        return ["A portal opens in the castle wall "+fmt(g.D)+" m away and "+fmt(g.H)+" m up — exactly where your "+g.u+" m/s fireball must reach the top of its arc. Choose the angle.",
-                "ประตูมิติเปิดบนกำแพงปราสาทที่ห่าง "+fmt(g.D)+" ม. สูง "+fmt(g.H)+" ม. ตรงที่ลูกไฟ "+g.u+" ม./วิ ต้องขึ้นถึงจุดสูงสุดพอดี จงเลือกมุม"];
+        if(g.kind==="land") return ["Launching at 45°, choose the speed that lands the fireball on the rune circle "+un(g.D,"m")+" away.",
+                                    "ยิงที่มุม 45° เลือกอัตราเร็วให้ลูกไฟตกบนวงรูนที่อยู่ห่างออกไป "+un(g.D,"m")];
+        if(g.kind==="twin") return ["At "+g.u+" m/s and "+g.t1+"°, the fireball lands on the rune "+un(g.D,"m")+" away. Find the other angle that lands on the very same rune.",
+                                    "ที่ "+g.u+" m/s และมุม "+g.t1+"° ลูกไฟตกบนรูนที่ห่างออกไป "+un(g.D,"m")+" ลองหามุมอีกมุมที่ตกบนรูนเดียวกันพอดี"];
+        if(g.kind==="top") return ["At "+g.u+" m/s, set the angle so that at the very top of its arc the fireball is moving at exactly "+un(g.X,"m/s")+".",
+                                   "ที่ "+g.u+" m/s ตั้งมุมให้ลูกไฟมีอัตราเร็ว "+un(g.X,"m/s")+" พอดีที่จุดสูงสุดของวิถี"];
+        return ["A portal opens in the castle wall "+un(g.D,"m")+" away and "+un(g.H,"m")+" up — exactly where your "+g.u+" m/s fireball must reach the top of its arc. Choose the angle.",
+                "ประตูมิติเปิดบนกำแพงปราสาทที่ห่างออกไป "+un(g.D,"m")+" สูง "+un(g.H,"m")+" ตรงจุดที่ลูกไฟ "+g.u+" m/s ต้องขึ้นไปถึงจุดสูงสุดพอดี เลือกมุมเลย"];
       },
       at:function(g){ return g.kind==="wall" ? {x:g.D, y:g.H} : {x:g.D||0, y:0}; },
       check:function(p,S,g){
         var a=PHYS.arc(p.u,p.th,0,0);
         if(g.kind==="land"){
-          if(Math.abs(p.u-g.u)<0.5) return {ok:true, msg:["On the rune. At 45°, sin 2θ = 1, so R = u² / g and u = √(gR) = √(10 × "+fmt2(g.D)+") = "+g.u+" m/s.",
-                                                            "ตกบนรูนพอดี ที่ 45° sin 2θ = 1 ดังนั้น R = u² / g และ u = √(gR) = √(10 × "+fmt2(g.D)+") = "+g.u+" ม./วิ"]};
-          return {ok:false, msg:["It landed at "+fmt(a.range)+" m. At 45° the range is just u² / g.","ตกที่ "+fmt(a.range)+" ม. ที่ 45° ระยะคือ u² / g เท่านั้น"]};
+          if(Math.abs(p.u-g.u)<0.5) return {ok:true, msg:["On the rune. At 45°, sin 2θ = 1, so R = u² / g and u = √(gR) = √(10 × "+num(g.D)+") = "+g.u+" m/s.",
+                                                            "ตกบนรูนพอดี ที่ 45° sin 2θ = 1 ดังนั้น R = u² / g และ u = √(gR) = √(10 × "+num(g.D)+") = "+g.u+" m/s"]};
+          return {ok:false, msg:["It landed at "+un(a.range,"m")+". At 45° the range is just u² / g.","ตกที่ระยะ "+un(a.range,"m")+" ที่ 45° ระยะที่ได้คือ u² / g เท่านั้น"]};
         }
         if(g.kind==="twin"){
           if(Math.abs(p.th-(90-g.t1))<0.5) return {ok:true, msg:["Same rune, different route. sin 2θ is the same for θ and 90° − θ, so "+g.t1+"° and "+(90-g.t1)+"° are twins.",
-                                                                  "รูนเดียวกัน คนละเส้นทาง sin 2θ มีค่าเท่ากันที่ θ และ 90° − θ มุม "+g.t1+"° กับ "+(90-g.t1)+"° จึงเป็นมุมคู่แฝด"]};
-          if(Math.abs(p.th-g.t1)<0.5) return {ok:false, msg:["That is the angle you were given. Find its twin.","นั่นคือมุมที่โจทย์ให้มา ลองหามุมคู่ของมัน"]};
-          return {ok:false, msg:["It landed at "+fmt(a.range)+" m. Which angle has the same sin 2θ as "+g.t1+"°?","ตกที่ "+fmt(a.range)+" ม. มุมใดมี sin 2θ เท่ากับมุม "+g.t1+"°"]};
+                                                                  "รูนเดียวกัน คนละเส้นทาง sin 2θ มีค่าเท่ากันที่ θ และ 90° − θ ดังนั้นมุม "+g.t1+"° กับ "+(90-g.t1)+"° จึงเป็นมุมคู่แฝด"]};
+          if(Math.abs(p.th-g.t1)<0.5) return {ok:false, msg:["That is the angle you were given. Find its twin.","นั่นคือมุมที่โจทย์ให้มา ลองหามุมคู่แฝดของมัน"]};
+          return {ok:false, msg:["It landed at "+un(a.range,"m")+". Which angle has the same sin 2θ as "+g.t1+"°?","ตกที่ระยะ "+un(a.range,"m")+" มุมใดมี sin 2θ เท่ากับมุม "+g.t1+"°"]};
         }
         if(g.kind==="top"){
-          if(Math.abs(p.th-g.ts)<0.5) return {ok:true, msg:["At the top the upward part is zero, but the sideways part u cos θ = "+g.u+" × cos "+g.ts+"° = "+fmt2(g.X)+" m/s carries on. The fireball never stops at the top.",
-                                                             "ที่จุดสูงสุดส่วนแนวดิ่งเป็นศูนย์ แต่ส่วนแนวราบ u cos θ = "+g.u+" × cos "+g.ts+"° = "+fmt2(g.X)+" ม./วิ ยังคงอยู่ ลูกไฟไม่เคยหยุดที่จุดสูงสุด"]};
-          return {ok:false, msg:["At the top it moved at "+fmt2(a.vx)+" m/s. Trap T-02: the speed at the top is not zero — it is u cos θ. Solve cos θ = "+fmt2(g.X)+" / "+g.u+".",
-                                 "ที่จุดสูงสุดเคลื่อนที่ "+fmt2(a.vx)+" ม./วิ กับดัก T-02: อัตราเร็วที่จุดสูงสุดไม่ใช่ศูนย์ แต่เป็น u cos θ แก้ cos θ = "+fmt2(g.X)+" / "+g.u]};
+          if(Math.abs(p.th-g.ts)<0.5) return {ok:true, msg:["At the top the upward part is zero, but the sideways part u cos θ = "+g.u+" × cos "+g.ts+"° = "+un(g.X,"m/s")+" carries on. The fireball never stops at the top.",
+                                                             "ที่จุดสูงสุด ส่วนแนวดิ่งเป็นศูนย์ แต่ส่วนแนวราบ u cos θ = "+g.u+" × cos "+g.ts+"° = "+un(g.X,"m/s")+" ยังอยู่ ลูกไฟไม่เคยหยุดที่จุดสูงสุด"]};
+          return {ok:false, msg:["At the top it moved at "+un(a.vx,"m/s")+". Trap T-02: the speed at the top is not zero — it is u cos θ. Solve cos θ = "+num(g.X)+" / "+g.u+".",
+                                 "ที่จุดสูงสุดลูกไฟเคลื่อนที่ด้วย "+un(a.vx,"m/s")+" กับดัก T-02: อัตราเร็วที่จุดสูงสุดไม่ใช่ศูนย์ แต่เป็น u cos θ ให้แก้ cos θ = "+num(g.X)+" / "+g.u]};
         }
         var sh=C07.shot(p,{t:0, trial:{goal:g}});
-        if(sh.through) return {ok:true, msg:["Straight through the portal. The top of the arc is H = (u sin θ)² / 2g, so sin θ = √(2gH) / u = √(20 × "+fmt(g.H)+") / "+g.u+" → θ = "+g.tw+"°.",
-                                              "ผ่านประตูมิติพอดี จุดสูงสุดคือ H = (u sin θ)² / 2g ดังนั้น sin θ = √(2gH) / u = √(20 × "+fmt(g.H)+") / "+g.u+" → θ = "+g.tw+"°"]};
+        if(sh.through) return {ok:true, msg:["Straight through the portal. The top of the arc is H = (u sin θ)² / 2g, so sin θ = √(2gH) / u = √(20 × "+num(g.H)+") / "+g.u+" → θ = "+g.tw+"°.",
+                                              "ผ่านประตูมิติพอดี จุดสูงสุดคือ H = (u sin θ)² / 2g ดังนั้น sin θ = √(2gH) / u = √(20 × "+num(g.H)+") / "+g.u+" → θ = "+g.tw+"°"]};
         var y=PHYS.arcYAt(p.u,p.th,0,g.D);
-        return {ok:false, msg:[y==null ? "It fell short of the wall." : "It struck the wall "+fmt(y)+" m up; the portal is at "+fmt(g.H)+" m. The top of the arc is H = (u sin θ)² / 2g.",
-                               y==null ? "ตกก่อนถึงกำแพง" : "ชนกำแพงที่ความสูง "+fmt(y)+" ม. แต่ประตูอยู่ที่ "+fmt(g.H)+" ม. จุดสูงสุดคือ H = (u sin θ)² / 2g"]};
+        return {ok:false, msg:[y==null ? "It fell short of the wall." : "It struck the wall "+un(y,"m")+" up; the portal is at "+un(g.H,"m")+". The top of the arc is H = (u sin θ)² / 2g.",
+                               y==null ? "ตกก่อนถึงกำแพง" : "ชนกำแพงที่ความสูง "+un(y,"m")+" แต่ประตูอยู่ที่ "+un(g.H,"m")+" จุดสูงสุดคือ H = (u sin θ)² / 2g"]};
       }
     },
     note:["two arrows, two separate stories: the sideways one never changes, the upward one is eaten by gravity at 10 m/s every second",
-          "ลูกศรสองอัน คนละเรื่องกัน อันแนวราบไม่เปลี่ยนเลย ส่วนอันแนวขึ้นถูกแรงโน้มถ่วงลดลง 10 ม./วินาที ทุกวินาที"]
+          "ลูกศรสองอัน คนละเรื่องกัน อันแนวราบไม่เปลี่ยนเลย ส่วนอันแนวขึ้นลดลง 10 m/s ทุกวินาที เพราะแรงโน้มถ่วง"]
   },
   guide:[
     {say:["Launch at 45° and cast. The dashed line was your aim; the glowing trail is the flight.",
           "ยิงที่ 45° แล้วร่ายเวท เส้นประคือทิศที่เล็ง ส่วนรอยเรืองแสงคือเส้นทางที่ลูกไฟบินจริง"], set:{u:22,th:45}},
     {say:["Watch the two arrows on the fireball. The sideways one never changes length; the upward one shrinks, vanishes at the top, then points down.",
-          "ดูลูกศรสองอันบนลูกไฟ อันแนวราบยาวเท่าเดิมตลอด ส่วนอันแนวดิ่งสั้นลงเรื่อยๆ จนหายไปที่จุดสูงสุด แล้วกลับมาชี้ลง"], set:{u:22,th:60}},
+          "ดูลูกศรสองอันบนลูกไฟ อันแนวราบยาวเท่าเดิมตลอด ส่วนอันแนวดิ่งสั้นลงจนหายไปที่จุดสูงสุด แล้วกลับมาชี้ลง"], set:{u:22,th:60}},
     {say:["Cast at 30°, then at 60°. The faint trail is your last cast: the two land on the same spot by very different routes, because 30 + 60 = 90.",
-          "ร่ายที่ 30° แล้วร่ายที่ 60° รอยจางคือครั้งก่อนหน้า ทั้งสองครั้งตกที่จุดเดียวกัน แต่เส้นทางต่างกันมาก เพราะ 30 + 60 = 90"], set:{u:22,th:30}}
+          "ร่ายที่ 30° แล้วร่ายที่ 60° รอยจางคือการร่ายครั้งก่อน สองครั้งนี้ตกที่จุดเดียวกัน แต่เส้นทางต่างกันมาก เพราะ 30 + 60 = 90"], set:{u:22,th:30}}
   ]
 },
 
@@ -262,14 +262,14 @@ nodes:[
     ],
     readouts:[
       {lab:["Force needed","แรงที่ต้องใช้"], f:function(S){
-        return fmt2(S.p.m*S.p.v*S.p.v/S.p.r)+" N"; }},
-      {lab:["Acceleration","ความเร่ง"], f:function(S){ return fmt2(S.p.v*S.p.v/S.p.r)+" m/s²"; }},
-      {lab:["Double the speed?","อัตราเร็วสองเท่า?"], f:function(){
+        return un(S.p.m*S.p.v*S.p.v/S.p.r,"N"); }},
+      {lab:["Acceleration","ความเร่ง"], f:function(S){ return un(S.p.v*S.p.v/S.p.r,"m/s²"); }},
+      {lab:["Double the speed?","เพิ่มอัตราเร็วเป็นสองเท่า?"], f:function(){
         return L()?"ต้องใช้แรงสี่เท่า":"you need four times the force"; }},
       {lab:["Direction of the force","ทิศของแรง"], f:function(){
         return L()?"เข้าหาศูนย์กลางเสมอ":"always towards the centre"; }}
     ],
-    note:["the curve is a parabola, not a line — that is why fast corners are so much harder","กราฟเป็นพาราโบลา ไม่ใช่เส้นตรง เพราะอย่างนี้การเข้าโค้งด้วยความเร็วสูงจึงยากกว่ามาก"]
+    note:["the curve is a parabola, not a line — that is why fast corners are so much harder","กราฟเป็นพาราโบลา ไม่ใช่เส้นตรง ด้วยเหตุนี้การเข้าโค้งเร็วๆ จึงยากกว่ามาก"]
   } },
 
 { id:"centripetal", x:370, y:248, requires:["circular"], methods:["M-05"],
@@ -283,9 +283,9 @@ nodes:[
   viz:"vector",
   guide:[
     {say:["Velocity is the tangent; acceleration points to the centre. They are always at 90° to each other.",
-          "ความเร็วอยู่ในแนวเส้นสัมผัส ส่วนความเร่งชี้เข้าหาศูนย์กลาง สองทิศนี้ตั้งฉากกัน 90° เสมอ"], set:{A:12,tA:0,B:12,tB:90}},
+          "ความเร็วอยู่ในแนวเส้นสัมผัส ส่วนความเร่งชี้เข้าหาศูนย์กลาง สองทิศนี้ทำมุม 90° ต่อกันเสมอ"], set:{A:12,tA:0,B:12,tB:90}},
     {say:["Because the force is always perpendicular to the motion, it does no work — the speed never changes.",
-          "แรงตั้งฉากกับการเคลื่อนที่ตลอดเวลา จึงไม่ทำงาน อัตราเร็วจึงไม่เปลี่ยน"], set:{A:14,tA:0,B:6,tB:90}}
+          "แรงตั้งฉากกับการเคลื่อนที่ตลอดเวลา จึงไม่ทำงาน และอัตราเร็วไม่เปลี่ยน"], set:{A:14,tA:0,B:6,tB:90}}
   ]},
 
 { id:"gravitation", x:235, y:346, requires:["centripetal"], methods:["M-06"],
@@ -299,25 +299,25 @@ nodes:[
   viz:"plot",
   vizcfg:{
     title:["GRAVITY FALLS OFF AS THE SQUARE","แรงโน้มถ่วงลดลงตามกำลังสอง"],
-    xlab:["distance in Earth radii","ระยะทางเป็นเท่าของรัศมีโลก"], ylab:["field strength (N/kg)","ความเข้มสนาม (N/kg)"],
+    xlab:["distance in Earth radii","ระยะห่างเป็นกี่เท่าของรัศมีโลก"], ylab:["field strength (N/kg)","ความเข้มสนาม (N/kg)"],
     xmin:1, xmax:10, ymin:0, fill:false,
     fn:function(x,p){ return p.g0/(x*x); },
     mark:function(p){ return p.r; },
     ctrls:[
-      {k:"g0", lab:["Surface value","ค่าที่ผิว"], min:2, max:12, step:.2, def:9.8, unit:" N/kg"},
+      {k:"g0", lab:["Surface value","ค่าที่ผิว"], min:2, max:12, step:.2, def:10, unit:" N/kg"},
       {k:"r",  lab:["Distance","ระยะทาง"],        min:1, max:9.5, step:.1, def:1, unit:" R"}
     ],
     readouts:[
-      {lab:["Field strength there","ความเข้มสนาม ณ ที่นั้น"], f:function(S){
-        return fmt2(S.p.g0/(S.p.r*S.p.r))+" N/kg"; }},
+      {lab:["Field strength there","ความเข้มสนามที่ตำแหน่งนั้น"], f:function(S){
+        return un(S.p.g0/(S.p.r*S.p.r),"N/kg"); }},
       {lab:["Fraction of surface value","สัดส่วนของค่าที่ผิว"], f:function(S){
-        return fmt2(100/(S.p.r*S.p.r))+" %"; }},
-      {lab:["Double the distance?","ระยะทางสองเท่า?"], f:function(){
+        return un(100/(S.p.r*S.p.r),"%"); }},
+      {lab:["Double the distance?","ระยะห่างเป็นสองเท่า?"], f:function(){
         return L()?"เหลือหนึ่งในสี่ ไม่ใช่ครึ่ง":"a quarter, not a half"; }},
       {lab:["Does it ever reach zero?","เป็นศูนย์ได้ไหม"], f:function(){
-        return L()?"ไม่ — เข้าใกล้แต่ไม่ถึง":"no — it approaches but never arrives"; }}
+        return L()?"ไม่ — เข้าใกล้ศูนย์แต่ไม่ถึง":"no — it approaches but never arrives"; }}
     ],
-    note:["halving is not enough — at twice the distance the field is a quarter","ลดลงครึ่งหนึ่งยังไม่พอ ที่ระยะไกลเป็นสองเท่า สนามจะเหลือหนึ่งในสี่"]
+    note:["halving is not enough — at twice the distance the field is a quarter","ลดครึ่งเดียวยังไม่พอ ที่ระยะเป็นสองเท่า สนามเหลือแค่หนึ่งในสี่"]
   } }
 ],
 
@@ -348,7 +348,7 @@ gen:{
           {v:["The vertical component, u sin θ","องค์ประกอบแนวดิ่ง u sin θ"],trap:"T-02"},
           {v:["The full speed u","อัตราเร็วเต็ม u"],trap:"T-01"},
           {v:["Neither component","ไม่มีองค์ประกอบใด"]}],unit:""};
-  return {stem:["A ball is launched at "+u+" m/s and "+th+"°. Find its initial vertical velocity.",
+  return {stem:["A ball is launched at "+u+" m/s and "+th+"°. Find its initial vertical velocity.",
                 "ยิงลูกบอลด้วย "+u+" ม./วินาที ที่มุม "+th+"° จงหาความเร็วแนวดิ่งเริ่มต้น"],
     opts:[{v:fmt(u*S),ok:1},{v:fmt(u*C),trap:"T-01"},{v:String(u),trap:"T-01"},{v:fmt(u*S/2)}],unit:" m/s"};
 },
@@ -356,14 +356,14 @@ gen:{
   var u=pick([20,30,40]), th=pick([30,45,60]), g=10;
   var S={30:0.5,45:0.707,60:0.866}[th], uy=u*S;
   var tf=2*uy/g, H=uy*uy/(2*g);
-  if(sf==="S-02"||sf==="S-05") return {stem:["A projectile reaches a maximum height of "+fmt(H)+" m. Find its initial vertical velocity, with g = 10 m/s².",
+  if(sf==="S-02"||sf==="S-05") return {stem:["A projectile reaches a maximum height of "+fmt(H)+" m. Find its initial vertical velocity, with g = 10 m/s².",
                                              "วัตถุขึ้นถึงความสูงสุด "+fmt(H)+" เมตร ให้ g = 10 ม./วินาที² จงหาความเร็วแนวดิ่งเริ่มต้น"],
     opts:[{v:fmt(uy),ok:1},{v:fmt(2*H/g)},{v:fmt(H*g)},{v:fmt(uy*2)}],unit:" m/s"};
   if(sf==="S-04") return {stem:["How does the time to reach the top compare with the total flight time?",
                                 "เวลาที่วัตถุขึ้นไปถึงจุดสูงสุดเทียบกับเวลาบินทั้งหมดเป็นอย่างไร"],
     opts:[{v:["It is exactly half","เป็นครึ่งหนึ่งพอดี"],ok:1},{v:["It is the same","เท่ากัน"],trap:"T-02"},
           {v:["It is one third","เป็นหนึ่งในสาม"]},{v:["It depends on the angle","ขึ้นกับมุม"]}],unit:""};
-  return {stem:["A ball is launched at "+u+" m/s and "+th+"° over level ground. Find its time of flight, with g = 10 m/s².",
+  return {stem:["A ball is launched at "+u+" m/s and "+th+"° over level ground. Find its time of flight, with g = 10 m/s².",
                 "ยิงลูกบอลด้วย "+u+" ม./วินาที ที่ "+th+"° บนพื้นราบ ให้ g = 10 ม./วินาที² จงหาเวลาบิน"],
     opts:[{v:fmt(tf),ok:1},{v:fmt(tf/2),trap:"T-02"},{v:fmt(u/g),trap:"T-01"},{v:fmt(H)}],unit:" s"};
 },
@@ -373,23 +373,23 @@ gen:{
   if(sf==="S-04") return {stem:["Which pair of launch angles gives the same range?",
                                 "มุมยิงคู่ใดให้ระยะเท่ากัน"],
     opts:[{v:"30° and 60°",ok:1},{v:"30° and 45°"},{v:"20° and 80°"},{v:"45° and 90°"}],unit:""};
-  if(sf==="S-05") return {stem:["A projectile launched at 45° travels "+fmt(u*u/g)+" m. Find its launch speed, with g = 10 m/s².",
+  if(sf==="S-05") return {stem:["A projectile launched at 45° travels "+fmt(u*u/g)+" m. Find its launch speed, with g = 10 m/s².",
                                 "วัตถุที่ยิงด้วยมุม 45° ไปได้ไกล "+fmt(u*u/g)+" เมตร ให้ g = 10 ม./วินาที² จงหาอัตราเร็วต้น"],
     opts:[{v:String(u),ok:1},{v:fmt(u*u/g)},{v:fmt(u/2)},{v:fmt(u*Math.SQRT2)}],unit:" m/s"};
-  return {stem:["Find the range of a projectile launched at "+u+" m/s and "+th+"°, with g = 10 m/s².",
+  return {stem:["Find the range of a projectile launched at "+u+" m/s and "+th+"°, with g = 10 m/s².",
                 "จงหาระยะของวัตถุที่ยิงด้วย "+u+" ม./วินาที ที่ "+th+"° ให้ g = 10 ม./วินาที²"],
     opts:[{v:fmt(R),ok:1},{v:fmt(u*u/g),trap:"T-01"},{v:fmt(R/2)},{v:fmt(u*Math.sin(th*Math.PI/180)/g)}],unit:" m"};
 },
 "M-04": function(sf){
   var T=pick([0.5,2,4,5]), R=pick([0.5,2,3,4]);
   var w=2*Math.PI/T, v=w*R;
-  if(sf==="S-05") return {stem:["A point moves in a circle of radius "+R+" m at "+fmt(v)+" m/s. Find its angular speed.",
+  if(sf==="S-05") return {stem:["A point moves in a circle of radius "+R+" m at "+fmt(v)+" m/s. Find its angular speed.",
                                 "จุดหนึ่งเคลื่อนที่เป็นวงกลมรัศมี "+R+" เมตร ด้วย "+fmt(v)+" ม./วินาที จงหาอัตราเร็วเชิงมุม"],
     opts:[{v:fmt(w),ok:1},{v:fmt(v*R),trap:"T-04"},{v:fmt(v/(2*R)),trap:"T-04"},{v:fmt(v)}],unit:" rad/s"};
   if(sf==="S-04") return {stem:["A wheel completes one revolution in time T. What is its angular speed?",
                                 "ล้อหมุนครบหนึ่งรอบใช้เวลา T อัตราเร็วเชิงมุมเท่าไร"],
     opts:[{v:"2π / T",ok:1},{v:"360 / T",trap:"T-04"},{v:"1 / T"},{v:"π / T"}],unit:""};
-  return {stem:["An object circles with period "+T+" s at radius "+R+" m. Find its linear speed.",
+  return {stem:["An object circles with period "+T+" s at radius "+R+" m. Find its linear speed.",
                 "วัตถุเคลื่อนที่เป็นวงกลม คาบ "+T+" วินาที รัศมี "+R+" เมตร จงหาอัตราเร็วเชิงเส้น"],
     opts:[{v:fmt(v),ok:1},{v:fmt(v*2),trap:"T-04"},{v:fmt(R/T)},{v:fmt(w)}],unit:" m/s"};
 },
@@ -402,10 +402,10 @@ gen:{
           {v:["An extra centripetal force acting inward","แรงสู่ศูนย์กลางพิเศษที่กระทำเข้าใน"],trap:"T-03"},
           {v:["The weight of the car","น้ำหนักของรถ"]},
           {v:["The normal force from the road","แรงตั้งฉากจากถนน"]}],unit:""};
-  if(sf==="S-05") return {stem:["A "+m+" kg mass needs "+fmt(F)+" N to circle at radius "+R+" m. Find its speed.",
+  if(sf==="S-05") return {stem:["A "+m+" kg mass needs "+fmt(F)+" N to circle at radius "+R+" m. Find its speed.",
                                 "มวล "+m+" กิโลกรัม ต้องใช้แรง "+fmt(F)+" นิวตัน เพื่อวิ่งเป็นวงกลมรัศมี "+R+" เมตร จงหาอัตราเร็ว"],
     opts:[{v:String(v),ok:1},{v:fmt(F*R/m),trap:"T-04"},{v:fmt(F/m)},{v:fmt(v*2)}],unit:" m/s"};
-  return {stem:["A "+m+" kg body moves at "+v+" m/s in a circle of radius "+R+" m. Find the centripetal force.",
+  return {stem:["A "+m+" kg body moves at "+v+" m/s in a circle of radius "+R+" m. Find the centripetal force.",
                 "วัตถุมวล "+m+" กิโลกรัม เคลื่อนที่ด้วย "+v+" ม./วินาที เป็นวงกลมรัศมี "+R+" เมตร จงหาแรงสู่ศูนย์กลาง"],
     opts:[{v:fmt(F),ok:1},{v:fmt(m*v/R)},{v:fmt(m*v*v/(2*R)),trap:"T-04"},{v:fmt(m*v*v*R)}],unit:" N"};
 },

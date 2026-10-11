@@ -27,14 +27,14 @@ nodes:[
       {lab:["The rule","กฎ"], f:function(){
         return L()?"หนึ่งอินพุตให้ได้เอาต์พุตเดียวเท่านั้น":"each input may have exactly one output"; }},
       {lab:["Repeated outputs","เอาต์พุตซ้ำ"], f:function(){
-        return L()?"อนุญาต — ห้ามเฉพาะอินพุตซ้ำ":"allowed — only repeated inputs are fatal"; }}
+        return L()?"ซ้ำได้ — ที่ซ้ำไม่ได้มีแต่อินพุต":"allowed — only repeated inputs are fatal"; }}
     ],
     rows:function(p){
       var R=[[["{(1,2),(2,4),(3,6)}","{(1,2),(2,4),(3,6)}"],["yes","ใช่"],["every input used once","อินพุตแต่ละตัวใช้ครั้งเดียว"]],
              [["{(1,2),(1,5),(2,4)}","{(1,2),(1,5),(2,4)}"],["no","ไม่"],["input 1 has two outputs","อินพุต 1 มีสองเอาต์พุต"]],
              [["{(1,7),(2,7),(3,7)}","{(1,7),(2,7),(3,7)}"],["yes","ใช่"],["repeated OUTPUTS are fine","เอาต์พุตซ้ำไม่เป็นไร"]],
              [["y² = x","y² = x"],["no","ไม่"],["x = 4 gives y = ±2","x = 4 ให้ y = ±2"]],
-             [["y = x²","y = x²"],["yes","ใช่"],["one y for every x","แต่ละ x ให้ y เดียว"]]];
+             [["y = x²","y = x²"],["yes","ใช่"],["one y for every x","ทุก x ให้ y ตัวเดียว"]]];
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===1?([1,0,1,0,1][i]?"good":"warn"):"accent"}; }); });
     },
@@ -71,7 +71,7 @@ nodes:[
               {a:R[0],b:R[1],col:"good",lab:["range (outputs)","เรนจ์ (เอาต์พุต)"]}];
     },
     points:function(p){
-      return p.f===1 ? [{v:0, lab:["excluded","ถูกตัดออก"], col:"warn", open:true}] : [];
+      return p.f===1 ? [{v:0, lab:["excluded","ตัดออก"], col:"warn", open:true}] : [];
     },
     note:["the domain is what you are allowed to feed in; the range is what can actually come out","โดเมนคือค่าที่ใส่เข้าไปได้ เรนจ์คือค่าที่ออกมาได้จริง"]
   } },
@@ -109,7 +109,7 @@ nodes:[
       {lab:["Vertical line meets the curve at","เส้นแนวตั้งพบกราฟที่"], f:function(S){
         var m=S.p.mode;
         var F=function(v){ return m===0?2*v-1 : m===1?0.5*v*v-3 : m===2?v*v*v/8 : Math.sqrt(Math.max(0,16-v*v)); };
-        return fmt2(F(S.p.c))+(L()?" · ค่าเดียว จึงเป็นฟังก์ชัน":" · one value, so it is a function"); }},
+        return num(F(S.p.c))+(L()?" · ค่าเดียว จึงเป็นฟังก์ชัน":" · one value, so it is a function"); }},
       {lab:["Horizontal line crossings","จำนวนจุดตัดของเส้นแนวนอน"], f:function(S){
         var m=S.p.mode, k=S.p.k, n=0, prev=null;
         var F=function(v){ return m===0?2*v-1 : m===1?0.5*v*v-3 : m===2?v*v*v/8 : Math.sqrt(Math.max(0,16-v*v)); };
@@ -119,7 +119,7 @@ nodes:[
           if(prev!==null && s!==prev) n++;
           prev=s;
         }
-        return String(n)+(n>1?(L()?" จุด · ไม่เป็น 1-1":" · not one-to-one"):(L()?" จุด":"")); }},
+        return String(n)+(n>1?(L()?" จุด · ไม่เป็นหนึ่งต่อหนึ่ง":" · not one-to-one"):(L()?" จุด":"")); }},
       {lab:["One-to-one","หนึ่งต่อหนึ่ง"], f:function(S){
         var one=(S.p.mode===0||S.p.mode===2);
         return one?(L()?"ใช่":"Yes"):(L()?"ไม่ใช่":"No"); }},
@@ -133,13 +133,13 @@ nodes:[
   },
   guide:[
     {say:["Start with the straight line. Slide the vertical marker anywhere you like — it always meets the curve exactly once, so this relation is a function. The horizontal line crosses once as well, so it is one-to-one into the bargain.",
-          "เริ่มจากเส้นตรง เลื่อนเครื่องหมายแนวตั้งไปตรงไหนก็ได้ จะตัดกราฟหนึ่งจุดเสมอ ความสัมพันธ์นี้จึงเป็นฟังก์ชัน เส้นแนวนอนก็ตัดจุดเดียวเหมือนกัน จึงเป็นหนึ่งต่อหนึ่งด้วย"], set:{mode:0,c:2,k:3}},
+          "เริ่มจากเส้นตรง เลื่อนเส้นแนวตั้งไปตรงไหนก็ตัดกราฟจุดเดียวเสมอ ความสัมพันธ์นี้จึงเป็นฟังก์ชัน เส้นแนวนอนก็ตัดจุดเดียวเหมือนกัน จึงเป็นหนึ่งต่อหนึ่งด้วย"], set:{mode:0,c:2,k:3}},
     {say:["Now the parabola. The vertical line still cuts once, so it is still a function. But the horizontal line finds two crossings: two different inputs deliver the same output, and one-to-one has failed.",
-          "ต่อไปคือพาราโบลา เส้นแนวตั้งยังตัดจุดเดียว จึงยังเป็นฟังก์ชัน แต่เส้นแนวนอนตัดสองจุด แปลว่าอินพุตสองตัวที่ต่างกันให้เอาต์พุตเดียวกัน จึงไม่เป็นหนึ่งต่อหนึ่ง"], set:{mode:1,c:2,k:1}},
+          "ต่อไปคือพาราโบลา เส้นแนวตั้งยังตัดจุดเดียว จึงยังเป็นฟังก์ชัน แต่เส้นแนวนอนตัดสองจุด แปลว่ามีอินพุตต่างกันสองตัวที่ให้เอาต์พุตเดียวกัน จึงไม่เป็นหนึ่งต่อหนึ่ง"], set:{mode:1,c:2,k:1}},
     {say:["The cubic climbs the whole way across, so no horizontal line can catch it twice. Both tests pass, and the last readout confirms that its reflection in the diagonal is still a function.",
-          "กราฟลูกบาศก์ขึ้นไปเรื่อยๆ ตลอดช่วง เส้นแนวนอนจึงตัดได้ไม่เกินหนึ่งจุด กราฟผ่านทั้งสองการทดสอบ และค่าในช่องสุดท้ายยืนยันว่าภาพสะท้อนผ่านเส้นทแยงของมันก็ยังเป็นฟังก์ชัน"], set:{mode:2,c:2,k:3}},
-    {say:["The half-circle is an even function, symmetric about the vertical axis, so every horizontal line below the top cuts twice. Reflect it in the diagonal and you get the right half-circle, which a vertical line cuts twice — a relation, but no longer a function.",
-          "ครึ่งวงกลมเป็นฟังก์ชันคู่ สมมาตรรอบแกนตั้ง เส้นแนวนอนทุกเส้นที่อยู่ต่ำกว่าจุดยอดจึงตัดสองจุด ถ้าสะท้อนผ่านเส้นทแยงจะได้ครึ่งวงกลมด้านขวา ซึ่งเส้นแนวตั้งตัดสองจุด ยังเป็นความสัมพันธ์ แต่ไม่เป็นฟังก์ชันแล้ว"], set:{mode:3,c:2,k:2}}
+          "กราฟลูกบาศก์ขึ้นไปเรื่อยๆ ตลอดช่วง เส้นแนวนอนจึงตัดไม่เกินหนึ่งจุด กราฟผ่านทั้งสองการทดสอบ และช่องสุดท้ายยืนยันว่าภาพสะท้อนผ่านเส้นทแยงก็ยังเป็นฟังก์ชัน"], set:{mode:2,c:2,k:3}},
+    {say:["The half-circle is an even function, symmetric about the vertical axis, so every horizontal line between its base and its top cuts twice. Reflect it in the diagonal and you get the right half-circle, which a vertical line cuts twice — a relation, but no longer a function.",
+          "ครึ่งวงกลมเป็นฟังก์ชันคู่ สมมาตรรอบแกนตั้ง เส้นแนวนอนทุกเส้นที่อยู่ระหว่างฐานกับจุดยอดจึงตัดสองจุด ถ้าสะท้อนผ่านเส้นทแยงจะได้ครึ่งวงกลมด้านขวา ซึ่งเส้นแนวตั้งตัดสองจุด จึงเป็นความสัมพันธ์ แต่ไม่เป็นฟังก์ชันแล้ว"], set:{mode:3,c:2,k:2}}
   ]},
 
 { id:"inverse", x:235, y:248, requires:["domain-range","functions"], methods:["M-05"],
@@ -160,16 +160,17 @@ nodes:[
       return (x - p.c)/p.m;
     },
     ctrls:[
-      {k:"which", lab:["",""], opts:[["f(x)","f(x)"], ["its inverse","ตัวผกผัน"]], min:0, def:0, unit:""},
+      {k:"which", lab:["",""], opts:[["f(x)","f(x)"], ["its inverse","ฟังก์ชันผกผัน"]], min:0, def:0, unit:""},
       {k:"m",     lab:["Gradient m","ความชัน m"], min:.3, max:3, step:.1, def:2, unit:""},
       {k:"c",     lab:["Intercept c","จุดตัดแกน c"], min:-3, max:4, step:.5, def:1, unit:""}
     ],
     readouts:[
       {lab:["Showing","กำลังแสดง"], f:function(S){
-        return S.p.which===0 ? ("f(x) = "+fmt(S.p.m)+"x + "+fmt(S.p.c))
-                             : ("f⁻¹(x) = (x − "+fmt(S.p.c)+") / "+fmt(S.p.m)); }},
+        var m=S.p.m, c=S.p.c, ac=num(Math.abs(c));
+        return S.p.which===0 ? ("f(x) = "+num(m)+"x"+(c===0?"":(c<0?" − ":" + ")+ac))
+                             : ("f⁻¹(x) = "+(c===0?"x":"(x"+(c<0?" + ":" − ")+ac+")")+" / "+num(m)); }},
       {lab:["Gradient shown","ความชันที่แสดง"], f:function(S){
-        return fmt2(S.p.which===0 ? S.p.m : 1/S.p.m); }},
+        return num(S.p.which===0 ? S.p.m : 1/S.p.m); }},
       {lab:["Relationship","ความสัมพันธ์"], f:function(){
         return L()?"สะท้อนกันในเส้น y = x":"reflections of each other in the line y = x"; }},
       {lab:["f⁻¹ means","f⁻¹ หมายถึง"], f:function(){
@@ -181,9 +182,9 @@ nodes:[
     {say:["The original line climbs at gradient 2 and cuts the y-axis at 1.",
           "เส้นเดิมมีความชัน 2 และตัดแกน y ที่ 1"], set:{which:0,m:2,c:1}},
     {say:["Its inverse has gradient ½ — reflecting in y = x turns any slope into its reciprocal.",
-          "อินเวอร์สมีความชัน ½ การสะท้อนผ่านเส้น y = x เปลี่ยนความชันทุกค่าให้เป็นส่วนกลับ"], set:{which:1,m:2,c:1}},
-    {say:["Set the gradient to 1 and the two coincide. A line of slope 1 is its own inverse.",
-          "ตั้งความชันเป็น 1 สองเส้นจะทับกัน เส้นที่มีความชัน 1 เป็นอินเวอร์สของตัวเอง"], set:{which:1,m:1,c:0}}
+          "ฟังก์ชันผกผันมีความชัน ½ การสะท้อนผ่านเส้น y = x เปลี่ยนความชันทุกค่าให้เป็นส่วนกลับ"], set:{which:1,m:2,c:1}},
+    {say:["Set the gradient to 1 and the two coincide. A line y = x + c with slope 1 and c = 0 is its own inverse.",
+          "ตั้งความชันเป็น 1 สองเส้นจะทับกัน เส้น y = x + c ที่ความชัน 1 และ c = 0 เป็นฟังก์ชันผกผันของตัวเอง"], set:{which:1,m:1,c:0}}
   ] },
 
 { id:"composite", x:235, y:346, requires:["inverse"], methods:["M-06"],
@@ -212,11 +213,11 @@ nodes:[
       {k:"x",     lab:["Test x","ทดสอบที่ x"], min:-3, max:3, step:.25, def:2, unit:""}
     ],
     readouts:[
-      {lab:["f(x)","f(x)"], f:function(S){ return fmt2(S.p.a*S.p.x+S.p.b); }},
-      {lab:["g(x) = x²","g(x) = x²"], f:function(S){ return fmt2(S.p.x*S.p.x); }},
-      {lab:["f(g(x))","f(g(x))"], f:function(S){ return fmt2(S.p.a*S.p.x*S.p.x+S.p.b); }},
+      {lab:["f(x)","f(x)"], f:function(S){ return num(S.p.a*S.p.x+S.p.b); }},
+      {lab:["g(x) = x²","g(x) = x²"], f:function(S){ return num(S.p.x*S.p.x); }},
+      {lab:["f(g(x))","f(g(x))"], f:function(S){ return num(S.p.a*S.p.x*S.p.x+S.p.b); }},
       {lab:["g(f(x))","g(f(x))"], f:function(S){
-        var v=S.p.a*S.p.x+S.p.b; return fmt2(v*v); }}
+        var v=S.p.a*S.p.x+S.p.b; return num(v*v); }}
     ],
     note:["the two readouts almost never agree — composition is not commutative","ค่าสองค่าที่แสดงแทบไม่เคยเท่ากัน เพราะการประกอบฟังก์ชันไม่มีสมบัติสลับที่"]
   },
@@ -254,7 +255,7 @@ gen:{
           {v:["A × B = B × A for all sets A and B","A × B = B × A สำหรับทุกเซต A และ B"]},
           {v:["n(A × B) = n(A) + n(B)","n(A × B) = n(A) + n(B)"]}],unit:""};
   if(sf==="S-05"){
-    var q=pick([{a:3,b:2},{a:2,b:2},{a:4,b:2},{a:3,b:3}]);
+    var q=pick([{a:3,b:2},{a:2,b:3},{a:4,b:2},{a:3,b:3}]);
     var tot=Math.pow(2,q.a*q.b);
     return {stem:["There are "+tot+" different relations from A to B, and n(A) = "+q.a+". Find n(B).",
                   "มีความสัมพันธ์จาก A ไป B ทั้งหมด "+tot+" ความสัมพันธ์ และ n(A) = "+q.a+" จงหา n(B)"],
@@ -266,7 +267,7 @@ gen:{
                   "โรงอาหารมีอาหารจานหลัก "+m+" อย่างและของหวาน "+d+" อย่าง สั่งเป็นคู่อันดับ (จานหลัก, ของหวาน) ได้กี่แบบ"],
       opts:[{v:String(m*d),ok:1},{v:String(m+d)},{v:String(Math.pow(2,m*d))},{v:String(Math.pow(m,d))}],unit:""};
   }
-  var A=pick([2,3]), B=pick([2,3]);
+  var ab=pick([[2,3],[3,2],[3,3]]), A=ab[0], B=ab[1];
   return {stem:["n(A) = "+A+" and n(B) = "+B+". How many relations are there from A to B?",
                 "n(A) = "+A+" และ n(B) = "+B+" มีความสัมพันธ์จาก A ไป B กี่ความสัมพันธ์"],
     opts:[{v:String(Math.pow(2,A*B)),ok:1},{v:String(A*B)},{v:String(Math.pow(2,A+B))},{v:String(Math.pow(B,A))}],unit:""};
@@ -328,7 +329,7 @@ gen:{
           {v:["When f is one-to-one","เมื่อ f เป็นหนึ่งต่อหนึ่ง"],trap:"T-02"},
           {v:["When the domain of f is a proper subset of A","เมื่อโดเมนของ f เป็นสับเซตแท้ของ A"]}],unit:""};
   if(sf==="S-05"){
-    var nb=pick([2,3]), na=pick([2,3,4]);
+    var nbna=pick([[2,3],[3,4],[4,3]]), nb=nbna[0], na=nbna[1];
     var tot=Math.pow(nb,na);
     return {stem:["There are "+tot+" functions from A into B, and n(B) = "+nb+". Find n(A).",
                   "มีฟังก์ชันจาก A ไป B ทั้งหมด "+tot+" ฟังก์ชัน และ n(B) = "+nb+" จงหา n(A)"],
@@ -340,7 +341,7 @@ gen:{
           {v:["Never a function, because six students share three clubs","ไม่เป็นฟังก์ชัน เพราะนักเรียนหกคนต้องแบ่งกันเข้าสามชมรม"],trap:"T-02"},
           {v:["Always onto, since every student picks a club","เป็นฟังก์ชันไปทั่วถึงเสมอ เพราะนักเรียนทุกคนเลือกชมรม"]},
           {v:["A function only if each club gets exactly two students","เป็นฟังก์ชันก็ต่อเมื่อทุกชมรมมีนักเรียนชมรมละสองคนพอดี"]}],unit:""};
-  var s=pick([{a:2,b:3},{a:2,b:4},{a:3,b:2},{a:3,b:4}]);
+  var s=pick([{a:2,b:3},{a:2,b:5},{a:3,b:2},{a:3,b:4}]);
   return {stem:["n(A) = "+s.a+" and n(B) = "+s.b+". How many functions are there from A into B?",
                 "n(A) = "+s.a+" และ n(B) = "+s.b+" มีฟังก์ชันจาก A ไป B กี่ฟังก์ชัน"],
     opts:[{v:String(Math.pow(s.b,s.a)),ok:1},{v:String(Math.pow(s.a,s.b))},

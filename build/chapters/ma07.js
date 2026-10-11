@@ -28,21 +28,21 @@ nodes:[
       {k:"x", lab:["Exponent x","เลขชี้กำลัง x"], min:-3, max:3, step:.25, def:1, unit:""}
     ],
     readouts:[
-      {lab:["aˣ","aˣ"], f:function(S){ return fmt2(Math.pow(S.p.a,S.p.x)); }},
+      {lab:["aˣ","aˣ"], f:function(S){ return num(Math.pow(S.p.a,S.p.x)); }},
       {lab:["Value at x = 0","ค่าที่ x = 0"], f:function(S){
-        return "1"+(L()?" · ฐานใดก็ให้ 1":" · every base gives 1"); }},
+        return "1"+(L()?" · ทุกฐานให้ค่า 1":" · every base gives 1"); }},
       {lab:["Behaviour","พฤติกรรม"], f:function(S){
         return S.p.a>1 ? (L()?"เติบโต":"growth") : S.p.a<1 ? (L()?"ลดลง":"decay") : (L()?"คงที่":"constant"); }},
       {lab:["Can aˣ be negative?","aˣ เป็นลบได้ไหม"], f:function(){
         return L()?"ไม่ได้ — มันเป็นบวกเสมอ":"never — it is always positive"; }}
     ],
-    note:["every exponential passes through (0, 1), whatever the base — that is why a⁰ = 1","เส้นโค้งเอกซ์โพเนนเชียลทุกเส้นผ่าน (0, 1) ไม่ว่าฐานจะเป็นเท่าใด นี่คือเหตุผลที่ a⁰ = 1"]
+    note:["every exponential passes through (0, 1), whatever the base — that is why a⁰ = 1","เอกซ์โพเนนเชียลทุกเส้นผ่าน (0, 1) ไม่ว่าฐานเป็นเท่าไร เพราะอย่างนี้ a⁰ จึงเท่ากับ 1"]
   },
   guide:[
     {say:["Base 2. The curve doubles with every step to the right and never touches the axis.",
-          "ฐาน 2 เส้นโค้งเพิ่มเป็นสองเท่าทุกครั้งที่ก้าวไปทางขวา และไม่เคยแตะแกน"], set:{a:2,x:1}},
+          "ฐาน 2 ก้าวไปทางขวาทีละหนึ่ง ค่าจะเพิ่มเป็นสองเท่าทุกครั้ง และเส้นโค้งไม่เคยแตะแกน"], set:{a:2,x:1}},
     {say:["Drop the base below 1 and it flips into decay — but it still passes through (0, 1).",
-          "ลดฐานให้ต่ำกว่า 1 เส้นโค้งจะพลิกกลายเป็นลดลง แต่ก็ยังผ่าน (0, 1) เหมือนเดิม"], set:{a:0.5,x:1}},
+          "ลองลดฐานให้ต่ำกว่า 1 เส้นโค้งจะกลับเป็นขาลง แต่ยังผ่าน (0, 1) เหมือนเดิม"], set:{a:0.5,x:1}},
     {say:["Set the base to exactly 1 and the curve flattens into a horizontal line at height 1.",
           "ตั้งฐานเป็น 1 พอดี เส้นโค้งจะแบนเป็นเส้นตรงแนวนอนที่ความสูง 1"], set:{a:1,x:1}}
   ] },
@@ -74,12 +74,12 @@ nodes:[
       {k:"xv", lab:["Read the curve off at","อ่านค่ากราฟที่"],                  min:-3,  max:3, step:.25, def:1, unit:""}
     ],
     readouts:[
-      {lab:["Value at that point","ค่า ณ จุดนั้น"], f:function(S){
+      {lab:["Value at that point","ค่าที่จุดนั้น"], f:function(S){
         var p=S.p, a=p.a, la=Math.log(a);
-        if(p.m<0.5) return fmt2(Math.pow(a,p.xv));
-        if(p.xv<=0) return tx(["undefined — the input must be positive","ไม่นิยาม เพราะสิ่งที่อยู่หลัง log ต้องเป็นบวก"]);
+        if(p.m<0.5) return num(Math.pow(a,p.xv));
+        if(p.xv<=0) return tx(["undefined — the input must be positive","ไม่นิยาม เพราะค่าใน log ต้องเป็นบวก"]);
         if(Math.abs(la)<1e-6) return tx(["base 1 has no logarithm","ฐาน 1 ไม่มีลอการิทึม"]);
-        return fmt2(Math.log(p.xv)/la); }},
+        return num(Math.log(p.xv)/la); }},
       {lab:["Behaviour","ลักษณะกราฟ"], f:function(S){
         var a=S.p.a;
         if(a>0.99&&a<1.01) return tx(["a = 1 is excluded","ฐาน a = 1 ใช้ไม่ได้"]);
@@ -88,20 +88,20 @@ nodes:[
       {lab:["Domain and range","โดเมนและเรนจ์"], f:function(S){
         return tx(S.p.m<0.5?["input any real, output above 0","รับจำนวนจริงใดก็ได้ ให้ผลมากกว่า 0"]
                            :["input above 0, output any real","รับค่ามากกว่า 0 ให้ผลเป็นจำนวนจริงใดก็ได้"]); }},
-      {lab:["Smallest height drawn","ค่าความสูงต่ำสุดที่วาด"], f:function(S){
+      {lab:["Smallest height drawn","ความสูงต่ำสุดที่วาด"], f:function(S){
         var a=S.p.a, v=a>1?Math.pow(a,-3):Math.pow(a,3);
-        return fmt2(v)+" — "+tx(["still above zero","ยังมากกว่าศูนย์"]); }}
+        return num(v)+" — "+tx(["still above zero","ยังมากกว่า 0"]); }}
     ]
   },
   guide:[
     {say:["Start with a base above 1. The curve climbs left to right, doubling and redoubling, and it passes through height 1 where the exponent is zero. Every base above 1 does this — only the steepness changes.",
-          "เริ่มจากฐานที่มากกว่า 1 กราฟไต่ขึ้นจากซ้ายไปขวา เพิ่มเป็นสองเท่าแล้วเพิ่มอีกเป็นสองเท่า และผ่านความสูง 1 ตรงที่เลขชี้กำลังเป็นศูนย์ ฐานที่มากกว่า 1 ทุกค่าเป็นแบบนี้ ต่างกันแค่ความชัน"], set:{a:3,m:0,xv:2}},
+          "เริ่มจากฐานที่มากกว่า 1 กราฟไต่ขึ้นจากซ้ายไปขวา เพิ่มเป็นสองเท่าครั้งแล้วครั้งเล่า และผ่านความสูง 1 ตรงที่เลขชี้กำลังเป็น 0 ฐานที่มากกว่า 1 ทุกค่าเป็นแบบนี้ ต่างกันแค่ความชัน"], set:{a:2,m:0,xv:2}},
     {say:["Now drop the base below 1. The same curve reflects and becomes decreasing. Nothing about the function has broken — this is why an inequality solved with a base under 1 must have its sign flipped.",
-          "ทีนี้ลดฐานให้ต่ำกว่า 1 กราฟเส้นเดิมพลิกกลับ กลายเป็นฟังก์ชันลด ฟังก์ชันไม่ได้เสียตรงไหน เหตุนี้เองอสมการที่ฐานน้อยกว่า 1 จึงต้องกลับเครื่องหมาย"], set:{a:0.4,m:0,xv:2}},
+          "ลองลดฐานให้ต่ำกว่า 1 กราฟเส้นเดิมจะพลิกกลับ กลายเป็นฟังก์ชันลด ฟังก์ชันไม่ได้เสียตรงไหน เพราะอย่างนี้ อสมการที่ฐานน้อยกว่า 1 จึงต้องกลับเครื่องหมาย"], set:{a:0.4,m:0,xv:2}},
     {say:["Walk the reader out to the far left. The height keeps halving but the readout never prints zero and never prints a minus sign. The x-axis is an asymptote, not a destination, which is why aˣ = 0 has no solution.",
-          "เลื่อนตัวอ่านค่าไปทางซ้ายสุด ความสูงลดลงครึ่งหนึ่งเรื่อยๆ แต่ค่าที่อ่านได้ไม่เคยเป็นศูนย์และไม่เคยติดลบ แกน x เป็นเส้นกำกับ ไม่ใช่จุดที่ไปถึงได้ จึงเป็นเหตุผลที่ aˣ = 0 ไม่มีคำตอบ"], set:{a:2,m:0,xv:-3}},
+          "เลื่อนตัวอ่านค่าไปทางซ้ายสุด ความสูงลดลงครึ่งหนึ่งไปเรื่อย ๆ แต่ค่าที่อ่านได้ไม่เคยเป็น 0 และไม่เคยติดลบ แกน x เป็นเส้นกำกับ ไม่ใช่ที่หมายที่ไปถึงได้ aˣ = 0 จึงไม่มีคำตอบ"], set:{a:2,m:0,xv:-3}},
     {say:["Switch to the logarithm. It is the same curve reflected in the line through the origin at 45°, so the domain and range have swapped: now the input must be positive and the output may be any real number.",
-          "สลับไปดูลอการิทึม มันคือกราฟเส้นเดิมที่สะท้อนผ่านเส้นทแยงมุม 45 องศาที่ผ่านจุดกำเนิด โดเมนกับเรนจ์จึงสลับกัน คราวนี้ค่าที่ใส่เข้าไปต้องเป็นบวก ส่วนผลลัพธ์เป็นจำนวนจริงใดก็ได้"], set:{a:2,m:1,xv:1}}
+          "ลองสลับไปดูลอการิทึม มันคือกราฟเส้นเดิมที่สะท้อนข้ามเส้นทแยงมุม 45° ผ่านจุดกำเนิด โดเมนกับเรนจ์จึงสลับกัน ตอนนี้ค่าที่ใส่ต้องเป็นบวก ส่วนผลลัพธ์เป็นจำนวนจริงใดก็ได้"], set:{a:2,m:1,xv:1}}
   ]},
 
 { id:"logarithm", x:370, y:150, requires:["indices"], methods:["M-03"],
@@ -121,18 +121,18 @@ nodes:[
     mark:function(p){ return p.x; },
     ctrls:[
       {k:"a", lab:["Base a","ฐาน a"], min:1.2, max:10, step:.2, def:2, unit:""},
-      {k:"x", lab:["Input x","อินพุต x"], min:.1, max:9.5, step:.1, def:8, unit:""}
+      {k:"x", lab:["Input x","ค่าที่ใส่ x"], min:.1, max:9.5, step:.1, def:8, unit:""}
     ],
     readouts:[
-      {lab:["log_a x","log_a x"], f:function(S){ return fmt2(Math.log(S.p.x)/Math.log(S.p.a)); }},
-      {lab:["Check","ตรวจสอบ"], f:function(S){
-        return fmt(S.p.a)+" ^ "+fmt2(Math.log(S.p.x)/Math.log(S.p.a))+" = "+fmt2(S.p.x); }},
+      {lab:["log_a x","log_a x"], f:function(S){ return num(Math.log(S.p.x)/Math.log(S.p.a),4); }},
+      {lab:["Check","ตรวจคำตอบ"], f:function(S){
+        return num(S.p.a)+" ^ "+num(Math.log(S.p.x)/Math.log(S.p.a),4)+" = "+num(S.p.x); }},
       {lab:["Value at x = 1","ค่าที่ x = 1"], f:function(){
         return "0"+(L()?" · ทุกฐาน":" · for every base"); }},
       {lab:["Domain","โดเมน"], f:function(){
-        return L()?"x > 0 เท่านั้น — ลอการิทึมของศูนย์หรือจำนวนลบไม่มี":"x > 0 only — no log of zero or a negative"; }}
+        return L()?"x > 0 เท่านั้น — หาลอการิทึมของ 0 หรือจำนวนลบไม่ได้":"x > 0 only — no log of zero or a negative"; }}
     ],
-    note:["the curve dives towards minus infinity near zero but never reaches x = 0","เส้นโค้งดิ่งลงไปทางลบอนันต์เมื่อเข้าใกล้ศูนย์ แต่ไม่เคยถึง x = 0"]
+    note:["the curve dives towards minus infinity near zero but never reaches x = 0","เมื่อ x เข้าใกล้ 0 เส้นโค้งดิ่งลงไปทางลบอนันต์ แต่ไม่เคยถึง x = 0"]
   } },
 
 { id:"equations", x:235, y:248, requires:["exponential","logarithm"], methods:["M-04","M-05"],
@@ -156,15 +156,15 @@ nodes:[
     ],
     readouts:[
       {lab:["Solution x","คำตอบ x"], f:function(S){
-        return fmt2(Math.log(S.p.b)/Math.log(S.p.a)); }},
+        return num(Math.log(S.p.b)/Math.log(S.p.a)); }},
       {lab:["Written as","เขียนได้เป็น"], f:function(S){
-        return "x = log_"+fmt(S.p.a)+" "+fmt(S.p.b); }},
+        return "x = log_"+num(S.p.a)+" "+num(S.p.b); }},
       {lab:["Change of base","การเปลี่ยนฐาน"], f:function(S){
-        return "log "+fmt(S.p.b)+" / log "+fmt(S.p.a); }},
+        return "log "+num(S.p.b)+" / log "+num(S.p.a); }},
       {lab:["If b were negative","ถ้า b เป็นลบ"], f:function(){
         return L()?"ไม่มีคำตอบ — aˣ เป็นบวกเสมอ":"no solution — aˣ is always positive"; }}
     ],
-    note:["taking a logarithm is simply asking the graph where it reaches a given height","การใส่ลอการิทึมก็คือการถามกราฟว่าไปถึงความสูงที่กำหนดตรงไหน"]
+    note:["taking a logarithm is simply asking the graph where it reaches a given height","การใส่ลอการิทึมก็คือถามกราฟว่าถึงความสูงที่กำหนดที่ x เท่าไร"]
   } },
 
 { id:"applications", x:235, y:346, requires:["equations"], methods:["M-06"],
@@ -189,15 +189,15 @@ nodes:[
     ],
     readouts:[
       {lab:["Amount then","จำนวนเงินตอนนั้น"], f:function(S){
-        return fmt2(S.p.P*Math.pow(1+S.p.r/100,S.p.t)); }},
+        return num(S.p.P*Math.pow(1+S.p.r/100,S.p.t)); }},
       {lab:["Doubling time","เวลาที่เงินเป็นสองเท่า"], f:function(S){
-        return fmt2(Math.log(2)/Math.log(1+S.p.r/100))+(L()?" ปี":" years"); }},
+        return num(Math.log(2)/Math.log(1+S.p.r/100))+(L()?" ปี":" years"); }},
       {lab:["Rule of 70 estimate","ประมาณด้วยกฎเลข 70"], f:function(S){
-        return fmt2(70/S.p.r)+(L()?" ปี":" years"); }},
-      {lab:["Simple interest would give","ดอกเบี้ยคงต้นจะให้"], f:function(S){
-        return fmt2(S.p.P*(1+S.p.r*S.p.t/100)); }}
+        return num(70/S.p.r)+(L()?" ปี":" years"); }},
+      {lab:["Simple interest would give","ถ้าเป็นดอกเบี้ยคงต้นจะได้"], f:function(S){
+        return num(S.p.P*(1+S.p.r*S.p.t/100)); }}
     ],
-    note:["finding the doubling time means inverting an exponential — which is what a logarithm is for","การหาเวลาที่ค่าเพิ่มเป็นสองเท่า คือการย้อนฟังก์ชันเอกซ์โพเนนเชียล ซึ่งเป็นหน้าที่ของลอการิทึม"]
+    note:["finding the doubling time means inverting an exponential — which is what a logarithm is for","หาเวลาที่ค่าเพิ่มเป็นสองเท่า ก็คือย้อนฟังก์ชันเอกซ์โพเนนเชียล และนั่นคืองานของลอการิทึม"]
   } }
 ],
 
@@ -232,9 +232,9 @@ gen:{
   }
   if(sf==="S-03"){
     var f=pick([8,10,12]), th=0.1*Math.pow(2,f);
-    return {stem:["A sheet of paper 0.1 mm thick is folded in half "+f+" times. How thick is the stack, in millimetres?",
-                  "กระดาษหนา 0.1 มม. ถูกพับครึ่ง "+f+" ครั้ง ปึกกระดาษจะหนากี่มิลลิเมตร"],
-      opts:[{v:fmt2(th),ok:1},{v:fmt2(0.1*2*f),trap:"T-01"},{v:fmt2(0.1*f*f)},{v:String(Math.pow(2,f))}],unit:""};
+    return {stem:["A sheet of paper 0.1\u00a0mm thick is folded in half "+f+" times. How thick is the stack, in millimetres?",
+                  "พับกระดาษหนา 0.1\u00a0มม. ครึ่งหนึ่ง "+f+" ครั้ง ปึกกระดาษจะหนากี่มิลลิเมตร"],
+      opts:[{v:num(th),ok:1},{v:num(0.1*2*f),trap:"T-01"},{v:num(0.1*f*f)},{v:String(Math.pow(2,f))}],unit:""};
   }
   var q=pick([{q:"8^(−2/3)",a:"1/4",  w:["−4","4","64"]},
               {q:"27^(−2/3)",a:"1/9", w:["−9","9","1/3"]},
@@ -259,7 +259,7 @@ gen:{
     var b=pick([2,3,4,5]), h=Math.pow(b,3);
     return {stem:["The curve y = aˣ passes through the point where x = 3 and y = "+h+". Find a.",
                   "กราฟ y = aˣ ผ่านจุดที่ x เท่ากับ 3 และ y เท่ากับ "+h+" จงหา a"],
-      opts:[{v:String(b),ok:1},{v:String(-b),trap:"T-04"},{v:String(h)},{v:fmt(h/3)}],unit:""};
+      opts:[{v:String(b),ok:1},{v:String(-b),trap:"T-04"},{v:String(h)},{v:num(h/3)}],unit:""};
   }
   var t=pick([{b:2,a:"1/4",n:"−4",s:"4"},{b:3,a:"1/9",n:"−9",s:"9"},
               {b:4,a:"1/16",n:"−16",s:"16"},{b:5,a:"1/25",n:"−25",s:"25"}]);
@@ -300,7 +300,7 @@ gen:{
   if(sf==="S-05"){
     var r=pick([{b:2,p:4,q:2},{b:3,p:9,q:2},{b:5,p:25,q:2},{b:2,p:8,q:3}]);
     return {stem:["Substituting A = "+r.b+"ˣ turned an equation into a quadratic whose roots are A = "+r.p+" and A = −1. Find x.",
-                  "การตั้งตัวแปรแทน A = "+r.b+"ˣ ทำให้สมการกลายเป็นกำลังสองที่มีราก A = "+r.p+" และ A = −1 จงหา x"],
+                  "แทน A = "+r.b+"ˣ แล้วสมการกลายเป็นสมการกำลังสองที่มีราก A = "+r.p+" และ A = −1 จงหา x"],
       opts:[{v:["x = "+r.q+" only, since A = −1 is impossible","x = "+r.q+" เท่านั้น เพราะ A = −1 เป็นไปไม่ได้"],ok:1},
             {v:["x = "+r.q+" or x = −1","x = "+r.q+" หรือ x = −1"],trap:"T-04"},
             {v:["x = "+r.p+" or x = −1","x = "+r.p+" หรือ x = −1"],trap:"T-04"},
@@ -309,7 +309,7 @@ gen:{
   if(sf==="S-03"){
     var h=pick([2,3,4]);
     return {stem:["Culture A holds 3ᵗ cells and culture B holds 9^(t−"+h+") cells after t hours. At what t are they equal?",
-                  "หลังผ่านไป t ชั่วโมง อาณานิคม A มี 3ᵗ เซลล์ และอาณานิคม B มี 9^(t−"+h+") เซลล์ ที่ t เท่าใดจึงเท่ากัน"],
+                  "ผ่านไป t ชั่วโมง เชื้อ A มี 3ᵗ เซลล์ ส่วนเชื้อ B มี 9^(t−"+h+") เซลล์ t เท่าไรจึงมีเท่ากัน"],
       opts:[{v:String(2*h),ok:1},{v:String(h)},{v:String(4*h)},{v:String(-2*h),trap:"T-04"}],unit:""};
   }
   var k=pick([2,3,4,5]);
@@ -329,13 +329,12 @@ gen:{
           {v:["x = −6 only","x = −6 เท่านั้น"],trap:"T-02"},
           {v:["neither root","ไม่มีรากใดใช้ได้"]}],unit:""};
   if(sf==="S-03"){
-    var d=pick([4,5,6]);
-    return {stem:["A drug loses 20% of its concentration every hour, so the fraction left after n hours is (0.8)ⁿ. After how many whole hours does it first fall below 40%?",
-                  "ยาชนิดหนึ่งมีความเข้มข้นลดลง 20% ทุกชั่วโมง ดังนั้นสัดส่วนที่เหลือหลัง n ชั่วโมงคือ (0.8)ⁿ ต้องผ่านไปกี่ชั่วโมงเต็ม ความเข้มข้นจึงต่ำกว่า 40% เป็นครั้งแรก"],
+    return {stem:["A drug loses 20\u00a0% of its concentration every hour, so the fraction left after n hours is (0.8)ⁿ. After how many whole hours does it first fall below 40\u00a0%?",
+                  "ยาตัวหนึ่งมีความเข้มข้นลดลง 20\u00a0% ทุกชั่วโมง สัดส่วนที่เหลือหลัง n ชั่วโมงจึงเป็น (0.8)ⁿ ต้องผ่านไปกี่ชั่วโมงเต็ม ความเข้มข้นจึงต่ำกว่า 40\u00a0% เป็นครั้งแรก"],
       opts:[{v:["5 hours","5 ชั่วโมง"],ok:1},
             {v:["4 hours","4 ชั่วโมง"],trap:"T-03"},
-            {v:["It never falls below 40%","ไม่มีวันต่ำกว่า 40%"],trap:"T-04"},
-            {v:[String(d-2)+" hours",String(d-2)+" ชั่วโมง"]}],unit:""};
+            {v:["It never falls below 40\u00a0%","ไม่มีวันต่ำกว่า 40\u00a0%"],trap:"T-04"},
+            {v:["6 hours","6 ชั่วโมง"]}],unit:""};
   }
   return {stem:["Solve log₂ x + log₂ (x − 2) = 3.","จงแก้สมการ log₂ x + log₂ (x − 2) = 3"],
     opts:[{v:["x = 4 only","x = 4 เท่านั้น"],ok:1},
@@ -355,20 +354,20 @@ gen:{
   }
   if(sf==="S-03"){
     var m0=pick([400,800,1200]), hl=pick([4,5,6]), k3=3;
-    return {stem:["A "+m0+" g sample has a half-life of "+hl+" days. How many grams remain after "+(k3*hl)+" days?",
+    return {stem:["A "+m0+"\u00a0g sample has a half-life of "+hl+" days. How many grams remain after "+(k3*hl)+" days?",
                   "สารตัวอย่าง "+m0+" กรัม มีครึ่งชีวิต "+hl+" วัน เมื่อผ่านไป "+(k3*hl)+" วัน จะเหลือกี่กรัม"],
-      opts:[{v:fmt2(m0/8),ok:1},{v:"0",trap:"T-04"},{v:fmt2(m0/3),trap:"T-01"},{v:fmt2(m0/2)}],unit:""};
+      opts:[{v:num(m0/8),ok:1},{v:"0",trap:"T-04"},{v:num(m0/3),trap:"T-01"},{v:num(m0/2)}],unit:""};
   }
   if(sf==="S-05"){
     var rr=pick([4,5,8]);
     return {stem:["A population follows N = N₀e^(rt) with r = 0."+(rr<10?"0"+rr:rr)+" per year. How many years does it take to double? Use ln 2 = 0.693.",
                   "ประชากรเป็นไปตาม N = N₀e^(rt) โดย r = 0."+(rr<10?"0"+rr:rr)+" ต่อปี ต้องใช้เวลากี่ปีจึงเพิ่มเป็นสองเท่า ใช้ ln 2 = 0.693"],
-      opts:[{v:fmt(69.3/rr),ok:1},{v:fmt(100/rr)},{v:fmt(200/rr)},{v:fmt(2*rr)}],unit:""};
+      opts:[{v:num(69.3/rr),ok:1},{v:num(100/rr)},{v:num(200/rr)},{v:num(2*rr)}],unit:""};
   }
   var P=pick([10000,20000,50000]), r2=pick([5,6,8]), t2=pick([3,5]);
   var A=Math.round(P*Math.pow(1+r2/100,t2));
-  return {stem:[P+" baht is invested at "+r2+"% per year, compounded annually. What is it worth after "+t2+" years, to the nearest baht?",
-                "ลงทุน "+P+" บาท ที่อัตรา "+r2+"% ต่อปี ทบต้นปีละครั้ง เมื่อครบ "+t2+" ปี จะมีมูลค่ากี่บาท ปัดเป็นจำนวนเต็ม"],
+  return {stem:[P+" baht is invested at "+r2+"\u00a0% per year, compounded annually. What is it worth after "+t2+" years, to the nearest baht?",
+                "ลงทุน "+P+" บาท ที่อัตรา "+r2+"\u00a0% ต่อปี ทบต้นปีละครั้ง เมื่อครบ "+t2+" ปี จะมีมูลค่ากี่บาท ปัดเป็นจำนวนเต็ม"],
     opts:[{v:String(A),ok:1},
           {v:String(Math.round(P*(1+r2*t2/100))),trap:"T-01"},
           {v:String(Math.round(P*(1+r2/100))),trap:"T-01"},

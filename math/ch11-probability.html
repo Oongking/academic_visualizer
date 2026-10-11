@@ -152,8 +152,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .xtable figcaption{margin-bottom:12px}
 .xscroll{overflow-x:auto}
 .xtable table{border-collapse:collapse;width:100%;font-size:14px}
-.xtable th{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+.xtable th{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);text-align:left;
   padding:0 16px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
 .xtable td{padding:10px 16px 10px 0;border-bottom:1px solid var(--rule);
   color:var(--ink-soft);vertical-align:top;line-height:1.5}
@@ -163,8 +163,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   line-height:1.6}
 .xfacts{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
   font-size:14px}
-.xfacts dt{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.xfacts dt{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);padding-top:3px}
 .xfacts dd{margin:0;color:var(--ink-soft)}
 .node-sec:last-child{border-bottom:none}
 .node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
@@ -224,7 +224,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
   text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
 .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
 .ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-ui);
-  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;
   color:var(--ink-faint);margin-bottom:5px}
 .ctrl label span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
 /* touch-action:none is what keeps a drag on the control from being handed to
@@ -249,8 +249,8 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 .opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
   position:relative;z-index:3}
 .readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
-.ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
+.ro b{display:block;font-family:var(--f-ui);font-size:11.5px;letter-spacing:.02em;
+  color:var(--ink-faint);font-weight:600;margin-bottom:3px}
 .ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
 .transport{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 /* .guide and .transport set display, which beats the UA's [hidden] rule; a
@@ -849,6 +849,8 @@ var MATH = (function () {
 </div>
 
 <script>
+/* overlap P(A and B) in %, kept inside what two events of these sizes can actually have */
+function ovl(p){ return Math.min(Math.max(p.ab,Math.max(0,p.a+p.b-100)),p.a,p.b); }
 var CHAPTER = {
 id:"ma11", num:"11", slug:"probability", subject:"math",
 kicker:["Mathematics · Chapter 11","คณิตศาสตร์ · บทที่ 11"],
@@ -882,7 +884,7 @@ nodes:[
       {lab:["Pick just one ('or')","เลือกเพียงขั้นเดียว (หรือ)"], f:function(S){
         return String(S.p.a+S.p.b+S.p.c); }},
       {lab:["Which grows faster","อันไหนโตเร็วกว่า"], f:function(){
-        return L()?"การคูณ — เร็วกว่ามาก":"multiplication, by a very long way"; }},
+        return L()?"การคูณ เร็วกว่ามาก":"multiplication, by a very long way"; }},
       {lab:["The deciding word","คำที่ตัดสิน"], f:function(){
         return L()?"ทำทุกขั้น หรือ เลือกขั้นเดียว":"do every stage, or choose just one"; }}
     ],
@@ -893,7 +895,7 @@ nodes:[
       {lab:["Sum ('or')","ผลบวก (หรือ)"], f:function(p){ return p.a+p.b+p.c; }, col:"good"},
       {lab:["Product ('and')","ผลคูณ (และ)"], f:function(p){ return p.a*p.b*p.c; }, col:"accent"}
     ],
-    note:["read the question for 'and' or 'or' before writing a single number down","อ่านโจทย์หาคำว่า และ หรือ หรือ ก่อนเขียนตัวเลขแม้แต่ตัวเดียว"]
+    note:["read the question for 'and' or 'or' before writing a single number down","ดูในโจทย์ก่อนว่าเป็น “และ” หรือ “หรือ” แล้วค่อยเขียนตัวเลข"]
   } },
 
 { id:"perm-comb", x:100, y:150, requires:["counting"], methods:["M-02"],
@@ -906,7 +908,7 @@ nodes:[
   flabel:["Order matters → P. It does not → C.","ลำดับสำคัญ → P ไม่สำคัญ → C"],
   viz:"bars",
   vizcfg:{
-    title:["THE COST OF CARING ABOUT ORDER","ราคาของการสนใจลำดับ"],
+    title:["THE COST OF CARING ABOUT ORDER","ราคาของการคำนึงถึงลำดับ"],
     ylab:["number of selections","จำนวนวิธีเลือก"],
     ctrls:[
       {k:"n", lab:["Choose from n","เลือกจาก n"], min:2, max:10, step:1, def:8, unit:""},
@@ -922,7 +924,7 @@ nodes:[
         var f=1; for(var i=2;i<=S.p.r;i++) f*=i;
         return String(f)+" = "+S.p.r+"!"; }},
       {lab:["Which is always larger","อันไหนมากกว่าเสมอ"], f:function(){
-        return L()?"nPr — เพราะนับการเรียงซ้ำ":"nPr — it counts the reorderings separately"; }}
+        return L()?"nPr เพราะนับการสลับที่เป็นคนละแบบ":"nPr — it counts the reorderings separately"; }}
     ],
     bars:[
       {lab:["nPr","nPr"], f:function(p){ var v=1; for(var i=0;i<p.r;i++) v*=(p.n-i); return v; }, col:"accent"},
@@ -931,7 +933,7 @@ nodes:[
         var f=1; for(i=2;i<=p.r;i++) f*=i; return v/f; }, col:"good"},
       {lab:["r!","r!"], f:function(p){ var f=1; for(var i=2;i<=p.r;i++) f*=i; return f; }, col:"warn"}
     ],
-    note:["using nPr where nCr belongs inflates your answer by exactly r! — the amber bar","ใช้ nPr ทั้งที่ต้องใช้ nCr คำตอบจะมากเกินไปพอดี r! เท่า ดูได้จากแถบสีเหลืองอำพัน"]
+    note:["using nPr where nCr belongs inflates your answer by exactly r! — the amber bar","ใช้ nPr ทั้งที่ต้องใช้ nCr คำตอบจะมากเกินจริงพอดี r! เท่า ดูได้จากแถบสีเหลืองอำพัน"]
   },
   guide:[
     {say:["Choosing 3 from 8. The permutation count is six times the combination count.",
@@ -939,7 +941,7 @@ nodes:[
     {say:["That factor of six is exactly 3! — the number of ways to shuffle the three you picked.",
           "ที่ต่างกันหกเท่าก็เพราะ 3! พอดี คือจำนวนวิธีสลับที่ของสามชิ้นที่เลือกมา"], set:{n:8,r:3}},
     {say:["Choose only one and the gap disappears. With a single item there is nothing to reorder.",
-          "ถ้าเลือกเพียงชิ้นเดียว ความต่างนี้จะหายไป เพราะของชิ้นเดียวไม่มีอะไรให้สลับที่"], set:{n:8,r:1}}
+          "เลือกแค่ชิ้นเดียว ความต่างก็หายไป เพราะของชิ้นเดียวไม่มีอะไรให้สลับที่"], set:{n:8,r:1}}
   ] },
 
 { id:"sample-space", x:370, y:150, requires:["counting"], methods:["M-03"],
@@ -953,7 +955,7 @@ nodes:[
   viz:{
     vb:"0 0 560 330", anim:false,
     ctrls:[
-      {k:"mode", lab:["Event:","เหตุการณ์:"], opts:[["sum","ผลรวม"], ["doubles","เลขคู่เหมือน"], ["at-least","อย่างน้อย"], ["difference","ผลต่าง"]], min:0, def:0, unit:""},
+      {k:"mode", lab:["Event:","เหตุการณ์:"], opts:[["sum","ผลรวม"], ["doubles","แต้มเหมือนกัน"], ["at-least","อย่างน้อย"], ["difference","ผลต่าง"]], min:0, def:0, unit:""},
       {k:"val", lab:["Target value","ค่าเป้าหมาย"], min:1, max:12, step:1, def:7, unit:""}
     ],
     readouts:[
@@ -961,10 +963,10 @@ nodes:[
       {lab:["Total n(S)","ทั้งหมด n(S)"], f:function(){ return "36"; }},
       {lab:["P(E)","P(E)"], f:function(S){
         var h=S._hit||0;
-        return h+"/36 = "+fmt2(h/36); }},
+        return h+"/36 = "+num(h/36); }},
       {lab:["P(not E)","P(E ไม่เกิด)"], f:function(S){
         var h=S._hit||0;
-        return (36-h)+"/36 = "+fmt2((36-h)/36); }}
+        return (36-h)+"/36 = "+num((36-h)/36); }}
     ],
     draw:function(S,o){
       var p=S.p, m=p.mode, v=p.val, hit=0;
@@ -975,12 +977,12 @@ nodes:[
         return Math.abs(i-j)===Math.min(v,5);
       };
       var LBL=[["Sum equals "+v,"ผลรวมเท่ากับ "+v],
-               ["Both dice the same","ลูกเต๋าเหมือนกันทั้งสอง"],
+               ["Both dice the same","ลูกเต๋าสองลูกขึ้นแต้มเหมือนกัน"],
                ["Sum at least "+v,"ผลรวมอย่างน้อย "+v],
                ["Difference equals "+Math.min(v,5),"ผลต่างเท่ากับ "+Math.min(v,5)]][m];
       var x0=96, y0=54, c=36;
-      o.push('<text x="'+x0+'" y="28" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.4">'+tx(["SAMPLE SPACE · TWO DICE","แซมเปิลสเปซ · ลูกเต๋าสองลูก"])+'</text>');
-      o.push('<text x="'+x0+'" y="44" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11.5" font-weight="600">'+
+      o.push('<text x="'+x0+'" y="18" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.4">'+tx(["SAMPLE SPACE · TWO DICE","แซมเปิลสเปซ · ลูกเต๋าสองลูก"])+'</text>');
+      o.push('<text x="'+x0+'" y="34" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11.5" font-weight="600">'+
              (L()?LBL[1]:LBL[0])+'</text>');
       var i,j;
       for(i=1;i<=6;i++){
@@ -1008,18 +1010,18 @@ nodes:[
       o.push('<rect x="'+bx+'" y="'+(y0+28)+'" width="'+(bw*hit/36)+'" height="18" fill="var(--accent)"/>');
       o.push('<text x="'+bx+'" y="'+(y0+66)+'" fill="var(--ink)" font-family="IBM Plex Sans" font-size="13" font-weight="600">'+
              hit+' / 36</text>');
-      o.push('<text x="'+bx+'" y="'+(y0+86)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="11">= '+fmt2(hit/36)+'</text>');
+      o.push('<text x="'+bx+'" y="'+(y0+86)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="11">= '+num(hit/36)+'</text>');
     }
   },
   guide:[
     {say:["A total of 7 lights up a full diagonal — six cells out of 36, the most likely total there is.",
           "ผลรวม 7 ทำให้แนวทแยงสว่างทั้งเส้น คือ 6 ช่องจาก 36 ช่อง เป็นผลรวมที่มีโอกาสมากที่สุด"], set:{mode:0,val:7}},
     {say:["Now ask for 2. Only one cell qualifies. Same 36 equally likely cells, wildly unequal sums.",
-          "ลองเปลี่ยนเป็น 2 ดูบ้าง มีช่องเดียวที่ตรงเงื่อนไข ทั้งที่ทั้ง 36 ช่องมีโอกาสเท่ากัน แต่ผลรวมแต่ละค่ากลับต่างกันมาก"], set:{mode:0,val:2}},
+          "ลองเปลี่ยนเป็น 2 ดู มีช่องเดียวที่ตรงเงื่อนไข ทั้ง 36 ช่องมีโอกาสเท่ากัน แต่ผลรวมแต่ละค่ามีโอกาสต่างกันมาก"], set:{mode:0,val:2}},
     {say:["Doubles form the main diagonal — six cells, the same count as a total of 7, so the same probability.",
           "แต้มเหมือนกันอยู่บนแนวทแยงหลัก มี 6 ช่อง เท่ากับผลรวม 7 ความน่าจะเป็นจึงเท่ากัน"], set:{mode:1,val:7}},
     {say:["'At least 10' fills a corner triangle. Watch P(not E) in the readout — it is always what is left over.",
-          "เงื่อนไข อย่างน้อย 10 ครอบคลุมสามเหลี่ยมมุมหนึ่งของตาราง ลองดูค่า P(E ไม่เกิด) ในช่องแสดงผล มันคือส่วนที่เหลือเสมอ"], set:{mode:2,val:10}}
+          "เงื่อนไข “อย่างน้อย 10” ครอบคลุมสามเหลี่ยมมุมหนึ่งของตาราง ดู P(E ไม่เกิด) ในช่องแสดงผลด้วย มันคือส่วนที่เหลือเสมอ"], set:{mode:2,val:10}}
   ]},
 
 { id:"rules", x:235, y:248, requires:["sample-space"], methods:["M-04"],
@@ -1032,7 +1034,7 @@ nodes:[
   flabel:["'At least one' → use the complement","อย่างน้อยหนึ่ง → ใช้คอมพลีเมนต์"],
   viz:"bars",
   vizcfg:{
-    title:["THE OVERLAP GETS COUNTED TWICE","ส่วนซ้อนทับถูกนับสองครั้ง"],
+    title:["THE OVERLAP GETS COUNTED TWICE","นับส่วนซ้อนทับซ้ำสองครั้ง"],
     ylab:["probability","ความน่าจะเป็น"],
     ctrls:[
       {k:"a",  lab:["P(A)","P(A)"], min:0, max:100, step:5, def:40, unit:" %"},
@@ -1040,20 +1042,20 @@ nodes:[
       {k:"ab", lab:["P(A ∩ B)","P(A ∩ B)"], min:0, max:60, step:5, def:15, unit:" %"}
     ],
     readouts:[
-      {lab:["P(A) + P(B)","P(A) + P(B)"], f:function(S){ return fmt2((S.p.a+S.p.b)/100); }},
+      {lab:["P(A) + P(B)","P(A) + P(B)"], f:function(S){ return num((S.p.a+S.p.b)/100); }},
       {lab:["P(A ∪ B)","P(A ∪ B)"], f:function(S){
-        return fmt2((S.p.a+S.p.b-Math.min(S.p.ab,S.p.a,S.p.b))/100); }},
+        return num((S.p.a+S.p.b-ovl(S.p))/100); }},
       {lab:["Mutually exclusive?","ไม่เกิดร่วมกันไหม"], f:function(S){
-        return S.p.ab===0 ? (L()?"ใช่ — ไม่ต้องลบ":"yes — nothing to subtract")
+        return ovl(S.p)===0 ? (L()?"ใช่ — ไม่ต้องลบ":"yes — nothing to subtract")
                           : (L()?"ไม่ใช่ — ต้องลบส่วนร่วม":"no — the overlap must come off"); }},
-      {lab:["P(not A)","P(A ไม่เกิด)"], f:function(S){ return fmt2(1-S.p.a/100); }}
+      {lab:["P(not A)","P(A ไม่เกิด)"], f:function(S){ return num(1-S.p.a/100); }}
     ],
     bars:[
       {lab:["P(A)","P(A)"], f:function(p){ return p.a/100; }, col:"faint"},
       {lab:["P(B)","P(B)"], f:function(p){ return p.b/100; }, col:"faint"},
-      {lab:["Naive sum","ผลบวกแบบง่าย"], f:function(p){ return (p.a+p.b)/100; }, col:"warn"},
-      {lab:["True union","ยูเนียนที่ถูก"], f:function(p){
-        return (p.a+p.b-Math.min(p.ab,p.a,p.b))/100; }, col:"accent"}
+      {lab:["Naive sum","ผลบวกตรงๆ"], f:function(p){ return (p.a+p.b)/100; }, col:"warn"},
+      {lab:["True union","ยูเนียนที่แท้จริง"], f:function(p){
+        return (p.a+p.b-ovl(p))/100; }, col:"accent"}
     ],
     note:["drop the overlap to zero and the last two bars snap together — that is the exclusive case","ลดส่วนซ้อนทับให้เป็นศูนย์ สองแถบสุดท้ายจะเท่ากันพอดี นั่นคือกรณีที่เหตุการณ์เกิดร่วมกันไม่ได้"]
   } },
@@ -1068,7 +1070,7 @@ nodes:[
   flabel:["Independent ≠ mutually exclusive","เป็นอิสระ ≠ ไม่เกิดร่วมกัน"],
   viz:"bars",
   vizcfg:{
-    title:["KNOWING B SHRINKS THE SAMPLE SPACE","การรู้ว่า B เกิด ทำให้แซมเปิลสเปซหดลง"],
+    title:["KNOWING B SHRINKS THE SAMPLE SPACE","รู้ว่า B เกิดแล้ว แซมเปิลสเปซก็หดลง"],
     ylab:["probability","ความน่าจะเป็น"],
     ctrls:[
       {k:"a",  lab:["P(A)","P(A)"], min:5, max:95, step:5, def:30, unit:" %"},
@@ -1076,30 +1078,29 @@ nodes:[
       {k:"ab", lab:["P(A ∩ B)","P(A ∩ B)"], min:0, max:60, step:5, def:15, unit:" %"}
     ],
     readouts:[
-      {lab:["P(A|B)","P(A|B)"], f:function(S){ return fmt2(S.p.ab/S.p.b); }},
-      {lab:["P(A)","P(A)"], f:function(S){ return fmt2(S.p.a/100); }},
+      {lab:["P(A|B)","P(A|B)"], f:function(S){ return num(ovl(S.p)/S.p.b); }},
+      {lab:["P(A)","P(A)"], f:function(S){ return num(S.p.a/100); }},
       {lab:["Independent?","เป็นอิสระต่อกันไหม"], f:function(S){
-        var d=Math.abs(S.p.ab/S.p.b-S.p.a/100);
-        return d<0.02 ? (L()?"ใช่ — การรู้ B ไม่บอกอะไรเกี่ยวกับ A":"yes — knowing B tells you nothing about A")
+        return ovl(S.p)*100===S.p.a*S.p.b ? (L()?"ใช่ รู้ B ไปก็ไม่ช่วยบอกอะไรเกี่ยวกับ A":"yes — knowing B tells you nothing about A")
                       : (L()?"ไม่ — B เปลี่ยนโอกาสของ A":"no — B shifts the odds on A"); }},
-      {lab:["For independence you need","ความเป็นอิสระต้องการ"], f:function(S){
-        return "P(A∩B) = "+fmt2(S.p.a*S.p.b/10000)+(L()?" (ตอนนี้ "+fmt2(S.p.ab/100)+")":" (currently "+fmt2(S.p.ab/100)+")"); }}
+      {lab:["For independence you need","ถ้าเป็นอิสระ ต้องได้"], f:function(S){
+        return "P(A∩B) = "+num(S.p.a*S.p.b/10000)+(L()?" (ตอนนี้ "+num(ovl(S.p)/100)+")":" (currently "+num(ovl(S.p)/100)+")"); }}
     ],
     bars:[
       {lab:["P(A)","P(A)"], f:function(p){ return p.a/100; }, col:"faint"},
-      {lab:["P(A|B)","P(A|B)"], f:function(p){ return p.ab/p.b; }, col:"accent"},
+      {lab:["P(A|B)","P(A|B)"], f:function(p){ return ovl(p)/p.b; }, col:"accent"},
       {lab:["P(A)·P(B)","P(A)·P(B)"], f:function(p){ return p.a*p.b/10000; }, col:"good"},
-      {lab:["P(A ∩ B)","P(A ∩ B)"], f:function(p){ return p.ab/100; }, col:"warn"}
+      {lab:["P(A ∩ B)","P(A ∩ B)"], f:function(p){ return ovl(p)/100; }, col:"warn"}
     ],
-    note:["when the last two bars match, the events are independent — and only then","ถ้าสองแถบสุดท้ายเท่ากัน เหตุการณ์ทั้งสองเป็นอิสระต่อกัน และเป็นเช่นนี้เมื่อเท่ากันเท่านั้น"]
+    note:["when the last two bars match, the events are independent — and only then","ถ้าสองแถบสุดท้ายเท่ากัน เหตุการณ์ทั้งสองเป็นอิสระต่อกัน และจะเป็นอิสระก็ต่อเมื่อเท่ากันเท่านั้น"]
   },
   guide:[
     {say:["P(A|B) is well above P(A), so learning that B happened makes A more likely.",
-          "P(A|B) สูงกว่า P(A) มาก แปลว่าเมื่อรู้ว่า B เกิด A ก็มีโอกาสมากขึ้น"], set:{a:30,b:50,ab:15}},
+          "P(A|B) สูงกว่า P(A) มาก แปลว่ารู้ว่า B เกิดแล้ว A ก็มีโอกาสมากขึ้น"], set:{a:30,b:50,ab:30}},
     {say:["Tune the overlap until the last two bars are level. Now the events are independent.",
           "ปรับส่วนซ้อนทับจนสองแถบสุดท้ายเท่ากัน ตอนนี้เหตุการณ์เป็นอิสระต่อกัน"], set:{a:30,b:50,ab:15}},
     {say:["Set the overlap to zero. They are mutually exclusive — which makes them maximally DEPENDENT.",
-          "ตั้งส่วนซ้อนทับเป็นศูนย์ ทั้งสองเหตุการณ์เกิดร่วมกันไม่ได้ และนั่นทำให้ขึ้นต่อกันมากที่สุด"], set:{a:30,b:50,ab:0}}
+          "ตั้งส่วนซ้อนทับเป็นศูนย์ สองเหตุการณ์จึงเกิดร่วมกันไม่ได้ และนั่นทำให้ไม่เป็นอิสระต่อกันมากที่สุด"], set:{a:30,b:50,ab:0}}
   ] }
 ],
 
@@ -1157,7 +1158,7 @@ gen:{
 },
 "M-03": function(sf){
   var C=[{q:["a total of 7","ผลรวมเป็น 7"],n:6},{q:["a total of 5","ผลรวมเป็น 5"],n:4},
-         {q:["a double","เลขคู่เหมือน"],n:6},{q:["a total of at least 10","ผลรวมอย่างน้อย 10"],n:6},
+         {q:["a double","แต้มเหมือนกัน"],n:6},{q:["a total of at least 10","ผลรวมอย่างน้อย 10"],n:6},
          {q:["a total of 2","ผลรวมเป็น 2"],n:1}];
   var c=pick(C);
   if(sf==="S-04") return {stem:["Can a probability ever exceed 1?","ความน่าจะเป็นมากกว่า 1 ได้หรือไม่"],
@@ -1192,8 +1193,8 @@ gen:{
           {v:["Multiply the probabilities","คูณความน่าจะเป็นเข้าด้วยกัน"],trap:"T-03"}],unit:""};
   return {stem:["P(A) = "+pa+", P(B) = "+pb+", P(A∩B) = "+pi+". Find P(A∪B).",
                 "P(A) = "+pa+", P(B) = "+pb+", P(A∩B) = "+pi+" จงหา P(A∪B)"],
-    opts:[{v:fmt2(pa+pb-pi),ok:1},{v:fmt2(pa+pb),trap:"T-02"},
-          {v:fmt2(pa*pb),trap:"T-03"},{v:fmt2(pa+pb+pi),trap:"T-02"}],unit:""};
+    opts:[{v:num(pa+pb-pi),ok:1},{v:num(pa+pb),trap:"T-02"},
+          {v:num(pa*pb),trap:"T-03"},{v:num(pa+pb+pi),trap:"T-02"}],unit:""};
 },
 "M-05": function(sf){
   var pi=pick([0.12,0.15,0.2]), pb=pick([0.4,0.5,0.6]);
@@ -1211,8 +1212,8 @@ gen:{
           {v:["Because B is independent","เพราะ B เป็นอิสระ"],trap:"T-03"}],unit:""};
   return {stem:["P(A∩B) = "+pi+" and P(B) = "+pb+". Find P(A|B).",
                 "P(A∩B) = "+pi+" และ P(B) = "+pb+" จงหา P(A|B)"],
-    opts:[{v:fmt2(pi/pb),ok:1},{v:fmt2(pi*pb),trap:"T-03"},
-          {v:fmt2(pi),trap:"T-03"},{v:fmt2(pb/pi),trap:"T-04"}],unit:""};
+    opts:[{v:num(pi/pb),ok:1},{v:num(pi*pb),trap:"T-03"},
+          {v:num(pi),trap:"T-03"},{v:num(pb/pi),trap:"T-04"}],unit:""};
 }
 }
 };
@@ -1291,13 +1292,55 @@ function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
 function fmt(n){ return (Math.round(n*10)/10).toString(); }
 function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+/* ---- numbers as a scientist writes them ----
+   fmt / fmt2 round to a fixed number of decimals; they are for geometry and
+   coordinates only. Anything a learner READS as a physical value goes through
+   num(), which keeps significant figures instead of decimal places, switches to
+   standard form (A × 10ⁿ, 1 ≤ |A| < 10) for very large or very small values,
+   never shows a non-zero value as 0, and uses a real minus sign.
+     num(0.000000123)   "1.23 × 10⁻⁷"      num(299792458)  "3 × 10⁸"
+     num(12345.6)       "12300"            num(−4.2)       "−4.2"
+     numTex(n,s)  the same value as LaTeX (for the live formula)
+     un(n,"m/s")  number, a no-break space, then the unit                    */
+var SUPS={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
+function sciParts(n,s){
+  var e=Math.floor(Math.log10(Math.abs(n))), m=n/Math.pow(10,e);
+  m=+m.toPrecision(s); if(Math.abs(m)>=10){ m/=10; e++; }
+  return [m,e];
+}
+function num(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "—";
+  if(n===0) return "0";
+  var a=Math.abs(n), out;
+  if(a<1e-3 || a>=1e5){
+    var q=sciParts(n,s);
+    out=String(q[0])+" × 10"+String(q[1]).split("").map(function(c){ return SUPS[c]; }).join("");
+  } else {
+    out=String(+n.toPrecision(s));
+    if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  }
+  return out.replace("-","−");
+}
+function numTex(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "\\text{—}";
+  if(n===0) return "0";
+  var a=Math.abs(n);
+  if(a<1e-3 || a>=1e5){ var q=sciParts(n,s); return q[0]+"\\times10^{"+q[1]+"}"; }
+  var out=String(+n.toPrecision(s));
+  if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  return out;
+}
+function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
   if(!(range>0)) return 1;
   var raw=range/target, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
   return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag;
 }
-function tk(n){ var r=Math.round(n*100)/100; return (Math.abs(r)<1e-9?0:r).toString(); }
+/* axis tick labels: significant figures and standard form, never "0" for a small value */
+function tk(n){ return num(n,3); }
 var FT='fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10"';
 
 /* Shared, fully scaled axis frame. Returns mapping functions. */
@@ -1359,10 +1402,10 @@ VIZLIB.motion = {
     {k:"T", lab:["Duration","ช่วงเวลา"],                min:2,  max:12,step:1, def:6,  unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Time","เวลา"],            f:function(S){ return fmt(S.t)+" s"; }},
-    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return fmt(S.p.u+S.p.a*S.t)+" m/s"; }},
-    {lab:["Displacement s","การกระจัด s"], f:function(S){ return fmt(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
-    {lab:["Slope","ความชัน"],        f:function(S){ return fmt(S.p.a)+" m/s²"; }}
+    {lab:["Time","เวลา"],            f:function(S){ return num(S.t)+" s"; }},
+    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return num(S.p.u+S.p.a*S.t)+" m/s"; }},
+    {lab:["Displacement s","การกระจัด s"], f:function(S){ return num(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
+    {lab:["Slope","ความชัน"],        f:function(S){ return num(S.p.a)+" m/s²"; }}
   ],
   draw:function(S,o){
     var u=S.p.u,a=S.p.a,T=S.p.T,tt=Math.min(S.t,T);
@@ -1447,11 +1490,11 @@ VIZLIB.vector = {
     {lab:["Resultant R","ผลลัพธ์ R"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      return fmt(Math.sqrt(rx*rx+ry*ry)); }},
+      return num(Math.sqrt(rx*rx+ry*ry)); }},
     {lab:["Direction","ทิศทาง"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return fmt(d)+"°"; }}
+      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return num(d)+"°"; }}
   ],
   draw:function(S,o){
     var p=S.p, cx=280, cy=180, sc=6.5;
@@ -1465,8 +1508,8 @@ VIZLIB.vector = {
     o.push('<line x1="'+(cx-250)+'" y1="'+cy+'" x2="'+(cx+250)+'" y2="'+cy+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     o.push('<line x1="'+cx+'" y1="'+(cy-140)+'" x2="'+cx+'" y2="'+(cy+140)+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     for(var s=-20;s<=20;s+=10){ if(!s) continue;
-      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+s+'</text>');
-      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+s+'</text>');
+      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+tk(s)+'</text>');
+      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+tk(s)+'</text>');
     }
     function arrow(x1,y1,x2,y2,col,w,dash){
       var ang=Math.atan2(y2-y1,x2-x1), hl=9;
@@ -1493,9 +1536,9 @@ VIZLIB.wave = {
     {k:"T",  lab:["Run for","เล่นนาน"],            min:2,max:12,step:1, def:8, unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return fmt(S.p.f*S.p.lam)+" m/s"; }},
-    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return fmt(1/S.p.f)+" s"; }},
-    {lab:["Time","เวลา"],                     f:function(S){ return fmt(S.t)+" s"; }}
+    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return num(S.p.f*S.p.lam)+" m/s"; }},
+    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return num(1/S.p.f)+" s"; }},
+    {lab:["Time","เวลา"],                     f:function(S){ return num(S.t)+" s"; }}
   ],
   draw:function(S,o){
     var p=S.p, xmax=24;
@@ -1546,7 +1589,7 @@ VIZLIB.bars = {
       o.push('<rect x="'+(cx-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+
              '" height="'+Math.abs(y1-y0)+'" fill="'+b.c+'" opacity="0.9"/>');
       o.push('<text x="'+cx+'" y="'+(y1+(b.v<0?15:-7))+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-size="11" font-weight="600" text-anchor="middle">'+num(b.v)+'</text>');
       o.push('<text x="'+cx+'" y="'+(A.Y(lo)+34)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" '+
              'font-size="10" text-anchor="middle">'+tx(b.lab)+'</text>');
     });
@@ -1619,7 +1662,7 @@ VIZLIB.tri = {
            ' Z" fill="var(--accent)" fill-opacity="0.10" stroke="var(--ink)" stroke-width="2.2"/>');
     function side(p,q,lab,val,c2){
       o.push('<text x="'+((p[0]+q[0])/2)+'" y="'+((p[1]+q[1])/2-6)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+fmt2(val)+'</text>');
+             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+num(val)+'</text>');
     }
     side(tC,tA,"b",b,"var(--ink-soft)");
     side(tC,tB,"a",a,"var(--ink-soft)");
@@ -1627,15 +1670,15 @@ VIZLIB.tri = {
     [[tC,"C",g.C],[tA,"A",A1*180/Math.PI],[tB,"B",B1*180/Math.PI]].forEach(function(v){
       o.push('<circle cx="'+v[0][0]+'" cy="'+v[0][1]+'" r="3.5" fill="var(--ink)"/>');
       o.push('<text x="'+(v[0][0]-14)+'" y="'+(v[0][1]+14)+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="10.5" font-weight="600">'+v[1]+' '+fmt(v[2])+'°</text>');
+             'font-size="10.5" font-weight="600">'+v[1]+' '+num(v[2])+'°</text>');
     });
     var area=0.5*a*b*Math.sin(C);
     o.push('<text x="404" y="86" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["THIRD SIDE","ด้านที่สาม"])+'</text>');
-    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+fmt2(c)+'</text>');
+    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+num(c)+'</text>');
     o.push('<text x="404" y="152" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["AREA ½ ab sin C","พื้นที่ ½ ab sin C"])+'</text>');
-    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+fmt2(area)+'</text>');
+    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+num(area)+'</text>');
     if(cfg.note) cap(o,44,286,cfg.note,"note");
   }
 };
@@ -1708,7 +1751,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+(cx-L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56-H)+
              ' Z" fill="var(--surface)" stroke="var(--ink-faint)" stroke-width="1.5"/>');
       o.push('<text x="'+(cx-L/2+26)+'" y="'+(cy+50)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-             'font-size="10">'+fmt(inc)+'°</text>');
+             'font-size="10">'+num(inc)+'°</text>');
     } else {
       o.push('<line x1="'+(cx-120)+'" y1="'+(cy+34)+'" x2="'+(cx+120)+'" y2="'+(cy+34)+
              '" stroke="var(--ink-faint)" stroke-width="1.5"/>');
@@ -1726,7 +1769,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+ex+' '+ey+' L'+(ex-hl*Math.cos(aa-0.4))+' '+(ey-hl*Math.sin(aa-0.4))+
              ' L'+(ex-hl*Math.cos(aa+0.4))+' '+(ey-hl*Math.sin(aa+0.4))+' Z" fill="'+c2+'"/>');
       o.push('<text x="'+(cx+Math.cos(aa)*(len+24))+'" y="'+(cy+Math.sin(aa)*(len+24)+4)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+fmt(Math.abs(f.mag))+'</text>');
+             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+num(Math.abs(f.mag))+'</text>');
     });
     if(cfg.note) cap(o,44,300,cfg.note,"note");
   }
@@ -1745,7 +1788,7 @@ VIZLIB.stack = {
       var pw=Math.max(0,p.v)/tot*w;
       o.push('<rect x="'+x+'" y="'+y+'" width="'+pw+'" height="'+h+'" fill="'+col(p.col)+'" opacity="0.88"/>');
       if(pw>34) o.push('<text x="'+(x+pw/2)+'" y="'+(y+h/2+4)+'" fill="#fff" font-family="IBM Plex Sans" '+
-                       'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(p.v)+'</text>');
+                       'font-size="11" font-weight="600" text-anchor="middle">'+num(p.v)+'</text>');
       x+=pw;
     });
     o.push('<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="none" stroke="var(--ink)" stroke-width="1.6"/>');
@@ -1757,7 +1800,7 @@ VIZLIB.stack = {
              'font-size="10.5">'+tx(p.lab)+'</text>');
     });
     if(cfg.total) o.push('<text x="'+(x0+w)+'" y="'+(y-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+fmt2(tot)+'</text>');
+                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+num(tot)+'</text>');
     if(cfg.note) cap(o,x0,236,cfg.note,"note");
   }
 };
@@ -2061,7 +2104,7 @@ function instrument(S, o, ins, ctx){
       if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
                       'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+num(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -2578,7 +2621,7 @@ var STAGE = {
         o.push('<text x="' + (FR.sx + 166) + '" y="' + fmt2(+gy + 3.5) + '" ' + FT + ' text-anchor="end">' + tk(h) + '</text>');
       }
       o.push('<text x="' + (FR.sx + 166) + '" y="' + (W.top - 8) + '" ' + FT + ' text-anchor="end">' +
-             tx(W.unit || ["m", "ม."]) + '</text>');
+             tx(W.unit || ["m", "m"]) + '</text>');
     }
   },
 
@@ -2802,7 +2845,7 @@ var STAGE = {
     var on = S.kbd && S.kbd.on;
     role("prophecy")(o, P[0], P[1], { clock: STAGE.clock, active: on || !!S.dragGuess,
                                        done: pr.phase === "done", hit: pr.hit, tower: W.kind === "tower" });
-    var txt = ui("yourGuess") + " · " + fmt2(pr.guess) + tx(pc.unit || [" m", " ม."]);
+    var txt = ui("yourGuess") + " · " + num(pr.guess) + tx(pc.unit || [" m", " m"]);
     fitText(o, P[0], P[1] - (W.kind === "tower" ? 12 : 78), [txt, txt], 150, 10.5, "var(--accent2)", "middle");
   },
 
@@ -3072,9 +3115,9 @@ var STAGE = {
         } else {
           var err = Math.abs(g - actual), tol = pc.tol ? pc.tol(S.p) : 1;
           hit = err <= tol;
-          var u = tx(pc.unit || [" m", " ม."]);
-          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + fmt2(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + fmt2(actual) + u +
-                  " · " + (L() ? "คลาดไป " : "off by ") + fmt2(err) + u ];
+          var u = tx(pc.unit || [" m", " m"]);
+          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + num(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + num(actual) + u +
+                  " · " + (L() ? "ต่างไป " : "off by ") + num(err) + u ];
         }
         S.pred.phase = "done"; S.pred.hit = hit;
         STATE.preds = STATE.preds || {};
@@ -4467,7 +4510,7 @@ function makeLab(nd, host){
     });
     /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=num(S.p[c.k],6)+(c.unit||"");
       if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){

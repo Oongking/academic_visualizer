@@ -70,13 +70,55 @@ function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
 function fmt(n){ return (Math.round(n*10)/10).toString(); }
 function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+/* ---- numbers as a scientist writes them ----
+   fmt / fmt2 round to a fixed number of decimals; they are for geometry and
+   coordinates only. Anything a learner READS as a physical value goes through
+   num(), which keeps significant figures instead of decimal places, switches to
+   standard form (A × 10ⁿ, 1 ≤ |A| < 10) for very large or very small values,
+   never shows a non-zero value as 0, and uses a real minus sign.
+     num(0.000000123)   "1.23 × 10⁻⁷"      num(299792458)  "3 × 10⁸"
+     num(12345.6)       "12300"            num(−4.2)       "−4.2"
+     numTex(n,s)  the same value as LaTeX (for the live formula)
+     un(n,"m/s")  number, a no-break space, then the unit                    */
+var SUPS={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
+function sciParts(n,s){
+  var e=Math.floor(Math.log10(Math.abs(n))), m=n/Math.pow(10,e);
+  m=+m.toPrecision(s); if(Math.abs(m)>=10){ m/=10; e++; }
+  return [m,e];
+}
+function num(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "—";
+  if(n===0) return "0";
+  var a=Math.abs(n), out;
+  if(a<1e-3 || a>=1e5){
+    var q=sciParts(n,s);
+    out=String(q[0])+" × 10"+String(q[1]).split("").map(function(c){ return SUPS[c]; }).join("");
+  } else {
+    out=String(+n.toPrecision(s));
+    if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  }
+  return out.replace("-","−");
+}
+function numTex(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "\\text{—}";
+  if(n===0) return "0";
+  var a=Math.abs(n);
+  if(a<1e-3 || a>=1e5){ var q=sciParts(n,s); return q[0]+"\\times10^{"+q[1]+"}"; }
+  var out=String(+n.toPrecision(s));
+  if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  return out;
+}
+function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
   if(!(range>0)) return 1;
   var raw=range/target, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
   return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag;
 }
-function tk(n){ var r=Math.round(n*100)/100; return (Math.abs(r)<1e-9?0:r).toString(); }
+/* axis tick labels: significant figures and standard form, never "0" for a small value */
+function tk(n){ return num(n,3); }
 var FT='fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10"';
 
 /* Shared, fully scaled axis frame. Returns mapping functions. */
@@ -138,10 +180,10 @@ VIZLIB.motion = {
     {k:"T", lab:["Duration","ช่วงเวลา"],                min:2,  max:12,step:1, def:6,  unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Time","เวลา"],            f:function(S){ return fmt(S.t)+" s"; }},
-    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return fmt(S.p.u+S.p.a*S.t)+" m/s"; }},
-    {lab:["Displacement s","การกระจัด s"], f:function(S){ return fmt(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
-    {lab:["Slope","ความชัน"],        f:function(S){ return fmt(S.p.a)+" m/s²"; }}
+    {lab:["Time","เวลา"],            f:function(S){ return num(S.t)+" s"; }},
+    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return num(S.p.u+S.p.a*S.t)+" m/s"; }},
+    {lab:["Displacement s","การกระจัด s"], f:function(S){ return num(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
+    {lab:["Slope","ความชัน"],        f:function(S){ return num(S.p.a)+" m/s²"; }}
   ],
   draw:function(S,o){
     var u=S.p.u,a=S.p.a,T=S.p.T,tt=Math.min(S.t,T);
@@ -226,11 +268,11 @@ VIZLIB.vector = {
     {lab:["Resultant R","ผลลัพธ์ R"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      return fmt(Math.sqrt(rx*rx+ry*ry)); }},
+      return num(Math.sqrt(rx*rx+ry*ry)); }},
     {lab:["Direction","ทิศทาง"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return fmt(d)+"°"; }}
+      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return num(d)+"°"; }}
   ],
   draw:function(S,o){
     var p=S.p, cx=280, cy=180, sc=6.5;
@@ -244,8 +286,8 @@ VIZLIB.vector = {
     o.push('<line x1="'+(cx-250)+'" y1="'+cy+'" x2="'+(cx+250)+'" y2="'+cy+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     o.push('<line x1="'+cx+'" y1="'+(cy-140)+'" x2="'+cx+'" y2="'+(cy+140)+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     for(var s=-20;s<=20;s+=10){ if(!s) continue;
-      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+s+'</text>');
-      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+s+'</text>');
+      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+tk(s)+'</text>');
+      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+tk(s)+'</text>');
     }
     function arrow(x1,y1,x2,y2,col,w,dash){
       var ang=Math.atan2(y2-y1,x2-x1), hl=9;
@@ -272,9 +314,9 @@ VIZLIB.wave = {
     {k:"T",  lab:["Run for","เล่นนาน"],            min:2,max:12,step:1, def:8, unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return fmt(S.p.f*S.p.lam)+" m/s"; }},
-    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return fmt(1/S.p.f)+" s"; }},
-    {lab:["Time","เวลา"],                     f:function(S){ return fmt(S.t)+" s"; }}
+    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return num(S.p.f*S.p.lam)+" m/s"; }},
+    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return num(1/S.p.f)+" s"; }},
+    {lab:["Time","เวลา"],                     f:function(S){ return num(S.t)+" s"; }}
   ],
   draw:function(S,o){
     var p=S.p, xmax=24;
@@ -325,7 +367,7 @@ VIZLIB.bars = {
       o.push('<rect x="'+(cx-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+
              '" height="'+Math.abs(y1-y0)+'" fill="'+b.c+'" opacity="0.9"/>');
       o.push('<text x="'+cx+'" y="'+(y1+(b.v<0?15:-7))+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-size="11" font-weight="600" text-anchor="middle">'+num(b.v)+'</text>');
       o.push('<text x="'+cx+'" y="'+(A.Y(lo)+34)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" '+
              'font-size="10" text-anchor="middle">'+tx(b.lab)+'</text>');
     });
@@ -398,7 +440,7 @@ VIZLIB.tri = {
            ' Z" fill="var(--accent)" fill-opacity="0.10" stroke="var(--ink)" stroke-width="2.2"/>');
     function side(p,q,lab,val,c2){
       o.push('<text x="'+((p[0]+q[0])/2)+'" y="'+((p[1]+q[1])/2-6)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+fmt2(val)+'</text>');
+             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+num(val)+'</text>');
     }
     side(tC,tA,"b",b,"var(--ink-soft)");
     side(tC,tB,"a",a,"var(--ink-soft)");
@@ -406,15 +448,15 @@ VIZLIB.tri = {
     [[tC,"C",g.C],[tA,"A",A1*180/Math.PI],[tB,"B",B1*180/Math.PI]].forEach(function(v){
       o.push('<circle cx="'+v[0][0]+'" cy="'+v[0][1]+'" r="3.5" fill="var(--ink)"/>');
       o.push('<text x="'+(v[0][0]-14)+'" y="'+(v[0][1]+14)+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="10.5" font-weight="600">'+v[1]+' '+fmt(v[2])+'°</text>');
+             'font-size="10.5" font-weight="600">'+v[1]+' '+num(v[2])+'°</text>');
     });
     var area=0.5*a*b*Math.sin(C);
     o.push('<text x="404" y="86" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["THIRD SIDE","ด้านที่สาม"])+'</text>');
-    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+fmt2(c)+'</text>');
+    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+num(c)+'</text>');
     o.push('<text x="404" y="152" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["AREA ½ ab sin C","พื้นที่ ½ ab sin C"])+'</text>');
-    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+fmt2(area)+'</text>');
+    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+num(area)+'</text>');
     if(cfg.note) cap(o,44,286,cfg.note,"note");
   }
 };
@@ -487,7 +529,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+(cx-L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56-H)+
              ' Z" fill="var(--surface)" stroke="var(--ink-faint)" stroke-width="1.5"/>');
       o.push('<text x="'+(cx-L/2+26)+'" y="'+(cy+50)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-             'font-size="10">'+fmt(inc)+'°</text>');
+             'font-size="10">'+num(inc)+'°</text>');
     } else {
       o.push('<line x1="'+(cx-120)+'" y1="'+(cy+34)+'" x2="'+(cx+120)+'" y2="'+(cy+34)+
              '" stroke="var(--ink-faint)" stroke-width="1.5"/>');
@@ -505,7 +547,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+ex+' '+ey+' L'+(ex-hl*Math.cos(aa-0.4))+' '+(ey-hl*Math.sin(aa-0.4))+
              ' L'+(ex-hl*Math.cos(aa+0.4))+' '+(ey-hl*Math.sin(aa+0.4))+' Z" fill="'+c2+'"/>');
       o.push('<text x="'+(cx+Math.cos(aa)*(len+24))+'" y="'+(cy+Math.sin(aa)*(len+24)+4)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+fmt(Math.abs(f.mag))+'</text>');
+             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+num(Math.abs(f.mag))+'</text>');
     });
     if(cfg.note) cap(o,44,300,cfg.note,"note");
   }
@@ -524,7 +566,7 @@ VIZLIB.stack = {
       var pw=Math.max(0,p.v)/tot*w;
       o.push('<rect x="'+x+'" y="'+y+'" width="'+pw+'" height="'+h+'" fill="'+col(p.col)+'" opacity="0.88"/>');
       if(pw>34) o.push('<text x="'+(x+pw/2)+'" y="'+(y+h/2+4)+'" fill="#fff" font-family="IBM Plex Sans" '+
-                       'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(p.v)+'</text>');
+                       'font-size="11" font-weight="600" text-anchor="middle">'+num(p.v)+'</text>');
       x+=pw;
     });
     o.push('<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="none" stroke="var(--ink)" stroke-width="1.6"/>');
@@ -536,7 +578,7 @@ VIZLIB.stack = {
              'font-size="10.5">'+tx(p.lab)+'</text>');
     });
     if(cfg.total) o.push('<text x="'+(x0+w)+'" y="'+(y-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+fmt2(tot)+'</text>');
+                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+num(tot)+'</text>');
     if(cfg.note) cap(o,x0,236,cfg.note,"note");
   }
 };
@@ -840,7 +882,7 @@ function instrument(S, o, ins, ctx){
       if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
                       'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+num(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -1273,7 +1315,7 @@ function makeLab(nd, host){
     });
     /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=num(S.p[c.k],6)+(c.unit||"");
       if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){

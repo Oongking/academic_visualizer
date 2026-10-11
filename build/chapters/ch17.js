@@ -34,17 +34,17 @@ nodes:[
     ],
     readouts:[
       {lab:["Stress at the limit","ความเค้นที่ขีดจำกัด"], f:function(S){
-        return fmt(S.p.Y*S.p.el/1000)+" GPa"; }},
-      {lab:["Gradient","ความชัน"], f:function(S){ return S.p.Y+" GPa"; }}
+        return un(S.p.Y*S.p.el/1000,"GPa"); }},
+      {lab:["Gradient","ความชัน"], f:function(S){ return un(S.p.Y,"GPa"); }}
     ]
   },
   guide:[
     {say:["The straight part is the elastic region. Its gradient IS the Young modulus — read it off the axes.",
-          "ช่วงที่เป็นเส้นตรงคือช่วงยืดหยุ่น ความชันของเส้นก็คือมอดุลัสของยัง ลองอ่านค่าจากแกนดู"], set:{Y:200,el:4}},
+          "ส่วนที่เป็นเส้นตรงคือช่วงยืดหยุ่น และความชันของเส้นนี้ก็คือมอดุลัสของยัง ลองอ่านค่าจากแกนดู"], set:{Y:200,el:4}},
     {say:["Beyond the marked point the line bends over. The material is now deforming permanently.",
-          "เลยจุดที่ทำเครื่องหมายไว้ เส้นจะโค้งลง แปลว่าวัสดุเริ่มเปลี่ยนรูปถาวรแล้ว"], set:{Y:200,el:4}},
+          "พ้นจุดที่ทำเครื่องหมายไว้ เส้นจะโค้งลง วัสดุเริ่มเสียรูปถาวรแล้ว"], set:{Y:200,el:4}},
     {say:["Lower the modulus. A shallower line means the same stress produces far more strain — rubber, not steel.",
-          "ลองลดค่ามอดุลัสดู เส้นที่ชันน้อยลงหมายความว่าความเค้นเท่าเดิมทำให้เกิดความเครียดมากขึ้นมาก เหมือนยางมากกว่าเหล็ก"], set:{Y:40,el:8}}
+          "ลองลดมอดุลัสลง เส้นที่ชันน้อยลงแปลว่า ความเค้นเท่าเดิมทำให้วัสดุเครียดมากขึ้นเยอะ เหมือนยางมากกว่าเหล็ก"], set:{Y:40,el:8}}
   ]},
 
 { id:"pressure", x:100, y:150, requires:["elasticity"], methods:["M-02"],
@@ -60,7 +60,7 @@ nodes:[
     title:["PRESSURE AGAINST DEPTH","ความดัน เทียบ ความลึก"],
     xlab:["depth (m)","ความลึก (m)"], ylab:["pressure (kPa)","ความดัน (kPa)"],
     xmin:0, xmax:30, ymin:0, fill:false,
-    fn:function(x,p){ return (p.atm?101:0) + p.rho*9.8*x/1000; },
+    fn:function(x,p){ return (p.atm?101.3:0) + p.rho*10*x/1000; },
     mark:function(p){ return p.h; },
     ctrls:[
       {k:"rho", lab:["Fluid density","ความหนาแน่นของไหล"], min:700, max:13600, step:100, def:1000, unit:" kg/m³"},
@@ -68,16 +68,16 @@ nodes:[
       {k:"atm", lab:["",""], opts:[["gauge","ความดันเกจ"], ["include atmosphere","รวมบรรยากาศ"]], min:0, def:1, unit:""}
     ],
     readouts:[
-      {lab:["Pressure there","ความดัน ณ ที่นั้น"], f:function(S){
-        return fmt2((S.p.atm?101:0)+S.p.rho*9.8*S.p.h/1000)+" kPa"; }},
+      {lab:["Pressure there","ความดันที่ระดับนี้"], f:function(S){
+        return un((S.p.atm?101.3:0)+S.p.rho*10*S.p.h/1000,"kPa"); }},
       {lab:["From the fluid alone","จากของไหลอย่างเดียว"], f:function(S){
-        return fmt2(S.p.rho*9.8*S.p.h/1000)+" kPa"; }},
+        return un(S.p.rho*10*S.p.h/1000,"kPa"); }},
       {lab:["Does the container shape matter?","รูปทรงภาชนะมีผลไหม"], f:function(){
-        return L()?"ไม่เลย — มีแต่ความลึกที่สำคัญ":"not at all — only the depth counts"; }},
+        return L()?"ไม่มีผลเลย มีแต่ความลึกที่มีผล":"not at all — only the depth counts"; }},
       {lab:["Direction of the pressure","ทิศของความดัน"], f:function(){
-        return L()?"ทุกทิศทางเท่ากัน":"equal in every direction"; }}
+        return L()?"เท่ากันทุกทิศ":"equal in every direction"; }}
     ],
-    note:["a narrow tube and a wide lake give the same pressure at the same depth","ท่อแคบกับทะเลสาบกว้างให้ความดันเท่ากันที่ความลึกเดียวกัน"]
+    note:["a narrow tube and a wide lake give the same pressure at the same depth","ท่อแคบกับทะเลสาบกว้าง ถ้าลึกเท่ากัน ความดันก็เท่ากัน"]
   } },
 
 { id:"pascal", x:370, y:150, requires:["pressure"], methods:["M-03"],
@@ -93,19 +93,19 @@ nodes:[
     title:["A HYDRAULIC PRESS MULTIPLIES FORCE","แม่แรงไฮดรอลิกทวีแรง"],
     ylab:["N  ·  cm²  ·  cm","N  ·  cm²  ·  cm"],
     ctrls:[
-      {k:"F1", lab:["Force you apply","แรงที่คุณออก"], min:10, max:300, step:10, def:100, unit:" N"},
+      {k:"F1", lab:["Force you apply","แรงที่เราออก"], min:10, max:300, step:10, def:100, unit:" N"},
       {k:"A1", lab:["Small piston area","พื้นที่ลูกสูบเล็ก"], min:1, max:20, step:1, def:2, unit:" cm²"},
       {k:"A2", lab:["Large piston area","พื้นที่ลูกสูบใหญ่"], min:5, max:200, step:5, def:50, unit:" cm²"},
-      {k:"d1", lab:["Distance you push","ระยะที่คุณกด"], min:1, max:50, step:1, def:20, unit:" cm"}
+      {k:"d1", lab:["Distance you push","ระยะที่เรากด"], min:1, max:50, step:1, def:20, unit:" cm"}
     ],
     readouts:[
       {lab:["Pressure (same throughout)","ความดัน (เท่ากันทั้งระบบ)"], f:function(S){
-        return fmt2(S.p.F1/S.p.A1*10)+" kPa"; }},
-      {lab:["Force out","แรงที่ได้ออกมา"], f:function(S){ return fmt2(S.p.F1*S.p.A2/S.p.A1)+" N"; }},
-      {lab:["Distance the load rises","ระยะที่ของหนักยกขึ้น"], f:function(S){
-        return fmt2(S.p.d1*S.p.A1/S.p.A2)+" cm"; }},
-      {lab:["Work in vs work out","งานเข้า เทียบ งานออก"], f:function(S){
-        return fmt2(S.p.F1*S.p.d1/100)+(L()?" J · เท่ากันทั้งสองฝั่ง":" J · identical on both sides"); }}
+        return un(S.p.F1/S.p.A1*10,"kPa"); }},
+      {lab:["Force out","แรงที่ได้"], f:function(S){ return un(S.p.F1*S.p.A2/S.p.A1,"N"); }},
+      {lab:["Distance the load rises","ระยะที่ของหนักขึ้นไป"], f:function(S){
+        return un(S.p.d1*S.p.A1/S.p.A2,"cm"); }},
+      {lab:["Work in vs work out","งานที่ใส่เข้าไป เทียบกับงานที่ได้"], f:function(S){
+        return un(S.p.F1*S.p.d1/100,"J")+(L()?" · เท่ากันทั้งสองข้าง":" · identical on both sides"); }}
     ],
     bars:[
       {lab:["Force in","แรงเข้า"],   f:function(p){ return p.F1; }, col:"faint"},
@@ -134,30 +134,30 @@ nodes:[
       {k:"rf",  lab:["Density of the fluid","ความหนาแน่นของไหล"], min:700, max:13600, step:100, def:1000, unit:" kg/m³"}
     ],
     readouts:[
-      {lab:["Weight","น้ำหนัก"], f:function(S){ return fmt2(S.p.V*1e-6*S.p.rho*9.8)+" N"; }},
-      {lab:["Upthrust if fully submerged","แรงลอยตัวเมื่อจมทั้งก้อน"], f:function(S){
-        return fmt2(S.p.V*1e-6*S.p.rf*9.8)+" N"; }},
-      {lab:["Verdict","ผลลัพธ์"], f:function(S){
+      {lab:["Weight","น้ำหนัก"], f:function(S){ return un(S.p.V*1e-6*S.p.rho*10,"N"); }},
+      {lab:["Upthrust if fully submerged","แรงพยุงเมื่อจมทั้งก้อน"], f:function(S){
+        return un(S.p.V*1e-6*S.p.rf*10,"N"); }},
+      {lab:["Verdict","สรุป"], f:function(S){
         return S.p.rho<S.p.rf ? (L()?"ลอย":"floats") : S.p.rho>S.p.rf ? (L()?"จม":"sinks")
-                              : (L()?"ลอยปริ่มน้ำ":"hovers, neutrally buoyant"); }},
+                              : (L()?"ลอยนิ่งอยู่ในของไหล":"hovers, neutrally buoyant"); }},
       {lab:["Fraction submerged when floating","สัดส่วนที่จมเมื่อลอย"], f:function(S){
-        return S.p.rho<S.p.rf ? fmt2(100*S.p.rho/S.p.rf)+" %" : (L()?"จมทั้งหมด":"all of it"); }}
+        return S.p.rho<S.p.rf ? un(100*S.p.rho/S.p.rf,"%") : (L()?"จมทั้งก้อน":"all of it"); }}
     ],
     bars:[
-      {lab:["Weight","น้ำหนัก"], f:function(p){ return p.V*1e-6*p.rho*9.8; }, col:"ink"},
-      {lab:["Upthrust","แรงลอยตัว"], f:function(p){ return p.V*1e-6*p.rf*9.8; }, col:"accent"},
+      {lab:["Weight","น้ำหนัก"], f:function(p){ return p.V*1e-6*p.rho*10; }, col:"ink"},
+      {lab:["Upthrust","แรงพยุง"], f:function(p){ return p.V*1e-6*p.rf*10; }, col:"accent"},
       {lab:["Apparent weight","น้ำหนักปรากฏ"], f:function(p){
-        return Math.max(0, p.V*1e-6*(p.rho-p.rf)*9.8); }, col:"warn"}
+        return Math.max(0, p.V*1e-6*(p.rho-p.rf)*10); }, col:"warn"}
     ],
-    note:["compare only the two densities — the volume cancels out of the comparison entirely","เทียบแค่ความหนาแน่นสองค่า เพราะปริมาตรตัดกันหมดไปเอง"]
+    note:["compare only the two densities — the volume cancels out of the comparison entirely","เทียบแค่ความหนาแน่นสองค่าก็พอ เพราะปริมาตรตัดกันไปหมด"]
   },
   guide:[
     {say:["Wood in water. The upthrust bar overtops the weight bar, so it floats.",
-          "ไม้ในน้ำ แถบแรงลอยตัวสูงกว่าแถบน้ำหนัก ไม้จึงลอย"], set:{V:1000,rho:700,rf:1000}},
+          "ไม้ในน้ำ แถบแรงพยุงสูงกว่าแถบน้ำหนัก ไม้จึงลอย"], set:{V:1000,rho:700,rf:1000}},
     {say:["Make the object denser than water and the bars swap over. Now it sinks.",
-          "ลองทำให้วัตถุหนาแน่นกว่าน้ำ แถบทั้งสองจะสลับกัน คราวนี้วัตถุจม"], set:{V:1000,rho:2500,rf:1000}},
+          "ลองให้วัตถุหนาแน่นกว่าน้ำ แถบสองแถบจะสลับที่กัน และวัตถุก็จม"], set:{V:1000,rho:2500,rf:1000}},
     {say:["Change the fluid to mercury instead and the same dense object floats again.",
-          "ลองเปลี่ยนของไหลเป็นปรอท วัตถุหนาแน่นก้อนเดิมก็กลับมาลอยได้"], set:{V:1000,rho:2500,rf:13600}}
+          "ลองเปลี่ยนของไหลเป็นปรอท วัตถุก้อนเดิมที่หนาแน่นก็กลับมาลอยอีกครั้ง"], set:{V:1000,rho:2500,rf:13600}}
   ] },
 
 { id:"flow", x:235, y:346, requires:["buoyancy"], methods:["M-05","M-06"],
@@ -179,14 +179,14 @@ nodes:[
     ],
     readouts:[
       {lab:["Speed in the narrow part","อัตราเร็วช่วงแคบ"], f:function(S){
-        return fmt2(S.p.v1*S.p.A1/S.p.A2)+" m/s"; }},
-      {lab:["Flow rate (same in both)","อัตราการไหล (เท่ากันทั้งสอง)"], f:function(S){
-        return fmt2(S.p.A1*1e-4*S.p.v1*1000)+" L/s"; }},
+        return un(S.p.v1*S.p.A1/S.p.A2,"m/s"); }},
+      {lab:["Flow rate (same in both)","อัตราการไหล (เท่ากันทั้งสองช่วง)"], f:function(S){
+        return un(S.p.A1*1e-4*S.p.v1*1000,"L/s"); }},
       {lab:["Pressure in the narrow part","ความดันช่วงแคบ"], f:function(S){
         var p=S.p, v2=p.v1*p.A1/p.A2;
-        return fmt2(-0.5*1000*(v2*v2-p.v1*p.v1)/1000)+(L()?" kPa เทียบกับช่วงกว้าง":" kPa relative to the wide part"); }},
+        return un(-0.5*(v2*v2-p.v1*p.v1),"kPa")+(L()?" เทียบกับช่วงกว้าง":" relative to the wide part"); }},
       {lab:["Faster flow means","ไหลเร็วขึ้นแปลว่า"], f:function(){
-        return L()?"ความดันต่ำลง — ขัดกับสัญชาตญาณ":"lower pressure — which feels backwards"; }}
+        return L()?"ความดันต่ำลง ขัดกับที่เรามักคิด":"lower pressure — which feels backwards"; }}
     ],
     bars:[
       {lab:["Wide area","พื้นที่กว้าง"], f:function(p){ return p.A1; }, col:"faint"},
@@ -194,7 +194,7 @@ nodes:[
       {lab:["Speed wide","เร็วช่วงกว้าง"], f:function(p){ return p.v1; }, col:"good"},
       {lab:["Speed narrow","เร็วช่วงแคบ"], f:function(p){ return p.v1*p.A1/p.A2; }, col:"accent"}
     ],
-    note:["area down means speed up, because the same volume must pass every second","พื้นที่ลดลง อัตราเร็วจึงเพิ่มขึ้น เพราะปริมาตรเท่าเดิมต้องผ่านไปทุกวินาที"]
+    note:["area down means speed up, because the same volume must pass every second","พื้นที่เล็กลง อัตราเร็วจึงเพิ่มขึ้น เพราะทุกวินาทีต้องมีปริมาตรเท่าเดิมไหลผ่าน"]
   } }
 ],
 
@@ -241,7 +241,7 @@ gen:{
           {v:["It depends on the tank's shape","ขึ้นกับรูปทรงของถัง"],trap:"T-02"}],unit:""};
   if(sf==="S-05") return {stem:["The gauge pressure at the bottom of a lake is "+P+" Pa. Find its depth, with ρ = 1000 and g = 10.",
                                 "ความดันเกจที่ก้นทะเลสาบคือ "+P+" ปาสคาล จงหาความลึก โดย ρ = 1000 และ g = 10"],
-    opts:[{v:String(h),ok:1},{v:fmt(P/1000)},{v:fmt(P*10)},{v:fmt(h*2)}],unit:" m"};
+    opts:[{v:String(h),ok:1},{v:num(P/1000)},{v:num(P*10)},{v:num(h*2)}],unit:" m"};
   return {stem:["Find the gauge pressure "+h+" m below the surface of water, with ρ = 1000 kg/m³ and g = 10 m/s².",
                 "จงหาความดันเกจที่ระดับ "+h+" เมตร ใต้ผิวน้ำ โดย ρ = 1000 กก./ลบ.ม. และ g = 10 ม./วินาที²"],
     opts:[{v:String(P),ok:1},{v:String(P+101300),trap:"T-02"},{v:String(rho*h)},{v:String(P/2)}],unit:" Pa"};
@@ -256,7 +256,7 @@ gen:{
           {v:["The fluid heats up","ของไหลร้อนขึ้น"]},{v:["There is no catch","ไม่มีข้อแลกเปลี่ยน"]}],unit:""};
   return {stem:["A hydraulic press has pistons of "+A1+" m² and "+A2+" m². A force of "+F1+" N acts on the small one. Find the output force.",
                 "เครื่องอัดไฮดรอลิกมีลูกสูบพื้นที่ "+A1+" และ "+A2+" ตร.ม. แรง "+F1+" นิวตัน กระทำที่ลูกสูบเล็ก จงหาแรงขาออก"],
-    opts:[{v:fmt(F2),ok:1},{v:fmt(F1*A1/A2)},{v:String(F1)},{v:fmt(F2/2)}],unit:" N"};
+    opts:[{v:num(F2),ok:1},{v:num(F1*A1/A2)},{v:String(F1)},{v:num(F2/2)}],unit:" N"};
 },
 "M-04": function(sf){
   var V=pick([0.002,0.005,0.01]), rho=1000, g=10, rob=pick([600,800,2700]);
@@ -267,10 +267,10 @@ gen:{
           {v:["1333 kg/m³","1333 กก./ลบ.ม."],trap:"T-03"},{v:["250 kg/m³","250 กก./ลบ.ม."]}],unit:""};
   if(sf==="S-03") return {stem:["A "+rob+" kg/m³ block of volume "+V+" m³ is fully submerged in water. Find the upthrust.",
                                 "ก้อนวัตถุความหนาแน่น "+rob+" กก./ลบ.ม. ปริมาตร "+V+" ลบ.ม. จมมิดในน้ำ จงหาแรงพยุง"],
-    opts:[{v:fmt(FB),ok:1},{v:fmt(W),trap:"T-03"},{v:fmt(FB-W)},{v:fmt(FB*2)}],unit:" N"};
+    opts:[{v:num(FB),ok:1},{v:num(W),trap:"T-03"},{v:num(FB-W)},{v:num(FB*2)}],unit:" N"};
   return {stem:["Find the upthrust on a body displacing "+V+" m³ of water, with ρ = 1000 kg/m³ and g = 10 m/s².",
                 "จงหาแรงพยุงของวัตถุที่แทนที่น้ำ "+V+" ลบ.ม. โดย ρ = 1000 กก./ลบ.ม. และ g = 10 ม./วินาที²"],
-    opts:[{v:fmt(FB),ok:1},{v:fmt(rho*V),trap:"T-03"},{v:fmt(FB/g)},{v:fmt(FB*2)}],unit:" N"};
+    opts:[{v:num(FB),ok:1},{v:num(rho*V),trap:"T-03"},{v:num(FB/g)},{v:num(FB*2)}],unit:" N"};
 },
 "M-05": function(sf){
   var A1=pick([0.01,0.02,0.04]), v1=pick([1,2,4]), A2=pick([0.005,0.002]);
@@ -281,7 +281,7 @@ gen:{
           {v:["It is unchanged","เท่าเดิม"]},{v:["It depends on the pressure","ขึ้นกับความดัน"]}],unit:""};
   return {stem:["Water at "+v1+" m/s in a pipe of area "+A1+" m² enters a section of "+A2+" m². Find the new speed.",
                 "น้ำไหลด้วย "+v1+" ม./วินาที ในท่อพื้นที่ "+A1+" ตร.ม. เข้าสู่ช่วงที่มีพื้นที่ "+A2+" ตร.ม. จงหาอัตราเร็วใหม่"],
-    opts:[{v:fmt(v2),ok:1},{v:fmt(v1*A2/A1),trap:"T-04"},{v:String(v1)},{v:fmt(v2/2)}],unit:" m/s"};
+    opts:[{v:num(v2),ok:1},{v:num(v1*A2/A1),trap:"T-04"},{v:String(v1)},{v:num(v2/2)}],unit:" m/s"};
 },
 "M-06": function(sf){
   var C=[{s:["Why does an aeroplane wing generate lift?","ทำไมปีกเครื่องบินจึงเกิดแรงยก"],

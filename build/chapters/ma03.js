@@ -23,7 +23,7 @@ nodes:[
     ctrls:[{k:"i", lab:["Show up to","แสดงถึง"], min:0, max:3, step:1, def:0, unit:""}],
     readouts:[
       {lab:["Set shown","เซตที่แสดง"], f:function(S){
-        return [["ℕ natural","ℕ นับ"],["ℤ integers","ℤ จำนวนเต็ม"],
+        return [["ℕ natural","ℕ จำนวนนับ"],["ℤ integers","ℤ จำนวนเต็ม"],
                 ["ℚ rational","ℚ ตรรกยะ"],["ℝ real","ℝ จำนวนจริง"]][S.p.i][L()]; }},
       {lab:["What it adds","สิ่งที่เพิ่มเข้ามา"], f:function(S){
         return [["counting numbers","จำนวนนับ"],["zero and negatives","ศูนย์และจำนวนลบ"],
@@ -47,7 +47,7 @@ nodes:[
         pts.push({v:x, lab:["irrational","อตรรกยะ"], col:"ink"}); });
       return pts;
     },
-    note:["between any two rationals there is another — yet they still leave gaps that √2 falls into","ระหว่างจำนวนตรรกยะสองตัวมีจำนวนตรรกยะอีกตัวเสมอ แต่ก็ยังมีช่องว่างอยู่ และ √2 อยู่ในช่องว่างนั้น"]
+    note:["between any two rationals there is another — yet they still leave gaps that √2 falls into","ระหว่างจำนวนตรรกยะสองตัวมีตรรกยะอีกตัวเสมอ แต่ก็ยังมีช่องว่าง และ √2 ตกอยู่ในช่องว่างนั้น"]
   } },
 
 { id:"quadratics", x:100, y:150, requires:["number-sets"], methods:["M-02","M-03"],
@@ -72,14 +72,14 @@ nodes:[
     ],
     readouts:[
       {lab:["Discriminant","ดิสคริมิแนนต์"], f:function(S){
-        return fmt(S.p.b*S.p.b - 4*S.p.a*S.p.c); }},
+        return num(S.p.b*S.p.b - 4*S.p.a*S.p.c); }},
       {lab:["Real roots","รากจริง"], f:function(S){
         var d=S.p.b*S.p.b-4*S.p.a*S.p.c;
         if(S.p.a===0) return L()?"ไม่ใช่กำลังสอง":"not quadratic";
         return d>0?"2":(Math.abs(d)<1e-9?"1":"0"); }},
       {lab:["Sum · product","ผลบวก · ผลคูณ"], f:function(S){
         if(S.p.a===0) return "—";
-        return fmt(-S.p.b/S.p.a)+" · "+fmt(S.p.c/S.p.a); }}
+        return num(-S.p.b/S.p.a)+" · "+num(S.p.c/S.p.a); }}
     ]
   },
   guide:[
@@ -90,7 +90,7 @@ nodes:[
     {say:["Push further and the curve lifts clear of the axis. Discriminant negative, no real roots at all.",
           "เพิ่มต่อไปอีก เส้นโค้งจะลอยพ้นแกน ดิสคริมิแนนต์เป็นลบ ไม่มีรากจริงเลย"], set:{a:1,b:-2,c:4}},
     {say:["Make a negative and the parabola flips. The discriminant rule is unchanged — only the opening direction moved.",
-          "ทำให้ a เป็นลบ พาราโบลาจะพลิกคว่ำ กฎของดิสคริมิแนนต์ยังเหมือนเดิม เปลี่ยนแค่ทิศที่โค้งเปิด"], set:{a:-1,b:2,c:3}}
+          "ทำให้ a เป็นลบ พาราโบลาจะคว่ำลง กฎของดิสคริมิแนนต์ยังเหมือนเดิม เปลี่ยนแค่ทิศที่เปิด"], set:{a:-1,b:2,c:3}}
   ]},
 
 { id:"polynomials", x:370, y:150, requires:["number-sets"], methods:["M-04"],
@@ -121,6 +121,7 @@ nodes:[
       {lab:["Maximum real roots","รากจริงมากสุด"], f:function(S){ return String(S.p.deg); }},
       {lab:["End behaviour","พฤติกรรมปลายกราฟ"], f:function(S){
         var p=S.p;
+        if(Math.abs(p.a)<1e-9) return "—";
         if(p.deg%2===0) return p.a>0 ? (L()?"ขึ้นทั้งสองข้าง":"up at both ends") : (L()?"ลงทั้งสองข้าง":"down at both ends");
         return p.a>0 ? (L()?"ลงซ้าย ขึ้นขวา":"down left, up right") : (L()?"ขึ้นซ้าย ลงขวา":"up left, down right"); }},
       {lab:["Odd degree guarantees","ดีกรีคี่รับประกันว่า"], f:function(){
@@ -134,7 +135,7 @@ nodes:[
     {say:["Degree two can cross twice, touch once, or miss the axis altogether.",
           "ดีกรีสองอาจตัดแกนสองจุด แตะแกนจุดเดียว หรือไม่แตะแกนเลยก็ได้"], set:{deg:2,a:1,b:0}},
     {say:["Degree three must come from below and go above, so a real root cannot be avoided.",
-          "ดีกรีสามเริ่มจากด้านล่างแล้วขึ้นไปด้านบน จึงต้องตัดแกนอย่างน้อยหนึ่งจุด คือต้องมีรากจริง"], set:{deg:3,a:1,b:0}}
+          "ดีกรีสามเริ่มจากด้านล่างแล้วไต่ขึ้นด้านบน จึงต้องตัดแกนอย่างน้อยหนึ่งจุด นั่นคือต้องมีรากจริง"], set:{deg:3,a:1,b:0}}
   ] },
 
 { id:"inequalities", x:235, y:248, requires:["quadratics","polynomials"], methods:["M-05"],
@@ -158,9 +159,9 @@ nodes:[
     readouts:[
       {lab:["Solution","คำตอบ"], f:function(S){
         var p=S.p, o=p.strict===1;
-        if(p.kind===0) return "x "+(o?">":"≥")+" "+fmt(p.a);
-        if(p.kind===1) return fmt(Math.min(p.a,p.b))+(o?" < ":" ≤ ")+"x"+(o?" < ":" ≤ ")+fmt(Math.max(p.a,p.b));
-        return "x "+(o?"<":"≤")+" "+fmt(Math.min(p.a,p.b))+(L()?" หรือ ":" or ")+"x "+(o?">":"≥")+" "+fmt(Math.max(p.a,p.b)); }},
+        if(p.kind===0) return "x "+(o?">":"≥")+" "+num(p.a);
+        if(p.kind===1) return num(Math.min(p.a,p.b))+(o?" < ":" ≤ ")+"x"+(o?" < ":" ≤ ")+num(Math.max(p.a,p.b));
+        return "x "+(o?"<":"≤")+" "+num(Math.min(p.a,p.b))+(L()?" หรือ ":" or ")+"x "+(o?">":"≥")+" "+num(Math.max(p.a,p.b)); }},
       {lab:["Endpoint circles","วงกลมที่ปลาย"], f:function(S){
         return S.p.strict===1 ? (L()?"กลวง — ไม่รวมปลาย":"hollow — the end is excluded")
                               : (L()?"ทึบ — รวมปลาย":"solid — the end is included"); }},
@@ -177,7 +178,7 @@ nodes:[
               {a:hi,b:8,col:"accent",openA:o,lab:["solution","คำตอบ"]}];
     },
     points:function(p){ return [{v:p.a, lab:["a","a"], col:"ink"},{v:p.b, lab:["b","b"], col:"ink"}]; },
-    note:["'and' gives one interval; 'or' gives two — the word decides the picture","ถ้าใช้ และ จะได้ช่วงเดียว ถ้าใช้ หรือ จะได้สองช่วง คำเชื่อมเป็นตัวกำหนดภาพ"]
+    note:["'and' gives one interval; 'or' gives two — the word decides the picture","ใช้ “และ” จะได้ช่วงเดียว ใช้ “หรือ” จะได้สองช่วง คำเชื่อมกำหนดภาพที่ได้"]
   } },
 
 { id:"absolute-value", x:235, y:346, requires:["inequalities"], methods:["M-06"],
@@ -201,15 +202,15 @@ nodes:[
       {k:"x", lab:["Test point x","จุดทดสอบ x"], min:-8, max:8, step:.5, def:0, unit:""}
     ],
     readouts:[
-      {lab:["|x − a|","|x − a|"], f:function(S){ return fmt2(Math.abs(S.p.x-S.p.a)); }},
+      {lab:["|x − a|","|x − a|"], f:function(S){ return num(Math.abs(S.p.x-S.p.a)); }},
       {lab:["Meaning","ความหมาย"], f:function(S){
         return L()?"ระยะจาก x ถึง a":"the distance from x to a"; }},
       {lab:["Solution of |x − a| < b","คำตอบของ |x − a| < b"], f:function(S){
-        return fmt(S.p.a-S.p.b)+" < x < "+fmt(S.p.a+S.p.b); }},
+        return num(S.p.a-S.p.b)+" < x < "+num(S.p.a+S.p.b); }},
       {lab:["Solution of |x − a| > b","คำตอบของ |x − a| > b"], f:function(S){
-        return "x < "+fmt(S.p.a-S.p.b)+(L()?" หรือ ":" or ")+"x > "+fmt(S.p.a+S.p.b); }}
+        return "x < "+num(S.p.a-S.p.b)+(L()?" หรือ ":" or ")+"x > "+num(S.p.a+S.p.b); }}
     ],
-    note:["the V has its point at a — 'less than b' is the slice near the bottom of the V","ตัว V มีจุดยอดอยู่ที่ a เงื่อนไข น้อยกว่า b คือส่วนที่อยู่ใกล้ก้นตัว V"]
+    note:["the V has its point at a — 'less than b' is the slice near the bottom of the V","จุดยอดของตัว V อยู่ที่ a เงื่อนไข “น้อยกว่า b” คือส่วนที่อยู่ใกล้ก้นตัว V"]
   },
   guide:[
     {say:["The V bottoms out at x = a, where the distance is zero. That vertex is the whole idea.",
@@ -253,11 +254,11 @@ gen:{
 "M-02": function(sf){
   var r1=pick([1,2,3,-1,-2]), r2=pick([4,5,-3,-4]);
   var b=-(r1+r2), c=r1*r2;
-  if(sf==="S-05") return {stem:["A quadratic has roots "+r1+" and "+r2+" with leading coefficient 1. What is the equation?",
-                                "สมการกำลังสองมีราก "+r1+" และ "+r2+" โดยสัมประสิทธิ์นำเป็น 1 สมการคืออะไร"],
+  if(sf==="S-05") return {stem:["A quadratic has roots "+num(r1)+" and "+num(r2)+" with leading coefficient 1. What is the equation?",
+                                "สมการกำลังสองมีราก "+num(r1)+" และ "+num(r2)+" โดยสัมประสิทธิ์นำเป็น 1 สมการคืออะไร"],
     opts:[{v:"x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0",ok:1},
           {v:"x² "+(b>=0?"− ":"+ ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0",trap:"T-01"},
-          {v:"x² + "+Math.abs(r1+r2)+"x + "+Math.abs(c)+" = 0"},
+          {v:"x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"− ":"+ ")+Math.abs(c)+" = 0"},
           {v:"x² − "+Math.abs(c)+"x + "+Math.abs(b)+" = 0"}],unit:""};
   if(sf==="S-04") return {stem:["When is factorising preferable to the quadratic formula?",
                                 "เมื่อไรที่การแยกตัวประกอบเหมาะกว่าการใช้สูตรกำลังสอง"],
@@ -267,8 +268,8 @@ gen:{
           {v:["When the discriminant is negative","เมื่อดิสคริมิแนนต์เป็นลบ"],trap:"T-01"}],unit:""};
   return {stem:["Solve x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0.",
                 "จงแก้สมการ x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0"],
-    opts:[{v:"x = "+r1+", "+r2,ok:1},{v:"x = "+(-r1)+", "+(-r2),trap:"T-01"},
-          {v:"x = "+r1+", "+(-r2)},{v:"x = "+b+", "+c}],unit:""};
+    opts:[{v:"x = "+num(r1)+", "+num(r2),ok:1},{v:"x = "+num(-r1)+", "+num(-r2),trap:"T-01"},
+          {v:"x = "+num(r1)+", "+num(-r2)},{v:"x = "+num(b)+", "+num(c)}],unit:""};
 },
 "M-03": function(sf){
   var a=1, b=pick([2,4,-6,-2]), c=pick([1,3,-8,5]);
@@ -277,15 +278,15 @@ gen:{
                                              "พาราโบลาแตะแกน x ที่จุดเดียวพอดี ดิสคริมิแนนต์เท่ากับเท่าไร"],
     opts:[{v:["Zero","ศูนย์"],ok:1},{v:["Positive","เป็นบวก"],trap:"T-01"},
           {v:["Negative","เป็นลบ"],trap:"T-01"},{v:["Undefined","ไม่นิยาม"]}],unit:""};
-  if(sf==="S-05") return {stem:["The roots of x² + bx + "+c+" = 0 sum to "+(-b)+". Find b.",
-                                "รากของ x² + bx + "+c+" = 0 มีผลบวก "+(-b)+" จงหา b"],
-    opts:[{v:String(b),ok:1},{v:String(-b),trap:"T-01"},{v:String(c)},{v:String(b*2)}],unit:""};
+  if(sf==="S-05") return {stem:["The roots of x² + bx "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0 sum to "+num(-b)+". Find b.",
+                                "รากของ x² + bx "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0 มีผลบวก "+num(-b)+" จงหา b"],
+    opts:[{v:num(b),ok:1},{v:num(-b),trap:"T-01"},{v:num(c)},{v:num(b*2)}],unit:""};
   return {stem:["Find the discriminant of x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0 and say how many real roots it has.",
                 "จงหาดิสคริมิแนนต์ของ x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0 และบอกว่ามีรากจริงกี่ค่า"],
-    opts:[{v:d+", "+(d>0?"2":(d===0?"1":"0")),ok:1},
-          {v:d+", "+(d>0?"0":(d===0?"2":"2")),trap:"T-01"},
-          {v:(-d)+", "+(d>0?"2":"0"),trap:"T-01"},
-          {v:d+", 1"}],unit:""};
+    opts:[{v:num(d)+", "+(d>0?"2":(d===0?"1":"0")),ok:1},
+          {v:num(d)+", "+(d>0?"0":(d===0?"2":"2")),trap:"T-01"},
+          {v:num(-d)+", "+(d>0?"2":"0"),trap:"T-01"},
+          {v:(d===0?"1":num(d))+", 1"}],unit:""};
 },
 "M-04": function(sf){
   var r=pick([1,2,3,-1,-2]);
@@ -302,7 +303,7 @@ gen:{
     opts:[{v:"±1, ±2, ±½",ok:1},{v:"±1, ±2 only"},{v:"±2, ±½ only"},{v:"any integer"}],unit:""};
 },
 "M-05": function(sf){
-  var k=pick([2,3,5]), m=pick([4,6,10]);
+  var k=pick([2,3,5]), m=k*pick([2,3,4]);
   if(sf==="S-04") return {stem:["You multiply both sides of an inequality by −3. What must you do?",
                                 "คูณทั้งสองข้างของอสมการด้วย −3 ต้องทำอย่างไร"],
     opts:[{v:["Reverse the inequality sign","กลับเครื่องหมายอสมการ"],ok:1},
@@ -325,8 +326,8 @@ gen:{
             {v:["Neither","ไม่มีค่าใดเลย"]}],unit:""};
   }
   return {stem:["Solve −"+k+"x > "+m+".","จงแก้อสมการ −"+k+"x > "+m],
-    opts:[{v:"x < −"+fmt(m/k),ok:1},{v:"x > −"+fmt(m/k),trap:"T-02"},
-          {v:"x < "+fmt(m/k)},{v:"x > "+fmt(m/k),trap:"T-02"}],unit:""};
+    opts:[{v:"x < −"+(m/k),ok:1},{v:"x > −"+(m/k),trap:"T-02"},
+          {v:"x < "+(m/k)},{v:"x > "+(m/k),trap:"T-02"}],unit:""};
 },
 "M-06": function(sf){
   var a=pick([2,3,5,7]);

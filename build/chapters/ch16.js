@@ -18,30 +18,30 @@ nodes:[
   flabel:["Kelvin in every formula","ใช้เคลวินในทุกสูตร"],
   viz:"bars",
   vizcfg:{
-    title:["ONE TEMPERATURE, THREE SCALES","อุณหภูมิเดียว สามมาตรา"],
+    title:["ONE TEMPERATURE, THREE SCALES","อุณหภูมิเดียว สามสเกล"],
     ylab:["degrees","องศา"],
-    ctrls:[{k:"c", lab:["Temperature","อุณหภูมิ"], min:-273, max:200, step:1, def:25, unit:" °C"}],
+    ctrls:[{k:"c", lab:["Temperature","อุณหภูมิ"], min:-273, max:200, step:1, def:25, unit:"\u00a0°C"}],
     readouts:[
-      {lab:["Celsius","เซลเซียส"], f:function(S){ return fmt2(S.p.c)+" °C"; }},
-      {lab:["Kelvin","เคลวิน"], f:function(S){ return fmt2(S.p.c+273.15)+" K"; }},
-      {lab:["Fahrenheit","ฟาเรนไฮต์"], f:function(S){ return fmt2(S.p.c*9/5+32)+" °F"; }},
-      {lab:["Which one goes in gas laws?","มาตราใดใช้ในกฎแก๊ส"], f:function(){
-        return L()?"เคลวินเท่านั้น — ศูนย์ของมันคือศูนย์จริง":"kelvin only — its zero is a real zero"; }}
+      {lab:["Celsius","เซลเซียส"], f:function(S){ return un(S.p.c,"°C"); }},
+      {lab:["Kelvin","เคลวิน"], f:function(S){ return un(S.p.c+273,"K"); }},
+      {lab:["Fahrenheit","ฟาเรนไฮต์"], f:function(S){ return un(S.p.c*9/5+32,"°F"); }},
+      {lab:["Which one goes in gas laws?","สเกลไหนใช้ในกฎของแก๊ส"], f:function(){
+        return L()?"เคลวินเท่านั้น — ศูนย์ของเคลวินคือศูนย์จริง":"kelvin only — its zero is a real zero"; }}
     ],
     bars:[
       {lab:["°C","°C"], f:function(p){ return p.c; }, col:"faint"},
-      {lab:["K","K"],   f:function(p){ return p.c+273.15; }, col:"accent"},
+      {lab:["K","K"],   f:function(p){ return p.c+273; }, col:"accent"},
       {lab:["°F","°F"], f:function(p){ return p.c*9/5+32; }, col:"good"}
     ],
-    note:["drag towards −273 °C and only the kelvin bar reaches zero — the others sail past it","ลากไปทาง −273 °C จะมีแค่แถบเคลวินที่ถึงศูนย์ ส่วนอีกสองแถบเลยศูนย์ไปแล้ว"]
+    note:["drag towards −273 °C and only the kelvin bar reaches zero — the others sail past it","ลากไปทาง −273 °C แล้วจะมีแต่แถบเคลวินที่ลงไปถึงศูนย์ อีกสองแถบผ่านศูนย์ไปแล้ว"]
   },
   guide:[
     {say:["Room temperature, read three ways. All three bars describe exactly the same hotness.",
-          "อุณหภูมิห้อง อ่านค่าได้สามแบบ ทั้งสามแถบบอกความร้อนระดับเดียวกันพอดี"], set:{c:25}},
+          "อุณหภูมิห้อง อ่านได้สามแบบ ทั้งสามแถบบอกระดับความร้อนเดียวกันพอดี"], set:{c:25}},
     {say:["At 0 °C the kelvin bar still stands at 273. Celsius zero is a convention, not an absence of heat.",
-          "ที่ 0 °C แถบเคลวินยังอยู่ที่ 273 ศูนย์เซลเซียสเป็นแค่ข้อตกลง ไม่ได้แปลว่าไม่มีความร้อน"], set:{c:0}},
+          "ที่ 0 °C แถบเคลวินยังสูงถึง 273 ศูนย์ของเซลเซียสเป็นแค่ข้อตกลง ไม่ได้แปลว่าไม่มีความร้อน"], set:{c:0}},
     {say:["Only at −273 °C does kelvin reach zero. That is why every gas law insists on kelvin.",
-          "เคลวินถึงศูนย์ที่ −273 °C เท่านั้น เราจึงต้องใช้เคลวินกับกฎของแก๊สทุกข้อ"], set:{c:-273}}
+          "ที่ −273 °C เท่านั้นที่เคลวินเป็นศูนย์ เราจึงต้องใช้เคลวินกับกฎของแก๊สทุกข้อ"], set:{c:-273}}
   ] },
 
 { id:"heat-capacity", x:100, y:150, requires:["temperature"], methods:["M-02","M-04"],
@@ -68,8 +68,8 @@ nodes:[
     },
     mark:function(p){ return p.q; },
     ctrls:[
-      {k:"m", lab:["Mass of water","มวลน้ำ"], min:.2, max:2, step:.1, def:1, unit:" kg"},
-      {k:"q", lab:["Heat supplied","ความร้อนที่ให้"], min:0, max:3100, step:20, def:200, unit:" kJ"}
+      {k:"m", lab:["Mass of water","มวลน้ำ"], min:.2, max:2, step:.1, def:1, unit:"\u00a0kg"},
+      {k:"q", lab:["Heat supplied","ความร้อนที่ให้"], min:0, max:3100, step:20, def:200, unit:"\u00a0kJ"}
     ],
     readouts:[
       {lab:["Temperature now","อุณหภูมิขณะนี้"], f:function(S){
@@ -77,15 +77,15 @@ nodes:[
         var q1=2.1*m*20, q2=334*m, q3=4.2*m*100, q4=2260*m;
         var T = x<q1 ? -20+x/(2.1*m) : x<q1+q2 ? 0 : x<q1+q2+q3 ? (x-q1-q2)/(4.2*m)
               : x<q1+q2+q3+q4 ? 100 : 100+(x-q1-q2-q3-q4)/(2.0*m);
-        return fmt2(T)+" °C"; }},
+        return un(T,"°C"); }},
       {lab:["State","สถานะ"], f:function(S){
         var p=S.p, m=p.m, x=p.q;
         var q1=2.1*m*20, q2=334*m, q3=4.2*m*100, q4=2260*m;
         var S2 = x<q1?["ice","น้ำแข็ง"] : x<q1+q2?["melting","กำลังหลอมเหลว"]
                : x<q1+q2+q3?["water","น้ำ"] : x<q1+q2+q3+q4?["boiling","กำลังเดือด"] : ["steam","ไอน้ำ"];
         return S2[L()]; }},
-      {lab:["Why the flat parts","ทำไมจึงมีช่วงราบ"], f:function(){
-        return L()?"ความร้อนแฝงไปทำลายพันธะ ไม่ได้ทำให้ร้อนขึ้น":"latent heat breaks bonds instead of raising temperature"; }},
+      {lab:["Why the flat parts","ทำไมกราฟมีช่วงราบ"], f:function(){
+        return L()?"ความร้อนแฝงใช้ทำลายพันธะ ไม่ได้ทำให้อุณหภูมิสูงขึ้น":"latent heat breaks bonds instead of raising temperature"; }},
       {lab:["Longest plateau","ช่วงราบที่ยาวที่สุด"], f:function(){
         return L()?"การเดือด — ต้องใช้พลังงานมากกว่าการหลอมเหลวเกือบเจ็ดเท่า":"boiling — it needs nearly seven times the melting energy"; }}
     ],
@@ -93,11 +93,11 @@ nodes:[
   },
   guide:[
     {say:["Warming solid ice. The line climbs steeply because ice has a small heat capacity.",
-          "อุ่นน้ำแข็งที่ยังเป็นของแข็ง เส้นกราฟชันขึ้นเพราะน้ำแข็งมีความจุความร้อนน้อย"], set:{m:1,q:20}},
+          "กำลังอุ่นน้ำแข็งที่ยังเป็นของแข็ง กราฟชันเพราะน้ำแข็งมีความจุความร้อนจำเพาะต่ำ"], set:{m:1,q:20}},
     {say:["Now it melts. Energy keeps pouring in but the temperature is pinned at 0 °C.",
-          "ตอนนี้น้ำแข็งกำลังหลอมเหลว พลังงานยังเข้าไปเรื่อยๆ แต่อุณหภูมิค้างอยู่ที่ 0 °C"], set:{m:1,q:200}},
+          "น้ำแข็งกำลังหลอมเหลว พลังงานยังเข้าไปเรื่อยๆ แต่อุณหภูมิค้างอยู่ที่ 0 °C"], set:{m:1,q:200}},
     {say:["Boiling is the long flat stretch — vaporising water costs far more than melting ice.",
-          "ช่วงเดือดคือช่วงราบที่ยาว การทำให้น้ำกลายเป็นไอใช้พลังงานมากกว่าการทำให้น้ำแข็งละลายมาก"], set:{m:1,q:1600}}
+          "ช่วงเดือดคือช่วงราบที่ยาวที่สุด น้ำกลายเป็นไอต้องใช้พลังงานมากกว่าน้ำแข็งหลอมเหลวมาก"], set:{m:1,q:1600}}
   ] },
 
 { id:"gas-laws", x:370, y:150, requires:["temperature"], methods:["M-03"],
@@ -107,37 +107,37 @@ nodes:[
         ["บอยล์พบว่า P ∝ 1/V เมื่ออุณหภูมิคงที่ ชาร์ลพบว่า V ∝ T เมื่อความดันคงที่ สองกฎนี้เป็นกรณีพิเศษของ PV = nRT ซึ่งเป็นสูตรเดียวที่ควรจำ",
          "เส้นไอโซเทอร์มด้านล่างคือกฎของบอยล์ที่วาดเป็นกราฟ เมื่อบีบปริมาตรลง ความดันจะเพิ่มขึ้นตามเส้นไฮเพอร์โบลา ลด V ลงครึ่งหนึ่ง P จะเป็นสองเท่าพอดี ถ้าอุณหภูมิคงที่"]],
   formula:["PV = nRT        P₁V₁/T₁ = P₂V₂/T₂","PV = nRT        P₁V₁/T₁ = P₂V₂/T₂"],
-  flabel:["R = 8.31 J/mol·K","R = 8.31 J/mol·K"],
+  flabel:["R = 8.31 J/(mol·K)","R = 8.31 J/(mol·K)"],
   viz:"plot",
   vizcfg:{
     fn:function(x,p){ return p.n*8.31*p.T/Math.max(x,0.002)/1000; },
     xmin:0.002, xmax:0.05, fill:true,
-    title:["ISOTHERM · PRESSURE AGAINST VOLUME","ไอโซเทอร์ม · ความดัน เทียบ ปริมาตร"],
-    xlab:["V (m³)","V (ลบ.ม.)"], ylab:["P (kPa)","P (กิโลปาสคาล)"],
+    title:["ISOTHERM · PRESSURE AGAINST VOLUME","ไอโซเทอร์ม · ความดันกับปริมาตร"],
+    xlab:["V (m³)","V (m³)"], ylab:["P (kPa)","P (kPa)"],
     mark:function(p){ return p.V; },
     ctrls:[
-      {k:"n", lab:["Amount n","ปริมาณ n"],       min:0.1, max:2,   step:.1,   def:1,     unit:" mol"},
-      {k:"T", lab:["Temperature T","อุณหภูมิ T"], min:200, max:600, step:20,   def:300,   unit:" K"},
-      {k:"V", lab:["Volume V","ปริมาตร V"],       min:0.005, max:0.05, step:.005, def:0.025, unit:" m³"}
+      {k:"n", lab:["Amount n","ปริมาณสาร n"],       min:0.1, max:2,   step:.1,   def:1,     unit:"\u00a0mol"},
+      {k:"T", lab:["Temperature T","อุณหภูมิ T"], min:200, max:600, step:20,   def:300,   unit:"\u00a0K"},
+      {k:"V", lab:["Volume V","ปริมาตร V"],       min:0.005, max:0.05, step:.005, def:0.025, unit:"\u00a0m³"}
     ],
     readouts:[
       {lab:["Pressure here","ความดัน ณ จุดนี้"], f:function(S){
-        return fmt(S.p.n*8.31*S.p.T/S.p.V/1000)+" kPa"; }},
-      {lab:["At half the volume","ที่ปริมาตรครึ่งหนึ่ง"], f:function(S){
-        return fmt(S.p.n*8.31*S.p.T/(S.p.V/2)/1000)+" kPa"; }},
+        return un(S.p.n*8.31*S.p.T/S.p.V/1000,"kPa"); }},
+      {lab:["At half the volume","เมื่อปริมาตรเหลือครึ่งหนึ่ง"], f:function(S){
+        return un(S.p.n*8.31*S.p.T/(S.p.V/2)/1000,"kPa"); }},
       {lab:["PV product","ผลคูณ PV"], f:function(S){
-        return fmt(S.p.n*8.31*S.p.T)+" J"; }}
+        return un(S.p.n*8.31*S.p.T,"J"); }}
     ]
   },
   guide:[
     {say:["A hyperbola. Every point on this curve has the same temperature — that is what an isotherm means.",
-          "นี่คือไฮเพอร์โบลา ทุกจุดบนเส้นนี้มีอุณหภูมิเท่ากัน ไอโซเทอร์มก็หมายความอย่างนั้น"], set:{n:1,T:300,V:0.03}},
+          "นี่คือไฮเพอร์โบลา ทุกจุดบนเส้นนี้มีอุณหภูมิเท่ากัน ไอโซเทอร์มแปลว่าอย่างนั้น"], set:{n:1,T:300,V:0.03}},
     {say:["Halve the volume and read both pressures. The product PV stays fixed — that is Boyle's law.",
-          "ลดปริมาตรลงครึ่งหนึ่ง แล้วอ่านค่าความดันทั้งสองค่า ผลคูณ PV ยังคงเดิม นี่คือกฎของบอยล์"], set:{n:1,T:300,V:0.015}},
+          "ลดปริมาตรเหลือครึ่งหนึ่ง แล้วอ่านความดันทั้งสองค่า ผลคูณ PV ยังเท่าเดิม นี่คือกฎของบอยล์"], set:{n:1,T:300,V:0.015}},
     {say:["Now raise the temperature. The whole curve lifts — a hotter gas sits on a higher isotherm.",
-          "ทีนี้เพิ่มอุณหภูมิ เส้นกราฟทั้งเส้นยกสูงขึ้น แก๊สที่ร้อนกว่าจะอยู่บนไอโซเทอร์มที่สูงกว่า"], set:{n:1,T:500,V:0.015}},
+          "ทีนี้เพิ่มอุณหภูมิ เส้นกราฟทั้งเส้นยกสูงขึ้น แก๊สที่ร้อนกว่าอยู่บนไอโซเทอร์มที่สูงกว่า"], set:{n:1,T:500,V:0.015}},
     {say:["More moles does the same thing. P depends on n and T together, and on V inversely.",
-          "เพิ่มจำนวนโมลก็ให้ผลแบบเดียวกัน P ขึ้นกับ n และ T พร้อมกัน และแปรผกผันกับ V"], set:{n:2,T:300,V:0.015}}
+          "เพิ่มจำนวนโมลก็ได้ผลเหมือนกัน P ขึ้นกับ n และ T พร้อมกัน และแปรผกผันกับ V"], set:{n:2,T:300,V:0.015}}
   ]},
 
 { id:"kinetic", x:235, y:248, requires:["heat-capacity","gas-laws"], methods:["M-05"],
@@ -158,19 +158,19 @@ nodes:[
       return Math.pow(x/s,2)*Math.exp(-(x*x)/(2*s*s));
     },
     ctrls:[
-      {k:"T", lab:["Temperature","อุณหภูมิ"], min:100, max:1200, step:25, def:300, unit:" K"}
+      {k:"T", lab:["Temperature","อุณหภูมิ"], min:100, max:1200, step:25, def:300, unit:"\u00a0K"}
     ],
     readouts:[
-      {lab:["Most probable speed","อัตราเร็วที่น่าจะเป็นมากสุด"], f:function(S){
-        return fmt2(340*Math.sqrt(S.p.T/300)*1.41)+" m/s"; }},
+      {lab:["Most probable speed","อัตราเร็วที่น่าจะเป็นที่สุด"], f:function(S){
+        return un(340*Math.sqrt(S.p.T/300)*Math.SQRT2,"m/s"); }},
       {lab:["Average kinetic energy","พลังงานจลน์เฉลี่ย"], f:function(S){
-        return fmt2(1.5*1.38e-23*S.p.T*1e21)+" × 10⁻²¹ J"; }},
+        return un(1.5*1.38e-23*S.p.T,"J"); }},
       {lab:["Do all molecules share it?","โมเลกุลทุกตัวมีเท่ากันไหม"], f:function(){
-        return L()?"ไม่ — มีการกระจาย อุณหภูมิบอกแค่ค่าเฉลี่ย":"no — there is a spread; temperature gives only the average"; }},
+        return L()?"ไม่ — อัตราเร็วกระจายกันอยู่ อุณหภูมิบอกได้แค่ค่าเฉลี่ย":"no — there is a spread; temperature gives only the average"; }},
       {lab:["Raise the temperature","เมื่อเพิ่มอุณหภูมิ"], f:function(){
         return L()?"เส้นโค้งแบนลงและเลื่อนไปทางขวา":"the curve flattens and slides right"; }}
     ],
-    note:["temperature is an average, and a hot gas still contains some very slow molecules","อุณหภูมิเป็นค่าเฉลี่ย ในแก๊สร้อนก็ยังมีโมเลกุลที่เคลื่อนที่ช้ามากปนอยู่บ้าง"]
+    note:["temperature is an average, and a hot gas still contains some very slow molecules","อุณหภูมิคือค่าเฉลี่ย แก๊สร้อนก็ยังมีโมเลกุลที่ช้ามากปนอยู่บ้าง"]
   } },
 
 { id:"first-law", x:235, y:346, requires:["kinetic"], methods:["M-06"],
@@ -186,19 +186,19 @@ nodes:[
     title:["THE ENERGY BOOKKEEPING OF A GAS","บัญชีพลังงานของแก๊ส"],
     total:["heat supplied Q","ความร้อนที่ให้ Q"],
     ctrls:[
-      {k:"Q", lab:["Heat supplied Q","ความร้อนที่ให้ Q"], min:0, max:500, step:10, def:300, unit:" J"},
-      {k:"W", lab:["Work done BY the gas","งานที่แก๊สทำ"], min:0, max:500, step:10, def:120, unit:" J"}
+      {k:"Q", lab:["Heat supplied Q","ความร้อนที่ให้ Q"], min:0, max:500, step:10, def:300, unit:"\u00a0J"},
+      {k:"W", lab:["Work done BY the gas","งานที่แก๊สทำ"], min:0, max:500, step:10, def:120, unit:"\u00a0J"}
     ],
     readouts:[
-      {lab:["Change in internal energy","พลังงานภายในที่เปลี่ยน"], f:function(S){
-        return fmt2(S.p.Q-S.p.W)+" J"; }},
+      {lab:["Change in internal energy","พลังงานภายในที่เปลี่ยนไป"], f:function(S){
+        return un(S.p.Q-S.p.W,"J"); }},
       {lab:["Temperature","อุณหภูมิ"], f:function(S){
         var d=S.p.Q-S.p.W;
         return d>0 ? (L()?"สูงขึ้น":"rises") : d<0 ? (L()?"ลดลง":"falls") : (L()?"คงที่ — ไอโซเทอร์มอล":"unchanged — isothermal"); }},
-      {lab:["If no work is done","ถ้าไม่มีการทำงาน"], f:function(){
+      {lab:["If no work is done","ถ้าแก๊สไม่ได้ทำงาน"], f:function(){
         return L()?"ความร้อนทั้งหมดกลายเป็นพลังงานภายใน":"every joule of heat becomes internal energy"; }},
       {lab:["Sign convention","หลักเครื่องหมาย"], f:function(){
-        return L()?"Q เข้าเป็นบวก · W ที่แก๊สทำเป็นบวก":"Q into the gas is positive; W done BY the gas is positive"; }}
+        return L()?"Q เข้าแก๊สเป็นบวก · W ที่แก๊สทำเป็นบวก":"Q into the gas is positive; W done BY the gas is positive"; }}
     ],
     parts:function(p){
       var d=p.Q-p.W;
@@ -235,7 +235,7 @@ gen:{
           {v:["Celsius cannot be negative","เซลเซียสติดลบไม่ได้"]},
           {v:["It makes no difference","ไม่ต่างกัน"],trap:"T-01"}],unit:""};
   return {stem:["Convert "+c+" °C to kelvin.","จงแปลง "+c+" องศาเซลเซียส เป็นเคลวิน"],
-    opts:[{v:String(c+273),ok:1},{v:String(c),trap:"T-01"},{v:String(273-c)},{v:String(c+100)}],unit:" K"};
+    opts:[{v:String(c+273),ok:1},{v:String(c),trap:"T-01"},{v:String(273-c)},{v:String(c+100)}],unit:"\u00a0K"};
 },
 "M-02": function(sf){
   var m=pick([0.2,0.5,2]), c=4200, dT=pick([10,20,50]), L=3.3e5;
@@ -249,10 +249,10 @@ gen:{
   if(sf==="S-03") return {stem:["How much energy melts "+m+" kg of ice at 0 °C? Take L = 3.3 × 10⁵ J/kg.",
                                 "ต้องใช้พลังงานเท่าใดในการหลอมน้ำแข็ง "+m+" กิโลกรัม ที่ 0 องศาเซลเซียส ให้ L = 3.3 × 10⁵ จูล/กก."],
     opts:[{v:Ql.toExponential(2),ok:1},{v:(m*4200*0).toExponential(2),trap:"T-02"},
-          {v:(Ql/2).toExponential(2)},{v:(m*L*2).toExponential(2)}],unit:" J"};
+          {v:(Ql/2).toExponential(2)},{v:(m*L*2).toExponential(2)}],unit:"\u00a0J"};
   return {stem:["Find the energy needed to raise "+m+" kg of water by "+dT+" °C, with c = 4200 J/kg·K.",
                 "จงหาพลังงานที่ต้องใช้เพื่อเพิ่มอุณหภูมิน้ำ "+m+" กิโลกรัม ขึ้น "+dT+" องศาเซลเซียส โดย c = 4200 จูล/กก.·เคลวิน"],
-    opts:[{v:Q.toExponential(2),ok:1},{v:(Q/dT).toExponential(2)},{v:(m*dT).toExponential(2)},{v:(Q*2).toExponential(2)}],unit:" J"};
+    opts:[{v:Q.toExponential(2),ok:1},{v:(Q/dT).toExponential(2)},{v:(m*dT).toExponential(2)},{v:(Q*2).toExponential(2)}],unit:"\u00a0J"};
 },
 "M-03": function(sf){
   var P1=pick([100,200]), V1=pick([2,4,6]), V2=pick([1,3,8]);
@@ -264,10 +264,10 @@ gen:{
           {v:["Is unchanged","เท่าเดิม"]},{v:["Quadruples","เพิ่มเป็นสี่เท่า"]}],unit:""};
   if(sf==="S-05") return {stem:["A gas at "+T1+" K is heated at constant pressure until its volume doubles. Find its new temperature.",
                                 "แก๊สที่ "+T1+" เคลวิน ถูกให้ความร้อนที่ความดันคงที่จนปริมาตรเป็นสองเท่า จงหาอุณหภูมิใหม่"],
-    opts:[{v:String(T1*2),ok:1},{v:String(T1/2)},{v:String(T1),trap:"T-01"},{v:String(T1+273),trap:"T-01"}],unit:" K"};
+    opts:[{v:String(T1*2),ok:1},{v:String(T1/2)},{v:String(T1),trap:"T-01"},{v:String(T1+273),trap:"T-01"}],unit:"\u00a0K"};
   return {stem:["A gas at "+P1+" kPa occupies "+V1+" L. At constant temperature it is squeezed to "+V2+" L. Find the new pressure.",
                 "แก๊สที่ "+P1+" กิโลปาสคาล มีปริมาตร "+V1+" ลิตร ถูกบีบเหลือ "+V2+" ลิตร ที่อุณหภูมิคงที่ จงหาความดันใหม่"],
-    opts:[{v:fmt(P2),ok:1},{v:fmt(P1*V2/V1)},{v:String(P1)},{v:fmt(P2*2)}],unit:" kPa"};
+    opts:[{v:fmt(P2),ok:1},{v:fmt(P1*V2/V1)},{v:String(P1)},{v:fmt(P2*2)}],unit:"\u00a0kPa"};
 },
 "M-04": function(sf){
   var m1=pick([0.2,0.5]), T1=pick([80,90]), m2=pick([0.3,1]), T2=pick([10,20]);
@@ -280,7 +280,7 @@ gen:{
           {v:["The hotter one reaches 0 °C","ชิ้นที่ร้อนกว่าลดถึง 0 องศาเซลเซียส"]}],unit:""};
   return {stem:[m1+" kg of water at "+T1+" °C is mixed with "+m2+" kg at "+T2+" °C. Find the final temperature.",
                 "ผสมน้ำ "+m1+" กิโลกรัม ที่ "+T1+" องศาเซลเซียส กับ "+m2+" กิโลกรัม ที่ "+T2+" องศาเซลเซียส จงหาอุณหภูมิสุดท้าย"],
-    opts:[{v:fmt(Tf),ok:1},{v:fmt((T1+T2)/2),trap:"T-02"},{v:String(T1)},{v:String(T2)}],unit:" °C"};
+    opts:[{v:fmt(Tf),ok:1},{v:fmt((T1+T2)/2),trap:"T-02"},{v:String(T1)},{v:String(T2)}],unit:"\u00a0°C"};
 },
 "M-05": function(sf){
   var T=pick([300,400,600]), M=pick([0.028,0.032,0.004]);
@@ -296,7 +296,7 @@ gen:{
           {v:["Pressure only","ความดันเท่านั้น"]},{v:["Volume only","ปริมาตรเท่านั้น"]}],unit:""};
   return {stem:["Find v_rms for a gas of molar mass "+M+" kg/mol at "+T+" K, with R = 8.31.",
                 "จงหา v_rms ของแก๊สมวลโมลาร์ "+M+" กก./โมล ที่ "+T+" เคลวิน โดย R = 8.31"],
-    opts:[{v:fmt(v),ok:1},{v:fmt(3*8.31*T/M),trap:"T-04"},{v:fmt(v/2)},{v:fmt(Math.sqrt(T))}],unit:" m/s"};
+    opts:[{v:fmt(v),ok:1},{v:fmt(3*8.31*T/M),trap:"T-04"},{v:fmt(v/2)},{v:fmt(Math.sqrt(T))}],unit:"\u00a0m/s"};
 },
 "M-06": function(sf){
   var Q=pick([500,1200,2000]), W=pick([200,400,800]);
@@ -313,7 +313,7 @@ gen:{
           {v:["W = 0","W = 0"]}],unit:""};
   return {stem:[Q+" J of heat is added to a gas which does "+W+" J of work. Find the change in internal energy.",
                 "ใส่ความร้อน "+Q+" จูล ให้แก๊สที่ทำงาน "+W+" จูล จงหาการเปลี่ยนแปลงพลังงานภายใน"],
-    opts:[{v:String(dU),ok:1},{v:String(Q+W),trap:"T-03"},{v:String(-dU),trap:"T-03"},{v:String(Q)}],unit:" J"};
+    opts:[{v:String(dU),ok:1},{v:String(Q+W),trap:"T-03"},{v:String(-dU),trap:"T-03"},{v:String(Q)}],unit:"\u00a0J"};
 }
 }
 };

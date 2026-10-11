@@ -1,3 +1,5 @@
+/* A × 10ⁿ with a real superscript exponent */
+function sci10(m,e){ return num(m,3)+" × 10"+String(e).split("").map(function(c){ return SUPS[c]; }).join(""); }
 var CHAPTER = {
 id:"ch01", num:"01", slug:"measurement", subject:"physics",
 kicker:["Physics · Chapter 01","ฟิสิกส์ · บทที่ 1"],
@@ -36,7 +38,7 @@ nodes:[
         return r.map(function(c){ return {v:c, on:i===p.i}; });
       });
     },
-    note:["every other unit in physics is built from these seven","หน่วยอื่นทุกหน่วยในฟิสิกส์สร้างจากเจ็ดหน่วยนี้"]
+    note:["every other unit in physics is built from these seven","หน่วยอื่นในฟิสิกส์ล้วนสร้างจากเจ็ดหน่วยนี้"]
   } },
 
 { id:"derived", x:100, y:150, requires:["si"], methods:["M-06"],
@@ -49,37 +51,37 @@ nodes:[
   flabel:["Nicknames for combinations of the seven","ชื่อเล่นของการรวมกันของเจ็ดหน่วยฐาน"],
   viz:"table",
   vizcfg:{
-    title:["DERIVED UNITS, BROKEN BACK DOWN","หน่วยอนุพัทธ์ แตกกลับเป็นหน่วยฐาน"],
+    title:["DERIVED UNITS, BROKEN BACK DOWN","หน่วยอนุพันธ์ แยกกลับเป็นหน่วยฐาน"],
     cols:[["Quantity","ปริมาณ"],["Named unit","ชื่อหน่วย"],["In base units","ในรูปหน่วยฐาน"]],
     rowKey:"i",
     readouts:[
       {lab:["Base units used","หน่วยฐานที่ใช้"], f:function(S){
-        return ["m","kg m s^-2","kg m^2 s^-2","kg m^2 s^-3","kg m^-1 s^-2","s^-1"][S.p.i]; }},
+        return ["m","kg·m/s²","kg·m²/s²","kg·m²/s³","kg/(m·s²)","1/s"][S.p.i]; }},
       {lab:["Named after a person?","ตั้งชื่อตามบุคคล?"], f:function(S){
         var who=[null,
           ["Isaac Newton (1643–1727, English): laws of motion and universal gravitation",
-           "ไอแซก นิวตัน (1643–1727 ชาวอังกฤษ) ผู้ตั้งกฎการเคลื่อนที่และกฎความโน้มถ่วงสากล"],
+           "ไอแซก นิวตัน (1643–1727 ชาวอังกฤษ) ตั้งกฎการเคลื่อนที่และกฎความโน้มถ่วงสากล"],
           ["James Prescott Joule (1818–1889, English): showed that heat and work are the same kind of energy",
-           "เจมส์ เพรสคอตต์ จูล (1818–1889 ชาวอังกฤษ) ผู้พิสูจน์ว่าความร้อนกับงานคือพลังงานชนิดเดียวกัน"],
+           "เจมส์ เพรสคอตต์ จูล (1818–1889 ชาวอังกฤษ) พิสูจน์ว่าความร้อนกับงานคือพลังงานชนิดเดียวกัน"],
           ["James Watt (1736–1819, Scottish): redesigned the steam engine to make it far more efficient",
-           "เจมส์ วัตต์ (1736–1819 ชาวสกอต) ผู้ปรับปรุงเครื่องจักรไอน้ำให้ทำงานได้มีประสิทธิภาพขึ้นมาก"],
+           "เจมส์ วัตต์ (1736–1819 ชาวสกอต) ปรับปรุงเครื่องจักรไอน้ำให้มีประสิทธิภาพขึ้นมาก"],
           ["Blaise Pascal (1623–1662, French): studied pressure in fluids (Pascal’s principle)",
-           "เบลส ปาสกาล (1623–1662 ชาวฝรั่งเศส) ผู้ศึกษาความดันในของไหล (หลักของปาสคาล)"],
+           "เบลส ปาสกาล (1623–1662 ชาวฝรั่งเศส) ศึกษาความดันในของไหล (หลักของปาสคาล)"],
           ["Heinrich Hertz (1857–1894, German): first showed that electromagnetic waves exist",
-           "ไฮน์ริช เฮิรตซ์ (1857–1894 ชาวเยอรมัน) ผู้พิสูจน์เป็นคนแรกว่าคลื่นแม่เหล็กไฟฟ้ามีอยู่จริง"]][S.p.i];
+           "ไฮน์ริช เฮิรตซ์ (1857–1894 ชาวเยอรมัน) พิสูจน์เป็นคนแรกว่าคลื่นแม่เหล็กไฟฟ้ามีจริง"]][S.p.i];
         return who ? (L()?"ใช่ — ":"yes — ")+tx(who)
-                   : (L()?"ไม่ใช่ — หน่วย m² มาจาก m × m":"no — m² is just m × m"); }}
+                   : (L()?"ไม่ใช่ — m² ก็คือ m × m":"no — m² is just m × m"); }}
     ],
     rows:function(p){
       var R=[[["Area","พื้นที่"],"m²","m × m"],
-             [["Force","แรง"],"newton (N)","kg m s⁻²"],
-             [["Energy","พลังงาน"],"joule (J)","kg m² s⁻²"],
-             [["Power","กำลัง"],"watt (W)","kg m² s⁻³"],
-             [["Pressure","ความดัน"],"pascal (Pa)","kg m⁻¹ s⁻²"],
-             [["Frequency","ความถี่"],"hertz (Hz)","s⁻¹"]];
+             [["Force","แรง"],"newton (N)","kg·m/s²"],
+             [["Energy","พลังงาน"],"joule (J)","kg·m²/s²"],
+             [["Power","กำลัง"],"watt (W)","kg·m²/s³"],
+             [["Pressure","ความดัน"],"pascal (Pa)","kg/(m·s²)"],
+             [["Frequency","ความถี่"],"hertz (Hz)","1/s"]];
       return R.map(function(r,i){ return r.map(function(c){ return {v:c, on:i===p.i}; }); });
     },
-    note:["a newton is not a new idea — it is kg m s⁻² wearing a shorter name","นิวตันไม่ใช่แนวคิดใหม่ แต่คือ kg m s⁻² ที่ใช้ชื่อสั้นลง"]
+    note:["a newton is not a new idea — it is kg·m/s² wearing a shorter name","นิวตันไม่ใช่ของใหม่ แค่เป็นชื่อสั้นของ kg·m/s²"]
   } },
 
 { id:"prefixes", x:370, y:150, requires:["si"], methods:["M-01","M-02"],
@@ -97,14 +99,13 @@ nodes:[
       {k:"m", lab:["Mantissa A","ตัวเลขนำหน้า A"],   min:1,   max:9.9, step:.1, def:1.5, unit:""}
     ],
     readouts:[
-      {lab:["Scientific","สัญกรณ์"], f:function(S){ return S.p.m+" × 10"+(S.p.e); }},
+      {lab:["Scientific","สัญกรณ์"], f:function(S){ return sci10(S.p.m,S.p.e); }},
       {lab:["Prefix","คำอุปสรรค"],   f:function(S){
         var N={"12":"tera T","9":"giga G","6":"mega M","3":"kilo k","0":"—",
                "-3":"milli m","-6":"micro μ","-9":"nano n","-12":"pico p"};
         return N[String(S.p.e)]||"—"; }},
       {lab:["Plain value","ค่าเต็ม"], f:function(S){
-        var v=S.p.m*Math.pow(10,S.p.e);
-        return (Math.abs(v)>=1e7||Math.abs(v)<1e-4) ? v.toExponential(2) : String(Math.round(v*10000)/10000); }}
+        return num(S.p.m*Math.pow(10,S.p.e),2); }}
     ],
     draw:function(S,o){
       var x0=50,w=460,y=140;
@@ -120,18 +121,18 @@ nodes:[
       var cx=x0+((S.p.e+12)/24)*w;
       o.push('<circle cx="'+cx+'" cy="'+y+'" r="6" fill="var(--accent)"/>');
       var v=S.p.m*Math.pow(10,S.p.e);
-      var shown=(Math.abs(v)>=1e7||Math.abs(v)<1e-4)?v.toExponential(2):String(Math.round(v*10000)/10000);
+      var shown=num(v,2);
       o.push('<text x="280" y="80" fill="var(--ink)" font-family="Bodoni Moda" font-size="30" text-anchor="middle">'+shown+'</text>');
-      o.push('<text x="280" y="212" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+S.p.m+' × 10'+S.p.e+'</text>');
+      o.push('<text x="280" y="212" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+sci10(S.p.m,S.p.e)+'</text>');
     }
   },
   guide:[
     {say:["Slide the power of ten. Every step of three moves you one prefix along — and multiplies the plain value by a thousand.",
-          "เลื่อนเลขชี้กำลังของสิบ ทุกๆ 3 ขั้นจะเปลี่ยนไปหนึ่งคำอุปสรรค และค่าเต็มจะเพิ่มขึ้นหนึ่งพันเท่า"], set:{e:3,m:1.5}},
+          "เลื่อนเลขชี้กำลังของสิบดู ทุก 3 ขั้น คำอุปสรรคจะเปลี่ยนไปหนึ่งตัว และค่าเต็มเปลี่ยนไปหนึ่งพันเท่า"], set:{e:3,m:1.5}},
     {say:["Negative exponents run the other way. Milli, micro, nano — each one divides by a thousand again.",
-          "เลขชี้กำลังลบไปในทางตรงข้าม มิลลิ ไมโคร นาโน แต่ละขั้นเล็กลงหนึ่งพันเท่า"], set:{e:-6,m:2.4}},
+          "เลขชี้กำลังลบไปทางตรงข้าม มิลลิ ไมโคร นาโน แต่ละขั้นหารด้วยหนึ่งพันอีกครั้ง"], set:{e:-6,m:2.4}},
     {say:["The mantissa must stay between 1 and 10. 15 × 10³ is not scientific notation — 1.5 × 10⁴ is.",
-          "ตัวเลขหน้า ×10 ต้องอยู่ระหว่าง 1 ถึง 10  15 × 10³ ยังไม่ใช่สัญกรณ์วิทยาศาสตร์ แต่ 1.5 × 10⁴ ใช่"], set:{e:4,m:1.5}}
+          "ตัวเลขนำหน้าต้องอยู่ระหว่าง 1 ถึง 10 ดังนั้น 15 × 10³ ยังไม่ใช่สัญกรณ์วิทยาศาสตร์ แต่ 1.5 × 10⁴ ใช่"], set:{e:4,m:1.5}}
   ]},
 
 { id:"sigfig", x:235, y:248, requires:["prefixes"], methods:["M-03","M-04"],
@@ -145,7 +146,7 @@ nodes:[
   viz:"grid",
   vizcfg:{
     title:["WHICH DIGITS COUNT","หลักไหนนับเป็นเลขนัยสำคัญ"],
-    cols:[["1","1"],["2","2"],["3","3"],["4","4"],["5","5"],["6","6"]],
+    cols:[["1","1"],["2","2"],["3","3"],["4","4"],["5","5"],["6","6"],["7","7"]],
     ctrls:[{k:"i", lab:["Sample number","ตัวเลขตัวอย่าง"], min:0, max:4, step:1, def:0, unit:""}],
     readouts:[
       {lab:["Number","ตัวเลข"], f:function(S){ return ["0.00450","1002.0","45000","0.0708","3.140"][S.p.i]; }},
@@ -153,28 +154,28 @@ nodes:[
       {lab:["Why","เพราะ"], f:function(S){
         var W=[["leading zeros never count","ศูนย์นำหน้าไม่นับ"],
                ["zeros between digits always count","ศูนย์ระหว่างตัวเลขนับเสมอ"],
-               ["trailing zeros with no point are ambiguous","ศูนย์ท้ายที่ไม่มีจุดทศนิยมกำกวม"],
+               ["trailing zeros with no point are ambiguous","ศูนย์ท้ายที่ไม่มีจุดทศนิยม บอกไม่ได้ว่านับหรือไม่"],
                ["leading zeros never count","ศูนย์นำหน้าไม่นับ"],
                ["a trailing zero after the point counts","ศูนย์ท้ายหลังจุดทศนิยมนับ"]];
         return W[S.p.i][L()]; }}
     ],
     rows:function(p){
-      var D=[["0",".","0","0","4","5"],["1","0","0","2",".","0"],["4","5","0","0","0"," "],
-             ["0",".","0","7","0","8"],["3",".","1","4","0"," "]];
-      var S2=[[0,0,0,0,1,1],[1,1,1,1,0,1],[1,1,0,0,0,0],[0,0,0,1,1,1],[1,0,1,1,1,0]];
+      var D=[["0",".","0","0","4","5","0"],["1","0","0","2",".","0"," "],["4","5","0","0","0"," "," "],
+             ["0",".","0","7","0","8"," "],["3",".","1","4","0"," "," "]];
+      var S2=[[0,0,0,0,1,1,1],[1,1,1,1,0,1,0],[1,1,0,0,0,0,0],[0,0,0,1,1,1,0],[1,0,1,1,1,0,0]];
       return [D[p.i].map(function(d,j){ return {v:d, on:!!S2[p.i][j], col:"accent"}; })];
     },
-    note:["red digits are the significant ones · scientific notation removes the ambiguity","หลักสีแดงคือเลขนัยสำคัญ · เขียนด้วยสัญกรณ์วิทยาศาสตร์จะไม่กำกวม"]
+    note:["red digits are the significant ones · scientific notation removes the ambiguity","หลักสีแดงคือเลขนัยสำคัญ · เขียนเป็นสัญกรณ์วิทยาศาสตร์แล้วจะไม่กำกวม"]
   },
   guide:[
     {say:["Leading zeros are only placeholders — they locate the decimal point and count for nothing.",
-          "ศูนย์นำหน้าเป็นแค่ตัวบอกตำแหน่งจุดทศนิยม จึงไม่นับเป็นเลขนัยสำคัญ"], set:{i:0}},
+          "ศูนย์นำหน้าแค่บอกตำแหน่งจุดทศนิยม จึงไม่นับเป็นเลขนัยสำคัญ"], set:{i:0}},
     {say:["A zero trapped between two digits was measured, so it always counts.",
           "ศูนย์ที่อยู่ระหว่างเลขสองตัวเป็นค่าที่วัดได้จริง จึงนับเสมอ"], set:{i:1}},
     {say:["45000 is the ambiguous case: are those zeros measured or padding? Only 4.50 × 10⁴ settles it.",
-          "45000 เป็นกรณีกำกวม ศูนย์พวกนี้วัดได้จริงหรือแค่เติมให้ครบหลัก มีแต่ 4.50 × 10⁴ เท่านั้นที่บอกได้ชัด"], set:{i:2}},
+          "45000 กำกวม ศูนย์พวกนี้วัดได้จริงหรือแค่เติมให้ครบหลัก มีแต่ 4.50 × 10⁴ ที่บอกได้ชัด"], set:{i:2}},
     {say:["A trailing zero AFTER a decimal point is a deliberate claim of precision, so it counts.",
-          "ศูนย์ท้ายที่อยู่หลังจุดทศนิยมเป็นการบอกตั้งใจว่าวัดละเอียดถึงหลักนั้น จึงนับ"], set:{i:4}}
+          "ศูนย์ท้ายหลังจุดทศนิยมบอกว่าเราตั้งใจวัดละเอียดถึงหลักนั้น จึงนับ"], set:{i:4}}
   ] },
 
 { id:"uncertainty", x:235, y:346, requires:["sigfig"], methods:["M-05"],
@@ -192,31 +193,31 @@ nodes:[
     ctrls:[
       {k:"v", lab:["Reading","ค่าที่อ่านได้"], min:2, max:18, step:.5, def:10, unit:" cm"},
       {k:"u", lab:["Uncertainty ±","ความไม่แน่นอน ±"], min:.1, max:4, step:.1, def:1, unit:" cm"},
-      {k:"w", lab:["Second reading","ค่าที่สอง"], min:2, max:18, step:.5, def:13, unit:" cm"}
+      {k:"w", lab:["Second reading","ค่าที่อ่านครั้งที่สอง"], min:2, max:18, step:.5, def:13, unit:" cm"}
     ],
     readouts:[
-      {lab:["Result","ผลลัพธ์"], f:function(S){ return fmt(S.p.v)+" ± "+fmt(S.p.u)+" cm"; }},
+      {lab:["Result","ผลลัพธ์"], f:function(S){ return num(S.p.v)+" ± "+un(S.p.u,"cm"); }},
       {lab:["Relative uncertainty","ความไม่แน่นอนสัมพัทธ์"], f:function(S){
-        return fmt2(100*S.p.u/S.p.v)+" %"; }},
+        return num(100*S.p.u/S.p.v,2)+"\u00a0%"; }},
       {lab:["Do the two agree?","สองค่าตรงกันไหม"], f:function(S){
         var d=Math.abs(S.p.v-S.p.w);
-        return d<=2*S.p.u ? (L()?"ตรงกันภายในความไม่แน่นอน":"yes — they overlap")
-                          : (L()?"ไม่ตรงกัน ช่วงไม่ทับกัน":"no — the ranges miss each other"); }}
+        return d<=2*S.p.u ? (L()?"ตรงกัน — แถบทับกัน":"yes — they overlap")
+                          : (L()?"ไม่ตรงกัน — แถบไม่ทับกัน":"no — the ranges miss each other"); }}
     ],
     regions:function(p){
       return [{a:p.v-p.u, b:p.v+p.u, col:"accent", lab:["reading ± u","ค่าที่อ่าน ± u"]},
               {a:p.w-p.u, b:p.w+p.u, col:"good",   lab:["second ± u","ค่าที่สอง ± u"]}];
     },
     points:function(p){ return [{v:p.v, lab:["best estimate","ค่าที่ดีที่สุด"], col:"accent"}]; },
-    note:["two results agree when their bars overlap — not when the numbers match","ผลสองค่าตรงกันเมื่อแถบของมันซ้อนทับกัน ไม่ใช่เมื่อตัวเลขเท่ากันพอดี"]
+    note:["two results agree when their bars overlap — not when the numbers match","สองค่าตรงกันเมื่อแถบทับกัน ไม่ใช่เมื่อตัวเลขเท่ากัน"]
   },
   guide:[
     {say:["A measurement is a band, not a point. The red bar is everywhere the true value could be.",
-          "ค่าที่วัดได้เป็นแถบ ไม่ใช่จุด แถบสีแดงครอบคลุมทุกตำแหน่งที่ค่าจริงอาจอยู่"], set:{v:10,u:1,w:13}},
+          "ค่าที่วัดได้เป็นแถบ ไม่ใช่จุด แถบสีแดงคือช่วงที่ค่าจริงอาจอยู่"], set:{v:10,u:1,w:13}},
     {say:["Widen the uncertainty. The bars now overlap, so the two readings agree after all.",
-          "ลองเพิ่มความไม่แน่นอน ตอนนี้แถบซ้อนทับกันแล้ว แสดงว่าสองค่านี้ตรงกัน"], set:{v:10,u:2.5,w:13}},
+          "ลองเพิ่มความไม่แน่นอนดู ตอนนี้แถบทับกันแล้ว สองค่านี้จึงตรงกัน"], set:{v:10,u:2.5,w:13}},
     {say:["A precise instrument narrows the bar. Now the same two readings clearly disagree.",
-          "เครื่องมือที่ละเอียดกว่าทำให้แถบแคบลง ตอนนี้ค่าสองค่าเดิมไม่ตรงกันอย่างชัดเจน"], set:{v:10,u:0.4,w:13}}
+          "เครื่องมือที่ละเอียดกว่าทำให้แถบแคบลง ตอนนี้ค่าสองค่าเดิมจึงไม่ตรงกันชัดเจน"], set:{v:10,u:0.4,w:13}}
   ] }
 ],
 
@@ -242,22 +243,22 @@ gen:{
          {n:["micrometres","ไมโครเมตร"],s:"μm",f:1e-6},{n:["nanometres","นาโนเมตร"],s:"nm",f:1e-9}];
   var p=pick(P), v=ri(2,9)*(p.f>=1?1:10);
   var ans=v*p.f;
-  var f=function(x){ return (Math.abs(x)>=1e4||Math.abs(x)<1e-3)?x.toExponential(2):String(Math.round(x*1e9)/1e9); };
-  if(sf==="S-04") return {stem:["The prefix micro (μ) stands for which factor?","คำอุปสรรคไมโคร (μ) หมายถึงตัวคูณใด"],
+  var f=function(x){ return num(x,2); };
+  if(sf==="S-04") return {stem:["The prefix micro (μ) stands for which factor?","คำอุปสรรคไมโคร (μ) คือตัวคูณเท่าใด"],
     opts:[{v:"10⁻⁶",ok:1},{v:"10⁻³",trap:"T-01"},{v:"10⁻⁹"},{v:"10⁶"}],unit:""};
-  if(sf==="S-05") return {stem:["A length is "+f(ans)+" m. Express it in "+p.n[0]+".","ความยาวค่าหนึ่งเท่ากับ "+f(ans)+" เมตร จงเขียนในหน่วย"+p.n[1]],
-    opts:[{v:String(v)},{v:f(ans*p.f),trap:"T-01"},{v:String(v*10)},{v:String(v/10)}].map(function(o,i){return i===0?{v:String(v),ok:1}:o;}),unit:" "+p.s};
-  return {stem:["Convert "+v+" "+p.s+" into metres.","จงแปลง "+v+" "+p.s+" เป็นเมตร"],
-    opts:[{v:f(ans),ok:1},{v:f(v/p.f),trap:"T-01"},{v:f(ans*10)},{v:f(ans/10)}],unit:" m"};
+  if(sf==="S-05") return {stem:["A length is "+f(ans)+"\u00a0m. Express it in "+p.n[0]+".","ความยาวค่าหนึ่งเท่ากับ "+f(ans)+" m จงเขียนเป็น"+p.n[1]],
+    opts:[{v:String(v)},{v:f(ans*p.f),trap:"T-01"},{v:String(v*10)},{v:String(v/10)}].map(function(o,i){return i===0?{v:String(v),ok:1}:o;}),unit:"\u00a0"+p.s};
+  return {stem:["Convert "+v+"\u00a0"+p.s+" into metres.","จงแปลง "+v+"\u00a0"+p.s+" เป็นเมตร"],
+    opts:[{v:f(ans),ok:1},{v:f(v/p.f),trap:"T-01"},{v:f(ans*10)},{v:f(ans/10)}],unit:"\u00a0m"};
 },
 "M-02": function(sf){
   var m=ri(11,99)/10, e=pick([2,3,4,-2,-3,-4]);
   var v=m*Math.pow(10,e);
-  var plain=(Math.abs(v)>=1e5||Math.abs(v)<1e-3)?v.toExponential(4):String(Math.round(v*1e6)/1e6);
+  var plain=String(Math.round(v*1e6)/1e6);
   if(sf==="S-04") return {stem:["Which of these is correctly written in scientific notation?","ข้อใดเขียนเป็นสัญกรณ์วิทยาศาสตร์ได้ถูกต้อง"],
     opts:[{v:"4.7 × 10³",ok:1},{v:"47 × 10²"},{v:"0.47 × 10⁴"},{v:"4.7 × 10"}],unit:""};
   return {stem:["Write "+plain+" in scientific notation.","จงเขียน "+plain+" เป็นสัญกรณ์วิทยาศาสตร์"],
-    opts:[{v:m+" × 10"+e,ok:1},{v:(m*10)+" × 10"+(e-1)},{v:(m/10)+" × 10"+(e+1)},{v:m+" × 10"+(-e),trap:"T-01"}],unit:""};
+    opts:[{v:sci10(m,e),ok:1},{v:sci10(m*10,e-1)},{v:sci10(m/10,e+1)},{v:sci10(m,-e),trap:"T-01"}],unit:""};
 },
 "M-03": function(sf){
   var C=[{s:"0.0047",n:2,t:"T-02"},{s:"1.030",n:4},{s:"56000",n:2},{s:"0.00900",n:3,t:"T-02"},
@@ -272,21 +273,22 @@ gen:{
     opts:[{v:"2",ok:1},{v:"3",trap:"T-03"},{v:"4"},{v:"5"}],unit:""};
   var a=ri(20,90)/10, b=ri(200,900)/100;
   var raw=a*b;
-  return {stem:["Evaluate "+a+" × "+b+" and report it correctly.","จงคำนวณ "+a+" × "+b+" แล้วรายงานให้ถูกต้อง"],
-    opts:[{v:String(Number(raw.toPrecision(2))),ok:1},{v:String(Math.round(raw*100)/100),trap:"T-03"},
-          {v:String(Math.round(raw*1000)/1000)},{v:String(Math.round(raw))}],unit:""};
+  var as=a.toFixed(1), bs=b.toFixed(2);
+  return {stem:["Evaluate "+as+" × "+bs+" and report it correctly.","จงคำนวณ "+as+" × "+bs+" แล้วรายงานให้ถูกต้อง"],
+    opts:[{v:raw.toPrecision(2),ok:1},{v:raw.toPrecision(3),trap:"T-03"},
+          {v:raw.toPrecision(4)},{v:raw.toPrecision(5)}],unit:""};
 },
 "M-05": function(sf){
   var A=ri(20,60), dA=ri(1,3), B=ri(10,40), dB=ri(1,3);
   if(sf==="S-03"||sf==="S-05"){
     var pA=dA/A*100, pB=dB/B*100, prod=A*B, dprod=(pA+pB)/100*prod;
-    return {stem:["Two measured lengths, "+A+" ± "+dA+" cm and "+B+" ± "+dB+" cm, are multiplied. What is the uncertainty in the product?",
-                  "ความยาวที่วัดได้สองค่า "+A+" ± "+dA+" ซม. และ "+B+" ± "+dB+" ซม. นำมาคูณกัน ความไม่แน่นอนของผลคูณเป็นเท่าใด"],
-      opts:[{v:fmt(dprod),ok:1},{v:String(dA+dB),trap:"T-04"},{v:fmt(dprod/2)},{v:String(Math.abs(dA-dB))}],unit:" cm²"};
+    return {stem:["Two measured lengths, "+A+" ± "+dA+"\u00a0cm and "+B+" ± "+dB+"\u00a0cm, are multiplied. What is the uncertainty in the product?",
+                  "ความยาวที่วัดได้สองค่า "+A+" ± "+dA+"\u00a0cm และ "+B+" ± "+dB+"\u00a0cm นำมาคูณกัน ความไม่แน่นอนของผลคูณเป็นเท่าใด"],
+      opts:[{v:num(dprod,2),ok:1},{v:String(dA+dB),trap:"T-04"},{v:num(dprod/2,2)},{v:String(Math.abs(dA-dB))}],unit:"\u00a0cm²"};
   }
-  return {stem:["Add "+A+" ± "+dA+" cm to "+B+" ± "+dB+" cm.","จงบวก "+A+" ± "+dA+" ซม. กับ "+B+" ± "+dB+" ซม."],
+  return {stem:["Add "+A+" ± "+dA+"\u00a0cm to "+B+" ± "+dB+"\u00a0cm.","จงบวก "+A+" ± "+dA+"\u00a0cm กับ "+B+" ± "+dB+"\u00a0cm"],
     opts:[{v:(A+B)+" ± "+(dA+dB),ok:1},{v:(A+B)+" ± "+Math.abs(dA-dB),trap:"T-04"},
-          {v:(A+B)+" ± "+dA},{v:(A+B)+" ± "+fmt((dA+dB)/2)}],unit:" cm"};
+          {v:(A+B)+" ± "+dA},{v:(A+B)+" ± "+num((dA+dB)/2,2)}],unit:"\u00a0cm"};
 },
 "M-06": function(sf){
   var C=[{q:["kinetic energy ½mv²","พลังงานจลน์ ½mv²"],u:"kg·m²/s²",w:["kg·m/s²","kg·m/s","kg·m²/s"]},

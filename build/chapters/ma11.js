@@ -1,3 +1,5 @@
+/* overlap P(A and B) in %, kept inside what two events of these sizes can actually have */
+function ovl(p){ return Math.min(Math.max(p.ab,Math.max(0,p.a+p.b-100)),p.a,p.b); }
 var CHAPTER = {
 id:"ma11", num:"11", slug:"probability", subject:"math",
 kicker:["Mathematics · Chapter 11","คณิตศาสตร์ · บทที่ 11"],
@@ -31,7 +33,7 @@ nodes:[
       {lab:["Pick just one ('or')","เลือกเพียงขั้นเดียว (หรือ)"], f:function(S){
         return String(S.p.a+S.p.b+S.p.c); }},
       {lab:["Which grows faster","อันไหนโตเร็วกว่า"], f:function(){
-        return L()?"การคูณ — เร็วกว่ามาก":"multiplication, by a very long way"; }},
+        return L()?"การคูณ เร็วกว่ามาก":"multiplication, by a very long way"; }},
       {lab:["The deciding word","คำที่ตัดสิน"], f:function(){
         return L()?"ทำทุกขั้น หรือ เลือกขั้นเดียว":"do every stage, or choose just one"; }}
     ],
@@ -42,7 +44,7 @@ nodes:[
       {lab:["Sum ('or')","ผลบวก (หรือ)"], f:function(p){ return p.a+p.b+p.c; }, col:"good"},
       {lab:["Product ('and')","ผลคูณ (และ)"], f:function(p){ return p.a*p.b*p.c; }, col:"accent"}
     ],
-    note:["read the question for 'and' or 'or' before writing a single number down","อ่านโจทย์หาคำว่า และ หรือ หรือ ก่อนเขียนตัวเลขแม้แต่ตัวเดียว"]
+    note:["read the question for 'and' or 'or' before writing a single number down","ดูในโจทย์ก่อนว่าเป็น “และ” หรือ “หรือ” แล้วค่อยเขียนตัวเลข"]
   } },
 
 { id:"perm-comb", x:100, y:150, requires:["counting"], methods:["M-02"],
@@ -55,7 +57,7 @@ nodes:[
   flabel:["Order matters → P. It does not → C.","ลำดับสำคัญ → P ไม่สำคัญ → C"],
   viz:"bars",
   vizcfg:{
-    title:["THE COST OF CARING ABOUT ORDER","ราคาของการสนใจลำดับ"],
+    title:["THE COST OF CARING ABOUT ORDER","ราคาของการคำนึงถึงลำดับ"],
     ylab:["number of selections","จำนวนวิธีเลือก"],
     ctrls:[
       {k:"n", lab:["Choose from n","เลือกจาก n"], min:2, max:10, step:1, def:8, unit:""},
@@ -71,7 +73,7 @@ nodes:[
         var f=1; for(var i=2;i<=S.p.r;i++) f*=i;
         return String(f)+" = "+S.p.r+"!"; }},
       {lab:["Which is always larger","อันไหนมากกว่าเสมอ"], f:function(){
-        return L()?"nPr — เพราะนับการเรียงซ้ำ":"nPr — it counts the reorderings separately"; }}
+        return L()?"nPr เพราะนับการสลับที่เป็นคนละแบบ":"nPr — it counts the reorderings separately"; }}
     ],
     bars:[
       {lab:["nPr","nPr"], f:function(p){ var v=1; for(var i=0;i<p.r;i++) v*=(p.n-i); return v; }, col:"accent"},
@@ -80,7 +82,7 @@ nodes:[
         var f=1; for(i=2;i<=p.r;i++) f*=i; return v/f; }, col:"good"},
       {lab:["r!","r!"], f:function(p){ var f=1; for(var i=2;i<=p.r;i++) f*=i; return f; }, col:"warn"}
     ],
-    note:["using nPr where nCr belongs inflates your answer by exactly r! — the amber bar","ใช้ nPr ทั้งที่ต้องใช้ nCr คำตอบจะมากเกินไปพอดี r! เท่า ดูได้จากแถบสีเหลืองอำพัน"]
+    note:["using nPr where nCr belongs inflates your answer by exactly r! — the amber bar","ใช้ nPr ทั้งที่ต้องใช้ nCr คำตอบจะมากเกินจริงพอดี r! เท่า ดูได้จากแถบสีเหลืองอำพัน"]
   },
   guide:[
     {say:["Choosing 3 from 8. The permutation count is six times the combination count.",
@@ -88,7 +90,7 @@ nodes:[
     {say:["That factor of six is exactly 3! — the number of ways to shuffle the three you picked.",
           "ที่ต่างกันหกเท่าก็เพราะ 3! พอดี คือจำนวนวิธีสลับที่ของสามชิ้นที่เลือกมา"], set:{n:8,r:3}},
     {say:["Choose only one and the gap disappears. With a single item there is nothing to reorder.",
-          "ถ้าเลือกเพียงชิ้นเดียว ความต่างนี้จะหายไป เพราะของชิ้นเดียวไม่มีอะไรให้สลับที่"], set:{n:8,r:1}}
+          "เลือกแค่ชิ้นเดียว ความต่างก็หายไป เพราะของชิ้นเดียวไม่มีอะไรให้สลับที่"], set:{n:8,r:1}}
   ] },
 
 { id:"sample-space", x:370, y:150, requires:["counting"], methods:["M-03"],
@@ -102,7 +104,7 @@ nodes:[
   viz:{
     vb:"0 0 560 330", anim:false,
     ctrls:[
-      {k:"mode", lab:["Event:","เหตุการณ์:"], opts:[["sum","ผลรวม"], ["doubles","เลขคู่เหมือน"], ["at-least","อย่างน้อย"], ["difference","ผลต่าง"]], min:0, def:0, unit:""},
+      {k:"mode", lab:["Event:","เหตุการณ์:"], opts:[["sum","ผลรวม"], ["doubles","แต้มเหมือนกัน"], ["at-least","อย่างน้อย"], ["difference","ผลต่าง"]], min:0, def:0, unit:""},
       {k:"val", lab:["Target value","ค่าเป้าหมาย"], min:1, max:12, step:1, def:7, unit:""}
     ],
     readouts:[
@@ -110,10 +112,10 @@ nodes:[
       {lab:["Total n(S)","ทั้งหมด n(S)"], f:function(){ return "36"; }},
       {lab:["P(E)","P(E)"], f:function(S){
         var h=S._hit||0;
-        return h+"/36 = "+fmt2(h/36); }},
+        return h+"/36 = "+num(h/36); }},
       {lab:["P(not E)","P(E ไม่เกิด)"], f:function(S){
         var h=S._hit||0;
-        return (36-h)+"/36 = "+fmt2((36-h)/36); }}
+        return (36-h)+"/36 = "+num((36-h)/36); }}
     ],
     draw:function(S,o){
       var p=S.p, m=p.mode, v=p.val, hit=0;
@@ -124,12 +126,12 @@ nodes:[
         return Math.abs(i-j)===Math.min(v,5);
       };
       var LBL=[["Sum equals "+v,"ผลรวมเท่ากับ "+v],
-               ["Both dice the same","ลูกเต๋าเหมือนกันทั้งสอง"],
+               ["Both dice the same","ลูกเต๋าสองลูกขึ้นแต้มเหมือนกัน"],
                ["Sum at least "+v,"ผลรวมอย่างน้อย "+v],
                ["Difference equals "+Math.min(v,5),"ผลต่างเท่ากับ "+Math.min(v,5)]][m];
       var x0=96, y0=54, c=36;
-      o.push('<text x="'+x0+'" y="28" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.4">'+tx(["SAMPLE SPACE · TWO DICE","แซมเปิลสเปซ · ลูกเต๋าสองลูก"])+'</text>');
-      o.push('<text x="'+x0+'" y="44" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11.5" font-weight="600">'+
+      o.push('<text x="'+x0+'" y="18" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.4">'+tx(["SAMPLE SPACE · TWO DICE","แซมเปิลสเปซ · ลูกเต๋าสองลูก"])+'</text>');
+      o.push('<text x="'+x0+'" y="34" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11.5" font-weight="600">'+
              (L()?LBL[1]:LBL[0])+'</text>');
       var i,j;
       for(i=1;i<=6;i++){
@@ -157,18 +159,18 @@ nodes:[
       o.push('<rect x="'+bx+'" y="'+(y0+28)+'" width="'+(bw*hit/36)+'" height="18" fill="var(--accent)"/>');
       o.push('<text x="'+bx+'" y="'+(y0+66)+'" fill="var(--ink)" font-family="IBM Plex Sans" font-size="13" font-weight="600">'+
              hit+' / 36</text>');
-      o.push('<text x="'+bx+'" y="'+(y0+86)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="11">= '+fmt2(hit/36)+'</text>');
+      o.push('<text x="'+bx+'" y="'+(y0+86)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="11">= '+num(hit/36)+'</text>');
     }
   },
   guide:[
     {say:["A total of 7 lights up a full diagonal — six cells out of 36, the most likely total there is.",
           "ผลรวม 7 ทำให้แนวทแยงสว่างทั้งเส้น คือ 6 ช่องจาก 36 ช่อง เป็นผลรวมที่มีโอกาสมากที่สุด"], set:{mode:0,val:7}},
     {say:["Now ask for 2. Only one cell qualifies. Same 36 equally likely cells, wildly unequal sums.",
-          "ลองเปลี่ยนเป็น 2 ดูบ้าง มีช่องเดียวที่ตรงเงื่อนไข ทั้งที่ทั้ง 36 ช่องมีโอกาสเท่ากัน แต่ผลรวมแต่ละค่ากลับต่างกันมาก"], set:{mode:0,val:2}},
+          "ลองเปลี่ยนเป็น 2 ดู มีช่องเดียวที่ตรงเงื่อนไข ทั้ง 36 ช่องมีโอกาสเท่ากัน แต่ผลรวมแต่ละค่ามีโอกาสต่างกันมาก"], set:{mode:0,val:2}},
     {say:["Doubles form the main diagonal — six cells, the same count as a total of 7, so the same probability.",
           "แต้มเหมือนกันอยู่บนแนวทแยงหลัก มี 6 ช่อง เท่ากับผลรวม 7 ความน่าจะเป็นจึงเท่ากัน"], set:{mode:1,val:7}},
     {say:["'At least 10' fills a corner triangle. Watch P(not E) in the readout — it is always what is left over.",
-          "เงื่อนไข อย่างน้อย 10 ครอบคลุมสามเหลี่ยมมุมหนึ่งของตาราง ลองดูค่า P(E ไม่เกิด) ในช่องแสดงผล มันคือส่วนที่เหลือเสมอ"], set:{mode:2,val:10}}
+          "เงื่อนไข “อย่างน้อย 10” ครอบคลุมสามเหลี่ยมมุมหนึ่งของตาราง ดู P(E ไม่เกิด) ในช่องแสดงผลด้วย มันคือส่วนที่เหลือเสมอ"], set:{mode:2,val:10}}
   ]},
 
 { id:"rules", x:235, y:248, requires:["sample-space"], methods:["M-04"],
@@ -181,7 +183,7 @@ nodes:[
   flabel:["'At least one' → use the complement","อย่างน้อยหนึ่ง → ใช้คอมพลีเมนต์"],
   viz:"bars",
   vizcfg:{
-    title:["THE OVERLAP GETS COUNTED TWICE","ส่วนซ้อนทับถูกนับสองครั้ง"],
+    title:["THE OVERLAP GETS COUNTED TWICE","นับส่วนซ้อนทับซ้ำสองครั้ง"],
     ylab:["probability","ความน่าจะเป็น"],
     ctrls:[
       {k:"a",  lab:["P(A)","P(A)"], min:0, max:100, step:5, def:40, unit:" %"},
@@ -189,20 +191,20 @@ nodes:[
       {k:"ab", lab:["P(A ∩ B)","P(A ∩ B)"], min:0, max:60, step:5, def:15, unit:" %"}
     ],
     readouts:[
-      {lab:["P(A) + P(B)","P(A) + P(B)"], f:function(S){ return fmt2((S.p.a+S.p.b)/100); }},
+      {lab:["P(A) + P(B)","P(A) + P(B)"], f:function(S){ return num((S.p.a+S.p.b)/100); }},
       {lab:["P(A ∪ B)","P(A ∪ B)"], f:function(S){
-        return fmt2((S.p.a+S.p.b-Math.min(S.p.ab,S.p.a,S.p.b))/100); }},
+        return num((S.p.a+S.p.b-ovl(S.p))/100); }},
       {lab:["Mutually exclusive?","ไม่เกิดร่วมกันไหม"], f:function(S){
-        return S.p.ab===0 ? (L()?"ใช่ — ไม่ต้องลบ":"yes — nothing to subtract")
+        return ovl(S.p)===0 ? (L()?"ใช่ — ไม่ต้องลบ":"yes — nothing to subtract")
                           : (L()?"ไม่ใช่ — ต้องลบส่วนร่วม":"no — the overlap must come off"); }},
-      {lab:["P(not A)","P(A ไม่เกิด)"], f:function(S){ return fmt2(1-S.p.a/100); }}
+      {lab:["P(not A)","P(A ไม่เกิด)"], f:function(S){ return num(1-S.p.a/100); }}
     ],
     bars:[
       {lab:["P(A)","P(A)"], f:function(p){ return p.a/100; }, col:"faint"},
       {lab:["P(B)","P(B)"], f:function(p){ return p.b/100; }, col:"faint"},
-      {lab:["Naive sum","ผลบวกแบบง่าย"], f:function(p){ return (p.a+p.b)/100; }, col:"warn"},
-      {lab:["True union","ยูเนียนที่ถูก"], f:function(p){
-        return (p.a+p.b-Math.min(p.ab,p.a,p.b))/100; }, col:"accent"}
+      {lab:["Naive sum","ผลบวกตรงๆ"], f:function(p){ return (p.a+p.b)/100; }, col:"warn"},
+      {lab:["True union","ยูเนียนที่แท้จริง"], f:function(p){
+        return (p.a+p.b-ovl(p))/100; }, col:"accent"}
     ],
     note:["drop the overlap to zero and the last two bars snap together — that is the exclusive case","ลดส่วนซ้อนทับให้เป็นศูนย์ สองแถบสุดท้ายจะเท่ากันพอดี นั่นคือกรณีที่เหตุการณ์เกิดร่วมกันไม่ได้"]
   } },
@@ -217,7 +219,7 @@ nodes:[
   flabel:["Independent ≠ mutually exclusive","เป็นอิสระ ≠ ไม่เกิดร่วมกัน"],
   viz:"bars",
   vizcfg:{
-    title:["KNOWING B SHRINKS THE SAMPLE SPACE","การรู้ว่า B เกิด ทำให้แซมเปิลสเปซหดลง"],
+    title:["KNOWING B SHRINKS THE SAMPLE SPACE","รู้ว่า B เกิดแล้ว แซมเปิลสเปซก็หดลง"],
     ylab:["probability","ความน่าจะเป็น"],
     ctrls:[
       {k:"a",  lab:["P(A)","P(A)"], min:5, max:95, step:5, def:30, unit:" %"},
@@ -225,30 +227,29 @@ nodes:[
       {k:"ab", lab:["P(A ∩ B)","P(A ∩ B)"], min:0, max:60, step:5, def:15, unit:" %"}
     ],
     readouts:[
-      {lab:["P(A|B)","P(A|B)"], f:function(S){ return fmt2(S.p.ab/S.p.b); }},
-      {lab:["P(A)","P(A)"], f:function(S){ return fmt2(S.p.a/100); }},
+      {lab:["P(A|B)","P(A|B)"], f:function(S){ return num(ovl(S.p)/S.p.b); }},
+      {lab:["P(A)","P(A)"], f:function(S){ return num(S.p.a/100); }},
       {lab:["Independent?","เป็นอิสระต่อกันไหม"], f:function(S){
-        var d=Math.abs(S.p.ab/S.p.b-S.p.a/100);
-        return d<0.02 ? (L()?"ใช่ — การรู้ B ไม่บอกอะไรเกี่ยวกับ A":"yes — knowing B tells you nothing about A")
+        return ovl(S.p)*100===S.p.a*S.p.b ? (L()?"ใช่ รู้ B ไปก็ไม่ช่วยบอกอะไรเกี่ยวกับ A":"yes — knowing B tells you nothing about A")
                       : (L()?"ไม่ — B เปลี่ยนโอกาสของ A":"no — B shifts the odds on A"); }},
-      {lab:["For independence you need","ความเป็นอิสระต้องการ"], f:function(S){
-        return "P(A∩B) = "+fmt2(S.p.a*S.p.b/10000)+(L()?" (ตอนนี้ "+fmt2(S.p.ab/100)+")":" (currently "+fmt2(S.p.ab/100)+")"); }}
+      {lab:["For independence you need","ถ้าเป็นอิสระ ต้องได้"], f:function(S){
+        return "P(A∩B) = "+num(S.p.a*S.p.b/10000)+(L()?" (ตอนนี้ "+num(ovl(S.p)/100)+")":" (currently "+num(ovl(S.p)/100)+")"); }}
     ],
     bars:[
       {lab:["P(A)","P(A)"], f:function(p){ return p.a/100; }, col:"faint"},
-      {lab:["P(A|B)","P(A|B)"], f:function(p){ return p.ab/p.b; }, col:"accent"},
+      {lab:["P(A|B)","P(A|B)"], f:function(p){ return ovl(p)/p.b; }, col:"accent"},
       {lab:["P(A)·P(B)","P(A)·P(B)"], f:function(p){ return p.a*p.b/10000; }, col:"good"},
-      {lab:["P(A ∩ B)","P(A ∩ B)"], f:function(p){ return p.ab/100; }, col:"warn"}
+      {lab:["P(A ∩ B)","P(A ∩ B)"], f:function(p){ return ovl(p)/100; }, col:"warn"}
     ],
-    note:["when the last two bars match, the events are independent — and only then","ถ้าสองแถบสุดท้ายเท่ากัน เหตุการณ์ทั้งสองเป็นอิสระต่อกัน และเป็นเช่นนี้เมื่อเท่ากันเท่านั้น"]
+    note:["when the last two bars match, the events are independent — and only then","ถ้าสองแถบสุดท้ายเท่ากัน เหตุการณ์ทั้งสองเป็นอิสระต่อกัน และจะเป็นอิสระก็ต่อเมื่อเท่ากันเท่านั้น"]
   },
   guide:[
     {say:["P(A|B) is well above P(A), so learning that B happened makes A more likely.",
-          "P(A|B) สูงกว่า P(A) มาก แปลว่าเมื่อรู้ว่า B เกิด A ก็มีโอกาสมากขึ้น"], set:{a:30,b:50,ab:15}},
+          "P(A|B) สูงกว่า P(A) มาก แปลว่ารู้ว่า B เกิดแล้ว A ก็มีโอกาสมากขึ้น"], set:{a:30,b:50,ab:30}},
     {say:["Tune the overlap until the last two bars are level. Now the events are independent.",
           "ปรับส่วนซ้อนทับจนสองแถบสุดท้ายเท่ากัน ตอนนี้เหตุการณ์เป็นอิสระต่อกัน"], set:{a:30,b:50,ab:15}},
     {say:["Set the overlap to zero. They are mutually exclusive — which makes them maximally DEPENDENT.",
-          "ตั้งส่วนซ้อนทับเป็นศูนย์ ทั้งสองเหตุการณ์เกิดร่วมกันไม่ได้ และนั่นทำให้ขึ้นต่อกันมากที่สุด"], set:{a:30,b:50,ab:0}}
+          "ตั้งส่วนซ้อนทับเป็นศูนย์ สองเหตุการณ์จึงเกิดร่วมกันไม่ได้ และนั่นทำให้ไม่เป็นอิสระต่อกันมากที่สุด"], set:{a:30,b:50,ab:0}}
   ] }
 ],
 
@@ -306,7 +307,7 @@ gen:{
 },
 "M-03": function(sf){
   var C=[{q:["a total of 7","ผลรวมเป็น 7"],n:6},{q:["a total of 5","ผลรวมเป็น 5"],n:4},
-         {q:["a double","เลขคู่เหมือน"],n:6},{q:["a total of at least 10","ผลรวมอย่างน้อย 10"],n:6},
+         {q:["a double","แต้มเหมือนกัน"],n:6},{q:["a total of at least 10","ผลรวมอย่างน้อย 10"],n:6},
          {q:["a total of 2","ผลรวมเป็น 2"],n:1}];
   var c=pick(C);
   if(sf==="S-04") return {stem:["Can a probability ever exceed 1?","ความน่าจะเป็นมากกว่า 1 ได้หรือไม่"],
@@ -341,8 +342,8 @@ gen:{
           {v:["Multiply the probabilities","คูณความน่าจะเป็นเข้าด้วยกัน"],trap:"T-03"}],unit:""};
   return {stem:["P(A) = "+pa+", P(B) = "+pb+", P(A∩B) = "+pi+". Find P(A∪B).",
                 "P(A) = "+pa+", P(B) = "+pb+", P(A∩B) = "+pi+" จงหา P(A∪B)"],
-    opts:[{v:fmt2(pa+pb-pi),ok:1},{v:fmt2(pa+pb),trap:"T-02"},
-          {v:fmt2(pa*pb),trap:"T-03"},{v:fmt2(pa+pb+pi),trap:"T-02"}],unit:""};
+    opts:[{v:num(pa+pb-pi),ok:1},{v:num(pa+pb),trap:"T-02"},
+          {v:num(pa*pb),trap:"T-03"},{v:num(pa+pb+pi),trap:"T-02"}],unit:""};
 },
 "M-05": function(sf){
   var pi=pick([0.12,0.15,0.2]), pb=pick([0.4,0.5,0.6]);
@@ -360,8 +361,8 @@ gen:{
           {v:["Because B is independent","เพราะ B เป็นอิสระ"],trap:"T-03"}],unit:""};
   return {stem:["P(A∩B) = "+pi+" and P(B) = "+pb+". Find P(A|B).",
                 "P(A∩B) = "+pi+" และ P(B) = "+pb+" จงหา P(A|B)"],
-    opts:[{v:fmt2(pi/pb),ok:1},{v:fmt2(pi*pb),trap:"T-03"},
-          {v:fmt2(pi),trap:"T-03"},{v:fmt2(pb/pi),trap:"T-04"}],unit:""};
+    opts:[{v:num(pi/pb),ok:1},{v:num(pi*pb),trap:"T-03"},
+          {v:num(pi),trap:"T-03"},{v:num(pb/pi),trap:"T-04"}],unit:""};
 }
 }
 };

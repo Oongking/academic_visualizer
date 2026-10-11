@@ -49,29 +49,29 @@ nodes:[
   vizcfg:{
     fn:function(x,p){ return p.P/(4*Math.PI*Math.max(x,0.3)*Math.max(x,0.3)); },
     xmin:0.3, xmax:20, fill:true,
-    title:["INTENSITY AGAINST DISTANCE","ความเข้ม เทียบ ระยะทาง"],
-    xlab:["r (m)","r (ม.)"], ylab:["I (W/m²)","I (วัตต์/ตร.ม.)"],
+    title:["INTENSITY AGAINST DISTANCE","ความเข้มกับระยะทาง"],
+    xlab:["r (m)","r (m)"], ylab:["I (W/m²)","I (W/m²)"],
     mark:function(p){ return p.r; },
     ctrls:[
-      {k:"P", lab:["Source power P","กำลังแหล่งกำเนิด P"], min:1, max:100, step:1, def:50, unit:" W"},
-      {k:"r", lab:["Your distance r","ระยะของคุณ r"],      min:1, max:20, step:1, def:4,  unit:" m"}
+      {k:"P", lab:["Source power P","กำลังของแหล่งกำเนิด P"], min:1, max:100, step:1, def:50, unit:" W"},
+      {k:"r", lab:["Your distance r","ระยะของเรา r"],      min:1, max:20, step:1, def:4,  unit:" m"}
     ],
     readouts:[
-      {lab:["Intensity here","ความเข้ม ณ จุดนี้"], f:function(S){
-        return (S.p.P/(4*Math.PI*S.p.r*S.p.r)).toExponential(2)+" W/m²"; }},
+      {lab:["Intensity here","ความเข้มตรงนี้"], f:function(S){
+        return un(S.p.P/(4*Math.PI*S.p.r*S.p.r),"W/m²"); }},
       {lab:["Sound level","ระดับเสียง"], f:function(S){
-        var I=S.p.P/(4*Math.PI*S.p.r*S.p.r); return fmt(10*Math.log(I/1e-12)/Math.LN10)+" dB"; }},
-      {lab:["At twice this distance","ที่ระยะสองเท่า"], f:function(S){
-        var I=S.p.P/(4*Math.PI*4*S.p.r*S.p.r); return fmt(10*Math.log(I/1e-12)/Math.LN10)+" dB"; }}
+        var I=S.p.P/(4*Math.PI*S.p.r*S.p.r); return un(10*Math.log(I/1e-12)/Math.LN10,"dB"); }},
+      {lab:["At twice this distance","เมื่อไกลเป็นสองเท่า"], f:function(S){
+        var I=S.p.P/(4*Math.PI*4*S.p.r*S.p.r); return un(10*Math.log(I/1e-12)/Math.LN10,"dB"); }}
     ]
   },
   guide:[
     {say:["The curve is an inverse square. It falls away steeply near the source and then flattens out.",
           "กราฟเป็นแบบกำลังสองผกผัน ใกล้แหล่งกำเนิดจะลดลงชันมาก แล้วค่อยๆ ราบลง"], set:{P:50,r:2}},
     {say:["Double your distance from 2 m to 4 m and read the intensity. It drops to a quarter, not a half.",
-          "ลองเพิ่มระยะจาก 2 เมตรเป็น 4 เมตร แล้วอ่านค่าความเข้ม จะเหลือหนึ่งในสี่ ไม่ใช่ครึ่งหนึ่ง"], set:{P:50,r:4}},
+          "ลองเพิ่มระยะจาก 2 m เป็น 4 m แล้วอ่านค่าความเข้ม จะเหลือหนึ่งในสี่ ไม่ใช่ครึ่งหนึ่ง"], set:{P:50,r:4}},
     {say:["But the decibel readout only drops by about 6. That gap between physics and hearing is the whole point of the dB scale.",
-          "แต่ค่าเดซิเบลลดลงแค่ประมาณ 6 ความต่างระหว่างค่าทางฟิสิกส์กับสิ่งที่หูรับรู้นี้เองคือเหตุผลที่เรามีสเกลเดซิเบล"], set:{P:50,r:8}}
+          "แต่ค่าเดซิเบลลดลงแค่ประมาณ 6 ช่องว่างระหว่างค่าทางฟิสิกส์กับสิ่งที่หูรับรู้นี้แหละ คือเหตุผลที่ต้องมีสเกลเดซิเบล"], set:{P:50,r:8}}
   ]},
 
 { id:"pipes", x:370, y:150, requires:["nature"], methods:["M-04"],
@@ -93,13 +93,13 @@ nodes:[
     ],
     readouts:[
       {lab:["Fundamental","ความถี่มูลฐาน"], f:function(S){
-        var p=S.p; return fmt2(p.closed===0 ? p.v/(2*p.Lp) : p.v/(4*p.Lp))+" Hz"; }},
+        var p=S.p; return un(p.closed===0 ? p.v/(2*p.Lp) : p.v/(4*p.Lp),"Hz"); }},
       {lab:["Harmonics present","ฮาร์มอนิกที่มี"], f:function(S){
         return S.p.closed===0 ? (L()?"ทุกจำนวนเต็ม 1,2,3,4…":"every integer 1,2,3,4…")
                               : (L()?"เฉพาะเลขคี่ 1,3,5,7…":"odd only 1,3,5,7…"); }},
-      {lab:["Same length, which is lower?","ยาวเท่ากัน อันไหนเสียงต่ำกว่า"], f:function(){
-        return L()?"ท่อปิดปลาย — ต่ำกว่าหนึ่งอ็อกเทฟ":"the closed pipe — an octave lower"; }},
-      {lab:["Why the difference","ทำไมจึงต่างกัน"], f:function(){
+      {lab:["Same length, which is lower?","ยาวเท่ากัน ท่อไหนเสียงต่ำกว่า"], f:function(){
+        return L()?"ท่อปลายปิด — ต่ำกว่าหนึ่งอ็อกเทฟ":"the closed pipe — an octave lower"; }},
+      {lab:["Why the difference","ทำไมต่างกัน"], f:function(){
         return L()?"ปลายปิดต้องเป็นบัพ ปลายเปิดต้องเป็นปฏิบัพ":"a closed end must be a node, an open end an antinode"; }}
     ],
     bars:[
@@ -109,7 +109,7 @@ nodes:[
       {lab:["4th","ที่ 4"], f:function(p){ return p.closed===0 ? 4*p.v/(2*p.Lp) : 0; }, col:"good"},
       {lab:["5th","ที่ 5"], f:function(p){ return p.closed===0 ? 5*p.v/(2*p.Lp) : 5*p.v/(4*p.Lp); }, col:"good"}
     ],
-    note:["a closed pipe simply deletes the even harmonics — that missing pattern is its timbre","ท่อปลายปิดตัดฮาร์มอนิกเลขคู่ออกไป และฮาร์มอนิกที่ขาดไปนี้เองที่ทำให้เสียงมีลักษณะเฉพาะตัว"]
+    note:["a closed pipe simply deletes the even harmonics — that missing pattern is its timbre","ท่อปลายปิดตัดฮาร์มอนิกเลขคู่ทิ้งไป และลำดับที่หายไปนี้เองที่ทำให้เสียงมีลักษณะเฉพาะตัว"]
   },
   guide:[
     {say:["An open pipe sounds every harmonic — the bars step up in equal jumps.",
@@ -117,7 +117,7 @@ nodes:[
     {say:["Close one end and the even harmonics collapse to zero. Only 1, 3, 5 survive.",
           "ปิดปลายหนึ่งข้าง ฮาร์มอนิกเลขคู่จะหายไปเป็นศูนย์ เหลือแค่ลำดับที่ 1, 3, 5"], set:{closed:1,Lp:1,v:340}},
     {say:["Notice the closed pipe's fundamental is half the open one's — same length, an octave lower.",
-          "สังเกตว่าความถี่มูลฐานของท่อปลายปิดเป็นครึ่งหนึ่งของท่อปลายเปิด ท่อยาวเท่ากันแต่เสียงต่ำกว่าหนึ่งอ็อกเทฟ"], set:{closed:1,Lp:1,v:340}}
+          "สังเกตว่าความถี่มูลฐานของท่อปลายปิดเป็นครึ่งหนึ่งของท่อปลายเปิด ท่อยาวเท่ากันแต่ต่ำกว่าหนึ่งอ็อกเทฟ"], set:{closed:1,Lp:1,v:340}}
   ] },
 
 { id:"beats", x:235, y:248, requires:["intensity","pipes"], methods:["M-05"],
@@ -141,25 +141,25 @@ nodes:[
       {k:"f2", lab:["Second frequency","ความถี่ที่สอง"], min:10, max:30, step:.5, def:23, unit:" Hz"}
     ],
     readouts:[
-      {lab:["Beat frequency","ความถี่บีต"], f:function(S){ return fmt2(Math.abs(S.p.f1-S.p.f2))+" Hz"; }},
-      {lab:["Beats you hear","จำนวนบีตที่ได้ยิน"], f:function(S){
+      {lab:["Beat frequency","ความถี่บีต"], f:function(S){ return un(Math.abs(S.p.f1-S.p.f2),"Hz"); }},
+      {lab:["Beats you hear","บีตที่ได้ยิน"], f:function(S){
         var b=Math.abs(S.p.f1-S.p.f2);
-        return b<0.25 ? (L()?"ไม่มี — เข้าจังหวะกันแล้ว":"none — they are in tune")
-                      : fmt2(b)+(L()?" ครั้งต่อวินาที":" per second"); }},
+        return b<0.25 ? (L()?"ไม่มี — ความถี่ตรงกันแล้ว":"none — they are in tune")
+                      : num(b)+"\u00a0"+(L()?"ครั้งต่อวินาที":"per second"); }},
       {lab:["Pitch you hear","ระดับเสียงที่ได้ยิน"], f:function(S){
-        return fmt2((S.p.f1+S.p.f2)/2)+(L()?" Hz · ค่าเฉลี่ย":" Hz · the average"); }},
+        return un((S.p.f1+S.p.f2)/2,"Hz")+(L()?" · ค่าเฉลี่ย":" · the average"); }},
       {lab:["Tuning an instrument","การตั้งเสียงเครื่องดนตรี"], f:function(){
         return L()?"ปรับจนบีตหายไป":"adjust until the beating disappears"; }}
     ],
-    note:["the envelope, not the fast wiggle, is what your ear registers as the throb","สิ่งที่หูรับรู้เป็นจังหวะเต้นคือเส้นกรอบของคลื่น ไม่ใช่การสั่นเร็วๆ ข้างใน"]
+    note:["the envelope, not the fast wiggle, is what your ear registers as the throb","หูรับรู้จังหวะเต้นจากเส้นกรอบของคลื่น ไม่ใช่จากการสั่นเร็วๆ ข้างใน"]
   },
   guide:[
     {say:["Three hertz apart. The envelope swells and collapses three times a second.",
-          "ความถี่ต่างกันสามเฮิรตซ์ เส้นกรอบพองขึ้นและยุบลงสามครั้งต่อวินาที"], set:{f1:20,f2:23}},
+          "ความถี่ต่างกัน 3 Hz เส้นกรอบจะพองแล้วยุบ 3 ครั้งทุกวินาที"], set:{f1:20,f2:23}},
     {say:["Bring them closer and the throb slows right down — one lazy pulse per second.",
-          "ทำให้ความถี่ใกล้กันขึ้น จังหวะเต้นจะช้าลงมาก เหลือแค่หนึ่งครั้งต่อวินาทีแบบเอื่อยๆ"], set:{f1:20,f2:21}},
+          "ขยับความถี่ให้ใกล้กันขึ้น จังหวะเต้นจะช้าลงมาก เหลือแค่ 1 ครั้งต่อวินาทีแบบเอื่อยๆ"], set:{f1:20,f2:21}},
     {say:["Match them exactly and the beating vanishes. That silence is how a piano gets tuned.",
-          "ปรับให้เท่ากันพอดี จังหวะเต้นจะหายไป ช่างจูนเปียโนก็ใช้ความเงียบนี้เองในการตั้งเสียง"], set:{f1:20,f2:20}}
+          "ปรับให้เท่ากันพอดี จังหวะเต้นจะหายไป ช่างจูนเปียโนใช้ความเงียบแบบนี้ตั้งเสียง"], set:{f1:20,f2:20}}
   ] },
 
 { id:"doppler", x:235, y:346, requires:["beats"], methods:["M-06"],
@@ -173,22 +173,22 @@ nodes:[
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["The Wailing Wisp: a moving source shifts the pitch","ภูตโหยหวน: แหล่งกำเนิดที่เคลื่อนที่ทำให้เสียงเพี้ยน"],
+    spellName:["The Wailing Wisp: a moving source shifts the pitch","ภูตโหยหวน: แหล่งกำเนิดที่เคลื่อนที่ทำให้ระดับเสียงเปลี่ยน"],
     question:["The wisp sings one steady note as it flies. Why does the listener ahead hear it higher, and the one behind lower?",
-              "ภูตร้องโน้ตเดียวคงที่ขณะบิน ทำไมผู้ฟังที่อยู่ข้างหน้าจึงได้ยินเสียงสูงขึ้น ส่วนผู้ฟังข้างหลังได้ยินเสียงต่ำลง"],
+              "ภูตร้องโน้ตเดียวคงที่ขณะบิน ทำไมคนที่อยู่ข้างหน้าได้ยินเสียงสูงขึ้น แต่คนที่อยู่ข้างหลังได้ยินเสียงต่ำลง"],
     ctrls:[
       {k:"fs", lab:["The wisp's own note","โน้ตของภูต"], min:200, max:1200, step:20, def:500, unit:" Hz"},
       {k:"vs", lab:["The wisp's speed","อัตราเร็วของภูต"], min:0, max:300, step:10, def:150, unit:" m/s"},
-      {k:"v",  lab:["Speed of sound","อัตราเร็วเสียง"], min:300, max:360, step:5, def:340, unit:" m/s"},
+      {k:"v",  lab:["Speed of sound","อัตราเร็วเสียง"], min:310, max:360, step:5, def:340, unit:" m/s"},
       {k:"T",  lab:["Watch for","ดูนาน"], min:4, max:14, step:1, def:11, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Ahead hears","ข้างหน้าได้ยิน"], f:function(S){ return fmt(C12.fa(S.p))+" Hz"; }},
-      {lab:["Behind hears","ข้างหลังได้ยิน"], f:function(S){ return fmt(C12.fr(S.p))+" Hz"; }},
-      {lab:["The wisp sings","ภูตร้อง"], f:function(S){ return S.p.fs+" Hz"; }},
-      {lab:["Is the shift symmetric?","การเลื่อนสมมาตรไหม"], f:function(S){
+      {lab:["Ahead hears","ข้างหน้าได้ยิน"], f:function(S){ return un(C12.fa(S.p),"Hz"); }},
+      {lab:["Behind hears","ข้างหลังได้ยิน"], f:function(S){ return un(C12.fr(S.p),"Hz"); }},
+      {lab:["The wisp sings","ภูตร้อง"], f:function(S){ return un(S.p.fs,"Hz"); }},
+      {lab:["Is the shift symmetric?","เสียงเลื่อนขึ้นลงเท่ากันไหม"], f:function(S){
         var p=S.p, up=C12.fa(p)-p.fs, dn=p.fs-C12.fr(p);
-        return Math.abs(up-dn)<2 ? (L()?"เกือบ ที่ความเร็วต่ำ":"nearly, at low speed") : (L()?"ไม่ — ขาเข้าเลื่อนมากกว่า":"no — the approach shifts more"); }}
+        return Math.abs(up-dn)<2 ? (L()?"เกือบเท่ากัน ที่ความเร็วต่ำ":"nearly, at low speed") : (L()?"ไม่เท่ากัน — ตอนเข้าหาเลื่อนมากกว่า":"no — the approach shifts more"); }}
     ],
     world:{ kind:"free" },
     scene:function(o,S,W){
@@ -205,7 +205,7 @@ nodes:[
         var gone=x>=px, hz=t>0||p.vs>0 ? (gone ? C12.fr(p) : C12.fa(p)) : p.fs, col=gone ? "var(--good)" : "var(--accent)";
         role("marker")(o, px, y+44, {on:true});
         fitText(o, px, y+60, lab, 120, 10, "var(--ink-faint)", "middle");
-        fitText(o, px, y+74, [fmt(hz)+" Hz", fmt(hz)+" Hz"], 120, 12, col, "middle");
+        fitText(o, px, y+74, [un(hz,"Hz"), un(hz,"Hz")], 120, 12, col, "middle");
       };
       hear(500, ["far listener","ผู้ฟังไกล"]);
       hear(46, ["behind","ข้างหลัง"]);
@@ -218,7 +218,7 @@ nodes:[
        lab:["drag its speed","ลากความเร็ว"], col:"accent2"}
     ],
     instrument:{ kind:"graph",
-      xmin:0, xmax:14, ymin:0, ymax:2500,
+      xmin:0, xmax:14, ymin:0,
       xlab:["seconds","วินาที"], ylab:["Hz the listener hears","Hz ที่ผู้ฟังได้ยิน"],
       fn:function(x,p){ var tp=C12.tpass(p); return x<tp ? C12.fa(p) : C12.fr(p); },
       mark:function(p,S){ return S.t; }
@@ -229,19 +229,19 @@ nodes:[
       o.push('<text x="'+fmt2(G.X(14)-4)+'" y="'+(+y-5)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">'+(L()?"โน้ตที่ภูตร้อง":"the note it sings")+'</text>');
     },
     spell:{
-      tex:function(p){ return "f_\\text{ahead} = f_s\\,\\dfrac{v}{v - v_s} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" - "+p.vs+"} = "+fmt(C12.fa(p))+"\\,\\text{Hz}"+
-                              "\\qquad f_\\text{behind} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" + "+p.vs+"} = "+fmt(C12.fr(p))+"\\,\\text{Hz}"; },
+      tex:function(p){ return "f_\\text{ahead} = f_s\\,\\dfrac{v}{v - v_s} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" - "+p.vs+"} = "+numTex(C12.fa(p))+"\\,\\text{Hz}"+
+                              "\\qquad f_\\text{behind} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" + "+p.vs+"} = "+numTex(C12.fr(p))+"\\,\\text{Hz}"; },
       terms:[
-        {k:"fs", sym:"f_s", lab:["the note it sings","โน้ตที่ร้อง"], col:"faint", f:function(p){ return p.fs+" Hz"; }},
-        {k:"vs", sym:"v_s", lab:["the wisp's speed","อัตราเร็วภูต"], col:"accent2", f:function(p){ return p.vs+" m/s"; }}
+        {k:"fs", sym:"f_s", lab:["the note it sings","โน้ตที่ร้อง"], col:"faint", f:function(p){ return un(p.fs,"Hz"); }},
+        {k:"vs", sym:"v_s", lab:["the wisp's speed","อัตราเร็วภูต"], col:"accent2", f:function(p){ return un(p.vs,"m/s"); }}
       ]
     },
     predict:{ kind:"choice",
-      ask:["As the wisp flies past the listener, what happens to the pitch they hear?","ขณะที่ภูตบินผ่านผู้ฟัง เสียงที่ผู้ฟังได้ยินเปลี่ยนไปอย่างไร"],
-      opts:[["It slides down gradually","ค่อย ๆ ต่ำลง"],["It drops suddenly as it passes","ต่ำลงทันทีตอนผ่าน"],["It stays the same","คงเดิม"],["It rises","สูงขึ้น"]],
+      ask:["As the wisp flies past the listener, what happens to the pitch they hear?","ขณะที่ภูตบินผ่านผู้ฟัง เสียงที่ผู้ฟังได้ยินจะเปลี่ยนไปอย่างไร"],
+      opts:[["It slides down gradually","ค่อยๆ ต่ำลง"],["It drops suddenly as it passes","ต่ำลงทันทีตอนผ่าน"],["It stays the same","คงเดิม"],["It rises","สูงขึ้น"]],
       actual:function(p){ return p.vs>0 ? 1 : 2; },
-      explain:function(p){ return ["Coming in, every wavefront is squeezed by the same amount, so the pitch is a steady "+fmt(C12.fa(p))+" Hz; going away it is a steady "+fmt(C12.fr(p))+" Hz. The change happens at the instant it passes — not a slow slide.",
-                                   "ขาเข้า หน้าคลื่นทุกลูกถูกบีบเท่ากัน เสียงจึงคงที่ "+fmt(C12.fa(p))+" Hz ขาออกคงที่ "+fmt(C12.fr(p))+" Hz การเปลี่ยนเกิดขึ้นทันทีขณะผ่าน ไม่ใช่ค่อย ๆ ไล่ลง"]; }
+      explain:function(p){ return ["Coming in, every wavefront is squeezed by the same amount, so the pitch is a steady "+un(C12.fa(p),"Hz")+"; going away it is a steady "+un(C12.fr(p),"Hz")+". The change happens at the instant it passes — not a slow slide.",
+                                   "ขาเข้า หน้าคลื่นทุกลูกอัดแน่นเท่ากัน เสียงจึงคงที่ "+un(C12.fa(p),"Hz")+" พอออกห่างก็คงที่ "+un(C12.fr(p),"Hz")+" เสียงเปลี่ยนทันทีตอนบินผ่าน ไม่ได้ค่อยๆ ไล่ระดับลง"]; }
     },
     trials:{
       veil:true,
@@ -252,31 +252,31 @@ nodes:[
       lock:["fs","v"],
       say:function(g){
         return g.kind==="ahead"
-          ? ["The wisp sings "+g.fs+" Hz. How fast must it fly so the listener ahead hears exactly "+fmt(g.X)+" Hz? (v = 340 m/s)",
-             "ภูตร้อง "+g.fs+" Hz ต้องบินเร็วเท่าใดให้ผู้ฟังข้างหน้าได้ยิน "+fmt(g.X)+" Hz พอดี (v = 340 ม./วิ)"]
-          : ["The wisp sings "+g.fs+" Hz. How fast must it fly so the listener behind hears exactly "+fmt(g.X)+" Hz? (v = 340 m/s)",
-             "ภูตร้อง "+g.fs+" Hz ต้องบินเร็วเท่าใดให้ผู้ฟังข้างหลังได้ยิน "+fmt(g.X)+" Hz พอดี (v = 340 ม./วิ)"];
+          ? ["The wisp sings "+un(g.fs,"Hz")+". How fast must it fly so the listener ahead hears exactly "+un(g.X,"Hz")+"? (v = 340 m/s)",
+             "ภูตร้อง "+un(g.fs,"Hz")+" ต้องบินเร็วเท่าใดผู้ฟังข้างหน้าจึงจะได้ยิน "+un(g.X,"Hz")+" พอดี (v = 340 m/s)"]
+          : ["The wisp sings "+un(g.fs,"Hz")+". How fast must it fly so the listener behind hears exactly "+un(g.X,"Hz")+"? (v = 340 m/s)",
+             "ภูตร้อง "+un(g.fs,"Hz")+" ต้องบินเร็วเท่าใดผู้ฟังข้างหลังจึงจะได้ยิน "+un(g.X,"Hz")+" พอดี (v = 340 m/s)"];
       },
       check:function(p,S,g){
-        if(p.vs===g.vs) return {ok:true, msg:[g.kind==="ahead" ? "Exactly "+fmt(g.X)+" Hz ahead. From f = f_s·v / (v − v_s): v_s = v(1 − f_s / f) = "+g.vs+" m/s."
-                                                                : "Exactly "+fmt(g.X)+" Hz behind. From f = f_s·v / (v + v_s): v_s = v(f_s / f − 1) = "+g.vs+" m/s.",
-                                              g.kind==="ahead" ? "ข้างหน้าได้ยิน "+fmt(g.X)+" Hz พอดี จาก f = f_s·v / (v − v_s) ได้ v_s = v(1 − f_s / f) = "+g.vs+" ม./วิ"
-                                                                : "ข้างหลังได้ยิน "+fmt(g.X)+" Hz พอดี จาก f = f_s·v / (v + v_s) ได้ v_s = v(f_s / f − 1) = "+g.vs+" ม./วิ"]};
+        if(p.vs===g.vs) return {ok:true, msg:[g.kind==="ahead" ? "Exactly "+un(g.X,"Hz")+" ahead. From f = f_s·v / (v − v_s): v_s = v(1 − f_s / f) = "+un(g.vs,"m/s")+"."
+                                                                : "Exactly "+un(g.X,"Hz")+" behind. From f = f_s·v / (v + v_s): v_s = v(f_s / f − 1) = "+un(g.vs,"m/s")+".",
+                                              g.kind==="ahead" ? "ข้างหน้าได้ยิน "+un(g.X,"Hz")+" พอดี จาก f = f_s·v / (v − v_s) ได้ v_s = v(1 − f_s / f) = "+un(g.vs,"m/s")
+                                                                : "ข้างหลังได้ยิน "+un(g.X,"Hz")+" พอดี จาก f = f_s·v / (v + v_s) ได้ v_s = v(f_s / f − 1) = "+un(g.vs,"m/s")]};
         var got=g.kind==="ahead"?C12.fa(p):C12.fr(p);
-        return {ok:false, msg:["That listener heard "+fmt(got)+" Hz. Ahead the wisp chases its own waves (v − v_s); behind it runs from them (v + v_s).",
-                               "ผู้ฟังได้ยิน "+fmt(got)+" Hz ข้างหน้าภูตไล่ตามคลื่นของตัวเอง (v − v_s) ข้างหลังมันหนีคลื่น (v + v_s)"]};
+        return {ok:false, msg:["That listener heard "+un(got,"Hz")+". Ahead the wisp chases its own waves (v − v_s); behind it runs from them (v + v_s).",
+                               "ผู้ฟังได้ยิน "+un(got,"Hz")+" ข้างหน้า ภูตวิ่งไล่คลื่นของตัวเอง (v − v_s) ข้างหลัง ภูตวิ่งหนีคลื่น (v + v_s)"]};
       }
     },
     note:["the wisp never changes its note — only the spacing of the arriving wavefronts does",
-          "ภูตไม่เคยเปลี่ยนโน้ต สิ่งที่เปลี่ยนคือระยะห่างของหน้าคลื่นที่มาถึงเท่านั้น"]
+          "ภูตไม่ได้เปลี่ยนโน้ตเลย ที่เปลี่ยนคือระยะห่างของหน้าคลื่นที่มาถึงเท่านั้น"]
   },
   guide:[
     {say:["A wisp hovering still. The rings are evenly spaced and everyone hears 500 Hz.",
-          "ภูตลอยนิ่งอยู่กับที่ วงคลื่นห่างเท่ากันหมด และทุกคนได้ยิน 500 Hz"], set:{fs:500,vs:0,v:340,T:11}},
+          "ภูตลอยนิ่งอยู่กับที่ วงคลื่นห่างเท่ากันหมด ทุกคนจึงได้ยิน 500 Hz"], set:{fs:500,vs:0,v:340,T:11}},
     {say:["Set it flying. Rings bunch up ahead and stretch out behind. Watch the listener's graph drop in one step as it passes.",
-          "ให้ภูตบิน วงคลื่นจะเบียดกันข้างหน้าและห่างออกข้างหลัง ดูกราฟของผู้ฟังที่ตกลงทันทีเมื่อภูตบินผ่าน"], set:{fs:500,vs:150,v:340,T:11}},
+          "ให้ภูตบิน วงคลื่นจะเบียดกันข้างหน้าและห่างออกข้างหลัง ดูกราฟของผู้ฟังจะตกลงทันทีตอนภูตบินผ่าน"], set:{fs:500,vs:150,v:340,T:11}},
     {say:["Near the speed of sound the rings ahead pile up and that pitch runs away — the shift is not symmetric.",
-          "เมื่อใกล้อัตราเร็วเสียง วงคลื่นข้างหน้าจะอัดแน่นและเสียงสูงพุ่งขึ้นไปมาก การเปลี่ยนค่าจึงไม่สมมาตรกัน"], set:{fs:500,vs:300,v:340,T:7}}
+          "เมื่อใกล้อัตราเร็วเสียง วงคลื่นข้างหน้าจะอัดแน่น เสียงสูงจึงพุ่งขึ้นมาก การเลื่อนของเสียงจึงไม่สมมาตร"], set:{fs:500,vs:300,v:340,T:7}}
   ]
 }
 ],

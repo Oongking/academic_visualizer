@@ -18,20 +18,20 @@ nodes:[
   flabel:["Never forget x ≥ 0 and y ≥ 0","อย่าลืม x ≥ 0 และ y ≥ 0"],
   viz:"table",
   vizcfg:{
-    title:["TURNING WORDS INTO A MODEL","แปลงถ้อยคำเป็นแบบจำลอง"],
+    title:["TURNING WORDS INTO A MODEL","แปลงโจทย์เป็นแบบจำลอง"],
     cols:[["The sentence says","โจทย์บอกว่า"],["Becomes","กลายเป็น"],["Kind","ชนิด"]],
     rowKey:"i",
     readouts:[
       {lab:["Line","บรรทัด"], f:function(S){ return String(S.p.i+1)+" / 5"; }},
       {lab:["Objective function","ฟังก์ชันจุดประสงค์"], f:function(){
-        return L()?"มีได้เพียงหนึ่งเดียว":"there is exactly one"; }},
+        return L()?"มีได้ข้อเดียว":"there is exactly one"; }},
       {lab:["Constraints","ข้อจำกัด"], f:function(){
-        return L()?"มีได้หลายข้อ รวมถึงข้อที่ไม่ได้เขียน":"there may be many, including unwritten ones"; }},
+        return L()?"มีได้หลายข้อ รวมถึงข้อที่ไม่ได้เขียนไว้":"there may be many, including unwritten ones"; }},
       {lab:["Easiest to forget","ลืมง่ายที่สุด"], f:function(){
         return L()?"x ≥ 0 และ y ≥ 0":"x ≥ 0 and y ≥ 0"; }}
     ],
     rows:function(p){
-      var R=[[["how many of each to make","จะผลิตแต่ละอย่างเท่าไร"],["x and y","x และ y"],["decision variables","ตัวแปรตัดสินใจ"]],
+      var R=[[["how many of each to make","จะผลิตแต่ละอย่างกี่ชิ้น"],["x and y","x และ y"],["decision variables","ตัวแปรตัดสินใจ"]],
              [["profit is 20 and 30 each","กำไรอย่างละ 20 และ 30"],["P = 20x + 30y","P = 20x + 30y"],["objective","จุดประสงค์"]],
              [["at most 40 hours available","มีเวลาไม่เกิน 40 ชั่วโมง"],["2x + y ≤ 40","2x + y ≤ 40"],["constraint","ข้อจำกัด"]],
              [["at least 5 of product A","ต้องผลิต A อย่างน้อย 5"],["x ≥ 5","x ≥ 5"],["constraint","ข้อจำกัด"]],
@@ -39,7 +39,7 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===2?(i===4?"warn":(i===1?"accent":"good")):"accent"}; }); });
     },
-    note:["the last line is the one nobody writes down and everybody needs","บรรทัดสุดท้ายนี้ไม่มีใครเขียน แต่ทุกคนต้องใช้"]
+    note:["the last line is the one nobody writes down and everybody needs","บรรทัดสุดท้ายนี้ไม่มีใครเขียน แต่ทุกโจทย์ต้องใช้"]
   } },
 
 { id:"region", x:100, y:150, requires:["model"], methods:["M-02"],
@@ -65,13 +65,13 @@ nodes:[
     ],
     readouts:[
       {lab:["Boundary line","เส้นขอบ"], f:function(S){
-        return fmt(S.p.a)+"x + "+fmt(S.p.b)+"y = "+fmt(S.p.c); }},
+        return num(S.p.a)+"x + "+num(S.p.b)+"y = "+num(S.p.c); }},
       {lab:["Test the origin (0,0)","ทดสอบจุดกำเนิด (0,0)"], f:function(S){
-        return "0 ≤ "+fmt(S.p.c)+(L()?" · เป็นจริง จึงแรเงาฝั่งนี้":" · true, so shade this side"); }},
-      {lab:["x-intercept","จุดตัดแกน x"], f:function(S){ return fmt2(S.p.c/S.p.a); }},
-      {lab:["y-intercept","จุดตัดแกน y"], f:function(S){ return fmt2(S.p.c/S.p.b); }}
+        return "0 ≤ "+num(S.p.c)+(L()?" · เป็นจริง จึงแรเงาฝั่งนี้":" · true, so shade this side"); }},
+      {lab:["x-intercept","จุดตัดแกน x"], f:function(S){ return num(S.p.c/S.p.a); }},
+      {lab:["y-intercept","จุดตัดแกน y"], f:function(S){ return num(S.p.c/S.p.b); }}
     ],
-    note:["substitute (0,0) to settle which side — it is the fastest test there is","แทน (0,0) เพื่อดูว่าแรเงาด้านไหน เป็นวิธีที่เร็วที่สุด"]
+    note:["substitute (0,0) to settle which side — it is the fastest test there is","แทน (0,0) เพื่อดูว่าต้องแรเงาด้านไหน เป็นวิธีที่เร็วที่สุด"]
   } },
 
 { id:"corners", x:370, y:150, requires:["region"], methods:["M-03"],
@@ -95,12 +95,13 @@ nodes:[
       {lab:["Objective","ฟังก์ชันจุดประสงค์"], f:function(S){ var p=S.p;
         return "P = "+p.a+"x + "+p.b+"y"; }},
       {lab:["Best corner","มุมที่ดีที่สุด"], f:function(S){
-        return S._best ? "("+fmt2(S._best[0])+", "+fmt2(S._best[1])+")" : "—"; }},
-      {lab:["Maximum P","ค่า P สูงสุด"], f:function(S){ return fmt2(S._max||0); }},
-      {lab:["Your line at P","เส้นของคุณที่ P"], f:function(S){
+        return S._best ? "("+num(S._best[0])+", "+num(S._best[1])+")" : "—"; }},
+      {lab:["Maximum P","ค่า P สูงสุด"], f:function(S){ return num(S._max||0); }},
+      {lab:["Your line at P","เส้นของเราที่ P"], f:function(S){
         var p=S.p, mx=S._max||0;
-        if(p.P>mx+0.001) return L()?"หลุดออกนอกบริเวณ":"outside the region";
-        if(Math.abs(p.P-mx)<=0.5) return L()?"แตะมุมที่ดีที่สุดพอดี":"touching the best corner";
+        if(p.P>mx+1e-9) return L()?"หลุดออกนอกบริเวณ":"outside the region";
+        if(Math.abs(p.P-mx)<=1e-9) return L()?"แตะมุมที่ดีที่สุดพอดี":"touching the best corner";
+        if(mx-p.P<1) return L()?"เกือบแตะแล้ว (ห่างไม่ถึง 1)":"almost touching (within 1)";
         return L()?"ยังตัดผ่านบริเวณอยู่":"still cutting through"; }}
     ],
     draw:function(S,o){
@@ -108,7 +109,18 @@ nodes:[
       var A=axes(o,{x:58,y:30,w:352,h:240,xmin:0,xmax:12,ymin:0,ymax:12,
                     title:["FEASIBLE REGION","อาณาบริเวณที่เป็นไปได้"],xlab:"x",ylab:"y",xticks:6,yticks:6});
       /* the vertices: origin, both axis intercepts, and the constraint intersection */
-      var ix=(2*p.c2-p.c1)/3, iy=(2*p.c1-p.c2)/3;   /* 2x+y=c1 , x+2y=c2 */
+      var ix=(2*p.c1-p.c2)/3, iy=(2*p.c2-p.c1)/3;   /* 2x+y=c1 , x+2y=c2 */
+      /* clip a segment to the plot window 0..12, so long lines do not leave the axes */
+      var seg=function(x1,y1,x2,y2){
+        var t0=0,t1=1,dx=x2-x1,dy=y2-y1,ok=true;
+        [[-dx,x1],[dx,12-x1],[-dy,y1],[dy,12-y1]].forEach(function(e){
+          if(Math.abs(e[0])<1e-12){ if(e[1]<0) ok=false; return; }
+          var t=e[1]/e[0];
+          if(e[0]<0){ if(t>t1) ok=false; else if(t>t0) t0=t; }
+          else { if(t<t0) ok=false; else if(t<t1) t1=t; }
+        });
+        return ok ? [x1+t0*dx,y1+t0*dy,x1+t1*dx,y1+t1*dy] : null;
+      };
       var verts=[[0,0]];
       var xcap=Math.min(p.c1/2, p.c2);
       verts.push([xcap,0]);
@@ -121,9 +133,10 @@ nodes:[
       d+=" Z";
       o.push('<path d="'+d+'" fill="var(--accent)" opacity="0.11" stroke="var(--accent)" stroke-width="1.6"/>');
       /* the two constraint boundaries, drawn full length */
-      o.push('<line x1="'+A.X(0)+'" y1="'+A.Y(p.c1)+'" x2="'+A.X(p.c1/2)+'" y2="'+A.Y(0)+
+      var s1=seg(0,p.c1,p.c1/2,0), s2=seg(0,p.c2/2,p.c2,0);
+      if(s1) o.push('<line x1="'+A.X(s1[0])+'" y1="'+A.Y(s1[1])+'" x2="'+A.X(s1[2])+'" y2="'+A.Y(s1[3])+
              '" stroke="var(--ink-soft)" stroke-width="1.6"/>');
-      o.push('<line x1="'+A.X(0)+'" y1="'+A.Y(p.c2/2)+'" x2="'+A.X(p.c2)+'" y2="'+A.Y(0)+
+      if(s2) o.push('<line x1="'+A.X(s2[0])+'" y1="'+A.Y(s2[1])+'" x2="'+A.X(s2[2])+'" y2="'+A.Y(s2[3])+
              '" stroke="var(--ink-soft)" stroke-width="1.6" stroke-dasharray="6 4"/>');
       /* evaluate the objective at every corner */
       var best=null, max=-1e9;
@@ -134,11 +147,13 @@ nodes:[
       S._best=best; S._max=max;
       /* the sliding objective line ax + by = P */
       var P=p.P;
-      var lx1=0, ly1=P/p.b, lx2=P/p.a, ly2=0;
-      o.push('<line x1="'+A.X(lx1)+'" y1="'+A.Y(ly1)+'" x2="'+A.X(lx2)+'" y2="'+A.Y(ly2)+
-             '" stroke="var(--good)" stroke-width="2.6"/>');
-      o.push('<text x="'+(A.X(Math.min(lx2,11.4))-6)+'" y="'+(A.Y(Math.min(ly2+0.4,11.4)))+
-             '" fill="var(--good)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="end">P = '+P+'</text>');
+      var sp=seg(0,P/p.b,P/p.a,0);
+      if(sp){
+        o.push('<line x1="'+A.X(sp[0])+'" y1="'+A.Y(sp[1])+'" x2="'+A.X(sp[2])+'" y2="'+A.Y(sp[3])+
+               '" stroke="var(--good)" stroke-width="2.6"/>');
+        o.push('<text x="'+(A.X(sp[2])-6)+'" y="'+(A.Y(sp[3])-6)+
+               '" fill="var(--good)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="end">P = '+num(P)+'</text>');
+      }
       /* corners, with the winner ringed */
       verts.forEach(function(v){
         var isBest = best && Math.abs(v[0]-best[0])<1e-9 && Math.abs(v[1]-best[1])<1e-9;
@@ -156,9 +171,9 @@ nodes:[
         var y=72+i*26;
         o.push('<text x="'+colx+'" y="'+y+'" fill="'+(isBest?"var(--accent)":"var(--ink-soft)")+
                '" font-family="IBM Plex Sans" font-size="10.5"'+(isBest?' font-weight="600"':'')+'>('+
-               fmt(v[0])+', '+fmt(v[1])+')</text>');
+               num(v[0])+', '+num(v[1])+')</text>');
         o.push('<text x="'+colx+'" y="'+(y+13)+'" fill="'+(isBest?"var(--accent)":"var(--ink-faint)")+
-               '" font-family="IBM Plex Sans" font-size="10.5">P = '+fmt2(val)+'</text>');
+               '" font-family="IBM Plex Sans" font-size="10.5">P = '+num(val)+'</text>');
       });
       o.push('<text x="58" y="306" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5">'+tx(["green line = all plans giving the same profit P","เส้นสีเขียว = ทุกแผนที่ให้กำไร P เท่ากัน"])+'</text>');
       o.push('<text x="58" y="322" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["push P up until the line is about to leave the region","ดัน P ขึ้นจนเส้นกำลังจะหลุดออกจากบริเวณ"])+'</text>');
@@ -166,13 +181,13 @@ nodes:[
   },
   guide:[
     {say:["The shaded quadrilateral is every plan that breaks no constraint. Its corners are ringed.",
-          "รูปสี่เหลี่ยมที่แรเงาคือทุกแผนที่ไม่ผิดข้อจำกัดข้อใดเลย มุมของมันมีวงล้อมไว้"], set:{c1:14,c2:16,a:3,b:4,P:20}},
+          "รูปสี่เหลี่ยมที่แรเงาคือทุกแผนที่ไม่ผิดข้อจำกัดข้อใดเลย มุมของมันมีวงกลมล้อมไว้"], set:{c1:14,c2:16,a:3,b:4,P:20}},
     {say:["The green line collects every plan worth the same profit. Raise P and it marches outward, staying parallel.",
-          "เส้นสีเขียวคือทุกแผนที่ให้กำไรเท่ากัน เพิ่ม P แล้วเส้นจะเลื่อนออกไปข้างนอกโดยยังขนานเหมือนเดิม"], set:{c1:14,c2:16,a:3,b:4,P:32}},
+          "เส้นสีเขียวคือทุกแผนที่ให้กำไรเท่ากัน เพิ่ม P แล้วเส้นจะเลื่อนออกไปข้างนอก โดยยังขนานเหมือนเดิม"], set:{c1:14,c2:16,a:3,b:4,P:32}},
     {say:["Keep pushing. The last point the line touches before it leaves is the ringed corner — that is the maximum.",
-          "ดันต่อไปเรื่อยๆ จุดสุดท้ายที่เส้นแตะก่อนหลุดออกไปคือมุมที่มีวงล้อม นั่นคือค่าสูงสุด"], set:{c1:14,c2:16,a:3,b:4,P:44}},
+          "ดันต่อไปเรื่อยๆ จุดสุดท้ายที่เส้นแตะก่อนหลุดออกไปคือมุมที่มีวงกลมล้อม นั่นคือค่าสูงสุด"], set:{c1:14,c2:16,a:3,b:4,P:36}},
     {say:["Now change the profit per unit. A different corner wins — the region did not move, only the line's slope did.",
-          "ทีนี้ลองเปลี่ยนกำไรต่อหน่วย มุมที่ชนะจะเปลี่ยนไป บริเวณไม่ได้ขยับเลย มีแค่ความชันของเส้นที่เปลี่ยน"], set:{c1:14,c2:16,a:8,b:1,P:44}}
+          "ทีนี้เปลี่ยนกำไรต่อหน่วยดู มุมที่ชนะเปลี่ยนไป บริเวณไม่ได้ขยับเลย มีแค่ความชันของเส้นที่เปลี่ยน"], set:{c1:14,c2:16,a:8,b:1,P:56}}
   ]},
 
 { id:"solving", x:235, y:248, requires:["corners"], methods:["M-04"],
@@ -185,7 +200,7 @@ nodes:[
   flabel:["Check whether max or min was asked for","ตรวจว่าโจทย์ถามค่าสูงสุดหรือต่ำสุด"],
   viz:"bars",
   vizcfg:{
-    title:["EVALUATE AT EVERY CORNER, THEN COMPARE","หาค่าที่ทุกมุม แล้วเปรียบเทียบ"],
+    title:["EVALUATE AT EVERY CORNER, THEN COMPARE","หาค่าที่ทุกมุม แล้วเทียบกัน"],
     ylab:["objective value P","ค่าจุดประสงค์ P"],
     ctrls:[
       {k:"a", lab:["Profit per x","กำไรต่อ x"], min:1, max:10, step:1, def:3, unit:""},
@@ -193,12 +208,12 @@ nodes:[
     ],
     readouts:[
       {lab:["At (0,0)","ที่ (0,0)"], f:function(){ return "0"; }},
-      {lab:["At (6,0)","ที่ (6,0)"], f:function(S){ return String(6*S.p.a); }},
-      {lab:["At (4,3)","ที่ (4,3)"], f:function(S){ return String(4*S.p.a+3*S.p.b); }},
+      {lab:["At (6,0)","ที่ (6,0)"], f:function(S){ return num(6*S.p.a); }},
+      {lab:["At (4,3)","ที่ (4,3)"], f:function(S){ return num(4*S.p.a+3*S.p.b); }},
       {lab:["Best corner","มุมที่ดีที่สุด"], f:function(S){
         var p=S.p, V=[[0,0],[6,0],[4,3],[0,5]], best=null, m=-1e9;
         V.forEach(function(v){ var x=p.a*v[0]+p.b*v[1]; if(x>m){ m=x; best=v; } });
-        return "("+best[0]+", "+best[1]+") = "+m; }}
+        return "("+best[0]+", "+best[1]+") = "+num(m); }}
     ],
     bars:[
       {lab:["(0,0)","(0,0)"], f:function(p){ return 0; }, col:"faint"},
@@ -214,7 +229,7 @@ nodes:[
     {say:["Make x far more profitable and the winner jumps to the corner on the x-axis.",
           "ทำให้ x ให้กำไรมากกว่า y มาก มุมที่ชนะจะกระโดดไปอยู่ที่มุมบนแกน x"], set:{a:10,b:1}},
     {say:["Reverse it and the top corner takes over. The region never changed — only the objective did.",
-          "สลับกลับกัน มุมบนสุดก็ชนะแทน บริเวณไม่เคยเปลี่ยน มีแค่ฟังก์ชันจุดประสงค์ที่เปลี่ยน"], set:{a:1,b:10}}
+          "สลับกัน มุมบนสุดก็ชนะแทน บริเวณไม่เคยเปลี่ยน มีแค่ฟังก์ชันจุดประสงค์ที่เปลี่ยน"], set:{a:1,b:10}}
   ] },
 
 { id:"cases", x:235, y:346, requires:["solving"], methods:["M-05"],
@@ -235,7 +250,7 @@ nodes:[
         return [["Normal","ปกติ"],["Infeasible","ไม่มีคำตอบที่เป็นไปได้"],
                 ["Unbounded","ไม่มีขอบเขต"],["Multiple optima","มีคำตอบเหมาะสุดหลายค่า"]][S.p.i][L()]; }},
       {lab:["Does a maximum exist?","มีค่าสูงสุดไหม"], f:function(S){
-        return [["yes, at one corner","มี ที่มุมหนึ่ง"],["no — nothing is feasible","ไม่มี — ไม่มีอะไรเป็นไปได้"],
+        return [["yes, at one corner","มี ที่มุมหนึ่ง"],["no — nothing is feasible","ไม่มี — ไม่มีแผนใดเป็นไปได้"],
                 ["no — but a minimum may","ไม่มี — แต่ค่าต่ำสุดอาจมี"],["yes — along a whole edge","มี — ตลอดขอบเส้นหนึ่ง"]][S.p.i][L()]; }},
       {lab:["What to write","ควรเขียนว่าอย่างไร"], f:function(S){
         return [["the single optimal corner","มุมที่เหมาะสุดจุดเดียว"],["no feasible solution","ไม่มีคำตอบที่เป็นไปได้"],
@@ -249,7 +264,7 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"ink":(i===0?"good":"warn")}; }); });
     },
-    note:["unbounded blocks the maximum but often leaves the minimum perfectly well defined","บริเวณไม่มีขอบเขตอาจทำให้ไม่มีค่าสูงสุด แต่ค่าต่ำสุดมักยังหาได้ตามปกติ"]
+    note:["unbounded blocks the maximum but often leaves the minimum perfectly well defined","บริเวณที่ไม่มีขอบเขตอาจทำให้ไม่มีค่าสูงสุด แต่ค่าต่ำสุดมักยังหาได้ตามปกติ"]
   } }
 ],
 
@@ -263,7 +278,7 @@ methods:[
 
 traps:{
 "T-01":["The constraints x ≥ 0 and y ≥ 0 were left out, so the region spilled into meaningless quadrants.","ลืมข้อจำกัด x ≥ 0 และ y ≥ 0 บริเวณจึงขยายไปยังควอดรันต์ที่ไม่มีความหมาย"],
-"T-02":["The wrong side of a boundary was shaded. Test (0, 0) to settle it.","แรเงาผิดด้านของเส้นขอบ ให้ทดสอบที่ (0, 0) เพื่อตัดสิน"],
+"T-02":["The wrong side of a boundary was shaded. Test (0, 0) to settle it.","แรเงาผิดด้านของเส้นขอบ ให้ทดสอบที่ (0, 0) แล้วดูว่าเป็นจริงหรือไม่"],
 "T-03":["The objective was evaluated at an interior point. The optimum lives at a vertex.","หาค่าฟังก์ชันจุดประสงค์ที่จุดภายใน ทั้งที่ค่าเหมาะที่สุดอยู่ที่จุดยอด"],
 "T-04":["A maximum was reported where a minimum was asked for, or the reverse.","ตอบค่าสูงสุดทั้งที่โจทย์ถามค่าต่ำสุด หรือตอบกลับกัน"]
 },
@@ -306,6 +321,7 @@ gen:{
 },
 "M-03": function(sf){
   var a=pick([2,3,5]), b=pick([3,4,6]), x=pick([2,4,6]), y=pick([1,3,5]);
+  if(a===b) b=a+1;   /* otherwise the swapped-coordinates distractor equals the right answer */
   if(sf==="S-04") return {stem:["Where does the optimum of a linear program occur?",
                                 "ค่าเหมาะที่สุดของกำหนดการเชิงเส้นเกิดที่ไหน"],
     opts:[{v:["At a vertex of the feasible region","ที่จุดยอดของอาณาบริเวณที่เป็นไปได้"],ok:1},
@@ -313,7 +329,7 @@ gen:{
           {v:["At the origin, always","ที่จุดกำเนิดเสมอ"],trap:"T-03"},
           {v:["Anywhere inside the region","ที่ใดก็ได้ภายในบริเวณ"],trap:"T-03"}],unit:""};
   if(sf==="S-03") return {stem:["Why is checking only the corners enough?","ทำไมการตรวจเฉพาะมุมจึงเพียงพอ"],
-    opts:[{v:["The objective line leaves the region at a corner last","เส้นจุดประสงค์แตะมุมเป็นจุดสุดท้ายก่อนออกจากบริเวณ"],ok:1},
+    opts:[{v:["The objective line leaves the region at a corner last","เส้นจุดประสงค์แตะมุมเป็นจุดสุดท้ายก่อนหลุดออกจากบริเวณ"],ok:1},
           {v:["Corners have the largest coordinates","มุมมีพิกัดใหญ่ที่สุด"],trap:"T-03"},
           {v:["Interior points are not feasible","จุดภายในไม่เป็นไปได้"],trap:"T-03"},
           {v:["It is only an approximation","เป็นเพียงการประมาณ"],trap:"T-03"}],unit:""};

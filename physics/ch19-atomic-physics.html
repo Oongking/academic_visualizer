@@ -152,8 +152,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .xtable figcaption{margin-bottom:12px}
 .xscroll{overflow-x:auto}
 .xtable table{border-collapse:collapse;width:100%;font-size:14px}
-.xtable th{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+.xtable th{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);text-align:left;
   padding:0 16px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
 .xtable td{padding:10px 16px 10px 0;border-bottom:1px solid var(--rule);
   color:var(--ink-soft);vertical-align:top;line-height:1.5}
@@ -163,8 +163,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   line-height:1.6}
 .xfacts{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
   font-size:14px}
-.xfacts dt{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.xfacts dt{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);padding-top:3px}
 .xfacts dd{margin:0;color:var(--ink-soft)}
 .node-sec:last-child{border-bottom:none}
 .node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
@@ -224,7 +224,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
   text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
 .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
 .ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-ui);
-  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;
   color:var(--ink-faint);margin-bottom:5px}
 .ctrl label span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
 /* touch-action:none is what keeps a drag on the control from being handed to
@@ -249,8 +249,8 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 .opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
   position:relative;z-index:3}
 .readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
-.ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
+.ro b{display:block;font-family:var(--f-ui);font-size:11.5px;letter-spacing:.02em;
+  color:var(--ink-faint);font-weight:600;margin-bottom:3px}
 .ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
 .transport{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 /* .guide and .transport set display, which beats the UA's [hidden] rule; a
@@ -879,16 +879,16 @@ nodes:[
       {k:"n", lab:["How many photons","จำนวนโฟตอน"], min:1, max:100, step:1, def:1, unit:""}
     ],
     readouts:[
-      {lab:["Energy of one photon","พลังงานของโฟตอนหนึ่งตัว"], f:function(S){
-        return fmt2(4.136e-15*S.p.f*1e14)+" eV"; }},
+      {lab:["Energy of one photon","พลังงานของโฟตอน 1 ตัว"], f:function(S){
+        return un(4.136e-15*S.p.f*1e14,"eV"); }},
       {lab:["Wavelength","ความยาวคลื่น"], f:function(S){
-        return fmt2(3e8/(S.p.f*1e14)*1e9)+" nm"; }},
+        return un(3e8/(S.p.f*1e14)*1e9,"nm"); }},
       {lab:["Total energy delivered","พลังงานรวมที่ส่งมา"], f:function(S){
-        return fmt2(S.p.n*4.136e-15*S.p.f*1e14)+" eV"; }},
+        return un(S.p.n*4.136e-15*S.p.f*1e14,"eV"); }},
       {lab:["Brighter light means","แสงสว่างขึ้นแปลว่า"], f:function(){
-        return L()?"โฟตอนมากขึ้น ไม่ใช่โฟตอนที่แรงขึ้น":"more photons, not stronger photons"; }}
+        return L()?"มีโฟตอนมากขึ้น ไม่ใช่โฟตอนแรงขึ้น":"more photons, not stronger photons"; }}
     ],
-    note:["turning up the brightness slides no point along this line — it only adds more points","ความสว่างที่เพิ่มขึ้นไม่ได้เลื่อนจุดไปตามเส้นนี้ มีแต่เพิ่มจำนวนจุด"]
+    note:["turning up the brightness slides no point along this line — it only adds more points","เพิ่มความสว่างไม่ได้ทำให้จุดเลื่อนไปตามเส้นนี้ แต่เพิ่มจำนวนจุดเท่านั้น"]
   } },
 
 { id:"photoelectric", x:100, y:150, requires:["photon"], methods:["M-02"],
@@ -913,26 +913,26 @@ nodes:[
     ],
     readouts:[
       {lab:["Threshold frequency","ความถี่ขีดเริ่ม"], f:function(S){
-        return fmt2(S.p.phi/4.136e-15/1e14)+" ×10¹⁴ Hz"; }},
+        return un(S.p.phi/4.136e-15,"Hz"); }},
       {lab:["Maximum kinetic energy","พลังงานจลน์สูงสุด"], f:function(S){
         var e=4.136e-15*S.p.f*1e14-S.p.phi;
-        return e<=0 ? (L()?"ไม่มีอิเล็กตรอนหลุดออกมา":"no electrons emitted at all") : fmt2(e)+" eV"; }},
+        return e<=0 ? (L()?"ไม่มีอิเล็กตรอนหลุดออกมา":"no electrons emitted at all") : un(e,"eV"); }},
       {lab:["Effect of intensity","ผลของความเข้ม"], f:function(){
-        return L()?"เพิ่มจำนวนอิเล็กตรอน ไม่เพิ่มพลังงาน":"more electrons, never more energy each"; }},
+        return L()?"อิเล็กตรอนมากขึ้น แต่พลังงานต่อตัวไม่เพิ่ม":"more electrons, never more energy each"; }},
       {lab:["Slope of the line","ความชันของเส้น"], f:function(){
-        return L()?"คือค่าคงตัวของพลังค์ h":"is Planck's constant h"; }}
+        return L()?"เท่ากับค่าคงตัวของพลังค์ h":"is Planck's constant h"; }}
     ],
-    note:["drag the intensity slider all the way — the line will not move by one pixel","ลองลากแถบความเข้มไปสุด เส้นกราฟจะไม่ขยับเลยแม้แต่พิกเซลเดียว"]
+    note:["drag the intensity slider all the way — the line will not move by one pixel","ลองลากแถบความเข้มไปสุดทาง เส้นกราฟจะไม่ขยับเลยแม้แต่พิกเซลเดียว"]
   },
   guide:[
     {say:["Below the threshold nothing happens at all, however long you wait. The line sits on the floor.",
-          "ถ้าความถี่ต่ำกว่าค่าขีดเริ่ม จะไม่เกิดอะไรขึ้นเลย รอนานแค่ไหนก็เหมือนเดิม เส้นกราฟอยู่ที่พื้น"], set:{phi:2.3,f:4,I:5}},
+          "ถ้าความถี่ต่ำกว่าค่าขีดเริ่ม จะไม่เกิดอะไรขึ้นเลย ต่อให้รอนานแค่ไหน เส้นกราฟก็ติดพื้น"], set:{phi:2.3,f:4,I:5}},
     {say:["Cross the threshold and electrons appear immediately, with energy that climbs in a straight line.",
-          "พอความถี่เลยค่าขีดเริ่ม อิเล็กตรอนก็หลุดออกมาทันที และพลังงานของมันเพิ่มขึ้นเป็นเส้นตรง"], set:{phi:2.3,f:8,I:5}},
+          "พอความถี่สูงกว่าค่าขีดเริ่ม อิเล็กตรอนก็หลุดออกมาทันที และพลังงานของมันเพิ่มขึ้นเป็นเส้นตรง"], set:{phi:2.3,f:8,I:5}},
     {say:["Now crank the intensity to maximum. Nothing moves — this is exactly what broke the wave theory.",
-          "ทีนี้ลองเพิ่มความเข้มจนสุด ไม่มีอะไรขยับ นี่แหละคือสิ่งที่ทำให้ทฤษฎีคลื่นใช้อธิบายไม่ได้"], set:{phi:2.3,f:8,I:20}},
+          "ทีนี้ลองเพิ่มความเข้มจนสุด จะเห็นว่าไม่มีอะไรขยับ นี่แหละที่ทำให้ทฤษฎีคลื่นอธิบายไม่ได้"], set:{phi:2.3,f:8,I:20}},
     {say:["A different metal shifts the whole line sideways, but the slope stays h — the same for every metal.",
-          "ถ้าเปลี่ยนชนิดโลหะ เส้นทั้งเส้นจะเลื่อนไปด้านข้าง แต่ความชันยังเป็น h เท่าเดิมกับทุกโลหะ"], set:{phi:5,f:16,I:5}}
+          "ถ้าเปลี่ยนชนิดโลหะ เส้นทั้งเส้นจะเลื่อนไปทางข้าง แต่ความชันยังเป็น h เท่าเดิมกับโลหะทุกชนิด"], set:{phi:5,f:16,I:5}}
   ] },
 
 { id:"bohr", x:370, y:150, requires:["photon"], methods:["M-03","M-04"],
@@ -952,13 +952,14 @@ nodes:[
     readouts:[
       {lab:["Photon energy","พลังงานโฟตอน"], f:function(S){
         var dE=13.6*(1/(S.p.nf*S.p.nf)-1/(S.p.ni*S.p.ni));
-        return dE>0 ? fmt2(dE)+" eV" : (L()?"ต้องดูดกลืน":"absorbed"); }},
+        return dE>0 ? un(dE,"eV") : dE<0 ? (L()?"ดูดกลืน":"absorbed") : (L()?"ไม่เปลี่ยนระดับ":"no change"); }},
       {lab:["Wavelength","ความยาวคลื่น"], f:function(S){
         var dE=13.6*(1/(S.p.nf*S.p.nf)-1/(S.p.ni*S.p.ni));
-        return dE>0 ? String(Math.round(1240/dE))+" nm" : "—"; }},
+        return dE>0 ? un(1240/dE,"nm") : "—"; }},
       {lab:["Series","อนุกรม"], f:function(S){
-        var N={1:"Lyman (UV)",2:"Balmer (visible)",3:"Paschen (IR)"};
-        return N[String(S.p.nf)]||(L()?"อินฟราเรดไกล":"far IR"); }}
+        if(S.p.ni<=S.p.nf) return "—";
+        var N={1:["Lyman (UV)","ไลมัน (UV)"],2:["Balmer (visible)","บัลเมอร์ (แสงที่มองเห็น)"],3:["Paschen (IR)","พาสเชน (IR)"]};
+        return (N[String(S.p.nf)]||["far IR","อินฟราเรดไกล"])[L()]; }}
     ],
     draw:function(S,o){
       var ni=S.p.ni, nf=S.p.nf;
@@ -969,7 +970,7 @@ nodes:[
       for(var e=0;e>=-14;e-=2){
         var gy=Y(e);
         o.push('<line x1="'+(x0-8)+'" y1="'+gy+'" x2="'+(x0-2)+'" y2="'+gy+'" stroke="var(--ink-faint)" stroke-width="1"/>');
-        o.push('<text x="'+(x0-12)+'" y="'+(gy+3.5)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">'+e+'</text>');
+        o.push('<text x="'+(x0-12)+'" y="'+(gy+3.5)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">'+String(e).replace("-","−")+'</text>');
       }
       o.push('<text transform="rotate(-90 34 '+((top+bot)/2)+')" x="34" y="'+((top+bot)/2)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">E (eV)</text>');
       /* the levels */
@@ -978,7 +979,7 @@ nodes:[
         var on=(n===ni||n===nf);
         o.push('<line x1="'+x0+'" y1="'+y+'" x2="'+x1+'" y2="'+y+'" stroke="'+(on?"var(--accent)":"var(--ink-soft)")+'" stroke-width="'+(on?2.4:1.4)+'"/>');
         o.push('<text x="'+(x1+10)+'" y="'+(y+4)+'" fill="'+(on?"var(--accent)":"var(--ink-faint)")+'" font-family="IBM Plex Sans" font-size="11" font-weight="600">n='+n+'</text>');
-        o.push('<text x="'+(x1+56)+'" y="'+(y+4)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9.5">'+fmt2(E)+'</text>');
+        o.push('<text x="'+(x1+56)+'" y="'+(y+4)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9.5">'+num(E)+'</text>');
       }
       o.push('<line x1="'+x0+'" y1="'+Y(0)+'" x2="'+x1+'" y2="'+Y(0)+'" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="4 3"/>');
       o.push('<text x="'+(x1+10)+'" y="'+(Y(0)+4)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["free","อิสระ"])+'</text>');
@@ -986,14 +987,16 @@ nodes:[
       var yi=Y(-13.6/(ni*ni)), yf=Y(-13.6/(nf*nf)), txx=(x0+x1)/2;
       var dE=13.6*(1/(nf*nf)-1/(ni*ni));
       var down=(yf>yi);
-      o.push('<line x1="'+txx+'" y1="'+yi+'" x2="'+txx+'" y2="'+yf+'" stroke="var(--accent)" stroke-width="2.4"/>');
-      var ay=down?yf:yf;
-      o.push('<path d="M'+txx+' '+ay+' l-5 '+(down?-9:9)+' l10 0 z" fill="var(--accent)"/>');
+      if(ni!==nf){
+        o.push('<line x1="'+txx+'" y1="'+yi+'" x2="'+txx+'" y2="'+yf+'" stroke="var(--accent)" stroke-width="2.4"/>');
+        var ay=down?yf:yf;
+        o.push('<path d="M'+txx+' '+ay+' l-5 '+(down?-9:9)+' l10 0 z" fill="var(--accent)"/>');
+      }
       if(dE>0){
-        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2)+'" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11" font-weight="600">'+fmt2(dE)+' eV</text>');
-        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2+15)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+Math.round(1240/dE)+' nm emitted</text>');
-      } else {
-        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2)+'" fill="var(--warn)" font-family="IBM Plex Sans" font-size="11">absorbs '+fmt2(-dE)+' eV</text>');
+        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2)+'" fill="var(--accent)" font-family="IBM Plex Sans" font-size="11" font-weight="600">'+un(dE,"eV")+'</text>');
+        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2+15)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx([un(1240/dE,"nm")+" emitted","ปล่อยแสง "+un(1240/dE,"nm")])+'</text>');
+      } else if(dE<0){
+        o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2)+'" fill="var(--warn)" font-family="IBM Plex Sans" font-size="11">'+tx(["absorbs "+un(-dE,"eV"),"ดูดกลืน "+un(-dE,"eV")])+'</text>');
       }
       o.push('<text x="24" y="320" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["levels crowd together towards zero — that is why series converge","ระดับพลังงานยิ่งใกล้ศูนย์ยิ่งอยู่ชิดกัน เส้นในแต่ละอนุกรมจึงลู่เข้า"])+'</text>');
     }
@@ -1002,9 +1005,9 @@ nodes:[
     {say:["Six levels, drawn against a real energy scale. Notice how they crowd together as they approach zero.",
           "หกระดับ วาดตามสเกลพลังงานจริง สังเกตว่ายิ่งใกล้ศูนย์ ระดับยิ่งอยู่ชิดกัน"], set:{ni:3,nf:2}},
     {say:["A drop from n=3 to n=2 emits 1.89 eV — red light, and the first line of the Balmer series.",
-          "อิเล็กตรอนตกจาก n=3 ไป n=2 ปล่อยพลังงาน 1.89 eV เป็นแสงสีแดง และเป็นเส้นแรกของอนุกรมบัลเมอร์"], set:{ni:3,nf:2}},
+          "อิเล็กตรอนตกจาก n=3 ไป n=2 ปล่อยโฟตอนพลังงาน 1.89 eV เป็นแสงสีแดง และเป็นเส้นแรกของอนุกรมบัลเมอร์"], set:{ni:3,nf:2}},
     {say:["Drop all the way to n=1 instead. Far more energy, far shorter wavelength — the Lyman series is ultraviolet.",
-          "ลองให้ตกลงไปถึง n=1 แทน ได้พลังงานมากกว่ามาก ความยาวคลื่นสั้นกว่ามาก อนุกรมไลมันอยู่ในย่านอัลตราไวโอเลต"], set:{ni:3,nf:1}},
+          "ลองให้ตกลงไปถึง n=1 แทน พลังงานมากกว่ามาก ความยาวคลื่นสั้นกว่ามาก อนุกรมไลมันอยู่ในย่านอัลตราไวโอเลต"], set:{ni:3,nf:1}},
     {say:["Now set nᵢ below n_f. The electron must climb, so a photon is absorbed rather than emitted.",
           "ทีนี้ลองตั้ง nᵢ ให้ต่ำกว่า n_f อิเล็กตรอนต้องขึ้นไปอยู่ระดับที่สูงกว่า จึงดูดกลืนโฟตอนแทนที่จะปล่อย"], set:{ni:2,nf:4}}
   ]},
@@ -1026,16 +1029,16 @@ nodes:[
     ],
     readouts:[
       {lab:["Series name","ชื่ออนุกรม"], f:function(S){
-        return [["Lyman · ultraviolet","ไลมัน · อัลตราไวโอเลต"],["Balmer · visible","บัลเมอร์ · ที่ตามองเห็น"],
+        return [["Lyman · ultraviolet","ไลมัน · อัลตราไวโอเลต"],["Balmer · visible","บัลเมอร์ · แสงที่มองเห็น"],
                 ["Paschen · infrared","พาสเชน · อินฟราเรด"],["Brackett · infrared","แบร็กเกตต์ · อินฟราเรด"]][S.p.nf-1][L()]; }},
-      {lab:["Longest wavelength","ความยาวคลื่นมากสุด"], f:function(S){
+      {lab:["Longest wavelength","ความยาวคลื่นยาวที่สุด"], f:function(S){
         var nf=S.p.nf, ni=nf+1;
-        return fmt2(1/(1.097e-2*(1/(nf*nf)-1/(ni*ni))))+" nm"; }},
+        return un(1/(1.097e-2*(1/(nf*nf)-1/(ni*ni))),"nm",4); }},
       {lab:["Series limit","ขีดจำกัดอนุกรม"], f:function(S){
         var nf=S.p.nf;
-        return fmt2(1/(1.097e-2*(1/(nf*nf))))+" nm"; }},
+        return un(1/(1.097e-2*(1/(nf*nf))),"nm",4); }},
       {lab:["Why they bunch up","ทำไมจึงเบียดกัน"], f:function(){
-        return L()?"ระดับพลังงานสูงๆ อยู่ชิดกันมากขึ้น":"the upper energy levels crowd closer and closer"; }}
+        return L()?"ระดับพลังงานที่สูงขึ้นไปยิ่งอยู่ชิดกัน":"the upper energy levels crowd closer and closer"; }}
     ],
     bars:[
       {lab:["nᵢ = nf+1","nᵢ = nf+1"], f:function(p){ var n=p.nf+1; return 1/(1.097e-2*(1/(p.nf*p.nf)-1/(n*n))); }, col:"accent"},
@@ -1044,7 +1047,7 @@ nodes:[
       {lab:["nᵢ = nf+4","nᵢ = nf+4"], f:function(p){ var n=p.nf+4; return 1/(1.097e-2*(1/(p.nf*p.nf)-1/(n*n))); }, col:"good"},
       {lab:["limit","ขีดจำกัด"], f:function(p){ return 1/(1.097e-2*(1/(p.nf*p.nf))); }, col:"warn"}
     ],
-    note:["the bars converge on the amber one — every series has a limit it never passes","แถบทั้งหลายลู่เข้าหาแถบสีเหลืองอำพัน ทุกอนุกรมมีขีดจำกัดที่ไปไม่เกิน"]
+    note:["the bars converge on the amber one — every series has a limit it never passes","แถบอื่นๆ ลู่เข้าหาแถบสีเหลืองอำพัน ทุกอนุกรมมีขีดจำกัดที่ไม่มีวันผ่านไปได้"]
   } },
 
 { id:"debroglie", x:235, y:346, requires:["photoelectric","spectra"], methods:["M-05"],
@@ -1058,26 +1061,26 @@ nodes:[
   viz:"plot",
   vizcfg:{
     title:["WAVELENGTH OF A MOVING PARTICLE","ความยาวคลื่นของอนุภาคที่เคลื่อนที่"],
-    xlab:["momentum (10⁻²⁴ kg m/s)","โมเมนตัม (10⁻²⁴ kg m/s)"], ylab:["wavelength (nm)","ความยาวคลื่น (nm)"],
+    xlab:["momentum (10⁻²⁴ kg·m/s)","โมเมนตัม (10⁻²⁴ kg·m/s)"], ylab:["wavelength (nm)","ความยาวคลื่น (nm)"],
     xmin:.2, xmax:10, ymin:0, fill:false,
-    fn:function(x,p){ return 6.626e-34/(x*1e-24)*1e9; },
+    fn:function(x,p){ return 6.63e-34/(x*1e-24)*1e9; },
     mark:function(p){ return p.pm; },
     ctrls:[
-      {k:"pm", lab:["Momentum","โมเมนตัม"], min:.3, max:9.5, step:.1, def:2, unit:" ×10⁻²⁴"}
+      {k:"pm", lab:["Momentum","โมเมนตัม"], min:.3, max:9.5, step:.1, def:2, unit:" ×10⁻²⁴ kg·m/s"}
     ],
     readouts:[
       {lab:["Wavelength","ความยาวคลื่น"], f:function(S){
-        return fmt2(6.626e-34/(S.p.pm*1e-24)*1e9)+" nm"; }},
+        return un(6.63e-34/(S.p.pm*1e-24)*1e9,"nm"); }},
       {lab:["Compared with an atom","เทียบกับอะตอม"], f:function(S){
-        var l=6.626e-34/(S.p.pm*1e-24)*1e9;
-        return l>0.3 ? (L()?"ใหญ่กว่าอะตอม — เห็นการเลี้ยวเบนได้":"bigger than an atom — diffraction is observable")
+        var l=6.63e-34/(S.p.pm*1e-24)*1e9;
+        return l>0.3 ? (L()?"ใหญ่กว่าอะตอม จึงเห็นการเลี้ยวเบนได้":"bigger than an atom — diffraction is observable")
                      : (L()?"เล็กกว่าอะตอม":"smaller than an atom"); }},
       {lab:["For a cricket ball","สำหรับลูกคริกเก็ต"], f:function(){
-        return L()?"ราว 10⁻³⁴ เมตร — วัดไม่ได้เลย":"about 10⁻³⁴ m — utterly unmeasurable"; }},
+        return L()?"ราว 10⁻³⁴ m วัดไม่ได้เลย":"about 10⁻³⁴ m — utterly unmeasurable"; }},
       {lab:["Why we never notice it","ทำไมเราไม่เคยสังเกตเห็น"], f:function(){
-        return L()?"h เล็กมาก โมเมนตัมของสิ่งของทั่วไปจึงใหญ่เกินไป":"h is tiny, so everyday momenta are far too large"; }}
+        return L()?"h เล็กมาก ขณะที่โมเมนตัมของสิ่งของทั่วไปใหญ่เกินไป":"h is tiny, so everyday momenta are far too large"; }}
     ],
-    note:["a hyperbola: double the momentum and the wavelength halves","ไฮเพอร์โบลา โมเมนตัมเพิ่มเป็นสองเท่า ความยาวคลื่นจะเหลือครึ่งหนึ่ง"]
+    note:["a hyperbola: double the momentum and the wavelength halves","กราฟเป็นไฮเพอร์โบลา โมเมนตัมเพิ่มเป็นสองเท่า ความยาวคลื่นก็เหลือครึ่งเดียว"]
   } }
 ],
 
@@ -1127,7 +1130,7 @@ gen:{
           {v:(f0/2).toExponential(2)},{v:(h/W).toExponential(2)}],unit:" Hz"};
   return {stem:["A photon of "+E+" eV strikes a metal of work function "+W+" eV. Find the maximum kinetic energy of the electron.",
                 "โฟตอนพลังงาน "+E+" eV ชนโลหะที่มีฟังก์ชันงาน "+W+" eV จงหาพลังงานจลน์สูงสุดของอิเล็กตรอน"],
-    opts:[{v:fmt2(Ek),ok:1},{v:fmt2(E+W),trap:"T-01"},{v:String(E)},{v:String(W)}],unit:" eV"};
+    opts:[{v:num(Ek),ok:1},{v:num(E+W),trap:"T-01"},{v:String(E)},{v:String(W)}],unit:" eV"};
 },
 "M-03": function(sf){
   var n=pick([1,2,3,4]);
@@ -1138,12 +1141,12 @@ gen:{
           {v:["It is only a convention","เป็นเพียงข้อตกลง"],trap:"T-03"},
           {v:["The electron has negative charge","อิเล็กตรอนมีประจุลบ"],trap:"T-03"},
           {v:["Energy is always negative","พลังงานเป็นลบเสมอ"],trap:"T-03"}],unit:""};
-  if(sf==="S-05") return {stem:["A hydrogen level sits at "+fmt2(E)+" eV. Which level is it?",
-                                "ระดับพลังงานของไฮโดรเจนอยู่ที่ "+fmt2(E)+" eV เป็นระดับใด"],
+  if(sf==="S-05") return {stem:["A hydrogen level sits at "+num(E)+" eV. Which level is it?",
+                                "ระดับพลังงานของไฮโดรเจนอยู่ที่ "+num(E)+" eV เป็นระดับใด"],
     opts:[{v:"n = "+n,ok:1},{v:"n = "+(n+1)},{v:"n = "+(n+2)},{v:"n = 1",trap:"T-03"}],unit:""};
   return {stem:["Find the energy of the n = "+n+" level in hydrogen.",
                 "จงหาพลังงานของระดับ n = "+n+" ในไฮโดรเจน"],
-    opts:[{v:fmt2(E),ok:1},{v:fmt2(-E),trap:"T-03"},{v:fmt2(-13.6/n),trap:"T-03"},{v:"-13.6"}],unit:" eV"};
+    opts:[{v:num(E),ok:1},{v:num(-E),trap:"T-03"},{v:num(-13.6/n),trap:"T-03"},{v:"-13.6"}],unit:" eV"};
 },
 "M-04": function(sf){
   var ni=pick([3,4,5]), nf=pick([1,2]);
@@ -1157,10 +1160,10 @@ gen:{
           {v:["No series at all","ไม่เกิดอนุกรมใด"]}],unit:""};
   if(sf==="S-02"||sf==="S-05") return {stem:["A hydrogen transition emits a photon of wavelength "+Math.round(lam)+" nm. Find its energy in eV, using E = 1240/λ.",
                                              "การเปลี่ยนระดับของไฮโดรเจนปล่อยโฟตอนความยาวคลื่น "+Math.round(lam)+" นาโนเมตร จงหาพลังงานเป็น eV โดยใช้ E = 1240/λ"],
-    opts:[{v:fmt2(dE),ok:1},{v:fmt2(dE*1.6e-19),trap:"T-02"},{v:fmt2(lam/1240)},{v:fmt2(dE/2)}],unit:" eV"};
+    opts:[{v:num(dE),ok:1},{v:num(dE*1.6e-19),trap:"T-02"},{v:num(lam/1240)},{v:num(dE/2)}],unit:" eV"};
   return {stem:["An electron falls from n = "+ni+" to n = "+nf+" in hydrogen. Find the photon energy.",
                 "อิเล็กตรอนตกจาก n = "+ni+" ไป n = "+nf+" ในไฮโดรเจน จงหาพลังงานโฟตอน"],
-    opts:[{v:fmt2(dE),ok:1},{v:fmt2(-dE),trap:"T-03"},{v:fmt2(13.6/nf)},{v:fmt2(13.6)}],unit:" eV"};
+    opts:[{v:num(dE),ok:1},{v:num(-dE),trap:"T-03"},{v:num(13.6/nf)},{v:num(13.6)}],unit:" eV"};
 },
 "M-05": function(sf){
   var m=9.11e-31, v=pick([1e6,2e6,5e6]), h=6.63e-34;
@@ -1263,13 +1266,55 @@ function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
 function fmt(n){ return (Math.round(n*10)/10).toString(); }
 function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+/* ---- numbers as a scientist writes them ----
+   fmt / fmt2 round to a fixed number of decimals; they are for geometry and
+   coordinates only. Anything a learner READS as a physical value goes through
+   num(), which keeps significant figures instead of decimal places, switches to
+   standard form (A × 10ⁿ, 1 ≤ |A| < 10) for very large or very small values,
+   never shows a non-zero value as 0, and uses a real minus sign.
+     num(0.000000123)   "1.23 × 10⁻⁷"      num(299792458)  "3 × 10⁸"
+     num(12345.6)       "12300"            num(−4.2)       "−4.2"
+     numTex(n,s)  the same value as LaTeX (for the live formula)
+     un(n,"m/s")  number, a no-break space, then the unit                    */
+var SUPS={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
+function sciParts(n,s){
+  var e=Math.floor(Math.log10(Math.abs(n))), m=n/Math.pow(10,e);
+  m=+m.toPrecision(s); if(Math.abs(m)>=10){ m/=10; e++; }
+  return [m,e];
+}
+function num(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "—";
+  if(n===0) return "0";
+  var a=Math.abs(n), out;
+  if(a<1e-3 || a>=1e5){
+    var q=sciParts(n,s);
+    out=String(q[0])+" × 10"+String(q[1]).split("").map(function(c){ return SUPS[c]; }).join("");
+  } else {
+    out=String(+n.toPrecision(s));
+    if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  }
+  return out.replace("-","−");
+}
+function numTex(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "\\text{—}";
+  if(n===0) return "0";
+  var a=Math.abs(n);
+  if(a<1e-3 || a>=1e5){ var q=sciParts(n,s); return q[0]+"\\times10^{"+q[1]+"}"; }
+  var out=String(+n.toPrecision(s));
+  if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  return out;
+}
+function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
   if(!(range>0)) return 1;
   var raw=range/target, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
   return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag;
 }
-function tk(n){ var r=Math.round(n*100)/100; return (Math.abs(r)<1e-9?0:r).toString(); }
+/* axis tick labels: significant figures and standard form, never "0" for a small value */
+function tk(n){ return num(n,3); }
 var FT='fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10"';
 
 /* Shared, fully scaled axis frame. Returns mapping functions. */
@@ -1331,10 +1376,10 @@ VIZLIB.motion = {
     {k:"T", lab:["Duration","ช่วงเวลา"],                min:2,  max:12,step:1, def:6,  unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Time","เวลา"],            f:function(S){ return fmt(S.t)+" s"; }},
-    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return fmt(S.p.u+S.p.a*S.t)+" m/s"; }},
-    {lab:["Displacement s","การกระจัด s"], f:function(S){ return fmt(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
-    {lab:["Slope","ความชัน"],        f:function(S){ return fmt(S.p.a)+" m/s²"; }}
+    {lab:["Time","เวลา"],            f:function(S){ return num(S.t)+" s"; }},
+    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return num(S.p.u+S.p.a*S.t)+" m/s"; }},
+    {lab:["Displacement s","การกระจัด s"], f:function(S){ return num(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
+    {lab:["Slope","ความชัน"],        f:function(S){ return num(S.p.a)+" m/s²"; }}
   ],
   draw:function(S,o){
     var u=S.p.u,a=S.p.a,T=S.p.T,tt=Math.min(S.t,T);
@@ -1419,11 +1464,11 @@ VIZLIB.vector = {
     {lab:["Resultant R","ผลลัพธ์ R"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      return fmt(Math.sqrt(rx*rx+ry*ry)); }},
+      return num(Math.sqrt(rx*rx+ry*ry)); }},
     {lab:["Direction","ทิศทาง"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return fmt(d)+"°"; }}
+      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return num(d)+"°"; }}
   ],
   draw:function(S,o){
     var p=S.p, cx=280, cy=180, sc=6.5;
@@ -1437,8 +1482,8 @@ VIZLIB.vector = {
     o.push('<line x1="'+(cx-250)+'" y1="'+cy+'" x2="'+(cx+250)+'" y2="'+cy+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     o.push('<line x1="'+cx+'" y1="'+(cy-140)+'" x2="'+cx+'" y2="'+(cy+140)+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     for(var s=-20;s<=20;s+=10){ if(!s) continue;
-      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+s+'</text>');
-      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+s+'</text>');
+      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+tk(s)+'</text>');
+      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+tk(s)+'</text>');
     }
     function arrow(x1,y1,x2,y2,col,w,dash){
       var ang=Math.atan2(y2-y1,x2-x1), hl=9;
@@ -1465,9 +1510,9 @@ VIZLIB.wave = {
     {k:"T",  lab:["Run for","เล่นนาน"],            min:2,max:12,step:1, def:8, unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return fmt(S.p.f*S.p.lam)+" m/s"; }},
-    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return fmt(1/S.p.f)+" s"; }},
-    {lab:["Time","เวลา"],                     f:function(S){ return fmt(S.t)+" s"; }}
+    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return num(S.p.f*S.p.lam)+" m/s"; }},
+    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return num(1/S.p.f)+" s"; }},
+    {lab:["Time","เวลา"],                     f:function(S){ return num(S.t)+" s"; }}
   ],
   draw:function(S,o){
     var p=S.p, xmax=24;
@@ -1518,7 +1563,7 @@ VIZLIB.bars = {
       o.push('<rect x="'+(cx-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+
              '" height="'+Math.abs(y1-y0)+'" fill="'+b.c+'" opacity="0.9"/>');
       o.push('<text x="'+cx+'" y="'+(y1+(b.v<0?15:-7))+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-size="11" font-weight="600" text-anchor="middle">'+num(b.v)+'</text>');
       o.push('<text x="'+cx+'" y="'+(A.Y(lo)+34)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" '+
              'font-size="10" text-anchor="middle">'+tx(b.lab)+'</text>');
     });
@@ -1591,7 +1636,7 @@ VIZLIB.tri = {
            ' Z" fill="var(--accent)" fill-opacity="0.10" stroke="var(--ink)" stroke-width="2.2"/>');
     function side(p,q,lab,val,c2){
       o.push('<text x="'+((p[0]+q[0])/2)+'" y="'+((p[1]+q[1])/2-6)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+fmt2(val)+'</text>');
+             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+num(val)+'</text>');
     }
     side(tC,tA,"b",b,"var(--ink-soft)");
     side(tC,tB,"a",a,"var(--ink-soft)");
@@ -1599,15 +1644,15 @@ VIZLIB.tri = {
     [[tC,"C",g.C],[tA,"A",A1*180/Math.PI],[tB,"B",B1*180/Math.PI]].forEach(function(v){
       o.push('<circle cx="'+v[0][0]+'" cy="'+v[0][1]+'" r="3.5" fill="var(--ink)"/>');
       o.push('<text x="'+(v[0][0]-14)+'" y="'+(v[0][1]+14)+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="10.5" font-weight="600">'+v[1]+' '+fmt(v[2])+'°</text>');
+             'font-size="10.5" font-weight="600">'+v[1]+' '+num(v[2])+'°</text>');
     });
     var area=0.5*a*b*Math.sin(C);
     o.push('<text x="404" y="86" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["THIRD SIDE","ด้านที่สาม"])+'</text>');
-    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+fmt2(c)+'</text>');
+    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+num(c)+'</text>');
     o.push('<text x="404" y="152" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["AREA ½ ab sin C","พื้นที่ ½ ab sin C"])+'</text>');
-    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+fmt2(area)+'</text>');
+    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+num(area)+'</text>');
     if(cfg.note) cap(o,44,286,cfg.note,"note");
   }
 };
@@ -1680,7 +1725,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+(cx-L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56-H)+
              ' Z" fill="var(--surface)" stroke="var(--ink-faint)" stroke-width="1.5"/>');
       o.push('<text x="'+(cx-L/2+26)+'" y="'+(cy+50)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-             'font-size="10">'+fmt(inc)+'°</text>');
+             'font-size="10">'+num(inc)+'°</text>');
     } else {
       o.push('<line x1="'+(cx-120)+'" y1="'+(cy+34)+'" x2="'+(cx+120)+'" y2="'+(cy+34)+
              '" stroke="var(--ink-faint)" stroke-width="1.5"/>');
@@ -1698,7 +1743,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+ex+' '+ey+' L'+(ex-hl*Math.cos(aa-0.4))+' '+(ey-hl*Math.sin(aa-0.4))+
              ' L'+(ex-hl*Math.cos(aa+0.4))+' '+(ey-hl*Math.sin(aa+0.4))+' Z" fill="'+c2+'"/>');
       o.push('<text x="'+(cx+Math.cos(aa)*(len+24))+'" y="'+(cy+Math.sin(aa)*(len+24)+4)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+fmt(Math.abs(f.mag))+'</text>');
+             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+num(Math.abs(f.mag))+'</text>');
     });
     if(cfg.note) cap(o,44,300,cfg.note,"note");
   }
@@ -1717,7 +1762,7 @@ VIZLIB.stack = {
       var pw=Math.max(0,p.v)/tot*w;
       o.push('<rect x="'+x+'" y="'+y+'" width="'+pw+'" height="'+h+'" fill="'+col(p.col)+'" opacity="0.88"/>');
       if(pw>34) o.push('<text x="'+(x+pw/2)+'" y="'+(y+h/2+4)+'" fill="#fff" font-family="IBM Plex Sans" '+
-                       'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(p.v)+'</text>');
+                       'font-size="11" font-weight="600" text-anchor="middle">'+num(p.v)+'</text>');
       x+=pw;
     });
     o.push('<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="none" stroke="var(--ink)" stroke-width="1.6"/>');
@@ -1729,7 +1774,7 @@ VIZLIB.stack = {
              'font-size="10.5">'+tx(p.lab)+'</text>');
     });
     if(cfg.total) o.push('<text x="'+(x0+w)+'" y="'+(y-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+fmt2(tot)+'</text>');
+                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+num(tot)+'</text>');
     if(cfg.note) cap(o,x0,236,cfg.note,"note");
   }
 };
@@ -2033,7 +2078,7 @@ function instrument(S, o, ins, ctx){
       if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
                       'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+num(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -2550,7 +2595,7 @@ var STAGE = {
         o.push('<text x="' + (FR.sx + 166) + '" y="' + fmt2(+gy + 3.5) + '" ' + FT + ' text-anchor="end">' + tk(h) + '</text>');
       }
       o.push('<text x="' + (FR.sx + 166) + '" y="' + (W.top - 8) + '" ' + FT + ' text-anchor="end">' +
-             tx(W.unit || ["m", "ม."]) + '</text>');
+             tx(W.unit || ["m", "m"]) + '</text>');
     }
   },
 
@@ -2774,7 +2819,7 @@ var STAGE = {
     var on = S.kbd && S.kbd.on;
     role("prophecy")(o, P[0], P[1], { clock: STAGE.clock, active: on || !!S.dragGuess,
                                        done: pr.phase === "done", hit: pr.hit, tower: W.kind === "tower" });
-    var txt = ui("yourGuess") + " · " + fmt2(pr.guess) + tx(pc.unit || [" m", " ม."]);
+    var txt = ui("yourGuess") + " · " + num(pr.guess) + tx(pc.unit || [" m", " m"]);
     fitText(o, P[0], P[1] - (W.kind === "tower" ? 12 : 78), [txt, txt], 150, 10.5, "var(--accent2)", "middle");
   },
 
@@ -3044,9 +3089,9 @@ var STAGE = {
         } else {
           var err = Math.abs(g - actual), tol = pc.tol ? pc.tol(S.p) : 1;
           hit = err <= tol;
-          var u = tx(pc.unit || [" m", " ม."]);
-          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + fmt2(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + fmt2(actual) + u +
-                  " · " + (L() ? "คลาดไป " : "off by ") + fmt2(err) + u ];
+          var u = tx(pc.unit || [" m", " m"]);
+          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + num(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + num(actual) + u +
+                  " · " + (L() ? "ต่างไป " : "off by ") + num(err) + u ];
         }
         S.pred.phase = "done"; S.pred.hit = hit;
         STATE.preds = STATE.preds || {};
@@ -4439,7 +4484,7 @@ function makeLab(nd, host){
     });
     /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=num(S.p[c.k],6)+(c.unit||"");
       if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){

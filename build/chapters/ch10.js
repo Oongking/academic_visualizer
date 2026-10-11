@@ -1,5 +1,6 @@
 /* Chapter 10 scrying pool: two runes ripple in step; brightness on the
    screen comes from the exact path difference, not the small-angle sum. */
+function z10(v){ return Math.abs(v)<1e-9?0:v; }
 var C10 = {
   x0: 70, y0: 150, k: 7.6, v: 10,
   dx: function(p){ return p.lam * p.L / p.d; },
@@ -36,7 +37,7 @@ nodes:[
   flabel:["One source, split in two","แหล่งเดียว แยกเป็นสอง"],
   viz:"plot",
   vizcfg:{
-    title:["INTENSITY AGAINST PHASE DIFFERENCE","ความเข้ม เทียบ ผลต่างเฟส"],
+    title:["INTENSITY AGAINST PHASE DIFFERENCE","ความเข้มเทียบกับผลต่างเฟส"],
     xlab:["phase difference (degrees)","ผลต่างเฟส (องศา)"], ylab:["intensity","ความเข้ม"],
     xmin:0, xmax:720, ymin:0, fill:true,
     fn:function(x,p){
@@ -50,27 +51,27 @@ nodes:[
       {k:"ph",  lab:["Phase difference","ผลต่างเฟส"], min:0, max:720, step:10, def:0, unit:"°"}
     ],
     readouts:[
-      {lab:["Intensity there","ความเข้ม ณ จุดนั้น"], f:function(S){
+      {lab:["Intensity there","ความเข้มตรงจุดนั้น"], f:function(S){
         var p=S.p, c=Math.cos(p.ph*Math.PI/360);
-        return fmt2(p.coh===1 ? 4*p.I0*c*c : 2*p.I0); }},
+        return num(z10(p.coh===1 ? 4*p.I0*c*c : 2*p.I0)); }},
       {lab:["Maximum possible","สูงสุดที่เป็นไปได้"], f:function(S){
-        return S.p.coh===1 ? fmt2(4*S.p.I0)+(L()?" · สี่เท่าของแหล่งเดียว":" · four times one source")
-                           : fmt2(2*S.p.I0); }},
+        return S.p.coh===1 ? num(4*S.p.I0)+(L()?" · สี่เท่าของแหล่งเดียว":" · four times one source")
+                           : num(2*S.p.I0); }},
       {lab:["Pattern visible?","เห็นลวดลายไหม"], f:function(S){
-        return S.p.coh===1 ? (L()?"เห็น — ริ้วคงที่":"yes — the fringes hold still")
-                           : (L()?"ไม่เห็น — เฉลี่ยจนเรียบ":"no — it averages flat"); }},
+        return S.p.coh===1 ? (L()?"เห็น — ริ้วอยู่นิ่ง":"yes — the fringes hold still")
+                           : (L()?"ไม่เห็น — เฉลี่ยแล้วเรียบ":"no — it averages flat"); }},
       {lab:["Total energy","พลังงานรวม"], f:function(S){
-        return L()?"เท่าเดิม — แค่กระจายใหม่":"unchanged — merely redistributed"; }}
+        return L()?"เท่าเดิม — แค่กระจายตัวใหม่":"unchanged — merely redistributed"; }}
     ],
     note:["incoherent sources give a flat line — no dark fringes, no bright ones","แหล่งที่ไม่อาพันธ์ให้เส้นราบ ไม่มีทั้งริ้วมืดและริ้วสว่าง"]
   },
   guide:[
     {say:["Coherent sources. Intensity swings between four times one source and total darkness.",
-          "แหล่งอาพันธ์ ความเข้มแกว่งระหว่างสี่เท่าของความเข้มจากแหล่งเดียวกับความมืดสนิท"], set:{coh:1,I0:4,ph:0}},
+          "แหล่งอาพันธ์ ความเข้มแกว่งไปมาระหว่างสี่เท่าของแหล่งเดียวกับความมืดสนิท"], set:{coh:1,I0:4,ph:0}},
     {say:["At 180° the two cancel completely — a dark fringe where light plus light gives nothing.",
-          "ที่ 180° ทั้งสองหักล้างกันหมด เกิดริ้วมืด คือแสงบวกกับแสงแล้วได้ความมืด"], set:{coh:1,I0:4,ph:180}},
+          "ที่ 180° คลื่นทั้งสองหักล้างกันหมด เกิดริ้วมืด คือแสงบวกแสงแล้วได้ความมืด"], set:{coh:1,I0:4,ph:180}},
     {say:["Break the coherence and the curve flattens to the plain sum. No fringes at all.",
-          "ถ้าทำลายความอาพันธ์ เส้นโค้งจะแบนราบเป็นผลบวกธรรมดา ไม่มีริ้วเลย"], set:{coh:0,I0:4,ph:180}}
+          "ลองทำลายความอาพันธ์ เส้นโค้งจะแบนเป็นผลบวกธรรมดา ไม่มีริ้วเลย"], set:{coh:0,I0:4,ph:180}}
   ] },
 
 { id:"double-slit", x:100, y:150, requires:["coherence"], methods:["M-01","M-02"],
@@ -86,7 +87,7 @@ nodes:[
     anim:true,
     spellName:["Two Runes in the Pool: path difference makes fringes","รูนสองอันในสระ: ผลต่างทางเดินทำให้เกิดแถบ"],
     question:["Two runes ripple in step. Why does the far screen light up in bands — and what spaces them out?",
-              "รูนสองอันส่งระลอกน้ำออกมาพร้อมกัน ทำไมฉากที่อยู่ไกลจึงสว่างเป็นแถบ และอะไรกำหนดระยะห่างระหว่างแถบ"],
+              "รูนสองอันส่งระลอกน้ำออกมาพร้อมกัน ทำไมฉากที่อยู่ไกลจึงสว่างเป็นแถบ แล้วอะไรกำหนดว่าแถบห่างกันเท่าไร"],
     ctrls:[
       {k:"lam", lab:["Ripple wavelength λ","ความยาวคลื่นระลอก λ"], min:1, max:3, step:.1, def:2, unit:" cm"},
       {k:"d",   lab:["Rune separation d","ระยะห่างรูน d"], min:3, max:12, step:.5, def:6, unit:" cm"},
@@ -94,9 +95,9 @@ nodes:[
     ],
     duration:function(p){ return Math.sqrt(p.L*p.L+15*15)/C10.v+1.5; },
     readouts:[
-      {lab:["Band spacing Δx","ระยะห่างแถบ Δx"], f:function(S){ return fmt2(C10.dx(S.p))+" cm"; }},
+      {lab:["Band spacing Δx","ระยะห่างแถบ Δx"], f:function(S){ return un(C10.dx(S.p),"cm"); }},
       {lab:["Bright bands on the screen","แถบสว่างบนฉาก"], f:function(S){ return String(2*Math.floor(15/C10.dx(S.p))+1); }},
-      {lab:["Same spell for light","สูตรเดียวกันกับแสง"], f:function(){ return "550 nm · 0.3 mm · 2 m → 3.7 mm"; }}
+      {lab:["Same spell for light","สูตรเดียวกันกับแสง"], f:function(){ return "550 nm · 0.3 mm · 2 m → 3.7 mm"; }}
     ],
     world:{ kind:"free" },
     scene:function(o,S,W){
@@ -116,7 +117,7 @@ nodes:[
       o.push('<line x1="'+(x0-10)+'" y1="'+fmt2(s1[1])+'" x2="'+(x0-10)+'" y2="'+fmt2(s2[1])+'" stroke="var(--warn)" stroke-width="'+(hd?3:1.5)+'"/>');
       fitText(o, x0-14, y0+4, ["d","d"], 30, 11, "var(--warn)", "end");
       o.push('<line x1="'+x0+'" y1="'+fmt2(bot+16)+'" x2="'+fmt2(sx)+'" y2="'+fmt2(bot+16)+'" stroke="var(--good)" stroke-width="'+(hL?3:1.4)+'"/>');
-      fitText(o, (x0+sx)/2, bot+30, ["L = "+p.L+" cm","L = "+p.L+" ซม."], 120, 10.5, "var(--good)", "middle");
+      fitText(o, (x0+sx)/2, bot+30, ["L = "+un(p.L,"cm"),"L = "+un(p.L,"cm")], 120, 10.5, "var(--good)", "middle");
       role("source")(o, s1[0], s1[1], {clock:STAGE.clock, col:"var(--accent)"});
       role("source")(o, s2[0], s2[1], {clock:STAGE.clock, col:"var(--accent2)"});
       role("screen")(o, sx, top, bot);
@@ -136,7 +137,7 @@ nodes:[
     ],
     instrument:{ kind:"graph",
       xmin:-15, xmax:15, ymin:0, ymax:1,
-      xlab:["position on the screen (cm)","ตำแหน่งบนฉาก (ซม.)"], ylab:["brightness","ความสว่าง"],
+      xlab:["position on the screen (cm)","ตำแหน่งบนฉาก (cm)"], ylab:["brightness","ความสว่าง"],
       fn:function(x,p){ return C10.I(p,x); }
     },
     overlay:function(o,S,G){
@@ -144,25 +145,25 @@ nodes:[
       if(dx<15){
         var x1=G.X(0), x2=G.X(dx), yy=G.Y(1)+12;
         o.push('<line x1="'+fmt2(x1)+'" y1="'+fmt2(yy)+'" x2="'+fmt2(x2)+'" y2="'+fmt2(yy)+'" stroke="var(--warn)" stroke-width="'+(hl?3.4:2)+'"/>');
-        o.push('<text x="'+fmt2((x1+x2)/2)+'" y="'+fmt2(yy-5)+'" fill="var(--warn)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">Δx = '+fmt2(dx)+' cm</text>');
+        o.push('<text x="'+fmt2((x1+x2)/2)+'" y="'+fmt2(yy-5)+'" fill="var(--warn)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">Δx = '+un(dx,"cm")+'</text>');
       }
     },
     spell:{
-      tex:function(p){ return "\\Delta x = \\dfrac{\\lambda L}{d} = \\dfrac{("+fmt2(p.lam)+")("+p.L+")}{"+fmt2(p.d)+"} = "+fmt2(C10.dx(p))+"\\,\\text{cm}"+
+      tex:function(p){ return "\\Delta x = \\dfrac{\\lambda L}{d} = \\dfrac{("+numTex(p.lam)+")("+numTex(p.L)+")}{"+numTex(p.d)+"} = "+numTex(C10.dx(p))+"\\,\\text{cm}"+
                               "\\qquad\\left[\\tfrac{\\text{cm}\\cdot\\text{cm}}{\\text{cm}}=\\text{cm}\\right]"; },
       terms:[
-        {k:"lam", sym:"λ", lab:["ripple wavelength","ความยาวคลื่น"], col:"accent", f:function(p){ return fmt2(p.lam)+" cm"; }},
-        {k:"L", sym:"L", lab:["runes to screen","รูนถึงฉาก"], col:"good", f:function(p){ return p.L+" cm"; }},
-        {k:"d", sym:"d", lab:["between the runes","ระหว่างรูน"], col:"warn", f:function(p){ return fmt2(p.d)+" cm"; }},
-        {k:"dx", sym:"Δx", lab:["band spacing","ระยะแถบ"], col:"warn", f:function(p){ return fmt2(C10.dx(p))+" cm"; }}
+        {k:"lam", sym:"λ", lab:["ripple wavelength","ความยาวคลื่น"], col:"accent", f:function(p){ return un(p.lam,"cm"); }},
+        {k:"L", sym:"L", lab:["runes to screen","รูนถึงฉาก"], col:"good", f:function(p){ return un(p.L,"cm"); }},
+        {k:"d", sym:"d", lab:["between the runes","ระหว่างรูน"], col:"warn", f:function(p){ return un(p.d,"cm"); }},
+        {k:"dx", sym:"Δx", lab:["band spacing","ระยะแถบ"], col:"warn", f:function(p){ return un(C10.dx(p),"cm"); }}
       ]
     },
     predict:{ kind:"choice",
       ask:["How far apart will the bright bands on the screen be?","แถบสว่างบนฉากจะห่างกันเท่าใด"],
-      opts:function(p){ return C10.cands(p).map(function(v){ return ["≈ "+fmt2(v)+" cm","≈ "+fmt2(v)+" ซม."]; }); },
+      opts:function(p){ return C10.cands(p).map(function(v){ return ["≈ "+un(v,"cm"),"≈ "+un(v,"cm")]; }); },
       actual:function(p){ var c=C10.cands(p), v=C10.dx(p), b=0; c.forEach(function(w,i){ if(Math.abs(w-v)<Math.abs(c[b]-v)) b=i; }); return b; },
-      explain:function(p){ return ["Δx = λL / d = "+fmt2(p.lam)+" × "+p.L+" / "+fmt2(p.d)+" = "+fmt2(C10.dx(p))+" cm. Writing λd / L instead swaps the slit gap and the screen distance — trap T-03.",
-                                   "Δx = λL / d = "+fmt2(p.lam)+" × "+p.L+" / "+fmt2(p.d)+" = "+fmt2(C10.dx(p))+" ซม. ถ้าเขียน λd / L จะเป็นการสลับระยะห่างสลิตกับระยะถึงฉาก — กับดัก T-03"]; }
+      explain:function(p){ return ["Δx = λL / d = "+num(p.lam)+" × "+num(p.L)+" / "+num(p.d)+" = "+un(C10.dx(p),"cm")+". Writing λd / L instead swaps the slit gap and the screen distance — trap T-03.",
+                                   "Δx = λL / d = "+num(p.lam)+" × "+num(p.L)+" / "+num(p.d)+" = "+un(C10.dx(p),"cm")+" ถ้าเขียน λd / L จะเป็นการสลับระยะห่างสลิตกับระยะถึงฉาก — กับดัก T-03"]; }
     },
     trials:{
       veil:true,
@@ -173,20 +174,20 @@ nodes:[
       },
       lockFor:function(g){ return g.kind==="d" ? ["lam","L"] : (g.kind==="L" ? ["lam","d"] : ["d","L"]); },
       say:function(g){
-        var X=fmt2(g.X);
-        if(g.kind==="d") return ["With λ = "+g.lam+" cm and the screen "+g.L+" cm away, place the runes so the bright bands are exactly "+X+" cm apart.",
-                                 "เมื่อ λ = "+g.lam+" ซม. และฉากอยู่ห่าง "+g.L+" ซม. วางรูนให้แถบสว่างห่างกัน "+X+" ซม. พอดี"];
-        if(g.kind==="L") return ["With λ = "+g.lam+" cm and the runes "+g.d+" cm apart, move the screen so the bright bands are exactly "+X+" cm apart.",
-                                 "เมื่อ λ = "+g.lam+" ซม. และรูนห่างกัน "+g.d+" ซม. เลื่อนฉากให้แถบสว่างห่างกัน "+X+" ซม. พอดี"];
-        return ["The runes are "+g.d+" cm apart and the screen "+g.L+" cm away. Choose the ripple wavelength that spaces the bands exactly "+X+" cm apart.",
-                "รูนห่างกัน "+g.d+" ซม. และฉากอยู่ห่าง "+g.L+" ซม. เลือกความยาวคลื่นที่ทำให้แถบห่างกัน "+X+" ซม. พอดี"];
+        var X=un(g.X,"cm");
+        if(g.kind==="d") return ["With λ = "+un(g.lam,"cm")+" and the screen "+un(g.L,"cm")+" away, place the runes so the bright bands are exactly "+X+" apart.",
+                                 "เมื่อ λ = "+un(g.lam,"cm")+" และฉากอยู่ห่าง "+un(g.L,"cm")+" ให้วางรูนให้แถบสว่างห่างกัน "+X+" พอดี"];
+        if(g.kind==="L") return ["With λ = "+un(g.lam,"cm")+" and the runes "+un(g.d,"cm")+" apart, move the screen so the bright bands are exactly "+X+" apart.",
+                                 "เมื่อ λ = "+un(g.lam,"cm")+" และรูนห่างกัน "+un(g.d,"cm")+" ให้เลื่อนฉากจนแถบสว่างห่างกัน "+X+" พอดี"];
+        return ["The runes are "+un(g.d,"cm")+" apart and the screen "+un(g.L,"cm")+" away. Choose the ripple wavelength that spaces the bands exactly "+X+" apart.",
+                "รูนห่างกัน "+un(g.d,"cm")+" และฉากอยู่ห่าง "+un(g.L,"cm")+" ให้เลือกความยาวคลื่นที่ทำให้แถบห่างกัน "+X+" พอดี"];
       },
       check:function(p,S,g){
         var dx=C10.dx(p), ok=Math.abs(dx-g.X)<0.01;
-        if(ok) return {ok:true, msg:["Bands "+fmt2(dx)+" cm apart. Rearranging Δx = λL / d: "+(g.kind==="d"?"d = λL / Δx = "+fmt2(g.d)+" cm":g.kind==="L"?"L = Δx·d / λ = "+g.L+" cm":"λ = Δx·d / L = "+fmt2(g.lam)+" cm")+".",
-                                       "แถบห่างกัน "+fmt2(dx)+" ซม. จัดรูป Δx = λL / d: "+(g.kind==="d"?"d = λL / Δx = "+fmt2(g.d)+" ซม.":g.kind==="L"?"L = Δx·d / λ = "+g.L+" ซม.":"λ = Δx·d / L = "+fmt2(g.lam)+" ซม.")]};
-        return {ok:false, msg:["The bands came out "+fmt2(dx)+" cm apart. Wider runes squeeze the bands; a farther screen spreads them.",
-                               "แถบห่างกัน "+fmt2(dx)+" ซม. รูนที่ห่างกันมากทำให้แถบชิดกัน ฉากที่ไกลขึ้นทำให้แถบห่างกัน"]};
+        if(ok) return {ok:true, msg:["Bands "+un(dx,"cm")+" apart. Rearranging Δx = λL / d: "+(g.kind==="d"?"d = λL / Δx = "+un(g.d,"cm"):g.kind==="L"?"L = Δx·d / λ = "+un(g.L,"cm"):"λ = Δx·d / L = "+un(g.lam,"cm"))+".",
+                                       "แถบห่างกัน "+un(dx,"cm")+" ลองจัดรูป Δx = λL / d: "+(g.kind==="d"?"d = λL / Δx = "+un(g.d,"cm"):g.kind==="L"?"L = Δx·d / λ = "+un(g.L,"cm"):"λ = Δx·d / L = "+un(g.lam,"cm"))]};
+        return {ok:false, msg:["The bands came out "+un(dx,"cm")+" apart. Wider runes squeeze the bands; a farther screen spreads them.",
+                               "แถบห่างกัน "+un(dx,"cm")+" รูนห่างกันมากขึ้น แถบจะชิดกัน ฉากไกลขึ้น แถบจะห่างกัน"]};
       }
     },
     note:["where crest meets crest the pool swells and the screen glows; where crest meets trough it stays dark",
@@ -194,11 +195,11 @@ nodes:[
   },
   guide:[
     {say:["Press play. Ripples spread from both runes; once both reach the screen, it lights up in evenly spaced bands.",
-          "กดเล่น ระลอกน้ำแผ่ออกจากรูนทั้งสองอัน เมื่อไปถึงฉาก ฉากจะสว่างเป็นแถบที่ห่างเท่าๆ กัน"], set:{lam:2,d:6,L:40}},
+          "กดเล่น ระลอกน้ำจะแผ่ออกจากรูนทั้งสองอัน พอไปถึงฉาก ฉากจะสว่างเป็นแถบที่ห่างเท่า ๆ กัน"], set:{lam:2,d:6,L:40}},
     {say:["Pull the runes further apart. The bands squeeze together — d is on the bottom of the spell.",
-          "ดึงรูนให้ห่างกันมากขึ้น แถบจะชิดกันเข้า เพราะ d อยู่ที่ตัวส่วนของบทร่าย"], set:{lam:2,d:12,L:40}},
+          "ลองดึงรูนให้ห่างกันมากขึ้น แถบจะชิดกันเข้า เพราะ d อยู่ที่ตัวส่วนของบทร่าย"], set:{lam:2,d:12,L:40}},
     {say:["Longer ripples, farther screen: the bands spread wide. Mixing up d and L is trap T-03.",
-          "ระลอกยาวขึ้นและฉากไกลขึ้น แถบจะห่างกันมากขึ้น การสลับ d กับ L คือกับดัก T-03"], set:{lam:3,d:6,L:55}}
+          "ถ้าระลอกยาวขึ้นและฉากไกลขึ้น แถบจะห่างกันมากขึ้น การสลับ d กับ L คือกับดัก T-03"], set:{lam:3,d:6,L:55}}
   ]
 },
 
@@ -216,7 +217,7 @@ nodes:[
     xlab:["angle (degrees)","มุม (องศา)"], ylab:["intensity","ความเข้ม"],
     xmin:-30, xmax:30, ymin:0, fill:true,
     fn:function(x,p){
-      var b=Math.PI*p.a*Math.sin(x*Math.PI/180)/(p.lam/1000);
+      var b=Math.PI*p.a*Math.sin(x*Math.PI/180)/(p.lam/1000000);   /* a in mm, lam in nm -> mm */
       if(Math.abs(b)<1e-6) return 1;
       var s=Math.sin(b)/b; return s*s;
     },
@@ -226,12 +227,12 @@ nodes:[
     ],
     readouts:[
       {lab:["First minimum at","จุดมืดแรกที่"], f:function(S){
-        var r=(S.p.lam/1000)/S.p.a;
+        var r=(S.p.lam/1000000)/S.p.a;
         return r>=1 ? (L()?"ไม่มี — ช่องแคบเกินไป":"none — the slit is too narrow")
-                    : fmt2(Math.asin(r)*180/Math.PI)+"°"; }},
+                    : num(Math.asin(r)*180/Math.PI)+"°"; }},
       {lab:["Central peak width","ความกว้างพีคกลาง"], f:function(S){
-        var r=(S.p.lam/1000)/S.p.a;
-        return r>=1 ? (L()?"กว้างเต็มจอ":"fills the screen") : fmt2(2*Math.asin(r)*180/Math.PI)+"°"; }},
+        var r=(S.p.lam/1000000)/S.p.a;
+        return r>=1 ? (L()?"กว้างเต็มจอ":"fills the screen") : num(2*Math.asin(r)*180/Math.PI)+"°"; }},
       {lab:["Narrower slit?","ช่องแคบลง?"], f:function(){
         return L()?"ลวดลายกว้างขึ้น — สวนทางกับสัญชาตญาณ":"the pattern spreads WIDER — counter-intuitive"; }},
       {lab:["Central peak brightness","ความสว่างพีคกลาง"], f:function(){
@@ -243,9 +244,9 @@ nodes:[
     {say:["The central maximum dominates, with much fainter peaks either side.",
           "พีคกลางเด่นที่สุด ส่วนพีคสองข้างจางกว่ามาก"], set:{a:.01,lam:550}},
     {say:["Narrow the slit and the pattern spreads out. Squeezing the light makes it fan wider.",
-          "ทำให้ช่องแคบลง ลวดลายกลับแผ่กว้างออก เมื่อบีบแสงให้แคบ แสงจะบานออก"], set:{a:.004,lam:550}},
+          "ลองทำให้ช่องแคบลง ลวดลายกลับแผ่กว้างออก ยิ่งบีบแสงให้แคบ แสงยิ่งบานออก"], set:{a:.004,lam:550}},
     {say:["Widen it instead and everything contracts towards a single sharp beam.",
-          "ถ้าทำให้ช่องกว้างขึ้นแทน ทุกอย่างจะหดเข้าหากันเป็นลำแสงคมลำเดียว"], set:{a:.03,lam:550}}
+          "ทีนี้ลองเปิดช่องให้กว้างขึ้นแทน ทุกอย่างจะหดเข้าหากันเป็นลำแสงคมลำเดียว"], set:{a:.03,lam:550}}
   ] },
 
 { id:"grating", x:235, y:248, requires:["double-slit","single-slit"], methods:["M-04"],
@@ -262,7 +263,7 @@ nodes:[
     xlab:["angle (degrees)","มุม (องศา)"], ylab:["intensity","ความเข้ม"],
     xmin:-30, xmax:30, ymin:0, fill:true,
     fn:function(x,p){
-      var g=Math.PI*p.d*Math.sin(x*Math.PI/180)/(p.lam/1000000);
+      var g=Math.PI*p.d*Math.sin(x*Math.PI/180)/(p.lam/1000);   /* d in µm, lam in nm -> µm */
       if(Math.abs(Math.sin(g))<1e-9) return 1;
       var s=Math.sin(p.N*g)/(p.N*Math.sin(g));
       return s*s;
@@ -275,7 +276,7 @@ nodes:[
     readouts:[
       {lab:["First order at","อันดับหนึ่งที่"], f:function(S){
         var r=(S.p.lam/1000)/S.p.d;
-        return r>=1 ? (L()?"ไม่มี":"none") : fmt2(Math.asin(r)*180/Math.PI)+"°"; }},
+        return r>=1 ? (L()?"ไม่มี":"none") : num(Math.asin(r)*180/Math.PI)+"°"; }},
       {lab:["Peak sharpness","ความคมของพีค"], f:function(S){
         return S.p.N<=2 ? (L()?"กว้างและนุ่ม":"broad and soft")
              : S.p.N<8 ? (L()?"คมขึ้น":"sharpening") : (L()?"คมมาก":"very sharp"); }},
@@ -290,7 +291,7 @@ nodes:[
     {say:["Two slits give broad, gently rounded fringes — the familiar Young pattern.",
           "สองช่องให้ริ้วกว้างและโค้งมน คือลวดลายของยังที่เราคุ้นเคย"], set:{N:2,d:3,lam:550}},
     {say:["Six slits and the peaks tighten dramatically, with faint ripples between them.",
-          "เมื่อเป็นหกช่อง พีคแคบลงมาก และมีระลอกจางๆ อยู่ระหว่างพีค"], set:{N:6,d:3,lam:550}},
+          "พอเป็นหกช่อง พีคก็แคบลงมาก และมีระลอกจาง ๆ อยู่ระหว่างพีค"], set:{N:6,d:3,lam:550}},
     {say:["Twenty slits give knife-sharp lines at exactly the same angles. That precision is the whole point.",
           "ยี่สิบช่องให้เส้นคมกริบที่มุมเดิมพอดี ความแม่นยำนี้คือจุดเด่นของเกรตติง"], set:{N:20,d:3,lam:550}}
   ] },
@@ -305,7 +306,7 @@ nodes:[
   flabel:["Longest wavelength bends most","ความยาวคลื่นยาวสุดเบนมากสุด"],
   viz:"numline",
   vizcfg:{
-    title:["WHITE LIGHT, SPREAD OUT BY WAVELENGTH","แสงขาวที่ถูกแยกตามความยาวคลื่น"],
+    title:["WHITE LIGHT, SPREAD OUT BY WAVELENGTH","แสงขาวแยกตามความยาวคลื่น"],
     min:380, max:760,
     ctrls:[
       {k:"lam", lab:["Wavelength","ความยาวคลื่น"], min:390, max:750, step:5, def:550, unit:" nm"},
@@ -319,18 +320,19 @@ nodes:[
         return C[L()]; }},
       {lab:["First-order angle","มุมอันดับหนึ่ง"], f:function(S){
         var r=(S.p.lam/1000)/S.p.d;
-        return r>=1 ? (L()?"ไม่มี":"none") : fmt2(Math.asin(r)*180/Math.PI)+"°"; }},
-      {lab:["Bent most","หักเหมากที่สุด"], f:function(){
-        return L()?"แดง — ความยาวคลื่นมากที่สุด":"red — it has the longest wavelength"; }},
+        return r>=1 ? (L()?"ไม่มี":"none") : num(Math.asin(r)*180/Math.PI)+"°"; }},
+      {lab:["Bent most","เบนมากที่สุด"], f:function(){
+        return L()?"แดง — ความยาวคลื่นยาวที่สุด":"red — it has the longest wavelength"; }},
       {lab:["Prism or grating?","ปริซึมหรือเกรตติง"], f:function(){
-        return L()?"ปริซึมแยกกลับทาง เพราะใช้การหักเห":"a prism splits the other way round — it refracts"; }}
+        return L()?"ปริซึมแยกสีกลับด้านกัน เพราะใช้การหักเห":"a prism splits the other way round — it refracts"; }}
     ],
     regions:function(p){
       return [{a:380,b:450,col:"soft",lab:["violet","ม่วง"]},
               {a:450,b:490,col:"soft"},
               {a:490,b:560,col:"good",lab:["green","เขียว"]},
               {a:560,b:590,col:"warn"},
-              {a:590,b:760,col:"accent",lab:["red","แดง"]}];
+              {a:590,b:630,col:"accent",lab:["orange","ส้ม"]},
+              {a:630,b:760,col:"accent",lab:["red","แดง"]}];
     },
     points:function(p){ return [{v:p.lam, lab:["your wavelength","ความยาวคลื่นที่เลือก"], col:"accent"}]; },
     note:["a grating bends long wavelengths most; a prism bends short ones most — opposite orders","เกรตติงเบนคลื่นยาวมากที่สุด ส่วนปริซึมเบนคลื่นสั้นมากที่สุด ลำดับจึงกลับกัน"]
@@ -364,22 +366,22 @@ gen:{
           {v:["The edge of the screen","ขอบฉาก"]},{v:["No fringe at all","ไม่มีแถบใดเลย"]}],unit:""};
   return {stem:["Light of wavelength "+lam+" nm passes two slits "+d+" mm apart. Find sin θ for the order-"+n+" bright fringe.",
                 "แสงความยาวคลื่น "+lam+" นาโนเมตร ผ่านสลิตสองช่องห่างกัน "+d+" มิลลิเมตร จงหา sin θ ของแถบสว่างอันดับที่ "+n],
-    opts:[{v:s.toExponential(2),ok:1},{v:(s*1000).toExponential(2),trap:"T-04"},
-          {v:(s/n).toExponential(2)},{v:(s*n).toExponential(2)}],unit:""};
+    opts:[{v:num(s),ok:1},{v:num((s*1000)),trap:"T-04"},
+          {v:num((s/n))},{v:num((s*n))}],unit:""};
 },
 "M-02": function(sf){
   var lam=pick([450,550,650]), d=pick([0.2,0.4,0.5]), L=pick([1,2,3]);
   var dx=lam*1e-9*L/(d*1e-3)*1000;
-  if(sf==="S-05") return {stem:["Fringes "+fmt(dx)+" mm apart are seen with slits "+d+" mm apart and a screen "+L+" m away. Find the wavelength.",
-                                "พบแถบห่างกัน "+fmt(dx)+" มิลลิเมตร โดยสลิตห่าง "+d+" มิลลิเมตร และฉากอยู่ห่าง "+L+" เมตร จงหาความยาวคลื่น"],
-    opts:[{v:String(lam),ok:1},{v:fmt(dx*d/L),trap:"T-03"},{v:fmt(lam/2)},{v:fmt(lam*2)}],unit:" nm"};
+  if(sf==="S-05") return {stem:["Fringes "+num(dx)+" mm apart are seen with slits "+d+" mm apart and a screen "+L+" m away. Find the wavelength.",
+                                "พบแถบห่างกัน "+num(dx)+" มิลลิเมตร โดยสลิตห่าง "+d+" มิลลิเมตร และฉากอยู่ห่าง "+L+" เมตร จงหาความยาวคลื่น"],
+    opts:[{v:String(lam),ok:1},{v:num(dx*d/L),trap:"T-03"},{v:num(lam/2)},{v:num(lam*2)}],unit:" nm"};
   if(sf==="S-04") return {stem:["The screen is moved twice as far away. What happens to the fringe spacing?",
                                 "ย้ายฉากออกไปไกลเป็นสองเท่า ระยะห่างของแถบเปลี่ยนอย่างไร"],
     opts:[{v:["It doubles","เพิ่มเป็นสองเท่า"],ok:1},{v:["It halves","ลดลงครึ่งหนึ่ง"],trap:"T-03"},
           {v:["It is unchanged","เท่าเดิม"]},{v:["It quadruples","เพิ่มเป็นสี่เท่า"]}],unit:""};
   return {stem:["Slits "+d+" mm apart are lit by "+lam+" nm light with a screen "+L+" m away. Find the fringe spacing.",
                 "สลิตห่างกัน "+d+" มิลลิเมตร ส่องด้วยแสง "+lam+" นาโนเมตร ฉากอยู่ห่าง "+L+" เมตร จงหาระยะแถบ"],
-    opts:[{v:fmt(dx),ok:1},{v:fmt(lam*1e-9*d*1e-3/L*1000),trap:"T-03"},{v:fmt(dx/2)},{v:fmt(dx*10),trap:"T-04"}],unit:" mm"};
+    opts:[{v:num(dx),ok:1},{v:num(lam*1e-9*d*1e-3/L*1000),trap:"T-03"},{v:num(dx/2)},{v:num(dx*10),trap:"T-04"}],unit:" mm"};
 },
 "M-03": function(sf){
   var lam=pick([500,600,700]), a=pick([0.05,0.1,0.2]);
@@ -395,8 +397,8 @@ gen:{
           {v:["Narrower than the others","แคบกว่าแถบอื่น"]},{v:["It is dark","เป็นแถบมืด"],trap:"T-01"}],unit:""};
   return {stem:["A single slit "+a+" mm wide is lit by "+lam+" nm light. Find sin θ for the first minimum.",
                 "สลิตเดี่ยวกว้าง "+a+" มิลลิเมตร ส่องด้วยแสง "+lam+" นาโนเมตร จงหา sin θ ของแถบมืดแรก"],
-    opts:[{v:s.toExponential(2),ok:1},{v:(s/2).toExponential(2),trap:"T-01"},
-          {v:(s*1000).toExponential(2),trap:"T-04"},{v:(s*2).toExponential(2)}],unit:""};
+    opts:[{v:num(s),ok:1},{v:num((s/2)),trap:"T-01"},
+          {v:num((s*1000)),trap:"T-04"},{v:num((s*2))}],unit:""};
 },
 "M-04": function(sf){
   var N=pick([300,500,600]), lam=pick([500,600,650]), n=pick([1,2]);
@@ -406,7 +408,7 @@ gen:{
     opts:[{v:"2 × 10⁻⁶ m",ok:1},{v:"500 m",trap:"T-02"},{v:"5 × 10⁻⁴ m",trap:"T-02"},{v:"2 × 10⁻³ m"}],unit:""};
   return {stem:["A grating of "+N+" lines/mm is lit by "+lam+" nm light. Find sin θ at order "+n+".",
                 "เกรตติง "+N+" เส้น/มม. ส่องด้วยแสง "+lam+" นาโนเมตร จงหา sin θ ที่อันดับ "+n],
-    opts:[{v:fmt2(s),ok:1},{v:fmt2(s*N),trap:"T-02"},{v:fmt2(s/n)},{v:fmt2(s/1000),trap:"T-04"}],unit:""};
+    opts:[{v:num(s),ok:1},{v:num(s*N),trap:"T-02"},{v:num(s/n)},{v:num(s/1000),trap:"T-04"}],unit:""};
 },
 "M-05": function(sf){
   var C=[{s:["White light passes through a grating. Which colour is deflected furthest?","แสงขาวผ่านเกรตติง สีใดเบนมากที่สุด"],

@@ -12,6 +12,11 @@ var C20 = {
     return out;
   },
   left: function(S, t){ var n = 0; C20.times(S).forEach(function(d){ if(d > t) n++; }); return n; },
+  /* binding energy per nucleon (MeV): a smooth fit through O-16 8.0, Fe-56 8.8, Sn-120 8.5, U-238 7.6 */
+  be: function(A){
+    var w = A < 56 ? 17.4 : 14.27;
+    return 8.8 * Math.exp(-Math.pow(Math.log(A / 56), 2) / w) * (1 - Math.exp(-(A - 1) / 1.2));
+  },
   cands: function(p){
     var n = p.D / p.Th, c = [p.N0 * Math.pow(0.5, n), p.N0 / Math.max(n, 1), p.N0 / (2 * Math.max(n, 0.5)), p.N0 * Math.max(0, 1 - n / 8)], u = [];
     c.forEach(function(v){ if(u.every(function(w){ return Math.abs(Math.round(w) - Math.round(v)) >= 1; })) u.push(v); });
@@ -46,20 +51,20 @@ nodes:[
       {lab:["Particle","อนุภาค"], f:function(S){
         return [["Proton","โปรตอน"],["Neutron","นิวตรอน"],["Electron","อิเล็กตรอน"]][S.p.i][L()]; }},
       {lab:["Atomic number Z counts","เลขอะตอม Z นับ"], f:function(){
-        return L()?"โปรตอน — เป็นตัวกำหนดธาตุ":"protons — they decide which element it is"; }},
+        return L()?"โปรตอน เป็นตัวกำหนดว่าเป็นธาตุใด":"protons — they decide which element it is"; }},
       {lab:["Mass number A counts","เลขมวล A นับ"], f:function(){
-        return L()?"โปรตอนบวกนิวตรอน":"protons plus neutrons"; }},
+        return L()?"โปรตอนรวมกับนิวตรอน":"protons plus neutrons"; }},
       {lab:["Isotopes differ in","ไอโซโทปต่างกันที่"], f:function(){
-        return L()?"จำนวนนิวตรอนเท่านั้น — เคมีเหมือนกัน":"neutrons only — the chemistry is identical"; }}
+        return L()?"จำนวนนิวตรอนเท่านั้น เคมีจึงเหมือนกัน":"neutrons only — the chemistry is identical"; }}
     ],
     rows:function(p){
       var R=[[["Proton","โปรตอน"],["+1","+1"],["1","1"],["in the nucleus","ในนิวเคลียส"]],
              [["Neutron","นิวตรอน"],["0","0"],["1","1"],["in the nucleus","ในนิวเคลียส"]],
-             [["Electron","อิเล็กตรอน"],["−1","−1"],["1/1836","1/1836"],["orbiting outside","โคจรอยู่ภายนอก"]]];
+             [["Electron","อิเล็กตรอน"],["−1","−1"],["1/1836","1/1836"],["orbiting outside","โคจรอยู่รอบนอก"]]];
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"ink":"accent"}; }); });
     },
-    note:["almost all the mass is in the nucleus, and almost all the volume is not","มวลเกือบทั้งหมดอยู่ในนิวเคลียส แต่นิวเคลียสกินที่แทบไม่มีเลย"]
+    note:["almost all the mass is in the nucleus, and almost all the volume is not","มวลเกือบทั้งหมดอยู่ในนิวเคลียส แต่ปริมาตรเกือบทั้งหมดไม่ใช่นิวเคลียส"]
   } },
 
 { id:"decay", x:100, y:150, requires:["nucleus"], methods:["M-02"],
@@ -79,13 +84,13 @@ nodes:[
       {lab:["Decay","การสลาย"], f:function(S){
         return [["Alpha","แอลฟา"],["Beta minus","บีตาลบ"],["Gamma","แกมมา"]][S.p.i][L()]; }},
       {lab:["What is emitted","สิ่งที่ปล่อยออกมา"], f:function(S){
-        return [["a helium nucleus","นิวเคลียสฮีเลียม"],["an electron from a neutron","อิเล็กตรอนจากนิวตรอน"],
+        return [["a helium nucleus","นิวเคลียสฮีเลียม"],["an electron from a neutron","อิเล็กตรอนที่เกิดจากนิวตรอน"],
                 ["a photon, no particle","โฟตอน ไม่ใช่อนุภาค"]][S.p.i][L()]; }},
       {lab:["Does the element change?","ธาตุเปลี่ยนไหม"], f:function(S){
-        return S.p.i===2 ? (L()?"ไม่ — Z เท่าเดิม":"no — Z is unchanged") : (L()?"ใช่":"yes"); }},
+        return S.p.i===2 ? (L()?"ไม่เปลี่ยน เพราะ Z เท่าเดิม":"no — Z is unchanged") : (L()?"ใช่":"yes"); }},
       {lab:["Stopped by","หยุดได้ด้วย"], f:function(S){
         return [["a sheet of paper","กระดาษหนึ่งแผ่น"],["a few mm of aluminium","อะลูมิเนียมไม่กี่มิลลิเมตร"],
-                ["thick lead, and never fully","ตะกั่วหนา และไม่เคยหยุดได้หมด"]][S.p.i][L()]; }}
+                ["thick lead, and never fully","ตะกั่วหนา และก็ยังหยุดไม่ได้หมด"]][S.p.i][L()]; }}
     ],
     rows:function(p){
       var R=[[["Alpha α","แอลฟา α"],["−4","−4"],["−2","−2"],["lowest","ต่ำสุด"]],
@@ -94,7 +99,7 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"ink":(j===3?"warn":"accent")}; }); });
     },
-    note:["beta raises Z without touching A — a neutron simply turns into a proton","บีตาเพิ่ม Z โดยที่ A ไม่เปลี่ยน เพราะนิวตรอนเปลี่ยนเป็นโปรตอนเท่านั้นเอง"]
+    note:["beta raises Z without touching A — a neutron simply turns into a proton","บีตาเพิ่ม Z โดย A ไม่เปลี่ยน เพราะนิวตรอนแค่กลายเป็นโปรตอน"]
   } },
 
 { id:"half-life", x:370, y:150, requires:["nucleus"], methods:["M-03","M-04"],
@@ -110,17 +115,17 @@ nodes:[
     anim:true, rate:2.5,
     spellName:["The Half-life Crucible: halves every half-life","หม้อครึ่งชีวิต: ลดลงครึ่งหนึ่งทุกครึ่งชีวิต"],
     question:["No one can say which mote will fade next. So why can you predict, almost exactly, how many are left?",
-              "ไม่มีใครบอกได้ว่าจุดไหนจะดับต่อไป แล้วทำไมเราจึงทำนายได้เกือบแม่นว่าจะเหลืออยู่กี่จุด"],
+              "ไม่มีใครบอกได้ว่าจุดไหนจะดับต่อไป แล้วทำไมเรายังทำนายได้แทบแม่นยำว่าจะเหลือกี่จุด"],
     ctrls:[
-      {k:"N0", lab:["Motes at the start N₀","จำนวนเริ่มต้น N₀"], min:100, max:400, step:50, def:200, unit:""},
+      {k:"N0", lab:["Motes at the start N₀","จำนวนจุดตอนเริ่ม N₀"], min:100, max:400, step:50, def:200, unit:""},
       {k:"Th", lab:["Half-life","ครึ่งชีวิต"], min:2, max:20, step:1, def:5, unit:" d"},
-      {k:"D",  lab:["Watch for","ดูนาน"], min:5, max:40, step:5, def:20, unit:" d", isT:true}
+      {k:"D",  lab:["Watch for","เฝ้าดูนาน"], min:5, max:40, step:5, def:20, unit:" d", isT:true}
     ],
     readouts:[
       {lab:["Left in this brew","เหลือในหม้อนี้"], f:function(S){ return String(C20.left(S,S.t)); }},
-      {lab:["The spell predicts","บทร่ายทำนาย"], f:function(S){ return fmt(S.p.N0*Math.pow(0.5,S.t/S.p.Th)); }},
-      {lab:["Half-lives so far","ครึ่งชีวิตที่ผ่านไป"], f:function(S){ return fmt2(S.t/S.p.Th); }},
-      {lab:["Day","วันที่"], f:function(S){ return fmt(S.t); }}
+      {lab:["The spell predicts","บทร่ายทำนาย"], f:function(S){ return num(S.p.N0*Math.pow(0.5,S.t/S.p.Th)); }},
+      {lab:["Half-lives so far","ครึ่งชีวิตที่ผ่านไป"], f:function(S){ return num(S.t/S.p.Th); }},
+      {lab:["Day","วันที่"], f:function(S){ return num(S.t); }}
     ],
     world:{ kind:"free" },
     scene:function(o,S,W){
@@ -136,7 +141,7 @@ nodes:[
         o.push('<circle cx="'+fmt2(x)+'" cy="'+fmt2(y)+'" r="'+(gone?2:3.3)+'" fill="'+(gone?"var(--ink-faint)":"var(--good)")+'" opacity="'+(gone?.35:.95)+'"/>');
       }
       fitText(o, cx, 64, [C20.left(S,t)+" of "+p.N0+" still glowing", "ยังเรืองแสง "+C20.left(S,t)+" จาก "+p.N0], 300, 12, "var(--ink)", "middle");
-      fitText(o, cx, 82, ["day "+fmt(t)+" · "+fmt2(t/p.Th)+" half-lives","วันที่ "+fmt(t)+" · "+fmt2(t/p.Th)+" ครึ่งชีวิต"], 300, 10.5, "var(--ink-faint)", "middle");
+      fitText(o, cx, 82, ["day "+num(t)+" · "+num(t/p.Th)+" half-lives","วันที่ "+num(t)+" · "+num(t/p.Th)+" ครึ่งชีวิต"], 300, 10.5, "var(--ink-faint)", "middle");
     },
     instrument:{ kind:"graph",
       xmin:0, xmax:40, ymin:0, ymax:400,
@@ -156,19 +161,19 @@ nodes:[
       }
     },
     spell:{
-      tex:function(p,S){ return "N = \\dfrac{N_0}{2^{\\,t/T_{1/2}}} = \\dfrac{"+p.N0+"}{2^{\\,"+fmt(S.t)+"/"+p.Th+"}} = "+fmt(p.N0*Math.pow(0.5,S.t/p.Th)); },
+      tex:function(p,S){ return "N = \\dfrac{N_0}{2^{\\,t/T_{1/2}}} = \\dfrac{"+p.N0+"}{2^{\\,"+numTex(S.t)+"/"+p.Th+"}} = "+numTex(p.N0*Math.pow(0.5,S.t/p.Th)); },
       terms:[
         {k:"N0", sym:"N₀", lab:["at the start","ตอนเริ่ม"], col:"good", f:function(p){ return String(p.N0); }},
-        {k:"Th", sym:"T½", lab:["half-life","ครึ่งชีวิต"], col:"accent2", f:function(p){ return p.Th+" d"; }},
-        {k:"n", sym:"n = t/T½", lab:["halvings so far","จำนวนครั้งที่ลดครึ่ง"], col:"accent", f:function(p,S){ return fmt2(S.t/p.Th); }}
+        {k:"Th", sym:"T½", lab:["half-life","ครึ่งชีวิต"], col:"accent2", f:function(p){ return un(p.Th,"d"); }},
+        {k:"n", sym:"n = t/T½", lab:["halvings so far","จำนวนครั้งที่ลดครึ่ง"], col:"accent", f:function(p,S){ return num(S.t/p.Th); }}
       ]
     },
     predict:{ kind:"choice",
-      ask:["When the watch ends, roughly how many motes will still be glowing?","เมื่อสิ้นสุดการเฝ้าดู จะเหลือจุดที่ยังเรืองแสงอยู่ประมาณกี่จุด"],
+      ask:["When the watch ends, roughly how many motes will still be glowing?","พอเฝ้าดูครบเวลา จะเหลือจุดที่ยังเรืองแสงประมาณกี่จุด"],
       opts:function(p){ return C20.cands(p).map(function(v){ return ["≈ "+Math.round(v), "≈ "+Math.round(v)]; }); },
       actual:function(p){ var c=C20.cands(p), v=p.N0*Math.pow(0.5,p.D/p.Th), b=0; c.forEach(function(w,i){ if(Math.abs(w-v)<Math.abs(c[b]-v)) b=i; }); return b; },
-      explain:function(p){ var n=p.D/p.Th; return ["n = "+p.D+" / "+p.Th+" = "+fmt2(n)+" half-lives, so N = "+p.N0+" / 2^"+fmt2(n)+" ≈ "+Math.round(p.N0*Math.pow(0.5,n))+". Dividing by n instead of 2ⁿ is trap T-02. Your brew wobbles around the spell's value because each mote is random.",
-                                            "n = "+p.D+" / "+p.Th+" = "+fmt2(n)+" ครึ่งชีวิต ดังนั้น N = "+p.N0+" / 2^"+fmt2(n)+" ≈ "+Math.round(p.N0*Math.pow(0.5,n))+" การหารด้วย n แทน 2ⁿ คือกับดัก T-02 ค่าจริงในหม้อแกว่งรอบค่าทำนายเพราะแต่ละอนุภาคสุ่ม"]; }
+      explain:function(p){ var n=p.D/p.Th, v=p.N0*Math.pow(0.5,n), vs=v<1?num(v,2):String(Math.round(v)); return ["n = "+p.D+" / "+p.Th+" = "+num(n)+" half-lives, so N = "+p.N0+" / 2^"+num(n)+" ≈ "+vs+". Dividing by n instead of 2ⁿ is trap T-02. Your brew wobbles around the spell's value because each mote is random.",
+                                            "n = "+p.D+" / "+p.Th+" = "+num(n)+" ครึ่งชีวิต ดังนั้น N = "+p.N0+" / 2^"+num(n)+" ≈ "+vs+" ถ้าหารด้วย n แทน 2ⁿ จะตกกับดัก T-02 ส่วนจำนวนจริงในหม้อจะแกว่งรอบค่าทำนาย เพราะแต่ละจุดดับแบบสุ่ม"]; }
     },
     trials:{
       veil:true,
@@ -183,34 +188,34 @@ nodes:[
       },
       lockFor:function(g){ return g.kind==="half" ? ["N0"] : ["Th","N0"]; },
       say:function(g){
-        if(g.kind==="half") return ["A brew of "+g.N0+" motes is down to "+fmt(g.Y)+" after "+g.X+" days. Set the half-life to match.",
-                                    "หม้อที่มี "+g.N0+" อนุภาคเหลือ "+fmt(g.Y)+" หลังผ่านไป "+g.X+" วัน ตั้งครึ่งชีวิตให้ตรงกัน"];
+        if(g.kind==="half") return ["A brew of "+g.N0+" motes is down to "+num(g.Y)+" after "+g.X+" days. Set the half-life to match.",
+                                    "หม้อที่มี "+g.N0+" จุด เหลือ "+num(g.Y)+" จุดหลังผ่านไป "+g.X+" วัน ตั้งครึ่งชีวิตให้ตรงกัน"];
         return ["Half-life "+g.Th+" days. Set the hourglass to run out exactly when only 1/"+Math.pow(2,g.k)+" of the motes should remain.",
-                "ครึ่งชีวิต "+g.Th+" วัน ตั้งนาฬิกาทรายให้หมดพอดีเมื่ออนุภาคควรเหลือเพียง 1/"+Math.pow(2,g.k)];
+                "ครึ่งชีวิต "+g.Th+" วัน ตั้งนาฬิกาทรายให้หมดเวลาพอดีตอนที่จุดควรเหลือเพียง 1/"+Math.pow(2,g.k)];
       },
       check:function(p,S,g){
         if(g.kind==="half"){
-          if(p.Th===g.Th) return {ok:true, msg:[g.N0+" → "+fmt(g.Y)+" is "+g.k+" halvings, so "+g.X+" days hold "+g.k+" half-lives: T½ = "+g.X+" / "+g.k+" = "+g.Th+" days.",
-                                                g.N0+" → "+fmt(g.Y)+" คือการลดครึ่ง "+g.k+" ครั้ง ดังนั้น "+g.X+" วันมี "+g.k+" ครึ่งชีวิต: T½ = "+g.X+" / "+g.k+" = "+g.Th+" วัน"]};
-          return {ok:false, msg:["With T½ = "+p.Th+" d, "+g.X+" days leave "+fmt(g.N0*Math.pow(0.5,g.X/p.Th))+". Count the halvings from "+g.N0+" to "+fmt(g.Y)+" first.",
-                                 "ที่ T½ = "+p.Th+" วัน ผ่านไป "+g.X+" วันจะเหลือ "+fmt(g.N0*Math.pow(0.5,g.X/p.Th))+" นับจำนวนครั้งที่ลดครึ่งจาก "+g.N0+" ถึง "+fmt(g.Y)+" ก่อน"]};
+          if(p.Th===g.Th) return {ok:true, msg:[g.N0+" → "+num(g.Y)+" is "+g.k+" halvings, so "+g.X+" days hold "+g.k+" half-lives: T½ = "+g.X+" / "+g.k+" = "+g.Th+" days.",
+                                                g.N0+" → "+num(g.Y)+" คือลดครึ่ง "+g.k+" ครั้ง ดังนั้น "+g.X+" วันมี "+g.k+" ครึ่งชีวิต: T½ = "+g.X+" / "+g.k+" = "+g.Th+" วัน"]};
+          return {ok:false, msg:["With T½ = "+p.Th+" d, "+g.X+" days leave "+num(g.N0*Math.pow(0.5,g.X/p.Th))+". Count the halvings from "+g.N0+" to "+num(g.Y)+" first.",
+                                 "ถ้า T½ = "+p.Th+" วัน พอผ่านไป "+g.X+" วันจะเหลือ "+num(g.N0*Math.pow(0.5,g.X/p.Th))+" ลองนับก่อนว่าจาก "+g.N0+" เหลือ "+num(g.Y)+" ต้องลดครึ่งกี่ครั้ง"]};
         }
         if(p.D===g.k*g.Th) return {ok:true, msg:["1/"+Math.pow(2,g.k)+" means "+g.k+" halving"+(g.k>1?"s":"")+": "+g.k+" × "+g.Th+" = "+(g.k*g.Th)+" days.",
-                                                 "1/"+Math.pow(2,g.k)+" หมายถึงลดครึ่ง "+g.k+" ครั้ง: "+g.k+" × "+g.Th+" = "+(g.k*g.Th)+" วัน"]};
-        return {ok:false, msg:["At "+p.D+" days, "+fmt2(p.D/g.Th)+" half-lives have passed. Each one halves what is left; 1/"+Math.pow(2,g.k)+" needs "+g.k+" of them.",
-                               "ที่ "+p.D+" วัน ผ่านไป "+fmt2(p.D/g.Th)+" ครึ่งชีวิต แต่ละครั้งลดสิ่งที่เหลือลงครึ่งหนึ่ง 1/"+Math.pow(2,g.k)+" ต้องใช้ "+g.k+" ครั้ง"]};
+                                                 "1/"+Math.pow(2,g.k)+" หมายถึงต้องลดครึ่ง "+g.k+" ครั้ง: "+g.k+" × "+g.Th+" = "+(g.k*g.Th)+" วัน"]};
+        return {ok:false, msg:["At "+p.D+" days, "+num(p.D/g.Th)+" half-lives have passed. Each one halves what is left; 1/"+Math.pow(2,g.k)+" needs "+g.k+" of them.",
+                               "ที่ "+p.D+" วัน ผ่านไป "+num(p.D/g.Th)+" ครึ่งชีวิต แต่ละครั้งทำให้ที่เหลืออยู่ลดลงครึ่งหนึ่ง ส่วน 1/"+Math.pow(2,g.k)+" ต้องลดครึ่ง "+g.k+" ครั้ง"]};
       }
     },
     note:["each mote's moment is pure chance, yet every half-life the glowing ones halve — the green line hugs the spell's curve",
-          "จุดแต่ละจุดดับตอนไหนเป็นเรื่องของโอกาสล้วนๆ แต่ทุกครึ่งชีวิต จุดที่ยังเรืองแสงจะลดลงครึ่งหนึ่งพอดี เส้นสีเขียวจึงเกาะไปตามเส้นโค้งของบทร่าย"]
+          "แต่ละจุดดับเมื่อไรเป็นเรื่องของโอกาสล้วนๆ แต่ทุกครึ่งชีวิต จุดที่ยังเรืองแสงอยู่จะลดเหลือครึ่งหนึ่ง เส้นสีเขียวจึงเกาะไปตามเส้นโค้งของบทร่าย"]
   },
   guide:[
     {say:["Half-life 5 days. Press play and watch the brew: by day 5 about half the motes have faded — but never the same ones twice.",
-          "ครึ่งชีวิต 5 วัน กดเล่นแล้วดูในหม้อ พอถึงวันที่ 5 จุดดับไปประมาณครึ่งหนึ่ง แต่ละรอบไม่ได้ดับชุดเดิม"], set:{N0:200,Th:5,D:20}},
+          "ครึ่งชีวิต 5 วัน กดเล่นแล้วดูในหม้อ พอถึงวันที่ 5 จะมีจุดดับไปราวครึ่งหนึ่ง แต่ไม่ใช่ชุดเดิมทุกรอบ"], set:{N0:200,Th:5,D:20}},
     {say:["By day 10, two half-lives: a quarter remain, not zero. Each halving applies to what is left.",
-          "ถึงวันที่ 10 ผ่านไปสองครึ่งชีวิต จึงเหลือหนึ่งในสี่ ไม่ใช่ศูนย์ เพราะการลดครึ่งแต่ละครั้งนับจากที่เหลืออยู่"], set:{N0:200,Th:5,D:10}},
+          "ถึงวันที่ 10 ผ่านไปสองครึ่งชีวิต จึงเหลือหนึ่งในสี่ ไม่ใช่ศูนย์ เพราะการลดครึ่งแต่ละครั้งนับจากจำนวนที่เหลืออยู่"], set:{N0:200,Th:5,D:10}},
     {say:["Bigger brews follow the curve more closely. Fill the crucible to 400 and cast again: the green line hugs the spell.",
-          "หม้อที่ใหญ่ขึ้นจะเกาะเส้นโค้งได้แนบกว่า ลองเติมให้เต็ม 400 แล้วร่ายอีกครั้ง เส้นสีเขียวจะเกาะบทร่ายแน่นขึ้น"], set:{N0:400,Th:5,D:30}}
+          "หม้อที่ใหญ่ขึ้นจะเกาะเส้นโค้งได้แนบกว่า ลองเติมเป็น 400 แล้วร่ายใหม่ เส้นสีเขียวจะเกาะบทร่ายแน่นขึ้น"], set:{N0:400,Th:5,D:30}}
   ]
 },
 
@@ -232,20 +237,20 @@ nodes:[
       {k:"dm", lab:["Mass defect","มวลพร่อง"], min:.005, max:.5, step:.005, def:.03, unit:" u"}
     ],
     readouts:[
-      {lab:["Mass of the separate parts","มวลของชิ้นส่วนแยกกัน"], f:function(S){
-        return fmt2(S.p.Z*1.00728+S.p.N*1.00867)+" u"; }},
+      {lab:["Mass of the separate parts","มวลรวมของชิ้นส่วนที่แยกกัน"], f:function(S){
+        return un(S.p.Z*1.00728+S.p.N*1.00867,"u",5); }},
       {lab:["Mass of the nucleus","มวลนิวเคลียส"], f:function(S){
-        return fmt2(S.p.Z*1.00728+S.p.N*1.00867-S.p.dm)+" u"; }},
-      {lab:["Binding energy","พลังงานยึดเหนี่ยว"], f:function(S){ return fmt2(S.p.dm*931.5)+" MeV"; }},
+        return un(S.p.Z*1.00728+S.p.N*1.00867-S.p.dm,"u",5); }},
+      {lab:["Binding energy","พลังงานยึดเหนี่ยว"], f:function(S){ return un(S.p.dm*931.5,"MeV"); }},
       {lab:["Per nucleon","ต่อนิวคลีออน"], f:function(S){
-        return fmt2(S.p.dm*931.5/(S.p.Z+S.p.N))+" MeV"; }}
+        return un(S.p.dm*931.5/(S.p.Z+S.p.N),"MeV"); }}
     ],
     bars:[
       {lab:["Parts apart","ชิ้นส่วนแยกกัน"], f:function(p){ return p.Z*1.00728+p.N*1.00867; }, col:"faint"},
       {lab:["Nucleus","นิวเคลียส"], f:function(p){ return p.Z*1.00728+p.N*1.00867-p.dm; }, col:"accent"},
       {lab:["Binding energy (MeV)","พลังงานยึดเหนี่ยว (MeV)"], f:function(p){ return p.dm*931.5; }, col:"good"}
     ],
-    note:["a bound nucleus weighs LESS than its pieces — the difference left as energy","นิวเคลียสที่ยึดกันอยู่มีมวลน้อยกว่าชิ้นส่วนรวมกัน ส่วนต่างนั้นถูกปล่อยออกไปเป็นพลังงาน"]
+    note:["a bound nucleus weighs LESS than its pieces — the difference left as energy","นิวเคลียสที่ยึดกันอยู่มีมวลน้อยกว่าชิ้นส่วนทั้งหมดรวมกัน ส่วนต่างนั้นปล่อยออกไปเป็นพลังงาน"]
   } },
 
 { id:"fission-fusion", x:235, y:346, requires:["mass-energy"], methods:["M-06"],
@@ -261,32 +266,32 @@ nodes:[
     title:["BINDING ENERGY PER NUCLEON","พลังงานยึดเหนี่ยวต่อนิวคลีออน"],
     xlab:["mass number A","เลขมวล A"], ylab:["MeV per nucleon","MeV ต่อนิวคลีออน"],
     xmin:1, xmax:240, ymin:0, fill:false,
-    fn:function(x,p){ return 8.8*Math.exp(-Math.pow(Math.log(x/56),2)/2.6) ; },
+    fn:function(x,p){ return C20.be(x); },
     mark:function(p){ return p.A; },
     ctrls:[
       {k:"A", lab:["Mass number","เลขมวล"], min:2, max:238, step:2, def:238, unit:""}
     ],
     readouts:[
       {lab:["Binding energy per nucleon","พลังงานยึดเหนี่ยวต่อนิวคลีออน"], f:function(S){
-        return fmt2(8.8*Math.exp(-Math.pow(Math.log(S.p.A/56),2)/2.6))+" MeV"; }},
+        return un(C20.be(S.p.A),"MeV"); }},
       {lab:["Which way releases energy","ทางไหนปลดปล่อยพลังงาน"], f:function(S){
-        return S.p.A<56 ? (L()?"หลอมรวม — ไต่ขึ้นเนิน":"fusion — climbing towards the peak")
-             : S.p.A>56 ? (L()?"แบ่งแยก — ไต่ขึ้นเนินจากอีกฝั่ง":"fission — climbing the peak from the other side")
-             : (L()?"อยู่ที่ยอดแล้ว — ไม่ปลดปล่อยทางใด":"already at the peak — neither releases"); }},
+        return S.p.A<56 ? (L()?"ฟิวชัน ไต่ขึ้นไปหายอดเนิน":"fusion — climbing towards the peak")
+             : S.p.A>56 ? (L()?"ฟิชชัน ไต่ขึ้นสู่ยอดเนินจากอีกฝั่ง":"fission — climbing the peak from the other side")
+             : (L()?"อยู่ที่ยอดแล้ว ไม่ปล่อยพลังงานทั้งสองทาง":"already at the peak — neither releases"); }},
       {lab:["The most stable nucleus","นิวเคลียสที่เสถียรที่สุด"], f:function(){
         return L()?"เหล็ก-56 ที่ยอดเนิน":"iron-56, right at the summit"; }},
       {lab:["Why both release energy","ทำไมทั้งสองจึงปลดปล่อยพลังงาน"], f:function(){
-        return L()?"ทั้งคู่เคลื่อนเข้าหายอด ไม่ใช่ไปทางเดียวกัน":"both move TOWARDS the peak, from opposite sides"; }}
+        return L()?"ทั้งคู่ขยับเข้าหายอดเนิน แต่มาจากคนละฝั่ง":"both move TOWARDS the peak, from opposite sides"; }}
     ],
-    note:["everything wants to climb this hill — light nuclei fuse upward, heavy ones split upward","ทุกอย่างอยากไต่ขึ้นเนินนี้ นิวเคลียสเบาหลอมรวมเพื่อไต่ขึ้น นิวเคลียสหนักแตกออกเพื่อไต่ขึ้น"]
+    note:["everything wants to climb this hill — light nuclei fuse upward, heavy ones split upward","ทุกอย่างอยากไต่ขึ้นเนินนี้ นิวเคลียสเบาไต่ด้วยการหลอมรวม นิวเคลียสหนักไต่ด้วยการแตกออก"]
   },
   guide:[
     {say:["Uranium sits far down the right-hand slope. Splitting it moves the fragments UP the curve.",
-          "ยูเรเนียมอยู่ไกลลงไปทางลาดด้านขวา เมื่อแยกมันออก ชิ้นส่วนจะเลื่อนขึ้นไปบนเส้นโค้ง"], set:{A:238}},
+          "ยูเรเนียมอยู่ต่ำลงไปทางลาดขวา พอแยกมันออก ชิ้นส่วนจะเลื่อนสูงขึ้นไปบนเส้นโค้ง"], set:{A:238}},
     {say:["Iron-56 is the summit. Nothing gains energy by changing — this is the end of the road.",
-          "เหล็ก-56 คือยอดเนิน ไม่มีอะไรได้พลังงานจากการเปลี่ยนแปลงอีก นี่คือปลายทาง"], set:{A:56}},
+          "เหล็ก-56 คือยอดเนิน เปลี่ยนไปทางไหนก็ไม่ได้พลังงานเพิ่ม นี่คือปลายทาง"], set:{A:56}},
     {say:["Hydrogen and helium sit low on the left. Fusing them climbs the steepest part of the hill.",
-          "ไฮโดรเจนกับฮีเลียมอยู่ต่ำทางซ้าย การหลอมรวมจึงเป็นการไต่ช่วงที่ชันที่สุดของเนิน"], set:{A:4}}
+          "ไฮโดรเจนกับฮีเลียมอยู่ต่ำทางซ้าย ฟิวชันของมันจึงเป็นการไต่ช่วงที่ชันที่สุดของเนิน"], set:{A:4}}
   ] }
 ],
 
@@ -368,12 +373,12 @@ gen:{
           {v:["Nucleons shrink inside the nucleus","นิวคลีออนหดตัวลงในนิวเคลียส"]},
           {v:["Some nucleons are destroyed","นิวคลีออนบางตัวถูกทำลาย"]},
           {v:["The measurement is imprecise","การวัดไม่แม่นยำ"]}],unit:""};
-  if(sf==="S-05") return {stem:["A reaction releases "+fmt(E)+" MeV. Find the mass defect in atomic mass units.",
-                                "ปฏิกิริยาปล่อยพลังงาน "+fmt(E)+" เมกะอิเล็กตรอนโวลต์ จงหามวลพร่องเป็นหน่วยมวลอะตอม"],
-    opts:[{v:String(dm),ok:1},{v:fmt2(E*931.5)},{v:fmt2(E/1000)},{v:fmt2(dm*2)}],unit:" u"};
+  if(sf==="S-05") return {stem:["A reaction releases "+num(E)+" MeV. Find the mass defect in atomic mass units.",
+                                "ปฏิกิริยาปล่อยพลังงาน "+num(E)+" เมกะอิเล็กตรอนโวลต์ จงหามวลพร่องเป็นหน่วยมวลอะตอม"],
+    opts:[{v:String(dm),ok:1},{v:num(E*931.5)},{v:num(E/1000)},{v:num(dm*2)}],unit:" u"};
   return {stem:["A mass defect of "+dm+" u is converted to energy. How much is released?",
                 "มวลพร่อง "+dm+" หน่วยมวลอะตอม ถูกเปลี่ยนเป็นพลังงาน ปล่อยออกมาเท่าใด"],
-    opts:[{v:fmt(E),ok:1},{v:fmt(dm/931.5)},{v:fmt(dm*3e8)},{v:fmt(E/2)}],unit:" MeV"};
+    opts:[{v:num(E),ok:1},{v:num(dm/931.5)},{v:num(dm*3e8)},{v:num(E/2)}],unit:" MeV"};
 },
 "M-06": function(sf){
   var C=[{s:["Which process powers the sun?","กระบวนการใดขับเคลื่อนดวงอาทิตย์"],

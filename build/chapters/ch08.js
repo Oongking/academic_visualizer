@@ -1,5 +1,6 @@
 /* Chapter 08 pendulum: the true swing, integrated (RK4) rather than
    assumed, so a wide release visibly drifts from the small-angle formula. */
+function z08(v){ return Math.abs(v)<1e-9?0:v; }
 var C08 = {
   pivot: [240, 40], pxm: 64, dt: 0.002, cache: {}, bob: [0, 0],
   Tf: function(p){ return 2 * Math.PI * Math.sqrt(p.Lp / p.g); },
@@ -54,36 +55,36 @@ nodes:[
   flabel:["The minus sign is the definition","เครื่องหมายลบคือนิยาม"],
   viz:"plot",
   vizcfg:{
-    title:["THE TEST FOR SIMPLE HARMONIC MOTION","เกณฑ์ทดสอบการเคลื่อนที่ฮาร์มอนิกอย่างง่าย"],
+    title:["THE TEST FOR SIMPLE HARMONIC MOTION","เกณฑ์ตัดสินการเคลื่อนที่ฮาร์มอนิกอย่างง่าย"],
     xlab:["displacement x (m)","การกระจัด x (m)"], ylab:["acceleration a (m/s²)","ความเร่ง a (m/s²)"],
     xmin:-4, xmax:4, fill:false,
     fn:function(x,p){ return p.shm===1 ? -p.w*p.w*x : -p.w*p.w*x*Math.abs(x)/2; },
     mark:function(p){ return p.x; },
     ctrls:[
-      {k:"shm", lab:["",""], opts:[["not SHM","ไม่เป็น"], ["true SHM","เป็น SHM"]], min:0, def:1, unit:""},
+      {k:"shm", lab:["",""], opts:[["not SHM","ไม่ใช่ SHM"], ["true SHM","เป็น SHM"]], min:0, def:1, unit:""},
       {k:"w",   lab:["Angular frequency ω","ความถี่เชิงมุม ω"], min:.5, max:3, step:.1, def:1.5, unit:" rad/s"},
       {k:"x",   lab:["Displacement","การกระจัด"], min:-3.5, max:3.5, step:.1, def:2, unit:" m"}
     ],
     readouts:[
-      {lab:["Acceleration there","ความเร่ง ณ จุดนั้น"], f:function(S){
-        var p=S.p; return fmt2(p.shm===1 ? -p.w*p.w*p.x : -p.w*p.w*p.x*Math.abs(p.x)/2)+" m/s²"; }},
+      {lab:["Acceleration there","ความเร่งตรงจุดนั้น"], f:function(S){
+        var p=S.p; return un(z08(p.shm===1 ? -p.w*p.w*p.x : -p.w*p.w*p.x*Math.abs(p.x)/2),"m/s²"); }},
       {lab:["Graph shape","รูปกราฟ"], f:function(S){
         return S.p.shm===1 ? (L()?"เส้นตรงผ่านจุดกำเนิด":"a straight line through the origin")
-                           : (L()?"เส้นโค้ง — ไม่ใช่ SHM":"a curve — not SHM"); }},
+                           : (L()?"เส้นโค้ง ไม่ใช่ SHM":"a curve — not SHM"); }},
       {lab:["Is it SHM?","เป็น SHM ไหม"], f:function(S){
         return S.p.shm===1 ? (L()?"ใช่ · a = −ω²x":"yes · a = −ω²x")
-                           : (L()?"ไม่ · a ไม่แปรผันตรงกับ x":"no · a is not proportional to x"); }},
-      {lab:["Period T","คาบ T"], f:function(S){ return fmt2(2*Math.PI/S.p.w)+" s"; }}
+                           : (L()?"ไม่ใช่ · a ไม่แปรผันตรงกับ x":"no · a is not proportional to x"); }},
+      {lab:["Period T","คาบ T"], f:function(S){ return un(2*Math.PI/S.p.w,"s"); }}
     ],
-    note:["SHM is defined by a straight line of negative slope — nothing else qualifies","SHM ต้องเป็นเส้นตรงที่มีความชันเป็นลบเท่านั้น รูปแบบอื่นไม่เข้าข่าย"]
+    note:["SHM is defined by a straight line of negative slope — nothing else qualifies","SHM ต้องเป็นเส้นตรงที่ลาดลงเท่านั้น กราฟแบบอื่นไม่ใช่"]
   },
   guide:[
     {say:["A perfectly straight line sloping down through the origin. That line IS the definition of SHM.",
           "เส้นตรงเรียบๆ ลาดลงผ่านจุดกำเนิด เส้นนี้แหละคือนิยามของ SHM"], set:{shm:1,w:1.5,x:2}},
     {say:["Acceleration always points back towards zero — that is what the minus sign is saying.",
-          "ความเร่งชี้กลับเข้าหาศูนย์เสมอ เครื่องหมายลบบอกเราอย่างนี้"], set:{shm:1,w:1.5,x:-3}},
+          "ความเร่งชี้กลับเข้าหาศูนย์เสมอ เครื่องหมายลบก็บอกอย่างนั้น"], set:{shm:1,w:1.5,x:-3}},
     {say:["Now break the proportionality. Restoring force is still there, but the curve disqualifies it as SHM.",
-          "ทีนี้ลองทำให้ไม่เป็นสัดส่วน แรงดึงกลับยังอยู่ แต่เพราะกราฟโค้ง จึงไม่ใช่ SHM"], set:{shm:0,w:1.5,x:2}}
+          "ทีนี้ลองทำให้ไม่เป็นสัดส่วน แรงดึงกลับยังมีอยู่ แต่กราฟโค้ง จึงไม่ใช่ SHM"], set:{shm:0,w:1.5,x:2}}
   ] },
 
 { id:"equations", x:235, y:150, requires:["definition"], methods:["M-02","M-05"],
@@ -102,10 +103,10 @@ nodes:[
       {k:"T", lab:["Run for","เล่นนาน"], min:4, max:20, step:1, def:12, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Period T","คาบ T"],  f:function(S){ return fmt(2*Math.PI/S.p.w)+" s"; }},
-      {lab:["Displacement x","การกระจัด x"], f:function(S){ return fmt(S.p.A*Math.sin(S.p.w*S.t))+" m"; }},
-      {lab:["Velocity v","ความเร็ว v"],      f:function(S){ return fmt(S.p.w*S.p.A*Math.cos(S.p.w*S.t))+" m/s"; }},
-      {lab:["Acceleration a","ความเร่ง a"],  f:function(S){ return fmt(-S.p.w*S.p.w*S.p.A*Math.sin(S.p.w*S.t))+" m/s²"; }}
+      {lab:["Period T","คาบ T"],  f:function(S){ return un(2*Math.PI/S.p.w,"s"); }},
+      {lab:["Displacement x","การกระจัด x"], f:function(S){ return un(z08(S.p.A*Math.sin(S.p.w*S.t)),"m"); }},
+      {lab:["Velocity v","ความเร็ว v"],      f:function(S){ return un(z08(S.p.w*S.p.A*Math.cos(S.p.w*S.t)),"m/s"); }},
+      {lab:["Acceleration a","ความเร่ง a"],  f:function(S){ return un(z08(-S.p.w*S.p.w*S.p.A*Math.sin(S.p.w*S.t)),"m/s²"); }}
     ],
     draw:function(S,o){
       var A=S.p.A, w=S.p.w, T=S.p.T, tt=Math.min(S.t,T);
@@ -149,13 +150,13 @@ nodes:[
   },
   guide:[
     {say:["Press Play. The block oscillates and the solid red trace records its displacement.",
-          "กดเล่น กล่องจะแกว่งไปมา และเส้นทึบสีแดงจะบันทึกการกระจัดของกล่อง"], set:{A:6,w:1.2,T:12}},
+          "กดเล่น แล้วดูกล่องแกว่งไปมา เส้นทึบสีแดงจะวาดการกระจัดของกล่อง"], set:{A:6,w:1.2,T:12}},
     {say:["When the block is at the centre the red trace crosses zero — and the dashed velocity trace is at its peak.",
-          "เมื่อกล่องอยู่กึ่งกลาง เส้นแดงตัดผ่านศูนย์ และเส้นประของความเร็วอยู่ที่ค่าสูงสุดพอดี"], set:{A:6,w:1.2,T:12}},
+          "ตอนกล่องอยู่กึ่งกลาง เส้นแดงตัดผ่านศูนย์ และเส้นประของความเร็วอยู่ที่ค่าสูงสุดพอดี"], set:{A:6,w:1.2,T:12}},
     {say:["At the extremes the velocity trace crosses zero while the dotted acceleration trace peaks. Never both at once.",
-          "ที่จุดปลาย เส้นความเร็วตัดผ่านศูนย์ ขณะที่เส้นจุดของความเร่งขึ้นถึงค่าสูงสุด สองเส้นนี้ไม่เคยสูงสุดพร้อมกัน"], set:{A:8,w:1.2,T:12}},
+          "ที่จุดปลาย เส้นความเร็วตัดศูนย์ ส่วนเส้นจุดของความเร่งอยู่ที่ค่าสูงสุด สองเส้นนี้ไม่เคยสูงสุดพร้อมกัน"], set:{A:8,w:1.2,T:12}},
     {say:["Raise ω. The period shrinks and the acceleration trace grows fast — a depends on ω squared.",
-          "เพิ่ม ω คาบจะสั้นลง และเส้นความเร่งสูงขึ้นเร็วมาก เพราะ a ขึ้นกับ ω ยกกำลังสอง"], set:{A:6,w:2.4,T:12}}
+          "ลองเพิ่ม ω คาบจะสั้นลง และเส้นความเร่งพุ่งสูงขึ้น เพราะ a ขึ้นกับ ω ยกกำลังสอง"], set:{A:6,w:2.4,T:12}}
   ]},
 
 { id:"spring", x:100, y:248, requires:["equations"], methods:["M-03"],
@@ -168,7 +169,7 @@ nodes:[
   flabel:["Independent of amplitude","ไม่ขึ้นกับแอมพลิจูด"],
   viz:"plot",
   vizcfg:{
-    title:["PERIOD AGAINST MASS ON A SPRING","คาบ เทียบ มวลบนสปริง"],
+    title:["PERIOD AGAINST MASS ON A SPRING","คาบเทียบกับมวลบนสปริง"],
     xlab:["mass (kg)","มวล (kg)"], ylab:["period T (s)","คาบ T (s)"],
     xmin:0.1, xmax:8, ymin:0, fill:false,
     fn:function(x,p){ return 2*Math.PI*Math.sqrt(x/p.k); },
@@ -178,9 +179,9 @@ nodes:[
       {k:"m", lab:["Mass","มวล"], min:.2, max:7.5, step:.1, def:2, unit:" kg"}
     ],
     readouts:[
-      {lab:["Period T","คาบ T"], f:function(S){ return fmt2(2*Math.PI*Math.sqrt(S.p.m/S.p.k))+" s"; }},
+      {lab:["Period T","คาบ T"], f:function(S){ return un(2*Math.PI*Math.sqrt(S.p.m/S.p.k),"s"); }},
       {lab:["Frequency f","ความถี่ f"], f:function(S){
-        return fmt2(1/(2*Math.PI*Math.sqrt(S.p.m/S.p.k)))+" Hz"; }},
+        return un(1/(2*Math.PI*Math.sqrt(S.p.m/S.p.k)),"Hz"); }},
       {lab:["Four times the mass?","มวลสี่เท่า?"], f:function(){
         return L()?"คาบเป็นสองเท่า ไม่ใช่สี่เท่า":"the period doubles, not quadruples"; }},
       {lab:["Does amplitude matter?","แอมพลิจูดมีผลไหม"], f:function(){
@@ -202,20 +203,20 @@ nodes:[
     anim:true,
     spellName:["The Crystal Pendulum: period depends on L and g","ลูกตุ้มคริสตัล: คาบขึ้นกับ L และ g"],
     question:["Drag the crystal out and let it swing. What sets the beat — the length, the weight, or how far you pull it?",
-              "ลากคริสตัลออกแล้วปล่อยให้แกว่ง อะไรเป็นตัวกำหนดจังหวะ ความยาว น้ำหนัก หรือระยะที่ดึง"],
+              "ลากคริสตัลออกแล้วปล่อยให้แกว่ง อะไรกำหนดจังหวะ ความยาว น้ำหนัก หรือระยะที่ดึง"],
     ctrls:[
       {k:"Lp", lab:["Length","ความยาว"], min:.2, max:2.5, step:.05, def:1, unit:" m"},
       {k:"th0", lab:["Pulled out to","ดึงออกไปที่มุม"], min:5, max:70, step:1, def:10, unit:"°"},
-      {k:"g",  lab:["Gravity g","ความโน้มถ่วง g"], min:1.6, max:25, step:.2, def:9.8, unit:" m/s²"},
+      {k:"g",  lab:["Gravity g","ความโน้มถ่วง g"], min:1.6, max:25, step:.2, def:10, unit:" m/s²"},
       {k:"mb", lab:["Bob mass (a decoy)","มวลลูกตุ้ม (ตัวลวง)"], min:.1, max:5, step:.1, def:1, unit:" kg"},
       {k:"T",  lab:["Watch for","ดูนาน"], min:2, max:12, step:1, def:8, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Period T = 2π√(l/g)","คาบ T = 2π√(l/g)"], f:function(S){ return fmt2(C08.Tf(S.p))+" s"; }},
-      {lab:["Period it actually swings","คาบที่แกว่งจริง"], f:function(S){ return fmt2(C08.run(S.p).Tm)+" s"; }},
-      {lab:["Simple formula off by","สูตรอย่างง่ายคลาดไป"], f:function(S){
-        var e=Math.abs(C08.run(S.p).Tm/C08.Tf(S.p)-1)*100; return fmt(e)+" %"+(e<1?(L()?" · มุมเล็ก ใช้ได้":" · small angle, fine"):(L()?" · มุมใหญ่เกินไป":" · too wide a swing")); }},
-      {lab:["On the Moon (g = 1.6)","บนดวงจันทร์ (g = 1.6)"], f:function(S){ return fmt2(2*Math.PI*Math.sqrt(S.p.Lp/1.6))+" s"; }}
+      {lab:["Period T = 2π√(l/g)","คาบ T = 2π√(l/g)"], f:function(S){ return un(C08.Tf(S.p),"s"); }},
+      {lab:["Period it actually swings","คาบที่แกว่งจริง"], f:function(S){ return un(C08.run(S.p).Tm,"s"); }},
+      {lab:["Simple formula off by","สูตรอย่างง่ายคลาดเคลื่อน"], f:function(S){
+        var e=Math.abs(C08.run(S.p).Tm/C08.Tf(S.p)-1)*100; return num(e,2)+" %"+(e<1?(L()?" · มุมเล็ก ใช้ได้":" · small angle, fine"):(L()?" · แกว่งกว้างเกินไป":" · too wide a swing")); }},
+      {lab:["On the Moon (g = 1.6)","บนดวงจันทร์ (g = 1.6)"], f:function(S){ return un(2*Math.PI*Math.sqrt(S.p.Lp/1.6),"s"); }}
     ],
     world:{ kind:"free" },
     scene:function(o,S,W){
@@ -234,11 +235,11 @@ nodes:[
       role("string")(o, P[0], P[1], bx, by);
       role("bob")(o, bx, by, {size:6+3*Math.cbrt(p.mb), col:"var(--accent)"});
       /* length label beside the string */
-      fitText(o, P[0]-12, P[1]+Lpx/2, ["l = "+fmt2(p.Lp)+" m","l = "+fmt2(p.Lp)+" ม."], 80, 10, S.hl==="l"?"var(--accent)":"var(--ink-faint)", "end");
+      fitText(o, P[0]-12, P[1]+Lpx/2, ["l = "+un(p.Lp,"m"),"l = "+un(p.Lp,"m")], 80, 10, S.hl==="l"?"var(--accent)":"var(--ink-faint)", "end");
       /* a clock face that ticks once per measured period */
       var r=C08.run(p), n=Math.floor(S.t/r.Tm+1e-9);
-      fitText(o, 470, 60, [(L()?"แกว่งครบ ":"full swings: ")+n, (L()?"แกว่งครบ ":"full swings: ")+n], 140, 11, "var(--ink)", "middle");
-      fitText(o, 470, 78, ["t = "+fmt2(S.t)+" s","t = "+fmt2(S.t)+" วิ"], 140, 10.5, "var(--ink-faint)", "middle");
+      fitText(o, 470, 60, [(L()?"แกว่งครบ "+n+" รอบ":"full swings: "+n), (L()?"แกว่งครบ "+n+" รอบ":"full swings: "+n)], 140, 11, "var(--ink)", "middle");
+      fitText(o, 470, 78, ["t = "+un(S.t,"s"),"t = "+un(S.t,"s")], 140, 10.5, "var(--ink-faint)", "middle");
     },
     handles:[
       {k:"Lp", at:function(p){ var a=p.th0*Math.PI/180; return {px:C08.pivot[0]+p.Lp*C08.pxm*Math.sin(a), py:C08.pivot[1]+p.Lp*C08.pxm*Math.cos(a)}; },
@@ -266,67 +267,67 @@ nodes:[
       if(Tm<12){
         var yb=G.Y(G.lo)-8;
         o.push('<line x1="'+fmt2(G.X(0))+'" y1="'+fmt2(yb)+'" x2="'+fmt2(G.X(Tm))+'" y2="'+fmt2(yb)+'" stroke="var(--good)" stroke-width="'+(hl?3.4:2)+'"/>');
-        o.push('<text x="'+fmt2(G.X(Tm/2))+'" y="'+fmt2(yb-5)+'" fill="var(--good)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">T = '+fmt2(Tm)+' s</text>');
+        o.push('<text x="'+fmt2(G.X(Tm/2))+'" y="'+fmt2(yb-5)+'" fill="var(--good)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">T = '+un(Tm,"s")+'</text>');
       }
     },
     spell:{
-      tex:function(p){ return "T = 2\\pi\\sqrt{\\dfrac{l}{g}} = 2\\pi\\sqrt{\\dfrac{"+fmt2(p.Lp)+"}{"+fmt2(p.g)+"}} = "+fmt2(C08.Tf(p))+"\\,\\text{s}"+
+      tex:function(p){ return "T = 2\\pi\\sqrt{\\dfrac{l}{g}} = 2\\pi\\sqrt{\\dfrac{"+numTex(p.Lp)+"}{"+numTex(p.g)+"}} = "+numTex(C08.Tf(p))+"\\,\\text{s}"+
                               "\\qquad\\left[\\sqrt{\\tfrac{\\text{m}}{\\text{m/s}^2}}=\\text{s}\\right]"; },
       terms:[
-        {k:"l", sym:"l", lab:["length","ความยาว"], col:"accent", f:function(p){ return fmt2(p.Lp)+" m"; }},
-        {k:"T", sym:"T", lab:["one full swing","แกว่งครบหนึ่งรอบ"], col:"good", f:function(p){ return fmt2(C08.Tf(p))+" s"; }},
+        {k:"l", sym:"l", lab:["length","ความยาว"], col:"accent", f:function(p){ return un(p.Lp,"m"); }},
+        {k:"T", sym:"T", lab:["one full swing","แกว่งครบหนึ่งรอบ"], col:"good", f:function(p){ return un(C08.Tf(p),"s"); }},
         {k:"th", sym:"θ₀", lab:["amplitude — not in the spell","แอมพลิจูด — ไม่อยู่ในบทร่าย"], col:"accent2", f:function(p){ return p.th0+"°"; }}
       ]
     },
     predict:{ kind:"choice",
       ask:["How long will one full swing take?","แกว่งครบหนึ่งรอบใช้เวลาเท่าใด"],
-      opts:function(p){ return C08.choices(p).map(function(v){ return ["≈ "+fmt2(v)+" s","≈ "+fmt2(v)+" วินาที"]; }); },
+      opts:function(p){ return C08.choices(p).map(function(v){ return ["≈ "+un(v,"s"),"≈ "+un(v,"s")]; }); },
       actual:function(p){ var c=C08.choices(p), T=C08.run(p).Tm, best=0;
         c.forEach(function(v,i){ if(Math.abs(v-T)<Math.abs(c[best]-T)) best=i; }); return best; },
-      explain:function(p){ return ["T = 2π√(l / g) = 2π√("+fmt2(p.Lp)+" / "+fmt2(p.g)+") = "+fmt2(C08.Tf(p))+" s. Neither the bob's mass nor (for small swings) the amplitude appears.",
-                                   "T = 2π√(l / g) = 2π√("+fmt2(p.Lp)+" / "+fmt2(p.g)+") = "+fmt2(C08.Tf(p))+" วินาที ไม่มีทั้งมวลลูกตุ้มและ (สำหรับมุมเล็ก) แอมพลิจูด"]; }
+      explain:function(p){ return ["T = 2π√(l / g) = 2π√("+num(p.Lp)+" / "+num(p.g)+") = "+un(C08.Tf(p),"s")+". Neither the bob's mass nor (for small swings) the amplitude appears.",
+                                   "T = 2π√(l / g) = 2π√("+num(p.Lp)+" / "+num(p.g)+") = "+un(C08.Tf(p),"s")+" ในสูตรไม่มีมวลลูกตุ้ม และ (เมื่อแกว่งมุมเล็ก) ก็ไม่มีแอมพลิจูดด้วย"]; }
     },
     trials:{
       veil:true,
       make:function(){
         if(Math.random()<0.5){
           var X=pick([1,1.5,2,2.5,3]);
-          return {kind:"beat", X:X, L:9.8*X*X/(4*Math.PI*Math.PI), set:{g:9.8, th0:8, Lp:(X>2?0.3:2.5)}};
+          return {kind:"beat", X:X, L:10*X*X/(4*Math.PI*Math.PI), set:{g:10, th0:8, Lp:(X>2?0.3:2.5)}};
         }
         var w=pick([["the Moon","ดวงจันทร์",1.6],["Mars","ดาวอังคาร",3.8],["a giant planet","ดาวเคราะห์ยักษ์",24.8],["the sky-island","เกาะลอยฟ้า",6.2]]);
-        return {kind:"world", w:w, gv:w[2], X:2*Math.PI*Math.sqrt(1/w[2]), set:{Lp:1, th0:8, g:9.8}};
+        return {kind:"world", w:w, gv:w[2], X:2*Math.PI*Math.sqrt(1/w[2]), set:{Lp:1, th0:8, g:10}};
       },
       lockFor:function(g){ return g.kind==="beat" ? ["g","th0"] : ["Lp","th0"]; },
       say:function(g){
-        if(g.kind==="beat") return ["Tune the crystal pendulum to beat exactly once every "+g.X+" s (g = 9.8 m/s²). How long must it be?",
-                                    "ปรับลูกตุ้มคริสตัลให้แกว่งครบหนึ่งรอบทุก "+g.X+" วินาทีพอดี (g = 9.8 ม./วิ²) ต้องยาวเท่าใด"];
-        return ["On "+g.w[0]+", a 1 m pendulum takes "+fmt2(g.X)+" s per swing. Set the gravity to match that world.",
-                "บน"+g.w[1]+" ลูกตุ้มยาว 1 ม. ใช้เวลา "+fmt2(g.X)+" วินาทีต่อการแกว่งหนึ่งรอบ ตั้งค่าความโน้มถ่วงให้ตรงกับโลกนั้น"];
+        if(g.kind==="beat") return ["Tune the crystal pendulum to beat exactly once every "+un(g.X,"s")+" (g = 10 m/s²). How long must it be?",
+                                    "ปรับลูกตุ้มคริสตัลให้แกว่งครบหนึ่งรอบทุก "+un(g.X,"s")+" พอดี (g = 10 m/s²) ลูกตุ้มต้องยาวเท่าใด"];
+        return ["On "+g.w[0]+", a 1 m pendulum takes "+un(g.X,"s",4)+" per swing. Set the gravity to match that world.",
+                "บน"+g.w[1]+" ลูกตุ้มยาว 1 m แกว่งครบหนึ่งรอบใช้เวลา "+un(g.X,"s",4)+" ลองตั้งค่าความโน้มถ่วงให้ตรงกับที่นั่น"];
       },
       check:function(p,S,g){
         var T=C08.Tf(p);
         if(g.kind==="beat"){
-          if(Math.abs(T-g.X)<0.05) return {ok:true, msg:["In tune: "+fmt2(T)+" s. From T = 2π√(l/g), l = gT² / 4π² = 9.8 × "+g.X+"² / 39.5 = "+fmt2(g.L)+" m.",
-                                                         "ตรงจังหวะ: "+fmt2(T)+" วินาที จาก T = 2π√(l/g) ได้ l = gT² / 4π² = 9.8 × "+g.X+"² / 39.5 = "+fmt2(g.L)+" ม."]};
-          return {ok:false, msg:["It beats every "+fmt2(T)+" s. The period grows only as the square root of the length.",
-                                 "แกว่งทุก "+fmt2(T)+" วินาที คาบโตตามรากที่สองของความยาวเท่านั้น"]};
+          if(Math.abs(T-g.X)<0.05) return {ok:true, msg:["In tune: "+un(T,"s")+". From T = 2π√(l/g), l = gT² / 4π² = 10 × "+num(g.X)+"² / 39.5 = "+un(g.L,"m")+".",
+                                                         "ตรงจังหวะแล้ว: "+un(T,"s")+" จาก T = 2π√(l/g) ได้ l = gT² / 4π² = 10 × "+num(g.X)+"² / 39.5 = "+un(g.L,"m")]};
+          return {ok:false, msg:["It beats every "+un(T,"s")+". The period grows only as the square root of the length.",
+                                 "แกว่งทุก "+un(T,"s")+" คาบเพิ่มตามรากที่สองของความยาวเท่านั้น"]};
         }
-        if(Math.abs(p.g-g.gv)<0.15) return {ok:true, msg:["That is "+g.w[0]+": g = 4π²l / T² = 39.5 × 1 / "+fmt2(g.X)+"² = "+g.gv+" m/s². "+(g.gv<9.8?"Weaker gravity, slower beat.":"Stronger gravity, quicker beat."),
-                                                          "นั่นคือ"+g.w[1]+": g = 4π²l / T² = 39.5 × 1 / "+fmt2(g.X)+"² = "+g.gv+" ม./วิ² "+(g.gv<9.8?"แรงโน้มถ่วงน้อย จังหวะก็ช้า":"แรงโน้มถ่วงมาก จังหวะก็เร็ว")]};
-        return {ok:false, msg:["With g = "+fmt2(p.g)+" the swing takes "+fmt2(T)+" s. Rearrange T = 2π√(l/g) for g.",
-                               "ที่ g = "+fmt2(p.g)+" แกว่งรอบละ "+fmt2(T)+" วินาที จัดรูป T = 2π√(l/g) เพื่อหา g"]};
+        if(Math.abs(p.g-g.gv)<0.15) return {ok:true, msg:["That is "+g.w[0]+": g = 4π²l / T² = 39.5 × 1 / "+num(g.X,4)+"² = "+un(g.gv,"m/s²")+". "+(g.gv<10?"Weaker gravity, slower beat.":"Stronger gravity, quicker beat."),
+                                                          "นั่นคือ"+g.w[1]+": g = 4π²l / T² = 39.5 × 1 / "+num(g.X,4)+"² = "+un(g.gv,"m/s²")+" "+(g.gv<10?"แรงโน้มถ่วงน้อย จังหวะจึงช้า":"แรงโน้มถ่วงมาก จังหวะจึงเร็ว")]};
+        return {ok:false, msg:["With g = "+num(p.g)+" the swing takes "+un(T,"s")+". Rearrange T = 2π√(l/g) for g.",
+                               "ที่ g = "+num(p.g)+" ลูกตุ้มแกว่งรอบละ "+un(T,"s")+" ลองจัดรูป T = 2π√(l/g) เพื่อหา g"]};
       }
     },
     note:["drag the bob mass all you like — the trace will not move; pull wider than about 15° and the real beat starts to drift from the formula",
-          "จะลากปรับมวลลูกตุ้มเท่าไรก็ได้ เส้นกราฟไม่ขยับ แต่ถ้าดึงกว้างเกินประมาณ 15° จังหวะจริงจะเริ่มคลาดจากสูตร"]
+          "ลากปรับมวลลูกตุ้มเท่าไรก็ได้ เส้นกราฟไม่ขยับ แต่ถ้าดึงกว้างเกินประมาณ 15° จังหวะจริงจะเริ่มคลาดจากสูตร"]
   },
   guide:[
     {say:["A one-metre pendulum on Earth beats at almost exactly two seconds. Press play and watch the trace draw a sine wave.",
-          "ลูกตุ้มยาวหนึ่งเมตรบนโลกใช้เวลาแกว่งครบรอบเกือบสองวินาทีพอดี กดเล่นแล้วดูเส้นกราฟวาดคลื่นไซน์"], set:{Lp:1,th0:10,g:9.8,mb:1,T:8}},
+          "ลูกตุ้มยาวหนึ่งเมตรบนโลกแกว่งครบรอบในเวลาเกือบสองวินาทีพอดี กดเล่นแล้วดูเส้นกราฟวาดคลื่นไซน์"], set:{Lp:1,th0:10,g:9.8,mb:1,T:8}},
     {say:["Now make the bob five times heavier and play again. The faint last swing and the new one lie exactly on top of each other.",
-          "ทีนี้เพิ่มมวลลูกตุ้มเป็นห้าเท่าแล้วเล่นอีกครั้ง เส้นจางของการแกว่งรอบก่อนกับเส้นใหม่ทับกันสนิท"], set:{Lp:1,th0:10,g:9.8,mb:5,T:8}},
+          "ทีนี้ลองเพิ่มมวลลูกตุ้มเป็นห้าเท่าแล้วเล่นอีกครั้ง เส้นจางของรอบก่อนกับเส้นใหม่จะทับกันสนิท"], set:{Lp:1,th0:10,g:9.8,mb:5,T:8}},
     {say:["Pull it out to 60°. The real swing now lags the simple formula — the small-angle condition is not a formality.",
-          "ดึงออกไปถึง 60° ตอนนี้การแกว่งจริงช้ากว่าที่สูตรอย่างง่ายบอก เงื่อนไขมุมเล็กจึงไม่ใช่แค่พิธีรีตอง"], set:{Lp:1,th0:60,g:9.8,mb:1,T:8}},
+          "ดึงออกไปถึง 60° ตอนนี้ลูกตุ้มแกว่งช้ากว่าที่สูตรอย่างง่ายบอก เงื่อนไขมุมเล็กจึงไม่ใช่แค่พิธีรีตอง"], set:{Lp:1,th0:60,g:9.8,mb:1,T:8}},
     {say:["Take it to the Moon. Gravity, not mass, sets the beat.",
           "พาไปดวงจันทร์ จังหวะขึ้นกับแรงโน้มถ่วง ไม่ใช่มวล"], set:{Lp:1,th0:10,g:1.6,mb:1,T:12}}
   ]
@@ -342,7 +343,7 @@ nodes:[
   flabel:["Set by amplitude alone","กำหนดด้วยแอมพลิจูดเท่านั้น"],
   viz:"stack",
   vizcfg:{
-    title:["ENERGY SLOSHES BACK AND FORTH","พลังงานสวิงไปมา"],
+    title:["ENERGY SLOSHES BACK AND FORTH","พลังงานสลับไปมา"],
     total:["total energy","พลังงานรวม"],
     ctrls:[
       {k:"A", lab:["Amplitude A","แอมพลิจูด A"], min:.5, max:5, step:.1, def:3, unit:" m"},
@@ -352,11 +353,11 @@ nodes:[
     readouts:[
       {lab:["Potential ½kx²","ศักย์ ½kx²"], f:function(S){
         var x=Math.max(-S.p.A,Math.min(S.p.A,S.p.x));
-        return fmt2(0.5*S.p.k*x*x)+" J"; }},
+        return un(0.5*S.p.k*x*x,"J"); }},
       {lab:["Kinetic","จลน์"], f:function(S){
         var x=Math.max(-S.p.A,Math.min(S.p.A,S.p.x));
-        return fmt2(0.5*S.p.k*(S.p.A*S.p.A-x*x))+" J"; }},
-      {lab:["Total ½kA²","รวม ½kA²"], f:function(S){ return fmt2(0.5*S.p.k*S.p.A*S.p.A)+" J"; }},
+        return un(z08(0.5*S.p.k*(S.p.A*S.p.A-x*x)),"J"); }},
+      {lab:["Total ½kA²","รวม ½kA²"], f:function(S){ return un(0.5*S.p.k*S.p.A*S.p.A,"J"); }},
       {lab:["Where is speed greatest?","อัตราเร็วสูงสุดที่ใด"], f:function(){
         return L()?"ที่ x = 0 ตรงกลางพอดี":"at x = 0, right in the middle"; }}
     ],
@@ -369,11 +370,11 @@ nodes:[
   },
   guide:[
     {say:["At the centre the bar is entirely kinetic. The mass is moving fastest here and the spring is relaxed.",
-          "ที่จุดกึ่งกลาง แถบเป็นพลังงานจลน์ทั้งหมด มวลเคลื่อนที่เร็วที่สุดตรงนี้ และสปริงอยู่ในสภาพคลายตัว"], set:{A:3,x:0,k:20}},
+          "ที่จุดกึ่งกลาง แถบเป็นพลังงานจลน์ทั้งหมด มวลเร็วที่สุดตรงนี้ และสปริงไม่ยืดไม่หด"], set:{A:3,x:0,k:20}},
     {say:["Halfway out, the split is uneven — potential grows as the square, so it lags behind at first.",
-          "เมื่อออกไปได้ครึ่งทาง พลังงานทั้งสองชนิดแบ่งกันไม่เท่ากัน พลังงานศักย์เพิ่มตามกำลังสอง ช่วงแรกจึงยังน้อยกว่า"], set:{A:3,x:1.5,k:20}},
+          "ออกไปได้ครึ่งทาง พลังงานสองชนิดแบ่งกันไม่เท่ากัน พลังงานศักย์เพิ่มตามกำลังสอง ช่วงแรกจึงน้อยกว่า"], set:{A:3,x:1.5,k:20}},
     {say:["At full amplitude it is all potential and the mass is momentarily at rest before turning back.",
-          "ที่แอมพลิจูดสูงสุด เป็นพลังงานศักย์ทั้งหมด และมวลหยุดนิ่งชั่วขณะก่อนเคลื่อนที่ย้อนกลับ"], set:{A:3,x:3,k:20}}
+          "สุดแอมพลิจูดแล้ว พลังงานเป็นศักย์ทั้งหมด มวลหยุดนิ่งชั่วขณะแล้วจึงย้อนกลับ"], set:{A:3,x:3,k:20}}
   ] }
 ],
 
@@ -412,9 +413,9 @@ gen:{
           {v:["At the centre","ที่จุดกึ่งกลาง"],trap:"T-02"},
           {v:["Everywhere equally","ทุกจุดเท่ากัน"]},
           {v:["Where the velocity is greatest","ที่ความเร็วสูงสุด"],trap:"T-02"}],unit:""};
-  if(sf==="S-05") return {stem:["An oscillator has maximum velocity "+fmt(w*A)+" m/s and amplitude "+A+" m. Find ω.",
-                                "ตัวแกว่งมีความเร็วสูงสุด "+fmt(w*A)+" ม./วินาที และแอมพลิจูด "+A+" เมตร จงหา ω"],
-    opts:[{v:String(w),ok:1},{v:fmt(w*A*A)},{v:fmt(A/w)},{v:fmt(w*2)}],unit:" rad/s"};
+  if(sf==="S-05") return {stem:["An oscillator has maximum velocity "+num(w*A)+" m/s and amplitude "+A+" m. Find ω.",
+                                "ตัวแกว่งมีความเร็วสูงสุด "+num(w*A)+" ม./วินาที และแอมพลิจูด "+A+" เมตร จงหา ω"],
+    opts:[{v:String(w),ok:1},{v:num(w*A*A)},{v:num(A/w)},{v:num(w*2)}],unit:" rad/s"};
   return {stem:["An oscillator has amplitude "+A+" m and ω = "+w+" rad/s. Find its maximum velocity.",
                 "ตัวแกว่งมีแอมพลิจูด "+A+" เมตร และ ω = "+w+" เรเดียน/วินาที จงหาความเร็วสูงสุด"],
     opts:[{v:String(w*A),ok:1},{v:String(w*w*A),trap:"T-02"},{v:String(A/w)},{v:String(A)}],unit:" m/s"};
@@ -428,12 +429,12 @@ gen:{
           {v:["It doubles","เพิ่มเป็นสองเท่า"],trap:"T-01"},
           {v:["It halves","ลดลงครึ่งหนึ่ง"],trap:"T-01"},
           {v:["It quadruples","เพิ่มเป็นสี่เท่า"],trap:"T-01"}],unit:""};
-  if(sf==="S-05") return {stem:["A "+m+" kg mass on a spring oscillates with period "+fmt(T)+" s. Find the spring constant.",
-                                "มวล "+m+" กิโลกรัม ติดสปริงแกว่งด้วยคาบ "+fmt(T)+" วินาที จงหาค่านิจสปริง"],
-    opts:[{v:String(k),ok:1},{v:fmt(m/T),trap:"T-04"},{v:fmt(T*T*m)},{v:fmt(k/2)}],unit:" N/m"};
+  if(sf==="S-05") return {stem:["A "+m+" kg mass on a spring oscillates with period "+num(T)+" s. Find the spring constant.",
+                                "มวล "+m+" กิโลกรัม ติดสปริงแกว่งด้วยคาบ "+num(T)+" วินาที จงหาค่านิจสปริง"],
+    opts:[{v:String(k),ok:1},{v:num(m/T),trap:"T-04"},{v:num(T*T*m)},{v:num(k/2)}],unit:" N/m"};
   return {stem:["Find the period of a "+m+" kg mass on a spring of stiffness "+k+" N/m.",
                 "จงหาคาบของมวล "+m+" กิโลกรัม ติดสปริงค่านิจ "+k+" นิวตัน/เมตร"],
-    opts:[{v:fmt(T),ok:1},{v:fmt(2*Math.PI*Math.sqrt(k/m)),trap:"T-04"},{v:fmt(m/k),trap:"T-04"},{v:fmt(T*2)}],unit:" s"};
+    opts:[{v:num(T),ok:1},{v:num(2*Math.PI*Math.sqrt(k/m)),trap:"T-04"},{v:num(m/k),trap:"T-04"},{v:num(T*2)}],unit:" s"};
 },
 "M-04": function(sf){
   var l=pick([0.25,0.5,1,2.5]), g=10;
@@ -444,12 +445,12 @@ gen:{
           {v:["The heavier swings slower","อันที่หนักกว่าแกว่งช้ากว่า"],trap:"T-03"},
           {v:["The lighter swings slower","อันที่เบากว่าแกว่งช้ากว่า"],trap:"T-03"},
           {v:["It depends on the amplitude","ขึ้นกับแอมพลิจูด"],trap:"T-01"}],unit:""};
-  if(sf==="S-05") return {stem:["A pendulum has period "+fmt(T)+" s where g = 10 m/s². Find its length.",
-                                "ลูกตุ้มมีคาบ "+fmt(T)+" วินาที ที่ g = 10 ม./วินาที² จงหาความยาว"],
-    opts:[{v:String(l),ok:1},{v:fmt(T*T*g),trap:"T-04"},{v:fmt(T/g)},{v:fmt(l*2)}],unit:" m"};
+  if(sf==="S-05") return {stem:["A pendulum has period "+num(T)+" s where g = 10 m/s². Find its length.",
+                                "ลูกตุ้มมีคาบ "+num(T)+" วินาที ที่ g = 10 ม./วินาที² จงหาความยาว"],
+    opts:[{v:String(l),ok:1},{v:num(T*T*g),trap:"T-04"},{v:num(T/g)},{v:num(l*2)}],unit:" m"};
   return {stem:["Find the period of a simple pendulum of length "+l+" m, taking g = 10 m/s².",
                 "จงหาคาบของลูกตุ้มอย่างง่ายยาว "+l+" เมตร ให้ g = 10 ม./วินาที²"],
-    opts:[{v:fmt(T),ok:1},{v:fmt(2*Math.PI*Math.sqrt(g/l)),trap:"T-04"},{v:fmt(l/g)},{v:fmt(T/2)}],unit:" s"};
+    opts:[{v:num(T),ok:1},{v:num(2*Math.PI*Math.sqrt(g/l)),trap:"T-04"},{v:num(l/g)},{v:num(T/2)}],unit:" s"};
 },
 "M-05": function(sf){
   var A=pick([4,5,8,10]), w=pick([2,3,4]), x=pick([2,3]);
@@ -461,7 +462,7 @@ gen:{
           {v:["x = A/2","x = A/2"]},{v:["Speed is constant","อัตราเร็วคงที่"]}],unit:""};
   return {stem:["An oscillator has A = "+A+" m and ω = "+w+" rad/s. Find its speed at x = "+x+" m.",
                 "ตัวแกว่งมี A = "+A+" เมตร และ ω = "+w+" เรเดียน/วินาที จงหาอัตราเร็วที่ x = "+x+" เมตร"],
-    opts:[{v:fmt(v),ok:1},{v:String(w*A),trap:"T-02"},{v:fmt(w*(A-x))},{v:fmt(w*x)}],unit:" m/s"};
+    opts:[{v:num(v),ok:1},{v:String(w*A),trap:"T-02"},{v:num(w*(A-x))},{v:num(w*x)}],unit:" m/s"};
 },
 "M-06": function(sf){
   var k=pick([50,100,200,400]), A=pick([0.1,0.2,0.5]);
@@ -478,7 +479,7 @@ gen:{
           {v:["Halfway out","ที่กึ่งกลางระหว่างทาง"]},{v:["Nowhere","ไม่มีจุดใด"]}],unit:""};
   return {stem:["Find the total energy of an oscillator with k = "+k+" N/m and amplitude "+A+" m.",
                 "จงหาพลังงานรวมของตัวแกว่งที่มี k = "+k+" นิวตัน/เมตร และแอมพลิจูด "+A+" เมตร"],
-    opts:[{v:fmt(E),ok:1},{v:fmt(k*A*A),trap:"T-01"},{v:fmt(0.5*k*A)},{v:fmt(k*A)}],unit:" J"};
+    opts:[{v:num(E),ok:1},{v:num(k*A*A),trap:"T-01"},{v:num(0.5*k*A)},{v:num(k*A)}],unit:" J"};
 }
 }
 };

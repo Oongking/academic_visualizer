@@ -24,19 +24,19 @@ nodes:[
     readouts:[
       {lab:["Step","ขั้น"], f:function(S){ return String(S.p.i+1)+" / 4"; }},
       {lab:["Speed it predicts","อัตราเร็วที่ทำนายได้"], f:function(){
-        return L()?"3.00 × 10⁸ m/s — ตรงกับอัตราเร็วแสงที่วัดได้":"3.00 × 10⁸ m/s — the measured speed of light"; }},
+        return L()?"3.00 × 10⁸ m/s ตรงกับอัตราเร็วแสงที่วัดได้":"3.00 × 10⁸ m/s — the measured speed of light"; }},
       {lab:["Needs a medium?","ต้องมีตัวกลางไหม"], f:function(){
-        return L()?"ไม่ — สนามค้ำกันเอง":"no — the fields hold each other up"; }}
+        return L()?"ไม่ต้อง สนามทั้งสองค้ำกันและกันเอง":"no — the fields hold each other up"; }}
     ],
     rows:function(p){
-      var R=[[["1","1"],["a changing electric field appears","สนามไฟฟ้าที่เปลี่ยนแปลงปรากฏขึ้น"],["it creates a magnetic field","มันสร้างสนามแม่เหล็ก"]],
-             [["2","2"],["that magnetic field is also changing","สนามแม่เหล็กนั้นก็เปลี่ยนแปลงด้วย"],["it creates an electric field","มันสร้างสนามไฟฟ้า"]],
-             [["3","3"],["the cycle feeds itself onward","วงจรป้อนตัวเองต่อไป"],["no medium is needed","ไม่ต้องมีตัวกลาง"]],
-             [["4","4"],["the speed follows from ε₀ and µ₀","อัตราเร็วได้จาก ε₀ กับ µ₀"],["it equals c, exactly","เท่ากับ c พอดี"]]];
+      var R=[[["1","1"],["a changing electric field appears","เกิดสนามไฟฟ้าที่เปลี่ยนแปลง"],["it creates a magnetic field","ทำให้เกิดสนามแม่เหล็ก"]],
+             [["2","2"],["that magnetic field is also changing","สนามแม่เหล็กนั้นก็เปลี่ยนแปลงด้วย"],["it creates an electric field","ทำให้เกิดสนามไฟฟ้า"]],
+             [["3","3"],["the cycle feeds itself onward","วงนี้ส่งต่อกันไปเรื่อยๆ"],["no medium is needed","ไม่ต้องมีตัวกลาง"]],
+             [["4","4"],["the speed follows from ε₀ and µ₀","คำนวณอัตราเร็วได้จาก ε₀ กับ µ₀"],["it equals c, exactly","เท่ากับ c พอดี"]]];
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i<=p.i, col:j===0?"ink":(i===p.i?"accent":"good")}; }); });
     },
-    note:["Maxwell did not measure light — he calculated it, and it matched","แม็กซ์เวลล์ไม่ได้วัดแสง เขาคำนวณออกมา แล้วได้ค่าตรงกัน"]
+    note:["Maxwell did not measure light — he calculated it, and it matched","แม็กซ์เวลล์ไม่ได้วัดแสง แต่คำนวณออกมา แล้วได้ค่าตรงกัน"]
   } },
 
 { id:"properties", x:100, y:150, requires:["maxwell"], methods:["M-02","M-04"],
@@ -50,11 +50,11 @@ nodes:[
   viz:"wave",
   guide:[
     {say:["The trace stands for the oscillating electric field. A magnetic field oscillates in step, at right angles to it.",
-          "เส้นกราฟแทนสนามไฟฟ้าที่สั่นอยู่ ส่วนสนามแม่เหล็กสั่นพร้อมกันในทิศตั้งฉากกับสนามไฟฟ้า"], set:{A:5,lam:8,f:1,T:8}},
+          "เส้นกราฟแทนสนามไฟฟ้าที่กำลังสั่น ส่วนสนามแม่เหล็กสั่นพร้อมกัน ในทิศตั้งฉากกับสนามไฟฟ้า"], set:{A:5,lam:8,f:1,T:8}},
     {say:["Change the wavelength and the frequency must change to keep fλ equal to c. They are locked together.",
-          "เมื่อเปลี่ยนความยาวคลื่น ความถี่ต้องเปลี่ยนตามเพื่อให้ fλ ยังเท่ากับ c สองค่านี้ผูกกันอยู่"], set:{A:5,lam:16,f:0.5,T:8}},
+          "เปลี่ยนความยาวคลื่น ความถี่ก็ต้องเปลี่ยนตาม เพื่อให้ fλ ยังเท่ากับ c สองค่านี้ผูกกันอยู่"], set:{A:5,lam:16,f:0.5,T:8}},
     {say:["Short wavelength means high frequency — the gamma end. Long means low — the radio end. Same speed either way.",
-          "ความยาวคลื่นสั้นแปลว่าความถี่สูง คือฝั่งรังสีแกมมา ความยาวคลื่นยาวแปลว่าความถี่ต่ำ คือฝั่งคลื่นวิทยุ แต่ไม่ว่าฝั่งไหน อัตราเร็วก็เท่ากัน"], set:{A:5,lam:3,f:3,T:8}}
+          "ความยาวคลื่นสั้นแปลว่าความถี่สูง ซึ่งเป็นฝั่งรังสีแกมมา ส่วนความยาวคลื่นยาวแปลว่าความถี่ต่ำ ซึ่งเป็นฝั่งคลื่นวิทยุ แต่ไม่ว่าฝั่งไหน อัตราเร็วก็เท่ากัน"], set:{A:5,lam:4,f:2,T:8}}
   ]},
 
 { id:"spectrum", x:370, y:150, requires:["maxwell"], methods:["M-03","M-06"],
@@ -69,32 +69,33 @@ nodes:[
   vizcfg:{
     title:["THE WHOLE SPECTRUM, IN POWERS OF TEN","สเปกตรัมทั้งหมด ในหน่วยกำลังของสิบ"],
     lo:-13, hi:4,
-    ctrls:[{k:"e", lab:["Wavelength exponent","เลขชี้กำลังความยาวคลื่น"], min:-13, max:4, step:1, def:-6, unit:""}],
+    ctrls:[{k:"e", lab:["Wavelength exponent","เลขชี้กำลังของความยาวคลื่น"], min:-13, max:4, step:.1, def:-6.3, unit:""}],
     readouts:[
-      {lab:["Wavelength","ความยาวคลื่น"], f:function(S){ return "10^"+S.p.e+" m"; }},
+      {lab:["Wavelength","ความยาวคลื่น"], f:function(S){ return un(Math.pow(10,S.p.e),"m"); }},
       {lab:["Band","ย่าน"], f:function(S){
         var e=S.p.e;
-        var B = e>=0?["radio","วิทยุ"] : e>=-3?["microwave","ไมโครเวฟ"] : e>=-6?["infrared","อินฟราเรด"]
-              : e>=-7?["visible","ที่ตามองเห็น"] : e>=-8?["ultraviolet","อัลตราไวโอเลต"]
+        /* band edges in wavelength: 1 m, 1 mm, 700 nm, 400 nm, 10 nm, 10 pm */
+        var B = e>=0?["radio","วิทยุ"] : e>=-3?["microwave","ไมโครเวฟ"] : e>=-6.155?["infrared","อินฟราเรด"]
+              : e>=-6.4?["visible","แสงที่มองเห็น"] : e>=-8?["ultraviolet","อัลตราไวโอเลต"]
               : e>=-11?["X-ray","รังสีเอกซ์"] : ["gamma","แกมมา"];
         return B[L()]; }},
       {lab:["Frequency","ความถี่"], f:function(S){
-        return fmt2(3/Math.pow(10,S.p.e)/1e8)+" × 10⁸ Hz"; }},
+        return un(3e8/Math.pow(10,S.p.e),"Hz"); }},
       {lab:["Visible band width","ความกว้างย่านที่มองเห็น"], f:function(){
-        return L()?"เกือบหนึ่งอันดับขนาด จากสิบเจ็ดอันดับ":"barely one decade out of seventeen"; }}
+        return L()?"ไม่ถึงหนึ่งอันดับขนาด จากทั้งหมดสิบเจ็ดอันดับ":"barely one decade out of seventeen"; }}
     ],
     marks:function(p){
       return [{e:3, lab:["radio","วิทยุ"], col:"faint"},
               {e:-2, lab:["microwave","ไมโครเวฟ"], col:"faint"},
               {e:-5, lab:["infrared","อินฟราเรด"], col:"warn"},
-              {e:-6.7, lab:["visible","ที่มองเห็น"], col:"accent"},
-              {e:-8, lab:["UV","ยูวี"], col:"good"},
+              {e:-6.3, lab:["visible","แสงที่มองเห็น"], col:"accent"},
+              {e:-8, lab:["UV","UV"], col:"good"},
               {e:-10, lab:["X-ray","รังสีเอกซ์"], col:"faint"},
               {e:-12, lab:["gamma","แกมมา"], col:"faint"}];
     },
     cursor:function(p){ return p.e; },
-    cursorLab:function(p){ return ["10^"+p.e+" m","10^"+p.e+" เมตร"]; },
-    note:["everything we can see occupies one thin slice of a seventeen-decade range","ทุกสิ่งที่เรามองเห็นเป็นเพียงแถบบางๆ ในช่วงที่กว้างถึงสิบเจ็ดอันดับขนาด"]
+    cursorLab:function(p){ var s=un(Math.pow(10,p.e),"m"); return [s,s]; },
+    note:["everything we can see occupies one thin slice of a seventeen-decade range","สิ่งที่ตามองเห็นเป็นเพียงแถบบางๆ ในช่วงกว้างสิบเจ็ดอันดับขนาด"]
   } },
 
 { id:"polarisation", x:235, y:248, requires:["properties"], methods:["M-05"],
@@ -113,20 +114,20 @@ nodes:[
     fn:function(x,p){ var c=Math.cos(x*Math.PI/180); return p.I0*c*c; },
     mark:function(p){ return p.th; },
     ctrls:[
-      {k:"I0", lab:["Intensity after the first filter","ความเข้มหลังแผ่นแรก"], min:1, max:10, step:.5, def:5, unit:""},
+      {k:"I0", lab:["Intensity after the first filter","ความเข้มหลังผ่านแผ่นแรก"], min:1, max:10, step:.5, def:5, unit:""},
       {k:"th", lab:["Angle between filters","มุมระหว่างแผ่นกรอง"], min:0, max:180, step:5, def:0, unit:"°"}
     ],
     readouts:[
       {lab:["Transmitted intensity","ความเข้มที่ผ่าน"], f:function(S){
-        var c=Math.cos(S.p.th*Math.PI/180); return fmt2(S.p.I0*c*c); }},
+        var c=Math.cos(S.p.th*Math.PI/180), c2=c*c<1e-12?0:c*c; return num(S.p.I0*c2); }},
       {lab:["Fraction passed","สัดส่วนที่ผ่าน"], f:function(S){
-        var c=Math.cos(S.p.th*Math.PI/180); return fmt2(100*c*c)+" %"; }},
+        var c=Math.cos(S.p.th*Math.PI/180), c2=c*c<1e-12?0:c*c; return un(100*c2,"%"); }},
       {lab:["At 90°","ที่ 90°"], f:function(){
-        return L()?"ไม่มีแสงผ่านเลย — แผ่นกรองไขว้กัน":"nothing gets through — the filters are crossed"; }},
+        return L()?"ไม่มีแสงผ่านเลย เพราะแผ่นกรองไขว้กัน":"nothing gets through — the filters are crossed"; }},
       {lab:["Why sound cannot do this","ทำไมเสียงทำแบบนี้ไม่ได้"], f:function(){
-        return L()?"เสียงเป็นคลื่นตามยาว ไม่มีทิศการสั่นให้กรอง":"sound is longitudinal — it has no vibration direction to filter"; }}
+        return L()?"เสียงเป็นคลื่นตามยาว จึงไม่มีทิศการสั่นให้กรอง":"sound is longitudinal — it has no vibration direction to filter"; }}
     ],
-    note:["the square is what makes 45° pass a half, not the three-quarters you might guess","เพราะมีกำลังสอง ที่ 45° แสงจึงผ่านครึ่งหนึ่ง ไม่ใช่สามในสี่อย่างที่อาจเดา"]
+    note:["the square is what makes 45° pass a half, not the three-quarters you might guess","เพราะมีกำลังสอง ที่ 45° แสงจึงผ่านครึ่งหนึ่ง ไม่ใช่สามในสี่อย่างที่หลายคนเดา"]
   } },
 
 { id:"uses", x:235, y:346, requires:["spectrum","polarisation"], methods:["M-06"],
@@ -144,25 +145,25 @@ nodes:[
     rowKey:"i",
     readouts:[
       {lab:["Band","ย่าน"], f:function(S){
-        return [["Radio","วิทยุ"],["Microwave","ไมโครเวฟ"],["Infrared","อินฟราเรด"],["Visible","ที่มองเห็น"],
+        return [["Radio","วิทยุ"],["Microwave","ไมโครเวฟ"],["Infrared","อินฟราเรด"],["Visible","แสงที่มองเห็น"],
                 ["Ultraviolet","อัลตราไวโอเลต"],["X-ray","รังสีเอกซ์"],["Gamma","แกมมา"]][S.p.i][L()]; }},
       {lab:["Photon energy","พลังงานโฟตอน"], f:function(S){
-        return S.p.i<3 ? (L()?"ต่ำ":"low") : S.p.i===3 ? (L()?"ปานกลาง":"moderate") : (L()?"สูง — ไอออไนซ์ได้":"high — ionising"); }},
+        return S.p.i<3 ? (L()?"ต่ำ":"low") : S.p.i===3 ? (L()?"ปานกลาง":"moderate") : (L()?"สูง ทำให้อะตอมแตกตัวได้":"high — ionising"); }},
       {lab:["Danger rises with","อันตรายเพิ่มตาม"], f:function(){
         return L()?"ความถี่ ไม่ใช่ความสว่าง":"frequency, not brightness"; }}
     ],
     rows:function(p){
-      var R=[[["Radio","วิทยุ"],["broadcasting, MRI","การกระจายเสียง, MRI"],["essentially none","แทบไม่มี"]],
-             [["Microwave","ไมโครเวฟ"],["cooking, phones","ทำอาหาร, โทรศัพท์"],["internal heating","ความร้อนภายใน"]],
+      var R=[[["Radio","วิทยุ"],["broadcasting, MRI","กระจายเสียง, MRI"],["essentially none","แทบไม่มี"]],
+             [["Microwave","ไมโครเวฟ"],["cooking, phones","ทำอาหาร, โทรศัพท์"],["internal heating","ทำให้ร้อนจากภายใน"]],
              [["Infrared","อินฟราเรด"],["thermal imaging, remotes","ภาพความร้อน, รีโมต"],["burns","ผิวไหม้"]],
-             [["Visible","ที่มองเห็น"],["sight, photography","การมองเห็น, การถ่ายภาพ"],["glare damage","แสงจ้าทำร้ายตา"]],
-             [["Ultraviolet","ยูวี"],["sterilising, tanning","ฆ่าเชื้อ, ทำผิวสีแทน"],["skin cancer","มะเร็งผิวหนัง"]],
-             [["X-ray","รังสีเอกซ์"],["medical imaging","ภาพถ่ายทางการแพทย์"],["cell damage","ทำลายเซลล์"]],
+             [["Visible","แสงที่มองเห็น"],["sight, photography","การมองเห็น, การถ่ายภาพ"],["glare damage","แสงจ้าทำร้ายตา"]],
+             [["Ultraviolet","อัลตราไวโอเลต"],["sterilising, tanning","ฆ่าเชื้อ, ทำผิวสีแทน"],["skin cancer","มะเร็งผิวหนัง"]],
+             [["X-ray","รังสีเอกซ์"],["medical imaging","ถ่ายภาพทางการแพทย์"],["cell damage","ทำลายเซลล์"]],
              [["Gamma","แกมมา"],["cancer therapy, sterilising","รักษามะเร็ง, ฆ่าเชื้อ"],["severe tissue damage","ทำลายเนื้อเยื่อรุนแรง"]]];
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"ink":(j===1?"good":"warn")}; }); });
     },
-    note:["read the hazard column downwards — it tracks frequency, and nothing else","ลองอ่านคอลัมน์ความอันตรายจากบนลงล่าง จะเห็นว่าอันตรายเพิ่มตามความถี่ ไม่ได้ขึ้นกับอย่างอื่น"]
+    note:["read the hazard column downwards — it tracks frequency, and nothing else","ลองอ่านคอลัมน์อันตรายจากบนลงล่าง จะเห็นว่าอันตรายเพิ่มตามความถี่ และไม่ขึ้นกับอย่างอื่น"]
   } }
 ],
 

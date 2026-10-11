@@ -41,20 +41,20 @@ nodes:[
     fn:function(x,p){ return 2e-7*p.I/(x/100)*1e6; },
     mark:function(p){ return p.r; },
     ctrls:[
-      {k:"I", lab:["Current","กระแส"], min:1, max:30, step:1, def:10, unit:" A"},
-      {k:"r", lab:["Distance","ระยะ"], min:.5, max:9.5, step:.5, def:2, unit:" cm"}
+      {k:"I", lab:["Current","กระแส"], min:1, max:30, step:1, def:10, unit:"\u00a0A"},
+      {k:"r", lab:["Distance","ระยะจากลวด"], min:.5, max:9.5, step:.5, def:2, unit:"\u00a0cm"}
     ],
     readouts:[
       {lab:["Field there","สนาม ณ จุดนั้น"], f:function(S){
-        return fmt2(2e-7*S.p.I/(S.p.r/100)*1e6)+" µT"; }},
+        return un(2e-7*S.p.I/(S.p.r/100)*1e6,"µT"); }},
       {lab:["Falls off as","ลดลงตาม"], f:function(){
         return L()?"1/r — ไม่ใช่ 1/r²":"1/r — not 1/r²"; }},
       {lab:["Shape of the field lines","รูปเส้นสนาม"], f:function(){
         return L()?"วงกลมรอบลวด":"circles wrapped around the wire"; }},
-      {lab:["Direction rule","กฎหาทิศ"], f:function(){
+      {lab:["Direction rule","กฎการหาทิศ"], f:function(){
         return L()?"กำมือขวา นิ้วโป้งชี้ตามกระแส":"right hand grip, thumb along the current"; }}
     ],
-    note:["a wire falls off as 1/r, unlike a point charge's 1/r² — the geometry is different","สนามรอบลวดลดลงตาม 1/r ต่างจากประจุจุดที่ลดตาม 1/r² เพราะรูปร่างของแหล่งกำเนิดต่างกัน"]
+    note:["a wire falls off as 1/r, unlike a point charge's 1/r² — the geometry is different","สนามรอบลวดลดตาม 1/r ไม่เหมือนประจุจุดที่ลดตาม 1/r² เพราะรูปร่างของแหล่งกำเนิดต่างกัน"]
   } },
 
 { id:"force-charge", x:100, y:150, requires:["field"], methods:["M-02"],
@@ -70,18 +70,18 @@ nodes:[
     anim:true,
     spellName:["The Circling Wisp: magnetic force bends the path","ภูตวนวง: แรงแม่เหล็กทำให้วิถีโค้ง"],
     question:["A charged wisp flies into a magnetic field pointing into the page. Why does it turn into a circle — and what sets its size?",
-              "ภูตประจุบินเข้าไปในสนามแม่เหล็กที่ชี้เข้าหน้ากระดาษ ทำไมมันจึงเลี้ยวเป็นวงกลม และอะไรกำหนดขนาดของวง"],
+              "ภูตที่มีประจุบินเข้าไปในสนามแม่เหล็กที่ชี้เข้าหน้ากระดาษ ทำไมมันถึงวนเป็นวงกลม แล้วอะไรกำหนดขนาดวงนั้น"],
     ctrls:[
-      {k:"v", lab:["Speed (× 10⁶ m/s)","อัตราเร็ว (× 10⁶ ม./วิ)"], min:.5, max:5, step:.5, def:2, unit:""},
-      {k:"B", lab:["Field B","สนาม B"], min:.05, max:1, step:.05, def:.2, unit:" T"},
+      {k:"v", lab:["Speed (× 10⁶ m/s)","อัตราเร็ว (× 10⁶ m/s)"], min:.5, max:5, step:.5, def:2, unit:""},
+      {k:"B", lab:["Field B","สนาม B"], min:.05, max:1, step:.05, def:.2, unit:"\u00a0T"},
       {k:"m", lab:["Mass (proton masses)","มวล (เท่าของโปรตอน)"], min:1, max:4, step:1, def:1, unit:""},
       {k:"qs", lab:["Charge","ประจุ"], min:0, max:2, step:1, def:0, opts:[["+e","+e"],["+2e","+2e"],["−e","−e"]]},
-      {k:"T", lab:["Watch for","ดูนาน"], min:2, max:20, step:1, def:8, unit:" s", isT:true}
+      {k:"T", lab:["Watch for","ดูนาน"], min:2, max:20, step:1, def:8, unit:"\u00a0s", isT:true}
     ],
     readouts:[
-      {lab:["Radius r = mv / qB","รัศมี r = mv / qB"], f:function(S){ return fmt2(C15.r(S.p))+" cm"; }},
-      {lab:["One loop takes","วนหนึ่งรอบใช้เวลา"], f:function(S){ return fmt(C15.Tns(S.p))+" ns"; }},
-      {lab:["Force qvB","แรง qvB"], f:function(S){ return fmt2(C15.F(S.p))+" fN"; }},
+      {lab:["Radius r = mv / qB","รัศมี r = mv / qB"], f:function(S){ return un(C15.r(S.p),"cm"); }},
+      {lab:["One loop takes","วนหนึ่งรอบใช้เวลา"], f:function(S){ return un(C15.Tns(S.p),"ns"); }},
+      {lab:["Force qvB","แรง qvB"], f:function(S){ return un(C15.F(S.p),"fN"); }},
       {lab:["Work done by the field","งานที่สนามทำ"], f:function(){ return L()?"ศูนย์ — แรงตั้งฉากกับการเคลื่อนที่":"zero — the force is at right angles to the motion"; }}
     ],
     world:{ kind:"free" },
@@ -114,31 +114,31 @@ nodes:[
     traceCol:"accent",
     handles:[
       {k:"v", at:function(p){ return {px:C15.x0+20+p.v*12, py:C15.y0}; }, set:function(px){ return {v:(px-C15.x0-20)/12}; },
-       lab:["drag the speed","ลากความเร็ว"], labBelow:true, col:"accent"}
+       lab:["drag the speed","ลากปรับอัตราเร็ว"], labBelow:true, col:"accent"}
     ],
     instrument:{ kind:"bar", ymax:400,
       ylab:["femtonewtons","เฟมโตนิวตัน"],
       bars:[
         {lab:["Magnetic force qvB","แรงแม่เหล็ก qvB"], f:function(p){ return C15.F(p); }, col:"warn"},
-        {lab:["Needed to turn, mv²/r","ที่ต้องใช้เลี้ยว mv²/r"], f:function(p){ var r=C15.r(p)/100, v=p.v*1e6; return p.m*C15.mp*v*v/r*1e15; }, col:"accent"}
+        {lab:["Needed to turn, mv²/r","แรงที่ต้องใช้เลี้ยว mv²/r"], f:function(p){ var r=C15.r(p)/100, v=p.v*1e6; return p.m*C15.mp*v*v/r*1e15; }, col:"accent"}
       ]
     },
     spell:{
       tex:function(p){ var q=C15.q(p);
-        return "r = \\dfrac{mv}{qB} = \\dfrac{("+p.m+"\\times1.67\\times10^{-27})("+fmt2(p.v)+"\\times10^{6})}{("+Math.abs(q)+"\\times1.6\\times10^{-19})("+fmt2(p.B)+")} = "+fmt2(C15.r(p))+"\\,\\text{cm}"; },
+        return "r = \\dfrac{mv}{qB} = \\dfrac{("+p.m+"\\times1.67\\times10^{-27})("+numTex(p.v)+"\\times10^{6})}{("+Math.abs(q)+"\\times1.60\\times10^{-19})("+numTex(p.B)+")} = "+numTex(C15.r(p)/100)+"\\,\\text{m} = "+numTex(C15.r(p))+"\\,\\text{cm}"; },
       terms:[
-        {k:"v", sym:"v", lab:["speed","อัตราเร็ว"], col:"accent", f:function(p){ return fmt2(p.v)+"×10⁶ m/s"; }},
-        {k:"B", sym:"B", lab:["field strength","ความเข้มสนาม"], col:"faint", f:function(p){ return fmt2(p.B)+" T"; }},
-        {k:"r", sym:"r", lab:["radius of the circle","รัศมีวงกลม"], col:"good", f:function(p){ return fmt2(C15.r(p))+" cm"; }},
-        {k:"F", sym:"F", lab:["force · always toward the centre","แรง · ชี้เข้าศูนย์กลางเสมอ"], col:"warn", f:function(p){ return fmt2(C15.F(p))+" fN"; }}
+        {k:"v", sym:"v", lab:["speed","อัตราเร็ว"], col:"accent", f:function(p){ return un(p.v*1e6,"m/s"); }},
+        {k:"B", sym:"B", lab:["field strength","ความเข้มสนาม"], col:"faint", f:function(p){ return un(p.B,"T"); }},
+        {k:"r", sym:"r", lab:["radius of the circle","รัศมีวงกลม"], col:"good", f:function(p){ return un(C15.r(p),"cm"); }},
+        {k:"F", sym:"F", lab:["force · always toward the centre","แรง · ชี้เข้าศูนย์กลางเสมอ"], col:"warn", f:function(p){ return un(C15.F(p),"fN"); }}
       ]
     },
     predict:{ kind:"choice",
       ask:["If the wisp flew twice as fast, how long would one full loop take?","ถ้าภูตบินเร็วขึ้นเป็นสองเท่า การวนครบหนึ่งรอบจะใช้เวลาเท่าใด"],
       opts:[["Half as long","ครึ่งหนึ่ง"],["Exactly the same","เท่าเดิมพอดี"],["Twice as long","สองเท่า"]],
       actual:function(){ return 1; },
-      explain:function(p){ return ["Twice as fast means a circle twice as big (r = mv / qB), so the longer path exactly cancels the higher speed: T = 2πm / qB = "+fmt(C15.Tns(p))+" ns, with no v in it. Cyclotrons rely on this.",
-                                   "เร็วขึ้นสองเท่าทำให้วงใหญ่ขึ้นสองเท่า (r = mv / qB) ระยะทางที่ยาวขึ้นหักล้างความเร็วที่เพิ่มขึ้นพอดี T = 2πm / qB = "+fmt(C15.Tns(p))+" ns ไม่มี v อยู่ในสูตร ไซโคลตรอนอาศัยข้อนี้"]; }
+      explain:function(p){ return ["Twice as fast means a circle twice as big (r = mv / qB), so the longer path exactly cancels the higher speed: T = 2πm / qB = "+un(C15.Tns(p),"ns")+", with no v in it. Cyclotrons rely on this.",
+                                   "เร็วขึ้นสองเท่า วงก็ใหญ่ขึ้นสองเท่า (r = mv / qB) ทางที่ยาวขึ้นหักล้างกับความเร็วที่เพิ่มพอดี T = 2πm / qB = "+un(C15.Tns(p),"ns")+" ในสูตรไม่มี v ไซโคลตรอนใช้ข้อนี้"]; }
     },
     trials:{
       veil:true, play:false,
@@ -152,31 +152,31 @@ nodes:[
       },
       lockFor:function(g){ return g.kind==="radius" ? ["B","m","qs"] : ["m","qs","v"]; },
       say:function(g){
-        if(g.kind==="radius") return ["Field "+g.B+" T, mass "+g.m+" proton mass"+(g.m>1?"es":"")+", charge "+["+e","+2e","−e"][g.qs]+". Choose the speed that makes the wisp circle with radius exactly "+fmt2(g.r)+" cm and pass through {@goal}.",
-                                      "สนาม "+g.B+" T มวล "+g.m+" เท่าของโปรตอน ประจุ "+["+e","+2e","−e"][g.qs]+" เลือกอัตราเร็วที่ทำให้ภูตวนด้วยรัศมี "+fmt2(g.r)+" ซม. พอดี และผ่าน{@goal}"];
-        return ["Mass "+g.m+" proton mass"+(g.m>1?"es":"")+", charge "+["+e","+2e","−e"][g.qs]+". Choose the field that makes one loop take exactly "+fmt(g.Tns)+" ns.",
-                "มวล "+g.m+" เท่าของโปรตอน ประจุ "+["+e","+2e","−e"][g.qs]+" เลือกสนามที่ทำให้การวนหนึ่งรอบใช้เวลา "+fmt(g.Tns)+" ns พอดี"];
+        if(g.kind==="radius") return ["Field "+g.B+" T, mass "+g.m+" proton mass"+(g.m>1?"es":"")+", charge "+["+e","+2e","−e"][g.qs]+". Choose the speed that makes the wisp circle with radius exactly "+un(g.r,"cm")+" and pass through {@goal}.",
+                                      "สนาม "+g.B+" T มวล "+g.m+" เท่าของโปรตอน ประจุ "+["+e","+2e","−e"][g.qs]+" เลือกอัตราเร็วที่ทำให้ภูตวนเป็นวงรัศมี "+un(g.r,"cm")+" พอดี แล้วผ่าน{@goal}"];
+        return ["Mass "+g.m+" proton mass"+(g.m>1?"es":"")+", charge "+["+e","+2e","−e"][g.qs]+". Choose the field that makes one loop take exactly "+un(g.Tns,"ns")+".",
+                "มวล "+g.m+" เท่าของโปรตอน ประจุ "+["+e","+2e","−e"][g.qs]+" เลือกสนามที่ทำให้วนหนึ่งรอบใช้เวลา "+un(g.Tns,"ns")+" พอดี"];
       },
       check:function(p,S,g){
         if(g.kind==="radius"){
-          if(Math.abs(C15.r(p)-g.r)<1e-6) return {ok:true, msg:["Through the portal. v = qBr / m = "+fmt2(g.v)+" × 10⁶ m/s.","ผ่านประตูมิติ v = qBr / m = "+fmt2(g.v)+" × 10⁶ ม./วิ"]};
-          return {ok:false, msg:["It circled with r = "+fmt2(C15.r(p))+" cm. Radius grows in step with speed: r = mv / qB.","มันวนด้วยรัศมี "+fmt2(C15.r(p))+" ซม. รัศมีโตตามความเร็ว: r = mv / qB"]};
+          if(Math.abs(C15.r(p)-g.r)<1e-6) return {ok:true, msg:["Through the portal. v = qBr / m = "+un(g.v*1e6,"m/s")+".","ผ่านประตูมิติแล้ว v = qBr / m = "+un(g.v*1e6,"m/s")]};
+          return {ok:false, msg:["It circled with r = "+un(C15.r(p),"cm")+". Radius grows in step with speed: r = mv / qB.","ภูตวนด้วยรัศมี "+un(C15.r(p),"cm")+" รัศมีโตตามอัตราเร็ว: r = mv / qB"]};
         }
-        if(Math.abs(p.B-g.B)<1e-6) return {ok:true, msg:["One loop in "+fmt(g.Tns)+" ns. T = 2πm / qB, so B = 2πm / qT = "+g.B+" T — and the speed never mattered.",
-                                                         "วนหนึ่งรอบใน "+fmt(g.Tns)+" ns T = 2πm / qB ดังนั้น B = 2πm / qT = "+g.B+" T และความเร็วไม่มีผลเลย"]};
-        return {ok:false, msg:["That field gives a loop of "+fmt(C15.Tns(p))+" ns. A stronger field turns it faster.","สนามนี้ให้การวนรอบละ "+fmt(C15.Tns(p))+" ns สนามที่แรงกว่าทำให้เลี้ยวเร็วกว่า"]};
+        if(Math.abs(p.B-g.B)<1e-6) return {ok:true, msg:["One loop in "+un(g.Tns,"ns")+". T = 2πm / qB, so B = 2πm / qT = "+g.B+" T — and the speed never mattered.",
+                                                         "วนหนึ่งรอบใน "+un(g.Tns,"ns")+" T = 2πm / qB ดังนั้น B = 2πm / qT = "+g.B+" T อัตราเร็วไม่มีผลเลย"]};
+        return {ok:false, msg:["That field gives a loop of "+un(C15.Tns(p),"ns")+". A stronger field turns it faster.","สนามนี้ทำให้วนรอบละ "+un(C15.Tns(p),"ns")+" สนามที่แรงกว่าจะเลี้ยวเร็วกว่า"]};
       }
     },
     note:["the orange force always points at the centre, so it bends the path but never speeds the wisp up or slows it down",
-          "แรงสีส้มชี้เข้าหาจุดศูนย์กลางเสมอ จึงทำให้เส้นทางโค้ง แต่ไม่ทำให้ภูตเร็วขึ้นหรือช้าลง"]
+          "แรงสีส้มชี้เข้าหาศูนย์กลางเสมอ จึงทำให้เส้นทางโค้ง แต่ไม่ทำให้ภูตเร็วขึ้นหรือช้าลง"]
   },
   guide:[
     {say:["A positive wisp enters the field. The force is always at right angles to its velocity, so it curls into a circle.",
-          "ภูตประจุบวกบินเข้าไปในสนาม แรงตั้งฉากกับความเร็วอยู่ตลอด มันจึงวนเป็นวงกลม"], set:{v:2,B:.2,m:1,qs:0,T:8}},
+          "ภูตที่มีประจุบวกบินเข้าไปในสนาม แรงตั้งฉากกับความเร็วตลอดเวลา มันจึงวนเป็นวงกลม"], set:{v:2,B:.2,m:1,qs:0,T:8}},
     {say:["Double the speed and cast again. The circle doubles — yet each loop takes the same time, as the faint last loop shows.",
-          "เพิ่มความเร็วเป็นสองเท่าแล้วร่ายอีกครั้ง วงกลมใหญ่ขึ้นสองเท่า แต่วนครบรอบใช้เวลาเท่าเดิม ดูได้จากรอยจางของรอบที่แล้ว"], set:{v:4,B:.2,m:1,qs:0,T:8}},
+          "เพิ่มอัตราเร็วเป็นสองเท่าแล้วร่ายอีกครั้ง วงกลมใหญ่ขึ้นสองเท่า แต่วนครบรอบใช้เวลาเท่าเดิม ดูได้จากรอยจางของรอบก่อน"], set:{v:4,B:.2,m:1,qs:0,T:8}},
     {say:["Flip the charge. The same field now curls it the other way.",
-          "กลับเครื่องหมายประจุ สนามเดิมจะดัดให้มันวนไปอีกทางหนึ่ง"], set:{v:2,B:.2,m:1,qs:2,T:8}}
+          "สลับชนิดประจุ สนามเดิมจะทำให้มันวนไปทางตรงข้าม"], set:{v:2,B:.2,m:1,qs:2,T:8}}
   ]
 },
 
@@ -196,14 +196,14 @@ nodes:[
     fn:function(x,p){ return p.B*p.I*p.Lw*Math.sin(x*Math.PI/180); },
     mark:function(p){ return p.th; },
     ctrls:[
-      {k:"B",  lab:["Flux density B","ความหนาแน่นฟลักซ์ B"], min:.1, max:2, step:.1, def:.5, unit:" T"},
-      {k:"I",  lab:["Current","กระแส"], min:1, max:20, step:1, def:5, unit:" A"},
-      {k:"Lw", lab:["Length in the field","ความยาวในสนาม"], min:.05, max:1, step:.05, def:.2, unit:" m"},
+      {k:"B",  lab:["Flux density B","ความหนาแน่นฟลักซ์ B"], min:.1, max:2, step:.1, def:.5, unit:"\u00a0T"},
+      {k:"I",  lab:["Current","กระแส"], min:1, max:20, step:1, def:5, unit:"\u00a0A"},
+      {k:"Lw", lab:["Length in the field","ความยาวในสนาม"], min:.05, max:1, step:.05, def:.2, unit:"\u00a0m"},
       {k:"th", lab:["Angle","มุม"], min:0, max:180, step:5, def:90, unit:"°"}
     ],
     readouts:[
       {lab:["Force","แรง"], f:function(S){
-        var p=S.p; return fmt2(p.B*p.I*p.Lw*Math.sin(p.th*Math.PI/180))+" N"; }},
+        var p=S.p; return un(p.B*p.I*p.Lw*Math.sin(p.th*Math.PI/180),"N"); }},
       {lab:["At 0° or 180°","ที่ 0° หรือ 180°"], f:function(){
         return L()?"แรงเป็นศูนย์ — ลวดขนานกับสนาม":"zero force — the wire lies along the field"; }},
       {lab:["Maximum at","สูงสุดที่"], f:function(){
@@ -211,7 +211,7 @@ nodes:[
       {lab:["Direction of the force","ทิศของแรง"], f:function(){
         return L()?"ตั้งฉากกับทั้ง I และ B":"perpendicular to BOTH I and B"; }}
     ],
-    note:["the curve touches zero at both ends — a wire parallel to the field feels nothing at all","เส้นโค้งแตะศูนย์ที่ปลายทั้งสองข้าง ลวดที่ขนานกับสนามจึงไม่มีแรงกระทำเลย"]
+    note:["the curve touches zero at both ends — a wire parallel to the field feels nothing at all","เส้นโค้งแตะศูนย์ที่ปลายทั้งสองข้าง ลวดที่ขนานกับสนามจึงไม่ได้รับแรงเลย"]
   } },
 
 { id:"induction", x:235, y:248, requires:["force-charge","force-wire"], methods:["M-04"],
@@ -227,17 +227,17 @@ nodes:[
     title:["EMF COMES FROM CHANGE, NOT FROM SIZE","แรงเคลื่อนไฟฟ้ามาจากการเปลี่ยนแปลง ไม่ใช่จากขนาด"],
     ylab:["Wb  ·  Wb/s  ·  V","Wb  ·  Wb/s  ·  V"],
     ctrls:[
-      {k:"flux", lab:["Flux through the coil","ฟลักซ์ผ่านขดลวด"], min:0, max:10, step:.5, def:6, unit:" Wb"},
-      {k:"rate", lab:["Rate of change","อัตราการเปลี่ยนแปลง"], min:0, max:8, step:.5, def:0, unit:" Wb/s"},
+      {k:"flux", lab:["Flux through the coil","ฟลักซ์ผ่านขดลวด"], min:0, max:10, step:.5, def:6, unit:"\u00a0Wb"},
+      {k:"rate", lab:["Rate of change","อัตราการเปลี่ยนแปลง"], min:0, max:8, step:.5, def:0, unit:"\u00a0Wb/s"},
       {k:"N",    lab:["Number of turns","จำนวนรอบ"], min:1, max:50, step:1, def:10, unit:""}
     ],
     readouts:[
-      {lab:["Flux linkage NΦ","ฟลักซ์คล้อง NΦ"], f:function(S){ return fmt2(S.p.N*S.p.flux)+" Wb"; }},
-      {lab:["Induced emf","แรงเคลื่อนไฟฟ้าเหนี่ยวนำ"], f:function(S){ return fmt2(S.p.N*S.p.rate)+" V"; }},
+      {lab:["Flux linkage NΦ","ฟลักซ์คล้อง NΦ"], f:function(S){ return un(S.p.N*S.p.flux,"Wb"); }},
+      {lab:["Induced emf","แรงเคลื่อนไฟฟ้าเหนี่ยวนำ"], f:function(S){ return un(S.p.N*S.p.rate,"V"); }},
       {lab:["Huge flux, no change?","ฟลักซ์มหาศาลแต่ไม่เปลี่ยน?"], f:function(S){
-        return S.p.rate<1e-9 ? (L()?"emf เป็นศูนย์ ไม่ว่าฟลักซ์จะมากแค่ไหน":"zero emf, however large the flux")
-                             : (L()?"มี emf เพราะกำลังเปลี่ยน":"there is emf, because it is changing"); }},
-      {lab:["What the minus sign means","เครื่องหมายลบหมายถึง"], f:function(){
+        return S.p.rate<1e-9 ? (L()?"แรงเคลื่อนไฟฟ้าเป็นศูนย์ ฟลักซ์จะมากแค่ไหนก็ตาม":"zero emf, however large the flux")
+                             : (L()?"มีแรงเคลื่อนไฟฟ้า เพราะฟลักซ์กำลังเปลี่ยน":"there is emf, because it is changing"); }},
+      {lab:["What the minus sign means","เครื่องหมายลบหมายความว่า"], f:function(){
         return L()?"กระแสเหนี่ยวนำต้านการเปลี่ยนแปลงที่ทำให้เกิดมัน":"the induced current opposes the change that made it"; }}
     ],
     bars:[
@@ -245,15 +245,15 @@ nodes:[
       {lab:["Rate dΦ/dt","อัตรา dΦ/dt"], f:function(p){ return p.rate; }, col:"warn"},
       {lab:["Induced emf","emf เหนี่ยวนำ"], f:function(p){ return p.N*p.rate; }, col:"accent"}
     ],
-    note:["push the flux bar to maximum with the rate at zero — the emf bar stays flat on the floor","ดันแถบฟลักซ์ให้สูงสุดแล้วตั้งอัตราเป็นศูนย์ แถบ emf จะยังราบอยู่กับพื้น"]
+    note:["push the flux bar to maximum with the rate at zero — the emf bar stays flat on the floor","ดันแถบฟลักซ์ขึ้นสูงสุดแล้วตั้งอัตราเป็นศูนย์ แถบ emf จะยังราบติดพื้น"]
   },
   guide:[
     {say:["A large, steady flux. The emf bar is flat at zero — a stationary magnet induces nothing.",
           "ฟลักซ์มากและคงที่ แถบ emf ราบอยู่ที่ศูนย์ แม่เหล็กที่อยู่นิ่งไม่เหนี่ยวนำอะไรเลย"], set:{flux:10,rate:0,N:10}},
     {say:["Now let it change, even slowly. An emf appears at once, though the flux itself is smaller.",
-          "ทีนี้ลองให้ฟลักซ์เปลี่ยน แม้จะเปลี่ยนช้าๆ ก็เกิดแรงเคลื่อนไฟฟ้าขึ้นทันที ทั้งที่ค่าฟลักซ์น้อยกว่าเดิม"], set:{flux:3,rate:4,N:10}},
+          "ทีนี้ให้ฟลักซ์เปลี่ยน แม้เปลี่ยนช้าๆ ก็เกิดแรงเคลื่อนไฟฟ้าทันที ทั้งที่ฟลักซ์น้อยกว่าเดิม"], set:{flux:3,rate:4,N:10}},
     {say:["More turns multiply the effect. Faraday's law counts turns as well as the rate of change.",
-          "ยิ่งมีหลายรอบ ผลยิ่งมากขึ้นตามจำนวนรอบ กฎของฟาราเดย์คิดทั้งจำนวนรอบและอัตราการเปลี่ยนแปลง"], set:{flux:3,rate:4,N:40}}
+          "ยิ่งมีรอบมาก ผลก็ยิ่งมากตามจำนวนรอบ กฎของฟาราเดย์นับทั้งจำนวนรอบและอัตราการเปลี่ยนแปลง"], set:{flux:3,rate:4,N:40}}
   ] },
 
 { id:"transformers", x:235, y:346, requires:["induction"], methods:["M-05","M-06"],
@@ -266,24 +266,24 @@ nodes:[
   flabel:["Alternating current only","ใช้ได้กับไฟกระแสสลับเท่านั้น"],
   viz:"bars",
   vizcfg:{
-    title:["VOLTAGE UP MEANS CURRENT DOWN","แรงดันขึ้น แปลว่ากระแสลง"],
+    title:["VOLTAGE UP MEANS CURRENT DOWN","ความต่างศักย์สูงขึ้น กระแสต่ำลง"],
     ylab:["V  ·  A  ·  turns","V  ·  A  ·  รอบ"],
     ctrls:[
-      {k:"Vp", lab:["Primary voltage","แรงดันขดปฐมภูมิ"], min:12, max:240, step:12, def:240, unit:" V"},
+      {k:"Vp", lab:["Primary voltage","ความต่างศักย์ขดปฐมภูมิ"], min:12, max:240, step:12, def:240, unit:"\u00a0V"},
       {k:"Np", lab:["Primary turns","รอบขดปฐมภูมิ"], min:10, max:500, step:10, def:200, unit:""},
       {k:"Ns", lab:["Secondary turns","รอบขดทุติยภูมิ"], min:10, max:500, step:10, def:50, unit:""},
-      {k:"Ip", lab:["Primary current","กระแสขดปฐมภูมิ"], min:.1, max:5, step:.1, def:1, unit:" A"}
+      {k:"Ip", lab:["Primary current","กระแสขดปฐมภูมิ"], min:.1, max:5, step:.1, def:1, unit:"\u00a0A"}
     ],
     readouts:[
-      {lab:["Secondary voltage","แรงดันขดทุติยภูมิ"], f:function(S){
-        return fmt2(S.p.Vp*S.p.Ns/S.p.Np)+" V"; }},
+      {lab:["Secondary voltage","ความต่างศักย์ขดทุติยภูมิ"], f:function(S){
+        return un(S.p.Vp*S.p.Ns/S.p.Np,"V"); }},
       {lab:["Secondary current (ideal)","กระแสขดทุติยภูมิ (อุดมคติ)"], f:function(S){
-        return fmt2(S.p.Ip*S.p.Np/S.p.Ns)+" A"; }},
-      {lab:["Power in vs out","กำลังเข้า เทียบ ออก"], f:function(S){
-        return fmt2(S.p.Vp*S.p.Ip)+(L()?" W · เท่ากันทั้งสองฝั่ง":" W · identical on both sides"); }},
-      {lab:["Step up or down?","เพิ่มหรือลด"], f:function(S){
-        return S.p.Ns>S.p.Np ? (L()?"เพิ่มแรงดัน":"stepping voltage up")
-             : S.p.Ns<S.p.Np ? (L()?"ลดแรงดัน":"stepping voltage down") : (L()?"เท่าเดิม":"one to one"); }}
+        return un(S.p.Ip*S.p.Np/S.p.Ns,"A"); }},
+      {lab:["Power in vs out","กำลังเข้ากับออก"], f:function(S){
+        return un(S.p.Vp*S.p.Ip,"W")+(L()?" · เท่ากันทั้งสองฝั่ง":" · identical on both sides"); }},
+      {lab:["Step up or down?","เพิ่มหรือลดลง"], f:function(S){
+        return S.p.Ns>S.p.Np ? (L()?"เพิ่มความต่างศักย์":"stepping voltage up")
+             : S.p.Ns<S.p.Np ? (L()?"ลดความต่างศักย์":"stepping voltage down") : (L()?"หนึ่งต่อหนึ่ง":"one to one"); }}
     ],
     bars:[
       {lab:["Primary V","V ปฐมภูมิ"], f:function(p){ return p.Vp; }, col:"faint"},
@@ -291,15 +291,15 @@ nodes:[
       {lab:["Primary I","I ปฐมภูมิ"], f:function(p){ return p.Ip; }, col:"faint"},
       {lab:["Secondary I","I ทุติยภูมิ"], f:function(p){ return p.Ip*p.Np/p.Ns; }, col:"good"}
     ],
-    note:["a transformer trades volts for amps — it never manufactures power","หม้อแปลงแลกโวลต์กับแอมป์ แต่ไม่เคยสร้างกำลังเพิ่มขึ้นมาเอง"]
+    note:["a transformer trades volts for amps — it never manufactures power","หม้อแปลงแลกโวลต์กับแอมแปร์ แต่ไม่เคยสร้างกำลังเพิ่มเอง"]
   },
   guide:[
     {say:["Fewer turns on the secondary, so the voltage drops — but watch the current bar rise to match.",
           "ขดทุติยภูมิมีรอบน้อยกว่า ความต่างศักย์จึงลดลง แต่ดูแถบกระแสที่เพิ่มขึ้นมาชดเชย"], set:{Vp:240,Np:200,Ns:50,Ip:1}},
     {say:["Flip it into a step-up. Voltage climbs and current falls by exactly the same factor.",
-          "สลับเป็นแบบเพิ่มความต่างศักย์ ความต่างศักย์เพิ่มขึ้น และกระแสลดลงด้วยตัวคูณเดียวกันพอดี"], set:{Vp:240,Np:50,Ns:200,Ip:1}},
+          "สลับเป็นแบบเพิ่มความต่างศักย์ ความต่างศักย์สูงขึ้น กระแสต่ำลงด้วยตัวคูณเดียวกันพอดี"], set:{Vp:240,Np:50,Ns:200,Ip:1}},
     {say:["Whatever the ratio, the power readout never changes. That is the constraint behind the whole device.",
-          "ไม่ว่าอัตราส่วนจะเป็นเท่าใด ค่ากำลังก็ไม่เปลี่ยน นี่คือเงื่อนไขที่อยู่เบื้องหลังหม้อแปลงทั้งเครื่อง"], set:{Vp:120,Np:100,Ns:400,Ip:2}}
+          "อัตราส่วนจะเป็นเท่าไรก็ตาม ค่ากำลังไม่เปลี่ยน นี่คือเงื่อนไขที่หม้อแปลงทั้งเครื่องยึดอยู่"], set:{Vp:120,Np:100,Ns:400,Ip:2}}
   ] }
 ],
 
@@ -333,7 +333,7 @@ gen:{
           {v:["They do end, at charges","มันสิ้นสุดที่ประจุ"]}],unit:""};
   return {stem:["A field of "+B+" T passes perpendicular to an area of "+A+" m². Find the flux.",
                 "สนาม "+B+" เทสลา ผ่านตั้งฉากกับพื้นที่ "+A+" ตร.ม. จงหาฟลักซ์"],
-    opts:[{v:fmt2(B*A),ok:1},{v:fmt2(B/A)},{v:fmt2(A/B)},{v:fmt2(B*A*2)}],unit:" Wb"};
+    opts:[{v:fmt2(B*A),ok:1},{v:fmt2(B/A)},{v:fmt2(A/B)},{v:fmt2(B*A*2)}],unit:"\u00a0Wb"};
 },
 "M-02": function(sf){
   var q=pick([1.6e-19,3.2e-19]), v=pick([1e6,2e6,5e6]), B=pick([0.1,0.4,0.8]);
@@ -352,7 +352,7 @@ gen:{
           {v:["A parabola","พาราโบลา"]}],unit:""};
   return {stem:["A charge of "+q.toExponential(1)+" C moves at "+v.toExponential(0)+" m/s across a "+B+" T field. Find the force.",
                 "ประจุ "+q.toExponential(1)+" คูลอมบ์ เคลื่อนที่ด้วย "+v.toExponential(0)+" ม./วินาที ตัดสนาม "+B+" เทสลา จงหาแรง"],
-    opts:[{v:F.toExponential(2),ok:1},{v:(F/B).toExponential(2)},{v:(F*B).toExponential(2)},{v:"0",trap:"T-01"}],unit:" N"};
+    opts:[{v:F.toExponential(2),ok:1},{v:(F/B).toExponential(2)},{v:(F*B).toExponential(2)},{v:"0",trap:"T-01"}],unit:"\u00a0N"};
 },
 "M-03": function(sf){
   var B=pick([0.2,0.5,1]), I=pick([2,5,10]), Lw=pick([0.1,0.4,1]);
@@ -363,10 +363,10 @@ gen:{
           {v:["Nothing happens","ไม่เกิดอะไร"]},{v:["They twist at right angles","บิดตั้งฉากกัน"]}],unit:""};
   if(sf==="S-05") return {stem:["A "+Lw+" m wire in a "+B+" T field feels "+fmt2(F)+" N. Find the current.",
                                 "ลวดยาว "+Lw+" เมตร ในสนาม "+B+" เทสลา รู้สึกแรง "+fmt2(F)+" นิวตัน จงหากระแส"],
-    opts:[{v:String(I),ok:1},{v:fmt(F*B*Lw)},{v:fmt(F/Lw)},{v:fmt(I*2)}],unit:" A"};
+    opts:[{v:String(I),ok:1},{v:fmt(F*B*Lw)},{v:fmt(F/Lw)},{v:fmt(I*2)}],unit:"\u00a0A"};
   return {stem:["A wire "+Lw+" m long carries "+I+" A perpendicular to a "+B+" T field. Find the force.",
                 "ลวดยาว "+Lw+" เมตร มีกระแส "+I+" แอมแปร์ ตั้งฉากกับสนาม "+B+" เทสลา จงหาแรง"],
-    opts:[{v:fmt2(F),ok:1},{v:fmt2(F/Lw)},{v:fmt2(B*I)},{v:"0",trap:"T-01"}],unit:" N"};
+    opts:[{v:fmt2(F),ok:1},{v:fmt2(F/Lw)},{v:fmt2(B*I)},{v:"0",trap:"T-01"}],unit:"\u00a0N"};
 },
 "M-04": function(sf){
   var N=pick([50,100,200]), dPhi=pick([0.01,0.02,0.05]), dt=pick([0.1,0.2,0.5]);
@@ -385,7 +385,7 @@ gen:{
           {v:["In whichever direction the coil is wound","ตามทิศที่พันขดลวด"]}],unit:""};
   return {stem:["A "+N+"-turn coil sees its flux change by "+dPhi+" Wb in "+dt+" s. Find the induced emf.",
                 "ขดลวด "+N+" รอบ มีฟลักซ์เปลี่ยนไป "+dPhi+" เวเบอร์ ใน "+dt+" วินาที จงหาแรงเคลื่อนเหนี่ยวนำ"],
-    opts:[{v:fmt(e),ok:1},{v:fmt(dPhi/dt),trap:"T-04"},{v:fmt(N*dPhi)},{v:fmt(e/2)}],unit:" V"};
+    opts:[{v:fmt(e),ok:1},{v:fmt(dPhi/dt),trap:"T-04"},{v:fmt(N*dPhi)},{v:fmt(e/2)}],unit:"\u00a0V"};
 },
 "M-05": function(sf){
   var N1=pick([100,200,500]), k=pick([2,4,5]), N2=N1*k, V1=pick([12,24,240]);
@@ -398,10 +398,10 @@ gen:{
           {v:["It does work on direct current","ใช้กับกระแสตรงได้"],trap:"T-04"}],unit:""};
   if(sf==="S-05") return {stem:["A transformer turns "+V1+" V into "+V2+" V with "+N1+" primary turns. Find the secondary turns.",
                                 "หม้อแปลงเปลี่ยน "+V1+" โวลต์ เป็น "+V2+" โวลต์ โดยขดปฐมภูมิ "+N1+" รอบ จงหาจำนวนรอบขดทุติยภูมิ"],
-    opts:[{v:String(N2),ok:1},{v:String(N1/k),trap:"T-03"},{v:String(N1)},{v:String(N2*2)}],unit:" turns"};
+    opts:[{v:String(N2),ok:1},{v:String(N1/k),trap:"T-03"},{v:String(N1)},{v:String(N2*2)}],unit:"\u00a0turns"};
   return {stem:["A transformer has "+N1+" primary and "+N2+" secondary turns, fed with "+V1+" V. Find the output voltage.",
                 "หม้อแปลงมีขดปฐมภูมิ "+N1+" รอบ ทุติยภูมิ "+N2+" รอบ ป้อนด้วย "+V1+" โวลต์ จงหาความต่างศักย์ขาออก"],
-    opts:[{v:String(V2),ok:1},{v:fmt(V1/k),trap:"T-03"},{v:String(V1)},{v:fmt(V2/2)}],unit:" V"};
+    opts:[{v:String(V2),ok:1},{v:fmt(V1/k),trap:"T-03"},{v:String(V1)},{v:fmt(V2/2)}],unit:"\u00a0V"};
 },
 "M-06": function(sf){
   var V1=pick([240,120]), I1=pick([2,5,10]), k=pick([2,4]);
@@ -414,10 +414,10 @@ gen:{
           {v:["High voltage means high current","ความต่างศักย์สูงหมายถึงกระแสสูง"],trap:"T-03"}],unit:""};
   if(sf==="S-05") return {stem:["An ideal transformer outputs "+fmt(I2)+" A at "+V2+" V. Find its input power.",
                                 "หม้อแปลงอุดมคติจ่ายกระแส "+fmt(I2)+" แอมแปร์ ที่ "+V2+" โวลต์ จงหากำลังขาเข้า"],
-    opts:[{v:String(P),ok:1},{v:fmt(V2*I2*2)},{v:fmt(P/2)},{v:fmt(V2/I2)}],unit:" W"};
+    opts:[{v:String(P),ok:1},{v:fmt(V2*I2*2)},{v:fmt(P/2)},{v:fmt(V2/I2)}],unit:"\u00a0W"};
   return {stem:["An ideal transformer draws "+I1+" A at "+V1+" V and steps up by "+k+"×. Find the output current.",
                 "หม้อแปลงอุดมคติรับกระแส "+I1+" แอมแปร์ ที่ "+V1+" โวลต์ และเพิ่มความต่างศักย์ "+k+" เท่า จงหากระแสขาออก"],
-    opts:[{v:fmt(I2),ok:1},{v:String(I1*k),trap:"T-03"},{v:String(I1)},{v:fmt(I2*2)}],unit:" A"};
+    opts:[{v:fmt(I2),ok:1},{v:String(I1*k),trap:"T-03"},{v:String(I1)},{v:fmt(I2*2)}],unit:"\u00a0A"};
 }
 }
 };

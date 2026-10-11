@@ -48,11 +48,11 @@ nodes:[
   },
   guide:[
     {say:["A holds 1 to 5, B holds 3 to 8. Read down any column to see what each element belongs to.",
-          "A มีสมาชิก 1 ถึง 5 ส่วน B มี 3 ถึง 8 อ่านลงมาตามคอลัมน์ใดก็ได้ จะเห็นว่าสมาชิกตัวนั้นอยู่ในเซตไหนบ้าง"], set:{a:5,b:3}},
+          "A มีสมาชิก 1 ถึง 5 ส่วน B มี 3 ถึง 8 ลองอ่านลงมาตามคอลัมน์ จะเห็นว่าสมาชิกแต่ละตัวอยู่ในเซตไหนบ้าง"], set:{a:5,b:3}},
     {say:["Pull the sets apart until they no longer meet. The intersection row empties completely.",
-          "ลองดึงสองเซตให้แยกจากกันจนไม่มีส่วนซ้อน แถวอินเตอร์เซกชันจะว่างเปล่าทั้งแถว"], set:{a:3,b:6}},
+          "ลองดึงสองเซตให้แยกจากกันจนไม่ซ้อนกันเลย แถวอินเตอร์เซกชันจะว่างทั้งแถว"], set:{a:3,b:6}},
     {say:["Now overlap them fully. A becomes a subset of B, and the intersection row equals the A row.",
-          "ทีนี้ให้ซ้อนกันเต็มที่ A จะเป็นสับเซตของ B และแถวอินเตอร์เซกชันก็เหมือนกับแถว A"], set:{a:8,b:1}}
+          "ทีนี้ให้ซ้อนกันเต็มที่ A จะเป็นสับเซตของ B และแถวอินเตอร์เซกชันจะเหมือนแถว A"], set:{a:8,b:1}}
   ] },
 
 { id:"subsets", x:100, y:150, requires:["basics"], methods:["M-02"],
@@ -75,11 +75,11 @@ nodes:[
       {lab:["Subsets 2ⁿ","สับเซต 2ⁿ"], f:function(S){ return String(Math.pow(2,S.p.n)); }},
       {lab:["Proper subsets","สับเซตแท้"], f:function(S){ return String(Math.pow(2,S.p.n)-1); }},
       {lab:["Always included","มีอยู่เสมอ"], f:function(){
-        return L()?"เซตว่างและตัวมันเอง":"the empty set and the set itself"; }},
+        return L()?"เซตว่างกับตัวเซตเอง":"the empty set and the set itself"; }},
       {lab:["Add one element?","เพิ่มสมาชิกหนึ่งตัว?"], f:function(){
-        return L()?"จำนวนสับเซตเป็นสองเท่า":"the number of subsets doubles"; }}
+        return L()?"จำนวนสับเซตเพิ่มเป็นสองเท่า":"the number of subsets doubles"; }}
     ],
-    note:["each new element either joins a subset or does not — that binary choice is where 2ⁿ comes from","สมาชิกใหม่แต่ละตัวจะอยู่ในสับเซตหรือไม่อยู่ก็ได้ ทางเลือกสองทางนี้คือที่มาของ 2ⁿ"]
+    note:["each new element either joins a subset or does not — that binary choice is where 2ⁿ comes from","สมาชิกใหม่แต่ละตัวจะอยู่ในสับเซตหรือไม่ก็ได้ ทางเลือกสองทางนี้เองคือที่มาของ 2ⁿ"]
   } },
 
 { id:"operations", x:370, y:150, requires:["basics"], methods:["M-03"],
@@ -144,11 +144,11 @@ nodes:[
   },
   guide:[
     {say:["Union shades both circles entirely. Every element in either set is counted once — the overlap is not double counted.",
-          "ยูเนียนแรเงาทั้งสองวงเต็ม สมาชิกทุกตัวที่อยู่ในเซตใดเซตหนึ่งนับครั้งเดียว ส่วนที่ซ้อนกันไม่ได้นับซ้ำ"], set:{op:0,nA:8,nAB:5,nB:7}},
+          "ยูเนียนแรเงาทั้งสองวงเต็มวง สมาชิกที่อยู่ในเซตใดเซตหนึ่งนับครั้งเดียว ส่วนที่ซ้อนกันไม่นับซ้ำ"], set:{op:0,nA:8,nAB:5,nB:7}},
     {say:["Intersection keeps only the lens in the middle. That is why n(A∪B) must subtract it once.",
-          "อินเตอร์เซกชันเอาเฉพาะส่วนตรงกลาง เพราะอย่างนี้ n(A∪B) จึงต้องลบส่วนนี้ออกหนึ่งครั้ง"], set:{op:1,nA:8,nAB:5,nB:7}},
+          "อินเตอร์เซกชันเอาเฉพาะส่วนตรงกลาง ดังนั้น n(A∪B) ต้องลบส่วนนี้ออกหนึ่งครั้ง"], set:{op:1,nA:8,nAB:5,nB:7}},
     {say:["Difference A − B is A with the overlap removed. Notice it is not symmetric: B − A would look different.",
-          "ผลต่าง A − B คือ A ที่ตัดส่วนซ้อนออก สังเกตว่าสลับกันไม่ได้ B − A จะได้ส่วนที่ต่างออกไป"], set:{op:2,nA:8,nAB:5,nB:7}},
+          "ผลต่าง A − B คือ A ที่ตัดส่วนซ้อนออก สังเกตว่าสลับที่ไม่ได้ ถ้าเป็น B − A จะได้ส่วนที่ต่างออกไป"], set:{op:2,nA:8,nAB:5,nB:7}},
     {say:["Complement shades everything outside A, including the part of B that A never touched.",
           "คอมพลีเมนต์แรเงาทุกส่วนที่อยู่นอก A รวมทั้งส่วนของ B ที่ไม่ซ้อนกับ A ด้วย"], set:{op:3,nA:8,nAB:5,nB:7}}
   ]},
@@ -176,17 +176,17 @@ nodes:[
         return String(S.p.a+S.p.b-Math.min(S.p.both,S.p.a,S.p.b)); }},
       {lab:["Double counted","ที่นับซ้ำ"], f:function(S){
         return String(Math.min(S.p.both,S.p.a,S.p.b)); }},
-      {lab:["If the sets are disjoint","ถ้าสองเซตไม่มีส่วนร่วม"], f:function(){
+      {lab:["If the sets are disjoint","ถ้าสองเซตไม่ซ้อนกัน"], f:function(){
         return L()?"ไม่ต้องลบ — บวกกันตรงๆ ได้เลย":"nothing to subtract — you may simply add"; }}
     ],
     bars:[
       {lab:["n(A)","n(A)"], f:function(p){ return p.a; }, col:"faint"},
       {lab:["n(B)","n(B)"], f:function(p){ return p.b; }, col:"faint"},
-      {lab:["Naive sum","ผลบวกแบบง่าย"], f:function(p){ return p.a+p.b; }, col:"warn"},
-      {lab:["True union","ยูเนียนที่ถูกต้อง"], f:function(p){
+      {lab:["Naive sum","ผลบวกตรงๆ"], f:function(p){ return p.a+p.b; }, col:"warn"},
+      {lab:["True union","ยูเนียนที่แท้จริง"], f:function(p){
         return p.a+p.b-Math.min(p.both,p.a,p.b); }, col:"accent"}
     ],
-    note:["the gap between the last two bars is exactly the overlap, counted once too often","ช่องว่างระหว่างสองแถบสุดท้ายคือส่วนซ้อนพอดี ซึ่งถูกนับเกินมาหนึ่งครั้ง"]
+    note:["the gap between the last two bars is exactly the overlap, counted once too often","ช่องว่างระหว่างสองแถบสุดท้ายคือส่วนซ้อนพอดี ที่นับเกินมาหนึ่งครั้ง"]
   } },
 
 { id:"applications", x:235, y:346, requires:["counting"], methods:["M-06"],
@@ -213,9 +213,9 @@ nodes:[
       {lab:["Neither","ไม่ชอบทั้งคู่"], f:function(S){
         var u=S.p.a+S.p.b-S.p.both;
         return String(Math.max(0,S.p.tot-u)); }},
-      {lab:["Do the four add up?","สี่ส่วนรวมกันได้ไหม"], f:function(S){
+      {lab:["Do the four add up?","สี่ส่วนรวมกันลงตัวไหม"], f:function(S){
         var u=S.p.a+S.p.b-S.p.both;
-        return u>S.p.tot ? (L()?"ไม่ — ตัวเลขขัดแย้งกัน":"no — the figures contradict each other")
+        return (u>S.p.tot || S.p.both>Math.min(S.p.a,S.p.b)) ? (L()?"ไม่ — ตัวเลขขัดแย้งกัน":"no — the figures contradict each other")
                          : (L()?"ได้ — รวมเป็นจำนวนผู้ตอบพอดี":"yes — they total the sample exactly"); }}
     ],
     bars:[
@@ -233,7 +233,7 @@ nodes:[
     {say:["Raise the overlap and both 'only' bars shrink together — the totals for tea and coffee never moved.",
           "เพิ่มส่วนซ้อน แล้วแถบ “เฉพาะ” ทั้งสองแถบจะหดลงพร้อมกัน ทั้งที่ยอดรวมของชาและกาแฟไม่เปลี่ยนเลย"], set:{tot:100,a:60,b:50,both:45}},
     {say:["Push it too far and the union exceeds the sample. The readout flags the contradiction.",
-          "ถ้าเพิ่มมากเกินไป ยูเนียนจะมากกว่าจำนวนกลุ่มตัวอย่าง ค่าที่แสดงจะเตือนว่าข้อมูลขัดแย้งกัน"], set:{tot:100,a:150,b:150,both:0}}
+          "ถ้าดันมากเกินไป ยูเนียนจะมากกว่าจำนวนกลุ่มตัวอย่าง ช่องผลจะเตือนว่าข้อมูลขัดแย้งกัน"], set:{tot:100,a:150,b:150,both:0}}
   ] }
 ],
 
@@ -265,7 +265,8 @@ gen:{
     opts:[{v:String(s.n),ok:1},{v:String(s.n+1)},{v:String(s.n+2)},{v:String(s.n+3)}],unit:""};
 },
 "M-02": function(sf){
-  var n=pick([3,4,5,6]);
+  var n=pick([3,5,6,7]);
+  if(sf==="S-05" && n<5) n=pick([5,6,7]);
   if(sf==="S-04") return {stem:["Which relation is correct for any set A?","ความสัมพันธ์ใดถูกต้องสำหรับเซต A ใดๆ"],
     opts:[{v:["∅ ⊂ A and ∅ ∈ P(A)","∅ ⊂ A และ ∅ ∈ P(A)"],ok:1},
           {v:["∅ ∈ A and ∅ ⊂ P(A)","∅ ∈ A และ ∅ ⊂ P(A)"],trap:"T-02"},
@@ -290,7 +291,7 @@ gen:{
     opts:[{v:C.a,ok:1},{v:C.w[0]},{v:C.w[1]},{v:C.w[2]}],unit:""};
 },
 "M-04": function(sf){
-  var a=pick([18,20,25,30]), b=pick([15,22,28]), both=pick([5,8,10]);
+  var a=pick([18,21,25,27]), b=pick([17,22,28]), both=pick([5,8,10]);
   var u=a+b-both;
   if(sf==="S-05") return {stem:["n(A) = "+a+", n(B) = "+b+" and n(A ∪ B) = "+u+". Find n(A ∩ B).",
                                 "n(A) = "+a+", n(B) = "+b+" และ n(A ∪ B) = "+u+" จงหา n(A ∩ B)"],
@@ -316,7 +317,7 @@ gen:{
     opts:[{v:String(u),ok:1},{v:String(a+b+c),trap:"T-04"},{v:String(u-2*abc),trap:"T-04"},{v:String(u+abc)}],unit:""};
 },
 "M-06": function(sf){
-  var total=pick([40,50,60]), onlyA=pick([12,15]), onlyB=pick([10,18]), both=pick([6,9]);
+  var total=pick([50,60,70]), onlyA=pick([12,15]), onlyB=pick([10,18]), both=pick([6,9]);
   var neither=total-onlyA-onlyB-both;
   if(sf==="S-04") return {stem:["What is the reliable first step in a Venn survey problem?",
                                 "ในโจทย์สำรวจที่ใช้แผนภาพเวนน์ ควรทำอะไรเป็นอย่างแรก"],
@@ -327,7 +328,7 @@ gen:{
   return {stem:["Of "+total+" students, "+onlyA+" play only football, "+onlyB+" only tennis and "+both+" play both. How many play neither?",
                 "จากนักเรียน "+total+" คน มี "+onlyA+" คนเล่นฟุตบอลอย่างเดียว "+onlyB+" คนเล่นเทนนิสอย่างเดียว และ "+both+" คนเล่นทั้งสอง มีกี่คนที่ไม่เล่นเลย"],
     opts:[{v:String(neither),ok:1},{v:String(total-onlyA-onlyB),trap:"T-04"},
-          {v:String(neither+both)},{v:String(both)}],unit:""};
+          {v:String(neither+2*both)},{v:String(both)}],unit:""};
 }
 }
 };

@@ -1,3 +1,13 @@
+/* keep the four choices of a numeric question distinct (the correct one is first) */
+function uniqOpts(o){
+  var seen={};
+  o.forEach(function(x){
+    var base=+String(x.v).replace("\u2212","-"), k=0;
+    while(seen[x.v]){ k++; x.v=num(base+k); }
+    seen[x.v]=1;
+  });
+  return o;
+}
 var CHAPTER = {
 id:"ch02", num:"02", slug:"linear-motion", subject:"physics",
 kicker:["Physics · Chapter 02","ฟิสิกส์ · บทที่ 2"],
@@ -17,20 +27,20 @@ nodes:[
   formula:["|s| ≤ distance","|s| ≤ ระยะทาง เสมอ"], flabel:["Always true","จริงเสมอ"],
   viz:"stage",
   vizcfg:{
-    spellName:["Thread of Return: net change in position","ด้ายแห่งการกลับคืน: ตำแหน่งที่เปลี่ยนสุทธิ"],
+    spellName:["Thread of Return: net change in position","ด้ายแห่งการกลับคืน: ตำแหน่งที่เปลี่ยนไปโดยรวม"],
     question:["{@Agent} {@flies} out and turns back. Why does the thread home shrink while the trail keeps growing?",
-              "{@agent}{@fly}ออกไปแล้วย้อนกลับ ทำไมด้ายที่โยงกลับ{@origin}จึงสั้นลง ทั้งที่รอยทางยาวขึ้นเรื่อย ๆ"],
+              "{@agent}{@fly}ออกไปแล้วย้อนกลับ ทำไมด้ายที่โยงกลับ{@origin}สั้นลง ทั้งที่รอยทางยาวขึ้นเรื่อย ๆ"],
     ctrls:[
       {k:"out",  lab:["{@Flies} out to","{@fly}ออกไปถึง"],     min:0, max:55, step:1, def:40, unit:" m"},
-      {k:"back", lab:["Then turns back by","แล้วย้อนกลับ"], min:0, max:55, step:1, def:24, unit:" m"}
+      {k:"back", lab:["Then turns back by","แล้วย้อนกลับมา"], min:0, max:55, step:1, def:24, unit:" m"}
     ],
     readouts:[
-      {lab:["Trail {@flown} (distance)","รอยทางที่{@fly} (ระยะทาง)"], f:function(S){ return fmt(PHYS.trip(S.p).d)+" m"; }},
-      {lab:["Thread home (displacement)","ด้ายกลับบ้าน (การกระจัด)"], f:function(S){ return fmt(PHYS.trip(S.p).s)+" m"; }},
-      {lab:["Trail vs thread","รอยทางเทียบด้าย"], f:function(S){
+      {lab:["Trail {@flown} (distance)","รอยทางที่{@fly}มา (ระยะทาง)"], f:function(S){ return num(PHYS.trip(S.p).d)+"\u00a0m"; }},
+      {lab:["Thread home (displacement)","ด้ายโยงกลับบ้าน (การกระจัด)"], f:function(S){ return num(PHYS.trip(S.p).s)+"\u00a0m"; }},
+      {lab:["Trail vs thread","รอยทางกับด้าย"], f:function(S){
         var r=PHYS.trip(S.p), d=r.d-r.s;
         return d<1e-9 ? (L()?"เท่ากัน — ยังไม่ได้ย้อนกลับ":"identical — never turned back")
-                      : (L()?"ต่างกัน "+fmt(d)+" ม.":"apart by "+fmt(d)+" m"); }},
+                      : (L()?"ต่างกัน "+num(d)+"\u00a0m":"apart by "+num(d)+"\u00a0m"); }},
       {lab:["Back at {@origin}?","กลับถึง{@origin}หรือยัง"], f:function(S){
         return PHYS.trip(S.p).s<1e-9
           ? (L()?"ถึงแล้ว · การกระจัดเป็นศูนย์":"yes · displacement is zero")
@@ -55,7 +65,7 @@ nodes:[
     },
     marks:function(p){
       var r=PHYS.trip(p);
-      return [{a:0, b:r.s, lab:["thread home · s","ด้ายกลับบ้าน · s"], col:"accent", term:"s"}];
+      return [{a:0, b:r.s, lab:["thread home · s","ด้ายโยงกลับบ้าน · s"], col:"accent", term:"s"}];
     },
     handles:[
       {k:"out", at:function(p){ return {x:p.out, lift:52}; }, set:function(m){ return {out:m}; },
@@ -76,9 +86,9 @@ nodes:[
         return "s = "+p.out+" - "+r.back+" = "+r.s+"\\,\\text{m}\\qquad d = "+p.out+" + "+r.back+" = "+r.d+"\\,\\text{m}"; },
       terms:[
         {k:"s", sym:"s", lab:["displacement · the thread","การกระจัด · ด้าย"], col:"accent",
-         f:function(p){ return PHYS.trip(p).s+" m"; }},
+         f:function(p){ return PHYS.trip(p).s+"\u00a0m"; }},
         {k:"d", sym:"d", lab:["distance · the trail","ระยะทาง · รอยทาง"], col:"warn",
-         f:function(p){ return PHYS.trip(p).d+" m"; }}
+         f:function(p){ return PHYS.trip(p).d+"\u00a0m"; }}
       ]
     },
     trials:{
@@ -88,17 +98,17 @@ nodes:[
         return {s:out-back, d:out+back, set:{out:20, back:0}};
       },
       say:function(g){ return [
-        "The portal opens "+g.s+" m from {@origin} — but only for a traveller whose trail is exactly "+g.d+" m long. Drag the turn and {@agent}, then cast.",
-        "ประตูมิติเปิดห่างจาก{@origin} "+g.s+" ม. แต่จะเปิดให้เฉพาะผู้ที่มีรอยทางยาว "+g.d+" ม. พอดี ลากจุดเลี้ยวและ{@agent} แล้วร่ายเวท"]; },
+        "The portal opens "+g.s+"\u00a0m from {@origin} — but only for a traveller whose trail is exactly "+g.d+"\u00a0m long. Drag the turn and {@agent}, then cast.",
+        "ประตูมิติเปิดอยู่ห่างจาก{@origin} "+g.s+"\u00a0m แต่ผ่านได้เฉพาะคนที่รอยทางยาว "+g.d+"\u00a0m พอดี ลากจุดเลี้ยวกับ{@agent} แล้วร่ายเวท"]; },
       at:function(g){ return {x:g.s, lift:30}; },
       check:function(p,S,g){
         var r=PHYS.trip(p);
         if(r.s===g.s && r.d===g.d) return {ok:true, msg:[
-          "The portal opens. Out = (d + s) / 2 = "+fmt((g.d+g.s)/2)+" m and back = (d − s) / 2 = "+fmt((g.d-g.s)/2)+" m: the trail and the thread are different quantities.",
-          "ประตูมิติเปิดแล้ว ขาไป = (d + s) / 2 = "+fmt((g.d+g.s)/2)+" ม. และขากลับ = (d − s) / 2 = "+fmt((g.d-g.s)/2)+" ม. รอยทางกับด้ายจึงเป็นคนละปริมาณกัน"]};
+          "The portal opens. Out = (d + s) / 2 = "+num((g.d+g.s)/2)+"\u00a0m and back = (d − s) / 2 = "+num((g.d-g.s)/2)+"\u00a0m: the trail and the thread are different quantities.",
+          "ประตูมิติเปิดแล้ว ขาไป = (d + s) / 2 = "+num((g.d+g.s)/2)+"\u00a0m และขากลับ = (d − s) / 2 = "+num((g.d-g.s)/2)+"\u00a0m รอยทางกับด้ายจึงเป็นคนละปริมาณกัน"]};
         return {ok:false, msg:[
-          "Thread "+r.s+" m (needs "+g.s+"), trail "+r.d+" m (needs "+g.d+"). Hint: out − back = s, out + back = d.",
-          "ด้าย "+r.s+" ม. (ต้องการ "+g.s+") รอยทาง "+r.d+" ม. (ต้องการ "+g.d+") คำใบ้: ขาไป − ขากลับ = s และ ขาไป + ขากลับ = d"]};
+          "Thread "+r.s+"\u00a0m (needs "+g.s+"), trail "+r.d+"\u00a0m (needs "+g.d+"). Hint: out − back = s, out + back = d.",
+          "ด้าย "+r.s+"\u00a0m (ต้องได้ "+g.s+") รอยทาง "+r.d+"\u00a0m (ต้องได้ "+g.d+") คำใบ้: ขาไป − ขากลับ = s และ ขาไป + ขากลับ = d"]};
       }
     },
     note:["the trail only ever grows; the thread home can shrink back to nothing",
@@ -108,7 +118,7 @@ nodes:[
     {say:["{@Agent} {@flies} straight out and stops. Nothing has doubled back, so the trail and the thread match.",
           "{@agent}{@fly}ตรงออกไปแล้วหยุด ยังไม่ได้ย้อนกลับ รอยทางกับด้ายจึงยาวเท่ากัน"], set:{out:40,back:0}},
     {say:["Now {@agent} turns and comes part-way back. The trail keeps growing while the thread home shortens.",
-          "ทีนี้{@agent}เลี้ยวกลับมาบางส่วน รอยทางยังยาวขึ้น แต่ด้ายกลับบ้านสั้นลง"], set:{out:40,back:24}},
+          "ทีนี้{@agent}เลี้ยวกลับมาบางส่วน รอยทางยังยาวขึ้น แต่ด้ายโยงกลับบ้านสั้นลง"], set:{out:40,back:24}},
     {say:["All the way home: eighty metres of trail, and a displacement of exactly zero.",
           "กลับถึงบ้านแล้ว รอยทางยาว 80 m แต่การกระจัดเป็นศูนย์พอดี"], set:{out:40,back:40}}
   ]
@@ -126,19 +136,19 @@ nodes:[
     anim:true,
     spellName:["The Average Echo: displacement per second","เงาสะท้อนเฉลี่ย: การกระจัดต่อวินาที"],
     question:["The faint echo {@flies} at the average speed the whole way. Does {@agent} ever match it?",
-              "เงาจาง ๆ {@fly}ด้วยความเร็วเฉลี่ยตลอดทาง แล้ว{@agent}เคย{@fly}เร็วเท่าเงาจริงไหม"],
+              "เงาจาง ๆ {@fly}ด้วยอัตราเร็วเฉลี่ยตลอดทาง แล้ว{@agent}เคย{@fly}เร็วเท่าเงาไหม"],
     ctrls:[
       {k:"v1", lab:["Speed at the first {@marker}","ความเร็วที่{@marker}แรก"], min:2, max:22, step:1, def:5, unit:" m/s"},
       {k:"v2", lab:["Speed at the second","ความเร็วที่{@marker}ที่สอง"],    min:2, max:22, step:1, def:14, unit:" m/s"},
       {k:"T",  lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:8, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Average speed","อัตราเร็วเฉลี่ย"], f:function(S){ return fmt2((S.p.v1+S.p.v2)/2)+" m/s"; }},
-      {lab:["Speed right now","ความเร็วขณะนี้"], f:function(S){ return fmt2(PHYS.ramp(S.p,S.t).v)+" m/s"; }},
-      {lab:["Distance so far","ระยะทางถึงตอนนี้"], f:function(S){ return fmt2(PHYS.ramp(S.p,S.t).x)+" m"; }},
+      {lab:["Average speed","อัตราเร็วเฉลี่ย"], f:function(S){ return num((S.p.v1+S.p.v2)/2)+"\u00a0m/s"; }},
+      {lab:["Speed right now","ความเร็วขณะนี้"], f:function(S){ return num(PHYS.ramp(S.p,S.t).v)+"\u00a0m/s"; }},
+      {lab:["Distance so far","ระยะทางถึงตอนนี้"], f:function(S){ return num(PHYS.ramp(S.p,S.t).x)+"\u00a0m"; }},
       {lab:["Steady or changing?","คงที่หรือกำลังเปลี่ยน"], f:function(S){
         return Math.abs(S.p.v1-S.p.v2)<0.5 ? (L()?"คงที่ — เฉลี่ยคือค่าจริง":"steady — the average is the truth")
-          : (L()?"กำลังเปลี่ยน — เฉลี่ยซ่อนรายละเอียด":"changing — the average hides the story"); }}
+          : (L()?"กำลังเปลี่ยน — ค่าเฉลี่ยซ่อนรายละเอียดไว้":"changing — the average hides the story"); }}
     ],
     /* fixed: the fastest, longest run (22 m/s for 8 s) still fits */
     world:{ kind:"lane", span:function(){ return 180; } },
@@ -154,7 +164,7 @@ nodes:[
       return [
         {role:"agent", x:avg*te, ghost:0.32, term:"vbar"},
         {role:"agent", x:r.x, moving:S.playing, term:"v",
-         vel:r.v, velScale:2.4, velTerm:"v", velLab:[fmt(r.v)+" m/s", fmt(r.v)+" ม./วิ"]}
+         vel:r.v, velScale:2.4, velTerm:"v", velLab:[un(r.v,"m/s"), un(r.v,"m/s")]}
       ];
     },
     events:function(p,S){
@@ -163,7 +173,7 @@ nodes:[
     },
     instrument:{ kind:"graph",
       xmin:0, xmax:8, ymin:0, ymax:24,
-      xlab:["seconds","วินาที"], ylab:["m/s","ม./วิ"],
+      xlab:["seconds","วินาที"], ylab:["m/s","m/s"],
       fn:function(x,p){ var f=Math.min(1,x/p.T); return p.v1+(p.v2-p.v1)*f; },
       mark:function(p,S){ return Math.min(S.t,p.T); }
     },
@@ -175,12 +185,12 @@ nodes:[
     leader:function(p,S){ return PHYS.ramp(p,S.t).x; },
     spell:{
       tex:function(p,S){ var D=(p.v1+p.v2)/2*p.T;
-        return "\\bar v = \\dfrac{s}{t} = \\dfrac{"+fmt2(D)+"}{"+p.T+"} = "+fmt2(D/p.T)+"\\,\\text{m/s}\\qquad v_{\\text{now}} = "+fmt2(PHYS.ramp(p,S.t).v)+"\\,\\text{m/s}"; },
+        return "\\bar v = \\dfrac{s}{t} = \\dfrac{"+numTex(D,4)+"}{"+p.T+"} = "+numTex(D/p.T)+"\\,\\text{m/s}\\qquad v_{\\text{now}} = "+numTex(PHYS.ramp(p,S.t).v)+"\\,\\text{m/s}"; },
       terms:[
         {k:"vbar", sym:"v̄", lab:["average · the echo","ค่าเฉลี่ย · เงาสะท้อน"], col:"accent2",
-         f:function(p){ return fmt2((p.v1+p.v2)/2)+" m/s"; }},
+         f:function(p){ return num((p.v1+p.v2)/2)+"\u00a0m/s"; }},
         {k:"v", sym:"v", lab:["right now · {@agent}","ขณะนี้ · {@agent}"], col:"accent",
-         f:function(p,S){ return fmt2(PHYS.ramp(p,S.t).v)+" m/s"; }}
+         f:function(p,S){ return num(PHYS.ramp(p,S.t).v)+"\u00a0m/s"; }}
       ]
     },
     predict:{ kind:"choice",
@@ -189,7 +199,7 @@ nodes:[
       actual:function(p){ return p.v2>p.v1 ? 0 : (p.v2<p.v1 ? 1 : 2); },
       explain:function(){ return [
         "The echo holds the average the whole way, so whoever starts slower spends the first half behind and only draws level at the very end.",
-        "เงาเคลื่อนที่ด้วยความเร็วเฉลี่ยตลอดทาง ใครที่เริ่มช้ากว่าจะตามหลังอยู่ตลอดครึ่งแรก และมาทันกันตอนสุดทางพอดี"]; }
+        "เงาไปด้วยอัตราเร็วเฉลี่ยคงที่ตลอดทาง ฝ่ายที่เริ่มช้ากว่าจึงตามหลังตลอดครึ่งแรก แล้วมาเสมอกันที่ปลายทางพอดี"]; }
     },
     trials:{
       lock:["v1","T"],
@@ -198,27 +208,27 @@ nodes:[
         return {v1:v1, v2:v2, T:T, D:(v1+v2)/2*T, set:{v1:v1, v2:v1, T:T}};
       },
       say:function(g){ return [
-        "{@Goal} is "+fmt2(g.D)+" m away and opens in exactly "+g.T+" s. You leave the first {@marker} at "+g.v1+" m/s and speed up steadily. What speed must you reach at the portal to arrive exactly on time?",
-        "{@goal}อยู่ห่างไป "+fmt2(g.D)+" ม. และจะเปิดในอีก "+g.T+" วินาทีพอดี คุณออกจาก{@marker}แรกที่ "+g.v1+" ม./วิ แล้วเร่งขึ้นสม่ำเสมอ ต้องไปถึงประตูด้วยความเร็วเท่าใดจึงจะถึงตรงเวลาพอดี"]; },
+        "{@Goal} is "+num(g.D,4)+"\u00a0m away and opens in exactly "+g.T+"\u00a0s. You leave the first {@marker} at "+g.v1+"\u00a0m/s and speed up steadily. What speed must you reach at the portal to arrive exactly on time?",
+        "{@goal}อยู่ห่างไป "+num(g.D,4)+"\u00a0m และจะเปิดในอีก "+g.T+"\u00a0s พอดี เราออกจาก{@marker}แรกด้วย "+g.v1+"\u00a0m/s แล้วเร่งขึ้นอย่างสม่ำเสมอ ตอนถึงประตูต้องมีความเร็วเท่าใดจึงจะมาทันเวลาพอดี"]; },
       at:function(g){ return {x:g.D, lift:30}; },
       check:function(p,S,g){
         var D=(p.v1+p.v2)/2*p.T, avg=g.D/g.T;
         if(p.v2===g.v2) return {ok:true, msg:[
-          "Right on time. The average must be "+fmt2(g.D)+" / "+g.T+" = "+fmt2(avg)+" m/s, and a steady ramp averages its two ends, so the end is 2 × "+fmt2(avg)+" − "+g.v1+" = "+g.v2+" m/s.",
-          "ตรงเวลาพอดี ความเร็วเฉลี่ยต้องเป็น "+fmt2(g.D)+" / "+g.T+" = "+fmt2(avg)+" ม./วิ และการเร่งสม่ำเสมอมีค่าเฉลี่ยอยู่กึ่งกลางสองปลาย ปลายทางจึงเป็น 2 × "+fmt2(avg)+" − "+g.v1+" = "+g.v2+" ม./วิ"]};
+          "Right on time. The average must be "+num(g.D,4)+" / "+g.T+" = "+num(avg)+"\u00a0m/s, and a steady ramp averages its two ends, so the end is 2 × "+num(avg)+" − "+g.v1+" = "+g.v2+"\u00a0m/s.",
+          "ตรงเวลาพอดี อัตราเร็วเฉลี่ยต้องเป็น "+num(g.D,4)+" / "+g.T+" = "+num(avg)+"\u00a0m/s และเมื่อเร่งสม่ำเสมอ ค่าเฉลี่ยจะอยู่กึ่งกลางระหว่างความเร็วต้นกับความเร็วปลาย ความเร็วปลายจึงเป็น 2 × "+num(avg)+" − "+g.v1+" = "+g.v2+"\u00a0m/s"]};
         return {ok:false, msg:[
-          "You averaged "+fmt2((p.v1+p.v2)/2)+" m/s and covered "+fmt2(D)+" m in "+g.T+" s, "+(D<g.D?"short of":"past")+" the portal. What average does the portal need?",
-          "คุณเฉลี่ยได้ "+fmt2((p.v1+p.v2)/2)+" ม./วิ และไปได้ "+fmt2(D)+" ม. ใน "+g.T+" วินาที "+(D<g.D?"ยังไม่ถึง":"เลย")+"ประตู ประตูต้องการความเร็วเฉลี่ยเท่าใด"]};
+          "You averaged "+num((p.v1+p.v2)/2)+"\u00a0m/s and covered "+num(D,4)+"\u00a0m in "+g.T+"\u00a0s, "+(D<g.D?"short of":"past")+" the portal. What average does the portal need?",
+          "เราเฉลี่ยได้ "+num((p.v1+p.v2)/2)+"\u00a0m/s และไปได้ "+num(D,4)+"\u00a0m ใน "+g.T+"\u00a0s "+(D<g.D?"ยังไม่ถึง":"เลย")+"ประตู ต้องเฉลี่ยให้ได้เท่าใดจึงจะพอดี"]};
       }
     },
     note:["the average is one number; the arrow tells a different story at every instant",
-          "ค่าเฉลี่ยเป็นเลขตัวเดียว แต่ลูกศรบอกเรื่องราวที่ต่างกันไปในแต่ละขณะ"]
+          "ค่าเฉลี่ยเป็นตัวเลขเดียว แต่ลูกศรบอกว่าแต่ละขณะไม่เหมือนกัน"]
   },
   guide:[
     {say:["Both {@markers} see the same speed. The echo and {@agent} {@fly} as one: here the average really is the truth.",
           "{@markers}ทั้งสองอ่านความเร็วได้เท่ากัน เงากับ{@agent}{@fly}ไปด้วยกัน กรณีนี้ค่าเฉลี่ยตรงกับความจริงทุกขณะ"], set:{v1:9,v2:9,T:6}},
     {say:["Now {@agent} speeds up between them. The average still reads 9.5, but press play: the echo pulls ahead, then is caught.",
-          "ทีนี้{@agent}เร่งความเร็วขึ้นระหว่างทาง ค่าเฉลี่ยยังเป็น 9.5 เท่าเดิม แต่ลองกดเล่นดู เงาจะนำไปก่อน แล้วถูกไล่ทันตอนปลายทาง"], set:{v1:5,v2:14,T:6}},
+          "ทีนี้{@agent}เร่งความเร็วขึ้นระหว่างทาง ค่าเฉลี่ยยังเป็น 9.5 เท่าเดิม แต่ลองกดเล่นดู เงาจะนำไปก่อน แล้ว{@agent}ไล่ทันตอนปลายทาง"], set:{v1:5,v2:14,T:6}},
     {say:["An extreme ramp. They leave together and arrive together — and are apart the whole way between.",
           "ลองเร่งแบบสุดขั้ว ทั้งสองออกตัวพร้อมกันและถึงพร้อมกัน แต่ระหว่างทางห่างกันตลอด"], set:{v1:2,v2:22,T:6}}
   ]
@@ -236,19 +246,19 @@ nodes:[
     anim:true,
     spellName:["Gust Sigil: how fast velocity changes","ตราเวทลม: ความเร็วเปลี่ยนเร็วแค่ไหน"],
     question:["{@Push} adds the same speed every second. Watch the afterimages: why do they spread apart?",
-              "{@push}เพิ่มความเร็วเท่า ๆ กันทุกวินาที ลองดูภาพติดตา ทำไมมันจึงห่างกันมากขึ้นเรื่อย ๆ"],
+              "{@push}เพิ่มความเร็วเท่า ๆ กันทุกวินาที ลองดูภาพติดตา ทำไมมันห่างกันมากขึ้นเรื่อย ๆ"],
     ctrls:[
       {k:"a", lab:["Strength of {@push}","ความแรงของ{@push}"], min:0.5, max:6, step:.5, def:2.5, unit:" m/s²"},
       {k:"T", lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:8, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Speed now","ความเร็วขณะนี้"], f:function(S){ return fmt2(S.p.a*Math.min(S.t,S.p.T))+" m/s"; }},
+      {lab:["Speed now","ความเร็วขณะนี้"], f:function(S){ return num(S.p.a*Math.min(S.t,S.p.T))+"\u00a0m/s"; }},
       {lab:["Acceleration","ความเร่ง"], f:function(S){
-        return fmt2(S.p.a)+(L()?" ม./วิ² · คงที่":" m/s² · constant"); }},
+        return un(S.p.a,"m/s²")+(L()?" · คงที่":" · constant"); }},
       {lab:["Gained each second","เพิ่มขึ้นทุกวินาที"], f:function(S){
-        return fmt2(S.p.a)+(L()?" ม./วิ":" m/s"); }},
+        return un(S.p.a,"m/s"); }},
       {lab:["Distance from the start","ระยะจากจุดเริ่ม"], f:function(S){
-        var t=Math.min(S.t,S.p.T); return fmt2(0.5*S.p.a*t*t)+" m"; }}
+        var t=Math.min(S.t,S.p.T); return num(0.5*S.p.a*t*t)+"\u00a0m"; }}
     ],
     /* fixed: ½ × 6 × 8² = 192 m is the furthest any setting reaches */
     world:{ kind:"lane", span:function(){ return 200; } },
@@ -273,12 +283,12 @@ nodes:[
       for(var k=1;k<=Math.floor(t+1e-9) && k<t-0.05;k++)
         list.push({role:"agent", x:0.5*p.a*k*k, ghost:0.2, term:"a", haloLift:30});
       list.push({role:"agent", x:0.5*p.a*t*t, moving:S.playing, term:"v",
-                 vel:p.a*t, velScale:2, velTerm:"v", velLab:[fmt(p.a*t)+" m/s", fmt(p.a*t)+" ม./วิ"]});
+                 vel:p.a*t, velScale:2, velTerm:"v", velLab:[un(p.a*t,"m/s"), un(p.a*t,"m/s")]});
       return list;
     },
     instrument:{ kind:"graph",
       xmin:0, xmax:8, ymin:0, ymax:50,
-      xlab:["seconds from the start","วินาทีจากจุดเริ่ม"], ylab:["m/s","ม./วิ"],
+      xlab:["seconds from the start","วินาทีจากจุดเริ่ม"], ylab:["m/s","m/s"],
       fn:function(x,p){ return p.a*Math.min(x,p.T); },
       mark:function(p,S){ return Math.min(S.t,p.T); }
     },
@@ -287,15 +297,15 @@ nodes:[
       var p=S.p, t0=Math.max(0,Math.min(p.T-1,Math.floor(Math.min(S.t,p.T)))), hl=S.hl==="a";
       var x0=G.X(t0), x1=G.X(t0+1), y0=G.Y(p.a*t0), y1=G.Y(p.a*(t0+1)), c="var(--accent2)";
       o.push('<path d="M'+fmt2(x0)+' '+fmt2(y0)+' H'+fmt2(x1)+' V'+fmt2(y1)+'" fill="none" stroke="'+c+'" stroke-width="'+(hl?3:1.6)+'"/>');
-      o.push('<text x="'+fmt2(x1+5)+'" y="'+fmt2((y0+y1)/2+4)+'" fill="'+c+'" font-family="IBM Plex Sans" font-size="10.5" font-weight="600">+'+fmt(p.a)+(L()?" ม./วิ ต่อ 1 วิ":" m/s per 1 s")+'</text>');
+      o.push('<text x="'+fmt2(x1+5)+'" y="'+fmt2((y0+y1)/2+4)+'" fill="'+c+'" font-family="IBM Plex Sans" font-size="10.5" font-weight="600">+'+num(p.a)+(L()?"\u00a0m/s ต่อ 1 s":"\u00a0m/s per 1 s")+'</text>');
     },
     leader:function(p,S){ var t=Math.min(S.t,p.T); return 0.5*p.a*t*t; },
     spell:{
       tex:function(p,S){ var t=Math.min(S.t,p.T);
-        return "v = u + at = 0 + ("+fmt2(p.a)+")("+fmt2(t)+") = "+fmt2(p.a*t)+"\\,\\text{m/s}"; },
+        return "v = u + at = 0 + ("+numTex(p.a)+")("+numTex(t)+") = "+numTex(p.a*t)+"\\,\\text{m/s}"; },
       terms:[
-        {k:"a", sym:"a", lab:["gained each second","เพิ่มทุกวินาที"], col:"accent2", f:function(p){ return fmt2(p.a)+" m/s²"; }},
-        {k:"v", sym:"v", lab:["speed now","ความเร็วขณะนี้"], col:"accent", f:function(p,S){ return fmt2(p.a*Math.min(S.t,p.T))+" m/s"; }}
+        {k:"a", sym:"a", lab:["gained each second","เพิ่มทุกวินาที"], col:"accent2", f:function(p){ return num(p.a)+"\u00a0m/s²"; }},
+        {k:"v", sym:"v", lab:["speed now","ความเร็วขณะนี้"], col:"accent", f:function(p,S){ return num(p.a*Math.min(S.t,p.T))+"\u00a0m/s"; }}
       ]
     },
     predict:{ kind:"x",
@@ -303,8 +313,8 @@ nodes:[
       actual:function(p){ return 0.5*p.a*p.T*p.T; },
       tol:function(p){ return Math.max(1, 0.08*0.5*p.a*p.T*p.T); },
       explain:function(p){ var s=0.5*p.a*p.T*p.T; return [
-        "s = ½at² = ½ × "+fmt2(p.a)+" × "+p.T+"² = "+fmt2(s)+" m. Twice the time means four times the distance.",
-        "s = ½at² = ½ × "+fmt2(p.a)+" × "+p.T+"² = "+fmt2(s)+" ม. เวลาเพิ่มสองเท่า ระยะเพิ่มสี่เท่า"]; }
+        "s = ½at² = ½ × "+num(p.a)+" × "+p.T+"² = "+num(s,4)+"\u00a0m. Twice the time means four times the distance.",
+        "s = ½at² = ½ × "+num(p.a)+" × "+p.T+"² = "+num(s,4)+"\u00a0m เวลาเพิ่มสองเท่า ระยะเพิ่มสี่เท่า"]; }
     },
     trials:{
       lock:["T"],
@@ -313,17 +323,17 @@ nodes:[
         return {a:a, T:T, D:0.5*a*T*T, set:{a:(a===0.5?1:0.5), T:T}};
       },
       say:function(g){ return [
-        "From rest, reach {@goal} "+fmt2(g.D)+" m away exactly as {@clock} runs out at "+g.T+" s. How strong must {@push} be?",
-        "เริ่มจากหยุดนิ่ง ไปให้ถึง{@goal}ที่ห่าง "+fmt2(g.D)+" ม. พอดีตอนที่{@clock}หมดที่ "+g.T+" วินาที {@push}ต้องแรงเท่าใด"]; },
+        "From rest, reach {@goal} "+num(g.D,4)+"\u00a0m away exactly as {@clock} runs out at "+g.T+"\u00a0s. How strong must {@push} be?",
+        "เริ่มจากหยุดนิ่ง แล้วไปให้ถึง{@goal}ที่ห่าง "+num(g.D,4)+"\u00a0m พอดีตอน{@clock}หมดเวลาที่ "+g.T+"\u00a0s {@push}ต้องแรงเท่าใด"]; },
       at:function(g){ return {x:g.D, lift:30}; },
       check:function(p,S,g){
         var D=0.5*p.a*g.T*g.T;
         if(p.a===g.a) return {ok:true, msg:[
-          "Through the portal on the last grain of sand. From s = ½at², a = 2s / t² = 2 × "+fmt2(g.D)+" / "+g.T+"² = "+fmt2(g.a)+" m/s².",
-          "ผ่านประตูพอดีตอนทรายเม็ดสุดท้าย จาก s = ½at² ได้ a = 2s / t² = 2 × "+fmt2(g.D)+" / "+g.T+"² = "+fmt2(g.a)+" ม./วิ²"]};
+          "Through the portal on the last grain of sand. From s = ½at², a = 2s / t² = 2 × "+num(g.D,4)+" / "+g.T+"² = "+num(g.a)+"\u00a0m/s².",
+          "ผ่านประตูพอดีตอนทรายเม็ดสุดท้าย จาก s = ½at² ได้ a = 2s / t² = 2 × "+num(g.D,4)+" / "+g.T+"² = "+num(g.a)+"\u00a0m/s²"]};
         return {ok:false, msg:[
-          "At "+fmt2(p.a)+" m/s² you cover ½ × "+fmt2(p.a)+" × "+g.T+"² = "+fmt2(D)+" m — "+(D<g.D?"short":"past")+" by "+fmt2(Math.abs(D-g.D))+" m.",
-          "ที่ "+fmt2(p.a)+" ม./วิ² คุณไปได้ ½ × "+fmt2(p.a)+" × "+g.T+"² = "+fmt2(D)+" ม. "+(D<g.D?"ขาดไป":"เลยไป")+" "+fmt2(Math.abs(D-g.D))+" ม."]};
+          "At "+num(p.a)+"\u00a0m/s² you cover ½ × "+num(p.a)+" × "+g.T+"² = "+num(D,4)+"\u00a0m — "+(D<g.D?"short":"past")+" by "+num(Math.abs(D-g.D),4)+"\u00a0m.",
+          "ที่ "+num(p.a)+"\u00a0m/s² เราไปได้ ½ × "+num(p.a)+" × "+g.T+"² = "+num(D,4)+"\u00a0m "+(D<g.D?"ขาดไป":"เลยไป")+" "+num(Math.abs(D-g.D),4)+"\u00a0m"]};
       }
     },
     note:["the slope of this line IS the acceleration — a stronger push, a steeper line",
@@ -331,7 +341,7 @@ nodes:[
   },
   guide:[
     {say:["A gentle push. Press play: the speed climbs steadily and the line is a shallow ramp.",
-          "ออกแรงเบา ๆ กดเล่นดู ความเร็วเพิ่มขึ้นสม่ำเสมอ และเส้นกราฟลาดเอียงเล็กน้อย"], set:{a:1,T:6}},
+          "ออกแรงเบา ๆ แล้วกดเล่นดู ความเร็วเพิ่มขึ้นสม่ำเสมอ และเส้นกราฟลาดเอียงเล็กน้อย"], set:{a:1,T:6}},
     {say:["A stronger push. Same shape, steeper line — the acceleration is the slope. See the afterimages spread wider.",
           "ออกแรงมากขึ้น รูปร่างเหมือนเดิมแต่เส้นชันขึ้น ความเร่งก็คือความชัน สังเกตว่าภาพติดตาห่างกันมากขึ้น"], set:{a:4,T:6}},
     {say:["Each second adds the same speed, so each second also covers more ground than the last. Constant acceleration, not constant speed.",
@@ -360,11 +370,11 @@ nodes:[
     ],
     readouts:[
       {lab:["Speed now","ความเร็วขณะนี้"], f:function(S){
-        return fmt2(Math.max(0,S.p.u+S.p.a*Math.min(S.t,S.p.T)))+" m/s"; }},
-      {lab:["Filled area","พื้นที่ที่เติมสี"], f:function(S){ return fmt2(PHYS.glide(S.p,S.t).x)+" m"; }},
-      {lab:["Distance along {@world}","ระยะตาม{@world}"], f:function(S){ return fmt2(PHYS.glide(S.p,S.t).x)+" m"; }},
+        return num(Math.max(0,S.p.u+S.p.a*Math.min(S.t,S.p.T)))+"\u00a0m/s"; }},
+      {lab:["Filled area","พื้นที่ที่เติมสี"], f:function(S){ return num(PHYS.glide(S.p,S.t).x)+"\u00a0m"; }},
+      {lab:["Distance along {@world}","ระยะตาม{@world}"], f:function(S){ return num(PHYS.glide(S.p,S.t).x)+"\u00a0m"; }},
       {lab:["So the area is","พื้นที่จึงคือ"], f:function(){
-        return L()?"ระยะที่เคลื่อนที่ได้":"the distance travelled"; }}
+        return L()?"ระยะทางที่เคลื่อนที่ไป":"the distance travelled"; }}
     ],
     /* fixed: 16 × 8 + ½ × 5 × 8² = 288 m is the furthest any setting reaches */
     world:{ kind:"lane", span:function(){ return 300; } },
@@ -383,11 +393,11 @@ nodes:[
     cast:function(p,S){
       var r=PHYS.glide(p,S.t);
       return [{role:"agent", x:r.x, moving:S.playing, term:"s",
-               vel:r.v, velScale:2.4, velLab:[fmt(r.v)+" m/s", fmt(r.v)+" ม./วิ"]}];
+               vel:r.v, velScale:2.4, velLab:[un(r.v,"m/s"), un(r.v,"m/s")]}];
     },
     instrument:{ kind:"graph",
       xmin:0, xmax:8, ymin:0, ymax:60, fill:true,
-      xlab:["seconds","วินาที"], ylab:["m/s","ม./วิ"],
+      xlab:["seconds","วินาที"], ylab:["m/s","m/s"],
       fn:function(x,p){ return Math.max(0, p.u+p.a*Math.min(x,p.T)); },
       upto:function(p,S){ return Math.min(S.t,p.T); },
       mark:function(p,S){ return Math.min(S.t,p.T); }
@@ -412,22 +422,22 @@ nodes:[
     },
     leader:function(p,S){ return PHYS.glide(p,S.t).x; },
     spell:{
-      tex:function(p,S){ var t=Math.min(S.t,p.T);
-        return "s = ut + \\tfrac12 at^2 = ("+p.u+")("+fmt2(t)+") + \\tfrac12("+fmt2(p.a)+")("+fmt2(t)+")^2 = "+fmt2(PHYS.glide(p,S.t).x)+"\\,\\text{m}"; },
+      tex:function(p,S){ var t=Math.min(S.t,p.T), ts=p.a<0 ? Math.min(t,-p.u/p.a) : t;
+        return "s = ut + \\tfrac12 at^2 = ("+p.u+")("+numTex(ts)+") + \\tfrac12("+numTex(p.a)+")("+numTex(ts)+")^2 = "+numTex(PHYS.glide(p,S.t).x)+"\\,\\text{m}"; },
       terms:[
-        {k:"u", sym:"u", lab:["height where it starts","ความสูงตอนเริ่ม"], col:"accent", f:function(p){ return p.u+" m/s"; }},
-        {k:"a", sym:"a", lab:["slope of the line","ความชันของเส้น"], col:"accent2", f:function(p){ return fmt2(p.a)+" m/s²"; }},
-        {k:"s", sym:"s", lab:["area under it","พื้นที่ใต้เส้น"], col:"good", f:function(p,S){ return fmt2(PHYS.glide(p,S.t).x)+" m"; }}
+        {k:"u", sym:"u", lab:["height where it starts","ความสูงตอนเริ่ม"], col:"accent", f:function(p){ return p.u+"\u00a0m/s"; }},
+        {k:"a", sym:"a", lab:["slope of the line","ความชันของเส้น"], col:"accent2", f:function(p){ return num(p.a)+"\u00a0m/s²"; }},
+        {k:"s", sym:"s", lab:["area under it","พื้นที่ใต้เส้น"], col:"good", f:function(p,S){ return num(PHYS.glide(p,S.t).x)+"\u00a0m"; }}
       ]
     },
     predict:{ kind:"x", veil:false,
       ask:["Read the area under the graph: how far will {@agent} have gone when the run ends?",
-           "อ่านพื้นที่ใต้กราฟ เมื่อสิ้นสุดการทดลอง {@agent}จะเคลื่อนที่ไปได้ไกลเท่าไร"],
+           "อ่านพื้นที่ใต้กราฟ แล้วบอกว่าเมื่อจบการทดลอง {@agent}จะไปได้ไกลเท่าไร"],
       actual:function(p){ return PHYS.glide(p,p.T).x; },
       tol:function(p){ return Math.max(1, 0.08*PHYS.glide(p,p.T).x); },
-      explain:function(p){ var v=Math.max(0,p.u+p.a*p.T), s=PHYS.glide(p,p.T).x; return [
-        "The area is a trapezium: (u + v) / 2 × t = ("+p.u+" + "+fmt2(v)+") / 2 × "+p.T+" = "+fmt2(s)+" m"+(p.u+p.a*p.T<0?" (the line stops at zero, so only the part above the axis counts).":"."),
-        "พื้นที่เป็นรูปสี่เหลี่ยมคางหมู: (u + v) / 2 × t = ("+p.u+" + "+fmt2(v)+") / 2 × "+p.T+" = "+fmt2(s)+" ม."+(p.u+p.a*p.T<0?" (เส้นหยุดที่ศูนย์ จึงนับเฉพาะส่วนเหนือแกน)":"")]; }
+      explain:function(p){ var clip=p.u+p.a*p.T<0, v=Math.max(0,p.u+p.a*p.T), tt=clip?-p.u/p.a:p.T, s=PHYS.glide(p,p.T).x; return [
+        "The area is a trapezium: (u + v) / 2 × t = ("+p.u+" + "+num(v)+") / 2 × "+num(tt)+" = "+num(s,4)+"\u00a0m"+(clip?" (the line stops at zero, so only the part above the axis counts).":"."),
+        "พื้นที่เป็นรูปสี่เหลี่ยมคางหมู: (u + v) / 2 × t = ("+p.u+" + "+num(v)+") / 2 × "+num(tt)+" = "+num(s,4)+"\u00a0m"+(clip?" (เส้นหยุดที่ศูนย์ จึงนับเฉพาะส่วนเหนือแกน)":"")]; }
     },
     trials:{
       lock:["T"],
@@ -438,17 +448,17 @@ nodes:[
         return {T:T, u:u, a:a, D:u*T+0.5*a*T*T, v:u+a*T, set:{u:ri(0,16), a:0, T:T}};
       },
       say:function(g){ return [
-        "Shape the graph so {@agent} covers exactly "+fmt2(g.D)+" m in "+g.T+" s and is moving at "+fmt2(g.v)+" m/s at the end. The end handle fixes one condition; the area fixes the other.",
-        "ปั้นกราฟให้{@agent}ไปได้ "+fmt2(g.D)+" ม. พอดีใน "+g.T+" วินาที และมีความเร็ว "+fmt2(g.v)+" ม./วิ ตอนจบ จุดปลายกำหนดเงื่อนไขหนึ่ง พื้นที่กำหนดอีกเงื่อนไขหนึ่ง"]; },
+        "Shape the graph so {@agent} covers exactly "+num(g.D,4)+"\u00a0m in "+g.T+"\u00a0s and is moving at "+num(g.v)+"\u00a0m/s at the end. The end handle fixes one condition; the area fixes the other.",
+        "ปรับกราฟให้{@agent}ไปได้ "+num(g.D,4)+"\u00a0m พอดีใน "+g.T+"\u00a0s และมีความเร็ว "+num(g.v)+"\u00a0m/s ตอนจบ จุดปลายกำหนดเงื่อนไขหนึ่ง ส่วนพื้นที่กำหนดอีกเงื่อนไข"]; },
       at:function(g){ return {x:g.D, lift:30}; },
       check:function(p,S,g){
         var D=PHYS.glide(p,p.T).x, v=Math.max(0,p.u+p.a*p.T);
         if(p.u===g.u && p.a===g.a) return {ok:true, msg:[
-          "Area = (u + v) / 2 × t, so u = 2s / t − v = 2 × "+fmt2(g.D)+" / "+g.T+" − "+fmt2(g.v)+" = "+g.u+" m/s, and the slope a = (v − u) / t = "+fmt2(g.a)+" m/s².",
-          "พื้นที่ = (u + v) / 2 × t ดังนั้น u = 2s / t − v = 2 × "+fmt2(g.D)+" / "+g.T+" − "+fmt2(g.v)+" = "+g.u+" ม./วิ และความชัน a = (v − u) / t = "+fmt2(g.a)+" ม./วิ²"]};
+          "Area = (u + v) / 2 × t, so u = 2s / t − v = 2 × "+num(g.D,4)+" / "+g.T+" − "+num(g.v)+" = "+g.u+"\u00a0m/s, and the slope a = (v − u) / t = "+num(g.a)+"\u00a0m/s².",
+          "พื้นที่ = (u + v) / 2 × t ดังนั้น u = 2s / t − v = 2 × "+num(g.D,4)+" / "+g.T+" − "+num(g.v)+" = "+g.u+"\u00a0m/s และความชัน a = (v − u) / t = "+num(g.a)+"\u00a0m/s²"]};
         return {ok:false, msg:[
-          "Your area is "+fmt2(D)+" m (need "+fmt2(g.D)+") and you end at "+fmt2(v)+" m/s (need "+fmt2(g.v)+"). Place the end handle first, then slide the start until the area fits.",
-          "พื้นที่ของคุณคือ "+fmt2(D)+" ม. (ต้องการ "+fmt2(g.D)+") และความเร็วตอนจบ "+fmt2(v)+" ม./วิ (ต้องการ "+fmt2(g.v)+") วางจุดปลายก่อน แล้วเลื่อนจุดเริ่มจนพื้นที่พอดี"]};
+          "Your area is "+num(D,4)+"\u00a0m (need "+num(g.D,4)+") and you end at "+num(v)+"\u00a0m/s (need "+num(g.v)+"). Place the end handle first, then slide the start until the area fits.",
+          "พื้นที่ของเราคือ "+num(D,4)+"\u00a0m (ต้องการ "+num(g.D,4)+") และความเร็วตอนจบ "+num(v)+"\u00a0m/s (ต้องการ "+num(g.v)+") วางจุดปลายก่อน แล้วเลื่อนจุดเริ่มจนพื้นที่พอดี"]};
       }
     },
     note:["height is how fast, width is how long, so the area can only be how far",
@@ -458,7 +468,7 @@ nodes:[
     {say:["Press play. The filled area grows at exactly the rate {@agent} covers ground.",
           "กดเล่น พื้นที่ที่ระบายสีจะโตขึ้นในอัตราเดียวกับที่{@agent}เคลื่อนที่ไปพอดี"], set:{u:4,a:2,T:6}},
     {say:["Drag the slope handle flat. The area is now a plain rectangle: speed times time.",
-          "ลากจุดความชันให้เส้นราบ พื้นที่จะกลายเป็นสี่เหลี่ยมผืนผ้า ซึ่งก็คือความเร็วคูณเวลา"], set:{u:10,a:0,T:6}},
+          "ลากจุดความชันให้เส้นราบ พื้นที่จะกลายเป็นสี่เหลี่ยมผืนผ้า คือความเร็วคูณเวลา"], set:{u:10,a:0,T:6}},
     {say:["Let the line slope down. The area still measures distance — it just grows more slowly.",
           "ลองให้เส้นลาดลง พื้นที่ก็ยังวัดระยะทางอยู่ เพียงแต่โตช้าลง"], set:{u:14,a:-2,T:6}}
   ]
@@ -486,17 +496,17 @@ nodes:[
     ],
     duration:function(p){ return p.rt+p.u/p.b+0.6; },
     readouts:[
-      {lab:["Thinking distance","ระยะคิด"], f:function(S){ return fmt2(S.p.u*S.p.rt)+" m"; }},
-      {lab:["Braking distance","ระยะเบรก"], f:function(S){ return fmt2(S.p.u*S.p.u/(2*S.p.b))+" m"; }},
-      {lab:["Total stopping distance","ระยะหยุดรวม"], f:function(S){ return fmt2(PHYS.stop(S.p,0).d)+" m"; }},
-      {lab:["Verdict","ผลลัพธ์"], f:function(S){
+      {lab:["Thinking distance","ระยะคิด"], f:function(S){ return num(S.p.u*S.p.rt)+"\u00a0m"; }},
+      {lab:["Braking distance","ระยะเบรก"], f:function(S){ return num(S.p.u*S.p.u/(2*S.p.b))+"\u00a0m"; }},
+      {lab:["Total stopping distance","ระยะหยุดรวม"], f:function(S){ return num(PHYS.stop(S.p,0).d)+"\u00a0m"; }},
+      {lab:["Verdict","ผลสรุป"], f:function(S){
         var d=PHYS.stop(S.p,0).d;
-        return d<=S.p.gap ? (L()?"หยุดทัน · เหลือ "+fmt2(S.p.gap-d)+" ม.":"stops in time · "+fmt2(S.p.gap-d)+" m spare")
-                          : (L()?"ไม่ทัน · เกิน "+fmt2(d-S.p.gap)+" ม.":"too late · "+fmt2(d-S.p.gap)+" m over"); }}
+        return d<=S.p.gap+1e-9 ? (L()?"หยุดทัน · เหลือ "+num(S.p.gap-d)+"\u00a0m":"stops in time · "+num(S.p.gap-d)+"\u00a0m spare")
+                          : (L()?"ไม่ทัน · เกิน "+num(d-S.p.gap)+"\u00a0m":"too late · "+num(d-S.p.gap)+"\u00a0m over"); }}
     ],
     world:{ kind:"lane", span:function(){ return 60; } },
     props:function(p,S){
-      var r=PHYS.stop(p,S.t), hit=r.d>p.gap && r.x>=p.gap-1e-6;
+      var r=PHYS.stop(p,S.t), hit=r.d>p.gap+1e-9 && r.x>=p.gap-1e-6;
       return [{role:"marker", x:0, on:true},
               {role:"hazard", x:p.gap+4, awake:hit, term:"gap"}];
     },
@@ -504,10 +514,10 @@ nodes:[
       var r=PHYS.stop(p,S.t), list=[];
       if(!S.trial && !S.pred && S.t<1e-9)
         list.push({role:"agent", x:Math.min(58,r.d), ghost:0.28,
-                   lab:r.d<=p.gap?["will stop here","จะหยุดตรงนี้"]:["still moving here","ยังไม่หยุดตรงนี้"],
-                   col:r.d<=p.gap?"good":"warn"});
+                   lab:r.d<=p.gap+1e-9?["will stop here","จะหยุดตรงนี้"]:["still moving here","ยังไม่หยุดตรงนี้"],
+                   col:r.d<=p.gap+1e-9?"good":"warn"});
       list.push({role:"agent", x:Math.min(r.x, p.gap), moving:S.playing && r.v>0, term:"u",
-                 vel:r.v, velScale:2.2, velLab:[fmt(r.v)+" m/s", fmt(r.v)+" ม./วิ"]});
+                 vel:r.v, velScale:2.2, velLab:[un(r.v,"m/s"), un(r.v,"m/s")]});
       return list;
     },
     marks:function(p){
@@ -521,8 +531,8 @@ nodes:[
     ],
     events:function(p,S){
       var r=PHYS.stop(p,S.t);
-      return [{id:"crash", when:r.d>p.gap && r.x>=p.gap-1e-6, x:p.gap, lift:20, kind:"impact", col:"warn"},
-              {id:"halt",  when:r.d<=p.gap && S.t>0 && r.v<=1e-9, x:r.d, lift:20, kind:"burst", col:"good"}];
+      return [{id:"crash", when:r.d>p.gap+1e-9 && r.x>=p.gap-1e-6, x:p.gap, lift:20, kind:"impact", col:"warn"},
+              {id:"halt",  when:r.d<=p.gap+1e-9 && S.t>0 && r.v<=1e-9, x:r.d, lift:20, kind:"burst", col:"good"}];
     },
     instrument:{ kind:"bar", ymax:100,
       ylab:["metres","เมตร"],
@@ -535,13 +545,13 @@ nodes:[
     },
     spell:{
       tex:function(p){ var th=p.u*p.rt, br=p.u*p.u/(2*p.b), d=th+br;
-        return "d = ut_r + \\dfrac{u^2}{2b} = ("+p.u+")("+fmt2(p.rt)+") + \\dfrac{"+p.u+"^2}{2("+fmt2(p.b)+")} = "+fmt2(th)+" + "+fmt2(br)+
-               " = "+fmt2(d)+"\\,\\text{m}\\;"+(d<=p.gap?"\\le":">")+"\\;"+p.gap+"\\,\\text{m}"; },
+        return "d = ut_r + \\dfrac{u^2}{2b} = ("+p.u+")("+numTex(p.rt)+") + \\dfrac{"+p.u+"^2}{2("+numTex(p.b)+")} = "+numTex(th)+" + "+numTex(br)+
+               " = "+numTex(d)+"\\,\\text{m}\\;"+(d<=p.gap+1e-9?"\\le":">")+"\\;"+p.gap+"\\,\\text{m}"; },
       terms:[
-        {k:"u",  sym:"u",  lab:["speed","ความเร็ว"], col:"accent", f:function(p){ return p.u+" m/s"; }},
-        {k:"rt", sym:"tᵣ", lab:["thinking time","เวลาคิด"], col:"faint", f:function(p){ return fmt2(p.rt)+" s"; }},
-        {k:"b",  sym:"b",  lab:["braking strength","ความแรงเบรก"], col:"warn", f:function(p){ return fmt2(p.b)+" m/s²"; }},
-        {k:"gap", sym:"gap", lab:["room available","ระยะที่มี"], col:"good", f:function(p){ return p.gap+" m"; }}
+        {k:"u",  sym:"u",  lab:["speed","ความเร็ว"], col:"accent", f:function(p){ return p.u+"\u00a0m/s"; }},
+        {k:"rt", sym:"tᵣ", lab:["thinking time","เวลาคิด"], col:"faint", f:function(p){ return num(p.rt)+"\u00a0s"; }},
+        {k:"b",  sym:"b",  lab:["braking strength","ความแรงเบรก"], col:"warn", f:function(p){ return num(p.b)+"\u00a0m/s²"; }},
+        {k:"gap", sym:"gap", lab:["room available","ระยะที่มี"], col:"good", f:function(p){ return p.gap+"\u00a0m"; }}
       ]
     },
     predict:{ kind:"x", stretch:false,
@@ -549,8 +559,8 @@ nodes:[
       actual:function(p){ return Math.min(PHYS.stop(p,0).d, p.gap); },
       tol:function(){ return 2; },
       explain:function(p){ var th=p.u*p.rt, br=p.u*p.u/(2*p.b), d=th+br; return [
-        "Thinking "+fmt2(th)+" m + braking "+p.u+"² / (2 × "+fmt2(p.b)+") = "+fmt2(br)+" m = "+fmt2(d)+" m"+(d>p.gap?", more than the "+p.gap+" m available.":"."),
-        "ระยะคิด "+fmt2(th)+" ม. + ระยะเบรก "+p.u+"² / (2 × "+fmt2(p.b)+") = "+fmt2(br)+" ม. รวม "+fmt2(d)+" ม."+(d>p.gap?" มากกว่า "+p.gap+" ม. ที่มี":"")]; }
+        "Thinking "+num(th)+"\u00a0m + braking "+p.u+"² / (2 × "+num(p.b)+") = "+num(br)+"\u00a0m = "+num(d)+"\u00a0m"+(d>p.gap+1e-9?", more than the "+p.gap+"\u00a0m available.":"."),
+        "ระยะคิด "+num(th)+"\u00a0m + ระยะเบรก "+p.u+"² / (2 × "+num(p.b)+") = "+num(br)+"\u00a0m รวม "+num(d)+"\u00a0m"+(d>p.gap+1e-9?" มากกว่า "+p.gap+"\u00a0m ที่มี":"")]; }
     },
     trials:{
       lock:["u","rt","gap"],
@@ -563,29 +573,29 @@ nodes:[
         return {u:u, rt:rt, gap:gap, room:gap-u*rt, bmin:bmin, b:bs, set:{u:u, rt:rt, gap:gap, b:1}};
       },
       say:function(g){ return [
-        "You {@fly} at "+g.u+" m/s, your reactions take "+g.rt+" s, and {@hazard} is "+g.gap+" m ahead. Choose the gentlest {@brake} (to the nearest 0.5 m/s²) that still stops you in time — work it out before you cast.",
-        "คุณ{@fly}ด้วยความเร็ว "+g.u+" ม./วิ ใช้เวลาตอบสนอง "+g.rt+" วินาที และ{@hazard}อยู่ห่างไป "+g.gap+" ม. เลือก{@brake}ที่เบาที่สุด (ละเอียดถึง 0.5 ม./วิ²) ที่ยังหยุดทัน คำนวณก่อนร่ายเวท"]; },
+        "You {@fly} at "+g.u+"\u00a0m/s, your reactions take "+g.rt+"\u00a0s, and {@hazard} is "+g.gap+"\u00a0m ahead. Choose the gentlest {@brake} (to the nearest 0.5 m/s²) that still stops you in time — work it out before you cast.",
+        "เรา{@fly}ด้วยความเร็ว "+g.u+"\u00a0m/s ใช้เวลาตอบสนอง "+g.rt+"\u00a0s และ{@hazard}อยู่ห่างไป "+g.gap+"\u00a0m เลือก{@brake}ที่เบาที่สุด (ละเอียดถึง 0.5 m/s²) ที่ยังหยุดทัน คำนวณให้เสร็จก่อนร่ายเวท"]; },
       at:function(g){ return {x:g.gap, lift:30}; },
       check:function(p,S,g){
         var d=PHYS.stop(p,0).d;
-        var why=["Room to brake = "+g.gap+" − "+g.u+" × "+g.rt+" = "+fmt2(g.room)+" m, so b ≥ u² / 2s = "+g.u+"² / (2 × "+fmt2(g.room)+") = "+fmt2(g.bmin)+" → "+fmt2(g.b)+" m/s².",
-                 "ระยะที่เหลือให้เบรก = "+g.gap+" − "+g.u+" × "+g.rt+" = "+fmt2(g.room)+" ม. ดังนั้น b ≥ u² / 2s = "+g.u+"² / (2 × "+fmt2(g.room)+") = "+fmt2(g.bmin)+" → "+fmt2(g.b)+" ม./วิ²"];
-        if(p.b===g.b) return {ok:true, msg:["Stopped "+fmt2(g.gap-d)+" m short, and not a jolt harder than needed. "+why[0],
-                                            "หยุดก่อนถึง "+fmt2(g.gap-d)+" ม. และไม่แรงเกินจำเป็นเลย "+why[1]]};
-        if(d<=p.gap) return {ok:false, msg:["Safe — but a gentler {@brake} would still have stopped in time. How little room do you actually need?",
+        var why=["Room to brake = "+g.gap+" − "+g.u+" × "+g.rt+" = "+num(g.room)+"\u00a0m, so b ≥ u² / 2s = "+g.u+"² / (2 × "+num(g.room)+") = "+num(g.bmin)+" → "+num(g.b)+"\u00a0m/s².",
+                 "ระยะที่เหลือให้เบรก = "+g.gap+" − "+g.u+" × "+g.rt+" = "+num(g.room)+"\u00a0m ดังนั้น b ≥ u² / 2s = "+g.u+"² / (2 × "+num(g.room)+") = "+num(g.bmin)+" → "+num(g.b)+"\u00a0m/s²"];
+        if(p.b===g.b) return {ok:true, msg:["Stopped "+num(g.gap-d)+"\u00a0m short, and not a jolt harder than needed. "+why[0],
+                                            "หยุดก่อนถึง "+num(g.gap-d)+"\u00a0m และไม่แรงเกินจำเป็นเลย "+why[1]]};
+        if(d<=p.gap+1e-9) return {ok:false, msg:["Safe — but a gentler {@brake} would still have stopped in time. How little room do you actually need?",
                                             "ปลอดภัย แต่ถ้า{@brake}เบากว่านี้ก็ยังหยุดทัน แล้วจริง ๆ ต้องมีที่ว่างอย่างน้อยเท่าไร"]};
-        return {ok:false, msg:["Too gentle: you needed "+fmt2(d)+" m but had "+g.gap+" m. Remember the thinking distance comes off the room first.",
-                               "เบาเกินไป ต้องใช้ระยะ "+fmt2(d)+" ม. แต่มีแค่ "+g.gap+" ม. อย่าลืมหักระยะคิดออกก่อน"]};
+        return {ok:false, msg:["Too gentle: you needed "+num(d)+"\u00a0m but had "+g.gap+"\u00a0m. Remember the thinking distance comes off the room first.",
+                               "เบาเกินไป ต้องใช้ระยะ "+num(d)+"\u00a0m แต่มีแค่ "+g.gap+"\u00a0m อย่าลืมหักระยะคิดออกก่อน"]};
       }
     },
     note:["speed counts twice in braking (u²): ten percent faster costs twenty-one percent more room",
-          "ความเร็วมีผลสองเท่าต่อระยะเบรก (u²) ถ้าเร็วขึ้น 10% จะต้องใช้ระยะเบรกเพิ่มขึ้น 21%"]
+          "ระยะเบรกขึ้นกับความเร็วยกกำลังสอง (u²) ถ้าเร็วขึ้น 10 % ระยะเบรกจะเพิ่มขึ้น 21 %"]
   },
   guide:[
-    {say:["At 14 m/s with a firm brake, {@agent} stops with room to spare. Press play to see it.",
-          "ที่ 14 m/s กับการเบรกแรง ๆ {@agent}หยุดได้โดยยังเหลือที่ว่าง กดเล่นเพื่อดู"], set:{u:14,b:5,rt:.8,gap:34}},
-    {say:["Add just 6 m/s. Thinking distance grew a little; braking distance grew enormously.",
-          "เพิ่มอีกแค่ 6 m/s ระยะคิดเพิ่มขึ้นนิดเดียว แต่ระยะเบรกเพิ่มขึ้นมาก"], set:{u:20,b:5,rt:.8,gap:34}},
+    {say:["At 14\u00a0m/s with a firm brake, {@agent} stops with room to spare. Press play to see it.",
+          "ที่ 14\u00a0m/s กับการเบรกแรง ๆ {@agent}หยุดได้โดยยังเหลือที่ว่าง กดเล่นดูได้เลย"], set:{u:14,b:5,rt:.8,gap:34}},
+    {say:["Add just 6\u00a0m/s. Thinking distance grew a little; braking distance grew enormously.",
+          "เพิ่มอีกแค่ 6\u00a0m/s ระยะคิดเพิ่มขึ้นนิดเดียว แต่ระยะเบรกเพิ่มขึ้นมาก"], set:{u:20,b:5,rt:.8,gap:34}},
     {say:["Same speed as before, but a distracted glance first. Reaction time alone can decide it.",
           "ความเร็วเท่าเดิม แต่เผลอเหลือบมองไปทางอื่นก่อน แค่เวลาตอบสนองก็ตัดสินผลได้"], set:{u:14,b:5,rt:1.5,gap:34}}
   ]
@@ -611,13 +621,13 @@ nodes:[
       {k:"T",  lab:["Watch for","ดูนาน"], min:1, max:3, step:.2, def:2, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["{@Heavy} has fallen","{@heavy}ตกไปแล้ว"], f:function(S){ return fmt2(PHYS.fall(S.p,S.t))+" m"; }},
-      {lab:["{@Light} has fallen","{@light}ตกไปแล้ว"], f:function(S){ return fmt2(PHYS.fall(S.p,S.t))+" m"; }},
-      {lab:["Time to land","เวลาถึงพื้น"], f:function(S){ return fmt2(Math.sqrt(2*S.p.h/10))+" s"; }},
+      {lab:["{@Heavy} has fallen","{@heavy}ตกไปแล้ว"], f:function(S){ return num(PHYS.fall(S.p,S.t))+"\u00a0m"; }},
+      {lab:["{@Light} has fallen","{@light}ตกไปแล้ว"], f:function(S){ return num(PHYS.fall(S.p,S.t))+"\u00a0m"; }},
+      {lab:["Time to land","เวลาถึงพื้น"], f:function(S){ return num(Math.sqrt(2*S.p.h/10))+"\u00a0s"; }},
       {lab:["Does mass matter?","มวลมีผลไหม"], f:function(){
         return L()?"ไม่เลย — ทั้งคู่ตกด้วย g เท่ากัน":"no — both fall at the same g"; }}
     ],
-    world:{ kind:"tower", span:function(){ return 21; }, unit:["m","ม."] },
+    world:{ kind:"tower", span:function(){ return 21; }, unit:["m","m"] },
     props:function(p,S){
       var list=[{role:"perch", h:p.h, lane:0.5, w:190, term:"h"}];
       if(S.trial){
@@ -636,9 +646,9 @@ nodes:[
       var hf=p.h-PHYS.fall(p,S.t);
       return [
         {role:"relic", variant:"heavy", h:hf, lane:0, lift:11, col:"accent", term:"m",
-         lab:["{@heavy} · "+fmt2(p.mm)+" kg","{@heavy} · "+fmt2(p.mm)+" กก."], labLift:20},
+         lab:["{@heavy} · "+num(p.mm)+"\u00a0kg","{@heavy} · "+num(p.mm)+"\u00a0kg"], labLift:20},
         {role:"relic", variant:"light", h:hf, lane:1, lift:6, col:"accent2",
-         lab:["{@light} · 0.01 kg","{@light} · 0.01 กก."], labLift:14}
+         lab:["{@light} · 0.01 kg","{@light} · 0.01 kg"], labLift:14}
       ];
     },
     marks:function(p){ return [{a:0, b:p.h, col:"faint", term:"h"}]; },
@@ -659,11 +669,11 @@ nodes:[
     },
     spell:{
       tex:function(p){ var tl=Math.sqrt(2*p.h/10);
-        return "h = \\tfrac12 g t^2 \\;\\Rightarrow\\; t = \\sqrt{\\dfrac{2h}{g}} = \\sqrt{\\dfrac{2("+fmt2(p.h)+")}{10}} = "+fmt2(tl)+"\\,\\text{s}"; },
+        return "h = \\tfrac12 g t^2 \\;\\Rightarrow\\; t = \\sqrt{\\dfrac{2h}{g}} = \\sqrt{\\dfrac{2("+numTex(p.h)+")}{10}} = "+numTex(tl)+"\\,\\text{s}"; },
       terms:[
-        {k:"h", sym:"h", lab:["height of the fall","ความสูงที่ตก"], col:"good", f:function(p){ return fmt2(p.h)+" m"; }},
-        {k:"t", sym:"t", lab:["time to land","เวลาถึงพื้น"], col:"accent", f:function(p){ return fmt2(Math.sqrt(2*p.h/10))+" s"; }},
-        {k:"m", sym:"m", lab:["mass — not in the spell","มวล — ไม่อยู่ในบทร่าย"], col:"faint", f:function(p){ return fmt2(p.mm)+" kg"; }}
+        {k:"h", sym:"h", lab:["height of the fall","ความสูงที่ตก"], col:"good", f:function(p){ return num(p.h)+"\u00a0m"; }},
+        {k:"t", sym:"t", lab:["time to land","เวลาถึงพื้น"], col:"accent", f:function(p){ return num(Math.sqrt(2*p.h/10))+"\u00a0s"; }},
+        {k:"m", sym:"m", lab:["mass — not in the spell","มวล — ไม่อยู่ในบทร่าย"], col:"faint", f:function(p){ return num(p.mm)+"\u00a0kg"; }}
       ]
     },
     predict:{ kind:"choice",
@@ -671,8 +681,8 @@ nodes:[
       opts:[["{@Heavy}","{@heavy}"],["{@Light}","{@light}"],["They land together","ถึงพร้อมกัน"]],
       actual:function(){ return 2; },
       explain:function(p){ return [
-        "Both fall with the same g, so both take √(2h / g) = "+fmt2(Math.sqrt(2*p.h/10))+" s. Mass never enters the spell (ignoring air).",
-        "ทั้งคู่ตกด้วย g เท่ากัน จึงใช้เวลา √(2h / g) = "+fmt2(Math.sqrt(2*p.h/10))+" วินาทีเท่ากัน มวลไม่อยู่ในบทร่ายเลย (ไม่คิดแรงต้านอากาศ)"]; }
+        "Both fall with the same g, so both take √(2h / g) = "+num(Math.sqrt(2*p.h/10))+"\u00a0s. Mass never enters the spell (ignoring air).",
+        "ทั้งคู่ตกด้วย g เท่ากัน จึงใช้เวลา √(2h / g) = "+num(Math.sqrt(2*p.h/10))+"\u00a0s เท่ากัน มวลไม่อยู่ในบทร่ายเลย (ไม่คิดแรงต้านอากาศ)"]; }
     },
     trials:{
       lock:["T"],
@@ -681,17 +691,17 @@ nodes:[
         return {t:t, h:h, set:{h:(h>10?4:16), T:2.6, mm:+(pick([0.1,0.5,1,2])).toFixed(2)}};
       },
       say:function(g){ return [
-        "{@Goal} on the ground opens for a single instant, exactly "+g.t+" s after you let go. From what height must {@heavy} fall to pass through it? Drag {@perch}, then cast. (g = 10 m/s²)",
-        "{@goal}บนพื้นจะเปิดเพียงชั่วพริบตา ที่ "+g.t+" วินาทีหลังปล่อยพอดี {@heavy}ต้องตกจากความสูงเท่าใดจึงจะผ่านประตูได้ ลาก{@perch} แล้วร่ายเวท (g = 10 ม./วิ²)"]; },
+        "{@Goal} on the ground opens for a single instant, exactly "+g.t+"\u00a0s after you let go. From what height must {@heavy} fall to pass through it? Drag {@perch}, then cast. (g = 10 m/s²)",
+        "{@goal}บนพื้นเปิดเพียงชั่วพริบตา คือที่ "+g.t+"\u00a0s หลังปล่อยพอดี {@heavy}ต้องตกจากความสูงเท่าใดจึงจะผ่านประตูได้ ลาก{@perch} แล้วร่ายเวท (g = 10 m/s²)"]; },
       at:function(g){ return {h:0, lane:0}; },
       check:function(p,S,g){
         var tl=Math.sqrt(2*p.h/10);
         if(Math.abs(p.h-g.h)<1e-6) return {ok:true, msg:[
-          "Through the portal at "+g.t+" s. h = ½gt² = 5 × "+g.t+"² = "+fmt2(g.h)+" m — and the mass never entered the calculation.",
-          "ผ่านประตูที่ "+g.t+" วินาทีพอดี h = ½gt² = 5 × "+g.t+"² = "+fmt2(g.h)+" ม. และมวลไม่ได้อยู่ในการคำนวณเลย"]};
+          "Through the portal at "+g.t+"\u00a0s. h = ½gt² = 5 × "+g.t+"² = "+num(g.h)+"\u00a0m — and the mass never entered the calculation.",
+          "ผ่านประตูที่ "+g.t+"\u00a0s พอดี h = ½gt² = 5 × "+g.t+"² = "+num(g.h)+"\u00a0m และมวลไม่ได้อยู่ในการคำนวณเลย"]};
         return {ok:false, msg:[
-          "From "+fmt2(p.h)+" m it lands after √(2h / g) = "+fmt2(tl)+" s — "+(tl<g.t?"too early":"too late")+". Which height gives "+g.t+" s?",
-          "จาก "+fmt2(p.h)+" ม. จะถึงพื้นหลัง √(2h / g) = "+fmt2(tl)+" วินาที "+(tl<g.t?"เร็วไป":"ช้าไป")+" ความสูงเท่าใดจึงได้ "+g.t+" วินาที"]};
+          "From "+num(p.h)+"\u00a0m it lands after √(2h / g) = "+num(tl)+"\u00a0s — "+(tl<g.t?"too early":"too late")+". Which height gives "+g.t+"\u00a0s?",
+          "ถ้าตกจาก "+num(p.h)+"\u00a0m จะถึงพื้นหลัง √(2h / g) = "+num(tl)+"\u00a0s "+(tl<g.t?"เร็วไป":"ช้าไป")+" ความสูงเท่าใดจึงได้ "+g.t+"\u00a0s"]};
       }
     },
     note:["one curve, not two — the heavy one and the light one fall along exactly the same line",
@@ -701,7 +711,7 @@ nodes:[
     {say:["Press play. They leave together and they arrive together.",
           "กดเล่น ทั้งสองหลุดออกมาพร้อมกันและถึงพื้นพร้อมกัน"], set:{h:12,mm:.4,T:2}},
     {say:["Make {@heavy} two hundred times heavier than {@light}. Play it again — nothing changes. Mass is not in the spell.",
-          "ลองทำให้{@heavy}หนักกว่า{@light}สองร้อยเท่า แล้วเล่นอีกครั้ง ผลไม่เปลี่ยนเลย เพราะมวลไม่ได้อยู่ในสมการ"], set:{h:12,mm:2,T:2}},
+          "ลองทำให้{@heavy}หนักกว่า{@light}สองร้อยเท่า แล้วเล่นอีกครั้ง ผลไม่เปลี่ยนเลย เพราะมวลไม่อยู่ในบทร่าย"], set:{h:12,mm:2,T:2}},
     {say:["Raise {@perch} and both simply take longer, still in step the whole way down.",
           "ลองยก{@perch}ให้สูงขึ้น ทั้งคู่จะใช้เวลานานขึ้น แต่ก็ยังลงมาพร้อมกันตลอดทาง"], set:{h:20,mm:.4,T:2.2}}
   ]
@@ -733,68 +743,68 @@ fig:function(f){
   b+='<line x1="'+x0+'" y1="'+Y(f.u)+'" x2="'+(W-40)+'" y2="'+Y(f.v)+'" stroke="var(--accent)" stroke-width="2.4"/>'+
      '<text x="'+(x0-6)+'" y="'+(Y(f.u)+4)+'" text-anchor="end" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+f.u+'</text>'+
      '<text x="'+(W-36)+'" y="'+(Y(f.v)+4)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+f.v+'</text>'+
-     '<text x="'+(W-40)+'" y="'+(yz+14)+'" text-anchor="middle" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+f.T+'s</text>';
+     '<text x="'+(W-40)+'" y="'+(yz+14)+'" text-anchor="middle" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+f.T+'\u00a0s</text>';
   return '<svg viewBox="0 0 '+W+' 140" role="img" aria-label="velocity time graph">'+b+'</svg>';
 },
 
 gen:{
 "M-02": function(sf){
   var u=ri(2,12), a=ri(2,6), T=ri(3,8), v=u+a*T;
-  if(sf==="S-05") return {stem:["A cart leaves at "+u+" m/s and is measured at "+v+" m/s after "+T+" s. Find its acceleration.",
-                                "รถเริ่มที่ "+u+" ม./วินาที และวัดได้ "+v+" ม./วินาที หลังผ่านไป "+T+" วินาที จงหาความเร่ง"],
-    opts:[{v:fmt(a),ok:1},{v:fmt(v/T),trap:"T-01"},{v:fmt(a*2)},{v:fmt(u/T)}],unit:" m/s²"};
+  if(sf==="S-05") return {stem:["A cart leaves at "+u+"\u00a0m/s and is measured at "+v+"\u00a0m/s after "+T+"\u00a0s. Find its acceleration.",
+                                "รถเริ่มที่ "+u+"\u00a0m/s และวัดได้ "+v+"\u00a0m/s หลังผ่านไป "+T+"\u00a0s จงหาความเร่ง"],
+    opts:uniqOpts([{v:num(a),ok:1},{v:num(v/T),trap:"T-01"},{v:num(a*2)},{v:num(u/T)}]),unit:" m/s²"};
   if(sf==="S-04") return {stem:["A body starts at u and accelerates uniformly at a. Which expression gives its velocity after time t?",
                                 "วัตถุเริ่มเคลื่อนที่ด้วยความเร็ว u และมีความเร่งคงที่ a นิพจน์ใดให้ความเร็วหลังผ่านไปเวลา t"],
     opts:[{v:"u + at",ok:1},{v:"ut + ½at²",trap:"T-04"},{v:"u² + 2at"},{v:"(u+v)t / 2"}],unit:""};
-  if(sf==="S-03") return {stem:["A train pulls away from a platform at "+u+" m/s, gaining speed steadily at "+a+" m/s². How fast is it moving "+T+" seconds later?",
-                                "รถไฟออกจากชานชาลาที่ "+u+" ม./วินาที และเร่งสม่ำเสมอ "+a+" ม./วินาที² หลังจากนั้น "+T+" วินาที รถไฟเร็วเท่าใด"],
-    opts:[{v:fmt(v),ok:1},{v:fmt(u+a)},{v:fmt(a*T),trap:"T-03"},{v:fmt(u*T)}],unit:" m/s"};
-  return {stem:["Given u = "+u+" m/s, a = "+a+" m/s² and t = "+T+" s, find v.",
-                "กำหนด u = "+u+" ม./วินาที, a = "+a+" ม./วินาที² และ t = "+T+" วินาที จงหา v"],
-    opts:[{v:fmt(v),ok:1},{v:fmt(u*a*T)},{v:fmt(u+a)},{v:fmt(a*T)}],unit:" m/s"};
+  if(sf==="S-03") return {stem:["A train pulls away from a platform at "+u+"\u00a0m/s, gaining speed steadily at "+a+"\u00a0m/s². How fast is it moving "+T+" seconds later?",
+                                "รถไฟออกจากชานชาลาที่ "+u+"\u00a0m/s และเร่งสม่ำเสมอ "+a+"\u00a0m/s² หลังจากนั้น "+T+"\u00a0s รถไฟเร็วเท่าใด"],
+    opts:uniqOpts([{v:num(v),ok:1},{v:num(u+a)},{v:num(a*T),trap:"T-03"},{v:num(u*T)}]),unit:" m/s"};
+  return {stem:["Given u = "+u+"\u00a0m/s, a = "+a+"\u00a0m/s² and t = "+T+"\u00a0s, find v.",
+                "กำหนด u = "+u+"\u00a0m/s, a = "+a+"\u00a0m/s² และ t = "+T+"\u00a0s จงหา v"],
+    opts:uniqOpts([{v:num(v),ok:1},{v:num(u*a*T)},{v:num(u+a)},{v:num(a*T)}]),unit:" m/s"};
 },
 "M-03": function(sf){
   var u=ri(0,8), a=ri(2,5), s=ri(10,40), v=Math.sqrt(u*u+2*a*s);
-  if(sf==="S-05") return {stem:["A body speeds up from "+u+" m/s to "+fmt(v)+" m/s over "+s+" m. Find its acceleration.",
-                                "วัตถุเร่งจาก "+u+" ม./วินาที เป็น "+fmt(v)+" ม./วินาที ในระยะ "+s+" เมตร จงหาความเร่ง"],
-    opts:[{v:fmt(a),ok:1},{v:fmt(v/s)},{v:fmt((v-u)/s)},{v:fmt(a*2)}],unit:" m/s²"};
+  if(sf==="S-05") return {stem:["A body speeds up from "+u+"\u00a0m/s to "+num(v)+"\u00a0m/s over "+s+"\u00a0m. Find its acceleration.",
+                                "วัตถุเร่งจาก "+u+"\u00a0m/s เป็น "+num(v)+"\u00a0m/s ในระยะ "+s+"\u00a0m จงหาความเร่ง"],
+    opts:uniqOpts([{v:num(a),ok:1},{v:num(v/s)},{v:num((v-u)/s)},{v:num(a*2)}]),unit:" m/s²"};
   if(sf==="S-04") return {stem:["Time is not mentioned anywhere in the question. Which relation should you reach for?",
                                 "โจทย์ไม่ได้พูดถึงเวลาเลย ควรเลือกใช้ความสัมพันธ์ใด"],
     opts:[{v:"v² = u² + 2as",ok:1},{v:"v = u + at"},{v:"s = ut + ½at²"},{v:"s = ((u+v)/2)t"}],unit:""};
-  return {stem:["A body starts at "+u+" m/s and accelerates at "+a+" m/s² over "+s+" m. Find its final velocity.",
-                "วัตถุเริ่มที่ "+u+" ม./วินาที เร่ง "+a+" ม./วินาที² เป็นระยะ "+s+" เมตร จงหาความเร็วปลาย"],
-    opts:[{v:fmt(v),ok:1},{v:fmt(u+a*s)},{v:fmt(Math.sqrt(2*a*s))},{v:fmt(u*u+2*a*s)}],unit:" m/s"};
+  return {stem:["A body starts at "+u+"\u00a0m/s and accelerates at "+a+"\u00a0m/s² over "+s+"\u00a0m. Find its final velocity.",
+                "วัตถุเริ่มที่ "+u+"\u00a0m/s เร่ง "+a+"\u00a0m/s² เป็นระยะ "+s+"\u00a0m จงหาความเร็วปลาย"],
+    opts:uniqOpts([{v:num(v),ok:1},{v:num(u+a*s)},{v:num(Math.sqrt(2*a*s))},{v:num(u*u+2*a*s)}]),unit:" m/s"};
 },
 "M-04": function(sf){
-  var u=ri(0,6), T=ri(3,6), a=ri(2,6), v=u+a*T;
-  var q={stem:["A velocity–time trace rises in a straight line from "+u+" m/s to "+v+" m/s over "+T+" s. Find the acceleration.",
-               "กราฟความเร็ว–เวลาเป็นเส้นตรงไต่จาก "+u+" ม./วินาที ถึง "+v+" ม./วินาที ใน "+T+" วินาที จงหาความเร่ง"],
-    opts:[{v:fmt(a),ok:1},{v:fmt(v/T),trap:"T-01"},{v:fmt((v+u)/T)},{v:fmt(v-u)}],unit:" m/s²"};
+  var u=ri(1,6), T=ri(3,6), a=ri(2,6), v=u+a*T;
+  var q={stem:["A velocity–time trace rises in a straight line from "+u+"\u00a0m/s to "+v+"\u00a0m/s over "+T+"\u00a0s. Find the acceleration.",
+               "กราฟความเร็ว–เวลาเป็นเส้นตรงไต่จาก "+u+"\u00a0m/s ถึง "+v+"\u00a0m/s ใน "+T+"\u00a0s จงหาความเร่ง"],
+    opts:uniqOpts([{v:num(a),ok:1},{v:num(v/T),trap:"T-01"},{v:num((v+u)/T)},{v:num(v-u)}]),unit:" m/s²"};
   if(sf==="S-02") q.fig=CHAPTER.fig({u:u,v:v,T:T,shade:false});
   return q;
 },
 "M-05": function(sf){
-  var u=ri(2,10), T=ri(3,6), a=pick([0,2,3]), v=u+a*T, s=u*T+0.5*a*T*T;
-  var q={stem:["A velocity–time trace runs from "+u+" m/s to "+v+" m/s over "+T+" s. Find the displacement.",
-               "กราฟความเร็ว–เวลาไล่จาก "+u+" ม./วินาที ถึง "+v+" ม./วินาที ใน "+T+" วินาที จงหาการกระจัด"],
-    opts:[{v:fmt(s),ok:1},{v:fmt(u*T),trap:"T-04"},{v:fmt(v*T)},{v:fmt((v-u)*T)}],unit:" m"};
+  var u=ri(2,10), T=ri(3,6), a=pick([2,3,4]), v=u+a*T, s=u*T+0.5*a*T*T;
+  var q={stem:["A velocity–time trace runs from "+u+"\u00a0m/s to "+v+"\u00a0m/s over "+T+"\u00a0s. Find the displacement.",
+               "กราฟความเร็ว–เวลาไล่จาก "+u+"\u00a0m/s ถึง "+v+"\u00a0m/s ใน "+T+"\u00a0s จงหาการกระจัด"],
+    opts:uniqOpts([{v:num(s,4),ok:1},{v:num(u*T)},{v:num(v*T),trap:"T-04"},{v:num((v-u)*T)}]),unit:" m"};
   if(sf==="S-02") q.fig=CHAPTER.fig({u:u,v:v,T:T,shade:true});
   return q;
 },
 "M-06": function(sf){
   var u=pick([10,15,20,25]), g=10, tTop=u/g, hMax=u*u/(2*g);
-  if(sf==="S-05"||sf==="S-01") return {stem:["A ball is thrown straight up at "+u+" m/s. Taking g = 10 m/s², how high does it rise?",
-                                             "ขว้างลูกบอลขึ้นตรงๆ ด้วย "+u+" ม./วินาที ให้ g = 10 ม./วินาที² ลูกบอลขึ้นสูงเท่าใด"],
-    opts:[{v:fmt(hMax),ok:1},{v:fmt(u*tTop),trap:"T-04"},{v:fmt(hMax*2),trap:"T-02"},{v:fmt(u/g)}],unit:" m"};
+  if(sf==="S-05"||sf==="S-01") return {stem:["A ball is thrown straight up at "+u+"\u00a0m/s. Taking g = 10 m/s², how high does it rise?",
+                                             "ขว้างลูกบอลขึ้นตรง ๆ ด้วย "+u+"\u00a0m/s ให้ g = 10 m/s² ลูกบอลขึ้นสูงเท่าใด"],
+    opts:uniqOpts([{v:num(hMax,4),ok:1},{v:num(u*tTop,4),trap:"T-04"},{v:num(-hMax,4),trap:"T-02"},{v:num(u/g)}]),unit:" m"};
   if(sf==="S-04") return {stem:["A ball is thrown upward. At the very top of its flight, which statement is true?",
                                 "ขว้างลูกบอลขึ้นไปในอากาศ ที่จุดสูงสุด ข้อใดถูกต้อง"],
-    opts:[{v:["v = 0, a = −10 m/s²","v = 0, a = −10 ม./วินาที²"],ok:1},
+    opts:[{v:["v = 0, a = −10 m/s²","v = 0, a = −10 m/s²"],ok:1},
           {v:["v = 0, a = 0","v = 0, a = 0"],trap:"T-02"},
-          {v:["v = 0, a = +10 m/s²","v = 0, a = +10 ม./วินาที²"],trap:"T-02"},
+          {v:["v = 0, a = +10 m/s²","v = 0, a = +10 m/s²"],trap:"T-02"},
           {v:["v is maximum, a = 0","v สูงสุด, a = 0"]}],unit:""};
-  return {stem:["A ball is thrown straight up at "+u+" m/s with g = 10 m/s². How long until it returns to the thrower's hand?",
-                "ขว้างลูกบอลขึ้นตรงๆ ด้วย "+u+" ม./วินาที ให้ g = 10 ม./วินาที² ใช้เวลาเท่าใดกว่าจะกลับถึงมือ"],
-    opts:[{v:fmt(2*tTop),ok:1},{v:fmt(tTop),trap:"T-02"},{v:fmt(u),trap:"T-03"},{v:fmt(hMax)}],unit:" s"};
+  return {stem:["A ball is thrown straight up at "+u+"\u00a0m/s with g = 10 m/s². How long until it returns to the thrower's hand?",
+                "ขว้างลูกบอลขึ้นตรง ๆ ด้วย "+u+"\u00a0m/s ให้ g = 10 m/s² ใช้เวลาเท่าใดกว่าจะกลับถึงมือ"],
+    opts:uniqOpts([{v:num(2*tTop),ok:1},{v:num(tTop),trap:"T-02"},{v:num(u),trap:"T-03"},{v:num(hMax,4)}]),unit:" s"};
 },
 "M-01": function(sf){
   var miss=pick([{m:["displacement s","การกระจัด s"],eq:"v = u + at"},

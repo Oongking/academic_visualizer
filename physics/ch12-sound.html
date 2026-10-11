@@ -152,8 +152,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .xtable figcaption{margin-bottom:12px}
 .xscroll{overflow-x:auto}
 .xtable table{border-collapse:collapse;width:100%;font-size:14px}
-.xtable th{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+.xtable th{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);text-align:left;
   padding:0 16px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
 .xtable td{padding:10px 16px 10px 0;border-bottom:1px solid var(--rule);
   color:var(--ink-soft);vertical-align:top;line-height:1.5}
@@ -163,8 +163,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   line-height:1.6}
 .xfacts{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
   font-size:14px}
-.xfacts dt{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.xfacts dt{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);padding-top:3px}
 .xfacts dd{margin:0;color:var(--ink-soft)}
 .node-sec:last-child{border-bottom:none}
 .node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
@@ -224,7 +224,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
   text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
 .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
 .ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-ui);
-  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;
   color:var(--ink-faint);margin-bottom:5px}
 .ctrl label span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
 /* touch-action:none is what keeps a drag on the control from being handed to
@@ -249,8 +249,8 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 .opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
   position:relative;z-index:3}
 .readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
-.ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
+.ro b{display:block;font-family:var(--f-ui);font-size:11.5px;letter-spacing:.02em;
+  color:var(--ink-faint);font-weight:600;margin-bottom:3px}
 .ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
 .transport{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 /* .guide and .transport set display, which beats the UA's [hidden] rule; a
@@ -900,29 +900,29 @@ nodes:[
   vizcfg:{
     fn:function(x,p){ return p.P/(4*Math.PI*Math.max(x,0.3)*Math.max(x,0.3)); },
     xmin:0.3, xmax:20, fill:true,
-    title:["INTENSITY AGAINST DISTANCE","ความเข้ม เทียบ ระยะทาง"],
-    xlab:["r (m)","r (ม.)"], ylab:["I (W/m²)","I (วัตต์/ตร.ม.)"],
+    title:["INTENSITY AGAINST DISTANCE","ความเข้มกับระยะทาง"],
+    xlab:["r (m)","r (m)"], ylab:["I (W/m²)","I (W/m²)"],
     mark:function(p){ return p.r; },
     ctrls:[
-      {k:"P", lab:["Source power P","กำลังแหล่งกำเนิด P"], min:1, max:100, step:1, def:50, unit:" W"},
-      {k:"r", lab:["Your distance r","ระยะของคุณ r"],      min:1, max:20, step:1, def:4,  unit:" m"}
+      {k:"P", lab:["Source power P","กำลังของแหล่งกำเนิด P"], min:1, max:100, step:1, def:50, unit:" W"},
+      {k:"r", lab:["Your distance r","ระยะของเรา r"],      min:1, max:20, step:1, def:4,  unit:" m"}
     ],
     readouts:[
-      {lab:["Intensity here","ความเข้ม ณ จุดนี้"], f:function(S){
-        return (S.p.P/(4*Math.PI*S.p.r*S.p.r)).toExponential(2)+" W/m²"; }},
+      {lab:["Intensity here","ความเข้มตรงนี้"], f:function(S){
+        return un(S.p.P/(4*Math.PI*S.p.r*S.p.r),"W/m²"); }},
       {lab:["Sound level","ระดับเสียง"], f:function(S){
-        var I=S.p.P/(4*Math.PI*S.p.r*S.p.r); return fmt(10*Math.log(I/1e-12)/Math.LN10)+" dB"; }},
-      {lab:["At twice this distance","ที่ระยะสองเท่า"], f:function(S){
-        var I=S.p.P/(4*Math.PI*4*S.p.r*S.p.r); return fmt(10*Math.log(I/1e-12)/Math.LN10)+" dB"; }}
+        var I=S.p.P/(4*Math.PI*S.p.r*S.p.r); return un(10*Math.log(I/1e-12)/Math.LN10,"dB"); }},
+      {lab:["At twice this distance","เมื่อไกลเป็นสองเท่า"], f:function(S){
+        var I=S.p.P/(4*Math.PI*4*S.p.r*S.p.r); return un(10*Math.log(I/1e-12)/Math.LN10,"dB"); }}
     ]
   },
   guide:[
     {say:["The curve is an inverse square. It falls away steeply near the source and then flattens out.",
           "กราฟเป็นแบบกำลังสองผกผัน ใกล้แหล่งกำเนิดจะลดลงชันมาก แล้วค่อยๆ ราบลง"], set:{P:50,r:2}},
     {say:["Double your distance from 2 m to 4 m and read the intensity. It drops to a quarter, not a half.",
-          "ลองเพิ่มระยะจาก 2 เมตรเป็น 4 เมตร แล้วอ่านค่าความเข้ม จะเหลือหนึ่งในสี่ ไม่ใช่ครึ่งหนึ่ง"], set:{P:50,r:4}},
+          "ลองเพิ่มระยะจาก 2 m เป็น 4 m แล้วอ่านค่าความเข้ม จะเหลือหนึ่งในสี่ ไม่ใช่ครึ่งหนึ่ง"], set:{P:50,r:4}},
     {say:["But the decibel readout only drops by about 6. That gap between physics and hearing is the whole point of the dB scale.",
-          "แต่ค่าเดซิเบลลดลงแค่ประมาณ 6 ความต่างระหว่างค่าทางฟิสิกส์กับสิ่งที่หูรับรู้นี้เองคือเหตุผลที่เรามีสเกลเดซิเบล"], set:{P:50,r:8}}
+          "แต่ค่าเดซิเบลลดลงแค่ประมาณ 6 ช่องว่างระหว่างค่าทางฟิสิกส์กับสิ่งที่หูรับรู้นี้แหละ คือเหตุผลที่ต้องมีสเกลเดซิเบล"], set:{P:50,r:8}}
   ]},
 
 { id:"pipes", x:370, y:150, requires:["nature"], methods:["M-04"],
@@ -944,13 +944,13 @@ nodes:[
     ],
     readouts:[
       {lab:["Fundamental","ความถี่มูลฐาน"], f:function(S){
-        var p=S.p; return fmt2(p.closed===0 ? p.v/(2*p.Lp) : p.v/(4*p.Lp))+" Hz"; }},
+        var p=S.p; return un(p.closed===0 ? p.v/(2*p.Lp) : p.v/(4*p.Lp),"Hz"); }},
       {lab:["Harmonics present","ฮาร์มอนิกที่มี"], f:function(S){
         return S.p.closed===0 ? (L()?"ทุกจำนวนเต็ม 1,2,3,4…":"every integer 1,2,3,4…")
                               : (L()?"เฉพาะเลขคี่ 1,3,5,7…":"odd only 1,3,5,7…"); }},
-      {lab:["Same length, which is lower?","ยาวเท่ากัน อันไหนเสียงต่ำกว่า"], f:function(){
-        return L()?"ท่อปิดปลาย — ต่ำกว่าหนึ่งอ็อกเทฟ":"the closed pipe — an octave lower"; }},
-      {lab:["Why the difference","ทำไมจึงต่างกัน"], f:function(){
+      {lab:["Same length, which is lower?","ยาวเท่ากัน ท่อไหนเสียงต่ำกว่า"], f:function(){
+        return L()?"ท่อปลายปิด — ต่ำกว่าหนึ่งอ็อกเทฟ":"the closed pipe — an octave lower"; }},
+      {lab:["Why the difference","ทำไมต่างกัน"], f:function(){
         return L()?"ปลายปิดต้องเป็นบัพ ปลายเปิดต้องเป็นปฏิบัพ":"a closed end must be a node, an open end an antinode"; }}
     ],
     bars:[
@@ -960,7 +960,7 @@ nodes:[
       {lab:["4th","ที่ 4"], f:function(p){ return p.closed===0 ? 4*p.v/(2*p.Lp) : 0; }, col:"good"},
       {lab:["5th","ที่ 5"], f:function(p){ return p.closed===0 ? 5*p.v/(2*p.Lp) : 5*p.v/(4*p.Lp); }, col:"good"}
     ],
-    note:["a closed pipe simply deletes the even harmonics — that missing pattern is its timbre","ท่อปลายปิดตัดฮาร์มอนิกเลขคู่ออกไป และฮาร์มอนิกที่ขาดไปนี้เองที่ทำให้เสียงมีลักษณะเฉพาะตัว"]
+    note:["a closed pipe simply deletes the even harmonics — that missing pattern is its timbre","ท่อปลายปิดตัดฮาร์มอนิกเลขคู่ทิ้งไป และลำดับที่หายไปนี้เองที่ทำให้เสียงมีลักษณะเฉพาะตัว"]
   },
   guide:[
     {say:["An open pipe sounds every harmonic — the bars step up in equal jumps.",
@@ -968,7 +968,7 @@ nodes:[
     {say:["Close one end and the even harmonics collapse to zero. Only 1, 3, 5 survive.",
           "ปิดปลายหนึ่งข้าง ฮาร์มอนิกเลขคู่จะหายไปเป็นศูนย์ เหลือแค่ลำดับที่ 1, 3, 5"], set:{closed:1,Lp:1,v:340}},
     {say:["Notice the closed pipe's fundamental is half the open one's — same length, an octave lower.",
-          "สังเกตว่าความถี่มูลฐานของท่อปลายปิดเป็นครึ่งหนึ่งของท่อปลายเปิด ท่อยาวเท่ากันแต่เสียงต่ำกว่าหนึ่งอ็อกเทฟ"], set:{closed:1,Lp:1,v:340}}
+          "สังเกตว่าความถี่มูลฐานของท่อปลายปิดเป็นครึ่งหนึ่งของท่อปลายเปิด ท่อยาวเท่ากันแต่ต่ำกว่าหนึ่งอ็อกเทฟ"], set:{closed:1,Lp:1,v:340}}
   ] },
 
 { id:"beats", x:235, y:248, requires:["intensity","pipes"], methods:["M-05"],
@@ -992,25 +992,25 @@ nodes:[
       {k:"f2", lab:["Second frequency","ความถี่ที่สอง"], min:10, max:30, step:.5, def:23, unit:" Hz"}
     ],
     readouts:[
-      {lab:["Beat frequency","ความถี่บีต"], f:function(S){ return fmt2(Math.abs(S.p.f1-S.p.f2))+" Hz"; }},
-      {lab:["Beats you hear","จำนวนบีตที่ได้ยิน"], f:function(S){
+      {lab:["Beat frequency","ความถี่บีต"], f:function(S){ return un(Math.abs(S.p.f1-S.p.f2),"Hz"); }},
+      {lab:["Beats you hear","บีตที่ได้ยิน"], f:function(S){
         var b=Math.abs(S.p.f1-S.p.f2);
-        return b<0.25 ? (L()?"ไม่มี — เข้าจังหวะกันแล้ว":"none — they are in tune")
-                      : fmt2(b)+(L()?" ครั้งต่อวินาที":" per second"); }},
+        return b<0.25 ? (L()?"ไม่มี — ความถี่ตรงกันแล้ว":"none — they are in tune")
+                      : num(b)+"\u00a0"+(L()?"ครั้งต่อวินาที":"per second"); }},
       {lab:["Pitch you hear","ระดับเสียงที่ได้ยิน"], f:function(S){
-        return fmt2((S.p.f1+S.p.f2)/2)+(L()?" Hz · ค่าเฉลี่ย":" Hz · the average"); }},
+        return un((S.p.f1+S.p.f2)/2,"Hz")+(L()?" · ค่าเฉลี่ย":" · the average"); }},
       {lab:["Tuning an instrument","การตั้งเสียงเครื่องดนตรี"], f:function(){
         return L()?"ปรับจนบีตหายไป":"adjust until the beating disappears"; }}
     ],
-    note:["the envelope, not the fast wiggle, is what your ear registers as the throb","สิ่งที่หูรับรู้เป็นจังหวะเต้นคือเส้นกรอบของคลื่น ไม่ใช่การสั่นเร็วๆ ข้างใน"]
+    note:["the envelope, not the fast wiggle, is what your ear registers as the throb","หูรับรู้จังหวะเต้นจากเส้นกรอบของคลื่น ไม่ใช่จากการสั่นเร็วๆ ข้างใน"]
   },
   guide:[
     {say:["Three hertz apart. The envelope swells and collapses three times a second.",
-          "ความถี่ต่างกันสามเฮิรตซ์ เส้นกรอบพองขึ้นและยุบลงสามครั้งต่อวินาที"], set:{f1:20,f2:23}},
+          "ความถี่ต่างกัน 3 Hz เส้นกรอบจะพองแล้วยุบ 3 ครั้งทุกวินาที"], set:{f1:20,f2:23}},
     {say:["Bring them closer and the throb slows right down — one lazy pulse per second.",
-          "ทำให้ความถี่ใกล้กันขึ้น จังหวะเต้นจะช้าลงมาก เหลือแค่หนึ่งครั้งต่อวินาทีแบบเอื่อยๆ"], set:{f1:20,f2:21}},
+          "ขยับความถี่ให้ใกล้กันขึ้น จังหวะเต้นจะช้าลงมาก เหลือแค่ 1 ครั้งต่อวินาทีแบบเอื่อยๆ"], set:{f1:20,f2:21}},
     {say:["Match them exactly and the beating vanishes. That silence is how a piano gets tuned.",
-          "ปรับให้เท่ากันพอดี จังหวะเต้นจะหายไป ช่างจูนเปียโนก็ใช้ความเงียบนี้เองในการตั้งเสียง"], set:{f1:20,f2:20}}
+          "ปรับให้เท่ากันพอดี จังหวะเต้นจะหายไป ช่างจูนเปียโนใช้ความเงียบแบบนี้ตั้งเสียง"], set:{f1:20,f2:20}}
   ] },
 
 { id:"doppler", x:235, y:346, requires:["beats"], methods:["M-06"],
@@ -1024,22 +1024,22 @@ nodes:[
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["The Wailing Wisp: a moving source shifts the pitch","ภูตโหยหวน: แหล่งกำเนิดที่เคลื่อนที่ทำให้เสียงเพี้ยน"],
+    spellName:["The Wailing Wisp: a moving source shifts the pitch","ภูตโหยหวน: แหล่งกำเนิดที่เคลื่อนที่ทำให้ระดับเสียงเปลี่ยน"],
     question:["The wisp sings one steady note as it flies. Why does the listener ahead hear it higher, and the one behind lower?",
-              "ภูตร้องโน้ตเดียวคงที่ขณะบิน ทำไมผู้ฟังที่อยู่ข้างหน้าจึงได้ยินเสียงสูงขึ้น ส่วนผู้ฟังข้างหลังได้ยินเสียงต่ำลง"],
+              "ภูตร้องโน้ตเดียวคงที่ขณะบิน ทำไมคนที่อยู่ข้างหน้าได้ยินเสียงสูงขึ้น แต่คนที่อยู่ข้างหลังได้ยินเสียงต่ำลง"],
     ctrls:[
       {k:"fs", lab:["The wisp's own note","โน้ตของภูต"], min:200, max:1200, step:20, def:500, unit:" Hz"},
       {k:"vs", lab:["The wisp's speed","อัตราเร็วของภูต"], min:0, max:300, step:10, def:150, unit:" m/s"},
-      {k:"v",  lab:["Speed of sound","อัตราเร็วเสียง"], min:300, max:360, step:5, def:340, unit:" m/s"},
+      {k:"v",  lab:["Speed of sound","อัตราเร็วเสียง"], min:310, max:360, step:5, def:340, unit:" m/s"},
       {k:"T",  lab:["Watch for","ดูนาน"], min:4, max:14, step:1, def:11, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Ahead hears","ข้างหน้าได้ยิน"], f:function(S){ return fmt(C12.fa(S.p))+" Hz"; }},
-      {lab:["Behind hears","ข้างหลังได้ยิน"], f:function(S){ return fmt(C12.fr(S.p))+" Hz"; }},
-      {lab:["The wisp sings","ภูตร้อง"], f:function(S){ return S.p.fs+" Hz"; }},
-      {lab:["Is the shift symmetric?","การเลื่อนสมมาตรไหม"], f:function(S){
+      {lab:["Ahead hears","ข้างหน้าได้ยิน"], f:function(S){ return un(C12.fa(S.p),"Hz"); }},
+      {lab:["Behind hears","ข้างหลังได้ยิน"], f:function(S){ return un(C12.fr(S.p),"Hz"); }},
+      {lab:["The wisp sings","ภูตร้อง"], f:function(S){ return un(S.p.fs,"Hz"); }},
+      {lab:["Is the shift symmetric?","เสียงเลื่อนขึ้นลงเท่ากันไหม"], f:function(S){
         var p=S.p, up=C12.fa(p)-p.fs, dn=p.fs-C12.fr(p);
-        return Math.abs(up-dn)<2 ? (L()?"เกือบ ที่ความเร็วต่ำ":"nearly, at low speed") : (L()?"ไม่ — ขาเข้าเลื่อนมากกว่า":"no — the approach shifts more"); }}
+        return Math.abs(up-dn)<2 ? (L()?"เกือบเท่ากัน ที่ความเร็วต่ำ":"nearly, at low speed") : (L()?"ไม่เท่ากัน — ตอนเข้าหาเลื่อนมากกว่า":"no — the approach shifts more"); }}
     ],
     world:{ kind:"free" },
     scene:function(o,S,W){
@@ -1056,7 +1056,7 @@ nodes:[
         var gone=x>=px, hz=t>0||p.vs>0 ? (gone ? C12.fr(p) : C12.fa(p)) : p.fs, col=gone ? "var(--good)" : "var(--accent)";
         role("marker")(o, px, y+44, {on:true});
         fitText(o, px, y+60, lab, 120, 10, "var(--ink-faint)", "middle");
-        fitText(o, px, y+74, [fmt(hz)+" Hz", fmt(hz)+" Hz"], 120, 12, col, "middle");
+        fitText(o, px, y+74, [un(hz,"Hz"), un(hz,"Hz")], 120, 12, col, "middle");
       };
       hear(500, ["far listener","ผู้ฟังไกล"]);
       hear(46, ["behind","ข้างหลัง"]);
@@ -1069,7 +1069,7 @@ nodes:[
        lab:["drag its speed","ลากความเร็ว"], col:"accent2"}
     ],
     instrument:{ kind:"graph",
-      xmin:0, xmax:14, ymin:0, ymax:2500,
+      xmin:0, xmax:14, ymin:0,
       xlab:["seconds","วินาที"], ylab:["Hz the listener hears","Hz ที่ผู้ฟังได้ยิน"],
       fn:function(x,p){ var tp=C12.tpass(p); return x<tp ? C12.fa(p) : C12.fr(p); },
       mark:function(p,S){ return S.t; }
@@ -1080,19 +1080,19 @@ nodes:[
       o.push('<text x="'+fmt2(G.X(14)-4)+'" y="'+(+y-5)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="end">'+(L()?"โน้ตที่ภูตร้อง":"the note it sings")+'</text>');
     },
     spell:{
-      tex:function(p){ return "f_\\text{ahead} = f_s\\,\\dfrac{v}{v - v_s} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" - "+p.vs+"} = "+fmt(C12.fa(p))+"\\,\\text{Hz}"+
-                              "\\qquad f_\\text{behind} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" + "+p.vs+"} = "+fmt(C12.fr(p))+"\\,\\text{Hz}"; },
+      tex:function(p){ return "f_\\text{ahead} = f_s\\,\\dfrac{v}{v - v_s} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" - "+p.vs+"} = "+numTex(C12.fa(p))+"\\,\\text{Hz}"+
+                              "\\qquad f_\\text{behind} = "+p.fs+"\\cdot\\dfrac{"+p.v+"}{"+p.v+" + "+p.vs+"} = "+numTex(C12.fr(p))+"\\,\\text{Hz}"; },
       terms:[
-        {k:"fs", sym:"f_s", lab:["the note it sings","โน้ตที่ร้อง"], col:"faint", f:function(p){ return p.fs+" Hz"; }},
-        {k:"vs", sym:"v_s", lab:["the wisp's speed","อัตราเร็วภูต"], col:"accent2", f:function(p){ return p.vs+" m/s"; }}
+        {k:"fs", sym:"f_s", lab:["the note it sings","โน้ตที่ร้อง"], col:"faint", f:function(p){ return un(p.fs,"Hz"); }},
+        {k:"vs", sym:"v_s", lab:["the wisp's speed","อัตราเร็วภูต"], col:"accent2", f:function(p){ return un(p.vs,"m/s"); }}
       ]
     },
     predict:{ kind:"choice",
-      ask:["As the wisp flies past the listener, what happens to the pitch they hear?","ขณะที่ภูตบินผ่านผู้ฟัง เสียงที่ผู้ฟังได้ยินเปลี่ยนไปอย่างไร"],
-      opts:[["It slides down gradually","ค่อย ๆ ต่ำลง"],["It drops suddenly as it passes","ต่ำลงทันทีตอนผ่าน"],["It stays the same","คงเดิม"],["It rises","สูงขึ้น"]],
+      ask:["As the wisp flies past the listener, what happens to the pitch they hear?","ขณะที่ภูตบินผ่านผู้ฟัง เสียงที่ผู้ฟังได้ยินจะเปลี่ยนไปอย่างไร"],
+      opts:[["It slides down gradually","ค่อยๆ ต่ำลง"],["It drops suddenly as it passes","ต่ำลงทันทีตอนผ่าน"],["It stays the same","คงเดิม"],["It rises","สูงขึ้น"]],
       actual:function(p){ return p.vs>0 ? 1 : 2; },
-      explain:function(p){ return ["Coming in, every wavefront is squeezed by the same amount, so the pitch is a steady "+fmt(C12.fa(p))+" Hz; going away it is a steady "+fmt(C12.fr(p))+" Hz. The change happens at the instant it passes — not a slow slide.",
-                                   "ขาเข้า หน้าคลื่นทุกลูกถูกบีบเท่ากัน เสียงจึงคงที่ "+fmt(C12.fa(p))+" Hz ขาออกคงที่ "+fmt(C12.fr(p))+" Hz การเปลี่ยนเกิดขึ้นทันทีขณะผ่าน ไม่ใช่ค่อย ๆ ไล่ลง"]; }
+      explain:function(p){ return ["Coming in, every wavefront is squeezed by the same amount, so the pitch is a steady "+un(C12.fa(p),"Hz")+"; going away it is a steady "+un(C12.fr(p),"Hz")+". The change happens at the instant it passes — not a slow slide.",
+                                   "ขาเข้า หน้าคลื่นทุกลูกอัดแน่นเท่ากัน เสียงจึงคงที่ "+un(C12.fa(p),"Hz")+" พอออกห่างก็คงที่ "+un(C12.fr(p),"Hz")+" เสียงเปลี่ยนทันทีตอนบินผ่าน ไม่ได้ค่อยๆ ไล่ระดับลง"]; }
     },
     trials:{
       veil:true,
@@ -1103,31 +1103,31 @@ nodes:[
       lock:["fs","v"],
       say:function(g){
         return g.kind==="ahead"
-          ? ["The wisp sings "+g.fs+" Hz. How fast must it fly so the listener ahead hears exactly "+fmt(g.X)+" Hz? (v = 340 m/s)",
-             "ภูตร้อง "+g.fs+" Hz ต้องบินเร็วเท่าใดให้ผู้ฟังข้างหน้าได้ยิน "+fmt(g.X)+" Hz พอดี (v = 340 ม./วิ)"]
-          : ["The wisp sings "+g.fs+" Hz. How fast must it fly so the listener behind hears exactly "+fmt(g.X)+" Hz? (v = 340 m/s)",
-             "ภูตร้อง "+g.fs+" Hz ต้องบินเร็วเท่าใดให้ผู้ฟังข้างหลังได้ยิน "+fmt(g.X)+" Hz พอดี (v = 340 ม./วิ)"];
+          ? ["The wisp sings "+un(g.fs,"Hz")+". How fast must it fly so the listener ahead hears exactly "+un(g.X,"Hz")+"? (v = 340 m/s)",
+             "ภูตร้อง "+un(g.fs,"Hz")+" ต้องบินเร็วเท่าใดผู้ฟังข้างหน้าจึงจะได้ยิน "+un(g.X,"Hz")+" พอดี (v = 340 m/s)"]
+          : ["The wisp sings "+un(g.fs,"Hz")+". How fast must it fly so the listener behind hears exactly "+un(g.X,"Hz")+"? (v = 340 m/s)",
+             "ภูตร้อง "+un(g.fs,"Hz")+" ต้องบินเร็วเท่าใดผู้ฟังข้างหลังจึงจะได้ยิน "+un(g.X,"Hz")+" พอดี (v = 340 m/s)"];
       },
       check:function(p,S,g){
-        if(p.vs===g.vs) return {ok:true, msg:[g.kind==="ahead" ? "Exactly "+fmt(g.X)+" Hz ahead. From f = f_s·v / (v − v_s): v_s = v(1 − f_s / f) = "+g.vs+" m/s."
-                                                                : "Exactly "+fmt(g.X)+" Hz behind. From f = f_s·v / (v + v_s): v_s = v(f_s / f − 1) = "+g.vs+" m/s.",
-                                              g.kind==="ahead" ? "ข้างหน้าได้ยิน "+fmt(g.X)+" Hz พอดี จาก f = f_s·v / (v − v_s) ได้ v_s = v(1 − f_s / f) = "+g.vs+" ม./วิ"
-                                                                : "ข้างหลังได้ยิน "+fmt(g.X)+" Hz พอดี จาก f = f_s·v / (v + v_s) ได้ v_s = v(f_s / f − 1) = "+g.vs+" ม./วิ"]};
+        if(p.vs===g.vs) return {ok:true, msg:[g.kind==="ahead" ? "Exactly "+un(g.X,"Hz")+" ahead. From f = f_s·v / (v − v_s): v_s = v(1 − f_s / f) = "+un(g.vs,"m/s")+"."
+                                                                : "Exactly "+un(g.X,"Hz")+" behind. From f = f_s·v / (v + v_s): v_s = v(f_s / f − 1) = "+un(g.vs,"m/s")+".",
+                                              g.kind==="ahead" ? "ข้างหน้าได้ยิน "+un(g.X,"Hz")+" พอดี จาก f = f_s·v / (v − v_s) ได้ v_s = v(1 − f_s / f) = "+un(g.vs,"m/s")
+                                                                : "ข้างหลังได้ยิน "+un(g.X,"Hz")+" พอดี จาก f = f_s·v / (v + v_s) ได้ v_s = v(f_s / f − 1) = "+un(g.vs,"m/s")]};
         var got=g.kind==="ahead"?C12.fa(p):C12.fr(p);
-        return {ok:false, msg:["That listener heard "+fmt(got)+" Hz. Ahead the wisp chases its own waves (v − v_s); behind it runs from them (v + v_s).",
-                               "ผู้ฟังได้ยิน "+fmt(got)+" Hz ข้างหน้าภูตไล่ตามคลื่นของตัวเอง (v − v_s) ข้างหลังมันหนีคลื่น (v + v_s)"]};
+        return {ok:false, msg:["That listener heard "+un(got,"Hz")+". Ahead the wisp chases its own waves (v − v_s); behind it runs from them (v + v_s).",
+                               "ผู้ฟังได้ยิน "+un(got,"Hz")+" ข้างหน้า ภูตวิ่งไล่คลื่นของตัวเอง (v − v_s) ข้างหลัง ภูตวิ่งหนีคลื่น (v + v_s)"]};
       }
     },
     note:["the wisp never changes its note — only the spacing of the arriving wavefronts does",
-          "ภูตไม่เคยเปลี่ยนโน้ต สิ่งที่เปลี่ยนคือระยะห่างของหน้าคลื่นที่มาถึงเท่านั้น"]
+          "ภูตไม่ได้เปลี่ยนโน้ตเลย ที่เปลี่ยนคือระยะห่างของหน้าคลื่นที่มาถึงเท่านั้น"]
   },
   guide:[
     {say:["A wisp hovering still. The rings are evenly spaced and everyone hears 500 Hz.",
-          "ภูตลอยนิ่งอยู่กับที่ วงคลื่นห่างเท่ากันหมด และทุกคนได้ยิน 500 Hz"], set:{fs:500,vs:0,v:340,T:11}},
+          "ภูตลอยนิ่งอยู่กับที่ วงคลื่นห่างเท่ากันหมด ทุกคนจึงได้ยิน 500 Hz"], set:{fs:500,vs:0,v:340,T:11}},
     {say:["Set it flying. Rings bunch up ahead and stretch out behind. Watch the listener's graph drop in one step as it passes.",
-          "ให้ภูตบิน วงคลื่นจะเบียดกันข้างหน้าและห่างออกข้างหลัง ดูกราฟของผู้ฟังที่ตกลงทันทีเมื่อภูตบินผ่าน"], set:{fs:500,vs:150,v:340,T:11}},
+          "ให้ภูตบิน วงคลื่นจะเบียดกันข้างหน้าและห่างออกข้างหลัง ดูกราฟของผู้ฟังจะตกลงทันทีตอนภูตบินผ่าน"], set:{fs:500,vs:150,v:340,T:11}},
     {say:["Near the speed of sound the rings ahead pile up and that pitch runs away — the shift is not symmetric.",
-          "เมื่อใกล้อัตราเร็วเสียง วงคลื่นข้างหน้าจะอัดแน่นและเสียงสูงพุ่งขึ้นไปมาก การเปลี่ยนค่าจึงไม่สมมาตรกัน"], set:{fs:500,vs:300,v:340,T:7}}
+          "เมื่อใกล้อัตราเร็วเสียง วงคลื่นข้างหน้าจะอัดแน่น เสียงสูงจึงพุ่งขึ้นมาก การเลื่อนของเสียงจึงไม่สมมาตร"], set:{fs:500,vs:300,v:340,T:7}}
   ]
 }
 ],
@@ -1315,13 +1315,55 @@ function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
 function fmt(n){ return (Math.round(n*10)/10).toString(); }
 function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+/* ---- numbers as a scientist writes them ----
+   fmt / fmt2 round to a fixed number of decimals; they are for geometry and
+   coordinates only. Anything a learner READS as a physical value goes through
+   num(), which keeps significant figures instead of decimal places, switches to
+   standard form (A × 10ⁿ, 1 ≤ |A| < 10) for very large or very small values,
+   never shows a non-zero value as 0, and uses a real minus sign.
+     num(0.000000123)   "1.23 × 10⁻⁷"      num(299792458)  "3 × 10⁸"
+     num(12345.6)       "12300"            num(−4.2)       "−4.2"
+     numTex(n,s)  the same value as LaTeX (for the live formula)
+     un(n,"m/s")  number, a no-break space, then the unit                    */
+var SUPS={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
+function sciParts(n,s){
+  var e=Math.floor(Math.log10(Math.abs(n))), m=n/Math.pow(10,e);
+  m=+m.toPrecision(s); if(Math.abs(m)>=10){ m/=10; e++; }
+  return [m,e];
+}
+function num(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "—";
+  if(n===0) return "0";
+  var a=Math.abs(n), out;
+  if(a<1e-3 || a>=1e5){
+    var q=sciParts(n,s);
+    out=String(q[0])+" × 10"+String(q[1]).split("").map(function(c){ return SUPS[c]; }).join("");
+  } else {
+    out=String(+n.toPrecision(s));
+    if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  }
+  return out.replace("-","−");
+}
+function numTex(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "\\text{—}";
+  if(n===0) return "0";
+  var a=Math.abs(n);
+  if(a<1e-3 || a>=1e5){ var q=sciParts(n,s); return q[0]+"\\times10^{"+q[1]+"}"; }
+  var out=String(+n.toPrecision(s));
+  if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  return out;
+}
+function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
   if(!(range>0)) return 1;
   var raw=range/target, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
   return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag;
 }
-function tk(n){ var r=Math.round(n*100)/100; return (Math.abs(r)<1e-9?0:r).toString(); }
+/* axis tick labels: significant figures and standard form, never "0" for a small value */
+function tk(n){ return num(n,3); }
 var FT='fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10"';
 
 /* Shared, fully scaled axis frame. Returns mapping functions. */
@@ -1383,10 +1425,10 @@ VIZLIB.motion = {
     {k:"T", lab:["Duration","ช่วงเวลา"],                min:2,  max:12,step:1, def:6,  unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Time","เวลา"],            f:function(S){ return fmt(S.t)+" s"; }},
-    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return fmt(S.p.u+S.p.a*S.t)+" m/s"; }},
-    {lab:["Displacement s","การกระจัด s"], f:function(S){ return fmt(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
-    {lab:["Slope","ความชัน"],        f:function(S){ return fmt(S.p.a)+" m/s²"; }}
+    {lab:["Time","เวลา"],            f:function(S){ return num(S.t)+" s"; }},
+    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return num(S.p.u+S.p.a*S.t)+" m/s"; }},
+    {lab:["Displacement s","การกระจัด s"], f:function(S){ return num(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
+    {lab:["Slope","ความชัน"],        f:function(S){ return num(S.p.a)+" m/s²"; }}
   ],
   draw:function(S,o){
     var u=S.p.u,a=S.p.a,T=S.p.T,tt=Math.min(S.t,T);
@@ -1471,11 +1513,11 @@ VIZLIB.vector = {
     {lab:["Resultant R","ผลลัพธ์ R"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      return fmt(Math.sqrt(rx*rx+ry*ry)); }},
+      return num(Math.sqrt(rx*rx+ry*ry)); }},
     {lab:["Direction","ทิศทาง"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return fmt(d)+"°"; }}
+      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return num(d)+"°"; }}
   ],
   draw:function(S,o){
     var p=S.p, cx=280, cy=180, sc=6.5;
@@ -1489,8 +1531,8 @@ VIZLIB.vector = {
     o.push('<line x1="'+(cx-250)+'" y1="'+cy+'" x2="'+(cx+250)+'" y2="'+cy+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     o.push('<line x1="'+cx+'" y1="'+(cy-140)+'" x2="'+cx+'" y2="'+(cy+140)+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     for(var s=-20;s<=20;s+=10){ if(!s) continue;
-      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+s+'</text>');
-      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+s+'</text>');
+      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+tk(s)+'</text>');
+      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+tk(s)+'</text>');
     }
     function arrow(x1,y1,x2,y2,col,w,dash){
       var ang=Math.atan2(y2-y1,x2-x1), hl=9;
@@ -1517,9 +1559,9 @@ VIZLIB.wave = {
     {k:"T",  lab:["Run for","เล่นนาน"],            min:2,max:12,step:1, def:8, unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return fmt(S.p.f*S.p.lam)+" m/s"; }},
-    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return fmt(1/S.p.f)+" s"; }},
-    {lab:["Time","เวลา"],                     f:function(S){ return fmt(S.t)+" s"; }}
+    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return num(S.p.f*S.p.lam)+" m/s"; }},
+    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return num(1/S.p.f)+" s"; }},
+    {lab:["Time","เวลา"],                     f:function(S){ return num(S.t)+" s"; }}
   ],
   draw:function(S,o){
     var p=S.p, xmax=24;
@@ -1570,7 +1612,7 @@ VIZLIB.bars = {
       o.push('<rect x="'+(cx-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+
              '" height="'+Math.abs(y1-y0)+'" fill="'+b.c+'" opacity="0.9"/>');
       o.push('<text x="'+cx+'" y="'+(y1+(b.v<0?15:-7))+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-size="11" font-weight="600" text-anchor="middle">'+num(b.v)+'</text>');
       o.push('<text x="'+cx+'" y="'+(A.Y(lo)+34)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" '+
              'font-size="10" text-anchor="middle">'+tx(b.lab)+'</text>');
     });
@@ -1643,7 +1685,7 @@ VIZLIB.tri = {
            ' Z" fill="var(--accent)" fill-opacity="0.10" stroke="var(--ink)" stroke-width="2.2"/>');
     function side(p,q,lab,val,c2){
       o.push('<text x="'+((p[0]+q[0])/2)+'" y="'+((p[1]+q[1])/2-6)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+fmt2(val)+'</text>');
+             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+num(val)+'</text>');
     }
     side(tC,tA,"b",b,"var(--ink-soft)");
     side(tC,tB,"a",a,"var(--ink-soft)");
@@ -1651,15 +1693,15 @@ VIZLIB.tri = {
     [[tC,"C",g.C],[tA,"A",A1*180/Math.PI],[tB,"B",B1*180/Math.PI]].forEach(function(v){
       o.push('<circle cx="'+v[0][0]+'" cy="'+v[0][1]+'" r="3.5" fill="var(--ink)"/>');
       o.push('<text x="'+(v[0][0]-14)+'" y="'+(v[0][1]+14)+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="10.5" font-weight="600">'+v[1]+' '+fmt(v[2])+'°</text>');
+             'font-size="10.5" font-weight="600">'+v[1]+' '+num(v[2])+'°</text>');
     });
     var area=0.5*a*b*Math.sin(C);
     o.push('<text x="404" y="86" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["THIRD SIDE","ด้านที่สาม"])+'</text>');
-    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+fmt2(c)+'</text>');
+    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+num(c)+'</text>');
     o.push('<text x="404" y="152" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["AREA ½ ab sin C","พื้นที่ ½ ab sin C"])+'</text>');
-    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+fmt2(area)+'</text>');
+    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+num(area)+'</text>');
     if(cfg.note) cap(o,44,286,cfg.note,"note");
   }
 };
@@ -1732,7 +1774,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+(cx-L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56-H)+
              ' Z" fill="var(--surface)" stroke="var(--ink-faint)" stroke-width="1.5"/>');
       o.push('<text x="'+(cx-L/2+26)+'" y="'+(cy+50)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-             'font-size="10">'+fmt(inc)+'°</text>');
+             'font-size="10">'+num(inc)+'°</text>');
     } else {
       o.push('<line x1="'+(cx-120)+'" y1="'+(cy+34)+'" x2="'+(cx+120)+'" y2="'+(cy+34)+
              '" stroke="var(--ink-faint)" stroke-width="1.5"/>');
@@ -1750,7 +1792,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+ex+' '+ey+' L'+(ex-hl*Math.cos(aa-0.4))+' '+(ey-hl*Math.sin(aa-0.4))+
              ' L'+(ex-hl*Math.cos(aa+0.4))+' '+(ey-hl*Math.sin(aa+0.4))+' Z" fill="'+c2+'"/>');
       o.push('<text x="'+(cx+Math.cos(aa)*(len+24))+'" y="'+(cy+Math.sin(aa)*(len+24)+4)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+fmt(Math.abs(f.mag))+'</text>');
+             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+num(Math.abs(f.mag))+'</text>');
     });
     if(cfg.note) cap(o,44,300,cfg.note,"note");
   }
@@ -1769,7 +1811,7 @@ VIZLIB.stack = {
       var pw=Math.max(0,p.v)/tot*w;
       o.push('<rect x="'+x+'" y="'+y+'" width="'+pw+'" height="'+h+'" fill="'+col(p.col)+'" opacity="0.88"/>');
       if(pw>34) o.push('<text x="'+(x+pw/2)+'" y="'+(y+h/2+4)+'" fill="#fff" font-family="IBM Plex Sans" '+
-                       'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(p.v)+'</text>');
+                       'font-size="11" font-weight="600" text-anchor="middle">'+num(p.v)+'</text>');
       x+=pw;
     });
     o.push('<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="none" stroke="var(--ink)" stroke-width="1.6"/>');
@@ -1781,7 +1823,7 @@ VIZLIB.stack = {
              'font-size="10.5">'+tx(p.lab)+'</text>');
     });
     if(cfg.total) o.push('<text x="'+(x0+w)+'" y="'+(y-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+fmt2(tot)+'</text>');
+                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+num(tot)+'</text>');
     if(cfg.note) cap(o,x0,236,cfg.note,"note");
   }
 };
@@ -2085,7 +2127,7 @@ function instrument(S, o, ins, ctx){
       if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
                       'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+num(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -2602,7 +2644,7 @@ var STAGE = {
         o.push('<text x="' + (FR.sx + 166) + '" y="' + fmt2(+gy + 3.5) + '" ' + FT + ' text-anchor="end">' + tk(h) + '</text>');
       }
       o.push('<text x="' + (FR.sx + 166) + '" y="' + (W.top - 8) + '" ' + FT + ' text-anchor="end">' +
-             tx(W.unit || ["m", "ม."]) + '</text>');
+             tx(W.unit || ["m", "m"]) + '</text>');
     }
   },
 
@@ -2826,7 +2868,7 @@ var STAGE = {
     var on = S.kbd && S.kbd.on;
     role("prophecy")(o, P[0], P[1], { clock: STAGE.clock, active: on || !!S.dragGuess,
                                        done: pr.phase === "done", hit: pr.hit, tower: W.kind === "tower" });
-    var txt = ui("yourGuess") + " · " + fmt2(pr.guess) + tx(pc.unit || [" m", " ม."]);
+    var txt = ui("yourGuess") + " · " + num(pr.guess) + tx(pc.unit || [" m", " m"]);
     fitText(o, P[0], P[1] - (W.kind === "tower" ? 12 : 78), [txt, txt], 150, 10.5, "var(--accent2)", "middle");
   },
 
@@ -3096,9 +3138,9 @@ var STAGE = {
         } else {
           var err = Math.abs(g - actual), tol = pc.tol ? pc.tol(S.p) : 1;
           hit = err <= tol;
-          var u = tx(pc.unit || [" m", " ม."]);
-          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + fmt2(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + fmt2(actual) + u +
-                  " · " + (L() ? "คลาดไป " : "off by ") + fmt2(err) + u ];
+          var u = tx(pc.unit || [" m", " m"]);
+          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + num(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + num(actual) + u +
+                  " · " + (L() ? "ต่างไป " : "off by ") + num(err) + u ];
         }
         S.pred.phase = "done"; S.pred.hit = hit;
         STATE.preds = STATE.preds || {};
@@ -4491,7 +4533,7 @@ function makeLab(nd, host){
     });
     /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=num(S.p[c.k],6)+(c.unit||"");
       if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){

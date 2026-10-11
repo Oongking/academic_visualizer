@@ -152,8 +152,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .xtable figcaption{margin-bottom:12px}
 .xscroll{overflow-x:auto}
 .xtable table{border-collapse:collapse;width:100%;font-size:14px}
-.xtable th{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+.xtable th{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);text-align:left;
   padding:0 16px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
 .xtable td{padding:10px 16px 10px 0;border-bottom:1px solid var(--rule);
   color:var(--ink-soft);vertical-align:top;line-height:1.5}
@@ -163,8 +163,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   line-height:1.6}
 .xfacts{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
   font-size:14px}
-.xfacts dt{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.xfacts dt{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);padding-top:3px}
 .xfacts dd{margin:0;color:var(--ink-soft)}
 .node-sec:last-child{border-bottom:none}
 .node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
@@ -224,7 +224,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
   text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
 .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
 .ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-ui);
-  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;
   color:var(--ink-faint);margin-bottom:5px}
 .ctrl label span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
 /* touch-action:none is what keeps a drag on the control from being handed to
@@ -249,8 +249,8 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 .opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
   position:relative;z-index:3}
 .readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
-.ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
+.ro b{display:block;font-family:var(--f-ui);font-size:11.5px;letter-spacing:.02em;
+  color:var(--ink-faint);font-weight:600;margin-bottom:3px}
 .ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
 .transport{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 /* .guide and .transport set display, which beats the UA's [hidden] rule; a
@@ -876,22 +876,22 @@ nodes:[
     mark:function(p){ return p.x; },
     ctrls:[
       {k:"m", lab:["Gradient m","ความชัน m"], min:-4, max:4, step:.25, def:1.5, unit:""},
-      {k:"c", lab:["y-intercept c","จุดตัดแกน y คือ c"], min:-6, max:6, step:.5, def:1, unit:""},
+      {k:"c", lab:["y-intercept c","จุดตัดแกน y (c)"], min:-6, max:6, step:.5, def:1, unit:""},
       {k:"x", lab:["Point at x","จุดที่ x"], min:-5.5, max:5.5, step:.5, def:2, unit:""}
     ],
     readouts:[
       {lab:["Equation","สมการ"], f:function(S){
-        return "y = "+fmt(S.p.m)+"x "+(S.p.c>=0?"+ ":"− ")+fmt(Math.abs(S.p.c)); }},
+        return "y = "+num(S.p.m)+"x "+(S.p.c>=0?"+ ":"− ")+num(Math.abs(S.p.c)); }},
       {lab:["x-intercept","จุดตัดแกน x"], f:function(S){
-        return Math.abs(S.p.m)<1e-9 ? (L()?"ไม่มี — เส้นขนานแกน x":"none — the line is horizontal")
-                                    : fmt2(-S.p.c/S.p.m); }},
+        return Math.abs(S.p.m)<1e-9 ? (L()?"ไม่มี — เส้นขนานกับแกน x":"none — the line is horizontal")
+                                    : num(-S.p.c/S.p.m); }},
       {lab:["Perpendicular gradient","ความชันของเส้นตั้งฉาก"], f:function(S){
-        return Math.abs(S.p.m)<1e-9 ? (L()?"ไม่นิยาม — แนวดิ่ง":"undefined — vertical")
-                                    : fmt2(-1/S.p.m); }},
+        return Math.abs(S.p.m)<1e-9 ? (L()?"หาค่าไม่ได้ — เส้นตั้งฉากอยู่แนวดิ่ง":"undefined — vertical")
+                                    : num(-1/S.p.m); }},
       {lab:["Distance from the origin","ระยะจากจุดกำเนิด"], f:function(S){
-        return fmt2(Math.abs(S.p.c)/Math.sqrt(S.p.m*S.p.m+1)); }}
+        return num(Math.abs(S.p.c)/Math.sqrt(S.p.m*S.p.m+1)); }}
     ],
-    note:["perpendicular gradients multiply to −1 — not to +1, and not to zero","ความชันของเส้นตั้งฉากคูณกันได้ −1 ไม่ใช่ +1 และไม่ใช่ศูนย์"]
+    note:["perpendicular gradients multiply to −1 — not to +1, and not to zero","ความชันของเส้นตั้งฉากคูณกันได้ −1 ไม่ใช่ +1 และไม่ใช่ 0"]
   } },
 
 { id:"circle", x:100, y:150, requires:["points-lines"], methods:["M-02"],
@@ -913,19 +913,19 @@ nodes:[
     readouts:[
       {lab:["Equation","สมการ"], f:function(S){
         var p=S.p;
-        return "(x "+(p.h>=0?"− ":"+ ")+fmt(Math.abs(p.h))+")² + (y "+(p.k>=0?"− ":"+ ")+fmt(Math.abs(p.k))+")² = "+fmt2(p.r*p.r); }},
-      {lab:["Centre","จุดศูนย์กลาง"], f:function(S){ return "("+fmt(S.p.h)+", "+fmt(S.p.k)+")"; }},
+        return "(x "+(p.h>=0?"− ":"+ ")+num(Math.abs(p.h))+")² + (y "+(p.k>=0?"− ":"+ ")+num(Math.abs(p.k))+")² = "+num(p.r*p.r,6); }},
+      {lab:["Centre","จุดศูนย์กลาง"], f:function(S){ return "("+num(S.p.h)+", "+num(S.p.k)+")"; }},
       {lab:["Distance to test point","ระยะถึงจุดทดสอบ"], f:function(S){
-        var p=S.p; return fmt2(Math.abs(p.px-p.h)); }},
+        var p=S.p; return num(Math.abs(p.px-p.h)); }},
       {lab:["Test point lies","จุดทดสอบอยู่"], f:function(S){
         var p=S.p, d=Math.abs(p.px-p.h);
-        return d<p.r ? (L()?"ภายในวง":"inside the circle") : d>p.r ? (L()?"ภายนอกวง":"outside the circle")
-                     : (L()?"บนเส้นรอบวงพอดี":"exactly on the circle"); }}
+        return d<p.r ? (L()?"อยู่ภายในวง":"inside the circle") : d>p.r ? (L()?"อยู่ภายนอกวง":"outside the circle")
+                     : (L()?"อยู่บนเส้นรอบวงพอดี":"exactly on the circle"); }}
     ],
     draw:function(S,o){
       var p=S.p;
       var A=axes(o,{x:110,y:30,w:300,h:250,xmin:-8,xmax:8,ymin:-6.5,ymax:6.5,
-                    title:["A CIRCLE IS A CONSTANT DISTANCE","วงกลมคือระยะทางที่คงที่"],
+                    title:["A CIRCLE IS A CONSTANT DISTANCE","วงกลมคือระยะห่างที่คงที่"],
                     xlab:"x", ylab:"y", xticks:5, yticks:5});
       var cx=A.X(p.h), cy=A.Y(p.k);
       var rx=A.X(p.r)-A.X(0), ry=A.Y(0)-A.Y(p.r);
@@ -935,22 +935,22 @@ nodes:[
       o.push('<line x1="'+cx+'" y1="'+cy+'" x2="'+A.X(p.h+p.r)+'" y2="'+cy+
              '" stroke="var(--ink-soft)" stroke-width="1.8" stroke-dasharray="4 3"/>');
       o.push('<text x="'+((cx+A.X(p.h+p.r))/2)+'" y="'+(cy-8)+'" fill="var(--ink-soft)" '+
-             'font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">r = '+fmt(p.r)+'</text>');
+             'font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">r = '+num(p.r)+'</text>');
       var tx2=A.X(p.px), ty=A.Y(p.k);
       var d=Math.abs(p.px-p.h);
       var c2 = d<p.r ? "var(--good)" : d>p.r ? "var(--warn)" : "var(--accent)";
       o.push('<circle cx="'+tx2+'" cy="'+ty+'" r="5.5" fill="'+c2+'"/>');
       cap(o,110,308,["green inside · amber outside · the radius never changes",
-                     "สีเขียวคืออยู่ภายใน · สีเหลืองอำพันคืออยู่ภายนอก · รัศมีไม่เปลี่ยน"],"note");
+                     "เขียว = อยู่ภายในวง · เหลืองอำพัน = อยู่ภายนอก · รัศมีไม่เปลี่ยน"],"note");
     }
   },
   guide:[
     {say:["Every point on the ring is exactly r from the centre. That single sentence is the equation.",
-          "ทุกจุดบนวงกลมห่างจากจุดศูนย์กลางเท่ากับ r พอดี ประโยคเดียวนี้ก็คือสมการของวงกลม"], set:{h:0,k:0,r:3,px:5}},
+          "ทุกจุดบนวงกลมอยู่ห่างจากจุดศูนย์กลางเท่ากับ r พอดี แค่ประโยคนี้ก็คือสมการของวงกลมแล้ว"], set:{h:0,k:0,r:3,px:5}},
     {say:["Move the centre and the equation gains the (x − h) and (y − k) brackets. Nothing else changes.",
-          "ย้ายจุดศูนย์กลาง สมการจะมีวงเล็บ (x − h) และ (y − k) เพิ่มเข้ามา ส่วนอย่างอื่นไม่เปลี่ยน"], set:{h:3,k:-2,r:3,px:5}},
+          "ลองย้ายจุดศูนย์กลาง สมการจะมีวงเล็บ (x − h) และ (y − k) เพิ่มมา อย่างอื่นเหมือนเดิม"], set:{h:3,k:-2,r:3,px:5}},
     {say:["Note the minus signs: a centre at +3 appears as (x − 3). That sign flip is the classic slip.",
-          "ให้สังเกตเครื่องหมายลบ จุดศูนย์กลางที่ +3 จะเขียนเป็น (x − 3) การเปลี่ยนเครื่องหมายตรงนี้คือจุดที่คนพลาดบ่อยที่สุด"], set:{h:3,k:-2,r:4,px:0}}
+          "ดูเครื่องหมายลบด้วย จุดศูนย์กลางที่ +3 เขียนเป็น (x − 3) ตรงนี้แหละที่คนพลาดบ่อยที่สุด"], set:{h:3,k:-2,r:4,px:0}}
   ] },
 
 { id:"conics", x:370, y:150, requires:["points-lines"], methods:["M-03"],
@@ -975,15 +975,15 @@ nodes:[
       {lab:["c","c"], f:function(S){
         var a=S.p.a,b=S.p.b,k=S.p.kind;
         if(k===0) return "0";
-        if(k===1) return fmt2(Math.sqrt(Math.max(a*a-b*b,0)));
-        if(k===3) return fmt2(Math.sqrt(a*a+b*b));
-        return fmt2(a/4); }},
+        if(k===1) return num(Math.sqrt(Math.abs(a*a-b*b)));
+        if(k===3) return num(Math.sqrt(a*a+b*b));
+        return num(a/4); }},
       {lab:["Eccentricity e","ความเยื้องศูนย์กลาง e"], f:function(S){
         var a=S.p.a,b=S.p.b,k=S.p.kind;
         if(k===0) return "0";
-        if(k===1) return fmt2(Math.sqrt(Math.max(a*a-b*b,0))/a);
+        if(k===1) return num(Math.sqrt(Math.abs(a*a-b*b))/Math.max(a,b));
         if(k===2) return "1";
-        return fmt2(Math.sqrt(a*a+b*b)/a); }}
+        return num(Math.sqrt(a*a+b*b)/a); }}
     ],
     draw:function(S,o){
       var a=S.p.a, b=S.p.b, k=S.p.kind;
@@ -997,9 +997,9 @@ nodes:[
           d+=(i?" L":"M")+A.X(xx)+" "+A.Y(yy);
         }
         o.push('<path d="'+d+'" stroke="var(--accent)" stroke-width="2.4" fill="none"/>');
-        var cc=(k===0)?0:Math.sqrt(Math.max(ra*ra-rb*rb,0));
+        var cc=(k===0)?0:Math.sqrt(Math.abs(ra*ra-rb*rb));
         [cc,-cc].forEach(function(fx){
-          if(cc>0.01) o.push('<circle cx="'+A.X(fx)+'" cy="'+A.Y(0)+'" r="4" fill="var(--ink)"/>');
+          if(cc>0.01) o.push('<circle cx="'+(rb>ra?A.X(0):A.X(fx))+'" cy="'+(rb>ra?A.Y(fx):A.Y(0))+'" r="4" fill="var(--ink)"/>');
         });
       } else if(k===2){
         var c4=a/4;
@@ -1042,13 +1042,13 @@ nodes:[
   },
   guide:[
     {say:["A circle: both axes equal, both foci collapsed onto the centre, eccentricity exactly zero.",
-          "วงกลม แกนทั้งสองยาวเท่ากัน โฟกัสทั้งสองรวมเป็นจุดเดียวกับจุดศูนย์กลาง และความเยื้องศูนย์กลางเป็นศูนย์พอดี"], set:{kind:0,a:4,b:4}},
+          "วงกลม แกนสองแกนยาวเท่ากัน โฟกัสทั้งสองซ้อนกันที่จุดศูนย์กลาง และความเยื้องศูนย์กลางเป็น 0 พอดี"], set:{kind:0,a:4,b:4}},
     {say:["Now an ellipse. Pull b down and the foci slide outwards — c² = a² − b², so c grows as b shrinks.",
-          "ทีนี้เป็นวงรี ลดค่า b โฟกัสจะเลื่อนออกจากกัน เพราะ c² = a² − b² เมื่อ b เล็กลง c จึงใหญ่ขึ้น"], set:{kind:1,a:5,b:2}},
+          "ต่อไปเป็นวงรี ลองลดค่า b โฟกัสจะเลื่อนออกจากกัน เพราะ c² = a² − b² พอ b เล็กลง c ก็ใหญ่ขึ้น"], set:{kind:1,a:5,b:2}},
     {say:["The parabola sits exactly at e = 1 — the boundary case between the closed and open families.",
-          "พาราโบลามี e = 1 พอดี เป็นกรณีที่อยู่ตรงรอยต่อระหว่างเส้นโค้งปิดกับเส้นโค้งเปิด"], set:{kind:2,a:4,b:2}},
+          "พาราโบลามี e = 1 พอดี อยู่ตรงรอยต่อระหว่างเส้นโค้งปิดกับเส้นโค้งเปิด"], set:{kind:2,a:4,b:2}},
     {say:["The hyperbola. Note the relation on screen flipped to c² = a² + b² — a PLUS. That single sign is the classic error.",
-          "ไฮเพอร์โบลา ให้สังเกตว่าความสัมพันธ์บนจอเปลี่ยนเป็น c² = a² + b² คือเครื่องหมายบวก เครื่องหมายนี้เองคือจุดที่คนพลาดบ่อยที่สุด"], set:{kind:3,a:3,b:2}}
+          "ไฮเพอร์โบลา ดูความสัมพันธ์บนจอที่เปลี่ยนเป็น c² = a² + b² เป็นเครื่องหมายบวก ตรงนี้แหละที่คนพลาดบ่อยที่สุด"], set:{kind:3,a:3,b:2}}
   ]},
 
 { id:"parabola-ellipse", x:235, y:248, requires:["circle","conics"], methods:["M-04"],
@@ -1072,13 +1072,13 @@ nodes:[
       {k:"k", lab:["Vertex y","จุดยอด y"], min:-4, max:4, step:.5, def:-2, unit:""}
     ],
     readouts:[
-      {lab:["Vertex","จุดยอด"], f:function(S){ return "("+fmt(S.p.h)+", "+fmt(S.p.k)+")"; }},
-      {lab:["Focus","จุดโฟกัส"], f:function(S){ return "("+fmt(S.p.h)+", "+fmt(S.p.k+S.p.a)+")"; }},
-      {lab:["Directrix","ไดเรกทริกซ์"], f:function(S){ return "y = "+fmt(S.p.k-S.p.a); }},
-      {lab:["Defining property","สมบัติที่เป็นนิยาม"], f:function(){
-        return L()?"ทุกจุดห่างจากโฟกัสเท่ากับห่างจากไดเรกทริกซ์":"every point is equally far from the focus and the directrix"; }}
+      {lab:["Vertex","จุดยอด"], f:function(S){ return "("+num(S.p.h)+", "+num(S.p.k)+")"; }},
+      {lab:["Focus","จุดโฟกัส"], f:function(S){ return "("+num(S.p.h)+", "+num(S.p.k+S.p.a)+")"; }},
+      {lab:["Directrix","ไดเรกทริกซ์"], f:function(S){ return "y = "+num(S.p.k-S.p.a); }},
+      {lab:["Defining property","สมบัติที่ใช้เป็นนิยาม"], f:function(){
+        return L()?"ทุกจุดอยู่ห่างจากโฟกัสเท่ากับห่างจากไดเรกทริกซ์":"every point is equally far from the focus and the directrix"; }}
     ],
-    note:["a larger focal distance makes a wider, lazier curve — the focus moves away from the vertex","ระยะโฟกัสมากขึ้นทำให้เส้นโค้งกว้างและแบนลง โฟกัสจึงเลื่อนห่างจากจุดยอด"]
+    note:["a larger focal distance makes a wider, lazier curve — the focus moves away from the vertex","ระยะโฟกัสมาก เส้นโค้งจะกว้างและแบน โฟกัสก็อยู่ไกลจากจุดยอดขึ้น"]
   } },
 
 { id:"hyperbola", x:235, y:346, requires:["parabola-ellipse"], methods:["M-05","M-06"],
@@ -1101,14 +1101,14 @@ nodes:[
       {k:"x", lab:["Point at x","จุดที่ x"], min:.4, max:7.5, step:.1, def:2, unit:""}
     ],
     readouts:[
-      {lab:["y at that x","ค่า y ที่ x นั้น"], f:function(S){ return fmt2(S.p.k/S.p.x); }},
+      {lab:["y at that x","ค่า y ที่ x นั้น"], f:function(S){ return num(S.p.k/S.p.x); }},
       {lab:["Product x·y","ผลคูณ x·y"], f:function(S){
-        return fmt2(S.p.k)+(L()?" · คงที่เสมอ":" · constant, always"); }},
+        return num(S.p.k)+(L()?" · คงที่เสมอ":" · constant, always"); }},
       {lab:["Asymptotes","เส้นกำกับ"], f:function(){ return "x = 0  " + (L()?"และ":"and") + "  y = 0"; }},
       {lab:["Does it ever touch them?","แตะเส้นกำกับไหม"], f:function(){
-        return L()?"ไม่เลย — เข้าใกล้ตลอดไป":"never — it approaches forever"; }}
+        return L()?"ไม่แตะเลย — เข้าใกล้ไปเรื่อย ๆ":"never — it approaches forever"; }}
     ],
-    note:["this is the same curve as a gas isotherm, where PV stays constant","เส้นโค้งนี้เหมือนกับเส้นไอโซเทอร์มของแก๊ส ซึ่ง PV คงที่"]
+    note:["this is the same curve as a gas isotherm, where PV stays constant","เส้นโค้งนี้เหมือนเส้นไอโซเทอร์มของแก๊ส ที่ PV คงที่"]
   } }
 ],
 
@@ -1130,24 +1130,28 @@ traps:{
 
 gen:{
 "M-01": function(sf){
-  var x1=ri(-4,4), y1=ri(-4,4), x2=ri(-4,4)+5, y2=ri(-4,4)+5;
+  var x1,y1,x2,y2;
+  do{ x1=ri(-4,4); y1=ri(-4,4); x2=ri(-4,4)+5; y2=ri(-4,4)+5; } while(x1===0 || y1===0 || y2===y1 || x2===x1 || (x2-x1===-x2 && y2-y1===-y2) ||
+         [Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1)),Math.abs(x2-x1)+Math.abs(y2-y1),(x2-x1)*(x2-x1)+(y2-y1)*(y2-y1),(y2-y1)/(x2-x1)]
+           .map(function(v){ return num(v); }).some(function(v,i,r){ return r.indexOf(v)!==i; }));
   var m=(y2-y1)/(x2-x1);
   if(sf==="S-04") return {stem:["A line has gradient 3. What is the gradient of any line perpendicular to it?",
                                 "เส้นตรงเส้นหนึ่งมีความชัน 3 เส้นตรงที่ตั้งฉากกับเส้นนี้มีความชันเท่าใด"],
     opts:[{v:"−1/3",ok:1},{v:"1/3",trap:"T-02"},{v:"3",trap:"T-02"},{v:"−3",trap:"T-02"}],unit:""};
-  if(sf==="S-05") return {stem:["The midpoint of AB is ("+fmt((x1+x2)/2)+", "+fmt((y1+y2)/2)+") and A is ("+x1+", "+y1+"). Find B.",
-                                "จุดกึ่งกลางของ AB คือ ("+fmt((x1+x2)/2)+", "+fmt((y1+y2)/2)+") และ A คือ ("+x1+", "+y1+") จงหา B"],
-    opts:[{v:"("+x2+", "+y2+")",ok:1},{v:"("+(-x2)+", "+(-y2)+")"},
-          {v:"("+fmt((x1+x2)/2)+", "+fmt((y1+y2)/2)+")"},{v:"("+(x2-x1)+", "+(y2-y1)+")"}],unit:""};
-  return {stem:["Find the distance between ("+x1+", "+y1+") and ("+x2+", "+y2+").",
-                "จงหาระยะระหว่างจุด ("+x1+", "+y1+") และ ("+x2+", "+y2+")"],
-    opts:[{v:fmt2(Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))),ok:1},
-          {v:fmt2(Math.abs(x2-x1)+Math.abs(y2-y1))},
-          {v:fmt2((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))},
-          {v:fmt2(m)}],unit:""};
+  if(sf==="S-05") return {stem:["The midpoint of AB is ("+num((x1+x2)/2)+", "+num((y1+y2)/2)+") and A is ("+num(x1)+", "+num(y1)+"). Find B.",
+                                "จุดกึ่งกลางของ AB คือ ("+num((x1+x2)/2)+", "+num((y1+y2)/2)+") และ A คือ ("+num(x1)+", "+num(y1)+") จงหา B"],
+    opts:[{v:"("+num(x2)+", "+num(y2)+")",ok:1},{v:"("+num(-x2)+", "+num(-y2)+")"},
+          {v:"("+num((x1+x2)/2)+", "+num((y1+y2)/2)+")"},{v:"("+num(x2-x1)+", "+num(y2-y1)+")"}],unit:""};
+  return {stem:["Find the distance between ("+num(x1)+", "+num(y1)+") and ("+num(x2)+", "+num(y2)+").",
+                "จงหาระยะระหว่างจุด ("+num(x1)+", "+num(y1)+") และ ("+num(x2)+", "+num(y2)+")"],
+    opts:[{v:num(Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))),ok:1},
+          {v:num(Math.abs(x2-x1)+Math.abs(y2-y1))},
+          {v:num((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))},
+          {v:num(m)}],unit:""};
 },
 "M-02": function(sf){
-  var h=ri(-4,4), k=ri(-4,4), r=ri(2,6);
+  var h,k,r;
+  do{ h=ri(-4,4); k=ri(-4,4); r=ri(2,6); } while(h===0 || k===0 || h===k);
   var a=-2*h, b=-2*k, c=h*h+k*k-r*r;
   if(sf==="S-04") return {stem:["What must you do before reading the centre of x² + y² + ax + by + c = 0?",
                                 "ก่อนอ่านจุดศูนย์กลางของ x² + y² + ax + by + c = 0 ต้องทำอะไรก่อน"],
@@ -1157,8 +1161,8 @@ gen:{
           {v:["Divide everything by c","หารทุกพจน์ด้วย c"]}],unit:""};
   return {stem:["Find the centre of x² + y² "+(a>=0?"+ ":"− ")+Math.abs(a)+"x "+(b>=0?"+ ":"− ")+Math.abs(b)+"y "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0.",
                 "จงหาจุดศูนย์กลางของ x² + y² "+(a>=0?"+ ":"− ")+Math.abs(a)+"x "+(b>=0?"+ ":"− ")+Math.abs(b)+"y "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0"],
-    opts:[{v:"("+h+", "+k+")",ok:1},{v:"("+a+", "+b+")",trap:"T-03"},
-          {v:"("+(-h)+", "+(-k)+")",trap:"T-03"},{v:"("+r+", "+r+")"}],unit:""};
+    opts:[{v:"("+num(h)+", "+num(k)+")",ok:1},{v:"("+num(a)+", "+num(b)+")",trap:"T-03"},
+          {v:"("+num(-h)+", "+num(-k)+")",trap:"T-03"},{v:"("+num(r)+", "+num(r)+")"}],unit:""};
 },
 "M-03": function(sf){
   var C=[{e:"4x² + 4y² − 8x = 0", a:["Circle","วงกลม"], w:[["Ellipse","วงรี"],["Hyperbola","ไฮเพอร์โบลา"],["Parabola","พาราโบลา"]]},
@@ -1179,16 +1183,17 @@ gen:{
           {v:["Two foci","โฟกัสสองจุด"],trap:"T-04"},
           {v:["A centre and a vertex","จุดศูนย์กลางและจุดยอด"]},
           {v:["Two directrices","ไดเรกทริกซ์สองเส้น"]}],unit:""};
-  if(sf==="S-05") return {stem:["An ellipse has a = "+a+" and c = "+fmt2(c)+". Find b.",
-                                "วงรีมี a = "+a+" และ c = "+fmt2(c)+" จงหา b"],
-    opts:[{v:String(b),ok:1},{v:fmt2(Math.sqrt(a*a+c*c)),trap:"T-01"},
-          {v:fmt2(a-c)},{v:fmt2(a+c)}],unit:""};
+  if(sf==="S-05") return {stem:["An ellipse has a = "+a+" and c = "+num(c,4)+". Find b.",
+                                "วงรีมี a = "+a+" และ c = "+num(c,4)+" จงหา b"],
+    opts:[{v:String(b),ok:1},{v:num(Math.sqrt(a*a+c*c)),trap:"T-01"},
+          {v:num(a-c)},{v:num(a+c)}],unit:""};
   return {stem:["An ellipse has a = "+a+" and b = "+b+". Find c.","วงรีมี a = "+a+" และ b = "+b+" จงหา c"],
-    opts:[{v:fmt2(c),ok:1},{v:fmt2(Math.sqrt(a*a+b*b)),trap:"T-01"},
-          {v:fmt2(a-b)},{v:fmt2(a*b)}],unit:""};
+    opts:[{v:num(c),ok:1},{v:num(Math.sqrt(a*a+b*b)),trap:"T-01"},
+          {v:num(a-b)},{v:num(a*b)}],unit:""};
 },
 "M-05": function(sf){
-  var a=pick([3,4,5]), b=pick([2,3,12]);
+  var a,b;
+  do{ a=pick([3,4,5]); b=pick([2,3,12]); } while(a===b);
   var c=Math.sqrt(a*a+b*b);
   if(sf==="S-04") return {stem:["For a hyperbola, which relation connects a, b and c?",
                                 "สำหรับไฮเพอร์โบลา ความสัมพันธ์ใดเชื่อม a, b และ c"],
@@ -1199,8 +1204,8 @@ gen:{
     opts:[{v:"y = ±("+b+"/"+a+")x",ok:1},{v:"y = ±("+a+"/"+b+")x",trap:"T-04"},
           {v:"y = ±"+a+"x"},{v:"y = ±"+b+"x"}],unit:""};
   return {stem:["A hyperbola has a = "+a+" and b = "+b+". Find c.","ไฮเพอร์โบลามี a = "+a+" และ b = "+b+" จงหา c"],
-    opts:[{v:fmt2(c),ok:1},{v:fmt2(Math.sqrt(Math.abs(a*a-b*b))),trap:"T-01"},
-          {v:String(a+b)},{v:fmt2(c/2)}],unit:""};
+    opts:[{v:num(c),ok:1},{v:num(Math.sqrt(Math.abs(a*a-b*b))),trap:"T-01"},
+          {v:String(a+b)},{v:num(c/2)}],unit:""};
 },
 "M-06": function(sf){
   var C=[{q:["a circle","วงกลม"],a:"e = 0",w:["0 < e < 1","e = 1","e > 1"]},
@@ -1291,13 +1296,55 @@ function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
 function fmt(n){ return (Math.round(n*10)/10).toString(); }
 function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+/* ---- numbers as a scientist writes them ----
+   fmt / fmt2 round to a fixed number of decimals; they are for geometry and
+   coordinates only. Anything a learner READS as a physical value goes through
+   num(), which keeps significant figures instead of decimal places, switches to
+   standard form (A × 10ⁿ, 1 ≤ |A| < 10) for very large or very small values,
+   never shows a non-zero value as 0, and uses a real minus sign.
+     num(0.000000123)   "1.23 × 10⁻⁷"      num(299792458)  "3 × 10⁸"
+     num(12345.6)       "12300"            num(−4.2)       "−4.2"
+     numTex(n,s)  the same value as LaTeX (for the live formula)
+     un(n,"m/s")  number, a no-break space, then the unit                    */
+var SUPS={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
+function sciParts(n,s){
+  var e=Math.floor(Math.log10(Math.abs(n))), m=n/Math.pow(10,e);
+  m=+m.toPrecision(s); if(Math.abs(m)>=10){ m/=10; e++; }
+  return [m,e];
+}
+function num(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "—";
+  if(n===0) return "0";
+  var a=Math.abs(n), out;
+  if(a<1e-3 || a>=1e5){
+    var q=sciParts(n,s);
+    out=String(q[0])+" × 10"+String(q[1]).split("").map(function(c){ return SUPS[c]; }).join("");
+  } else {
+    out=String(+n.toPrecision(s));
+    if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  }
+  return out.replace("-","−");
+}
+function numTex(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "\\text{—}";
+  if(n===0) return "0";
+  var a=Math.abs(n);
+  if(a<1e-3 || a>=1e5){ var q=sciParts(n,s); return q[0]+"\\times10^{"+q[1]+"}"; }
+  var out=String(+n.toPrecision(s));
+  if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  return out;
+}
+function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
   if(!(range>0)) return 1;
   var raw=range/target, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
   return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag;
 }
-function tk(n){ var r=Math.round(n*100)/100; return (Math.abs(r)<1e-9?0:r).toString(); }
+/* axis tick labels: significant figures and standard form, never "0" for a small value */
+function tk(n){ return num(n,3); }
 var FT='fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10"';
 
 /* Shared, fully scaled axis frame. Returns mapping functions. */
@@ -1359,10 +1406,10 @@ VIZLIB.motion = {
     {k:"T", lab:["Duration","ช่วงเวลา"],                min:2,  max:12,step:1, def:6,  unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Time","เวลา"],            f:function(S){ return fmt(S.t)+" s"; }},
-    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return fmt(S.p.u+S.p.a*S.t)+" m/s"; }},
-    {lab:["Displacement s","การกระจัด s"], f:function(S){ return fmt(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
-    {lab:["Slope","ความชัน"],        f:function(S){ return fmt(S.p.a)+" m/s²"; }}
+    {lab:["Time","เวลา"],            f:function(S){ return num(S.t)+" s"; }},
+    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return num(S.p.u+S.p.a*S.t)+" m/s"; }},
+    {lab:["Displacement s","การกระจัด s"], f:function(S){ return num(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
+    {lab:["Slope","ความชัน"],        f:function(S){ return num(S.p.a)+" m/s²"; }}
   ],
   draw:function(S,o){
     var u=S.p.u,a=S.p.a,T=S.p.T,tt=Math.min(S.t,T);
@@ -1447,11 +1494,11 @@ VIZLIB.vector = {
     {lab:["Resultant R","ผลลัพธ์ R"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      return fmt(Math.sqrt(rx*rx+ry*ry)); }},
+      return num(Math.sqrt(rx*rx+ry*ry)); }},
     {lab:["Direction","ทิศทาง"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return fmt(d)+"°"; }}
+      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return num(d)+"°"; }}
   ],
   draw:function(S,o){
     var p=S.p, cx=280, cy=180, sc=6.5;
@@ -1465,8 +1512,8 @@ VIZLIB.vector = {
     o.push('<line x1="'+(cx-250)+'" y1="'+cy+'" x2="'+(cx+250)+'" y2="'+cy+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     o.push('<line x1="'+cx+'" y1="'+(cy-140)+'" x2="'+cx+'" y2="'+(cy+140)+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     for(var s=-20;s<=20;s+=10){ if(!s) continue;
-      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+s+'</text>');
-      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+s+'</text>');
+      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+tk(s)+'</text>');
+      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+tk(s)+'</text>');
     }
     function arrow(x1,y1,x2,y2,col,w,dash){
       var ang=Math.atan2(y2-y1,x2-x1), hl=9;
@@ -1493,9 +1540,9 @@ VIZLIB.wave = {
     {k:"T",  lab:["Run for","เล่นนาน"],            min:2,max:12,step:1, def:8, unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return fmt(S.p.f*S.p.lam)+" m/s"; }},
-    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return fmt(1/S.p.f)+" s"; }},
-    {lab:["Time","เวลา"],                     f:function(S){ return fmt(S.t)+" s"; }}
+    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return num(S.p.f*S.p.lam)+" m/s"; }},
+    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return num(1/S.p.f)+" s"; }},
+    {lab:["Time","เวลา"],                     f:function(S){ return num(S.t)+" s"; }}
   ],
   draw:function(S,o){
     var p=S.p, xmax=24;
@@ -1546,7 +1593,7 @@ VIZLIB.bars = {
       o.push('<rect x="'+(cx-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+
              '" height="'+Math.abs(y1-y0)+'" fill="'+b.c+'" opacity="0.9"/>');
       o.push('<text x="'+cx+'" y="'+(y1+(b.v<0?15:-7))+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-size="11" font-weight="600" text-anchor="middle">'+num(b.v)+'</text>');
       o.push('<text x="'+cx+'" y="'+(A.Y(lo)+34)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" '+
              'font-size="10" text-anchor="middle">'+tx(b.lab)+'</text>');
     });
@@ -1619,7 +1666,7 @@ VIZLIB.tri = {
            ' Z" fill="var(--accent)" fill-opacity="0.10" stroke="var(--ink)" stroke-width="2.2"/>');
     function side(p,q,lab,val,c2){
       o.push('<text x="'+((p[0]+q[0])/2)+'" y="'+((p[1]+q[1])/2-6)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+fmt2(val)+'</text>');
+             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+num(val)+'</text>');
     }
     side(tC,tA,"b",b,"var(--ink-soft)");
     side(tC,tB,"a",a,"var(--ink-soft)");
@@ -1627,15 +1674,15 @@ VIZLIB.tri = {
     [[tC,"C",g.C],[tA,"A",A1*180/Math.PI],[tB,"B",B1*180/Math.PI]].forEach(function(v){
       o.push('<circle cx="'+v[0][0]+'" cy="'+v[0][1]+'" r="3.5" fill="var(--ink)"/>');
       o.push('<text x="'+(v[0][0]-14)+'" y="'+(v[0][1]+14)+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="10.5" font-weight="600">'+v[1]+' '+fmt(v[2])+'°</text>');
+             'font-size="10.5" font-weight="600">'+v[1]+' '+num(v[2])+'°</text>');
     });
     var area=0.5*a*b*Math.sin(C);
     o.push('<text x="404" y="86" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["THIRD SIDE","ด้านที่สาม"])+'</text>');
-    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+fmt2(c)+'</text>');
+    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+num(c)+'</text>');
     o.push('<text x="404" y="152" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["AREA ½ ab sin C","พื้นที่ ½ ab sin C"])+'</text>');
-    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+fmt2(area)+'</text>');
+    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+num(area)+'</text>');
     if(cfg.note) cap(o,44,286,cfg.note,"note");
   }
 };
@@ -1708,7 +1755,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+(cx-L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56-H)+
              ' Z" fill="var(--surface)" stroke="var(--ink-faint)" stroke-width="1.5"/>');
       o.push('<text x="'+(cx-L/2+26)+'" y="'+(cy+50)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-             'font-size="10">'+fmt(inc)+'°</text>');
+             'font-size="10">'+num(inc)+'°</text>');
     } else {
       o.push('<line x1="'+(cx-120)+'" y1="'+(cy+34)+'" x2="'+(cx+120)+'" y2="'+(cy+34)+
              '" stroke="var(--ink-faint)" stroke-width="1.5"/>');
@@ -1726,7 +1773,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+ex+' '+ey+' L'+(ex-hl*Math.cos(aa-0.4))+' '+(ey-hl*Math.sin(aa-0.4))+
              ' L'+(ex-hl*Math.cos(aa+0.4))+' '+(ey-hl*Math.sin(aa+0.4))+' Z" fill="'+c2+'"/>');
       o.push('<text x="'+(cx+Math.cos(aa)*(len+24))+'" y="'+(cy+Math.sin(aa)*(len+24)+4)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+fmt(Math.abs(f.mag))+'</text>');
+             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+num(Math.abs(f.mag))+'</text>');
     });
     if(cfg.note) cap(o,44,300,cfg.note,"note");
   }
@@ -1745,7 +1792,7 @@ VIZLIB.stack = {
       var pw=Math.max(0,p.v)/tot*w;
       o.push('<rect x="'+x+'" y="'+y+'" width="'+pw+'" height="'+h+'" fill="'+col(p.col)+'" opacity="0.88"/>');
       if(pw>34) o.push('<text x="'+(x+pw/2)+'" y="'+(y+h/2+4)+'" fill="#fff" font-family="IBM Plex Sans" '+
-                       'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(p.v)+'</text>');
+                       'font-size="11" font-weight="600" text-anchor="middle">'+num(p.v)+'</text>');
       x+=pw;
     });
     o.push('<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="none" stroke="var(--ink)" stroke-width="1.6"/>');
@@ -1757,7 +1804,7 @@ VIZLIB.stack = {
              'font-size="10.5">'+tx(p.lab)+'</text>');
     });
     if(cfg.total) o.push('<text x="'+(x0+w)+'" y="'+(y-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+fmt2(tot)+'</text>');
+                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+num(tot)+'</text>');
     if(cfg.note) cap(o,x0,236,cfg.note,"note");
   }
 };
@@ -2061,7 +2108,7 @@ function instrument(S, o, ins, ctx){
       if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
                       'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+num(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -2578,7 +2625,7 @@ var STAGE = {
         o.push('<text x="' + (FR.sx + 166) + '" y="' + fmt2(+gy + 3.5) + '" ' + FT + ' text-anchor="end">' + tk(h) + '</text>');
       }
       o.push('<text x="' + (FR.sx + 166) + '" y="' + (W.top - 8) + '" ' + FT + ' text-anchor="end">' +
-             tx(W.unit || ["m", "ม."]) + '</text>');
+             tx(W.unit || ["m", "m"]) + '</text>');
     }
   },
 
@@ -2802,7 +2849,7 @@ var STAGE = {
     var on = S.kbd && S.kbd.on;
     role("prophecy")(o, P[0], P[1], { clock: STAGE.clock, active: on || !!S.dragGuess,
                                        done: pr.phase === "done", hit: pr.hit, tower: W.kind === "tower" });
-    var txt = ui("yourGuess") + " · " + fmt2(pr.guess) + tx(pc.unit || [" m", " ม."]);
+    var txt = ui("yourGuess") + " · " + num(pr.guess) + tx(pc.unit || [" m", " m"]);
     fitText(o, P[0], P[1] - (W.kind === "tower" ? 12 : 78), [txt, txt], 150, 10.5, "var(--accent2)", "middle");
   },
 
@@ -3072,9 +3119,9 @@ var STAGE = {
         } else {
           var err = Math.abs(g - actual), tol = pc.tol ? pc.tol(S.p) : 1;
           hit = err <= tol;
-          var u = tx(pc.unit || [" m", " ม."]);
-          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + fmt2(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + fmt2(actual) + u +
-                  " · " + (L() ? "คลาดไป " : "off by ") + fmt2(err) + u ];
+          var u = tx(pc.unit || [" m", " m"]);
+          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + num(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + num(actual) + u +
+                  " · " + (L() ? "ต่างไป " : "off by ") + num(err) + u ];
         }
         S.pred.phase = "done"; S.pred.hit = hit;
         STATE.preds = STATE.preds || {};
@@ -4467,7 +4514,7 @@ function makeLab(nd, host){
     });
     /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=num(S.p[c.k],6)+(c.unit||"");
       if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){

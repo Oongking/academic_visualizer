@@ -1,3 +1,4 @@
+function z0(v){ return Math.abs(v)<1e-9?0:v; }
 var CHAPTER = {
 id:"ma09", num:"09", slug:"vectors", subject:"math",
 kicker:["Mathematics · Chapter 09","คณิตศาสตร์ · บทที่ 9"],
@@ -28,7 +29,7 @@ nodes:[
   flabel:["Squares add to one, not cosines","กำลังสองรวมได้ 1 ไม่ใช่ตัวโคไซน์"],
   viz:"bars",
   vizcfg:{
-    title:["A VECTOR SPLIT INTO ITS COMPONENTS","เวกเตอร์ที่แตกเป็นองค์ประกอบ"],
+    title:["A VECTOR SPLIT INTO ITS COMPONENTS","แตกเวกเตอร์เป็นองค์ประกอบ"],
     ylab:["units","หน่วย"],
     ctrls:[
       {k:"m",  lab:["Magnitude","ขนาด"], min:1, max:20, step:.5, def:10, unit:""},
@@ -36,29 +37,29 @@ nodes:[
     ],
     readouts:[
       {lab:["x-component","องค์ประกอบ x"], f:function(S){
-        return fmt2(S.p.m*Math.cos(S.p.th*Math.PI/180)); }},
+        return num(z0(S.p.m*Math.cos(S.p.th*Math.PI/180))); }},
       {lab:["y-component","องค์ประกอบ y"], f:function(S){
-        return fmt2(S.p.m*Math.sin(S.p.th*Math.PI/180)); }},
+        return num(z0(S.p.m*Math.sin(S.p.th*Math.PI/180))); }},
       {lab:["Check by Pythagoras","ตรวจด้วยพีทาโกรัส"], f:function(S){
         var p=S.p, x=p.m*Math.cos(p.th*Math.PI/180), y=p.m*Math.sin(p.th*Math.PI/180);
-        return fmt2(Math.sqrt(x*x+y*y))+(L()?" · กลับมาเท่าขนาดเดิม":" · back to the magnitude"); }},
-      {lab:["Do components add as numbers?","องค์ประกอบบวกกันแบบตัวเลขได้ไหม"], f:function(){
-        return L()?"ได้ — นั่นคือเหตุผลที่เราแตกองค์ประกอบ":"yes — that is the entire reason for resolving"; }}
+        return num(Math.sqrt(x*x+y*y))+(L()?" · ได้ขนาดเดิมกลับมา":" · back to the magnitude"); }},
+      {lab:["Do components add as numbers?","บวกองค์ประกอบเหมือนบวกเลขได้ไหม"], f:function(){
+        return L()?"ได้ — นี่แหละเหตุผลที่เราแตกเวกเตอร์":"yes — that is the entire reason for resolving"; }}
     ],
     bars:[
       {lab:["Magnitude","ขนาด"], f:function(p){ return p.m; }, col:"ink"},
-      {lab:["x-component","องค์ประกอบ x"], f:function(p){ return p.m*Math.cos(p.th*Math.PI/180); }, col:"accent"},
-      {lab:["y-component","องค์ประกอบ y"], f:function(p){ return p.m*Math.sin(p.th*Math.PI/180); }, col:"good"}
+      {lab:["x-component","องค์ประกอบ x"], f:function(p){ return z0(p.m*Math.cos(p.th*Math.PI/180)); }, col:"accent"},
+      {lab:["y-component","องค์ประกอบ y"], f:function(p){ return z0(p.m*Math.sin(p.th*Math.PI/180)); }, col:"good"}
     ],
-    note:["a component goes negative when the vector points backwards along that axis","องค์ประกอบจะเป็นลบเมื่อเวกเตอร์ชี้ย้อนไปตามแกนนั้น"]
+    note:["a component goes negative when the vector points backwards along that axis","องค์ประกอบเป็นลบเมื่อเวกเตอร์ชี้ย้อนทิศแกนนั้น"]
   },
   guide:[
     {say:["At 37° both components are positive, and the x one is the larger.",
-          "ที่ 37° องค์ประกอบทั้งสองเป็นบวก และองค์ประกอบ x มากกว่า"], set:{m:10,th:37}},
+          "ที่ 37° องค์ประกอบทั้งสองเป็นบวก และ x มากกว่า y"], set:{m:10,th:37}},
     {say:["Straight up. The x-component collapses to zero and all the magnitude is vertical.",
-          "ชี้ขึ้นตรงๆ องค์ประกอบ x เป็นศูนย์ และขนาดทั้งหมดอยู่ในแนวดิ่ง"], set:{m:10,th:90}},
+          "ชี้ขึ้นตรงๆ องค์ประกอบ x เป็นศูนย์ ขนาดทั้งหมดอยู่ในแนวดิ่ง"], set:{m:10,th:90}},
     {say:["Point it into the third quadrant and both components go negative together.",
-          "ลองชี้ไปในควอดรันต์ที่สาม องค์ประกอบทั้งสองจะเป็นลบพร้อมกัน"], set:{m:10,th:215}}
+          "ลองชี้ไปควอดรันต์ที่สาม องค์ประกอบทั้งสองจะเป็นลบพร้อมกัน"], set:{m:10,th:215}}
   ] },
 
 { id:"dot", x:370, y:150, requires:["basics"], methods:["M-03"],
@@ -72,13 +73,13 @@ nodes:[
   viz:"vector",
   guide:[
     {say:["Start perpendicular. A runs along the axis and B stands at 90° to it, so cos θ = 0 and the dot product is exactly zero — 12 × 9 × 0. Read the resultant: R = 15, and 15² = 12² + 9². When the dot product vanishes, Pythagoras is restored.",
-          "เริ่มที่กรณีตั้งฉาก A วางตามแกน ส่วน B ตั้งฉากกับ A ที่ 90° ดังนั้น cos θ = 0 และผลคูณเชิงสเกลาร์เป็นศูนย์พอดี คือ 12 × 9 × 0 ลองดูผลลัพธ์ R = 15 และ 15² = 12² + 9² เมื่อผลคูณเชิงสเกลาร์เป็นศูนย์ ทฤษฎีบทพีทาโกรัสก็ใช้ได้"], set:{A:12,tA:0,B:12,tB:90}},
+          "เริ่มจากกรณีตั้งฉาก A วางตามแกน ส่วน B ตั้งฉากกับ A ที่ 90° ดังนั้น cos θ = 0 ผลคูณเชิงสเกลาร์จึงเป็นศูนย์พอดี คือ 12 × 9 × 0 ลองดูผลลัพธ์ R = 15 และ 15² = 12² + 9² เมื่อผลคูณเชิงสเกลาร์เป็นศูนย์ ทฤษฎีบทพีทาโกรัสก็ใช้ได้"], set:{A:12,tA:0,B:9,tB:90}},
     {say:["Now swing B onto A. With θ = 0 the cosine is 1 and the dot product hits its maximum, 12 × 9 = 108. This is the only arrangement in which magnitudes really do add: R = 21 = 12 + 9. Every other angle gives a shorter resultant.",
-          "คราวนี้หมุน B ให้ทับ A เมื่อ θ = 0 โคไซน์เป็น 1 ผลคูณเชิงสเกลาร์จึงมีค่าสูงสุด 12 × 9 = 108 นี่เป็นกรณีเดียวที่ขนาดบวกกันได้จริง R = 21 = 12 + 9 มุมอื่นทุกมุมให้ผลลัพธ์สั้นกว่านี้"], set:{A:12,tA:0,B:9,tB:0}},
+          "คราวนี้หมุน B ให้ทับ A พอ θ = 0 โคไซน์เป็น 1 ผลคูณเชิงสเกลาร์จึงมากที่สุด คือ 12 × 9 = 108 นี่เป็นกรณีเดียวที่ขนาดบวกกันได้จริง R = 21 = 12 + 9 มุมอื่นทุกมุมให้ผลลัพธ์สั้นกว่านี้"], set:{A:12,tA:0,B:9,tB:0}},
     {say:["Open the angle past 90° to 140°. The cosine has gone negative, so the dot product is negative too, about −83. The resultant collapses to under 8 — a shrinking resultant is the visible signature of an obtuse angle.",
-          "ลองเปิดมุมให้เกิน 90° ไปที่ 140° โคไซน์เป็นลบ ผลคูณเชิงสเกลาร์จึงเป็นลบด้วย ประมาณ −83 ผลลัพธ์หดลงเหลือไม่ถึง 8 ผลลัพธ์ที่สั้นลงจึงเป็นสัญญาณที่มองเห็นได้ว่ามุมเป็นมุมป้าน"], set:{A:12,tA:0,B:9,tB:140}},
+          "เปิดมุมให้เกิน 90° ไปที่ 140° โคไซน์กลายเป็นลบ ผลคูณเชิงสเกลาร์จึงเป็นลบด้วย ประมาณ −83 ผลลัพธ์หดเหลือไม่ถึง 8 ผลลัพธ์ที่สั้นลงบอกเราได้ว่ามุมเป็นมุมป้าน"], set:{A:12,tA:0,B:9,tB:140}},
     {say:["Push to 180° and the dot product bottoms out at −108. Since R² = |a|² + |b|² + 2(a · b), you can always read the dot product off the picture: a · b = (R² − 144 − 81) / 2, which here gives (9 − 225) / 2 = −108.",
-          "ดันไปถึง 180° ผลคูณเชิงสเกลาร์ต่ำสุดที่ −108 เพราะ R² = |a|² + |b|² + 2(a · b) เราจึงหาผลคูณเชิงสเกลาร์จากรูปได้เสมอ a · b = (R² − 144 − 81) / 2 ในที่นี้ได้ (9 − 225) / 2 = −108"], set:{A:12,tA:0,B:9,tB:180}}
+          "ดันไปถึง 180° ผลคูณเชิงสเกลาร์จะต่ำสุดที่ −108 เพราะ R² = |a|² + |b|² + 2(a · b) เราจึงหาผลคูณเชิงสเกลาร์จากรูปได้เสมอ a · b = (R² − 144 − 81) / 2 ในที่นี้ได้ (9 − 225) / 2 = −108"], set:{A:12,tA:0,B:9,tB:180}}
   ]},
 
 { id:"cross", x:235, y:248, requires:["components","dot"], methods:["M-04"],
@@ -91,7 +92,7 @@ nodes:[
   flabel:["An arrow, and the order decides its sign","เป็นลูกศร และลำดับกำหนดเครื่องหมาย"],
   viz:"bars",
   vizcfg:{
-    title:["DOT AND CROSS PULL IN OPPOSITE DIRECTIONS","ผลคูณจุดกับผลคูณไขว้ดึงกันคนละทาง"],
+    title:["DOT AND CROSS PULL IN OPPOSITE DIRECTIONS","ผลคูณสองแบบดึงกันคนละทาง"],
     ylab:["value","ค่า"],
     ctrls:[
       {k:"A",  lab:["|A|","|A|"], min:1, max:10, step:.5, def:4, unit:""},
@@ -99,29 +100,29 @@ nodes:[
       {k:"th", lab:["Angle between them","มุมระหว่างกัน"], min:0, max:180, step:5, def:60, unit:"°"}
     ],
     readouts:[
-      {lab:["Dot product A·B","ผลคูณจุด A·B"], f:function(S){
-        return fmt2(S.p.A*S.p.B*Math.cos(S.p.th*Math.PI/180)); }},
-      {lab:["Cross magnitude |A×B|","ขนาดผลคูณไขว้ |A×B|"], f:function(S){
-        return fmt2(S.p.A*S.p.B*Math.sin(S.p.th*Math.PI/180)); }},
+      {lab:["Dot product A·B","ผลคูณเชิงสเกลาร์ A·B"], f:function(S){
+        return num(z0(S.p.A*S.p.B*Math.cos(S.p.th*Math.PI/180))); }},
+      {lab:["Cross magnitude |A×B|","ขนาดผลคูณเชิงเวกเตอร์ |A×B|"], f:function(S){
+        return num(z0(S.p.A*S.p.B*Math.sin(S.p.th*Math.PI/180))); }},
       {lab:["At 0°","ที่ 0°"], f:function(){
-        return L()?"จุดสูงสุด · ไขว้เป็นศูนย์":"dot is maximal, cross is zero"; }},
+        return L()?"เชิงสเกลาร์สูงสุด · เชิงเวกเตอร์เป็นศูนย์":"dot is maximal, cross is zero"; }},
       {lab:["At 90°","ที่ 90°"], f:function(){
-        return L()?"จุดเป็นศูนย์ · ไขว้สูงสุด":"dot is zero, cross is maximal"; }}
+        return L()?"เชิงสเกลาร์เป็นศูนย์ · เชิงเวกเตอร์สูงสุด":"dot is zero, cross is maximal"; }}
     ],
     bars:[
-      {lab:["Dot A·B","จุด A·B"], f:function(p){ return p.A*p.B*Math.cos(p.th*Math.PI/180); }, col:"accent"},
-      {lab:["Cross |A×B|","ไขว้ |A×B|"], f:function(p){ return p.A*p.B*Math.sin(p.th*Math.PI/180); }, col:"good"},
+      {lab:["Dot A·B","เชิงสเกลาร์ A·B"], f:function(p){ return z0(p.A*p.B*Math.cos(p.th*Math.PI/180)); }, col:"accent"},
+      {lab:["Cross |A×B|","เชิงเวกเตอร์ |A×B|"], f:function(p){ return z0(p.A*p.B*Math.sin(p.th*Math.PI/180)); }, col:"good"},
       {lab:["|A||B|","|A||B|"], f:function(p){ return p.A*p.B; }, col:"faint"}
     ],
-    note:["one uses cosine and the other sine, so whenever one peaks the other vanishes","ตัวหนึ่งใช้โคไซน์ อีกตัวใช้ไซน์ ตัวหนึ่งสูงสุดเมื่อไร อีกตัวก็เป็นศูนย์เมื่อนั้น"]
+    note:["one uses cosine and the other sine, so whenever one peaks the other vanishes","ตัวหนึ่งใช้โคไซน์ อีกตัวใช้ไซน์ ตัวหนึ่งสูงสุดเมื่อไร อีกตัวจะเป็นศูนย์เมื่อนั้น"]
   },
   guide:[
     {say:["Parallel vectors. The dot product is at its maximum and the cross product is exactly zero.",
-          "เวกเตอร์ขนานกัน ผลคูณจุดสูงสุด และผลคูณไขว้เป็นศูนย์พอดี"], set:{A:4,B:5,th:0}},
+          "เวกเตอร์ขนานกัน ผลคูณเชิงสเกลาร์สูงสุด ส่วนผลคูณเชิงเวกเตอร์เป็นศูนย์พอดี"], set:{A:4,B:5,th:0}},
     {say:["Perpendicular now. The bars have swapped roles completely.",
-          "ตอนนี้ตั้งฉากกัน สองแถบสลับบทบาทกันโดยสิ้นเชิง"], set:{A:4,B:5,th:90}},
+          "ตอนนี้ตั้งฉากกัน สองแถบสลับบทบาทกันพอดี"], set:{A:4,B:5,th:90}},
     {say:["Antiparallel. The dot product goes negative while the cross product returns to zero.",
-          "ขนานกันแต่สวนทาง ผลคูณจุดเป็นลบ ส่วนผลคูณไขว้กลับมาเป็นศูนย์"], set:{A:4,B:5,th:180}}
+          "ขนานกันแต่สวนทาง ผลคูณเชิงสเกลาร์เป็นลบ ส่วนผลคูณเชิงเวกเตอร์กลับมาเป็นศูนย์"], set:{A:4,B:5,th:180}}
   ] },
 
 { id:"applications", x:235, y:346, requires:["cross"], methods:["M-05","M-06"],
@@ -134,7 +135,7 @@ nodes:[
   flabel:["Sine for size, cosine for alignment","ไซน์ไว้หาขนาด โคไซน์ไว้ดูแนว"],
   viz:"bars",
   vizcfg:{
-    title:["AREAS AND PROJECTIONS FROM TWO VECTORS","พื้นที่และการฉายจากเวกเตอร์สองตัว"],
+    title:["AREAS AND PROJECTIONS FROM TWO VECTORS","พื้นที่และโปรเจกชันจากเวกเตอร์สองตัว"],
     ylab:["value","ค่า"],
     ctrls:[
       {k:"A",  lab:["|A|","|A|"], min:1, max:10, step:.5, def:6, unit:""},
@@ -143,20 +144,20 @@ nodes:[
     ],
     readouts:[
       {lab:["Parallelogram area","พื้นที่สี่เหลี่ยมด้านขนาน"], f:function(S){
-        return fmt2(S.p.A*S.p.B*Math.sin(S.p.th*Math.PI/180)); }},
+        return num(S.p.A*S.p.B*Math.sin(S.p.th*Math.PI/180)); }},
       {lab:["Triangle area","พื้นที่สามเหลี่ยม"], f:function(S){
-        return fmt2(0.5*S.p.A*S.p.B*Math.sin(S.p.th*Math.PI/180)); }},
-      {lab:["Projection of A onto B","การฉาย A ลงบน B"], f:function(S){
-        return fmt2(S.p.A*Math.cos(S.p.th*Math.PI/180)); }},
+        return num(0.5*S.p.A*S.p.B*Math.sin(S.p.th*Math.PI/180)); }},
+      {lab:["Projection of A onto B","โปรเจกชันของ A บน B"], f:function(S){
+        return num(z0(S.p.A*Math.cos(S.p.th*Math.PI/180))); }},
       {lab:["When is the area zero?","พื้นที่เป็นศูนย์เมื่อใด"], f:function(){
-        return L()?"เมื่อเวกเตอร์ขนานกัน — ไม่มีรูปให้วัด":"when the vectors are parallel — there is no shape left"; }}
+        return L()?"เมื่อเวกเตอร์ขนานกัน เพราะไม่เหลือรูปให้วัด":"when the vectors are parallel — there is no shape left"; }}
     ],
     bars:[
       {lab:["Parallelogram","สี่เหลี่ยมด้านขนาน"], f:function(p){ return p.A*p.B*Math.sin(p.th*Math.PI/180); }, col:"accent"},
       {lab:["Triangle","สามเหลี่ยม"], f:function(p){ return 0.5*p.A*p.B*Math.sin(p.th*Math.PI/180); }, col:"good"},
-      {lab:["Projection A on B","การฉาย A บน B"], f:function(p){ return p.A*Math.cos(p.th*Math.PI/180); }, col:"warn"}
+      {lab:["Projection A on B","โปรเจกชัน A บน B"], f:function(p){ return z0(p.A*Math.cos(p.th*Math.PI/180)); }, col:"warn"}
     ],
-    note:["the triangle is always exactly half the parallelogram — the two bars keep that ratio forever","สามเหลี่ยมมีพื้นที่เป็นครึ่งหนึ่งของสี่เหลี่ยมด้านขนานเสมอ สองแถบนี้จึงรักษาอัตราส่วนนี้ไว้ตลอด"]
+    note:["the triangle is always exactly half the parallelogram — the two bars keep that ratio forever","พื้นที่สามเหลี่ยมเป็นครึ่งหนึ่งของสี่เหลี่ยมด้านขนานเสมอ สองแถบนี้จึงมีอัตราส่วน 1 : 2 ตลอด"]
   } }
 ],
 
@@ -304,7 +305,7 @@ gen:{
   var dots={11:"7",13:"11",14:"23",16:"15"};
   return {stem:["Find the area of the parallelogram with adjacent sides u = "+C.u+" and v = "+C.v+".",
                 "จงหาพื้นที่ของสี่เหลี่ยมด้านขนานที่มีด้านประชิดเป็น u = "+C.u+" และ v = "+C.v],
-    opts:[{v:String(C.ar),ok:1},{v:dots[C.ar],trap:"T-04"},{v:fmt(C.ar/2+dp+dt)},{v:String(C.ar*2)}],unit:""};
+    opts:[{v:String(C.ar),ok:1},{v:dots[C.ar],trap:"T-04"},{v:num(C.ar/2)},{v:String(C.ar*2)}],unit:""};
 },
 "M-06": function(sf){
   if(sf==="S-04") return {stem:["Which expression gives the projection of u onto v as a vector?",

@@ -18,28 +18,28 @@ nodes:[
   flabel:["Longer resists more, thicker resists less","ยาวกว่าต้านมากกว่า หนากว่าต้านน้อยกว่า"],
   viz:"plot",
   vizcfg:{
-    title:["OHMIC AND NON-OHMIC BEHAVIOUR","พฤติกรรมแบบโอห์มและไม่เป็นโอห์ม"],
+    title:["OHMIC AND NON-OHMIC BEHAVIOUR","แบบโอห์มกับไม่ใช่แบบโอห์ม"],
     xlab:["current I (A)","กระแส I (A)"], ylab:["voltage V (V)","ความต่างศักย์ V (V)"],
     xmin:0, xmax:3, ymin:0, fill:false,
     fn:function(x,p){ return p.kind===0 ? p.R*x : p.R*x*(1+0.9*x); },
     mark:function(p){ return p.I; },
     ctrls:[
       {k:"kind", lab:["",""], opts:[["resistor","ตัวต้านทาน"], ["filament lamp","หลอดไส้"]], min:0, def:0, unit:""},
-      {k:"R",    lab:["Resistance at low current","ความต้านทานที่กระแสต่ำ"], min:1, max:12, step:.5, def:4, unit:" Ω"},
-      {k:"I",    lab:["Current","กระแส"], min:.1, max:2.9, step:.1, def:1, unit:" A"}
+      {k:"R",    lab:["Resistance at low current","ความต้านทานที่กระแสต่ำ"], min:1, max:12, step:.5, def:4, unit:"\u00a0Ω"},
+      {k:"I",    lab:["Current","กระแส"], min:.1, max:2.9, step:.1, def:1, unit:"\u00a0A"}
     ],
     readouts:[
       {lab:["Voltage","ความต่างศักย์"], f:function(S){
-        var p=S.p; return fmt2(p.kind===0 ? p.R*p.I : p.R*p.I*(1+0.9*p.I))+" V"; }},
+        var p=S.p; return un(p.kind===0 ? p.R*p.I : p.R*p.I*(1+0.9*p.I),"V"); }},
       {lab:["Resistance V/I right now","ความต้านทาน V/I ขณะนี้"], f:function(S){
-        var p=S.p; return fmt2(p.kind===0 ? p.R : p.R*(1+0.9*p.I))+" Ω"; }},
+        var p=S.p; return un(p.kind===0 ? p.R : p.R*(1+0.9*p.I),"Ω"); }},
       {lab:["Obeys Ohm's law?","เป็นไปตามกฎของโอห์มไหม"], f:function(S){
         return S.p.kind===0 ? (L()?"ใช่ — เส้นตรง ความต้านทานคงที่":"yes — straight line, constant resistance")
-                            : (L()?"ไม่ — ความต้านทานโตขึ้นเมื่อร้อน":"no — resistance rises as it heats"); }},
+                            : (L()?"ไม่ — ยิ่งร้อน ความต้านทานยิ่งเพิ่ม":"no — resistance rises as it heats"); }},
       {lab:["What the graph shape means","รูปกราฟบอกอะไร"], f:function(){
-        return L()?"ตรง = โอห์ม · โค้ง = ไม่ใช่โอห์ม":"straight means ohmic, curved means not"; }}
+        return L()?"เส้นตรงคือแบบโอห์ม เส้นโค้งคือไม่ใช่":"straight means ohmic, curved means not"; }}
     ],
-    note:["Ohm's law is not a law of nature — it is a description that some components happen to fit","กฎของโอห์มไม่ใช่กฎธรรมชาติ แต่เป็นคำบรรยายที่อุปกรณ์บางชนิดเท่านั้นที่เข้ากับมันได้"]
+    note:["Ohm's law is not a law of nature — it is a description that some components happen to fit","กฎของโอห์มไม่ใช่กฎของธรรมชาติ เป็นแค่คำอธิบายที่ใช้ได้กับอุปกรณ์บางชนิด"]
   } },
 
 { id:"series", x:100, y:150, requires:["current"], methods:["M-02"],
@@ -52,24 +52,24 @@ nodes:[
   flabel:["One path, shared current","ทางเดียว กระแสร่วมกัน"],
   viz:"bars",
   vizcfg:{
-    title:["HOW A SERIES CHAIN SHARES THE VOLTAGE","วงจรอนุกรมแบ่งความต่างศักย์อย่างไร"],
+    title:["HOW A SERIES CHAIN SHARES THE VOLTAGE","ความต่างศักย์แบ่งกันอย่างไรในวงจรอนุกรม"],
     ylab:["volts  ·  ohms","โวลต์  ·  โอห์ม"],
     ctrls:[
-      {k:"V",  lab:["Supply voltage","ความต่างศักย์แหล่งจ่าย"], min:3, max:24, step:1, def:12, unit:" V"},
-      {k:"R1", lab:["R₁","R₁"], min:1, max:20, step:1, def:2, unit:" Ω"},
-      {k:"R2", lab:["R₂","R₂"], min:1, max:20, step:1, def:4, unit:" Ω"},
-      {k:"R3", lab:["R₃","R₃"], min:1, max:20, step:1, def:6, unit:" Ω"}
+      {k:"V",  lab:["Supply voltage","ความต่างศักย์แหล่งจ่าย"], min:3, max:24, step:1, def:12, unit:"\u00a0V"},
+      {k:"R1", lab:["R₁","R₁"], min:1, max:20, step:1, def:2, unit:"\u00a0Ω"},
+      {k:"R2", lab:["R₂","R₂"], min:1, max:20, step:1, def:4, unit:"\u00a0Ω"},
+      {k:"R3", lab:["R₃","R₃"], min:1, max:20, step:1, def:6, unit:"\u00a0Ω"}
     ],
     readouts:[
       {lab:["Total resistance","ความต้านทานรวม"], f:function(S){
-        return fmt2(S.p.R1+S.p.R2+S.p.R3)+" Ω"; }},
+        return un(S.p.R1+S.p.R2+S.p.R3,"Ω"); }},
       {lab:["Current (same everywhere)","กระแส (เท่ากันทุกจุด)"], f:function(S){
-        return fmt2(S.p.V/(S.p.R1+S.p.R2+S.p.R3))+" A"; }},
+        return un(S.p.V/(S.p.R1+S.p.R2+S.p.R3),"A"); }},
       {lab:["Voltages add up to","ผลรวมความต่างศักย์"], f:function(S){
-        return fmt2(S.p.V)+(L()?" V · เท่ากับแหล่งจ่ายพอดี":" V · exactly the supply"); }},
-      {lab:["Biggest share goes to","ส่วนแบ่งมากที่สุดตกที่"], f:function(S){
+        return un(S.p.V,"V")+(L()?" · เท่ากับแหล่งจ่ายพอดี":" · exactly the supply"); }},
+      {lab:["Biggest share goes to","ได้ส่วนแบ่งมากที่สุด"], f:function(S){
         var p=S.p, m=Math.max(p.R1,p.R2,p.R3);
-        return (m===p.R1?"R₁":m===p.R2?"R₂":"R₃")+(L()?" · ความต้านทานสูงสุด":" · the largest resistance"); }}
+        return (m===p.R1?"R₁":m===p.R2?"R₂":"R₃")+(L()?" · ความต้านทานมากที่สุด":" · the largest resistance"); }}
     ],
     bars:[
       {lab:["V across R₁","V คร่อม R₁"], f:function(p){ return p.V*p.R1/(p.R1+p.R2+p.R3); }, col:"accent"},
@@ -77,7 +77,7 @@ nodes:[
       {lab:["V across R₃","V คร่อม R₃"], f:function(p){ return p.V*p.R3/(p.R1+p.R2+p.R3); }, col:"accent"},
       {lab:["Supply V","แหล่งจ่าย V"], f:function(p){ return p.V; }, col:"ink"}
     ],
-    note:["the three coloured bars always stack up to the black one — that is Kirchhoff's loop rule","แถบสีทั้งสามต่อกันแล้วสูงเท่าแถบสีดำเสมอ นี่คือกฎวงรอบของเคอร์ชอฟฟ์"]
+    note:["the three coloured bars always stack up to the black one — that is Kirchhoff's loop rule","ต่อแถบสีทั้งสามเข้าด้วยกัน จะสูงเท่าแถบสีดำเสมอ นี่คือกฎวงรอบของเคอร์ชอฟฟ์"]
   } },
 
 { id:"parallel", x:370, y:150, requires:["current"], methods:["M-03"],
@@ -91,36 +91,36 @@ nodes:[
   viz:{
     vb:"0 0 560 300", anim:false,
     ctrls:[
-      {k:"V",  lab:["Supply V","แหล่งจ่าย V"], min:3, max:24, step:1, def:12, unit:" V"},
-      {k:"R1", lab:["R₁","R₁"], min:1, max:50, step:1, def:10, unit:" Ω"},
-      {k:"R2", lab:["R₂","R₂"], min:1, max:50, step:1, def:20, unit:" Ω"},
+      {k:"V",  lab:["Supply V","แหล่งจ่าย V"], min:3, max:24, step:1, def:12, unit:"\u00a0V"},
+      {k:"R1", lab:["R₁","R₁"], min:1, max:50, step:1, def:10, unit:"\u00a0Ω"},
+      {k:"R2", lab:["R₂","R₂"], min:1, max:50, step:1, def:20, unit:"\u00a0Ω"},
       {k:"mode", lab:["",""], opts:[["series","อนุกรม"], ["parallel","ขนาน"]], min:0, def:0, unit:""}
     ],
     readouts:[
       {lab:["Total R","R รวม"], f:function(S){
-        return fmt(S.p.mode?1/(1/S.p.R1+1/S.p.R2):S.p.R1+S.p.R2)+" Ω"; }},
+        return un(S.p.mode?1/(1/S.p.R1+1/S.p.R2):S.p.R1+S.p.R2,"Ω"); }},
       {lab:["Total current","กระแสรวม"], f:function(S){
-        var R=S.p.mode?1/(1/S.p.R1+1/S.p.R2):S.p.R1+S.p.R2; return fmt(S.p.V/R)+" A"; }},
+        var R=S.p.mode?1/(1/S.p.R1+1/S.p.R2):S.p.R1+S.p.R2; return un(S.p.V/R,"A"); }},
       {lab:["Power","กำลัง"], f:function(S){
-        var R=S.p.mode?1/(1/S.p.R1+1/S.p.R2):S.p.R1+S.p.R2; return fmt(S.p.V*S.p.V/R)+" W"; }}
+        var R=S.p.mode?1/(1/S.p.R1+1/S.p.R2):S.p.R1+S.p.R2; return un(S.p.V*S.p.V/R,"W"); }}
     ],
     draw:function(S,o){
       var V=S.p.V, R1=S.p.R1, R2=S.p.R2, par=S.p.mode===1;
       var Rt=par?1/(1/R1+1/R2):R1+R2, It=V/Rt;
       var i1=par?V/R1:It, i2=par?V/R2:It;
       var v1=par?V:It*R1, v2=par?V:It*R2;
-      o.push('<text x="30" y="24" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5" letter-spacing="1.4">'+(par?"PARALLEL":"SERIES")+'</text>');
+      o.push('<text x="30" y="24" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5" letter-spacing="1.4">'+tx(par?["PARALLEL","ขนาน"]:["SERIES","อนุกรม"])+'</text>');
       function res(x,y,w,label,val,cur,volt){
         o.push('<rect x="'+x+'" y="'+(y-13)+'" width="'+w+'" height="26" fill="var(--ground)" stroke="var(--ink)" stroke-width="1.8"/>');
         o.push('<text x="'+(x+w/2)+'" y="'+(y+4)+'" fill="var(--ink)" font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+label+'</text>');
-        o.push('<text x="'+(x+w/2)+'" y="'+(y-20)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">'+val+' Ω</text>');
-        o.push('<text x="'+(x+w/2)+'" y="'+(y+34)+'" fill="var(--accent)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">'+fmt(cur)+' A · '+fmt(volt)+' V</text>');
+        o.push('<text x="'+(x+w/2)+'" y="'+(y-20)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">'+un(val,"Ω")+'</text>');
+        o.push('<text x="'+(x+w/2)+'" y="'+(y+34)+'" fill="var(--accent)" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">'+un(cur,"A")+' · '+un(volt,"V")+'</text>');
       }
       function wire(x1,y1,x2,y2){ o.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="var(--ink-soft)" stroke-width="2"/>'); }
       /* battery */
       o.push('<line x1="60" y1="150" x2="60" y2="126" stroke="var(--ink)" stroke-width="3"/>');
       o.push('<line x1="60" y1="174" x2="60" y2="196" stroke="var(--ink)" stroke-width="1.5"/>');
-      o.push('<text x="42" y="166" fill="var(--ink)" font-family="IBM Plex Sans" font-size="11" text-anchor="end">'+V+' V</text>');
+      o.push('<text x="42" y="166" fill="var(--ink)" font-family="IBM Plex Sans" font-size="11" text-anchor="end">'+un(V,"V")+'</text>');
       if(!par){
         wire(60,126,150,126); res(150,126,90,"R₁",R1,i1,v1); wire(240,126,340,126);
         res(340,126,90,"R₂",R2,i2,v2); wire(430,126,500,126);
@@ -137,20 +137,20 @@ nodes:[
       o.push('<text x="30" y="272" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["TOTAL CURRENT","กระแสรวม"])+'</text>');
       o.push('<rect x="150" y="262" width="300" height="12" fill="none" stroke="var(--rule)" stroke-width="1"/>');
       o.push('<rect x="150" y="262" width="'+bw+'" height="12" fill="var(--accent)"/>');
-      o.push('<text x="456" y="272" fill="var(--ink)" font-family="IBM Plex Sans" font-size="10">'+fmt(It)+' A</text>');
+      o.push('<text x="456" y="272" fill="var(--ink)" font-family="IBM Plex Sans" font-size="10">'+un(It,"A")+'</text>');
       o.push('<text x="150" y="290" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9">0</text>');
       o.push('<text x="450" y="290" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="9" text-anchor="end">5 A</text>');
     }
   },
   guide:[
     {say:["Series first. One path, so both resistors carry the same current — and the voltages add up to the supply.",
-          "เริ่มที่อนุกรมก่อน มีทางเดียว ตัวต้านทานสองตัวจึงมีกระแสเท่ากัน และความต่างศักย์ของทั้งสองรวมกันได้เท่ากับแหล่งจ่าย"], set:{V:12,R1:10,R2:20,mode:0}},
+          "ดูแบบอนุกรมก่อน มีทางเดียว กระแสผ่านตัวต้านทานทั้งสองจึงเท่ากัน และความต่างศักย์ของสองตัวรวมกันได้เท่าแหล่งจ่าย"], set:{V:12,R1:10,R2:20,mode:0}},
     {say:["Switch to parallel. Now both see the full 12 V, and the total current jumps — read the bar.",
-          "สลับเป็นขนาน ตอนนี้ทั้งสองตัวได้รับเต็ม 12 โวลต์ และกระแสรวมเพิ่มขึ้นมาก ลองดูที่แถบวัด"], set:{V:12,R1:10,R2:20,mode:1}},
+          "สลับเป็นแบบขนาน ตอนนี้ทั้งสองตัวได้ 12 V เต็มๆ กระแสรวมเพิ่มขึ้นมาก ดูที่แถบกระแสรวม"], set:{V:12,R1:10,R2:20,mode:1}},
     {say:["The total resistance in parallel is under 7 Ω — less than either branch. Adding a path lowers resistance.",
-          "ความต้านทานรวมแบบขนานต่ำกว่า 7 โอห์ม น้อยกว่าทั้งสองกิ่ง การเพิ่มทางให้กระแสไหลทำให้ความต้านทานลดลง"], set:{V:12,R1:10,R2:20,mode:1}},
+          "ความต้านทานรวมแบบขนานต่ำกว่า 7 Ω น้อยกว่าทั้งสองกิ่ง เพิ่มทางให้กระแสไหล ความต้านทานก็ลดลง"], set:{V:12,R1:10,R2:20,mode:1}},
     {say:["Make R₂ very large in parallel. That branch nearly stops conducting, and the total tends to R₁ alone.",
-          "ลองทำให้ R₂ ใหญ่มากในวงจรขนาน กิ่งนั้นแทบไม่นำกระแสเลย และค่ารวมจะเข้าใกล้ R₁ ตัวเดียว"], set:{V:12,R1:10,R2:50,mode:1}}
+          "ลองทำให้ R₂ ใหญ่มากในวงจรขนาน กิ่งนั้นแทบไม่มีกระแสผ่านเลย ค่ารวมจึงเข้าใกล้ R₁ ตัวเดียว"], set:{V:12,R1:10,R2:50,mode:1}}
   ]},
 
 { id:"power", x:235, y:248, requires:["series","parallel"], methods:["M-04"],
@@ -163,29 +163,29 @@ nodes:[
   flabel:["Three forms, one idea","สามรูป หนึ่งความคิด"],
   viz:"bars",
   vizcfg:{
-    title:["WHICH COMPONENT GETS HOT","ชิ้นส่วนใดจะร้อน"],
+    title:["WHICH COMPONENT GETS HOT","ชิ้นส่วนไหนร้อน"],
     ylab:["watts","วัตต์"],
     ctrls:[
-      {k:"V",  lab:["Supply voltage","ความต่างศักย์แหล่งจ่าย"], min:3, max:24, step:1, def:12, unit:" V"},
-      {k:"R1", lab:["R₁","R₁"], min:1, max:20, step:1, def:2, unit:" Ω"},
-      {k:"R2", lab:["R₂","R₂"], min:1, max:20, step:1, def:10, unit:" Ω"},
+      {k:"V",  lab:["Supply voltage","ความต่างศักย์แหล่งจ่าย"], min:3, max:24, step:1, def:12, unit:"\u00a0V"},
+      {k:"R1", lab:["R₁","R₁"], min:1, max:20, step:1, def:2, unit:"\u00a0Ω"},
+      {k:"R2", lab:["R₂","R₂"], min:1, max:20, step:1, def:10, unit:"\u00a0Ω"},
       {k:"ser", lab:["",""], opts:[["series","อนุกรม"], ["parallel","ขนาน"]], min:0, def:0, unit:""}
     ],
     readouts:[
       {lab:["Power in R₁","กำลังใน R₁"], f:function(S){
         var p=S.p;
-        if(p.ser===0){ var I=p.V/(p.R1+p.R2); return fmt2(I*I*p.R1)+" W"; }
-        return fmt2(p.V*p.V/p.R1)+" W"; }},
+        if(p.ser===0){ var I=p.V/(p.R1+p.R2); return un(I*I*p.R1,"W"); }
+        return un(p.V*p.V/p.R1,"W"); }},
       {lab:["Power in R₂","กำลังใน R₂"], f:function(S){
         var p=S.p;
-        if(p.ser===0){ var I=p.V/(p.R1+p.R2); return fmt2(I*I*p.R2)+" W"; }
-        return fmt2(p.V*p.V/p.R2)+" W"; }},
+        if(p.ser===0){ var I=p.V/(p.R1+p.R2); return un(I*I*p.R2,"W"); }
+        return un(p.V*p.V/p.R2,"W"); }},
       {lab:["Hotter one","ตัวที่ร้อนกว่า"], f:function(S){
         var p=S.p;
         var hot = p.ser===0 ? (p.R1>p.R2?"R₁":"R₂") : (p.R1<p.R2?"R₁":"R₂");
-        return hot+(L()?(p.ser===0?" · อนุกรม: R มากยิ่งร้อน":" · ขนาน: R น้อยยิ่งร้อน")
+        return hot+(L()?(p.ser===0?" · อนุกรม: R มาก ร้อนมาก":" · ขนาน: R น้อย ร้อนมาก")
                        :(p.ser===0?" · in series, bigger R burns more":" · in parallel, smaller R burns more")); }},
-      {lab:["Why they swap","ทำไมจึงสลับกัน"], f:function(){
+      {lab:["Why they swap","ทำไมผลจึงสลับกัน"], f:function(){
         return L()?"อนุกรมใช้ I²R (I เท่ากัน) ขนานใช้ V²/R (V เท่ากัน)":"series shares I so use I²R; parallel shares V so use V²/R"; }}
     ],
     bars:[
@@ -197,7 +197,7 @@ nodes:[
         if(p.ser===0){ var I=p.V/(p.R1+p.R2); return I*I*(p.R1+p.R2); }
         return p.V*p.V/p.R1+p.V*p.V/p.R2; }, col:"ink"}
     ],
-    note:["flip between series and parallel and watch which resistor takes the heat — it swaps over","สลับระหว่างอนุกรมกับขนาน แล้วดูว่าตัวต้านทานตัวไหนร้อนกว่า คำตอบจะกลับกัน"]
+    note:["flip between series and parallel and watch which resistor takes the heat — it swaps over","สลับไปมาระหว่างอนุกรมกับขนาน แล้วดูว่าตัวต้านทานตัวไหนร้อนกว่า คำตอบจะสลับกัน"]
   },
   guide:[
     {say:["In series both carry the same current, so P = I²R makes the LARGER resistor the hotter one.",
@@ -221,13 +221,13 @@ nodes:[
     title:["WHAT FLOWS IN MUST FLOW OUT","เข้าเท่าไร ต้องออกเท่านั้น"],
     ylab:["amperes","แอมแปร์"],
     ctrls:[
-      {k:"Iin", lab:["Current arriving","กระแสที่ไหลเข้า"], min:1, max:12, step:.5, def:6, unit:" A"},
-      {k:"f",   lab:["Fraction down branch 1","สัดส่วนที่ไปสาขา 1"], min:5, max:95, step:5, def:60, unit:" %"}
+      {k:"Iin", lab:["Current arriving","กระแสที่ไหลเข้า"], min:1, max:12, step:.5, def:6, unit:"\u00a0A"},
+      {k:"f",   lab:["Fraction down branch 1","สัดส่วนที่ไหลไปสาขา 1"], min:5, max:95, step:5, def:60, unit:"\u00a0%"}
     ],
     readouts:[
-      {lab:["Into the junction","เข้าจุดต่อ"], f:function(S){ return fmt2(S.p.Iin)+" A"; }},
-      {lab:["Out along branch 1","ออกทางสาขา 1"], f:function(S){ return fmt2(S.p.Iin*S.p.f/100)+" A"; }},
-      {lab:["Out along branch 2","ออกทางสาขา 2"], f:function(S){ return fmt2(S.p.Iin*(100-S.p.f)/100)+" A"; }},
+      {lab:["Into the junction","เข้าจุดต่อ"], f:function(S){ return un(S.p.Iin,"A"); }},
+      {lab:["Out along branch 1","ออกทางสาขา 1"], f:function(S){ return un(S.p.Iin*S.p.f/100,"A"); }},
+      {lab:["Out along branch 2","ออกทางสาขา 2"], f:function(S){ return un(S.p.Iin*(100-S.p.f)/100,"A"); }},
       {lab:["Can charge pile up?","ประจุสะสมที่จุดต่อได้ไหม"], f:function(){
         return L()?"ไม่ได้ — ประจุอนุรักษ์":"no — charge is conserved"; }}
     ],
@@ -235,7 +235,7 @@ nodes:[
       {lab:["In","เข้า"], f:function(p){ return p.Iin; }, col:"accent"},
       {lab:["Branch 1","สาขา 1"], f:function(p){ return p.Iin*p.f/100; }, col:"good"},
       {lab:["Branch 2","สาขา 2"], f:function(p){ return p.Iin*(100-p.f)/100; }, col:"warn"},
-      {lab:["Out total","ออกรวม"], f:function(p){ return p.Iin; }, col:"ink"}
+      {lab:["Out total","ออกรวม"], f:function(p){ return p.Iin*p.f/100+p.Iin*(100-p.f)/100; }, col:"ink"}
     ],
     note:["the first and last bars can never differ — the junction rule is just charge conservation","แถบแรกกับแถบสุดท้ายต้องเท่ากันเสมอ กฎจุดต่อก็คือการอนุรักษ์ประจุนั่นเอง"]
   } }
@@ -269,10 +269,10 @@ gen:{
                                 "ลวดสภาพต้านทาน 1.7 × 10⁻⁸ โอห์ม·เมตร ยาว "+Lw+" เมตร พื้นที่หน้าตัด "+Aw+" ตร.มม. จงหาความต้านทาน"],
     opts:[{v:(rho*Lw/(Aw*1e-6)).toExponential(2),ok:1},
           {v:(rho*Aw*1e-6/Lw).toExponential(2),trap:"T-01"},
-          {v:(rho*Lw).toExponential(2)},{v:(rho*Lw*Aw).toExponential(2)}],unit:" Ω"};
+          {v:(rho*Lw).toExponential(2)},{v:(rho*Lw*Aw).toExponential(2)}],unit:"\u00a0Ω"};
   return {stem:["A "+R+" Ω resistor is connected to "+V+" V. Find the current.",
                 "ตัวต้านทาน "+R+" โอห์ม ต่อกับ "+V+" โวลต์ จงหากระแส"],
-    opts:[{v:fmt(I),ok:1},{v:fmt(V*R)},{v:fmt(R/V)},{v:fmt(I*2)}],unit:" A"};
+    opts:[{v:fmt(I),ok:1},{v:fmt(V*R)},{v:fmt(R/V)},{v:fmt(I*2)}],unit:"\u00a0A"};
 },
 "M-02": function(sf){
   var V=pick([12,24]), R1=pick([2,4,10]), R2=pick([6,8,20]);
@@ -285,10 +285,10 @@ gen:{
           {v:["Larger current through the smaller resistor","กระแสมากกว่าที่ตัวเล็กกว่า"],trap:"T-03"}],unit:""};
   if(sf==="S-05") return {stem:[R1+" Ω and R₂ in series across "+V+" V draw "+fmt(I)+" A. Find R₂.",
                                 R1+" โอห์ม กับ R₂ ต่ออนุกรมคร่อม "+V+" โวลต์ ได้กระแส "+fmt(I)+" แอมแปร์ จงหา R₂"],
-    opts:[{v:String(R2),ok:1},{v:fmt(V/I),trap:"T-03"},{v:fmt(Rt*2)},{v:String(R1)}],unit:" Ω"};
+    opts:[{v:String(R2),ok:1},{v:fmt(V/I),trap:"T-03"},{v:fmt(Rt*2)},{v:String(R1)}],unit:"\u00a0Ω"};
   return {stem:[R1+" Ω and "+R2+" Ω are in series across "+V+" V. Find the voltage across the "+R1+" Ω resistor.",
                 R1+" โอห์ม และ "+R2+" โอห์ม ต่ออนุกรมคร่อม "+V+" โวลต์ จงหาความต่างศักย์คร่อมตัว "+R1+" โอห์ม"],
-    opts:[{v:fmt(v1),ok:1},{v:String(V),trap:"T-03"},{v:fmt(V/2)},{v:fmt(V-v1-1)}],unit:" V"};
+    opts:[{v:fmt(v1),ok:1},{v:String(V),trap:"T-03"},{v:fmt(V/2)},{v:fmt(V-v1-1)}],unit:"\u00a0V"};
 },
 "M-03": function(sf){
   var V=pick([12,24]), R1=pick([4,6,10]), R2=pick([12,20,30]);
@@ -299,10 +299,10 @@ gen:{
           {v:["Is unchanged","เท่าเดิม"]},{v:["Becomes the sum of the two","เท่ากับผลรวมของทั้งสอง"],trap:"T-02"}],unit:""};
   if(sf==="S-05") return {stem:["Two resistors in parallel give "+fmt(Rt)+" Ω, one of which is "+R1+" Ω. Find the other.",
                                 "ตัวต้านทานสองตัวต่อขนานได้ "+fmt(Rt)+" โอห์ม ตัวหนึ่งคือ "+R1+" โอห์ม จงหาอีกตัว"],
-    opts:[{v:String(R2),ok:1},{v:fmt(R1+Rt),trap:"T-02"},{v:fmt(Rt/2)},{v:fmt(R1*2)}],unit:" Ω"};
+    opts:[{v:String(R2),ok:1},{v:fmt(R1+Rt),trap:"T-02"},{v:fmt(Rt/2)},{v:fmt(R1*2)}],unit:"\u00a0Ω"};
   return {stem:[R1+" Ω and "+R2+" Ω are in parallel. Find the total resistance.",
                 R1+" โอห์ม และ "+R2+" โอห์ม ต่อขนานกัน จงหาความต้านทานรวม"],
-    opts:[{v:fmt(Rt),ok:1},{v:String(R1+R2),trap:"T-02"},{v:fmt((R1+R2)/2),trap:"T-02"},{v:fmt(Rt*2)}],unit:" Ω"};
+    opts:[{v:fmt(Rt),ok:1},{v:String(R1+R2),trap:"T-02"},{v:fmt((R1+R2)/2),trap:"T-02"},{v:fmt(Rt*2)}],unit:"\u00a0Ω"};
 },
 "M-04": function(sf){
   var V=pick([12,24,230]), R=pick([6,12,50]), t=pick([60,300,3600]);
@@ -312,10 +312,10 @@ gen:{
     opts:[{v:"P = V²/R",ok:1},{v:"P = I²R"},{v:"P = IV"},{v:"P = IR"}],unit:""};
   if(sf==="S-05") return {stem:["A device uses "+fmt(W/3.6e6)+" kWh in "+t+" s. Find its power.",
                                 "อุปกรณ์ใช้พลังงาน "+fmt(W/3.6e6)+" กิโลวัตต์-ชั่วโมง ใน "+t+" วินาที จงหากำลัง"],
-    opts:[{v:fmt(P),ok:1},{v:fmt(W),trap:"T-03"},{v:fmt(P*t)},{v:fmt(P/2)}],unit:" W"};
+    opts:[{v:fmt(P),ok:1},{v:fmt(W),trap:"T-03"},{v:fmt(P*t)},{v:fmt(P/2)}],unit:"\u00a0W"};
   return {stem:["Find the power dissipated by a "+R+" Ω resistor across "+V+" V.",
                 "จงหากำลังที่สูญเสียในตัวต้านทาน "+R+" โอห์ม คร่อม "+V+" โวลต์"],
-    opts:[{v:fmt(P),ok:1},{v:fmt(V*R)},{v:fmt(V/R)},{v:fmt(P/2)}],unit:" W"};
+    opts:[{v:fmt(P),ok:1},{v:fmt(V*R)},{v:fmt(V/R)},{v:fmt(P/2)}],unit:"\u00a0W"};
 },
 "M-05": function(sf){
   var a=pick([2,3,5]), b=pick([1,4,6]);
@@ -327,7 +327,7 @@ gen:{
           {v:["Voltage is conserved","ความต่างศักย์อนุรักษ์"]}],unit:""};
   return {stem:["Currents of "+a+" A and "+b+" A flow into a junction, and one wire leaves it. Find the current leaving.",
                 "กระแส "+a+" และ "+b+" แอมแปร์ ไหลเข้าจุดต่อ และมีสายออกหนึ่งเส้น จงหากระแสที่ออก"],
-    opts:[{v:String(a+b),ok:1},{v:String(Math.abs(a-b))},{v:String(a),trap:"T-03"},{v:fmt((a+b)/2)}],unit:" A"};
+    opts:[{v:String(a+b),ok:1},{v:String(Math.abs(a-b))},{v:String(a),trap:"T-03"},{v:fmt((a+b)/2)}],unit:"\u00a0A"};
 },
 "M-06": function(sf){
   var E=pick([9,12]), r=pick([0.5,1,2]), R=pick([4,5,10]);
@@ -340,10 +340,10 @@ gen:{
           {v:["The wires get longer","สายไฟยาวขึ้น"]}],unit:""};
   if(sf==="S-05") return {stem:["A cell of emf "+E+" V delivers "+fmt(I)+" A with terminal voltage "+fmt(Vt)+" V. Find its internal resistance.",
                                 "เซลล์แรงเคลื่อน "+E+" โวลต์ จ่ายกระแส "+fmt(I)+" แอมแปร์ ความต่างศักย์ที่ขั้ว "+fmt(Vt)+" โวลต์ จงหาความต้านทานภายใน"],
-    opts:[{v:String(r),ok:1},{v:fmt(Vt/I),trap:"T-04"},{v:fmt(E/I)},{v:fmt(r*2)}],unit:" Ω"};
+    opts:[{v:String(r),ok:1},{v:fmt(Vt/I),trap:"T-04"},{v:fmt(E/I)},{v:fmt(r*2)}],unit:"\u00a0Ω"};
   return {stem:["A cell of emf "+E+" V and internal resistance "+r+" Ω drives a "+R+" Ω load. Find the terminal voltage.",
                 "เซลล์แรงเคลื่อน "+E+" โวลต์ ความต้านทานภายใน "+r+" โอห์ม จ่ายให้โหลด "+R+" โอห์ม จงหาความต่างศักย์ที่ขั้ว"],
-    opts:[{v:fmt(Vt),ok:1},{v:String(E),trap:"T-04"},{v:fmt(I*r)},{v:fmt(E+I*r)}],unit:" V"};
+    opts:[{v:fmt(Vt),ok:1},{v:String(E),trap:"T-04"},{v:fmt(I*r)},{v:fmt(E+I*r)}],unit:"\u00a0V"};
 }
 }
 };

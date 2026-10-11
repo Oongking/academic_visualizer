@@ -72,7 +72,7 @@ nodes:[
   flabel:["θ = 90° gives zero work","θ = 90° ได้งานเป็นศูนย์"],
   viz:"plot",
   vizcfg:{
-    title:["WORK IS THE AREA UNDER FORCE vs DISPLACEMENT","งานคือพื้นที่ใต้กราฟแรง เทียบ การกระจัด"],
+    title:["WORK IS THE AREA UNDER FORCE vs DISPLACEMENT","งานคือพื้นที่ใต้กราฟแรงกับการกระจัด"],
     xlab:["displacement (m)","การกระจัด (m)"], ylab:["force (N)","แรง (N)"],
     xmin:0, xmax:6, ymin:0, fill:true,
     fn:function(x,p){ return p.kind===0 ? p.F : p.k*x; },
@@ -81,17 +81,17 @@ nodes:[
       {k:"kind", lab:["",""], opts:[["constant force","แรงคงที่"], ["spring","สปริง"]], min:0, def:0, unit:""},
       {k:"F",    lab:["Constant force","แรงคงที่"],      min:2, max:40, step:1, def:12, unit:" N"},
       {k:"k",    lab:["Spring constant k","ค่านิจสปริง k"], min:1, max:12, step:.5, def:5, unit:" N/m"},
-      {k:"s",    lab:["Displacement so far","การกระจัดถึงตอนนี้"], min:.2, max:6, step:.2, def:4, unit:" m"}
+      {k:"s",    lab:["Displacement so far","การกระจัดจนถึงตอนนี้"], min:.2, max:6, step:.2, def:4, unit:" m"}
     ],
     readouts:[
       {lab:["Force at that point","แรง ณ จุดนั้น"], f:function(S){
-        return fmt(S.p.kind===0 ? S.p.F : S.p.k*S.p.s)+" N"; }},
+        return un(S.p.kind===0 ? S.p.F : S.p.k*S.p.s,"N"); }},
       {lab:["Work done","งานที่ทำ"], f:function(S){
-        var p=S.p; return fmt2(p.kind===0 ? p.F*p.s : 0.5*p.k*p.s*p.s)+" J"; }},
+        var p=S.p; return un(p.kind===0 ? p.F*p.s : 0.5*p.k*p.s*p.s,"J"); }},
       {lab:["Shape of the area","รูปร่างของพื้นที่"], f:function(S){
         return S.p.kind===0 ? (L()?"สี่เหลี่ยม · W = Fs":"rectangle · W = Fs")
                             : (L()?"สามเหลี่ยม · W = ½kx²":"triangle · W = ½kx²"); }},
-      {lab:["Double the distance?","ระยะทางสองเท่า?"], f:function(S){
+      {lab:["Double the distance?","ถ้าระยะเป็นสองเท่า?"], f:function(S){
         return S.p.kind===0 ? (L()?"งานเป็นสองเท่า":"work doubles")
                             : (L()?"งานเป็นสี่เท่า":"work quadruples"); }}
     ],
@@ -99,11 +99,11 @@ nodes:[
   },
   guide:[
     {say:["A constant force. The shaded area is a rectangle, so the work is simply force times distance.",
-          "แรงคงที่ พื้นที่แรเงาเป็นสี่เหลี่ยม งานจึงเท่ากับแรงคูณระยะทางตรงๆ"], set:{kind:0,F:12,k:5,s:4}},
+          "แรงคงที่ พื้นที่แรเงาเป็นสี่เหลี่ยม งานจึงเท่ากับแรงคูณระยะทางตรง ๆ"], set:{kind:0,F:12,k:5,s:4}},
     {say:["Switch to a spring. The force grows as you stretch, so the area becomes a triangle instead.",
           "ลองเปลี่ยนเป็นสปริง ยิ่งยืดแรงยิ่งเพิ่ม พื้นที่จึงกลายเป็นสามเหลี่ยมแทน"], set:{kind:1,F:12,k:5,s:4}},
     {say:["That triangle is where the ½ in ½kx² comes from. It is not a fudge factor — it is half a rectangle.",
-          "สามเหลี่ยมนี้คือที่มาของเลข ½ ใน ½kx² ไม่ได้ใส่มาลอยๆ แต่เป็นครึ่งหนึ่งของสี่เหลี่ยมนั่นเอง"], set:{kind:1,F:12,k:8,s:5.4}}
+          "สามเหลี่ยมนี้คือที่มาของ ½ ใน ½kx² ไม่ได้ใส่มาลอย ๆ แต่เป็นครึ่งหนึ่งของสี่เหลี่ยม"], set:{kind:1,F:12,k:8,s:5.4}}
   ] },
 
 { id:"kinetic", x:100, y:150, requires:["work"], methods:["M-02"],
@@ -119,24 +119,24 @@ nodes:[
     fn:function(x,p){ return 0.5*p.m*x*x; },
     xmin:0, xmax:20, fill:true,
     title:["KINETIC ENERGY vs SPEED","พลังงานจลน์ เทียบ อัตราเร็ว"],
-    xlab:["v (m/s)","v (ม./วิ)"], ylab:["E (J)","E (J)"],
+    xlab:["v (m/s)","v (m/s)"], ylab:["E (J)","E (J)"],
     mark:function(p){ return p.v; },
     ctrls:[
       {k:"m", lab:["Mass m","มวล m"],  min:1, max:10, step:1, def:2,  unit:" kg"},
       {k:"v", lab:["Speed v","อัตราเร็ว v"], min:0, max:20, step:1, def:10, unit:" m/s"}
     ],
     readouts:[
-      {lab:["Kinetic energy","พลังงานจลน์"], f:function(S){ return fmt(0.5*S.p.m*S.p.v*S.p.v)+" J"; }},
-      {lab:["Double the speed","ถ้าเร็วสองเท่า"], f:function(S){ return fmt(0.5*S.p.m*4*S.p.v*S.p.v)+" J"; }}
+      {lab:["Kinetic energy","พลังงานจลน์"], f:function(S){ return un(0.5*S.p.m*S.p.v*S.p.v,"J"); }},
+      {lab:["Double the speed","ถ้าอัตราเร็วเป็นสองเท่า"], f:function(S){ return un(0.5*S.p.m*4*S.p.v*S.p.v,"J"); }}
     ]
   },
   guide:[
     {say:["The curve is a parabola, not a straight line. Energy grows with the square of speed.",
           "กราฟเป็นพาราโบลา ไม่ใช่เส้นตรง พลังงานเพิ่มตามกำลังสองของอัตราเร็ว"], set:{m:2,v:5}},
     {say:["Double the speed from 5 to 10 and read the two energies. It is four times, not twice.",
-          "เพิ่มอัตราเร็วจาก 5 เป็น 10 แล้วเทียบพลังงานสองค่า จะได้สี่เท่า ไม่ใช่สองเท่า"], set:{m:2,v:10}},
+          "เพิ่มอัตราเร็วจาก 5 เป็น 10 แล้วอ่านพลังงานทั้งสองค่า จะได้สี่เท่า ไม่ใช่สองเท่า"], set:{m:2,v:10}},
     {say:["Mass only scales the curve. Speed reshapes it — that is why speed is the dangerous variable.",
-          "มวลแค่ยืดกราฟให้สูงขึ้นตามสัดส่วน แต่อัตราเร็วเปลี่ยนรูปร่างของกราฟ อัตราเร็วจึงเป็นตัวแปรที่อันตรายที่สุด"], set:{m:6,v:10}}
+          "มวลแค่ทำให้กราฟสูงขึ้นตามสัดส่วน แต่อัตราเร็วเปลี่ยนรูปร่างของกราฟ อัตราเร็วจึงเป็นตัวแปรที่อันตรายที่สุด"], set:{m:6,v:10}}
   ]},
 
 { id:"potential", x:370, y:150, requires:["work"], methods:["M-03"],
@@ -152,7 +152,7 @@ nodes:[
     title:["TWO KINDS OF STORED ENERGY","พลังงานสะสมสองแบบ"],
     xlab:["height or extension","ความสูงหรือระยะยืด"], ylab:["stored energy (J)","พลังงานสะสม (J)"],
     xmin:0, xmax:5, ymin:0, fill:false,
-    fn:function(x,p){ return p.kind===0 ? p.m*9.8*x : 0.5*p.k*x*x; },
+    fn:function(x,p){ return p.kind===0 ? p.m*10*x : 0.5*p.k*x*x; },
     mark:function(p){ return p.x; },
     ctrls:[
       {k:"kind", lab:["",""], opts:[["gravitational","โน้มถ่วง"], ["elastic","ยืดหยุ่น"]], min:0, def:0, unit:""},
@@ -162,18 +162,18 @@ nodes:[
     ],
     readouts:[
       {lab:["Stored energy","พลังงานสะสม"], f:function(S){
-        var p=S.p; return fmt2(p.kind===0 ? p.m*9.8*p.x : 0.5*p.k*p.x*p.x)+" J"; }},
+        var p=S.p; return un(p.kind===0 ? p.m*10*p.x : 0.5*p.k*p.x*p.x,"J"); }},
       {lab:["Shape","รูปร่าง"], f:function(S){
         return S.p.kind===0 ? (L()?"เส้นตรง · mgh":"straight line · mgh")
                             : (L()?"พาราโบลา · ½kx²":"parabola · ½kx²"); }},
-      {lab:["Double the height?","ความสูงสองเท่า?"], f:function(S){
+      {lab:["Double the height?","ถ้าความสูงเป็นสองเท่า?"], f:function(S){
         return S.p.kind===0 ? (L()?"พลังงานสองเท่า":"energy doubles")
                             : (L()?"พลังงานสี่เท่า":"energy quadruples"); }},
       {lab:["Measured from where?","วัดจากที่ใด"], f:function(S){
-        return S.p.kind===0 ? (L()?"ระดับอ้างอิงที่คุณเลือกเอง":"a zero level you choose")
+        return S.p.kind===0 ? (L()?"ระดับอ้างอิงที่เราเลือกเอง":"a zero level you choose")
                             : (L()?"ความยาวธรรมชาติของสปริง":"the spring's natural length"); }}
     ],
-    note:["gravitational PE is linear in height; elastic PE is quadratic in extension","พลังงานศักย์โน้มถ่วงแปรตามความสูงแบบเส้นตรง ส่วนพลังงานศักย์ยืดหยุ่นแปรตามระยะยืดแบบกำลังสอง"]
+    note:["gravitational PE is linear in height; elastic PE is quadratic in extension","พลังงานศักย์โน้มถ่วงแปรผันตรงกับความสูง ส่วนพลังงานศักย์ยืดหยุ่นแปรตามกำลังสองของระยะยืด"]
   } },
 
 { id:"conservation", x:235, y:248, requires:["kinetic","potential"], methods:["M-04"],
@@ -189,19 +189,19 @@ nodes:[
     anim:true,
     spellName:["The Mana Coaster: energy changes form, the total stays","รถรางพลังเวท: พลังงานเปลี่ยนรูป แต่ผลรวมคงเดิม"],
     question:["Drag the starting height and the second hill. Can the cart cross it — and how fast is it going at the bottom?",
-              "ลากเพื่อปรับความสูงจุดปล่อยและความสูงเนินที่สอง รถจะข้ามเนินไปได้ไหม และที่ก้นหุบเร็วแค่ไหน"],
+              "ลากจุดปล่อยและเนินที่สองเพื่อปรับความสูง รถจะข้ามเนินได้ไหม และที่ก้นหุบมันเร็วแค่ไหน"],
     ctrls:[
       {k:"h0", lab:["Released from","ปล่อยจากความสูง"], min:2, max:20, step:.1, def:12, unit:" m"},
       {k:"h2", lab:["Second hill","เนินที่สอง"], min:1, max:20, step:.1, def:9, unit:" m"},
-      {k:"m",  lab:["Mass of the cart","มวลรถ"], min:.5, max:5, step:.5, def:2, unit:" kg"},
+      {k:"m",  lab:["Mass of the cart","มวลของรถ"], min:.5, max:5, step:.5, def:2, unit:" kg"},
       {k:"fr", lab:["Track","ราง"], min:0, max:1, step:1, def:0, opts:[["Frictionless","ไร้แรงเสียดทาน"],["Sticky","มีแรงเสียดทาน"]]},
       {k:"T",  lab:["Watch for","ดูนาน"], min:4, max:16, step:1, def:10, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Speed now","อัตราเร็วขณะนี้"], f:function(S){ return fmt2(C05.at(S.p,S.t).v)+" m/s"; }},
-      {lab:["Height now","ความสูงขณะนี้"], f:function(S){ return fmt2(C05.at(S.p,S.t).y)+" m"; }},
-      {lab:["Total energy","พลังงานรวม"], f:function(S){ return fmt(S.p.m*10*S.p.h0)+" J"; }},
-      {lab:["Turned to heat","กลายเป็นความร้อน"], f:function(S){ return fmt(S.p.m*C05.at(S.p,S.t).heat)+" J"; }}
+      {lab:["Speed now","อัตราเร็วตอนนี้"], f:function(S){ return un(C05.at(S.p,S.t).v,"m/s"); }},
+      {lab:["Height now","ความสูงตอนนี้"], f:function(S){ return un(C05.at(S.p,S.t).y,"m"); }},
+      {lab:["Total energy","พลังงานรวม"], f:function(S){ return un(S.p.m*10*S.p.h0,"J"); }},
+      {lab:["Turned to heat","กลายเป็นความร้อน"], f:function(S){ return un(S.p.m*C05.at(S.p,S.t).heat,"J"); }}
     ],
     world:{ kind:"plane", left:22, span:function(){ return 62; },
       yspan:function(){ return 28; } },
@@ -214,7 +214,7 @@ nodes:[
         var hy=fmt2(W.Y(p.h0)), hl=S.hl==="h0";
         o.push('<line x1="'+fmt2(W.X(0))+'" y1="'+hy+'" x2="'+fmt2(W.X(60))+'" y2="'+hy+'" stroke="var(--good)" stroke-width="'+(hl?2.4:1.2)+'" stroke-dasharray="6 5" opacity=".8"/>');
         fitText(o, W.X(60), +hy-6, [p.fr?"start height · heat lowers the real reach":"start height · the most it can climb back to",
-                                    p.fr?"ความสูงเริ่มต้น · ความร้อนทำให้ขึ้นได้ไม่ถึง":"ความสูงเริ่มต้น · สูงสุดที่ขึ้นกลับได้"], 260, 9.5, "var(--good)", "end");
+                                    p.fr?"ความสูงเริ่มต้น · ความร้อนทำให้ขึ้นไม่ถึงระดับนี้":"ความสูงเริ่มต้น · ขึ้นกลับได้สูงสุดแค่นี้"], 260, 9.5, "var(--good)", "end");
       }
       role("goal")(o, W.X(59), W.g, {clock:STAGE.clock, on:C05.at(p,S.t).out});
       var c=C05.at(p,S.t);
@@ -233,12 +233,14 @@ nodes:[
     },
     spell:{
       tex:function(p,S){ var c=C05.at(p,S.t);
-        return "v = \\sqrt{2g(h_0 - h)"+(p.fr?" - 2E_\\text{heat}/m":"")+"} = \\sqrt{2(10)("+fmt2(p.h0)+" - "+fmt2(c.y)+")"+(p.fr?" - "+fmt2(2*c.heat):"")+"} = "+fmt2(c.v)+"\\,\\text{m/s}"+
+        /* show enough digits that h₀ and h do not look equal when they differ */
+        var sf=3; while(sf<6 && c.y!==p.h0 && +c.y.toPrecision(sf)===+p.h0.toPrecision(sf)) sf++;
+        return "v = \\sqrt{2g(h_0 - h)"+(p.fr?" - 2E_\\text{heat}/m":"")+"} = \\sqrt{2(10)("+numTex(p.h0,sf)+" - "+numTex(c.y,sf)+")"+(p.fr?" - "+numTex(2*c.heat):"")+"} = "+numTex(c.v)+"\\,\\text{m/s}"+
                "\\qquad\\left[\\sqrt{\\tfrac{\\text{m}}{\\text{s}^2}\\cdot\\text{m}}=\\tfrac{\\text{m}}{\\text{s}}\\right]"; },
       terms:[
-        {k:"h0", sym:"h₀", lab:["start height · the energy budget","ความสูงเริ่ม · งบพลังงาน"], col:"good", f:function(p){ return fmt2(p.h0)+" m"; }},
-        {k:"h",  sym:"h",  lab:["height now","ความสูงขณะนี้"], col:"accent2", f:function(p,S){ return fmt2(C05.at(p,S.t).y)+" m"; }},
-        {k:"m",  sym:"m",  lab:["mass — cancels out","มวล — ตัดกันหมด"], col:"faint", f:function(p){ return fmt2(p.m)+" kg"; }}
+        {k:"h0", sym:"h₀", lab:["start height · the energy budget","ความสูงเริ่มต้น · งบพลังงาน"], col:"good", f:function(p){ return un(p.h0,"m"); }},
+        {k:"h",  sym:"h",  lab:["height now","ความสูงตอนนี้"], col:"accent2", f:function(p,S){ return un(C05.at(p,S.t).y,"m"); }},
+        {k:"m",  sym:"m",  lab:["mass — cancels out","มวล — ตัดกันหมด"], col:"faint", f:function(p){ return un(p.m,"kg"); }}
       ]
     },
     predict:{ kind:"choice",
@@ -246,10 +248,10 @@ nodes:[
       opts:[["It crosses the hill","ข้ามเนินได้"],["It rolls back","ไหลกลับ"]],
       actual:function(p){ return C05.sim(p).crest ? 0 : 1; },
       explain:function(p){ return p.fr
-        ? ["On a sticky track some energy turns to heat on the way, so the cart can no longer climb back to "+fmt2(p.h0)+" m. It crosses only if the hill is low enough to leave room for those losses.",
-           "บนรางที่มีแรงเสียดทาน พลังงานบางส่วนกลายเป็นความร้อนระหว่างทาง รถจึงขึ้นกลับไปถึง "+fmt2(p.h0)+" ม. ไม่ได้ มันข้ามได้ก็ต่อเมื่อเนินต่ำพอให้เผื่อพลังงานที่สูญไป"]
-        : ["Without friction the cart can climb back to exactly its starting height and no higher: "+fmt2(p.h0)+" m against a "+fmt2(p.h2)+" m hill. Mass, speed and the shape of the track do not matter.",
-           "ถ้าไม่มีแรงเสียดทาน รถขึ้นกลับไปได้สูงเท่าความสูงเริ่มต้นพอดี ไม่เกินนั้น: "+fmt2(p.h0)+" ม. เทียบกับเนิน "+fmt2(p.h2)+" ม. มวล ความเร็ว และรูปร่างรางไม่มีผล"]; }
+        ? ["On a sticky track some energy turns to heat on the way, so the cart can no longer climb back to "+un(p.h0,"m")+". It crosses only if the hill is low enough to leave room for those losses.",
+           "บนรางที่มีแรงเสียดทาน พลังงานบางส่วนกลายเป็นความร้อนระหว่างทาง รถจึงขึ้นกลับไปถึง "+un(p.h0,"m")+" ไม่ได้ จะข้ามได้ก็ต่อเมื่อเนินต่ำพอที่จะเผื่อพลังงานที่เสียไป"]
+        : ["Without friction the cart can climb back to exactly its starting height and no higher: "+un(p.h0,"m")+" against a "+un(p.h2,"m")+" hill. Mass, speed and the shape of the track do not matter.",
+           "ถ้าไม่มีแรงเสียดทาน รถขึ้นกลับไปได้สูงเท่าความสูงเริ่มต้นพอดี ไม่เกินนั้น คือ "+un(p.h0,"m")+" เทียบกับเนินสูง "+un(p.h2,"m")+" มวล อัตราเร็ว และรูปร่างรางไม่มีผล"]; }
     },
     trials:{
       veil:true,
@@ -264,37 +266,37 @@ nodes:[
       },
       lockFor:function(g){ return g.kind==="exit" ? ["h2","fr"] : ["h0","fr"]; },
       say:function(g){
-        if(g.kind==="exit") return ["{@Goal} at the end of the track only accepts a cart arriving at exactly "+g.V+" m/s. From what height must you release it?",
-                                    "{@goal}ที่ปลายรางรับเฉพาะรถที่มาถึงด้วยอัตราเร็ว "+g.V+" ม./วิ พอดี ต้องปล่อยรถจากความสูงเท่าใด"];
-        return ["Released from "+g.h0+" m, the cart must glide over the top of the second hill at exactly "+g.V+" m/s. How high should the hill be?",
-                "ปล่อยจากความสูง "+g.h0+" ม. รถต้องผ่านยอดเนินที่สองด้วยอัตราเร็ว "+g.V+" ม./วิ พอดี เนินควรสูงเท่าใด"];
+        if(g.kind==="exit") return ["{@Goal} at the end of the track only accepts a cart arriving at exactly "+un(g.V,"m/s")+". From what height must you release it?",
+                                    "{@goal}ที่ปลายรางรับเฉพาะรถที่มาถึงด้วยอัตราเร็ว "+un(g.V,"m/s")+" พอดี ต้องปล่อยรถจากความสูงเท่าไร"];
+        return ["Released from "+un(g.h0,"m")+", the cart must glide over the top of the second hill at exactly "+un(g.V,"m/s")+". How high should the hill be?",
+                "ปล่อยจากความสูง "+un(g.h0,"m")+" รถต้องผ่านยอดเนินที่สองด้วยอัตราเร็ว "+un(g.V,"m/s")+" พอดี เนินควรสูงเท่าไร"];
       },
       at:function(g){ return g.kind==="exit" ? {x:59, y:1} : {x:30, y:g.h2}; },
       check:function(p,S,g){
         if(g.kind==="exit"){
-          if(Math.abs(p.h0-g.h0)<1e-6) return {ok:true, msg:["In at "+g.V+" m/s. All of mgh₀ became ½mv² at ground level, so h₀ = v² / 2g = "+g.V+"² / 20 = "+fmt2(g.h0)+" m — the hill in between changes nothing.",
-                                                              "เข้าประตูที่ "+g.V+" ม./วิ พลังงาน mgh₀ ทั้งหมดกลายเป็น ½mv² ที่ระดับพื้น ดังนั้น h₀ = v² / 2g = "+g.V+"² / 20 = "+fmt2(g.h0)+" ม. เนินระหว่างทางไม่เปลี่ยนอะไรเลย"]};
+          if(Math.abs(p.h0-g.h0)<1e-6) return {ok:true, msg:["In at "+un(g.V,"m/s")+". All of mgh₀ became ½mv² at ground level, so h₀ = v² / 2g = "+num(g.V)+"² / 20 = "+un(g.h0,"m")+" — the hill in between changes nothing.",
+                                                              "เข้าประตูด้วย "+un(g.V,"m/s")+" พลังงาน mgh₀ ทั้งหมดกลายเป็น ½mv² ที่ระดับพื้น ดังนั้น h₀ = v² / 2g = "+num(g.V)+"² / 20 = "+un(g.h0,"m")+" เนินที่อยู่ระหว่างทางไม่ทำให้อะไรเปลี่ยนเลย"]};
           var sim=C05.sim(p);
-          return {ok:false, msg:[sim.out ? "It arrived at "+fmt2(Math.sqrt(20*p.h0))+" m/s. Only the drop from the start to the ground matters." : "It never got over the hill. Release it higher.",
-                                 sim.out ? "มาถึงด้วยอัตราเร็ว "+fmt2(Math.sqrt(20*p.h0))+" ม./วิ สำคัญเพียงระยะตกจากจุดเริ่มถึงพื้น" : "รถข้ามเนินไม่ได้ ปล่อยให้สูงกว่านี้"]};
+          return {ok:false, msg:[sim.out ? "It arrived at "+un(Math.sqrt(20*p.h0),"m/s")+". Only the drop from the start to the ground matters." : "It never got over the hill. Release it higher.",
+                                 sim.out ? "รถมาถึงด้วยอัตราเร็ว "+un(Math.sqrt(20*p.h0),"m/s")+" สิ่งที่สำคัญมีแค่ระยะตกจากจุดเริ่มถึงพื้น" : "รถข้ามเนินไม่ได้ ลองปล่อยให้สูงกว่านี้"]};
         }
-        if(Math.abs(p.h2-g.h2)<1e-6) return {ok:true, msg:["Over the top at "+g.V+" m/s. The drop from "+g.h0+" m to the hilltop pays for ½v²: h = h₀ − v² / 2g = "+g.h0+" − "+fmt2(g.V*g.V/20)+" = "+fmt2(g.h2)+" m.",
-                                                            "ผ่านยอดเนินที่ "+g.V+" ม./วิ ระยะลดระดับจาก "+g.h0+" ม. ถึงยอดเนินจ่ายให้ ½v² พอดี: h = h₀ − v² / 2g = "+g.h0+" − "+fmt2(g.V*g.V/20)+" = "+fmt2(g.h2)+" ม."]};
+        if(Math.abs(p.h2-g.h2)<1e-6) return {ok:true, msg:["Over the top at "+un(g.V,"m/s")+". The drop from "+un(g.h0,"m")+" to the hilltop pays for ½v²: h = h₀ − v² / 2g = "+num(g.h0)+" − "+num(g.V*g.V/20)+" = "+un(g.h2,"m")+".",
+                                                            "ผ่านยอดเนินด้วย "+un(g.V,"m/s")+" ความสูงที่ลดจาก "+un(g.h0,"m")+" ถึงยอดเนินกลายเป็น ½v² พอดี: h = h₀ − v² / 2g = "+num(g.h0)+" − "+num(g.V*g.V/20)+" = "+un(g.h2,"m")]};
         var vt=p.h2<p.h0 ? Math.sqrt(20*(p.h0-p.h2)) : 0;
-        return {ok:false, msg:["At the top it was moving at "+fmt2(vt)+" m/s. How much height must it lose to have "+g.V+" m/s left?",
-                               "ที่ยอดเนินมีอัตราเร็ว "+fmt2(vt)+" ม./วิ ต้องเสียความสูงเท่าใดจึงเหลืออัตราเร็ว "+g.V+" ม./วิ"]};
+        return {ok:false, msg:["At the top it was moving at "+un(vt,"m/s")+". How much height must it lose to have "+un(g.V,"m/s")+" left?",
+                               "ที่ยอดเนินรถมีอัตราเร็ว "+un(vt,"m/s")+" ต้องลดความสูงลงเท่าไรจึงจะเหลืออัตราเร็ว "+un(g.V,"m/s")]};
       }
     },
     note:["the bar is the energy budget: it only changes length when friction turns some of it into heat",
-          "แถบนี้คืองบพลังงาน ความยาวจะเปลี่ยนก็ต่อเมื่อแรงเสียดทานเปลี่ยนพลังงานส่วนหนึ่งเป็นความร้อนเท่านั้น"]
+          "แถบนี้คืองบพลังงาน ความยาวจะเปลี่ยนก็ต่อเมื่อแรงเสียดทานเปลี่ยนพลังงานบางส่วนเป็นความร้อน"]
   },
   guide:[
     {say:["Release the cart from 12 m. Watch the bar: green potential pours into blue kinetic on the way down and back again on the way up — the total never moves.",
-          "ปล่อยรถจากความสูง 12 ม. แล้วดูแถบพลังงาน ขาลง พลังงานศักย์สีเขียวไหลไปเป็นพลังงานจลน์สีฟ้า ขาขึ้นก็ไหลกลับ ส่วนผลรวมไม่เปลี่ยนเลย"], set:{h0:12,h2:9,m:2,fr:0,T:10}},
+          "ปล่อยรถจากความสูง 12 m แล้วดูแถบพลังงาน ขาลงพลังงานศักย์สีเขียวไหลไปเป็นพลังงานจลน์สีฟ้า ขาขึ้นก็ไหลกลับ ส่วนผลรวมไม่เปลี่ยนเลย"], set:{h0:12,h2:9,m:2,fr:0,T:10}},
     {say:["Raise the second hill above the start. However fast it is at the bottom, the cart can never climb above the dashed line — it rolls back.",
-          "ยกเนินที่สองให้สูงกว่าจุดเริ่มต้น ที่ก้นหุบรถจะเร็วเท่าไรก็ตาม ก็ขึ้นไปสูงกว่าเส้นประไม่ได้ และจะไหลกลับลงมา"], set:{h0:12,h2:13,m:2,fr:0,T:12}},
+          "ยกเนินที่สองให้สูงกว่าจุดปล่อย ต่อให้รถเร็วแค่ไหนที่ก้นหุบ ก็ขึ้นสูงกว่าเส้นประไม่ได้ และจะไหลกลับลงมา"], set:{h0:12,h2:13,m:2,fr:0,T:12}},
     {say:["Make the track sticky. Now an orange slice of heat grows, the bar's useful part shrinks, and the cart settles in the valley.",
-          "ทำให้รางฝืดขึ้น จะเห็นส่วนสีส้มของความร้อนโตขึ้น ส่วนพลังงานที่ใช้ได้หดลง และรถไปหยุดนิ่งอยู่ในหุบ"], set:{h0:12,h2:11,m:2,fr:1,T:16}}
+          "ทำให้รางมีแรงเสียดทาน ส่วนสีส้มของความร้อนจะโตขึ้น ส่วนพลังงานที่ใช้ได้หดลง และรถไปหยุดนิ่งอยู่ในหุบ"], set:{h0:12,h2:11,m:2,fr:1,T:16}}
   ]
 },
 
@@ -308,7 +310,7 @@ nodes:[
   flabel:["Never above 100 per cent","ไม่มีวันเกินร้อยเปอร์เซ็นต์"],
   viz:"stack",
   vizcfg:{
-    title:["WHERE THE INPUT ENERGY ACTUALLY GOES","พลังงานที่ใส่เข้าไปหายไปไหน"],
+    title:["WHERE THE INPUT ENERGY ACTUALLY GOES","พลังงานที่ใส่เข้าไปไปไหนบ้าง"],
     total:["input power","กำลังที่ใส่เข้า"],
     ctrls:[
       {k:"Pin", lab:["Input power","กำลังที่ใส่เข้า"], min:100, max:2000, step:50, def:800, unit:" W"},
@@ -316,18 +318,18 @@ nodes:[
       {k:"t",   lab:["Run for","ทำงานนาน"],            min:5, max:120, step:5, def:60, unit:" s"}
     ],
     readouts:[
-      {lab:["Useful output","กำลังที่ใช้ได้"], f:function(S){ return fmt2(S.p.Pin*S.p.eff/100)+" W"; }},
-      {lab:["Wasted as heat","สูญเสียเป็นความร้อน"], f:function(S){ return fmt2(S.p.Pin*(100-S.p.eff)/100)+" W"; }},
-      {lab:["Useful energy in that time","พลังงานที่ใช้ได้ในเวลานั้น"], f:function(S){
-        return fmt2(S.p.Pin*S.p.eff/100*S.p.t/1000)+" kJ"; }},
-      {lab:["Can efficiency reach 100%?","ประสิทธิภาพถึง 100% ได้ไหม"], f:function(){
-        return L()?"ไม่ได้ — มีการสูญเสียเสมอ":"no — some waste is unavoidable"; }}
+      {lab:["Useful output","กำลังที่ใช้ได้"], f:function(S){ return un(S.p.Pin*S.p.eff/100,"W"); }},
+      {lab:["Wasted as heat","สูญเป็นความร้อน"], f:function(S){ return un(S.p.Pin*(100-S.p.eff)/100,"W"); }},
+      {lab:["Useful energy in that time","พลังงานที่ใช้ประโยชน์ได้ในเวลานั้น"], f:function(S){
+        return un(S.p.Pin*S.p.eff/100*S.p.t/1000,"kJ"); }},
+      {lab:["Can efficiency reach 100%?","ประสิทธิภาพเป็น 100% ได้ไหม"], f:function(){
+        return L()?"ไม่ได้ — ต้องมีส่วนที่สูญเสียเสมอ":"no — some waste is unavoidable"; }}
     ],
     parts:function(p){
       return [{v:p.Pin*p.eff/100,       lab:["useful","ที่ใช้ได้"],   col:"good"},
               {v:p.Pin*(100-p.eff)/100, lab:["wasted","ที่สูญเสีย"], col:"warn"}];
     },
-    note:["power is energy per second — efficiency is which fraction of it you actually wanted","กำลังคือพลังงานต่อวินาที ส่วนประสิทธิภาพบอกว่าพลังงานนั้นเป็นสัดส่วนเท่าไรที่เราต้องการจริงๆ"]
+    note:["power is energy per second — efficiency is which fraction of it you actually wanted","กำลังคือพลังงานต่อวินาที ส่วนประสิทธิภาพบอกว่าพลังงานนั้นมีสัดส่วนเท่าไรที่เราต้องการจริง ๆ"]
   } }
 ],
 

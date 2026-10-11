@@ -73,8 +73,8 @@ nodes:[
   vizcfg:{
     fn:function(x,p){ return 9e9*p.q1*1e-9*p.q2*1e-9/(Math.max(x,0.02)*Math.max(x,0.02)); },
     xmin:0.02, xmax:1, fill:true,
-    title:["FORCE AGAINST SEPARATION","แรง เทียบ ระยะห่าง"],
-    xlab:["r (m)","r (ม.)"], ylab:["F (N)","F (นิวตัน)"],
+    title:["FORCE AGAINST SEPARATION","แรงกับระยะห่าง"],
+    xlab:["r (m)","r (m)"], ylab:["F (N)","F (N)"],
     mark:function(p){ return p.r; },
     ctrls:[
       {k:"q1", lab:["Charge q₁","ประจุ q₁"], min:1, max:20, step:1, def:10, unit:" nC"},
@@ -83,18 +83,18 @@ nodes:[
     ],
     readouts:[
       {lab:["Force at r","แรงที่ระยะ r"], f:function(S){
-        return (9e9*S.p.q1*1e-9*S.p.q2*1e-9/(S.p.r*S.p.r)).toExponential(2)+" N"; }},
-      {lab:["At half that distance","ที่ระยะครึ่งหนึ่ง"], f:function(S){
-        return (9e9*S.p.q1*1e-9*S.p.q2*1e-9/(S.p.r*S.p.r/4)).toExponential(2)+" N"; }}
+        return un(9e9*S.p.q1*1e-9*S.p.q2*1e-9/(S.p.r*S.p.r),"N"); }},
+      {lab:["At half that distance","เมื่อระยะเหลือครึ่งหนึ่ง"], f:function(S){
+        return un(9e9*S.p.q1*1e-9*S.p.q2*1e-9/(S.p.r*S.p.r/4),"N"); }}
     ]
   },
   guide:[
     {say:["The curve dives near the origin. Bring the charges close and the force explodes.",
-          "กราฟดิ่งลงใกล้จุดกำเนิด ยิ่งนำประจุเข้าใกล้กัน แรงยิ่งพุ่งสูงมาก"], set:{q1:10,q2:10,r:0.5}},
+          "กราฟชันมากใกล้จุดกำเนิด ยิ่งนำประจุเข้าใกล้กัน แรงยิ่งพุ่งสูง"], set:{q1:10,q2:10,r:0.5}},
     {say:["Halve the separation and read both numbers. The force goes up four times, not twice.",
-          "ลดระยะห่างลงครึ่งหนึ่ง แล้วอ่านค่าทั้งสองตัว แรงเพิ่มเป็นสี่เท่า ไม่ใช่สองเท่า"], set:{q1:10,q2:10,r:0.25}},
+          "ลดระยะห่างลงครึ่งหนึ่ง แล้วอ่านค่าทั้งสองตัว แรงจะเพิ่มเป็นสี่เท่า ไม่ใช่สองเท่า"], set:{q1:10,q2:10,r:0.25}},
     {say:["Doubling a charge only doubles the force. Distance is the squared variable, charge is not.",
-          "เพิ่มประจุเป็นสองเท่า แรงก็เพิ่มเป็นสองเท่าเท่านั้น ตัวที่ยกกำลังสองคือระยะห่าง ไม่ใช่ประจุ"], set:{q1:20,q2:10,r:0.25}}
+          "เพิ่มประจุเป็นสองเท่า แรงก็เพิ่มแค่สองเท่า ตัวที่ยกกำลังสองคือระยะห่าง ไม่ใช่ประจุ"], set:{q1:20,q2:10,r:0.25}}
   ]},
 
 { id:"field", x:100, y:150, requires:["coulomb"], methods:["M-02"],
@@ -110,7 +110,7 @@ nodes:[
     anim:true,
     spellName:["Charged Wisps: field is force per unit charge","ภูตประจุ: สนามคือแรงต่อประจุหนึ่งหน่วย"],
     question:["Drag the wisps and the little test charge. The field lines are drawn by the space itself — what does the test charge feel, and why?",
-              "ลองลากภูตประจุและประจุทดสอบดู เส้นสนามเกิดจากที่ว่างรอบๆ นั้นเอง ประจุทดสอบรู้สึกอย่างไร และเพราะอะไร"],
+              "ลองลากภูตและประจุทดสอบดู เส้นสนามวาดขึ้นจากที่ว่างเอง แล้วประจุทดสอบรู้สึกอะไร เพราะอะไร"],
     ctrls:[
       {k:"Q1", lab:["Wisp 1 charge","ประจุภูต 1"], min:-50, max:50, step:5, def:20, unit:" nC"},
       {k:"Q2", lab:["Wisp 2 charge","ประจุภูต 2"], min:-50, max:50, step:5, def:0, unit:" nC"},
@@ -118,10 +118,10 @@ nodes:[
       {k:"T",  lab:["Walk out for","เดินออกนาน"], min:2, max:6, step:1, def:3, unit:" s", isT:true}
     ],
     readouts:[
-      {lab:["Field at the test charge","สนามที่ประจุทดสอบ"], f:function(S){ return fmt(C13.Eat(S.p,C13.test(S.p,S.t)).m)+" N/C"; }},
-      {lab:["Force on it, F = qE","แรงบนมัน F = qE"], f:function(S){ return fmt2(Math.abs(S.p.q)*1e-9*C13.Eat(S.p,C13.test(S.p,S.t)).m*1e6)+" μN"; }},
-      {lab:["Distance from wisp 1","ระยะจากภูต 1"], f:function(S){ return fmt2(C13.r1(S.p,C13.test(S.p,S.t)))+" m"; }},
-      {lab:["Does E depend on q?","E ขึ้นกับ q ไหม"], f:function(){ return L()?"ไม่ — E เป็นสมบัติของที่ว่าง":"no — E belongs to the space"; }}
+      {lab:["Field at the test charge","สนามที่ประจุทดสอบ"], f:function(S){ return un(C13.Eat(S.p,C13.test(S.p,S.t)).m,"N/C"); }},
+      {lab:["Force on it, F = qE","แรงที่กระทำต่อประจุ F = qE"], f:function(S){ return un(Math.abs(S.p.q)*1e-9*C13.Eat(S.p,C13.test(S.p,S.t)).m*1e6,"µN"); }},
+      {lab:["Distance from wisp 1","ระยะจากภูต 1"], f:function(S){ return un(C13.r1(S.p,C13.test(S.p,S.t)),"m"); }},
+      {lab:["Does E depend on q?","E ขึ้นกับ q หรือไม่"], f:function(){ return L()?"ไม่ขึ้น — E เป็นสมบัติของที่ว่าง":"no — E belongs to the space"; }}
     ],
     world:{ kind:"free" },
     scene:function(o,S,W){
@@ -157,28 +157,28 @@ nodes:[
        lab:["test charge","ประจุทดสอบ"], col:"good"}
     ],
     instrument:{ kind:"graph",
-      xmin:0.4, xmax:5, ymin:0, ymax:3000,
-      xlab:["distance from wisp 1 (m)","ระยะจากภูต 1 (ม.)"], ylab:["E from wisp 1 (N/C)","E จากภูต 1 (N/C)"],
+      xmin:0.4, xmax:10, ymin:0, ymax:3000,
+      xlab:["distance from wisp 1 (m)","ระยะจากภูต 1 (m)"], ylab:["E from wisp 1 (N/C)","E จากภูต 1 (N/C)"],
       fn:function(x,p){ return 9e9*Math.abs(p.Q1)*1e-9/(x*x); },
-      mark:function(p,S){ return Math.max(0.4, Math.min(5, C13.r1(p,C13.test(p,S.t)))); }
+      mark:function(p,S){ return Math.max(0.4, Math.min(10, C13.r1(p,C13.test(p,S.t)))); }
     },
     spell:{
       tex:function(p,S){ var r=C13.r1(p,C13.test(p,S.t)), E=9e9*Math.abs(p.Q1)*1e-9/(r*r);
-        return "E_1 = \\dfrac{kQ_1}{r^2} = \\dfrac{(9\\times10^9)("+Math.abs(p.Q1)+"\\times10^{-9})}{"+fmt2(r)+"^2} = "+fmt(E)+"\\,\\text{N/C}"+
+        return "E_1 = \\dfrac{kQ_1}{r^2} = \\dfrac{(9\\times10^9)("+Math.abs(p.Q1)+"\\times10^{-9})}{"+numTex(r)+"^2} = "+numTex(E)+"\\,\\text{N/C}"+
                "\\qquad\\left[\\tfrac{\\text{N}\\cdot\\text{m}^2/\\text{C}^2\\cdot\\text{C}}{\\text{m}^2}=\\tfrac{\\text{N}}{\\text{C}}\\right]"; },
       terms:[
-        {k:"E", sym:"E", lab:["the field · lines and arrow","สนาม · เส้นและลูกศร"], col:"accent", f:function(p,S){ return fmt(C13.Eat(p,C13.test(p,S.t)).m)+" N/C"; }},
-        {k:"r", sym:"r", lab:["distance from wisp 1","ระยะจากภูต 1"], col:"good", f:function(p,S){ return fmt2(C13.r1(p,C13.test(p,S.t)))+" m"; }},
-        {k:"F", sym:"F = qE", lab:["force on the test charge","แรงบนประจุทดสอบ"], col:"warn", f:function(p,S){ return fmt2(Math.abs(p.q)*1e-9*C13.Eat(p,C13.test(p,S.t)).m*1e6)+" μN"; }}
+        {k:"E", sym:"E", lab:["total field (both wisps) · lines and arrow","สนามรวมจากภูตทั้งสอง · เส้นและลูกศร"], col:"accent", f:function(p,S){ return un(C13.Eat(p,C13.test(p,S.t)).m,"N/C"); }},
+        {k:"r", sym:"r", lab:["distance from wisp 1","ระยะจากภูต 1"], col:"good", f:function(p,S){ return un(C13.r1(p,C13.test(p,S.t)),"m"); }},
+        {k:"F", sym:"F = qE", lab:["force on the test charge","แรงที่กระทำต่อประจุทดสอบ"], col:"warn", f:function(p,S){ return un(Math.abs(p.q)*1e-9*C13.Eat(p,C13.test(p,S.t)).m*1e6,"µN"); }}
       ]
     },
     predict:{ kind:"choice",
       ask:["Press reveal and the test charge walks out to twice its distance from wisp 1. The field wisp 1 makes there will be…",
-           "กดเปิดเผย แล้วประจุทดสอบจะเดินออกไปไกลจากภูต 1 เป็นสองเท่าของระยะเดิม สนามที่ภูต 1 สร้างตรงนั้นจะเป็น…"],
+           "กดเปิดเผย แล้วประจุทดสอบจะเดินออกไปจนไกลจากภูต 1 เป็นสองเท่าของระยะเดิม สนามของภูต 1 ตรงนั้นจะเป็น…"],
       opts:[["half as strong","ครึ่งหนึ่ง"],["a quarter as strong","หนึ่งในสี่"],["just as strong","เท่าเดิม"],["twice as strong","สองเท่า"]],
       actual:function(){ return 1; },
       explain:function(p){ return ["E = kQ / r²: doubling r divides the field by 2² = 4. The same lines spread over four times the area.",
-                                   "E = kQ / r²: เพิ่ม r เป็นสองเท่า สนามจะเหลือหนึ่งในสี่ (หารด้วย 2² = 4) เพราะเส้นสนามจำนวนเท่าเดิมกระจายบนพื้นที่ที่ใหญ่ขึ้นสี่เท่า"]; }
+                                   "E = kQ / r²: เพิ่ม r เป็นสองเท่า สนามจะเหลือหนึ่งในสี่ (หารด้วย 2² = 4) เพราะเส้นสนามเท่าเดิมกระจายไปบนพื้นที่ใหญ่ขึ้นสี่เท่า"]; }
     },
     trials:{
       veil:true, play:false,
@@ -193,45 +193,45 @@ nodes:[
       },
       lockFor:function(g){ return g.kind==="force" ? ["Q1","Q2","x1","x2","xt"] : (g.kind==="null" ? ["Q1","Q2","q","x1","x2"] : ["Q1","Q2","q","x1"]); },
       say:function(g){
-        if(g.kind==="field") return ["Wisp 1 holds "+g.Q+" nC. Place the test charge where the field is exactly "+g.X+" N/C.",
-                                     "ภูต 1 มีประจุ "+g.Q+" nC วางประจุทดสอบตรงที่สนามมีค่า "+g.X+" N/C พอดี"];
-        if(g.kind==="null") return ["Two like wisps, "+g.Q1+" nC and "+g.Q2+" nC. Somewhere between them their fields cancel. Put the test charge on that null point.",
-                                    "ภูตประจุชนิดเดียวกันสองดวง "+g.Q1+" nC และ "+g.Q2+" nC ที่ใดสักแห่งระหว่างทั้งสอง สนามหักล้างกันหมด วางประจุทดสอบที่จุดสะเทินนั้น"];
+        if(g.kind==="field") return ["Wisp 1 holds "+un(g.Q,"nC")+". Place the test charge where the field is exactly "+un(g.X,"N/C")+".",
+                                     "ภูต 1 มีประจุ "+un(g.Q,"nC")+" ให้วางประจุทดสอบตรงจุดที่สนามเท่ากับ "+un(g.X,"N/C")+" พอดี"];
+        if(g.kind==="null") return ["Two like wisps, "+un(g.Q1,"nC")+" and "+un(g.Q2,"nC")+". Somewhere between them their fields cancel. Put the test charge on that null point.",
+                                    "ภูตประจุชนิดเดียวกันสองดวง "+un(g.Q1,"nC")+" และ "+un(g.Q2,"nC")+" มีจุดหนึ่งระหว่างทั้งสองที่สนามหักล้างกันหมด ให้วางประจุทดสอบที่จุดสะเทินนั้น"];
         var E=9e9*g.Q*1e-9/Math.pow(150/C13.k,2);
-        return ["The test charge sits where wisp 1's field is "+fmt(E)+" N/C. Give it the charge that makes the force exactly "+fmt2(Math.abs(g.qv)*1e-9*E*1e6)+" μN, pointing "+(g.qv>0?"away from":"toward")+" the wisp.",
-                "ประจุทดสอบอยู่ตรงที่สนามของภูต 1 มีค่า "+fmt(E)+" N/C กำหนดประจุให้แรงมีค่า "+fmt2(Math.abs(g.qv)*1e-9*E*1e6)+" μN พอดี โดยชี้"+(g.qv>0?"ออกจาก":"เข้าหา")+"ภูต"];
+        return ["The test charge sits where wisp 1's field is "+un(E,"N/C")+". Give it the charge that makes the force exactly "+un(Math.abs(g.qv)*1e-9*E*1e6,"µN")+", pointing "+(g.qv>0?"away from":"toward")+" the wisp.",
+                "ประจุทดสอบอยู่ตรงจุดที่สนามของภูต 1 เท่ากับ "+un(E,"N/C")+" ให้ปรับประจุจนแรงเท่ากับ "+un(Math.abs(g.qv)*1e-9*E*1e6,"µN")+" พอดี โดยชี้"+(g.qv>0?"ออกจาก":"เข้าหา")+"ภูต"];
       },
       check:function(p,S,g){
         var tp=C13.test(p,0), E=C13.Eat(p,tp);
         if(g.kind==="field"){
-          if(Math.abs(E.m-g.X)/g.X<0.05) return {ok:true, msg:["Right there: "+fmt(E.m)+" N/C. From E = kQ / r², r = √(kQ / E) = √(9×10⁹ × "+g.Q+"×10⁻⁹ / "+g.X+") = "+fmt2(g.r)+" m.",
-                                                                "ตรงนั้นพอดี: "+fmt(E.m)+" N/C จาก E = kQ / r² ได้ r = √(kQ / E) = √(9×10⁹ × "+g.Q+"×10⁻⁹ / "+g.X+") = "+fmt2(g.r)+" ม."]};
-          return {ok:false, msg:["Here the field is "+fmt(E.m)+" N/C at "+fmt2(C13.r1(p,tp))+" m. Work out r from E = kQ / r² first.",
-                                 "ตรงนี้สนามมีค่า "+fmt(E.m)+" N/C ที่ระยะ "+fmt2(C13.r1(p,tp))+" ม. หา r จาก E = kQ / r² ก่อน"]};
+          if(Math.abs(E.m-g.X)/g.X<0.05) return {ok:true, msg:["Right there: "+un(E.m,"N/C")+". From E = kQ / r², r = √(kQ / E) = √(9×10⁹ × "+g.Q+"×10⁻⁹ / "+g.X+") = "+un(g.r,"m")+".",
+                                                                "ตรงนั้นพอดี: "+un(E.m,"N/C")+" จาก E = kQ / r² ได้ r = √(kQ / E) = √(9×10⁹ × "+g.Q+"×10⁻⁹ / "+g.X+") = "+un(g.r,"m")]};
+          return {ok:false, msg:["Here the field is "+un(E.m,"N/C")+" at "+un(C13.r1(p,tp),"m")+". Work out r from E = kQ / r² first.",
+                                 "ตรงนี้สนามเท่ากับ "+un(E.m,"N/C")+" ที่ระยะ "+un(C13.r1(p,tp),"m")+" ลองหา r จาก E = kQ / r² ก่อน"]};
         }
         if(g.kind==="null"){
           var P=C13.pos(p), d1=C13.r1(p,tp), E1=9e9*g.Q1*1e-9/(d1*d1);
-          if(E.m<0.04*E1) return {ok:true, msg:["The fields cancel. kQ₁ / r₁² = kQ₂ / r₂² gives r₁ / r₂ = √(Q₁ / Q₂) = √("+g.Q1+" / "+g.Q2+") = "+fmt2(Math.sqrt(g.Q1/g.Q2))+(g.Q1===g.Q2?" — equal wisps, so it sits midway.":" — the null point sits nearer the weaker wisp."),
-                                                "สนามหักล้างกันหมด kQ₁ / r₁² = kQ₂ / r₂² ให้ r₁ / r₂ = √(Q₁ / Q₂) = √("+g.Q1+" / "+g.Q2+") = "+fmt2(Math.sqrt(g.Q1/g.Q2))+(g.Q1===g.Q2?" ภูตเท่ากัน จึงอยู่กึ่งกลางพอดี":" จุดสะเทินอยู่ใกล้ภูตที่อ่อนกว่า")]};
-          return {ok:false, msg:["The field there is still "+fmt(E.m)+" N/C. The null point is where r₁ / r₂ = √(Q₁ / Q₂), on the line between them.",
-                                 "สนามตรงนั้นยังเหลือ "+fmt(E.m)+" N/C จุดสะเทินคือที่ r₁ / r₂ = √(Q₁ / Q₂) บนเส้นระหว่างทั้งสอง"]};
+          if(E.m<0.04*E1) return {ok:true, msg:["The fields cancel. kQ₁ / r₁² = kQ₂ / r₂² gives r₁ / r₂ = √(Q₁ / Q₂) = √("+g.Q1+" / "+g.Q2+") = "+num(Math.sqrt(g.Q1/g.Q2))+(g.Q1===g.Q2?" — equal wisps, so it sits midway.":" — the null point sits nearer the weaker wisp."),
+                                                "สนามหักล้างกันหมด kQ₁ / r₁² = kQ₂ / r₂² ให้ r₁ / r₂ = √(Q₁ / Q₂) = √("+g.Q1+" / "+g.Q2+") = "+num(Math.sqrt(g.Q1/g.Q2))+(g.Q1===g.Q2?" ภูตเท่ากัน จึงอยู่กึ่งกลางพอดี":" จุดสะเทินอยู่ใกล้ภูตที่อ่อนกว่า")]};
+          return {ok:false, msg:["The field there is still "+un(E.m,"N/C")+". The null point is where r₁ / r₂ = √(Q₁ / Q₂), on the line between them.",
+                                 "สนามตรงนั้นยังเหลือ "+un(E.m,"N/C")+" จุดสะเทินคือจุดที่ r₁ / r₂ = √(Q₁ / Q₂) บนเส้นระหว่างทั้งสอง"]};
         }
-        if(p.q===g.qv) return {ok:true, msg:["F = qE: "+g.qv+" nC × "+fmt(E.m)+" N/C = "+fmt2(Math.abs(g.qv)*1e-9*E.m*1e6)+" μN. A "+(g.qv>0?"positive":"negative")+" test charge is pushed "+(g.qv>0?"along":"against")+" the field.",
-                                             "F = qE: "+g.qv+" nC × "+fmt(E.m)+" N/C = "+fmt2(Math.abs(g.qv)*1e-9*E.m*1e6)+" μN ประจุทดสอบ"+(g.qv>0?"บวก":"ลบ")+"ถูกผลัก"+(g.qv>0?"ไปตาม":"สวน")+"ทิศสนาม"]};
-        return {ok:false, msg:["The force is "+fmt2(Math.abs(p.q)*1e-9*E.m*1e6)+" μN, pointing "+(p.q>0?"away from":"toward")+" the wisp. The size is |q|E; the sign of q sets the direction.",
-                               "แรงมีค่า "+fmt2(Math.abs(p.q)*1e-9*E.m*1e6)+" μN ชี้"+(p.q>0?"ออกจาก":"เข้าหา")+"ภูต ขนาดคือ |q|E เครื่องหมายของ q กำหนดทิศ"]};
+        if(p.q===g.qv) return {ok:true, msg:["F = qE: "+un(g.qv,"nC")+" × "+un(E.m,"N/C")+" = "+un(g.qv*1e-9*E.m*1e6,"µN")+". A "+(g.qv>0?"positive":"negative")+" test charge is pushed "+(g.qv>0?"along":"against")+" the field.",
+                                             "F = qE: "+un(g.qv,"nC")+" × "+un(E.m,"N/C")+" = "+un(g.qv*1e-9*E.m*1e6,"µN")+" ประจุทดสอบ"+(g.qv>0?"บวก":"ลบ")+"จะโดนผลัก"+(g.qv>0?"ไปตาม":"สวน")+"ทิศสนาม"]};
+        return {ok:false, msg:["The force is "+un(Math.abs(p.q)*1e-9*E.m*1e6,"µN")+", pointing "+(p.q>0?"away from":"toward")+" the wisp. The size is |q|E; the sign of q sets the direction.",
+                               "แรงมีค่า "+un(Math.abs(p.q)*1e-9*E.m*1e6,"µN")+" ชี้"+(p.q>0?"ออกจาก":"เข้าหา")+"ภูต ขนาดคือ |q|E เครื่องหมายของ q กำหนดทิศ"]};
       }
     },
     note:["the blue arrow is the field — it is there whether or not anything sits in it; the orange arrow is the force on the test charge",
-          "ลูกศรสีฟ้าคือสนาม ซึ่งมีอยู่ตรงนั้นแม้ไม่มีอะไรวางอยู่ ส่วนลูกศรสีส้มคือแรงที่กระทำต่อประจุทดสอบ"]
+          "ลูกศรสีฟ้าคือสนาม มีอยู่ตรงนั้นแม้ไม่มีอะไรวางอยู่ ส่วนลูกศรสีส้มคือแรงที่กระทำต่อประจุทดสอบ"]
   },
   guide:[
     {say:["One positive wisp. Field lines stream outward; the test charge is pushed along them.",
-          "ภูตประจุบวกหนึ่งดวง เส้นสนามพุ่งออกจากภูต และประจุทดสอบถูกผลักไปตามเส้นสนาม"], set:{Q1:20,Q2:0,q:2,x1:200,y1:165,xt:330,yt:110,T:3}},
+          "ภูตประจุบวกหนึ่งดวง เส้นสนามพุ่งออกจากภูต และแรงผลักประจุทดสอบไปตามเส้นสนาม"], set:{Q1:20,Q2:0,q:2,x1:200,y1:165,xt:330,yt:110,T:3}},
     {say:["Flip the test charge negative. The field arrow does not move at all; only the force turns round.",
-          "เปลี่ยนประจุทดสอบเป็นประจุลบ ลูกศรสนามไม่ขยับเลย มีแต่แรงที่กลับทิศ"], set:{Q1:20,Q2:0,q:-4,x1:200,y1:165,xt:330,yt:110,T:3}},
+          "เปลี่ยนประจุทดสอบเป็นลบ ลูกศรสนามไม่ขยับเลย มีแต่แรงที่กลับทิศ"], set:{Q1:20,Q2:0,q:-4,x1:200,y1:165,xt:330,yt:110,T:3}},
     {say:["Add an opposite wisp. The lines now leave the positive one and end on the negative one.",
-          "เพิ่มภูตประจุตรงข้ามเข้าไป ตอนนี้เส้นสนามออกจากภูตบวกแล้วไปสิ้นสุดที่ภูตลบ"], set:{Q1:25,Q2:-25,q:2,x1:170,y1:165,x2:400,y2:165,xt:285,yt:90,T:3}}
+          "เพิ่มภูตประจุตรงข้ามเข้าไป ตอนนี้เส้นสนามออกจากภูตบวกแล้วไปจบที่ภูตลบ"], set:{Q1:25,Q2:-25,q:2,x1:170,y1:165,x2:400,y2:165,xt:285,yt:90,T:3}}
   ]
 },
 
@@ -256,14 +256,14 @@ nodes:[
       {k:"r",    lab:["Distance","ระยะ"], min:.4, max:5.8, step:.1, def:1, unit:" m"}
     ],
     readouts:[
-      {lab:["Potential V","ศักย์ V"], f:function(S){ return fmt2(9e9*S.p.Q*1e-9/S.p.r)+" V"; }},
-      {lab:["Field E","สนาม E"], f:function(S){ return fmt2(9e9*S.p.Q*1e-9/(S.p.r*S.p.r))+" N/C"; }},
-      {lab:["Which is a scalar?","อันไหนเป็นสเกลาร์"], f:function(){
+      {lab:["Potential V","ศักย์ V"], f:function(S){ return un(9e9*S.p.Q*1e-9/S.p.r,"V"); }},
+      {lab:["Field E","สนาม E"], f:function(S){ return un(9e9*S.p.Q*1e-9/(S.p.r*S.p.r),"N/C"); }},
+      {lab:["Which is a scalar?","ตัวไหนเป็นสเกลาร์"], f:function(){
         return L()?"ศักย์ V — บวกกันตรงๆ ไม่ต้องใช้เวกเตอร์":"V — you add potentials as plain numbers"; }},
       {lab:["Relationship","ความสัมพันธ์"], f:function(){
         return L()?"E = −dV/dr · สนามคือความชันของศักย์":"E = −dV/dr · the field is the slope of the potential"; }}
     ],
-    note:["V goes as 1/r and E as 1/r² — switching between them shows how much steeper E is","V แปรตาม 1/r ส่วน E แปรตาม 1/r² ลองสลับดูแล้วจะเห็นว่า E ชันกว่ามาก"]
+    note:["V goes as 1/r and E as 1/r² — switching between them shows how much steeper E is","V แปรตาม 1/r ส่วน E แปรตาม 1/r² ลองสลับดู จะเห็นว่า E ชันกว่ามาก"]
   } },
 
 { id:"conductors", x:235, y:248, requires:["field","potential"], methods:["M-04"],
@@ -276,15 +276,15 @@ nodes:[
   flabel:["Charge sits on the outside","ประจุอยู่ที่ผิวนอก"],
   viz:"table",
   vizcfg:{
-    title:["A CHARGED CONDUCTOR IN EQUILIBRIUM","ตัวนำที่มีประจุในภาวะสมดุล"],
+    title:["A CHARGED CONDUCTOR IN EQUILIBRIUM","ตัวนำที่มีประจุขณะสมดุล"],
     cols:[["Where","ที่ใด"],["Field E","สนาม E"],["Charge","ประจุ"],["Potential V","ศักย์ V"]],
     rowKey:"i",
     readouts:[
       {lab:["Region","บริเวณ"], f:function(S){
         return [["Deep inside","ลึกเข้าไปข้างใน"],["At the surface","ที่ผิว"],["Outside","ภายนอก"]][S.p.i][L()]; }},
-      {lab:["Why the inside is empty","ทำไมข้างในจึงว่าง"], f:function(){
+      {lab:["Why the inside is empty","ทำไมข้างในว่างเปล่า"], f:function(){
         return L()?"ประจุอิสระผลักกันจนไปอยู่ที่ผิว":"free charges repel until they reach the surface"; }},
-      {lab:["Practical name","ชื่อที่ใช้จริง"], f:function(){
+      {lab:["Practical name","ชื่อที่ใช้เรียก"], f:function(){
         return L()?"กรงฟาราเดย์":"a Faraday cage"; }}
     ],
     rows:function(p){
@@ -294,7 +294,7 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"ink":"accent"}; }); });
     },
-    note:["the whole conductor is one equipotential — that is why a car protects you in a storm","ตัวนำทั้งก้อนเป็นผิวสมศักย์เดียวกัน จึงเป็นเหตุผลที่รถช่วยป้องกันเราเวลาฟ้าผ่า"]
+    note:["the whole conductor is one equipotential — that is why a car protects you in a storm","ตัวนำทั้งก้อนมีศักย์เท่ากันหมด รถจึงช่วยป้องกันเราเวลาฟ้าผ่าได้"]
   } },
 
 { id:"capacitance", x:235, y:346, requires:["conductors"], methods:["M-05","M-06"],
@@ -307,22 +307,22 @@ nodes:[
   flabel:["Opposite of the resistor rules","ตรงข้ามกับกฎตัวต้านทาน"],
   viz:"plot",
   vizcfg:{
-    title:["CHARGE STORED AGAINST VOLTAGE","ประจุที่เก็บได้ เทียบ ความต่างศักย์"],
+    title:["CHARGE STORED AGAINST VOLTAGE","ประจุที่เก็บได้กับความต่างศักย์"],
     xlab:["voltage (V)","ความต่างศักย์ (V)"], ylab:["charge stored (µC)","ประจุที่เก็บ (µC)"],
     xmin:0, xmax:24, ymin:0, fill:true,
     fn:function(x,p){ return p.C*x; },
     mark:function(p){ return p.V; },
     ctrls:[
       {k:"C", lab:["Capacitance","ความจุ"], min:1, max:20, step:1, def:5, unit:" µF"},
-      {k:"V", lab:["Applied voltage","ความต่างศักย์ที่ให้"], min:1, max:23, step:1, def:12, unit:" V"}
+      {k:"V", lab:["Applied voltage","ความต่างศักย์ที่ต่อให้"], min:1, max:23, step:1, def:12, unit:" V"}
     ],
     readouts:[
-      {lab:["Charge stored","ประจุที่เก็บ"], f:function(S){ return fmt2(S.p.C*S.p.V)+" µC"; }},
+      {lab:["Charge stored","ประจุที่เก็บ"], f:function(S){ return un(S.p.C*S.p.V,"µC"); }},
       {lab:["Energy stored ½CV²","พลังงานที่เก็บ ½CV²"], f:function(S){
-        return fmt2(0.5*S.p.C*S.p.V*S.p.V/1000)+" mJ"; }},
+        return un(0.5*S.p.C*S.p.V*S.p.V,"µJ"); }},
       {lab:["Slope of the line","ความชันของเส้น"], f:function(S){
-        return fmt2(S.p.C)+(L()?" µF · คือความจุเอง":" µF · which IS the capacitance"); }},
-      {lab:["Double the voltage?","ความต่างศักย์สองเท่า?"], f:function(){
+        return un(S.p.C,"µF")+(L()?" · คือความจุเอง":" · which IS the capacitance"); }},
+      {lab:["Double the voltage?","ถ้าความต่างศักย์เป็นสองเท่า?"], f:function(){
         return L()?"ประจุสองเท่า แต่พลังงานสี่เท่า":"twice the charge, but four times the energy"; }}
     ],
     note:["the shaded triangle under the line is the stored energy — hence the ½","สามเหลี่ยมแรเงาใต้เส้นคือพลังงานที่เก็บไว้ จึงมีเลข ½"]

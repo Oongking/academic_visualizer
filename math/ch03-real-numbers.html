@@ -152,8 +152,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
 .xtable figcaption{margin-bottom:12px}
 .xscroll{overflow-x:auto}
 .xtable table{border-collapse:collapse;width:100%;font-size:14px}
-.xtable th{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+.xtable th{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);text-align:left;
   padding:0 16px 8px 0;border-bottom:1px solid var(--rule);white-space:nowrap}
 .xtable td{padding:10px 16px 10px 0;border-bottom:1px solid var(--rule);
   color:var(--ink-soft);vertical-align:top;line-height:1.5}
@@ -163,8 +163,8 @@ h2.sec{margin:0 0 8px;font-family:var(--f-display);font-weight:400;
   line-height:1.6}
 .xfacts{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
   font-size:14px}
-.xfacts dt{font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);padding-top:3px}
+.xfacts dt{font-family:var(--f-ui);font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink-faint);padding-top:3px}
 .xfacts dd{margin:0;color:var(--ink-soft)}
 .node-sec:last-child{border-bottom:none}
 .node-head{display:flex;gap:18px;align-items:baseline;margin-bottom:20px}
@@ -224,7 +224,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
   text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
 .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
 .ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-ui);
-  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;
   color:var(--ink-faint);margin-bottom:5px}
 .ctrl label span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
 /* touch-action:none is what keeps a drag on the control from being handed to
@@ -249,8 +249,8 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 .opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
   position:relative;z-index:3}
 .readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
-.ro b{display:block;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px}
+.ro b{display:block;font-family:var(--f-ui);font-size:11.5px;letter-spacing:.02em;
+  color:var(--ink-faint);font-weight:600;margin-bottom:3px}
 .ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
 .transport{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 /* .guide and .transport set display, which beats the UA's [hidden] rule; a
@@ -874,7 +874,7 @@ nodes:[
     ctrls:[{k:"i", lab:["Show up to","แสดงถึง"], min:0, max:3, step:1, def:0, unit:""}],
     readouts:[
       {lab:["Set shown","เซตที่แสดง"], f:function(S){
-        return [["ℕ natural","ℕ นับ"],["ℤ integers","ℤ จำนวนเต็ม"],
+        return [["ℕ natural","ℕ จำนวนนับ"],["ℤ integers","ℤ จำนวนเต็ม"],
                 ["ℚ rational","ℚ ตรรกยะ"],["ℝ real","ℝ จำนวนจริง"]][S.p.i][L()]; }},
       {lab:["What it adds","สิ่งที่เพิ่มเข้ามา"], f:function(S){
         return [["counting numbers","จำนวนนับ"],["zero and negatives","ศูนย์และจำนวนลบ"],
@@ -898,7 +898,7 @@ nodes:[
         pts.push({v:x, lab:["irrational","อตรรกยะ"], col:"ink"}); });
       return pts;
     },
-    note:["between any two rationals there is another — yet they still leave gaps that √2 falls into","ระหว่างจำนวนตรรกยะสองตัวมีจำนวนตรรกยะอีกตัวเสมอ แต่ก็ยังมีช่องว่างอยู่ และ √2 อยู่ในช่องว่างนั้น"]
+    note:["between any two rationals there is another — yet they still leave gaps that √2 falls into","ระหว่างจำนวนตรรกยะสองตัวมีตรรกยะอีกตัวเสมอ แต่ก็ยังมีช่องว่าง และ √2 ตกอยู่ในช่องว่างนั้น"]
   } },
 
 { id:"quadratics", x:100, y:150, requires:["number-sets"], methods:["M-02","M-03"],
@@ -923,14 +923,14 @@ nodes:[
     ],
     readouts:[
       {lab:["Discriminant","ดิสคริมิแนนต์"], f:function(S){
-        return fmt(S.p.b*S.p.b - 4*S.p.a*S.p.c); }},
+        return num(S.p.b*S.p.b - 4*S.p.a*S.p.c); }},
       {lab:["Real roots","รากจริง"], f:function(S){
         var d=S.p.b*S.p.b-4*S.p.a*S.p.c;
         if(S.p.a===0) return L()?"ไม่ใช่กำลังสอง":"not quadratic";
         return d>0?"2":(Math.abs(d)<1e-9?"1":"0"); }},
       {lab:["Sum · product","ผลบวก · ผลคูณ"], f:function(S){
         if(S.p.a===0) return "—";
-        return fmt(-S.p.b/S.p.a)+" · "+fmt(S.p.c/S.p.a); }}
+        return num(-S.p.b/S.p.a)+" · "+num(S.p.c/S.p.a); }}
     ]
   },
   guide:[
@@ -941,7 +941,7 @@ nodes:[
     {say:["Push further and the curve lifts clear of the axis. Discriminant negative, no real roots at all.",
           "เพิ่มต่อไปอีก เส้นโค้งจะลอยพ้นแกน ดิสคริมิแนนต์เป็นลบ ไม่มีรากจริงเลย"], set:{a:1,b:-2,c:4}},
     {say:["Make a negative and the parabola flips. The discriminant rule is unchanged — only the opening direction moved.",
-          "ทำให้ a เป็นลบ พาราโบลาจะพลิกคว่ำ กฎของดิสคริมิแนนต์ยังเหมือนเดิม เปลี่ยนแค่ทิศที่โค้งเปิด"], set:{a:-1,b:2,c:3}}
+          "ทำให้ a เป็นลบ พาราโบลาจะคว่ำลง กฎของดิสคริมิแนนต์ยังเหมือนเดิม เปลี่ยนแค่ทิศที่เปิด"], set:{a:-1,b:2,c:3}}
   ]},
 
 { id:"polynomials", x:370, y:150, requires:["number-sets"], methods:["M-04"],
@@ -972,6 +972,7 @@ nodes:[
       {lab:["Maximum real roots","รากจริงมากสุด"], f:function(S){ return String(S.p.deg); }},
       {lab:["End behaviour","พฤติกรรมปลายกราฟ"], f:function(S){
         var p=S.p;
+        if(Math.abs(p.a)<1e-9) return "—";
         if(p.deg%2===0) return p.a>0 ? (L()?"ขึ้นทั้งสองข้าง":"up at both ends") : (L()?"ลงทั้งสองข้าง":"down at both ends");
         return p.a>0 ? (L()?"ลงซ้าย ขึ้นขวา":"down left, up right") : (L()?"ขึ้นซ้าย ลงขวา":"up left, down right"); }},
       {lab:["Odd degree guarantees","ดีกรีคี่รับประกันว่า"], f:function(){
@@ -985,7 +986,7 @@ nodes:[
     {say:["Degree two can cross twice, touch once, or miss the axis altogether.",
           "ดีกรีสองอาจตัดแกนสองจุด แตะแกนจุดเดียว หรือไม่แตะแกนเลยก็ได้"], set:{deg:2,a:1,b:0}},
     {say:["Degree three must come from below and go above, so a real root cannot be avoided.",
-          "ดีกรีสามเริ่มจากด้านล่างแล้วขึ้นไปด้านบน จึงต้องตัดแกนอย่างน้อยหนึ่งจุด คือต้องมีรากจริง"], set:{deg:3,a:1,b:0}}
+          "ดีกรีสามเริ่มจากด้านล่างแล้วไต่ขึ้นด้านบน จึงต้องตัดแกนอย่างน้อยหนึ่งจุด นั่นคือต้องมีรากจริง"], set:{deg:3,a:1,b:0}}
   ] },
 
 { id:"inequalities", x:235, y:248, requires:["quadratics","polynomials"], methods:["M-05"],
@@ -1009,9 +1010,9 @@ nodes:[
     readouts:[
       {lab:["Solution","คำตอบ"], f:function(S){
         var p=S.p, o=p.strict===1;
-        if(p.kind===0) return "x "+(o?">":"≥")+" "+fmt(p.a);
-        if(p.kind===1) return fmt(Math.min(p.a,p.b))+(o?" < ":" ≤ ")+"x"+(o?" < ":" ≤ ")+fmt(Math.max(p.a,p.b));
-        return "x "+(o?"<":"≤")+" "+fmt(Math.min(p.a,p.b))+(L()?" หรือ ":" or ")+"x "+(o?">":"≥")+" "+fmt(Math.max(p.a,p.b)); }},
+        if(p.kind===0) return "x "+(o?">":"≥")+" "+num(p.a);
+        if(p.kind===1) return num(Math.min(p.a,p.b))+(o?" < ":" ≤ ")+"x"+(o?" < ":" ≤ ")+num(Math.max(p.a,p.b));
+        return "x "+(o?"<":"≤")+" "+num(Math.min(p.a,p.b))+(L()?" หรือ ":" or ")+"x "+(o?">":"≥")+" "+num(Math.max(p.a,p.b)); }},
       {lab:["Endpoint circles","วงกลมที่ปลาย"], f:function(S){
         return S.p.strict===1 ? (L()?"กลวง — ไม่รวมปลาย":"hollow — the end is excluded")
                               : (L()?"ทึบ — รวมปลาย":"solid — the end is included"); }},
@@ -1028,7 +1029,7 @@ nodes:[
               {a:hi,b:8,col:"accent",openA:o,lab:["solution","คำตอบ"]}];
     },
     points:function(p){ return [{v:p.a, lab:["a","a"], col:"ink"},{v:p.b, lab:["b","b"], col:"ink"}]; },
-    note:["'and' gives one interval; 'or' gives two — the word decides the picture","ถ้าใช้ และ จะได้ช่วงเดียว ถ้าใช้ หรือ จะได้สองช่วง คำเชื่อมเป็นตัวกำหนดภาพ"]
+    note:["'and' gives one interval; 'or' gives two — the word decides the picture","ใช้ “และ” จะได้ช่วงเดียว ใช้ “หรือ” จะได้สองช่วง คำเชื่อมกำหนดภาพที่ได้"]
   } },
 
 { id:"absolute-value", x:235, y:346, requires:["inequalities"], methods:["M-06"],
@@ -1052,15 +1053,15 @@ nodes:[
       {k:"x", lab:["Test point x","จุดทดสอบ x"], min:-8, max:8, step:.5, def:0, unit:""}
     ],
     readouts:[
-      {lab:["|x − a|","|x − a|"], f:function(S){ return fmt2(Math.abs(S.p.x-S.p.a)); }},
+      {lab:["|x − a|","|x − a|"], f:function(S){ return num(Math.abs(S.p.x-S.p.a)); }},
       {lab:["Meaning","ความหมาย"], f:function(S){
         return L()?"ระยะจาก x ถึง a":"the distance from x to a"; }},
       {lab:["Solution of |x − a| < b","คำตอบของ |x − a| < b"], f:function(S){
-        return fmt(S.p.a-S.p.b)+" < x < "+fmt(S.p.a+S.p.b); }},
+        return num(S.p.a-S.p.b)+" < x < "+num(S.p.a+S.p.b); }},
       {lab:["Solution of |x − a| > b","คำตอบของ |x − a| > b"], f:function(S){
-        return "x < "+fmt(S.p.a-S.p.b)+(L()?" หรือ ":" or ")+"x > "+fmt(S.p.a+S.p.b); }}
+        return "x < "+num(S.p.a-S.p.b)+(L()?" หรือ ":" or ")+"x > "+num(S.p.a+S.p.b); }}
     ],
-    note:["the V has its point at a — 'less than b' is the slice near the bottom of the V","ตัว V มีจุดยอดอยู่ที่ a เงื่อนไข น้อยกว่า b คือส่วนที่อยู่ใกล้ก้นตัว V"]
+    note:["the V has its point at a — 'less than b' is the slice near the bottom of the V","จุดยอดของตัว V อยู่ที่ a เงื่อนไข “น้อยกว่า b” คือส่วนที่อยู่ใกล้ก้นตัว V"]
   },
   guide:[
     {say:["The V bottoms out at x = a, where the distance is zero. That vertex is the whole idea.",
@@ -1104,11 +1105,11 @@ gen:{
 "M-02": function(sf){
   var r1=pick([1,2,3,-1,-2]), r2=pick([4,5,-3,-4]);
   var b=-(r1+r2), c=r1*r2;
-  if(sf==="S-05") return {stem:["A quadratic has roots "+r1+" and "+r2+" with leading coefficient 1. What is the equation?",
-                                "สมการกำลังสองมีราก "+r1+" และ "+r2+" โดยสัมประสิทธิ์นำเป็น 1 สมการคืออะไร"],
+  if(sf==="S-05") return {stem:["A quadratic has roots "+num(r1)+" and "+num(r2)+" with leading coefficient 1. What is the equation?",
+                                "สมการกำลังสองมีราก "+num(r1)+" และ "+num(r2)+" โดยสัมประสิทธิ์นำเป็น 1 สมการคืออะไร"],
     opts:[{v:"x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0",ok:1},
           {v:"x² "+(b>=0?"− ":"+ ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0",trap:"T-01"},
-          {v:"x² + "+Math.abs(r1+r2)+"x + "+Math.abs(c)+" = 0"},
+          {v:"x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"− ":"+ ")+Math.abs(c)+" = 0"},
           {v:"x² − "+Math.abs(c)+"x + "+Math.abs(b)+" = 0"}],unit:""};
   if(sf==="S-04") return {stem:["When is factorising preferable to the quadratic formula?",
                                 "เมื่อไรที่การแยกตัวประกอบเหมาะกว่าการใช้สูตรกำลังสอง"],
@@ -1118,8 +1119,8 @@ gen:{
           {v:["When the discriminant is negative","เมื่อดิสคริมิแนนต์เป็นลบ"],trap:"T-01"}],unit:""};
   return {stem:["Solve x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0.",
                 "จงแก้สมการ x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0"],
-    opts:[{v:"x = "+r1+", "+r2,ok:1},{v:"x = "+(-r1)+", "+(-r2),trap:"T-01"},
-          {v:"x = "+r1+", "+(-r2)},{v:"x = "+b+", "+c}],unit:""};
+    opts:[{v:"x = "+num(r1)+", "+num(r2),ok:1},{v:"x = "+num(-r1)+", "+num(-r2),trap:"T-01"},
+          {v:"x = "+num(r1)+", "+num(-r2)},{v:"x = "+num(b)+", "+num(c)}],unit:""};
 },
 "M-03": function(sf){
   var a=1, b=pick([2,4,-6,-2]), c=pick([1,3,-8,5]);
@@ -1128,15 +1129,15 @@ gen:{
                                              "พาราโบลาแตะแกน x ที่จุดเดียวพอดี ดิสคริมิแนนต์เท่ากับเท่าไร"],
     opts:[{v:["Zero","ศูนย์"],ok:1},{v:["Positive","เป็นบวก"],trap:"T-01"},
           {v:["Negative","เป็นลบ"],trap:"T-01"},{v:["Undefined","ไม่นิยาม"]}],unit:""};
-  if(sf==="S-05") return {stem:["The roots of x² + bx + "+c+" = 0 sum to "+(-b)+". Find b.",
-                                "รากของ x² + bx + "+c+" = 0 มีผลบวก "+(-b)+" จงหา b"],
-    opts:[{v:String(b),ok:1},{v:String(-b),trap:"T-01"},{v:String(c)},{v:String(b*2)}],unit:""};
+  if(sf==="S-05") return {stem:["The roots of x² + bx "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0 sum to "+num(-b)+". Find b.",
+                                "รากของ x² + bx "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0 มีผลบวก "+num(-b)+" จงหา b"],
+    opts:[{v:num(b),ok:1},{v:num(-b),trap:"T-01"},{v:num(c)},{v:num(b*2)}],unit:""};
   return {stem:["Find the discriminant of x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0 and say how many real roots it has.",
                 "จงหาดิสคริมิแนนต์ของ x² "+(b>=0?"+ ":"− ")+Math.abs(b)+"x "+(c>=0?"+ ":"− ")+Math.abs(c)+" = 0 และบอกว่ามีรากจริงกี่ค่า"],
-    opts:[{v:d+", "+(d>0?"2":(d===0?"1":"0")),ok:1},
-          {v:d+", "+(d>0?"0":(d===0?"2":"2")),trap:"T-01"},
-          {v:(-d)+", "+(d>0?"2":"0"),trap:"T-01"},
-          {v:d+", 1"}],unit:""};
+    opts:[{v:num(d)+", "+(d>0?"2":(d===0?"1":"0")),ok:1},
+          {v:num(d)+", "+(d>0?"0":(d===0?"2":"2")),trap:"T-01"},
+          {v:num(-d)+", "+(d>0?"2":"0"),trap:"T-01"},
+          {v:(d===0?"1":num(d))+", 1"}],unit:""};
 },
 "M-04": function(sf){
   var r=pick([1,2,3,-1,-2]);
@@ -1153,7 +1154,7 @@ gen:{
     opts:[{v:"±1, ±2, ±½",ok:1},{v:"±1, ±2 only"},{v:"±2, ±½ only"},{v:"any integer"}],unit:""};
 },
 "M-05": function(sf){
-  var k=pick([2,3,5]), m=pick([4,6,10]);
+  var k=pick([2,3,5]), m=k*pick([2,3,4]);
   if(sf==="S-04") return {stem:["You multiply both sides of an inequality by −3. What must you do?",
                                 "คูณทั้งสองข้างของอสมการด้วย −3 ต้องทำอย่างไร"],
     opts:[{v:["Reverse the inequality sign","กลับเครื่องหมายอสมการ"],ok:1},
@@ -1176,8 +1177,8 @@ gen:{
             {v:["Neither","ไม่มีค่าใดเลย"]}],unit:""};
   }
   return {stem:["Solve −"+k+"x > "+m+".","จงแก้อสมการ −"+k+"x > "+m],
-    opts:[{v:"x < −"+fmt(m/k),ok:1},{v:"x > −"+fmt(m/k),trap:"T-02"},
-          {v:"x < "+fmt(m/k)},{v:"x > "+fmt(m/k),trap:"T-02"}],unit:""};
+    opts:[{v:"x < −"+(m/k),ok:1},{v:"x > −"+(m/k),trap:"T-02"},
+          {v:"x < "+(m/k)},{v:"x > "+(m/k),trap:"T-02"}],unit:""};
 },
 "M-06": function(sf){
   var a=pick([2,3,5,7]);
@@ -1267,13 +1268,55 @@ function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
 function fmt(n){ return (Math.round(n*10)/10).toString(); }
 function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+/* ---- numbers as a scientist writes them ----
+   fmt / fmt2 round to a fixed number of decimals; they are for geometry and
+   coordinates only. Anything a learner READS as a physical value goes through
+   num(), which keeps significant figures instead of decimal places, switches to
+   standard form (A × 10ⁿ, 1 ≤ |A| < 10) for very large or very small values,
+   never shows a non-zero value as 0, and uses a real minus sign.
+     num(0.000000123)   "1.23 × 10⁻⁷"      num(299792458)  "3 × 10⁸"
+     num(12345.6)       "12300"            num(−4.2)       "−4.2"
+     numTex(n,s)  the same value as LaTeX (for the live formula)
+     un(n,"m/s")  number, a no-break space, then the unit                    */
+var SUPS={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
+function sciParts(n,s){
+  var e=Math.floor(Math.log10(Math.abs(n))), m=n/Math.pow(10,e);
+  m=+m.toPrecision(s); if(Math.abs(m)>=10){ m/=10; e++; }
+  return [m,e];
+}
+function num(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "—";
+  if(n===0) return "0";
+  var a=Math.abs(n), out;
+  if(a<1e-3 || a>=1e5){
+    var q=sciParts(n,s);
+    out=String(q[0])+" × 10"+String(q[1]).split("").map(function(c){ return SUPS[c]; }).join("");
+  } else {
+    out=String(+n.toPrecision(s));
+    if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  }
+  return out.replace("-","−");
+}
+function numTex(n,s){
+  s=s||3; n=+n;
+  if(!isFinite(n)) return "\\text{—}";
+  if(n===0) return "0";
+  var a=Math.abs(n);
+  if(a<1e-3 || a>=1e5){ var q=sciParts(n,s); return q[0]+"\\times10^{"+q[1]+"}"; }
+  var out=String(+n.toPrecision(s));
+  if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
+  return out;
+}
+function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
   if(!(range>0)) return 1;
   var raw=range/target, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)), n=raw/mag;
   return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*mag;
 }
-function tk(n){ var r=Math.round(n*100)/100; return (Math.abs(r)<1e-9?0:r).toString(); }
+/* axis tick labels: significant figures and standard form, never "0" for a small value */
+function tk(n){ return num(n,3); }
 var FT='fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10"';
 
 /* Shared, fully scaled axis frame. Returns mapping functions. */
@@ -1335,10 +1378,10 @@ VIZLIB.motion = {
     {k:"T", lab:["Duration","ช่วงเวลา"],                min:2,  max:12,step:1, def:6,  unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Time","เวลา"],            f:function(S){ return fmt(S.t)+" s"; }},
-    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return fmt(S.p.u+S.p.a*S.t)+" m/s"; }},
-    {lab:["Displacement s","การกระจัด s"], f:function(S){ return fmt(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
-    {lab:["Slope","ความชัน"],        f:function(S){ return fmt(S.p.a)+" m/s²"; }}
+    {lab:["Time","เวลา"],            f:function(S){ return num(S.t)+" s"; }},
+    {lab:["Velocity v","ความเร็ว v"], f:function(S){ return num(S.p.u+S.p.a*S.t)+" m/s"; }},
+    {lab:["Displacement s","การกระจัด s"], f:function(S){ return num(S.p.u*S.t+0.5*S.p.a*S.t*S.t)+" m"; }},
+    {lab:["Slope","ความชัน"],        f:function(S){ return num(S.p.a)+" m/s²"; }}
   ],
   draw:function(S,o){
     var u=S.p.u,a=S.p.a,T=S.p.T,tt=Math.min(S.t,T);
@@ -1423,11 +1466,11 @@ VIZLIB.vector = {
     {lab:["Resultant R","ผลลัพธ์ R"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      return fmt(Math.sqrt(rx*rx+ry*ry)); }},
+      return num(Math.sqrt(rx*rx+ry*ry)); }},
     {lab:["Direction","ทิศทาง"], f:function(S){
       var p=S.p, rx=p.A*Math.cos(p.tA*Math.PI/180)+p.B*Math.cos(p.tB*Math.PI/180);
       var ry=p.A*Math.sin(p.tA*Math.PI/180)+p.B*Math.sin(p.tB*Math.PI/180);
-      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return fmt(d)+"°"; }}
+      var d=Math.atan2(ry,rx)*180/Math.PI; if(d<0) d+=360; return num(d)+"°"; }}
   ],
   draw:function(S,o){
     var p=S.p, cx=280, cy=180, sc=6.5;
@@ -1441,8 +1484,8 @@ VIZLIB.vector = {
     o.push('<line x1="'+(cx-250)+'" y1="'+cy+'" x2="'+(cx+250)+'" y2="'+cy+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     o.push('<line x1="'+cx+'" y1="'+(cy-140)+'" x2="'+cx+'" y2="'+(cy+140)+'" stroke="var(--ink-faint)" stroke-width="1.4"/>');
     for(var s=-20;s<=20;s+=10){ if(!s) continue;
-      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+s+'</text>');
-      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+s+'</text>');
+      o.push('<text x="'+(cx+s*sc)+'" y="'+(cy+16)+'" '+FT+' text-anchor="middle">'+tk(s)+'</text>');
+      o.push('<text x="'+(cx-8)+'" y="'+(cy-s*sc+3.5)+'" '+FT+' text-anchor="end">'+tk(s)+'</text>');
     }
     function arrow(x1,y1,x2,y2,col,w,dash){
       var ang=Math.atan2(y2-y1,x2-x1), hl=9;
@@ -1469,9 +1512,9 @@ VIZLIB.wave = {
     {k:"T",  lab:["Run for","เล่นนาน"],            min:2,max:12,step:1, def:8, unit:" s", isT:true}
   ],
   readouts:[
-    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return fmt(S.p.f*S.p.lam)+" m/s"; }},
-    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return fmt(1/S.p.f)+" s"; }},
-    {lab:["Time","เวลา"],                     f:function(S){ return fmt(S.t)+" s"; }}
+    {lab:["Speed v = fλ","อัตราเร็ว v = fλ"], f:function(S){ return num(S.p.f*S.p.lam)+" m/s"; }},
+    {lab:["Period T = 1/f","คาบ T = 1/f"],    f:function(S){ return num(1/S.p.f)+" s"; }},
+    {lab:["Time","เวลา"],                     f:function(S){ return num(S.t)+" s"; }}
   ],
   draw:function(S,o){
     var p=S.p, xmax=24;
@@ -1522,7 +1565,7 @@ VIZLIB.bars = {
       o.push('<rect x="'+(cx-bw/2)+'" y="'+Math.min(y0,y1)+'" width="'+bw+
              '" height="'+Math.abs(y1-y0)+'" fill="'+b.c+'" opacity="0.9"/>');
       o.push('<text x="'+cx+'" y="'+(y1+(b.v<0?15:-7))+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(b.v)+'</text>');
+             'font-size="11" font-weight="600" text-anchor="middle">'+num(b.v)+'</text>');
       o.push('<text x="'+cx+'" y="'+(A.Y(lo)+34)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" '+
              'font-size="10" text-anchor="middle">'+tx(b.lab)+'</text>');
     });
@@ -1595,7 +1638,7 @@ VIZLIB.tri = {
            ' Z" fill="var(--accent)" fill-opacity="0.10" stroke="var(--ink)" stroke-width="2.2"/>');
     function side(p,q,lab,val,c2){
       o.push('<text x="'+((p[0]+q[0])/2)+'" y="'+((p[1]+q[1])/2-6)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+fmt2(val)+'</text>');
+             '" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+lab+' = '+num(val)+'</text>');
     }
     side(tC,tA,"b",b,"var(--ink-soft)");
     side(tC,tB,"a",a,"var(--ink-soft)");
@@ -1603,15 +1646,15 @@ VIZLIB.tri = {
     [[tC,"C",g.C],[tA,"A",A1*180/Math.PI],[tB,"B",B1*180/Math.PI]].forEach(function(v){
       o.push('<circle cx="'+v[0][0]+'" cy="'+v[0][1]+'" r="3.5" fill="var(--ink)"/>');
       o.push('<text x="'+(v[0][0]-14)+'" y="'+(v[0][1]+14)+'" fill="var(--ink)" font-family="IBM Plex Sans" '+
-             'font-size="10.5" font-weight="600">'+v[1]+' '+fmt(v[2])+'°</text>');
+             'font-size="10.5" font-weight="600">'+v[1]+' '+num(v[2])+'°</text>');
     });
     var area=0.5*a*b*Math.sin(C);
     o.push('<text x="404" y="86" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["THIRD SIDE","ด้านที่สาม"])+'</text>');
-    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+fmt2(c)+'</text>');
+    o.push('<text x="404" y="118" fill="var(--accent)" font-family="Bodoni Moda, serif" font-size="30">'+num(c)+'</text>');
     o.push('<text x="404" y="152" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+
            tx(["AREA ½ ab sin C","พื้นที่ ½ ab sin C"])+'</text>');
-    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+fmt2(area)+'</text>');
+    o.push('<text x="404" y="182" fill="var(--ink)" font-family="Bodoni Moda, serif" font-size="26">'+num(area)+'</text>');
     if(cfg.note) cap(o,44,286,cfg.note,"note");
   }
 };
@@ -1684,7 +1727,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+(cx-L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56)+' L'+(cx+L/2)+' '+(cy+56-H)+
              ' Z" fill="var(--surface)" stroke="var(--ink-faint)" stroke-width="1.5"/>');
       o.push('<text x="'+(cx-L/2+26)+'" y="'+(cy+50)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-             'font-size="10">'+fmt(inc)+'°</text>');
+             'font-size="10">'+num(inc)+'°</text>');
     } else {
       o.push('<line x1="'+(cx-120)+'" y1="'+(cy+34)+'" x2="'+(cx+120)+'" y2="'+(cy+34)+
              '" stroke="var(--ink-faint)" stroke-width="1.5"/>');
@@ -1702,7 +1745,7 @@ VIZLIB.fbd = {
       o.push('<path d="M'+ex+' '+ey+' L'+(ex-hl*Math.cos(aa-0.4))+' '+(ey-hl*Math.sin(aa-0.4))+
              ' L'+(ex-hl*Math.cos(aa+0.4))+' '+(ey-hl*Math.sin(aa+0.4))+' Z" fill="'+c2+'"/>');
       o.push('<text x="'+(cx+Math.cos(aa)*(len+24))+'" y="'+(cy+Math.sin(aa)*(len+24)+4)+'" fill="'+c2+
-             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+fmt(Math.abs(f.mag))+'</text>');
+             '" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+tx(f.lab)+' '+num(Math.abs(f.mag))+'</text>');
     });
     if(cfg.note) cap(o,44,300,cfg.note,"note");
   }
@@ -1721,7 +1764,7 @@ VIZLIB.stack = {
       var pw=Math.max(0,p.v)/tot*w;
       o.push('<rect x="'+x+'" y="'+y+'" width="'+pw+'" height="'+h+'" fill="'+col(p.col)+'" opacity="0.88"/>');
       if(pw>34) o.push('<text x="'+(x+pw/2)+'" y="'+(y+h/2+4)+'" fill="#fff" font-family="IBM Plex Sans" '+
-                       'font-size="11" font-weight="600" text-anchor="middle">'+fmt2(p.v)+'</text>');
+                       'font-size="11" font-weight="600" text-anchor="middle">'+num(p.v)+'</text>');
       x+=pw;
     });
     o.push('<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="none" stroke="var(--ink)" stroke-width="1.6"/>');
@@ -1733,7 +1776,7 @@ VIZLIB.stack = {
              'font-size="10.5">'+tx(p.lab)+'</text>');
     });
     if(cfg.total) o.push('<text x="'+(x0+w)+'" y="'+(y-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" '+
-                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+fmt2(tot)+'</text>');
+                         'font-size="10.5" text-anchor="end">'+tx(cfg.total)+' '+num(tot)+'</text>');
     if(cfg.note) cap(o,x0,236,cfg.note,"note");
   }
 };
@@ -2037,7 +2080,7 @@ function instrument(S, o, ins, ctx){
       if(over) o.push('<path d="M'+fmt2(cx-bw/2)+' '+fmt2(y1+7)+' l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5 l'+fmt2(bw/4)+' -5 l'+fmt2(bw/4)+' 5" '+
                       'fill="none" stroke="var(--surface)" stroke-width="2"/>');
       o.push('<text x="'+fmt2(cx)+'" y="'+fmt2(y1+(b.v<0?14:-7))+'" fill="var(--ink)" '+
-             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+fmt2(b.v)+'</text>');
+             'font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+(over?"↑ ":"")+(under?"↓ ":"")+num(b.v)+'</text>');
       fitText(o, cx, A2.Y(l2)+32, b.lab, w-6, 10, "var(--ink-soft)", "middle");
     });
     return null;
@@ -2554,7 +2597,7 @@ var STAGE = {
         o.push('<text x="' + (FR.sx + 166) + '" y="' + fmt2(+gy + 3.5) + '" ' + FT + ' text-anchor="end">' + tk(h) + '</text>');
       }
       o.push('<text x="' + (FR.sx + 166) + '" y="' + (W.top - 8) + '" ' + FT + ' text-anchor="end">' +
-             tx(W.unit || ["m", "ม."]) + '</text>');
+             tx(W.unit || ["m", "m"]) + '</text>');
     }
   },
 
@@ -2778,7 +2821,7 @@ var STAGE = {
     var on = S.kbd && S.kbd.on;
     role("prophecy")(o, P[0], P[1], { clock: STAGE.clock, active: on || !!S.dragGuess,
                                        done: pr.phase === "done", hit: pr.hit, tower: W.kind === "tower" });
-    var txt = ui("yourGuess") + " · " + fmt2(pr.guess) + tx(pc.unit || [" m", " ม."]);
+    var txt = ui("yourGuess") + " · " + num(pr.guess) + tx(pc.unit || [" m", " m"]);
     fitText(o, P[0], P[1] - (W.kind === "tower" ? 12 : 78), [txt, txt], 150, 10.5, "var(--accent2)", "middle");
   },
 
@@ -3048,9 +3091,9 @@ var STAGE = {
         } else {
           var err = Math.abs(g - actual), tol = pc.tol ? pc.tol(S.p) : 1;
           hit = err <= tol;
-          var u = tx(pc.unit || [" m", " ม."]);
-          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + fmt2(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + fmt2(actual) + u +
-                  " · " + (L() ? "คลาดไป " : "off by ") + fmt2(err) + u ];
+          var u = tx(pc.unit || [" m", " m"]);
+          msg = [ (L() ? "คุณทำนาย " : "You foresaw ") + num(g) + u + " · " + (L() ? "ผลจริง " : "actual ") + num(actual) + u +
+                  " · " + (L() ? "ต่างไป " : "off by ") + num(err) + u ];
         }
         S.pred.phase = "done"; S.pred.hit = hit;
         STATE.preds = STATE.preds || {};
@@ -4443,7 +4486,7 @@ function makeLab(nd, host){
     });
     /* writing unchanged text still costs a layout, so only write changes */
     host.querySelectorAll(".lv").forEach(function(el){
-      var c=ctrls[+el.getAttribute("data-i")], v=S.p[c.k]+(c.unit||"");
+      var c=ctrls[+el.getAttribute("data-i")], v=num(S.p[c.k],6)+(c.unit||"");
       if(el.textContent!==v) el.textContent=v;
     });
     host.querySelectorAll(".rv").forEach(function(el){

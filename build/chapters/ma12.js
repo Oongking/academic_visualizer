@@ -33,7 +33,7 @@ nodes:[
       var R=[[["Loop","วงวน"],["an edge from a vertex to itself","เส้นเชื่อมจากจุดยอดกลับหาตัวเอง"],["no","ไม่ได้"]],
              [["Parallel edges","เส้นเชื่อมขนาน"],["two edges joining the same pair","เส้นเชื่อมสองเส้นโยงคู่เดิม"],["no","ไม่ได้"]],
              [["Simple graph","กราฟเชิงเดียว"],["neither loops nor parallel edges","ไม่มีทั้งวงวนและเส้นขนาน"],["by definition","ตามนิยาม"]],
-             [["Complete Kₙ","บริบูรณ์ Kₙ"],["every pair is joined","ทุกคู่ถูกเชื่อม"],["yes","ได้"]],
+             [["Complete Kₙ","บริบูรณ์ Kₙ"],["every pair is joined","ทุกคู่มีเส้นเชื่อม"],["yes","ได้"]],
              [["Subgraph","กราฟย่อย"],["any part taken with its endpoints","ส่วนใดก็ได้ที่ยกมาพร้อมจุดปลาย"],["yes","ได้"]]];
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===2?(i<2?"warn":"good"):"accent"}; }); });
@@ -61,7 +61,7 @@ nodes:[
       {lab:["Sum of all degrees","ผลบวกดีกรีทั้งหมด"], f:function(S){ return String(2*S.p.E); }},
       {lab:["2 × edges","2 × จำนวนเส้นเชื่อม"], f:function(S){ return String(2*S.p.E); }},
       {lab:["Contribution of one loop","วงวนหนึ่งวงให้ดีกรี"], f:function(){
-        return L()?"2 — ปลายทั้งสองข้างตกที่จุดเดียวกัน":"2 — both its ends land on the same vertex"; }},
+        return L()?"2 เพราะปลายทั้งสองข้างอยู่ที่จุดยอดเดียวกัน":"2 — both its ends land on the same vertex"; }},
       {lab:["Odd-degree vertices","จุดยอดดีกรีคี่"], f:function(){
         return L()?"เป็นจำนวนคู่เสมอ":"always come in an even number"; }}
     ],
@@ -70,7 +70,7 @@ nodes:[
       {lab:["Σ deg(v)","Σ deg(v)"], f:function(p){ return 2*p.E; }, col:"accent"},
       {lab:["2|E|","2|E|"], f:function(p){ return 2*p.E; }, col:"good"}
     ],
-    note:["the last two bars are the handshake theorem, and they can never disagree","สองแถบสุดท้ายคือทฤษฎีบทการจับมือ จึงไม่มีทางไม่เท่ากัน"]
+    note:["the last two bars are the handshake theorem, and they can never disagree","สองแถบสุดท้ายคือทฤษฎีบทการจับมือ จึงเท่ากันเสมอ"]
   } },
 
 { id:"euler", x:370, y:150, requires:["degree"], methods:["M-03"],
@@ -128,7 +128,7 @@ nodes:[
                '" stroke="'+(isOdd?"var(--accent)":"var(--ink)")+'" stroke-width="2.4"/>');
         o.push('<text x="'+v.x+'" y="'+(v.y+5)+'" fill="'+(isOdd?"#fff":"var(--ink)")+
                '" font-family="Bodoni Moda, serif" font-size="15" text-anchor="middle">'+v.n+'</text>');
-        o.push('<text x="'+v.x+'" y="'+(v.y+38)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">deg '+deg[k]+'</text>');
+        o.push('<text x="'+v.x+'" y="'+(v.y+38)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">'+(L()?'ดีกรี ':'deg ')+deg[k]+'</text>');
       });
       /* the verdict panel */
       var vx=396, msg, col;
@@ -152,7 +152,7 @@ nodes:[
     {say:["Add the second diagonal. All four go odd, and now neither a path nor a circuit is possible.",
           "เพิ่มเส้นทแยงมุมเส้นที่สอง ทั้งสี่จุดกลายเป็นคี่ ตอนนี้ไม่มีทั้งแนวเดินและวงจร"], set:{e12:1,e23:1,e34:1,e41:1,e13:1,e24:1}},
     {say:["Remove an edge and try to make exactly one vertex odd. You cannot — they always change in pairs.",
-          "ลองลบเส้นเชื่อมแล้วทำให้เหลือจุดคี่แค่จุดเดียว จะทำไม่ได้ เพราะจุดคี่เปลี่ยนทีละคู่เสมอ"], set:{e12:1,e23:1,e34:0,e41:1,e13:1,e24:0}}
+          "ลองลบเส้นเชื่อมสักเส้น แล้วทำให้เหลือจุดคี่แค่จุดเดียว จะทำไม่ได้ เพราะจุดคี่เปลี่ยนทีละคู่เสมอ"], set:{e12:1,e23:1,e34:0,e41:1,e13:1,e24:0}}
   ]},
 
 { id:"connectivity", x:235, y:248, requires:["euler"], methods:["M-04"],
@@ -174,9 +174,10 @@ nodes:[
     readouts:[
       {lab:["Edges a tree needs","เส้นเชื่อมที่ต้นไม้ต้องมี"], f:function(S){ return String(S.p.V-1); }},
       {lab:["What you have","ที่มีอยู่"], f:function(S){ return String(S.p.E); }},
-      {lab:["Verdict","ผลลัพธ์"], f:function(S){
+      {lab:["Verdict","คำตัดสิน"], f:function(S){
         var need=S.p.V-1;
-        return S.p.E<need ? (L()?"น้อยเกินไป — ต้องขาดจากกัน":"too few — it must be disconnected")
+        if(S.p.E>S.p.V*(S.p.V-1)/2) return L()?"เป็นไปไม่ได้ในกราฟเชิงเดียว เพราะเส้นเชื่อมเกินค่ามากที่สุด":"impossible in a simple graph — more edges than the maximum";
+        return S.p.E<need ? (L()?"น้อยเกินไป กราฟต้องแยกเป็นส่วนๆ":"too few — it must be disconnected")
              : S.p.E===need ? (L()?"พอดี — เป็นต้นไม้ได้":"exactly right — it can be a tree")
              : (L()?"มากเกินไป — ต้องมีวัฏจักร":"too many — a cycle is unavoidable"); }},
       {lab:["Maximum possible edges","เส้นเชื่อมมากที่สุดที่เป็นไปได้"], f:function(S){
@@ -186,7 +187,7 @@ nodes:[
       {lab:["Vertices |V|","จุดยอด |V|"], f:function(p){ return p.V; }, col:"faint"},
       {lab:["Tree needs |V|−1","ต้นไม้ต้องมี |V|−1"], f:function(p){ return p.V-1; }, col:"good"},
       {lab:["Edges you have","เส้นเชื่อมที่มี"], f:function(p){ return p.E; }, col:"accent"},
-      {lab:["Complete graph max","สูงสุดของกราฟบริบูรณ์"], f:function(p){ return p.V*(p.V-1)/2; }, col:"faint"}
+      {lab:["Complete graph max","มากสุดของกราฟบริบูรณ์"], f:function(p){ return p.V*(p.V-1)/2; }, col:"faint"}
     ],
     note:["one edge short and it falls apart; one edge over and a cycle appears","ขาดไปหนึ่งเส้นก็แยกออกจากกัน เกินมาหนึ่งเส้นก็เกิดวัฏจักร"]
   } },
@@ -216,9 +217,9 @@ nodes:[
         return (m===r1?"1":m===p.c?"2":"3")+(L()?" · น้ำหนัก "+m:" · weight "+m); }},
       {lab:["Is the direct route best?","เส้นทางตรงดีที่สุดไหม"], f:function(S){
         var p=S.p;
-        return p.c<=Math.min(p.a+p.b,p.d) ? (L()?"ใช่":"yes") : (L()?"ไม่ — อ้อมกลับถูกกว่า":"no — a detour is cheaper"); }},
+        return p.c<=Math.min(p.a+p.b,p.d) ? (L()?"ใช่":"yes") : (L()?"ไม่ เส้นทางอ้อมถูกกว่า":"no — a detour is cheaper"); }},
       {lab:["What Euler and Hamilton ignore","สิ่งที่ออยเลอร์กับแฮมิลตันไม่สนใจ"], f:function(){
-        return L()?"น้ำหนัก — ทั้งสองสนใจแค่โครงสร้าง":"weights — both care only about structure"; }}
+        return L()?"น้ำหนัก ทั้งสองสนใจแค่โครงสร้าง":"weights — both care only about structure"; }}
     ],
     bars:[
       {lab:["Route 1","เส้นทาง 1"], f:function(p){ return p.a+p.b; }, col:"accent"},

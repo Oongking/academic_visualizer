@@ -29,7 +29,7 @@ nodes:[
         return [["blood type","หมู่เลือด"],["exam grade A–F","เกรด A–F"],
                 ["number of siblings","จำนวนพี่น้อง"],["height in cm","ส่วนสูงเป็นเซนติเมตร"]][S.p.i][L()]; }},
       {lab:["Why some are barred","ทำไมบางตัวใช้ไม่ได้"], f:function(){
-        return L()?"ค่าเฉลี่ยต้องบวกและหารได้ ชื่อทำแบบนั้นไม่ได้":"a mean needs adding and dividing — names cannot do that"; }}
+        return L()?"ค่าเฉลี่ยต้องบวกและหารข้อมูล แต่ชื่อบวกหารไม่ได้":"a mean needs adding and dividing — names cannot do that"; }}
     ],
     rows:function(p){
       var R=[[["Nominal","นามบัญญัติ"],1,0,0,0],
@@ -42,7 +42,7 @@ nodes:[
         return row;
       });
     },
-    note:["the ticks only ever get more permissive as you go down — never less","เมื่อไล่ลงมา เครื่องหมายถูกมีแต่เพิ่มขึ้น ไม่มีลดลง"]
+    note:["the ticks only ever get more permissive as you go down — never less","ยิ่งลงมาข้างล่าง เครื่องหมายถูกยิ่งเพิ่ม ไม่มีลดลง"]
   } },
 
 { id:"central", x:100, y:150, requires:["data"], methods:["M-02"],
@@ -61,14 +61,14 @@ nodes:[
       {k:"n", lab:["How many other values","จำนวนค่าอื่น"], min:5, max:11, step:2, def:7, unit:""}
     ],
     readouts:[
-      {lab:["Mean x̄","ค่าเฉลี่ย x̄"], f:function(S){ return fmt2(S._mean||0); }},
-      {lab:["Median","มัธยฐาน"], f:function(S){ return fmt2(S._med||0); }},
+      {lab:["Mean x̄","ค่าเฉลี่ย x̄"], f:function(S){ return num(S._mean||0); }},
+      {lab:["Median","มัธยฐาน"], f:function(S){ return num(S._med||0); }},
       {lab:["Mean − median","ค่าเฉลี่ย − มัธยฐาน"], f:function(S){
         var d=(S._mean||0)-(S._med||0);
         var w = Math.abs(d)<0.8 ? (L()?"สมมาตร":"symmetric")
               : d>0 ? (L()?"เบ้ขวา":"skewed right") : (L()?"เบ้ซ้าย":"skewed left");
-        return fmt2(d)+" · "+w; }},
-      {lab:["Std deviation s","ส่วนเบี่ยงเบนมาตรฐาน s"], f:function(S){ return fmt2(S._sd||0); }}
+        return num(Math.abs(d)<1e-9?0:d)+" · "+w; }},
+      {lab:["Std deviation s","ส่วนเบี่ยงเบนมาตรฐาน s"], f:function(S){ return num(S._sd||0); }}
     ],
     draw:function(S,o){
       var p=S.p, n=Math.round(p.n), i;
@@ -85,7 +85,7 @@ nodes:[
       var sd=Math.sqrt(ss/N);
       S._mean=mean; S._med=med; S._sd=sd;
       var A=axes(o,{x:52,y:34,w:470,h:170,xmin:0,xmax:100,ymin:0,ymax:1,
-                    title:["THE SAME DATA, ONE VALUE DRAGGED","ข้อมูลชุดเดิม ลากไปหนึ่งค่า"],xlab:["value","ค่า"],ylab:"",
+                    title:["THE SAME DATA, ONE VALUE DRAGGED","ข้อมูลชุดเดิม แต่ลากไปหนึ่งค่า"],xlab:["value","ค่า"],ylab:"",
                     xticks:5,yticks:0});
       var base=A.Y(0.12);
       /* the data points, stacked a little so ties stay visible */
@@ -103,29 +103,29 @@ nodes:[
       var top=A.Y(0.92);
       o.push('<line x1="'+A.X(mean)+'" y1="'+top+'" x2="'+A.X(mean)+'" y2="'+(base+14)+
              '" stroke="var(--accent)" stroke-width="2.4"/>');
-      o.push('<text x="'+A.X(mean)+'" y="'+(top-6)+'" fill="var(--accent)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">mean '+fmt2(mean)+'</text>');
+      o.push('<text x="'+A.X(mean)+'" y="'+(top-6)+'" fill="var(--accent)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">mean '+num(mean)+'</text>');
       o.push('<line x1="'+A.X(med)+'" y1="'+(top+22)+'" x2="'+A.X(med)+'" y2="'+(base+14)+
              '" stroke="var(--good)" stroke-width="2.4" stroke-dasharray="5 4"/>');
-      o.push('<text x="'+A.X(med)+'" y="'+(top+16)+'" fill="var(--good)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">median '+fmt2(med)+'</text>');
+      o.push('<text x="'+A.X(med)+'" y="'+(top+16)+'" fill="var(--good)" font-family="IBM Plex Sans" font-size="10.5" text-anchor="middle">median '+num(med)+'</text>');
       /* the gap between them, drawn as a bar, is the skew */
       var gy=252, gx=52, gw=470;
-      o.push('<text x="'+gx+'" y="'+(gy-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+tx(["HOW FAR THE MEAN HAS BEEN PULLED","ค่าเฉลี่ยถูกดึงไปไกลแค่ไหน"])+'</text>');
+      o.push('<text x="'+gx+'" y="'+(gy-10)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+tx(["HOW FAR THE MEAN HAS BEEN PULLED","ค่าเฉลี่ยเขยื้อนไปไกลแค่ไหน"])+'</text>');
       o.push('<rect x="'+gx+'" y="'+gy+'" width="'+gw+'" height="16" fill="var(--surface)" stroke="var(--rule)"/>');
       var gap=Math.min(Math.abs(mean-med)/25,1);
       o.push('<rect x="'+gx+'" y="'+gy+'" width="'+(gw*gap)+'" height="16" fill="var(--accent)"/>');
-      o.push('<text x="'+gx+'" y="'+(gy+38)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5">'+tx(["amber dot = the outlier · drag it and watch which marker follows","จุดสีเหลืองอำพัน = ค่าผิดปกติ · ลากแล้วดูว่าเครื่องหมายไหนวิ่งตาม"])+'</text>');
+      o.push('<text x="'+gx+'" y="'+(gy+38)+'" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5">'+tx(["amber dot = the outlier · drag it and watch which marker follows","จุดสีเหลืองอำพันคือค่าผิดปกติ · ลากมันแล้วดูว่าเส้นไหนวิ่งตาม"])+'</text>');
       o.push('<text x="'+gx+'" y="'+(gy+54)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["mean &gt; median means the tail runs to the right","ค่าเฉลี่ย &gt; มัธยฐาน แปลว่าหางของข้อมูลยาวไปทางขวา"])+'</text>');
     }
   },
   guide:[
     {say:["One value sits with the rest. Mean and median land almost on top of each other.",
-          "ค่าหนึ่งอยู่รวมกับค่าอื่น ค่าเฉลี่ยกับมัธยฐานอยู่เกือบที่เดียวกัน"], set:{out:14,spread:3,n:7}},
+          "ค่าหนึ่งอยู่รวมกับค่าอื่น ค่าเฉลี่ยกับมัธยฐานเกือบทับกัน"], set:{out:14,spread:3,n:7}},
     {say:["Drag the amber point out to 60. The red mean marker slides after it; the green median hardly stirs.",
-          "ลากจุดสีเหลืองอำพันออกไปที่ 60 เครื่องหมายค่าเฉลี่ยสีแดงเลื่อนตามไป ส่วนมัธยฐานสีเขียวแทบไม่ขยับ"], set:{out:60,spread:3,n:7}},
+          "ลากจุดสีเหลืองอำพันออกไปที่ 60 เส้นค่าเฉลี่ยสีแดงเลื่อนตามไป แต่เส้นมัธยฐานสีเขียวแทบไม่ขยับ"], set:{out:60,spread:3,n:7}},
     {say:["Push it to 96. The mean is now nowhere near any actual data point — that is the failure mode.",
-          "ดันไปที่ 96 ตอนนี้ค่าเฉลี่ยไม่ได้อยู่ใกล้ข้อมูลจริงตัวไหนเลย นี่คือจุดอ่อนของค่าเฉลี่ย"], set:{out:96,spread:3,n:7}},
+          "ดันไปที่ 96 ตอนนี้ค่าเฉลี่ยไม่ได้อยู่ใกล้ข้อมูลจริงตัวไหนเลย นี่คือจุดอ่อนของค่าเฉลี่ย"], set:{out:96,spread:1,n:7}},
     {say:["Add more ordinary values. Each one dilutes the outlier's pull, so the mean creeps back towards the median.",
-          "เพิ่มค่าปกติเข้าไปอีก แต่ละค่าช่วยลดแรงดึงของค่าผิดปกติ ค่าเฉลี่ยจึงค่อยๆ เคลื่อนกลับมาหามัธยฐาน"], set:{out:96,spread:3,n:11}}
+          "เพิ่มค่าปกติอีก แต่ละค่าช่วยลดแรงดึงของค่าผิดปกติ ค่าเฉลี่ยจึงค่อยๆ ขยับกลับมาหามัธยฐาน"], set:{out:96,spread:3,n:11}}
   ]},
 
 { id:"position", x:370, y:150, requires:["central"], methods:["M-03"],
@@ -141,19 +141,19 @@ nodes:[
     title:["QUARTILES, THE IQR, AND THE OUTLIER FENCES","ควอร์ไทล์ IQR และรั้วค่าผิดปกติ"],
     min:0, max:100,
     ctrls:[
-      {k:"q1", lab:["Q1","Q1"], min:5, max:60, step:1, def:30, unit:""},
-      {k:"q2", lab:["Median Q2","มัธยฐาน Q2"], min:5, max:80, step:1, def:45, unit:""},
-      {k:"q3", lab:["Q3","Q3"], min:10, max:90, step:1, def:60, unit:""},
+      {k:"q1", lab:["Q1","Q1"], min:5, max:35, step:1, def:30, unit:""},
+      {k:"q2", lab:["Median Q2","มัธยฐาน Q2"], min:36, max:55, step:1, def:45, unit:""},
+      {k:"q3", lab:["Q3","Q3"], min:56, max:95, step:1, def:60, unit:""},
       {k:"x",  lab:["A data value","ค่าข้อมูลหนึ่งค่า"], min:0, max:100, step:1, def:85, unit:""}
     ],
     readouts:[
       {lab:["Interquartile range","พิสัยระหว่างควอร์ไทล์"], f:function(S){
-        return fmt2(S.p.q3-S.p.q1); }},
+        return num(S.p.q3-S.p.q1); }},
       {lab:["Lower fence","รั้วล่าง"], f:function(S){
-        return fmt2(S.p.q1-1.5*(S.p.q3-S.p.q1)); }},
+        return num(S.p.q1-1.5*(S.p.q3-S.p.q1)); }},
       {lab:["Upper fence","รั้วบน"], f:function(S){
-        return fmt2(S.p.q3+1.5*(S.p.q3-S.p.q1)); }},
-      {lab:["Is your value an outlier?","ค่าของคุณเป็นค่าผิดปกติไหม"], f:function(S){
+        return num(S.p.q3+1.5*(S.p.q3-S.p.q1)); }},
+      {lab:["Is your value an outlier?","ค่าที่เลือกเป็นค่าผิดปกติไหม"], f:function(S){
         var p=S.p, iqr=p.q3-p.q1;
         return (p.x<p.q1-1.5*iqr || p.x>p.q3+1.5*iqr)
           ? (L()?"ใช่ — อยู่นอกรั้ว":"yes — beyond the fence")
@@ -162,15 +162,15 @@ nodes:[
     regions:function(p){
       var iqr=p.q3-p.q1;
       return [{a:p.q1, b:p.q3, col:"accent", lab:["the middle half (IQR)","ครึ่งกลาง (IQR)"]},
-              {a:p.q1-1.5*iqr, b:p.q3+1.5*iqr, col:"good", lab:["inside the fences","ในรั้ว"]}];
+              {a:p.q1-1.5*iqr, b:p.q3+1.5*iqr, col:"good", lab:["inside the fences","ภายในรั้ว"]}];
     },
     points:function(p){
       return [{v:p.q1, lab:["Q1","Q1"], col:"soft"},
               {v:p.q2, lab:["median","มัธยฐาน"], col:"ink"},
               {v:p.q3, lab:["Q3","Q3"], col:"soft"},
-              {v:p.x,  lab:["your value","ค่าของคุณ"], col:"warn"}];
+              {v:p.x,  lab:["your value","ค่าที่เลือก"], col:"warn"}];
     },
-    note:["the IQR uses only the middle half, which is why outliers cannot distort it","IQR ใช้แค่ข้อมูลครึ่งกลาง ค่าผิดปกติจึงทำให้ IQR เพี้ยนไม่ได้"]
+    note:["the IQR uses only the middle half, which is why outliers cannot distort it","IQR ใช้ข้อมูลแค่ครึ่งกลาง ค่าผิดปกติจึงดึงให้เพี้ยนไม่ได้"]
   } },
 
 { id:"spread", x:235, y:248, requires:["central"], methods:["M-04"],
@@ -186,15 +186,15 @@ nodes:[
     title:["THREE WAYS TO MEASURE SPREAD","สามวิธีวัดการกระจาย"],
     ylab:["value","ค่า"],
     ctrls:[
-      {k:"sd",  lab:["Typical deviation","ส่วนเบี่ยงเบนโดยทั่วไป"], min:1, max:20, step:1, def:6, unit:""},
-      {k:"out", lab:["One extreme value at","ค่าสุดขั้วหนึ่งค่าที่"], min:0, max:100, step:5, def:20, unit:""}
+      {k:"sd",  lab:["Typical deviation","ส่วนเบี่ยงเบนทั่วไป"], min:1, max:20, step:1, def:6, unit:""},
+      {k:"out", lab:["One extreme value at","ค่าสุดขั้วหนึ่งค่าอยู่ที่"], min:0, max:100, step:5, def:20, unit:""}
     ],
     readouts:[
-      {lab:["Range","พิสัย"], f:function(S){ return fmt2(Math.max(S.p.out, 4*S.p.sd)); }},
-      {lab:["Interquartile range","พิสัยระหว่างควอร์ไทล์"], f:function(S){ return fmt2(1.35*S.p.sd); }},
-      {lab:["Standard deviation","ส่วนเบี่ยงเบนมาตรฐาน"], f:function(S){ return fmt2(S.p.sd); }},
+      {lab:["Range","พิสัย"], f:function(S){ return num(Math.max(S.p.out, 4*S.p.sd)); }},
+      {lab:["Interquartile range","พิสัยระหว่างควอร์ไทล์"], f:function(S){ return num(1.35*S.p.sd); }},
+      {lab:["Standard deviation","ส่วนเบี่ยงเบนมาตรฐาน"], f:function(S){ return num(S.p.sd); }},
       {lab:["Variance","ความแปรปรวน"], f:function(S){
-        return fmt2(S.p.sd*S.p.sd)+(L()?" · หน่วยกำลังสอง":" · in squared units"); }}
+        return num(S.p.sd*S.p.sd)+(L()?" · หน่วยเป็นกำลังสอง":" · in squared units"); }}
     ],
     bars:[
       {lab:["Range","พิสัย"], f:function(p){ return Math.max(p.out, 4*p.sd); }, col:"warn"},
@@ -202,15 +202,15 @@ nodes:[
       {lab:["Std deviation","ส่วนเบี่ยงเบนมาตรฐาน"], f:function(p){ return p.sd; }, col:"accent"},
       {lab:["Variance","ความแปรปรวน"], f:function(p){ return p.sd*p.sd; }, col:"faint"}
     ],
-    note:["push the extreme value out and only the range bar chases it — the other two hold steady","ดันค่าสุดขั้วออกไป จะมีแต่แถบพิสัยที่วิ่งตาม อีกสองแถบอยู่นิ่งๆ"]
+    note:["push the extreme value out and only the range bar chases it — the other two hold steady","ดันค่าสุดขั้วออกไป มีแต่แถบพิสัยที่วิ่งตาม อีกสองแถบนิ่งอยู่"]
   },
   guide:[
     {say:["With no extreme value, all three measures tell a similar story.",
-          "เมื่อไม่มีค่าสุดขั้ว ตัววัดทั้งสามบอกเรื่องราวใกล้เคียงกัน"], set:{sd:6,out:20}},
+          "ตอนยังไม่มีค่าสุดขั้ว ตัววัดทั้งสามบอกภาพใกล้เคียงกัน"], set:{sd:6,out:20}},
     {say:["Now drag one value far out. The range bar explodes while the IQR does not move at all.",
-          "ทีนี้ลากค่าหนึ่งออกไปไกลๆ แถบพิสัยพุ่งขึ้นสูง แต่ IQR ไม่ขยับเลย"], set:{sd:6,out:100}},
+          "ทีนี้ลากค่าหนึ่งออกไปไกลๆ แถบพิสัยพุ่งสูงขึ้น แต่ IQR ไม่ขยับเลย"], set:{sd:6,out:100}},
     {say:["That is why the range is the weakest measure — it depends on exactly two data points.",
-          "พิสัยจึงเป็นตัววัดที่อ่อนที่สุด เพราะขึ้นอยู่กับข้อมูลแค่สองค่าเท่านั้น"], set:{sd:6,out:100}}
+          "พิสัยจึงเป็นตัววัดที่อ่อนที่สุด เพราะอาศัยข้อมูลแค่สองค่า"], set:{sd:6,out:100}}
   ] },
 
 { id:"normal", x:235, y:346, requires:["spread","position"], methods:["M-05"],
@@ -224,7 +224,7 @@ nodes:[
   viz:"plot",
   vizcfg:{
     title:["THE NORMAL CURVE AND THE 68–95–99.7 RULE","เส้นโค้งปกติและกฎ 68–95–99.7"],
-    xlab:["z, standard deviations from the mean","z ส่วนเบี่ยงเบนมาตรฐานจากค่าเฉลี่ย"], ylab:["density","ความหนาแน่น"],
+    xlab:["z, standard deviations from the mean","z (จำนวนส่วนเบี่ยงเบนมาตรฐานจากค่าเฉลี่ย)"], ylab:["density","ความหนาแน่น"],
     xmin:-4, xmax:4, ymin:0, fill:true,
     fn:function(x,p){ return Math.exp(-x*x/2); },
     mark:function(p){ return p.z; },
@@ -234,8 +234,8 @@ nodes:[
       {k:"sd", lab:["Standard deviation","ส่วนเบี่ยงเบนมาตรฐาน"], min:1, max:25, step:1, def:10, unit:""}
     ],
     readouts:[
-      {lab:["Raw score at that z","คะแนนดิบที่ z นั้น"], f:function(S){
-        return fmt2(S.p.m+S.p.z*S.p.sd); }},
+      {lab:["Raw score at that z","คะแนนดิบที่ z นี้"], f:function(S){
+        return num(S.p.m+S.p.z*S.p.sd); }},
       {lab:["Within ±1 s","ภายใน ±1 s"], f:function(){ return "68 %"; }},
       {lab:["Within ±2 s","ภายใน ±2 s"], f:function(){ return "95 %"; }},
       {lab:["A negative z means","z ที่เป็นลบหมายถึง"], f:function(){
@@ -245,11 +245,11 @@ nodes:[
   },
   guide:[
     {say:["One standard deviation from the mean. About 68 % of everything lies inside that band.",
-          "ห่างจากค่าเฉลี่ยหนึ่งส่วนเบี่ยงเบนมาตรฐาน ข้อมูลประมาณ 68% อยู่ในแถบนี้"], set:{z:1,m:50,sd:10}},
+          "ห่างจากค่าเฉลี่ยหนึ่งส่วนเบี่ยงเบนมาตรฐาน ข้อมูลราว 68 % อยู่ในแถบนี้"], set:{z:1,m:50,sd:10}},
     {say:["Two deviations catches 95 %. The tails are already very thin out here.",
-          "ที่สองส่วนเบี่ยงเบนมาตรฐานครอบคลุม 95% ตรงนี้หางของกราฟบางมากแล้ว"], set:{z:2,m:50,sd:10}},
+          "ที่สองส่วนเบี่ยงเบนมาตรฐานครอบคลุมข้อมูล 95 % หางของกราฟบางมากแล้ว"], set:{z:2,m:50,sd:10}},
     {say:["A negative z is simply the mirror image. Nothing has gone wrong — the value is below average.",
-          "z ที่เป็นลบก็คือภาพสะท้อนอีกฝั่ง ไม่ได้ผิดอะไร แค่ค่านั้นต่ำกว่าค่าเฉลี่ย"], set:{z:-2,m:50,sd:10}}
+          "z ที่เป็นลบก็คือภาพสะท้อนอีกฝั่ง ไม่มีอะไรผิด แค่ค่านั้นต่ำกว่าค่าเฉลี่ย"], set:{z:-2,m:50,sd:10}}
   ] }
 ],
 
@@ -262,9 +262,9 @@ methods:[
 ],
 
 traps:{
-"T-01":["The median needs the data SORTED first. The middle of an unsorted list means nothing.","การหามัธยฐานต้องเรียงข้อมูลก่อน ค่ากลางของรายการที่ยังไม่เรียงไม่มีความหมาย"],
-"T-02":["Variance was reported where standard deviation was asked for — take the square root.","โจทย์ถามส่วนเบี่ยงเบนมาตรฐาน แต่ตอบความแปรปรวน ต้องถอดรากที่สองด้วย"],
-"T-03":["A negative z-score is perfectly normal; it means the value is below the mean.","ค่า z ที่เป็นลบเป็นเรื่องปกติ แค่แปลว่าค่านั้นต่ำกว่าค่าเฉลี่ย"],
+"T-01":["The median needs the data SORTED first. The middle of an unsorted list means nothing.","ต้องเรียงข้อมูลก่อนจึงจะหามัธยฐานได้ ค่ากลางของรายการที่ยังไม่เรียงไม่มีความหมาย"],
+"T-02":["Variance was reported where standard deviation was asked for — take the square root.","โจทย์ถามส่วนเบี่ยงเบนมาตรฐาน แต่เราตอบความแปรปรวน ต้องถอดรากที่สองด้วย"],
+"T-03":["A negative z-score is perfectly normal; it means the value is below the mean.","ค่า z ติดลบเป็นเรื่องปกติ แค่บอกว่าค่านั้นต่ำกว่าค่าเฉลี่ย"],
 "T-04":["The summary does not suit the data type, or the outlier-sensitive measure was chosen.","ค่าสรุปไม่เหมาะกับชนิดของข้อมูล หรือเลือกตัววัดที่ไวต่อค่าผิดปกติ"]
 },
 
@@ -276,7 +276,7 @@ gen:{
          {d:["blood type","หมู่เลือด"],a:["Qualitative","เชิงคุณภาพ"]}];
   var c=pick(C);
   if(sf==="S-04") return {stem:["Which summary can you compute for qualitative data?",
-                                "ข้อมูลเชิงคุณภาพหาค่าสรุปใดได้"],
+                                "ข้อมูลเชิงคุณภาพหาค่าสรุปแบบใดได้"],
     opts:[{v:["The mode","ฐานนิยม"],ok:1},{v:["The mean","ค่าเฉลี่ย"],trap:"T-04"},
           {v:["The standard deviation","ส่วนเบี่ยงเบนมาตรฐาน"],trap:"T-04"},
           {v:["The variance","ความแปรปรวน"],trap:"T-04"}],unit:""};
@@ -296,19 +296,19 @@ gen:{
           {v:["The variance","ความแปรปรวน"],trap:"T-04"}],unit:""};
   if(sf==="S-03") return {stem:["Find the median of "+S.join(", ")+".","จงหามัธยฐานของ "+S.join(", ")],
     opts:[{v:String(srt[2]),ok:1},{v:String(S[2]),trap:"T-01"},
-          {v:fmt2(mean),trap:"T-04"},{v:String(srt[0])}],unit:""};
+          {v:num(mean),trap:"T-04"},{v:String(srt[0])}],unit:""};
   return {stem:["Find the mean of "+S.join(", ")+".","จงหาค่าเฉลี่ยของ "+S.join(", ")],
-    opts:[{v:fmt2(mean),ok:1},{v:String(srt[2]),trap:"T-04"},
+    opts:[{v:num(mean),ok:1},{v:String(srt[2]),trap:"T-04"},
           {v:String(srt[4]-srt[0]),trap:"T-04"},{v:String(S.length)}],unit:""};
 },
 "M-03": function(sf){
   var q1=pick([12,15,20]), q3=q1+pick([8,10,16]);
   if(sf==="S-04") return {stem:["A student is at the 80th percentile. What does that mean?",
                                 "นักเรียนคนหนึ่งอยู่ที่เปอร์เซ็นไทล์ที่ 80 แปลว่าอะไร"],
-    opts:[{v:["80% of the data lies below them","ข้อมูล 80% อยู่ต่ำกว่าเขา"],ok:1},
+    opts:[{v:["80% of the data lies below them","ข้อมูล 80 % อยู่ต่ำกว่าเขา"],ok:1},
           {v:["They scored 80","เขาได้คะแนน 80"],trap:"T-04"},
-          {v:["They got 80% correct","เขาตอบถูก 80%"],trap:"T-04"},
-          {v:["80% scored above them","80% ได้คะแนนสูงกว่าเขา"],trap:"T-04"}],unit:""};
+          {v:["They got 80% correct","เขาตอบถูก 80 %"],trap:"T-04"},
+          {v:["80% scored above them","อีก 80 % ได้คะแนนสูงกว่าเขา"],trap:"T-04"}],unit:""};
   if(sf==="S-03") return {stem:["Why is the IQR preferred to the range when outliers are present?",
                                 "เมื่อมีค่าผิดปกติ ทำไมใช้ IQR ดีกว่าพิสัย"],
     opts:[{v:["It uses only the middle half, so extremes cannot distort it","IQR ใช้แค่ครึ่งกลาง ค่าสุดขั้วจึงทำให้เพี้ยนไม่ได้"],ok:1},
@@ -318,7 +318,7 @@ gen:{
   return {stem:["Q1 = "+q1+" and Q3 = "+q3+". Find the interquartile range.",
                 "Q1 = "+q1+" และ Q3 = "+q3+" จงหาพิสัยระหว่างควอร์ไทล์"],
     opts:[{v:String(q3-q1),ok:1},{v:String(q3+q1),trap:"T-04"},
-          {v:fmt2((q3+q1)/2),trap:"T-04"},{v:String(q3)}],unit:""};
+          {v:num((q3+q1)/2),trap:"T-04"},{v:String(q3)}],unit:""};
 },
 "M-04": function(sf){
   var v=pick([4,9,16,25]);
@@ -335,7 +335,7 @@ gen:{
   return {stem:["A data set has variance "+v+". What is its standard deviation?",
                 "ชุดข้อมูลมีความแปรปรวน "+v+" ส่วนเบี่ยงเบนมาตรฐานเป็นเท่าใด"],
     opts:[{v:String(Math.sqrt(v)),ok:1},{v:String(v),trap:"T-02"},
-          {v:String(v*v),trap:"T-02"},{v:fmt2(v/2)}],unit:""};
+          {v:String(v*v),trap:"T-02"},{v:num(v/2)}],unit:""};
 },
 "M-05": function(sf){
   /* keep the offset negative so the "dropped the minus sign" distractor stays distinct */
@@ -343,17 +343,17 @@ gen:{
   var z=(x-m)/s;
   if(sf==="S-04") return {stem:["What proportion of a normal distribution lies within 2 standard deviations of the mean?",
                                 "ในการแจกแจงปกติ ข้อมูลกี่ส่วนอยู่ภายใน 2 ส่วนเบี่ยงเบนมาตรฐานจากค่าเฉลี่ย"],
-    opts:[{v:"95%",ok:1},{v:"68%",trap:"T-03"},{v:"99.7%",trap:"T-03"},{v:"50%"}],unit:""};
+    opts:[{v:"95 %",ok:1},{v:"68 %",trap:"T-03"},{v:"99.7 %",trap:"T-03"},{v:"50 %"}],unit:""};
   if(sf==="S-03") return {stem:["A z-score comes out negative. What does that tell you?",
-                                "ได้ค่า z ติดลบ บอกอะไรเรา"],
+                                "ถ้าได้ค่า z ติดลบ แปลว่าอะไร"],
     opts:[{v:["The value is below the mean","ค่านั้นอยู่ต่ำกว่าค่าเฉลี่ย"],ok:1},
           {v:["A mistake was made","คำนวณผิด"],trap:"T-03"},
           {v:["The data is not normal","ข้อมูลไม่เป็นการแจกแจงปกติ"],trap:"T-03"},
           {v:["The standard deviation is negative","ส่วนเบี่ยงเบนมาตรฐานเป็นลบ"],trap:"T-03"}],unit:""};
   return {stem:["A score of "+x+" comes from a distribution with mean "+m+" and s = "+s+". Find its z-score.",
                 "คะแนน "+x+" มาจากการแจกแจงที่มีค่าเฉลี่ย "+m+" และ s = "+s+" จงหาค่า z"],
-    opts:[{v:fmt2(z),ok:1},{v:fmt2(Math.abs(z)),trap:"T-03"},
-          {v:fmt2(x-m),trap:"T-02"},{v:fmt2(z*z),trap:"T-02"}],unit:""};
+    opts:[{v:num(z),ok:1},{v:num(Math.abs(z)),trap:"T-03"},
+          {v:num(x-m),trap:"T-02"},{v:num(z*z===Math.abs(z)?z*2:z*z),trap:"T-02"}],unit:""};
 }
 }
 };

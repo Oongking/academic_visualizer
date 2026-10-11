@@ -39,11 +39,16 @@ for (const file of fs.readdirSync(path.join(__dirname, "chapters")).filter(
 /* Stage labs typeset their live "spell" with KaTeX on every frame. Render
    each one for the default setup, every guided step, and a sample of trial
    setups, in both languages, so a bad TeX string fails here, not on a page. */
+/* the number helpers are the engine's own, so this check can never drift from them */
+const engineSrc = fs.readFileSync(path.join(__dirname, "engine.js"), "utf8");
+const NUMBER_HELPERS = engineSrc.slice(engineSrc.indexOf("var SUPS="), engineSrc.indexOf("function un(")) +
+  'function un(n,unit,s){ return num(n,s)+"\u00a0"+unit; }';
 const stub = `
   var STATE={lang:"en"}; function L(){ return STATE.lang==="th"?1:0; }
   function tx(p){ return Array.isArray(p)?p[L()]:p; }
   function fmt(n){ return (Math.round(n*10)/10).toString(); }
   function fmt2(n){ return (Math.round(n*100)/100).toString(); }
+  ${NUMBER_HELPERS}
   function ri(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
   function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
   var FR={sx:30,sw:500,sy:34,ground:214,div:302,iy:318,ih:118};

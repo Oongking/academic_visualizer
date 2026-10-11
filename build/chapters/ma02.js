@@ -39,7 +39,7 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===1?([1,0,1,0,1,0][i]?"good":"warn"):"accent"}; }); });
     },
-    note:["an open sentence becomes a proposition only once you pin down the variable","ประโยคเปิดจะกลายเป็นประพจน์ได้ก็ต่อเมื่อกำหนดค่าของตัวแปรแล้ว"]
+    note:["an open sentence becomes a proposition only once you pin down the variable","ประโยคเปิดจะเป็นประพจน์ได้ก็ต่อเมื่อกำหนดค่าตัวแปรแล้ว"]
   } },
 
 { id:"connectives", x:100, y:150, requires:["propositions"], methods:["M-02"],
@@ -67,11 +67,11 @@ nodes:[
         var r=c===0?(a&&b):c===1?(a||b):c===2?(!a||b):(a===b);
         var g=function(v){ return v?"T":"F"; };
         return g(a)+" "+["∧","∨","→","↔"][c]+" "+g(b)+"   =   "+g(r); }},
-      {lab:["The row that decides","แถวที่เป็นตัวตัดสิน"], f:function(S){
-        var N=[["true only at T ∧ T","จริงกรณีเดียวคือ T ∧ T"],
-               ["false only at F ∨ F","เท็จกรณีเดียวคือ F ∨ F"],
-               ["false only at T → F","เท็จกรณีเดียวคือ T → F"],
-               ["no single row — two of each","ไม่มีแถวเดียว มีอย่างละสองแถว"]];
+      {lab:["The row that decides","แถวที่ชี้ขาด"], f:function(S){
+        var N=[["true only at T ∧ T","จริงเฉพาะแถว T ∧ T"],
+               ["false only at F ∨ F","เท็จเฉพาะแถว F ∨ F"],
+               ["false only at T → F","เท็จเฉพาะแถว T → F"],
+               ["no single row — two of each","ไม่มีแถวเดียวที่ชี้ขาด มีจริงสองแถว เท็จสองแถว"]];
         return N[S.p.c][L()]; }}
     ],
     draw:function(S,o){
@@ -112,31 +112,31 @@ nodes:[
       var px=362, pw=176;
       var res=ev(pv===1,qv===1);
       o.push('<rect x="'+px+'" y="'+yh+'" width="'+pw+'" height="'+(y0-yh+4*rh)+'" fill="none" stroke="var(--ink-faint)" stroke-width="1.4"/>');
-      o.push('<text x="'+(px+14)+'" y="'+(yh+22)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+tx(["YOUR ROW","แถวของคุณ"])+'</text>');
+      o.push('<text x="'+(px+14)+'" y="'+(yh+22)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10" letter-spacing="1.2">'+tx(["YOUR ROW","แถวที่เลือก"])+'</text>');
       o.push('<text x="'+(px+pw/2)+'" y="'+(yh+64)+'" text-anchor="middle" fill="var(--ink)" font-family="Bodoni Moda" font-size="24">'+g(pv)+' '+SY[c]+' '+g(qv)+'</text>');
       o.push('<text x="'+(px+pw/2)+'" y="'+(yh+134)+'" text-anchor="middle" fill="'+(res?"var(--good)":"var(--warn)")+'" font-family="Bodoni Moda" font-size="54">'+g(res)+'</text>');
-      var NT=[[["AND is true in only","AND เป็นจริงเพียง"],["one of the four rows","หนึ่งในสี่แถว"]],
-              [["OR is false in only","OR เป็นเท็จเพียง"],["one of the four rows","หนึ่งในสี่แถว"]],
-              [["IF-THEN fails in only","IF-THEN เป็นเท็จเพียง"],["one row, T then F","แถวเดียว คือ T แล้ว F"]],
+      var NT=[[["AND is true in only","AND เป็นจริงแค่"],["one of the four rows","หนึ่งในสี่แถว"]],
+              [["OR is false in only","OR เป็นเท็จแค่"],["one of the four rows","หนึ่งในสี่แถว"]],
+              [["IF-THEN fails in only","IF-THEN เป็นเท็จแค่"],["one row, T then F","แถวเดียว คือ T แล้ว F"]],
               [["IFF is true whenever","IFF เป็นจริงเมื่อ"],["p and q agree","p กับ q ตรงกัน"]]];
       o.push('<text x="'+(px+14)+'" y="'+(yh+170)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5">'+tx(NT[c][0])+'</text>');
       o.push('<text x="'+(px+14)+'" y="'+(yh+185)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5">'+tx(NT[c][1])+'</text>');
       var cap=(rare<0)?tx(["↔ has two true rows and two false rows — no single deciding row",
-                           "↔ มีสองแถวที่เป็นจริงและสองแถวที่เป็นเท็จ ไม่มีแถวใดแถวเดียวที่ชี้ขาด"])
+                           "↔ จริงสองแถว เท็จสองแถว ไม่มีแถวเดียวที่ชี้ขาด"])
                       :tx(["The dot marks the one row that decides this connective",
-                           "จุดชี้แถวเดียวที่ตัดสินตัวเชื่อมนี้"]);
+                           "จุดนี้ชี้แถวเดียวที่ตัดสินตัวเชื่อมนี้"]);
       o.push('<text x="24" y="284" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+cap+'</text>');
     }
   },
   guide:[
     {say:["Start with the conditional, p true and q false. This is the single row where p → q comes out false. Every question about implication is really a question about this one row.",
-          "เริ่มที่ประพจน์เงื่อนไข ให้ p เป็นจริงและ q เป็นเท็จ นี่คือแถวเดียวที่ p → q เป็นเท็จ ทุกคำถามเกี่ยวกับ \"ถ้า…แล้ว\" จึงเป็นคำถามเกี่ยวกับแถวนี้แถวเดียว"], set:{c:2,pv:0*1+1,qv:0}},
+          "เริ่มที่ประพจน์เงื่อนไข ตั้ง p เป็นจริง q เป็นเท็จ นี่คือแถวเดียวที่ p → q เป็นเท็จ คำถามเรื่อง \"ถ้า…แล้ว\" ทุกข้อจึงวนอยู่ที่แถวนี้"], set:{c:2,pv:0*1+1,qv:0}},
     {say:["Now drop the hypothesis to false. Both halves are false, yet p → q reads true — the statement never promised anything about the case where p fails, so nothing can break it there.",
-          "ทีนี้ให้เหตุเป็นเท็จ ทั้งสองส่วนเป็นเท็จ แต่ p → q กลับเป็นจริง เพราะประพจน์นี้ไม่เคยสัญญาอะไรไว้ในกรณีที่ p ไม่เป็นจริง จึงไม่มีอะไรที่ทำให้มันผิดได้"], set:{c:2,pv:0,qv:0}},
+          "ทีนี้ให้ p เป็นเท็จ ทั้งสองส่วนเป็นเท็จ แต่ p → q กลับเป็นจริง เพราะประพจน์นี้ไม่ได้สัญญาอะไรไว้เมื่อ p ไม่จริง จึงไม่มีทางผิดได้"], set:{c:2,pv:0,qv:0}},
     {say:["Switch to ∧. Now the dot sits on the top row: T ∧ T is the only place the column shows true. Move either slider off T and the whole column collapses.",
-          "เปลี่ยนเป็น ∧ จุดจะย้ายไปอยู่ที่แถวบนสุด T ∧ T เป็นที่เดียวที่คอลัมน์เป็นจริง ถ้าเลื่อนตัวใดตัวหนึ่งออกจาก T คอลัมน์จะเป็นเท็จทั้งหมด"], set:{c:0,pv:1,qv:1}},
+          "เปลี่ยนเป็น ∧ จุดจะย้ายไปที่แถวบนสุด T ∧ T เป็นแถวเดียวที่คอลัมน์เป็นจริง ถ้าเลื่อนตัวใดตัวหนึ่งออกจาก T คอลัมน์ก็เหลือแต่เท็จ"], set:{c:0,pv:1,qv:1}},
     {say:["Finally ∨, the mirror image: false in exactly one row, F ∨ F. Raise p back to T and it stays true even when q is true as well — mathematical or keeps the both-true case.",
-          "สุดท้ายคือ ∨ ซึ่งเป็นภาพสะท้อนของ ∧ คือเป็นเท็จแถวเดียวคือ F ∨ F ถ้ายก p กลับเป็น T ผลยังเป็นจริงแม้ q จะจริงด้วย เพราะ \"หรือ\" ทางคณิตศาสตร์รวมกรณีที่จริงทั้งคู่ไว้ด้วย"], set:{c:1,pv:0,qv:0}}
+          "สุดท้ายคือ ∨ ซึ่งเป็นภาพสะท้อนของ ∧ คือเท็จแถวเดียวที่ F ∨ F ถ้ายก p กลับเป็น T ผลยังเป็นจริง แม้ q จะจริงด้วย เพราะ \"หรือ\" ทางคณิตศาสตร์รวมกรณีจริงทั้งคู่ไว้ด้วย"], set:{c:1,pv:0,qv:0}}
   ]},
 
 { id:"equivalence", x:370, y:150, requires:["propositions"], methods:["M-03","M-04"],
@@ -159,8 +159,8 @@ nodes:[
         return S.p.pair<2 ? (L()?"สมมูลกัน — ทุกแถวตรงกัน":"equivalent — every row agrees")
                           : (L()?"ไม่สมมูล — ผกผันไม่เท่ากับเดิม":"NOT equivalent — a converse is a different claim"); }},
       {lab:["Name","ชื่อ"], f:function(S){
-        return [["definition of implication","นิยามของการแจงความ"],["De Morgan's law","กฎเดอมอร์แกน"],
-                ["the converse fallacy","ความผิดพลาดเรื่องผกผัน"]][S.p.pair][L()]; }}
+        return [["definition of implication","นิยามของประพจน์เงื่อนไข"],["De Morgan's law","กฎเดอมอร์แกน"],
+                ["the converse fallacy","ข้อผิดพลาดเรื่องผกผัน"]][S.p.pair][L()]; }}
     ],
     rows:function(p){
       var TF=[[1,1],[1,0],[0,1],[0,0]];
@@ -177,7 +177,7 @@ nodes:[
                 {v:same?"✓":"✗", on:true, col:same?"good":"warn"}];
       });
     },
-    note:["equivalence means the last column is all ticks — a single cross destroys it","สมมูลกันคือคอลัมน์สุดท้ายเป็นเครื่องหมายถูกทุกแถว ผิดแถวเดียวก็ไม่สมมูล"]
+    note:["equivalence means the last column is all ticks — a single cross destroys it","จะสมมูลกันได้ คอลัมน์สุดท้ายต้องเป็นเครื่องหมายถูกทุกแถว มีกากบาทแถวเดียวก็ไม่สมมูลแล้ว"]
   },
   guide:[
     {say:["p → q and ~p ∨ q agree on all four rows, so they are genuinely the same statement.",
@@ -185,7 +185,7 @@ nodes:[
     {say:["De Morgan's law also survives every row. Negation turns AND into OR.",
           "กฎเดอมอร์แกนก็ผ่านทุกแถวเหมือนกัน นิเสธเปลี่ยน AND เป็น OR"], set:{pair:1}},
     {say:["Now compare a statement with its converse. Two rows disagree — they were never the same claim.",
-          "ทีนี้ลองเทียบข้อความกับผกผันของมัน มีสองแถวที่ไม่ตรงกัน แปลว่าสองข้อความนี้ไม่ใช่ข้ออ้างเดียวกันมาตั้งแต่แรก"], set:{pair:2}}
+          "ทีนี้ลองเทียบข้อความกับผกผันของมัน จะมีสองแถวที่ไม่ตรงกัน แปลว่าเป็นคนละข้ออ้างกันตั้งแต่แรก"], set:{pair:2}}
   ] },
 
 { id:"tautology", x:235, y:248, requires:["connectives","equivalence"], methods:["M-05"],
@@ -208,7 +208,7 @@ nodes:[
         return [["tautology — always true","สัจนิรันดร์ — จริงเสมอ"],["contradiction — never true","ข้อขัดแย้ง — ไม่เคยจริง"],
                 ["tautology — a valid argument","สัจนิรันดร์ — การอ้างเหตุผลสมเหตุสมผล"],
                 ["contingent — depends","ขึ้นกับกรณี"]][S.p.e][L()]; }},
-      {lab:["Why it matters","ทำไมจึงสำคัญ"], f:function(){
+      {lab:["Why it matters","ทำไมสำคัญ"], f:function(){
         return L()?"การอ้างเหตุผลสมเหตุสมผลก็ต่อเมื่อรูปแบบเป็นสัจนิรันดร์":"an argument is valid exactly when its form is a tautology"; }}
     ],
     rows:function(p){
@@ -222,7 +222,7 @@ nodes:[
         return [{v:P?"T":"F", on:!!P, col:"ink"},
                 {v:Q?"T":"F", on:!!Q, col:"ink"},
                 {v:v?"T":"F", on:!!v, col:v?"good":"warn"},
-                {v:v?"true":"false", on:!!v, col:v?"good":"warn"}];
+                {v:v?["true","จริง"]:["false","เท็จ"], on:!!v, col:v?"good":"warn"}];
       });
     },
     note:["a tautology has no false row anywhere — that is the only thing you check","สัจนิรันดร์ไม่มีแถวที่เป็นเท็จเลย สิ่งที่ต้องตรวจมีแค่ข้อนี้"]
@@ -238,7 +238,7 @@ nodes:[
   flabel:["Negation swaps the symbol too","นิเสธสลับสัญลักษณ์ด้วย"],
   viz:"table",
   vizcfg:{
-    title:["NEGATING A QUANTIFIER FLIPS IT","การนิเสธตัวบ่งปริมาณทำให้มันพลิก"],
+    title:["NEGATING A QUANTIFIER FLIPS IT","เมื่อนิเสธ ตัวบ่งปริมาณจะพลิก"],
     cols:[["Statement","ข้อความ"],["Its negation","นิเสธของมัน"],["Rule","กฎ"]],
     rowKey:"i",
     readouts:[
@@ -246,10 +246,10 @@ nodes:[
         return ["∀x P(x)","∃x P(x)","∀x ~P(x)","∃x ~P(x)"][S.p.i]; }},
       {lab:["Negation","นิเสธ"], f:function(S){
         return ["∃x ~P(x)","∀x ~P(x)","∃x P(x)","∀x P(x)"][S.p.i]; }},
-      {lab:["To disprove 'all'","การหักล้าง ทุกตัว"], f:function(){
+      {lab:["To disprove 'all'","หักล้าง “ทุกตัว”"], f:function(){
         return L()?"หาตัวอย่างค้านเพียงตัวเดียวก็พอ":"one counter-example is enough"; }},
-      {lab:["To disprove 'some'","การหักล้าง บางตัว"], f:function(){
-        return L()?"ต้องตรวจทุกตัว":"you must check every case"; }}
+      {lab:["To disprove 'some'","หักล้าง “บางตัว”"], f:function(){
+        return L()?"ต้องตรวจให้ครบทุกตัว":"you must check every case"; }}
     ],
     rows:function(p){
       var R=[[["∀x P(x)  ·  all are","∀x P(x)  ·  ทุกตัวเป็น"],["∃x ~P(x)  ·  at least one is not","∃x ~P(x)  ·  มีอย่างน้อยหนึ่งตัวที่ไม่เป็น"],["∀ becomes ∃","∀ กลายเป็น ∃"]],
