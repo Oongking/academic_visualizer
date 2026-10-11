@@ -963,15 +963,8 @@ nodes:[
       {k:"e", lab:["Power of ten","เลขชี้กำลังสิบ"], min:-12, max:12, step:3, def:3, unit:""},
       {k:"m", lab:["Mantissa A","ตัวเลขนำหน้า A"],   min:1,   max:9.9, step:.1, def:1.5, unit:""}
     ],
-    readouts:[
-      {lab:["Scientific","สัญกรณ์"], f:function(S){ return sci10(S.p.m,S.p.e); }},
-      {lab:["Prefix","คำอุปสรรค"],   f:function(S){
-        var N={"12":"tera T","9":"giga G","6":"mega M","3":"kilo k","0":"—",
-               "-3":"milli m","-6":"micro μ","-9":"nano n","-12":"pico p"};
-        return N[String(S.p.e)]||"—"; }},
-      {lab:["Plain value","ค่าเต็ม"], f:function(S){
-        return plain10(S.p.m,S.p.e); }}
-    ],
+    /* no readouts: the table drawn inside the picture is the result, shown once */
+    readouts:[],
     draw:function(S,o){
       var x0=50,w=460,y=172;
       o.push('<text x="'+x0+'" y="34" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5" letter-spacing="1.4">'+tx(["POWERS OF TEN","กำลังของสิบ"])+'</text>');
