@@ -1283,7 +1283,7 @@ function makeLab(nd, host){
       h+='<div class="opts" role="group">';
       c.opts.forEach(function(o,j){
         h+='<button type="button" class="opt-b" data-i="'+i+'" data-v="'+
-           (c.min!=null?c.min+j:j)+'">'+esc(tx(o))+'</button>';
+           (c.vals?c.vals[j]:(c.min!=null?c.min+j:j))+'">'+esc(tx(o))+'</button>';
       });
       h+='</div></div>';
       return;

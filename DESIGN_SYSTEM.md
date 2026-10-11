@@ -501,3 +501,10 @@ never upper-cased (a variable `v` is not `V`). The course value is
 g = 10 m/s²; use the constants c = 3.00×10⁸, e = 1.60×10⁻¹⁹, h = 6.63×10⁻³⁴.
 Snap float residue (cos 90° = 6×10⁻¹⁷) to 0 before printing.
 `check_math.js` loads these helpers from `engine.js`, so a chapter may use them.
+
+**Choices, not sliders.** A control that picks one of a few named things (a
+sample number, a spectral series, an energy level, a set of numbers, an edge
+present or absent, a power of ten in steps of three) is a choice: give the
+ctrl `opts:[[EN,TH],...]` and it renders as buttons. For values that are not
+consecutive integers add `vals:[...]` (one value per option). Keep sliders for
+real quantities (a speed, a mass, a count that can be any number in a range).

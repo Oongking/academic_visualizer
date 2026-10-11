@@ -238,7 +238,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 /* A choice reads as its options, not as a number on a track. Hairline boxes
    sharing an edge, the picked one filled - the same language as the mode
    switch above the plate. */
-.ctrl.choice .opts{display:flex;flex-wrap:wrap;gap:0;margin-top:2px}
+.ctrl.choice .opts{display:flex;flex-direction:row;flex-wrap:wrap;gap:0;margin-top:2px}
 .opt-b{font-family:var(--f-ui);font-size:11.5px;font-weight:500;
   padding:7px 12px;border:1px solid var(--rule);background:transparent;
   color:var(--ink-soft);cursor:pointer;border-radius:var(--radius);
@@ -4516,7 +4516,7 @@ function makeLab(nd, host){
       h+='<div class="opts" role="group">';
       c.opts.forEach(function(o,j){
         h+='<button type="button" class="opt-b" data-i="'+i+'" data-v="'+
-           (c.min!=null?c.min+j:j)+'">'+esc(tx(o))+'</button>';
+           (c.vals?c.vals[j]:(c.min!=null?c.min+j:j))+'">'+esc(tx(o))+'</button>';
       });
       h+='</div></div>';
       return;

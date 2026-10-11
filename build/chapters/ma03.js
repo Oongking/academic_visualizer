@@ -20,7 +20,8 @@ nodes:[
   vizcfg:{
     title:["EACH SET SITS INSIDE THE NEXT","แต่ละเซตอยู่ภายในเซตถัดไป"],
     min:-5, max:5,
-    ctrls:[{k:"i", lab:["Show up to","แสดงถึง"], min:0, max:3, step:1, def:0, unit:""}],
+    ctrls:[{k:"i", lab:["Show up to","แสดงถึง"], min:0, max:3, step:1, def:0, unit:"",
+            opts:[["ℕ natural","ℕ จำนวนนับ"],["ℤ integers","ℤ จำนวนเต็ม"],["ℚ rational","ℚ ตรรกยะ"],["ℝ real","ℝ จำนวนจริง"]]}],
     readouts:[
       {lab:["Set shown","เซตที่แสดง"], f:function(S){
         return [["ℕ natural","ℕ จำนวนนับ"],["ℤ integers","ℤ จำนวนเต็ม"],

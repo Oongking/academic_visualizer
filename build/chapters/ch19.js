@@ -95,8 +95,10 @@ nodes:[
   viz:{
     vb:"0 0 560 340", anim:false,
     ctrls:[
-      {k:"ni", lab:["From level nᵢ","จากระดับ nᵢ"], min:2, max:6, step:1, def:3, unit:""},
-      {k:"nf", lab:["To level n_f","ไปยังระดับ n_f"], min:1, max:5, step:1, def:2, unit:""}
+      {k:"ni", lab:["From level nᵢ","จากระดับ nᵢ"], min:2, max:6, step:1, def:3, unit:"",
+       opts:[["n = 2","n = 2"],["n = 3","n = 3"],["n = 4","n = 4"],["n = 5","n = 5"],["n = 6","n = 6"]]},
+      {k:"nf", lab:["To level n_f","ไปยังระดับ n_f"], min:1, max:5, step:1, def:2, unit:"",
+       opts:[["n = 1","n = 1"],["n = 2","n = 2"],["n = 3","n = 3"],["n = 4","n = 4"],["n = 5","n = 5"]]}
     ],
     readouts:[
       {lab:["Photon energy","พลังงานโฟตอน"], f:function(S){
@@ -174,7 +176,8 @@ nodes:[
     title:["THE BALMER LINES CROWD TOGETHER","เส้นบัลเมอร์เบียดเข้าหากัน"],
     ylab:["wavelength (nm)","ความยาวคลื่น (nm)"],
     ctrls:[
-      {k:"nf", lab:["Series ends on level","อนุกรมจบที่ระดับ"], min:1, max:4, step:1, def:2, unit:""}
+      {k:"nf", lab:["Series ends on level","อนุกรมจบที่ระดับ"], min:1, max:4, step:1, def:2, unit:"",
+       opts:[["Lyman (n = 1)","ไลมัน (n = 1)"],["Balmer (n = 2)","บัลเมอร์ (n = 2)"],["Paschen (n = 3)","พาสเชน (n = 3)"],["Brackett (n = 4)","แบร็กเกตต์ (n = 4)"]]}
     ],
     readouts:[
       {lab:["Series name","ชื่ออนุกรม"], f:function(S){

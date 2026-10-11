@@ -84,12 +84,12 @@ nodes:[
   viz:{
     vb:"0 0 560 330", anim:false,
     ctrls:[
-      {k:"e12", lab:["Edge A–B","เส้นเชื่อม A–B"], min:0, max:1, step:1, def:1, unit:""},
-      {k:"e23", lab:["Edge B–C","เส้นเชื่อม B–C"], min:0, max:1, step:1, def:1, unit:""},
-      {k:"e34", lab:["Edge C–D","เส้นเชื่อม C–D"], min:0, max:1, step:1, def:1, unit:""},
-      {k:"e41", lab:["Edge D–A","เส้นเชื่อม D–A"], min:0, max:1, step:1, def:1, unit:""},
-      {k:"e13", lab:["Edge A–C (diagonal)","เส้นเชื่อม A–C (แนวทแยง)"], min:0, max:1, step:1, def:0, unit:""},
-      {k:"e24", lab:["Edge B–D (diagonal)","เส้นเชื่อม B–D (แนวทแยง)"], min:0, max:1, step:1, def:0, unit:""}
+      {k:"e12", lab:["Edge A–B","เส้นเชื่อม A–B"], min:0, max:1, step:1, def:1, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e23", lab:["Edge B–C","เส้นเชื่อม B–C"], min:0, max:1, step:1, def:1, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e34", lab:["Edge C–D","เส้นเชื่อม C–D"], min:0, max:1, step:1, def:1, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e41", lab:["Edge D–A","เส้นเชื่อม D–A"], min:0, max:1, step:1, def:1, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e13", lab:["Edge A–C (diagonal)","เส้นเชื่อม A–C (แนวทแยง)"], min:0, max:1, step:1, def:0, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e24", lab:["Edge B–D (diagonal)","เส้นเชื่อม B–D (แนวทแยง)"], min:0, max:1, step:1, def:0, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]}
     ],
     readouts:[
       {lab:["Edges |E|","เส้นเชื่อม |E|"], f:function(S){ var p=S.p;

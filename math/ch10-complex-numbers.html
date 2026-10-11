@@ -238,7 +238,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 /* A choice reads as its options, not as a number on a track. Hairline boxes
    sharing an edge, the picked one filled - the same language as the mode
    switch above the plate. */
-.ctrl.choice .opts{display:flex;flex-wrap:wrap;gap:0;margin-top:2px}
+.ctrl.choice .opts{display:flex;flex-direction:row;flex-wrap:wrap;gap:0;margin-top:2px}
 .opt-b{font-family:var(--f-ui);font-size:11.5px;font-weight:500;
   padding:7px 12px;border:1px solid var(--rule);background:transparent;
   color:var(--ink-soft);cursor:pointer;border-radius:var(--radius);
@@ -952,7 +952,8 @@ nodes:[
       {k:"a", lab:["Real part a","ส่วนจริง a"], min:-4, max:4, step:.1, def:3, unit:""},
       {k:"b", lab:["Imaginary part b","ส่วนจินตภาพ b"], min:-4, max:4, step:.1, def:2, unit:""},
       {k:"conj", lab:["",""], opts:[["hide","ซ่อน"], ["show conjugate","แสดงสังยุค"]], min:0, def:1, unit:""},
-      {k:"mult", lab:["Multiply by i, n times","คูณด้วย i, n ครั้ง"], min:0, max:4, step:1, def:0, unit:""}
+      {k:"mult", lab:["Multiply by i, n times","คูณด้วย i, n ครั้ง"], min:0, max:4, step:1, def:0, unit:"",
+       opts:[["n = 0","n = 0"],["n = 1","n = 1"],["n = 2","n = 2"],["n = 3","n = 3"],["n = 4","n = 4"]]}
     ],
     readouts:[
       {lab:["z","z"], f:function(S){ var q=rotz(S.p);
@@ -4444,7 +4445,7 @@ function makeLab(nd, host){
       h+='<div class="opts" role="group">';
       c.opts.forEach(function(o,j){
         h+='<button type="button" class="opt-b" data-i="'+i+'" data-v="'+
-           (c.min!=null?c.min+j:j)+'">'+esc(tx(o))+'</button>';
+           (c.vals?c.vals[j]:(c.min!=null?c.min+j:j))+'">'+esc(tx(o))+'</button>';
       });
       h+='</div></div>';
       return;

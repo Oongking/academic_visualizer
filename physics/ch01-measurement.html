@@ -238,7 +238,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 /* A choice reads as its options, not as a number on a track. Hairline boxes
    sharing an edge, the picked one filled - the same language as the mode
    switch above the plate. */
-.ctrl.choice .opts{display:flex;flex-wrap:wrap;gap:0;margin-top:2px}
+.ctrl.choice .opts{display:flex;flex-direction:row;flex-wrap:wrap;gap:0;margin-top:2px}
 .opt-b{font-family:var(--f-ui);font-size:11.5px;font-weight:500;
   padding:7px 12px;border:1px solid var(--rule);background:transparent;
   color:var(--ink-soft);cursor:pointer;border-radius:var(--radius);
@@ -960,7 +960,9 @@ nodes:[
   viz:{
     vb:"0 0 560 250", anim:false,
     ctrls:[
-      {k:"e", lab:["Power of ten","เลขชี้กำลังสิบ"], min:-12, max:12, step:3, def:3, unit:""},
+      {k:"e", lab:["Power of ten","เลขชี้กำลังสิบ"], min:-12, max:12, step:3, def:3, unit:"",
+       vals:[-12,-9,-6,-3,0,3,6,9,12],
+       opts:[["10⁻¹²","10⁻¹²"],["10⁻⁹","10⁻⁹"],["10⁻⁶","10⁻⁶"],["10⁻³","10⁻³"],["10⁰","10⁰"],["10³","10³"],["10⁶","10⁶"],["10⁹","10⁹"],["10¹²","10¹²"]]},
       {k:"m", lab:["Mantissa A","ตัวเลขนำหน้า A"],   min:1,   max:9.9, step:.1, def:1.5, unit:""}
     ],
     /* no readouts: the table drawn inside the picture is the result, shown once */
@@ -1012,7 +1014,8 @@ nodes:[
   vizcfg:{
     title:["WHICH DIGITS COUNT","หลักไหนนับเป็นเลขนัยสำคัญ"],
     cols:[["1","1"],["2","2"],["3","3"],["4","4"],["5","5"],["6","6"],["7","7"]],
-    ctrls:[{k:"i", lab:["Sample number","ตัวเลขตัวอย่าง"], min:0, max:4, step:1, def:0, unit:""}],
+    ctrls:[{k:"i", lab:["Pick a number","เลือกตัวเลข"], min:0, max:4, step:1, def:0, unit:"",
+      opts:[["0.00450","0.00450"],["1002.0","1002.0"],["45000","45000"],["0.0708","0.0708"],["3.140","3.140"]]}],
     readouts:[
       {lab:["Number","ตัวเลข"], f:function(S){ return ["0.00450","1002.0","45000","0.0708","3.140"][S.p.i]; }},
       {lab:["Significant figures","จำนวนเลขนัยสำคัญ"], f:function(S){ return ["3","5","2","3","4"][S.p.i]; }},
@@ -4427,7 +4430,7 @@ function makeLab(nd, host){
       h+='<div class="opts" role="group">';
       c.opts.forEach(function(o,j){
         h+='<button type="button" class="opt-b" data-i="'+i+'" data-v="'+
-           (c.min!=null?c.min+j:j)+'">'+esc(tx(o))+'</button>';
+           (c.vals?c.vals[j]:(c.min!=null?c.min+j:j))+'">'+esc(tx(o))+'</button>';
       });
       h+='</div></div>';
       return;

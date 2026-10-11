@@ -238,7 +238,7 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
 /* A choice reads as its options, not as a number on a track. Hairline boxes
    sharing an edge, the picked one filled - the same language as the mode
    switch above the plate. */
-.ctrl.choice .opts{display:flex;flex-wrap:wrap;gap:0;margin-top:2px}
+.ctrl.choice .opts{display:flex;flex-direction:row;flex-wrap:wrap;gap:0;margin-top:2px}
 .opt-b{font-family:var(--f-ui);font-size:11.5px;font-weight:500;
   padding:7px 12px;border:1px solid var(--rule);background:transparent;
   color:var(--ink-soft);cursor:pointer;border-radius:var(--radius);
@@ -939,12 +939,12 @@ nodes:[
   viz:{
     vb:"0 0 560 330", anim:false,
     ctrls:[
-      {k:"e12", lab:["Edge A–B","เส้นเชื่อม A–B"], min:0, max:1, step:1, def:1, unit:""},
-      {k:"e23", lab:["Edge B–C","เส้นเชื่อม B–C"], min:0, max:1, step:1, def:1, unit:""},
-      {k:"e34", lab:["Edge C–D","เส้นเชื่อม C–D"], min:0, max:1, step:1, def:1, unit:""},
-      {k:"e41", lab:["Edge D–A","เส้นเชื่อม D–A"], min:0, max:1, step:1, def:1, unit:""},
-      {k:"e13", lab:["Edge A–C (diagonal)","เส้นเชื่อม A–C (แนวทแยง)"], min:0, max:1, step:1, def:0, unit:""},
-      {k:"e24", lab:["Edge B–D (diagonal)","เส้นเชื่อม B–D (แนวทแยง)"], min:0, max:1, step:1, def:0, unit:""}
+      {k:"e12", lab:["Edge A–B","เส้นเชื่อม A–B"], min:0, max:1, step:1, def:1, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e23", lab:["Edge B–C","เส้นเชื่อม B–C"], min:0, max:1, step:1, def:1, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e34", lab:["Edge C–D","เส้นเชื่อม C–D"], min:0, max:1, step:1, def:1, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e41", lab:["Edge D–A","เส้นเชื่อม D–A"], min:0, max:1, step:1, def:1, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e13", lab:["Edge A–C (diagonal)","เส้นเชื่อม A–C (แนวทแยง)"], min:0, max:1, step:1, def:0, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]},
+      {k:"e24", lab:["Edge B–D (diagonal)","เส้นเชื่อม B–D (แนวทแยง)"], min:0, max:1, step:1, def:0, unit:"", opts:[["absent","ไม่มี"],["present","มี"]]}
     ],
     readouts:[
       {lab:["Edges |E|","เส้นเชื่อม |E|"], f:function(S){ var p=S.p;
@@ -4449,7 +4449,7 @@ function makeLab(nd, host){
       h+='<div class="opts" role="group">';
       c.opts.forEach(function(o,j){
         h+='<button type="button" class="opt-b" data-i="'+i+'" data-v="'+
-           (c.min!=null?c.min+j:j)+'">'+esc(tx(o))+'</button>';
+           (c.vals?c.vals[j]:(c.min!=null?c.min+j:j))+'">'+esc(tx(o))+'</button>';
       });
       h+='</div></div>';
       return;
