@@ -22,10 +22,6 @@ nodes:[
     cols:[["Quantity","ปริมาณ"],["Symbol","สัญลักษณ์"],["Unit","หน่วย"],["Unit symbol","สัญลักษณ์หน่วย"]],
     rowKey:"i",
     readouts:[
-      {lab:["Selected","ที่เลือก"], f:function(S){
-        var N=[["Length","ความยาว"],["Mass","มวล"],["Time","เวลา"],["Current","กระแสไฟฟ้า"],
-               ["Temperature","อุณหภูมิ"],["Amount","ปริมาณสาร"],["Luminous intensity","ความเข้มการส่องสว่าง"]];
-        return N[S.p.i][L()]; }},
       {lab:["Base quantities","จำนวนปริมาณฐาน"], f:function(){ return "7"; }}
     ],
     rows:function(p){
@@ -35,7 +31,7 @@ nodes:[
              [["Current","กระแสไฟฟ้า"],"I","ampere","A"],
              [["Temperature","อุณหภูมิ"],"T","kelvin","K"],
              [["Amount","ปริมาณสาร"],"n","mole","mol"],
-             [["Luminous","ความเข้มแสง"],"Iv","candela","cd"]];
+             [["Luminous intensity","ความเข้มการส่องสว่าง"],"Iv","candela","cd"]];
       return R.map(function(r,i){
         return r.map(function(c){ return {v:c, on:i===p.i}; });
       });
