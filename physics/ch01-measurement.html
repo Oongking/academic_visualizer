@@ -911,9 +911,19 @@ nodes:[
       {lab:["Base units used","หน่วยฐานที่ใช้"], f:function(S){
         return ["m","kg m s^-2","kg m^2 s^-2","kg m^2 s^-3","kg m^-1 s^-2","s^-1"][S.p.i]; }},
       {lab:["Named after a person?","ตั้งชื่อตามบุคคล?"], f:function(S){
-        var yes=[0,1,1,1,1,1][S.p.i];
-        return yes ? (L()?"ใช่ — จึงขึ้นต้นด้วยตัวใหญ่":"yes — so the symbol is capitalised")
-                   : (L()?"ไม่ใช่":"no"); }}
+        var who=[null,
+          ["Isaac Newton (1643–1727, English): laws of motion and universal gravitation",
+           "ไอแซก นิวตัน (1643–1727 ชาวอังกฤษ) ผู้ตั้งกฎการเคลื่อนที่และกฎความโน้มถ่วงสากล"],
+          ["James Prescott Joule (1818–1889, English): showed that heat and work are the same kind of energy",
+           "เจมส์ เพรสคอตต์ จูล (1818–1889 ชาวอังกฤษ) ผู้พิสูจน์ว่าความร้อนกับงานคือพลังงานชนิดเดียวกัน"],
+          ["James Watt (1736–1819, Scottish): redesigned the steam engine to make it far more efficient",
+           "เจมส์ วัตต์ (1736–1819 ชาวสกอต) ผู้ปรับปรุงเครื่องจักรไอน้ำให้ทำงานได้มีประสิทธิภาพขึ้นมาก"],
+          ["Blaise Pascal (1623–1662, French): studied pressure in fluids (Pascal’s principle)",
+           "เบลส ปาสกาล (1623–1662 ชาวฝรั่งเศส) ผู้ศึกษาความดันในของไหล (หลักของปาสคาล)"],
+          ["Heinrich Hertz (1857–1894, German): first showed that electromagnetic waves exist",
+           "ไฮน์ริช เฮิรตซ์ (1857–1894 ชาวเยอรมัน) ผู้พิสูจน์เป็นคนแรกว่าคลื่นแม่เหล็กไฟฟ้ามีอยู่จริง"]][S.p.i];
+        return who ? (L()?"ใช่ — ":"yes — ")+tx(who)
+                   : (L()?"ไม่ใช่ — หน่วย m² มาจาก m × m":"no — m² is just m × m"); }}
     ],
     rows:function(p){
       var R=[[["Area","พื้นที่"],"m²","m × m"],
