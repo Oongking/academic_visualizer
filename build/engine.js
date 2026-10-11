@@ -28,6 +28,8 @@ var BASE = {
   "map.s4":["Trained","ฝึกครบ"], "map.s4d":["Its methods answered correctly in the Forge.","ตอบวิธีของหัวข้อนี้ถูกในห้องฝึกแล้ว"],
   "study.methods":["Methods trained by this node","วิธีที่ฝึกจากโหนดนี้"],
   "lab.title":["Lab","ห้องทดลอง"],
+  "strip.title":["Visualizers in this chapter","ตัวช่วยมองภาพในบทนี้"],
+  "strip.hint":["Each topic has one you can drive by hand. Pick one to jump to it.","แต่ละหัวข้อมีตัวช่วยที่คุณควบคุมด้วยมือได้ เลือกเพื่อข้ามไปที่หัวข้อนั้น"],
   "lab.guided":["Guided tour","ทัวร์นำชม"], "lab.sandbox":["Sandbox","เล่นอิสระ"],
   "lab.prev":["Back","ย้อน"], "lab.next":["Next","ถัดไป"], "lab.skip":["Skip to sandbox","ข้ามไปเล่นอิสระ"],
   "lab.play":["Play","เล่น"], "lab.pause":["Pause","หยุด"], "lab.reset":["Reset","เริ่มใหม่"],
@@ -1547,7 +1549,23 @@ function buildSections(){
     }
     host.appendChild(sec);
   });
+  buildStrip();
   observeSections();
+}
+/* one card per visualizer in the chapter: the topic leads, the spell name follows */
+function buildStrip(){
+  var el=document.getElementById("spellStrip"); if(!el) return;
+  var sk=(typeof SK==="function")?SK():null;
+  var h="", n=0;
+  CHAPTER.nodes.forEach(function(nd,i){
+    if(nd.viz!=="stage") return;
+    var sn=(nd.vizcfg||{}).spellName;
+    n++;
+    h+='<a class="spell-card" href="#sec-'+nd.id+'"><span class="sp-ch">'+String(i+1).padStart(2,"0")+'</span>'+
+       '<b class="sp-topic">'+tx(nd.title)+'</b>'+(sn&&sk&&sk.spellNames?'<span class="sp-name">'+tx(sn)+'</span>':'')+'</a>';
+  });
+  el.innerHTML = n ? '<div class="strip"><span class="label">'+t("strip.title")+'</span>'+
+    '<p class="strip-hint">'+t("strip.hint")+'</p><div class="spells">'+h+'</div></div>' : "";
 }
 var OBS = null;
 function observeSections(){
@@ -1738,7 +1756,7 @@ applyLang();
 setView("learn");
 generate();
 /* a chapter with spells opens inside them; otherwise a link such as the
-   spellbook's lands on its section once sections exist */
+   a visualizer card's link lands on its section once sections exist */
 (function(){
   if(typeof WORLD!=="undefined" && WORLD.init()) return;
   var h=(location.hash||"").slice(1), el=h&&document.getElementById(h);

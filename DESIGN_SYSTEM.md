@@ -373,12 +373,12 @@ Because the lab element itself moves, every listener, trial and prediction
 keeps working. Tests that pick labs by their position on the page should set
 `edu-world` to `off` first.
 
-**Spellbook.** The physics index lists every stage lab that has a
-`spellName`, in chapter order (the card's main name is the lesson topic, with the chapter above it and the spell name below), and links to its section (`#sec-<id>`). The
-cards show no progress or "already viewed" state, because learners are
-meant to come back to them many times (the chapters still keep trials and
-predictions inside each lab). A new stage lab with a `spellName`
-appears there automatically.
+**Visualizers in the chapter.** There is no course-wide spellbook on the
+subject index. Each chapter lists its own stage labs in a strip between the
+knowledge map and the lessons (`buildStrip` in `engine.js`, styled in
+`stage.css`): one card per lab with the topic first and, in a skin that has
+spell names, the spell name below. A card jumps to its topic (`#sec-<id>`).
+A new stage lab appears there automatically.
 
 **Performance.** A lab repaints its whole SVG on every change, so the
 engine keeps that from filling the main thread.
