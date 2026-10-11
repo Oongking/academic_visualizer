@@ -4,7 +4,7 @@ kicker:["Physics · Chapter 14","ฟิสิกส์ · บทที่ 14"],
 title:["Current Electricity","ไฟฟ้ากระแส"],
 mapTitle:["Charge that keeps moving","ประจุที่เคลื่อนที่ไม่หยุด"],
 lede:["Chapter 13 held charge still. Let it flow and two rules govern everything: charge is conserved at every junction, and energy is conserved around every loop. Every circuit problem is one of those two.",
-      "บทที่ 13 ตรึงประจุไว้กับที่ ปล่อยให้มันไหลแล้วจะมีสองกฎที่ควบคุมทุกอย่าง คือประจุอนุรักษ์ที่ทุกจุดต่อ และพลังงานอนุรักษ์รอบทุกวงรอบ โจทย์วงจรทุกข้อคือหนึ่งในสองนั้น"],
+      "บทที่ 13 ประจุอยู่นิ่ง ทีนี้ปล่อยให้ประจุไหล แล้วทุกอย่างจะอยู่ภายใต้กฎสองข้อ คือประจุคงที่ทุกจุดต่อ และพลังงานคงที่รอบทุกวงรอบ โจทย์วงจรทุกข้อก็ใช้กฎข้อใดข้อหนึ่งในสองข้อนี้"],
 next:["→ continues in Chapter 15 · Magnetism","→ ต่อในบทที่ 15 · แม่เหล็กและไฟฟ้า"],
 
 nodes:[
@@ -12,8 +12,8 @@ nodes:[
   title:["Current and resistance","กระแสและความต้านทาน"],
   body:[["Current is charge per second, I = Q/t. Resistance opposes it, and Ohm's law V = IR ties the two together for any component whose resistance stays constant.",
          "Resistance itself comes from geometry and material: R = ρL/A. A longer wire resists more, a thicker one resists less, which is why thin filaments glow and thick cables do not."],
-        ["กระแสคือประจุต่อวินาที I = Q/t ความต้านทานต้านมันไว้ และกฎของโอห์ม V = IR ผูกทั้งสองเข้าด้วยกันสำหรับอุปกรณ์ใดที่ความต้านทานคงที่",
-         "ความต้านทานเองมาจากรูปทรงและวัสดุ R = ρL/A ลวดที่ยาวกว่าต้านมากกว่า ลวดที่หนากว่าต้านน้อยกว่า จึงเป็นเหตุผลที่ไส้หลอดบางเรืองแสงแต่สายเคเบิลหนาไม่เรือง"]],
+        ["กระแสคือประจุต่อวินาที I = Q/t ความต้านทานคอยต้านกระแสไว้ และกฎของโอห์ม V = IR เชื่อมสองอย่างนี้เข้าด้วยกัน ใช้ได้กับอุปกรณ์ที่ความต้านทานคงที่",
+         "ตัวความต้านทานเองขึ้นกับรูปร่างและวัสดุ R = ρL/A ลวดยาวกว่าต้านมากกว่า ลวดหนากว่าต้านน้อยกว่า ไส้หลอดเส้นบางจึงร้อนจนเรืองแสง ส่วนสายเคเบิลเส้นหนาไม่เรือง"]],
   formula:["I = Q/t        V = IR        R = ρL/A","I = Q/t        V = IR        R = ρL/A"],
   flabel:["Longer resists more, thicker resists less","ยาวกว่าต้านมากกว่า หนากว่าต้านน้อยกว่า"],
   viz:"plot",
@@ -39,15 +39,15 @@ nodes:[
       {lab:["What the graph shape means","รูปกราฟบอกอะไร"], f:function(){
         return L()?"ตรง = โอห์ม · โค้ง = ไม่ใช่โอห์ม":"straight means ohmic, curved means not"; }}
     ],
-    note:["Ohm's law is not a law of nature — it is a description that some components happen to fit","กฎของโอห์มไม่ใช่กฎธรรมชาติ แต่เป็นคำบรรยายที่อุปกรณ์บางชนิดบังเอิญเข้าข่าย"]
+    note:["Ohm's law is not a law of nature — it is a description that some components happen to fit","กฎของโอห์มไม่ใช่กฎธรรมชาติ แต่เป็นคำบรรยายที่อุปกรณ์บางชนิดเท่านั้นที่เข้ากับมันได้"]
   } },
 
 { id:"series", x:100, y:150, requires:["current"], methods:["M-02"],
   title:["Series circuits","วงจรอนุกรม"],
   body:[["In series there is only one path, so the same current passes through every component. The voltage divides between them in proportion to their resistances, and the total resistance is the plain sum.",
          "Add a resistor in series and the total always rises. Christmas lights of the old kind were wired this way, which is why one failed bulb killed the whole string."],
-        ["ในวงจรอนุกรมมีทางเดินเดียว กระแสเดียวกันจึงผ่านทุกอุปกรณ์ ความต่างศักย์แบ่งกันตามสัดส่วนของความต้านทาน และความต้านทานรวมคือผลบวกตรงๆ",
-         "เพิ่มตัวต้านทานแบบอนุกรม ค่ารวมจะเพิ่มขึ้นเสมอ ไฟประดับแบบเก่าต่อกันแบบนี้ จึงเป็นเหตุผลที่หลอดเดียวขาดแล้วดับทั้งสาย"]],
+        ["ในวงจรอนุกรมมีทางให้กระแสไหลทางเดียว กระแสจึงเท่ากันทุกอุปกรณ์ ความต่างศักย์แบ่งกันตามสัดส่วนของความต้านทาน และความต้านทานรวมก็คือนำมาบวกกันตรงๆ",
+         "ต่อตัวต้านทานอนุกรมเพิ่ม ค่ารวมจะมากขึ้นเสมอ ไฟประดับแบบเก่าต่อกันแบบนี้ หลอดเดียวขาดจึงดับทั้งสาย"]],
   formula:["I same        V splits        R = ΣR","I เท่ากัน        V แบ่งกัน        R = ΣR"],
   flabel:["One path, shared current","ทางเดียว กระแสร่วมกัน"],
   viz:"bars",
@@ -77,15 +77,15 @@ nodes:[
       {lab:["V across R₃","V คร่อม R₃"], f:function(p){ return p.V*p.R3/(p.R1+p.R2+p.R3); }, col:"accent"},
       {lab:["Supply V","แหล่งจ่าย V"], f:function(p){ return p.V; }, col:"ink"}
     ],
-    note:["the three coloured bars always stack up to the black one — that is Kirchhoff's loop rule","แถบสีทั้งสามรวมกันได้เท่ากับแถบสีดำเสมอ นั่นคือกฎวงของเคอร์ชอฟฟ์"]
+    note:["the three coloured bars always stack up to the black one — that is Kirchhoff's loop rule","แถบสีทั้งสามต่อกันแล้วสูงเท่าแถบสีดำเสมอ นี่คือกฎวงรอบของเคอร์ชอฟฟ์"]
   } },
 
 { id:"parallel", x:370, y:150, requires:["current"], methods:["M-03"],
   title:["Parallel circuits","วงจรขนาน"],
   body:[["In parallel every branch sees the same voltage, and the current divides between them. Reciprocals add, so the total resistance is always less than the smallest single branch.",
          "That last fact surprises people: adding another resistor in parallel lowers the total. It works because you have added another path, not another obstacle. Adding resistances directly here is trap T-02."],
-        ["ในวงจรขนาน ทุกกิ่งเห็นความต่างศักย์เท่ากัน และกระแสแบ่งกันไป ส่วนกลับบวกกัน ความต้านทานรวมจึงน้อยกว่ากิ่งที่น้อยที่สุดเสมอ",
-         "ข้อเท็จจริงสุดท้ายทำให้คนแปลกใจ การเพิ่มตัวต้านทานแบบขนานทำให้ค่ารวมลดลง เพราะคุณเพิ่มทางเดินอีกทาง ไม่ใช่เพิ่มสิ่งกีดขวาง การบวกความต้านทานตรงๆ ตรงนี้คือกับดัก T-02"]],
+        ["ในวงจรขนาน ทุกกิ่งมีความต่างศักย์เท่ากัน ส่วนกระแสแบ่งไปตามกิ่ง ให้บวกส่วนกลับของความต้านทาน ความต้านทานรวมจึงน้อยกว่ากิ่งที่เล็กที่สุดเสมอ",
+         "ข้อสุดท้ายนี้มักทำให้คนแปลกใจ ต่อตัวต้านทานขนานเพิ่มแล้วค่ารวมกลับลดลง เพราะเราเพิ่มทางให้กระแสไหล ไม่ได้เพิ่มสิ่งกีดขวาง ถ้านำความต้านทานมาบวกกันตรงๆ ในกรณีนี้ ก็ตกกับดัก T-02"]],
   formula:["V same        I splits        1/R = Σ1/R","V เท่ากัน        I แบ่งกัน        1/R = Σ1/R"],
   flabel:["Total is below the smallest branch","ค่ารวมน้อยกว่ากิ่งที่เล็กที่สุด"],
   viz:{
@@ -144,21 +144,21 @@ nodes:[
   },
   guide:[
     {say:["Series first. One path, so both resistors carry the same current — and the voltages add up to the supply.",
-          "เริ่มที่อนุกรม ทางเดียว ตัวต้านทานทั้งสองจึงมีกระแสเท่ากัน และความต่างศักย์รวมกันได้เท่าแหล่งจ่าย"], set:{V:12,R1:10,R2:20,mode:0}},
+          "เริ่มที่อนุกรมก่อน มีทางเดียว ตัวต้านทานสองตัวจึงมีกระแสเท่ากัน และความต่างศักย์ของทั้งสองรวมกันได้เท่ากับแหล่งจ่าย"], set:{V:12,R1:10,R2:20,mode:0}},
     {say:["Switch to parallel. Now both see the full 12 V, and the total current jumps — read the bar.",
-          "สลับเป็นขนาน ทีนี้ทั้งคู่เห็น 12 โวลต์เต็ม และกระแสรวมพุ่งขึ้น ดูที่แถบวัด"], set:{V:12,R1:10,R2:20,mode:1}},
+          "สลับเป็นขนาน ตอนนี้ทั้งสองตัวได้รับเต็ม 12 โวลต์ และกระแสรวมเพิ่มขึ้นมาก ลองดูที่แถบวัด"], set:{V:12,R1:10,R2:20,mode:1}},
     {say:["The total resistance in parallel is under 7 Ω — less than either branch. Adding a path lowers resistance.",
-          "ความต้านทานรวมแบบขนานต่ำกว่า 7 โอห์ม น้อยกว่าทั้งสองกิ่ง การเพิ่มทางเดินทำให้ความต้านทานลดลง"], set:{V:12,R1:10,R2:20,mode:1}},
+          "ความต้านทานรวมแบบขนานต่ำกว่า 7 โอห์ม น้อยกว่าทั้งสองกิ่ง การเพิ่มทางให้กระแสไหลทำให้ความต้านทานลดลง"], set:{V:12,R1:10,R2:20,mode:1}},
     {say:["Make R₂ very large in parallel. That branch nearly stops conducting, and the total tends to R₁ alone.",
-          "ทำให้ R₂ ใหญ่มากในแบบขนาน กิ่งนั้นแทบไม่นำกระแส และค่ารวมเข้าใกล้ R₁ เพียงตัวเดียว"], set:{V:12,R1:10,R2:50,mode:1}}
+          "ลองทำให้ R₂ ใหญ่มากในวงจรขนาน กิ่งนั้นแทบไม่นำกระแสเลย และค่ารวมจะเข้าใกล้ R₁ ตัวเดียว"], set:{V:12,R1:10,R2:50,mode:1}}
   ]},
 
 { id:"power", x:235, y:248, requires:["series","parallel"], methods:["M-04"],
   title:["Electrical power","กำลังไฟฟ้า"],
   body:[["Power is P = IV, and with Ohm's law that becomes P = I²R or P = V²/R. Which form to use depends on what the question gives you, and picking well saves a whole line of algebra.",
          "Energy is power times time, W = Pt. Domestic bills use the kilowatt-hour, which is just a large joule: 1 kWh = 3.6 × 10⁶ J."],
-        ["กำลังคือ P = IV และเมื่อใช้กฎของโอห์มจะกลายเป็น P = I²R หรือ P = V²/R เลือกใช้รูปใดขึ้นกับสิ่งที่โจทย์ให้มา และการเลือกดีช่วยประหยัดพีชคณิตไปทั้งบรรทัด",
-         "พลังงานคือกำลังคูณเวลา W = Pt บิลค่าไฟบ้านใช้หน่วยกิโลวัตต์-ชั่วโมง ซึ่งก็คือจูลขนาดใหญ่ 1 kWh = 3.6 × 10⁶ จูล"]],
+        ["กำลังคือ P = IV และถ้าใช้กฎของโอห์มด้วย จะได้ P = I²R หรือ P = V²/R จะใช้รูปไหนก็ดูว่าโจทย์ให้อะไรมา เลือกให้ดีแล้วจะลดการคำนวณไปได้ทั้งบรรทัด",
+         "พลังงานคือกำลังคูณเวลา W = Pt บิลค่าไฟตามบ้านใช้หน่วยกิโลวัตต์-ชั่วโมง ซึ่งก็คือหน่วยจูลที่ใหญ่ขึ้น 1 kWh = 3.6 × 10⁶ จูล"]],
   formula:["P = IV = I²R = V²/R        W = Pt","P = IV = I²R = V²/R        W = Pt"],
   flabel:["Three forms, one idea","สามรูป หนึ่งความคิด"],
   viz:"bars",
@@ -197,23 +197,23 @@ nodes:[
         if(p.ser===0){ var I=p.V/(p.R1+p.R2); return I*I*(p.R1+p.R2); }
         return p.V*p.V/p.R1+p.V*p.V/p.R2; }, col:"ink"}
     ],
-    note:["flip between series and parallel and watch which resistor takes the heat — it swaps over","สลับระหว่างอนุกรมกับขนานแล้วดูว่าตัวไหนร้อน คำตอบจะสลับกัน"]
+    note:["flip between series and parallel and watch which resistor takes the heat — it swaps over","สลับระหว่างอนุกรมกับขนาน แล้วดูว่าตัวต้านทานตัวไหนร้อนกว่า คำตอบจะกลับกัน"]
   },
   guide:[
     {say:["In series both carry the same current, so P = I²R makes the LARGER resistor the hotter one.",
-          "ในวงจรอนุกรม ทั้งคู่มีกระแสเท่ากัน P = I²R จึงทำให้ตัวที่ R มากกว่าร้อนกว่า"], set:{V:12,R1:2,R2:10,ser:0}},
+          "ในวงจรอนุกรม กระแสผ่านทั้งสองตัวเท่ากัน ตาม P = I²R ตัวที่ R มากกว่าจึงร้อนกว่า"], set:{V:12,R1:2,R2:10,ser:0}},
     {say:["Switch to parallel. Now both share the voltage, P = V²/R, and the SMALLER resistor runs hotter.",
-          "สลับเป็นขนาน ตอนนี้ทั้งคู่มีความต่างศักย์เท่ากัน P = V²/R ตัวที่ R น้อยกว่าจึงร้อนกว่า"], set:{V:12,R1:2,R2:10,ser:1}},
+          "สลับเป็นขนาน ตอนนี้ความต่างศักย์เท่ากัน ใช้ P = V²/R ตัวที่ R น้อยกว่าจึงร้อนกว่า"], set:{V:12,R1:2,R2:10,ser:1}},
     {say:["Same two resistors, opposite answer. Which formula to use is decided by what the components share.",
-          "ตัวต้านทานคู่เดิม คำตอบตรงข้าม การเลือกสูตรขึ้นกับว่าอุปกรณ์ใช้อะไรร่วมกัน"], set:{V:12,R1:2,R2:10,ser:1}}
+          "ตัวต้านทานชุดเดิม แต่คำตอบตรงข้ามกัน จะใช้สูตรไหนก็ดูว่าอุปกรณ์มีอะไรเท่ากัน"], set:{V:12,R1:2,R2:10,ser:1}}
   ] },
 
 { id:"kirchhoff", x:235, y:346, requires:["power"], methods:["M-05","M-06"],
   title:["Kirchhoff's laws","กฎของเคอร์ชอฟฟ์"],
   body:[["The junction rule says current in equals current out — charge does not pile up anywhere. The loop rule says the voltages around any closed loop sum to zero — energy is conserved.",
          "Real cells have internal resistance r, so the terminal voltage is E − Ir rather than E. That is why a battery reads lower when it is doing work, and why headlights dim as the starter turns."],
-        ["กฎจุดต่อบอกว่ากระแสเข้าเท่ากับกระแสออก ประจุไม่กองสะสมที่ใด ส่วนกฎวงรอบบอกว่าความต่างศักย์รอบวงรอบปิดใดๆ รวมกันได้ศูนย์ พลังงานอนุรักษ์",
-         "เซลล์จริงมีความต้านทานภายใน r ความต่างศักย์ที่ขั้วจึงเป็น E − Ir ไม่ใช่ E จึงเป็นเหตุผลที่แบตเตอรี่อ่านค่าได้ต่ำลงขณะทำงาน และไฟหน้ารถหรี่ลงตอนสตาร์ท"]],
+        ["กฎจุดต่อบอกว่ากระแสที่เข้าเท่ากับกระแสที่ออก ประจุไม่ไปกองอยู่ที่ไหน ส่วนกฎวงรอบบอกว่าความต่างศักย์รอบวงรอบปิดใดๆ รวมกันได้ศูนย์ เพราะพลังงานคงตัว",
+         "เซลล์จริงมีความต้านทานภายใน r ความต่างศักย์ที่ขั้วจึงเป็น E − Ir ไม่ใช่ E นี่คือเหตุผลที่แบตเตอรี่อ่านค่าได้ต่ำลงเมื่อจ่ายกระแส และไฟหน้ารถหรี่ลงตอนสตาร์ท"]],
   formula:["ΣI_in = ΣI_out        ΣV = 0        V_terminal = E − Ir","ΣI_in = ΣI_out        ΣV = 0        V_terminal = E − Ir"],
   flabel:["Charge at junctions · energy round loops","ประจุที่จุดต่อ · พลังงานรอบวงรอบ"],
   viz:"bars",
@@ -237,7 +237,7 @@ nodes:[
       {lab:["Branch 2","สาขา 2"], f:function(p){ return p.Iin*(100-p.f)/100; }, col:"warn"},
       {lab:["Out total","ออกรวม"], f:function(p){ return p.Iin; }, col:"ink"}
     ],
-    note:["the first and last bars can never differ — the junction rule is just charge conservation","แถบแรกกับแถบสุดท้ายต่างกันไม่ได้เลย กฎจุดต่อคือการอนุรักษ์ประจุนั่นเอง"]
+    note:["the first and last bars can never differ — the junction rule is just charge conservation","แถบแรกกับแถบสุดท้ายต้องเท่ากันเสมอ กฎจุดต่อก็คือการอนุรักษ์ประจุนั่นเอง"]
   } }
 ],
 
@@ -251,10 +251,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["Resistance rises with length but falls with cross-sectional area. R = ρL/A, not ρA/L.","ความต้านทานเพิ่มตามความยาวแต่ลดตามพื้นที่หน้าตัด R = ρL/A ไม่ใช่ ρA/L"],
-"T-02":["Parallel resistances add as reciprocals. The total is always below the smallest branch.","ความต้านทานขนานบวกแบบส่วนกลับ ค่ารวมต่ำกว่ากิ่งที่เล็กที่สุดเสมอ"],
-"T-03":["In series the current is shared and voltage splits. In parallel it is the other way round.","ในอนุกรมกระแสเท่ากันและความต่างศักย์แบ่งกัน ในขนานกลับกัน"],
-"T-04":["Terminal voltage is E − Ir, not E. A working cell always reads below its emf.","ความต่างศักย์ที่ขั้วคือ E − Ir ไม่ใช่ E เซลล์ที่กำลังทำงานอ่านค่าได้ต่ำกว่าแรงเคลื่อนไฟฟ้าเสมอ"]
+"T-01":["Resistance rises with length but falls with cross-sectional area. R = ρL/A, not ρA/L.","ความต้านทานเพิ่มตามความยาว แต่ลดลงเมื่อพื้นที่หน้าตัดมากขึ้น R = ρL/A ไม่ใช่ ρA/L"],
+"T-02":["Parallel resistances add as reciprocals. The total is always below the smallest branch.","ความต้านทานขนานต้องบวกแบบส่วนกลับ ค่ารวมจะน้อยกว่ากิ่งที่เล็กที่สุดเสมอ"],
+"T-03":["In series the current is shared and voltage splits. In parallel it is the other way round.","ในอนุกรม กระแสเท่ากันและความต่างศักย์แบ่งกัน ในขนานจะกลับกัน"],
+"T-04":["Terminal voltage is E − Ir, not E. A working cell always reads below its emf.","ความต่างศักย์ที่ขั้วคือ E − Ir ไม่ใช่ E เซลล์ที่กำลังจ่ายกระแสจะอ่านค่าได้ต่ำกว่าแรงเคลื่อนไฟฟ้าเสมอ"]
 },
 
 gen:{
@@ -262,7 +262,7 @@ gen:{
   var V=pick([6,12,24]), R=pick([2,4,8,12]);
   var I=V/R, rho=1.7e-8, Lw=pick([2,5,10]), Aw=pick([1,2,4]);
   if(sf==="S-04") return {stem:["A wire is replaced by one twice as long and of the same thickness. Its resistance:",
-                                "เปลี่ยนลวดเป็นเส้นที่ยาวเป็นสองเท่าและหนาเท่าเดิม ความต้านทานจะ"],
+                                "เปลี่ยนลวดเป็นเส้นใหม่ที่ยาวเป็นสองเท่าและหนาเท่าเดิม ความต้านทานจะ"],
     opts:[{v:["Doubles","เพิ่มเป็นสองเท่า"],ok:1},{v:["Halves","ลดลงครึ่งหนึ่ง"],trap:"T-01"},
           {v:["Is unchanged","เท่าเดิม"]},{v:["Quadruples","เพิ่มเป็นสี่เท่า"]}],unit:""};
   if(sf==="S-03") return {stem:["A wire of resistivity 1.7 × 10⁻⁸ Ω·m is "+Lw+" m long with cross-section "+Aw+" mm². Find its resistance.",
@@ -278,9 +278,9 @@ gen:{
   var V=pick([12,24]), R1=pick([2,4,10]), R2=pick([6,8,20]);
   var Rt=R1+R2, I=V/Rt, v1=I*R1;
   if(sf==="S-04") return {stem:["Two unequal resistors are in series. Which statement is true?",
-                                "ตัวต้านทานสองตัวค่าไม่เท่ากันต่ออนุกรม ข้อใดถูกต้อง"],
-    opts:[{v:["Same current, larger voltage across the larger resistor","กระแสเท่ากัน ความต่างศักย์มากกว่าที่ตัวใหญ่กว่า"],ok:1},
-          {v:["Same voltage, larger current through the larger resistor","ความต่างศักย์เท่ากัน กระแสมากกว่าที่ตัวใหญ่กว่า"],trap:"T-03"},
+                                "ตัวต้านทานสองตัวที่ค่าไม่เท่ากันต่ออนุกรมกัน ข้อใดถูกต้อง"],
+    opts:[{v:["Same current, larger voltage across the larger resistor","กระแสเท่ากัน ตัวที่ค่ามากกว่ามีความต่างศักย์คร่อมมากกว่า"],ok:1},
+          {v:["Same voltage, larger current through the larger resistor","ความต่างศักย์เท่ากัน ตัวที่ค่ามากกว่ามีกระแสผ่านมากกว่า"],trap:"T-03"},
           {v:["Same current and same voltage","กระแสและความต่างศักย์เท่ากัน"],trap:"T-03"},
           {v:["Larger current through the smaller resistor","กระแสมากกว่าที่ตัวเล็กกว่า"],trap:"T-03"}],unit:""};
   if(sf==="S-05") return {stem:[R1+" Ω and R₂ in series across "+V+" V draw "+fmt(I)+" A. Find R₂.",
@@ -294,7 +294,7 @@ gen:{
   var V=pick([12,24]), R1=pick([4,6,10]), R2=pick([12,20,30]);
   var Rt=1/(1/R1+1/R2), It=V/Rt, i1=V/R1;
   if(sf==="S-04") return {stem:["Another resistor is added in parallel with an existing one. The total resistance:",
-                                "เพิ่มตัวต้านทานอีกตัวขนานกับตัวเดิม ความต้านทานรวมจะ"],
+                                "ต่อตัวต้านทานอีกตัวขนานกับตัวเดิม ความต้านทานรวมจะ"],
     opts:[{v:["Falls","ลดลง"],ok:1},{v:["Rises","เพิ่มขึ้น"],trap:"T-02"},
           {v:["Is unchanged","เท่าเดิม"]},{v:["Becomes the sum of the two","เท่ากับผลรวมของทั้งสอง"],trap:"T-02"}],unit:""};
   if(sf==="S-05") return {stem:["Two resistors in parallel give "+fmt(Rt)+" Ω, one of which is "+R1+" Ω. Find the other.",
@@ -308,7 +308,7 @@ gen:{
   var V=pick([12,24,230]), R=pick([6,12,50]), t=pick([60,300,3600]);
   var P=V*V/R, W=P*t;
   if(sf==="S-04") return {stem:["Which expression for power is most useful when you know V and R but not I?",
-                                "นิพจน์กำลังใดใช้สะดวกที่สุดเมื่อรู้ V และ R แต่ไม่รู้ I"],
+                                "ถ้ารู้ V กับ R แต่ไม่รู้ I สูตรกำลังแบบใดใช้สะดวกที่สุด"],
     opts:[{v:"P = V²/R",ok:1},{v:"P = I²R"},{v:"P = IV"},{v:"P = IR"}],unit:""};
   if(sf==="S-05") return {stem:["A device uses "+fmt(W/3.6e6)+" kWh in "+t+" s. Find its power.",
                                 "อุปกรณ์ใช้พลังงาน "+fmt(W/3.6e6)+" กิโลวัตต์-ชั่วโมง ใน "+t+" วินาที จงหากำลัง"],
@@ -321,7 +321,7 @@ gen:{
   var a=pick([2,3,5]), b=pick([1,4,6]);
   if(sf==="S-04") return {stem:["Why must the currents into a junction equal the currents out?",
                                 "ทำไมกระแสที่เข้าจุดต่อจึงต้องเท่ากับกระแสที่ออก"],
-    opts:[{v:["Charge is conserved — it cannot accumulate there","ประจุอนุรักษ์ มันสะสมที่นั่นไม่ได้"],ok:1},
+    opts:[{v:["Charge is conserved — it cannot accumulate there","ประจุอนุรักษ์ จึงสะสมอยู่ที่จุดนั้นไม่ได้"],ok:1},
           {v:["Energy is conserved","พลังงานอนุรักษ์"]},
           {v:["Resistance is the same everywhere","ความต้านทานเท่ากันทุกที่"]},
           {v:["Voltage is conserved","ความต่างศักย์อนุรักษ์"]}],unit:""};
@@ -333,8 +333,8 @@ gen:{
   var E=pick([9,12]), r=pick([0.5,1,2]), R=pick([4,5,10]);
   var I=E/(R+r), Vt=E-I*r;
   if(sf==="S-04") return {stem:["Why do a car's headlights dim while the starter motor turns?",
-                                "ทำไมไฟหน้ารถจึงหรี่ลงขณะมอเตอร์สตาร์ททำงาน"],
-    opts:[{v:["The large current drops more voltage across the internal resistance","กระแสมากทำให้ความต่างศักย์ตกคร่อมความต้านทานภายในมากขึ้น"],ok:1},
+                                "ทำไมไฟหน้ารถจึงหรี่ลงตอนมอเตอร์สตาร์ททำงาน"],
+    opts:[{v:["The large current drops more voltage across the internal resistance","กระแสที่มากทำให้ความต่างศักย์ตกคร่อมความต้านทานภายในมากขึ้น"],ok:1},
           {v:["The battery's emf falls","แรงเคลื่อนไฟฟ้าของแบตเตอรี่ลดลง"],trap:"T-04"},
           {v:["The bulbs heat up","หลอดร้อนขึ้น"]},
           {v:["The wires get longer","สายไฟยาวขึ้น"]}],unit:""};

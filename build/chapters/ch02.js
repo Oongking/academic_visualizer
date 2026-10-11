@@ -4,7 +4,7 @@ kicker:["Physics · Chapter 02","ฟิสิกส์ · บทที่ 2"],
 title:["Linear Motion","การเคลื่อนที่แนวตรง"],
 mapTitle:["Six ideas, one chain","หกแนวคิด หนึ่งสายโซ่"],
 lede:["Nothing here stands alone. Displacement defines velocity, velocity defines acceleration, and the graph ties them together before the five equations fall out of it. The map shows how they connect — everything below it is one continuous read.",
-      "ไม่มีหัวข้อใดอยู่ลำพัง การกระจัดนิยามความเร็ว ความเร็วนิยามความเร่ง และกราฟผูกทั้งหมดเข้าด้วยกันก่อนที่สมการทั้งห้าจะตามมา แผนที่แสดงว่าทั้งหมดเชื่อมกันอย่างไร ส่วนเนื้อหาทั้งหมดด้านล่างอ่านต่อเนื่องได้เลย"],
+      "หัวข้อในบทนี้เกี่ยวข้องกันหมด การกระจัดใช้นิยามความเร็ว ความเร็วใช้นิยามความเร่ง แล้วกราฟก็ผูกทั้งหมดเข้าด้วยกัน ก่อนจะได้สมการทั้งห้า แผนที่ด้านล่างแสดงว่าแต่ละเรื่องโยงกันอย่างไร ส่วนเนื้อหาที่ตามมาอ่านต่อกันได้เป็นเรื่องเดียว"],
 next:["→ continues in Chapter 07 · Curved Motion","→ ต่อในบทที่ 7 · การเคลื่อนที่แนวโค้ง"],
 
 nodes:[
@@ -12,14 +12,14 @@ nodes:[
   title:["Displacement","การกระจัด"],
   body:[["Distance is how far you travelled. Displacement is how far you ended up from where you began, and in which direction. Distance is a scalar and never shrinks; displacement is a vector and can return to zero.",
          "Run a full lap of a track and your distance is 400 m while your displacement is exactly zero. Every formula in this chapter is built on displacement, not distance — the single most common place marks are lost."],
-        ["ระยะทางคือความยาวเส้นทางที่เคลื่อนที่จริง ส่วนการกระจัดคือระยะจากจุดเริ่มถึงจุดสุดท้ายพร้อมทิศทาง ระยะทางเป็นสเกลาร์และไม่มีวันลดลง แต่การกระจัดเป็นเวกเตอร์และกลับมาเป็นศูนย์ได้",
-         "วิ่งรอบสนามครบหนึ่งรอบ ระยะทางคือ 400 เมตร แต่การกระจัดเป็นศูนย์พอดี ทุกสูตรในบทนี้สร้างอยู่บนการกระจัด ไม่ใช่ระยะทาง ซึ่งเป็นจุดที่เสียคะแนนบ่อยที่สุด"]],
+        ["ระยะทางคือความยาวของเส้นทางที่เราเคลื่อนที่ไปจริง ส่วนการกระจัดคือระยะจากจุดเริ่มต้นถึงจุดที่หยุด พร้อมบอกทิศทาง ระยะทางเป็นสเกลาร์และไม่มีทางลดลง ส่วนการกระจัดเป็นเวกเตอร์ และกลับมาเป็นศูนย์ได้",
+         "ถ้าวิ่งครบหนึ่งรอบสนาม ระยะทางคือ 400 m แต่การกระจัดเป็นศูนย์พอดี ทุกสูตรในบทนี้ใช้การกระจัด ไม่ใช่ระยะทาง และตรงนี้เองที่นักเรียนเสียคะแนนบ่อยที่สุด"]],
   formula:["|s| ≤ distance","|s| ≤ ระยะทาง เสมอ"], flabel:["Always true","จริงเสมอ"],
   viz:"stage",
   vizcfg:{
     spellName:["Thread of Return: net change in position","ด้ายแห่งการกลับคืน: ตำแหน่งที่เปลี่ยนสุทธิ"],
     question:["{@Agent} {@flies} out and turns back. Why does the thread home shrink while the trail keeps growing?",
-              "{@agent}{@fly}ออกไปแล้วย้อนกลับ ทำไมด้ายที่โยงกลับ{@origin}หดสั้นลง ทั้งที่รอยทางยาวขึ้นเรื่อย ๆ"],
+              "{@agent}{@fly}ออกไปแล้วย้อนกลับ ทำไมด้ายที่โยงกลับ{@origin}จึงสั้นลง ทั้งที่รอยทางยาวขึ้นเรื่อย ๆ"],
     ctrls:[
       {k:"out",  lab:["{@Flies} out to","{@fly}ออกไปถึง"],     min:0, max:55, step:1, def:40, unit:" m"},
       {k:"back", lab:["Then turns back by","แล้วย้อนกลับ"], min:0, max:55, step:1, def:24, unit:" m"}
@@ -108,9 +108,9 @@ nodes:[
     {say:["{@Agent} {@flies} straight out and stops. Nothing has doubled back, so the trail and the thread match.",
           "{@agent}{@fly}ตรงออกไปแล้วหยุด ยังไม่ได้ย้อนกลับ รอยทางกับด้ายจึงยาวเท่ากัน"], set:{out:40,back:0}},
     {say:["Now {@agent} turns and comes part-way back. The trail keeps growing while the thread home shortens.",
-          "ทีนี้{@agent}เลี้ยวกลับมาบางส่วน รอยทางยังยาวขึ้น ขณะที่ด้ายกลับบ้านสั้นลง"], set:{out:40,back:24}},
+          "ทีนี้{@agent}เลี้ยวกลับมาบางส่วน รอยทางยังยาวขึ้น แต่ด้ายกลับบ้านสั้นลง"], set:{out:40,back:24}},
     {say:["All the way home: eighty metres of trail, and a displacement of exactly zero.",
-          "กลับถึงบ้าน: รอยทางยาวแปดสิบเมตร แต่การกระจัดเป็นศูนย์พอดี"], set:{out:40,back:40}}
+          "กลับถึงบ้านแล้ว รอยทางยาว 80 m แต่การกระจัดเป็นศูนย์พอดี"], set:{out:40,back:40}}
   ]
 },
 
@@ -118,15 +118,15 @@ nodes:[
   title:["Velocity","ความเร็ว"],
   body:[["Velocity is the rate of change of displacement. Speed is its scalar twin: run that lap again and your average speed is healthy while your average velocity is zero.",
          "Drive the lab with acceleration set to zero and watch the velocity–time trace go flat. A flat trace is the signature of constant velocity, and the rectangle beneath it is the displacement."],
-        ["ความเร็วคืออัตราการเปลี่ยนแปลงของการกระจัด ส่วนอัตราเร็วคือคู่แฝดที่เป็นสเกลาร์ วิ่งรอบสนามอีกครั้ง อัตราเร็วเฉลี่ยมีค่าพอควรแต่ความเร็วเฉลี่ยเป็นศูนย์",
-         "ลองตั้งความเร่งเป็นศูนย์แล้วดูเส้นกราฟความเร็ว–เวลาแบนราบ เส้นแบนคือลายเซ็นของความเร็วคงที่ และสี่เหลี่ยมใต้เส้นคือการกระจัด"]],
+        ["ความเร็วคืออัตราที่การกระจัดเปลี่ยนไป ส่วนอัตราเร็วเป็นคู่แฝดที่เป็นสเกลาร์ ถ้าวิ่งรอบสนามอีกครั้ง อัตราเร็วเฉลี่ยจะมีค่าพอสมควร แต่ความเร็วเฉลี่ยเป็นศูนย์",
+         "ลองตั้งความเร่งเป็นศูนย์ แล้วดูเส้นกราฟความเร็ว–เวลาที่เป็นเส้นราบ เส้นราบบอกว่าความเร็วคงที่ และพื้นที่สี่เหลี่ยมใต้เส้นก็คือการกระจัด"]],
   formula:["v = s / t","v = s / t"], flabel:["Average velocity","ความเร็วเฉลี่ย"],
   viz:"stage",
   vizcfg:{
     anim:true,
     spellName:["The Average Echo: displacement per second","เงาสะท้อนเฉลี่ย: การกระจัดต่อวินาที"],
     question:["The faint echo {@flies} at the average speed the whole way. Does {@agent} ever match it?",
-              "เงาจาง ๆ {@fly}ด้วยความเร็วเฉลี่ยตลอดทาง {@agent}เคย{@fly}เร็วเท่ามันจริง ๆ ไหม"],
+              "เงาจาง ๆ {@fly}ด้วยความเร็วเฉลี่ยตลอดทาง แล้ว{@agent}เคย{@fly}เร็วเท่าเงาจริงไหม"],
     ctrls:[
       {k:"v1", lab:["Speed at the first {@marker}","ความเร็วที่{@marker}แรก"], min:2, max:22, step:1, def:5, unit:" m/s"},
       {k:"v2", lab:["Speed at the second","ความเร็วที่{@marker}ที่สอง"],    min:2, max:22, step:1, def:14, unit:" m/s"},
@@ -189,7 +189,7 @@ nodes:[
       actual:function(p){ return p.v2>p.v1 ? 0 : (p.v2<p.v1 ? 1 : 2); },
       explain:function(){ return [
         "The echo holds the average the whole way, so whoever starts slower spends the first half behind and only draws level at the very end.",
-        "เงาสะท้อนบินด้วยความเร็วเฉลี่ยตลอดทาง ใครเริ่มช้ากว่าจะตามหลังในครึ่งแรก และเพิ่งตามทันตอนจบพอดี"]; }
+        "เงาเคลื่อนที่ด้วยความเร็วเฉลี่ยตลอดทาง ใครที่เริ่มช้ากว่าจะตามหลังอยู่ตลอดครึ่งแรก และมาทันกันตอนสุดทางพอดี"]; }
     },
     trials:{
       lock:["v1","T"],
@@ -212,15 +212,15 @@ nodes:[
       }
     },
     note:["the average is one number; the arrow tells a different story at every instant",
-          "ค่าเฉลี่ยเป็นเลขตัวเดียว แต่ลูกศรเล่าเรื่องต่างกันในทุกขณะ"]
+          "ค่าเฉลี่ยเป็นเลขตัวเดียว แต่ลูกศรบอกเรื่องราวที่ต่างกันไปในแต่ละขณะ"]
   },
   guide:[
     {say:["Both {@markers} see the same speed. The echo and {@agent} {@fly} as one: here the average really is the truth.",
-          "{@markers}ทั้งสองวัดความเร็วเท่ากัน เงากับ{@agent}{@fly}ไปด้วยกัน ตรงนี้ค่าเฉลี่ยคือสิ่งที่เกิดขึ้นจริง"], set:{v1:9,v2:9,T:6}},
+          "{@markers}ทั้งสองอ่านความเร็วได้เท่ากัน เงากับ{@agent}{@fly}ไปด้วยกัน กรณีนี้ค่าเฉลี่ยตรงกับความจริงทุกขณะ"], set:{v1:9,v2:9,T:6}},
     {say:["Now {@agent} speeds up between them. The average still reads 9.5, but press play: the echo pulls ahead, then is caught.",
-          "ทีนี้{@agent}เร่งขึ้นระหว่างทาง ค่าเฉลี่ยยังเป็น 9.5 แต่ลองกดเล่น เงาจะนำไปก่อน แล้วถูกไล่ทันตอนจบ"], set:{v1:5,v2:14,T:6}},
+          "ทีนี้{@agent}เร่งความเร็วขึ้นระหว่างทาง ค่าเฉลี่ยยังเป็น 9.5 เท่าเดิม แต่ลองกดเล่นดู เงาจะนำไปก่อน แล้วถูกไล่ทันตอนปลายทาง"], set:{v1:5,v2:14,T:6}},
     {say:["An extreme ramp. They leave together and arrive together — and are apart the whole way between.",
-          "เร่งแบบสุดขั้ว ทั้งสองออกพร้อมกันและถึงพร้อมกัน แต่ห่างกันตลอดทางระหว่างนั้น"], set:{v1:2,v2:22,T:6}}
+          "ลองเร่งแบบสุดขั้ว ทั้งสองออกตัวพร้อมกันและถึงพร้อมกัน แต่ระหว่างทางห่างกันตลอด"], set:{v1:2,v2:22,T:6}}
   ]
 },
 
@@ -228,15 +228,15 @@ nodes:[
   title:["Acceleration","ความเร่ง"],
   body:[["Acceleration is the rate of change of velocity. It says nothing about which way you are moving — only about how your motion is changing.",
          "A car braking from 30 m/s has negative acceleration while still moving forward. Negative acceleration does not mean reversing; it means the velocity is being driven downward, which may eventually flip its sign."],
-        ["ความเร่งคืออัตราการเปลี่ยนแปลงของความเร็ว มันไม่ได้บอกว่าคุณเคลื่อนที่ไปทางไหน บอกแค่ว่าการเคลื่อนที่กำลังเปลี่ยนอย่างไร",
-         "รถที่เบรกจาก 30 เมตร/วินาที มีความเร่งเป็นลบทั้งที่ยังวิ่งไปข้างหน้า ความเร่งเป็นลบไม่ได้แปลว่าถอยหลัง แต่แปลว่าความเร็วกำลังถูกกดให้ลดลง ซึ่งสุดท้ายอาจกลับเครื่องหมายได้"]],
+        ["ความเร่งคืออัตราที่ความเร็วเปลี่ยนไป ความเร่งไม่ได้บอกว่าเรากำลังไปทางไหน บอกแต่ว่าการเคลื่อนที่กำลังเปลี่ยนอย่างไร",
+         "รถที่เบรกจาก 30 m/s มีความเร่งเป็นลบ ทั้งที่ยังวิ่งไปข้างหน้าอยู่ ความเร่งเป็นลบไม่ได้แปลว่าถอยหลัง แต่แปลว่าความเร็วกำลังลดลง และถ้าลดต่อไปก็อาจเปลี่ยนเครื่องหมายได้"]],
   formula:["a = (v − u) / t","a = (v − u) / t"], flabel:["Constant acceleration","ความเร่งคงที่"],
   viz:"stage",
   vizcfg:{
     anim:true,
     spellName:["Gust Sigil: how fast velocity changes","ตราเวทลม: ความเร็วเปลี่ยนเร็วแค่ไหน"],
     question:["{@Push} adds the same speed every second. Watch the afterimages: why do they spread apart?",
-              "{@push}เพิ่มความเร็วเท่าเดิมทุกวินาที ดูภาพติดตา ทำไมมันจึงห่างกันมากขึ้นเรื่อย ๆ"],
+              "{@push}เพิ่มความเร็วเท่า ๆ กันทุกวินาที ลองดูภาพติดตา ทำไมมันจึงห่างกันมากขึ้นเรื่อย ๆ"],
     ctrls:[
       {k:"a", lab:["Strength of {@push}","ความแรงของ{@push}"], min:0.5, max:6, step:.5, def:2.5, unit:" m/s²"},
       {k:"T", lab:["Watch for","ดูนาน"], min:2, max:8, step:1, def:8, unit:" s", isT:true}
@@ -327,15 +327,15 @@ nodes:[
       }
     },
     note:["the slope of this line IS the acceleration — a stronger push, a steeper line",
-          "ความชันของเส้นนี้คือความเร่ง แรงส่งมากขึ้น เส้นก็ชันขึ้น"]
+          "ความชันของเส้นนี้คือความเร่ง ยิ่งออกแรงมาก เส้นก็ยิ่งชัน"]
   },
   guide:[
     {say:["A gentle push. Press play: the speed climbs steadily and the line is a shallow ramp.",
-          "แรงส่งเบา ๆ กดเล่น ความเร็วเพิ่มขึ้นสม่ำเสมอ และเส้นเป็นทางลาดตื้น ๆ"], set:{a:1,T:6}},
+          "ออกแรงเบา ๆ กดเล่นดู ความเร็วเพิ่มขึ้นสม่ำเสมอ และเส้นกราฟลาดเอียงเล็กน้อย"], set:{a:1,T:6}},
     {say:["A stronger push. Same shape, steeper line — the acceleration is the slope. See the afterimages spread wider.",
-          "แรงส่งมากขึ้น รูปทรงเดิม แต่เส้นชันขึ้น ความเร่งคือความชัน ภาพติดตาจะห่างกันกว้างขึ้น"], set:{a:4,T:6}},
+          "ออกแรงมากขึ้น รูปร่างเหมือนเดิมแต่เส้นชันขึ้น ความเร่งก็คือความชัน สังเกตว่าภาพติดตาห่างกันมากขึ้น"], set:{a:4,T:6}},
     {say:["Each second adds the same speed, so each second also covers more ground than the last. Constant acceleration, not constant speed.",
-          "ทุกวินาทีเพิ่มความเร็วเท่ากัน ทุกวินาทีจึงไปได้ไกลกว่าวินาทีก่อน ความเร่งคงที่ ไม่ใช่ความเร็วคงที่"], set:{a:2.5,T:8}}
+          "ความเร็วเพิ่มขึ้นเท่ากันทุกวินาที ดังนั้นแต่ละวินาทีจึงไปได้ไกลกว่าวินาทีก่อนหน้า นี่คือความเร่งคงที่ ไม่ใช่ความเร็วคงที่"], set:{a:2.5,T:8}}
   ]
 },
 
@@ -343,8 +343,8 @@ nodes:[
   title:["The v–t graph","กราฟความเร็ว–เวลา"],
   body:[["The velocity–time graph is the most efficient object in this chapter, because it carries two answers at once. Its slope is the acceleration. The area beneath it is the displacement.",
          "Area below the axis counts as negative. A learner who reports the total shaded region as distance travelled has answered a different question from the one asked — that is trap T-01, and it is everywhere."],
-        ["กราฟความเร็ว–เวลาเป็นวัตถุที่คุ้มค่าที่สุดในบทนี้ เพราะให้คำตอบสองอย่างพร้อมกัน ความชันคือความเร่ง และพื้นที่ใต้กราฟคือการกระจัด",
-         "พื้นที่ใต้แกนมีค่าเป็นลบ ผู้เรียนที่ตอบพื้นที่แรเงารวมว่าเป็นระยะทาง กำลังตอบคนละคำถามกับที่ถูกถาม นั่นคือกับดัก T-01 ซึ่งพบได้ทั่วไป"]],
+        ["กราฟความเร็ว–เวลาคุ้มค่าที่สุดในบทนี้ เพราะให้คำตอบสองอย่างพร้อมกัน ความชันของกราฟคือความเร่ง และพื้นที่ใต้กราฟคือการกระจัด",
+         "พื้นที่ใต้แกนนับเป็นลบ ถ้านำพื้นที่แรเงาทั้งหมดมารวมแล้วตอบว่าเป็นระยะทาง ก็เท่ากับตอบคนละคำถามกับที่โจทย์ถาม นี่คือกับดัก T-01 ซึ่งพบได้บ่อยมาก"]],
   formula:["slope = a   ·   area = s","ความชัน = a   ·   พื้นที่ = s"],
   flabel:["Read both from one figure","อ่านได้สองค่าจากรูปเดียว"],
   viz:"stage",
@@ -352,7 +352,7 @@ nodes:[
     anim:true,
     spellName:["The Scrying Graph: slope is a, area is s","กราฟพยากรณ์: ความชันคือ a พื้นที่คือ s"],
     question:["Drag the two glowing handles on the graph. What is the filled area actually measuring?",
-              "ลากจุดเรืองแสงสองจุดบนกราฟ พื้นที่ที่ถูกเติมสีนั้นวัดอะไรกันแน่"],
+              "ลองลากจุดเรืองแสงสองจุดบนกราฟ พื้นที่ที่ระบายสีนั้นวัดอะไรกันแน่"],
     ctrls:[
       {k:"u", lab:["Speed at the start","ความเร็วตอนเริ่ม"], min:0, max:16, step:1, def:6, unit:" m/s"},
       {k:"a", lab:["Acceleration (slope)","ความเร่ง (ความชัน)"], min:-2, max:5, step:.5, def:2, unit:" m/s²"},
@@ -422,7 +422,7 @@ nodes:[
     },
     predict:{ kind:"x", veil:false,
       ask:["Read the area under the graph: how far will {@agent} have gone when the run ends?",
-           "อ่านพื้นที่ใต้กราฟ: เมื่อจบการทดลอง {@agent}จะไปได้ไกลเท่าใด"],
+           "อ่านพื้นที่ใต้กราฟ เมื่อสิ้นสุดการทดลอง {@agent}จะเคลื่อนที่ไปได้ไกลเท่าไร"],
       actual:function(p){ return PHYS.glide(p,p.T).x; },
       tol:function(p){ return Math.max(1, 0.08*PHYS.glide(p,p.T).x); },
       explain:function(p){ var v=Math.max(0,p.u+p.a*p.T), s=PHYS.glide(p,p.T).x; return [
@@ -452,15 +452,15 @@ nodes:[
       }
     },
     note:["height is how fast, width is how long, so the area can only be how far",
-          "ความสูงคือเร็วแค่ไหน ความกว้างคือนานแค่ไหน พื้นที่จึงเป็นได้แค่ไปไกลแค่ไหน"]
+          "ความสูงบอกว่าเร็วแค่ไหน ความกว้างบอกว่านานเท่าไร พื้นที่จึงบอกได้เพียงว่าไปไกลแค่ไหน"]
   },
   guide:[
     {say:["Press play. The filled area grows at exactly the rate {@agent} covers ground.",
-          "กดเล่น พื้นที่ที่เติมสีโตขึ้นในอัตราเดียวกับที่{@agent}เคลื่อนที่ไปพอดี"], set:{u:4,a:2,T:6}},
+          "กดเล่น พื้นที่ที่ระบายสีจะโตขึ้นในอัตราเดียวกับที่{@agent}เคลื่อนที่ไปพอดี"], set:{u:4,a:2,T:6}},
     {say:["Drag the slope handle flat. The area is now a plain rectangle: speed times time.",
-          "ลากจุดความชันให้แบน พื้นที่กลายเป็นสี่เหลี่ยมผืนผ้า คือความเร็วคูณเวลา"], set:{u:10,a:0,T:6}},
+          "ลากจุดความชันให้เส้นราบ พื้นที่จะกลายเป็นสี่เหลี่ยมผืนผ้า ซึ่งก็คือความเร็วคูณเวลา"], set:{u:10,a:0,T:6}},
     {say:["Let the line slope down. The area still measures distance — it just grows more slowly.",
-          "ให้เส้นลาดลง พื้นที่ยังวัดระยะทางอยู่ เพียงแต่โตช้าลง"], set:{u:14,a:-2,T:6}}
+          "ลองให้เส้นลาดลง พื้นที่ก็ยังวัดระยะทางอยู่ เพียงแต่โตช้าลง"], set:{u:14,a:-2,T:6}}
   ]
 },
 
@@ -468,16 +468,16 @@ nodes:[
   title:["The five equations","สมการทั้งห้า"],
   body:[["For constant acceleration there are five equations, and each one is simply missing a different variable. That absence is how you choose.",
          "List what the question gives you and what it asks. One variable will be mentioned nowhere — pick the equation that omits it. This is method M-01, and it converts the whole topic from memory into a two-second lookup."],
-        ["สำหรับความเร่งคงที่มีสมการห้าสูตร แต่ละสูตรเพียงแค่ขาดตัวแปรคนละตัว การขาดหายนั้นคือวิธีเลือก",
-         "ไล่ดูว่าโจทย์ให้อะไรมาและถามหาอะไร จะมีตัวแปรหนึ่งที่ไม่ถูกกล่าวถึงเลย ให้เลือกสูตรที่ไม่มีตัวแปรนั้น นี่คือวิธี M-01 ซึ่งเปลี่ยนทั้งหัวข้อจากการท่องจำเป็นการเปิดตารางสองวินาที"]],
+        ["ความเร่งคงที่มีสมการห้าสูตร และแต่ละสูตรขาดตัวแปรไปคนละตัว เราใช้ตัวแปรที่หายไปนี้เองเลือกสูตร",
+         "ให้เขียนสิ่งที่โจทย์ให้มาและสิ่งที่ถามหา จะมีตัวแปรหนึ่งตัวที่โจทย์ไม่พูดถึงเลย ให้เลือกสูตรที่ไม่มีตัวแปรนั้น นี่คือวิธี M-01 ที่เปลี่ยนเรื่องนี้จากการท่องจำ ให้กลายเป็นการเปิดหาสูตรเพียงสองวินาที"]],
   formula:["v = u + at   ·   v² = u² + 2as   ·   s = ut + ½at²","v = u + at   ·   v² = u² + 2as   ·   s = ut + ½at²"],
   flabel:["Three of five · the other two omit u and a","สามในห้า · อีกสองสูตรตัด u และ a"],
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["The Stopping Ward: braking distance from u and a","ม่านเวทหยุดยั้ง: ระยะเบรกจาก u และ a"],
+    spellName:["The Stopping Ward: braking distance from u and a","ม่านเวทหยุดยั้ง: หาระยะเบรกจาก u และ a"],
     question:["{@Hazard} lies ahead. Can {@agent} stop in time — and can you tell before pressing play?",
-              "{@hazard}อยู่ข้างหน้า {@agent}จะหยุดทันไหม และคุณบอกได้ก่อนกดเล่นหรือเปล่า"],
+              "ข้างหน้ามี{@hazard} {@agent}จะหยุดทันไหม แล้วเรารู้คำตอบได้ก่อนกดเล่นหรือเปล่า"],
     ctrls:[
       {k:"u",   lab:["Speed when it is spotted","ความเร็วตอนมองเห็น"], min:4, max:24, step:1, def:14, unit:" m/s"},
       {k:"b",   lab:["Strength of {@brake}","ความแรงของ{@brake}"], min:1, max:9, step:.5, def:5, unit:" m/s²"},
@@ -545,7 +545,7 @@ nodes:[
       ]
     },
     predict:{ kind:"x", stretch:false,
-      ask:["Where will {@agent} come to rest — or run into {@hazard}?","{@agent}จะหยุดที่ไหน หรือจะชน{@hazard}"],
+      ask:["Where will {@agent} come to rest — or run into {@hazard}?","{@agent}จะหยุดที่ตรงไหน หรือจะพุ่งชน{@hazard}"],
       actual:function(p){ return Math.min(PHYS.stop(p,0).d, p.gap); },
       tol:function(){ return 2; },
       explain:function(p){ var th=p.u*p.rt, br=p.u*p.u/(2*p.b), d=th+br; return [
@@ -573,21 +573,21 @@ nodes:[
         if(p.b===g.b) return {ok:true, msg:["Stopped "+fmt2(g.gap-d)+" m short, and not a jolt harder than needed. "+why[0],
                                             "หยุดก่อนถึง "+fmt2(g.gap-d)+" ม. และไม่แรงเกินจำเป็นเลย "+why[1]]};
         if(d<=p.gap) return {ok:false, msg:["Safe — but a gentler {@brake} would still have stopped in time. How little room do you actually need?",
-                                            "ปลอดภัย แต่{@brake}ที่เบากว่านี้ก็ยังหยุดทัน จริง ๆ แล้วต้องใช้ระยะน้อยที่สุดเท่าใด"]};
+                                            "ปลอดภัย แต่ถ้า{@brake}เบากว่านี้ก็ยังหยุดทัน แล้วจริง ๆ ต้องมีที่ว่างอย่างน้อยเท่าไร"]};
         return {ok:false, msg:["Too gentle: you needed "+fmt2(d)+" m but had "+g.gap+" m. Remember the thinking distance comes off the room first.",
                                "เบาเกินไป ต้องใช้ระยะ "+fmt2(d)+" ม. แต่มีแค่ "+g.gap+" ม. อย่าลืมหักระยะคิดออกก่อน"]};
       }
     },
     note:["speed counts twice in braking (u²): ten percent faster costs twenty-one percent more room",
-          "ความเร็วนับสองครั้งในระยะเบรก (u²) เร็วขึ้นสิบเปอร์เซ็นต์ ต้องใช้ระยะเพิ่มยี่สิบเอ็ดเปอร์เซ็นต์"]
+          "ความเร็วมีผลสองเท่าต่อระยะเบรก (u²) ถ้าเร็วขึ้น 10% จะต้องใช้ระยะเบรกเพิ่มขึ้น 21%"]
   },
   guide:[
     {say:["At 14 m/s with a firm brake, {@agent} stops with room to spare. Press play to see it.",
-          "ที่ 14 ม./วิ กับเบรกที่หนักแน่น {@agent}หยุดได้โดยยังเหลือระยะ กดเล่นเพื่อดู"], set:{u:14,b:5,rt:.8,gap:34}},
+          "ที่ 14 m/s กับการเบรกแรง ๆ {@agent}หยุดได้โดยยังเหลือที่ว่าง กดเล่นเพื่อดู"], set:{u:14,b:5,rt:.8,gap:34}},
     {say:["Add just 6 m/s. Thinking distance grew a little; braking distance grew enormously.",
-          "เพิ่มแค่ 6 ม./วิ ระยะคิดเพิ่มนิดเดียว แต่ระยะเบรกเพิ่มมหาศาล"], set:{u:20,b:5,rt:.8,gap:34}},
+          "เพิ่มอีกแค่ 6 m/s ระยะคิดเพิ่มขึ้นนิดเดียว แต่ระยะเบรกเพิ่มขึ้นมาก"], set:{u:20,b:5,rt:.8,gap:34}},
     {say:["Same speed as before, but a distracted glance first. Reaction time alone can decide it.",
-          "ความเร็วเท่าเดิม แต่เผลอเหลือบมองก่อน เวลาตอบสนองอย่างเดียวก็ตัดสินผลได้"], set:{u:14,b:5,rt:1.5,gap:34}}
+          "ความเร็วเท่าเดิม แต่เผลอเหลือบมองไปทางอื่นก่อน แค่เวลาตอบสนองก็ตัดสินผลได้"], set:{u:14,b:5,rt:1.5,gap:34}}
   ]
 },
 
@@ -595,16 +595,16 @@ nodes:[
   title:["Free fall","การตกแบบเสรี"],
   body:[["Free fall is the five equations with a fixed acceleration of g. Everything hard about it is bookkeeping, not physics.",
          "Choose a positive direction once and hold it for the entire problem. If up is positive then g is −10 m/s² the whole way, including on the way down. At the very top the velocity is zero but the acceleration is still −10 — trap T-02, and it catches almost everyone once."],
-        ["การตกแบบเสรีคือสมการทั้งห้าที่ความเร่งถูกตรึงไว้ที่ g ความยากทั้งหมดอยู่ที่การจัดระเบียบเครื่องหมาย ไม่ใช่ฟิสิกส์",
-         "เลือกทิศบวกครั้งเดียวและยึดไว้ตลอดทั้งข้อ ถ้าขึ้นเป็นบวก g ก็เป็น −10 เมตร/วินาที² ตลอด รวมถึงตอนขาลง ที่จุดสูงสุดความเร็วเป็นศูนย์แต่ความเร่งยังเป็น −10 นั่นคือกับดัก T-02 ซึ่งดักเกือบทุกคนอย่างน้อยหนึ่งครั้ง"]],
+        ["การตกอย่างอิสระก็คือสมการทั้งห้าสูตรที่ความเร่งเท่ากับ g เสมอ ส่วนที่ยากของเรื่องนี้อยู่ที่การจัดการเครื่องหมาย ไม่ใช่ตัวฟิสิกส์",
+         "เลือกทิศบวกเพียงครั้งเดียว แล้วใช้ทิศนั้นตลอดทั้งข้อ ถ้าให้ทิศขึ้นเป็นบวก g ก็เป็น −10 m/s² ตลอดทาง รวมทั้งตอนขาลงด้วย ที่จุดสูงสุด ความเร็วเป็นศูนย์ แต่ความเร่งยังเป็น −10 นี่คือกับดัก T-02 ที่เกือบทุกคนต้องพลาดสักครั้ง"]],
   formula:["a = g = −10 m/s²  (taking up as +)","a = g = −10 m/s²  (ให้ขึ้นเป็นบวก)"],
   flabel:["One sign convention, held throughout","เครื่องหมายเดียว ใช้ตลอดทั้งข้อ"],
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["Runestone and Gem: g is the same for every mass","หินรูนกับอัญมณี: g เท่ากันทุกมวล"],
+    spellName:["Runestone and Gem: g is the same for every mass","หินรูนกับอัญมณี: g มีค่าเท่ากันไม่ว่ามวลเท่าไร"],
     question:["{@Heavy} and {@light} leave {@perch} together. Which lands first?",
-              "{@heavy}กับ{@light}หลุดจาก{@perch}พร้อมกัน อะไรถึงพื้นก่อน"],
+              "{@heavy}กับ{@light}หลุดจาก{@perch}พร้อมกัน อะไรจะถึงพื้นก่อน"],
     ctrls:[
       {k:"h",  lab:["Height of {@perch}","ความสูงของ{@perch}"], min:2, max:20, step:.2, def:12, unit:" m"},
       {k:"mm", lab:["Mass of {@heavy}","มวลของ{@heavy}"], min:.05, max:2, step:.05, def:.4, unit:" kg"},
@@ -667,7 +667,7 @@ nodes:[
       ]
     },
     predict:{ kind:"choice",
-      ask:["{@Heavy} is far heavier than {@light}. Which lands first?","{@heavy}หนักกว่า{@light}มาก อะไรถึงพื้นก่อน"],
+      ask:["{@Heavy} is far heavier than {@light}. Which lands first?","{@heavy}หนักกว่า{@light}มาก อะไรจะถึงพื้นก่อน"],
       opts:[["{@Heavy}","{@heavy}"],["{@Light}","{@light}"],["They land together","ถึงพร้อมกัน"]],
       actual:function(){ return 2; },
       explain:function(p){ return [
@@ -695,15 +695,15 @@ nodes:[
       }
     },
     note:["one curve, not two — the heavy one and the light one fall along exactly the same line",
-          "มีเส้นเดียว ไม่ใช่สองเส้น ของหนักกับของเบาตกตามเส้นเดียวกันพอดี"]
+          "มีกราฟเส้นเดียว ไม่ใช่สองเส้น ของหนักกับของเบาตกตามเส้นเดียวกันพอดี"]
   },
   guide:[
     {say:["Press play. They leave together and they arrive together.",
-          "กดเล่น ทั้งสองหลุดออกพร้อมกันและถึงพื้นพร้อมกัน"], set:{h:12,mm:.4,T:2}},
+          "กดเล่น ทั้งสองหลุดออกมาพร้อมกันและถึงพื้นพร้อมกัน"], set:{h:12,mm:.4,T:2}},
     {say:["Make {@heavy} two hundred times heavier than {@light}. Play it again — nothing changes. Mass is not in the spell.",
-          "ทำให้{@heavy}หนักกว่า{@light}สองร้อยเท่า เล่นใหม่อีกครั้ง ไม่มีอะไรเปลี่ยน มวลไม่อยู่ในบทร่ายเลย"], set:{h:12,mm:2,T:2}},
+          "ลองทำให้{@heavy}หนักกว่า{@light}สองร้อยเท่า แล้วเล่นอีกครั้ง ผลไม่เปลี่ยนเลย เพราะมวลไม่ได้อยู่ในสมการ"], set:{h:12,mm:2,T:2}},
     {say:["Raise {@perch} and both simply take longer, still in step the whole way down.",
-          "ยก{@perch}ให้สูงขึ้น ทั้งคู่ใช้เวลานานขึ้นเท่ากัน และยังลงมาพร้อมกันตลอดทาง"], set:{h:20,mm:.4,T:2.2}}
+          "ลองยก{@perch}ให้สูงขึ้น ทั้งคู่จะใช้เวลานานขึ้น แต่ก็ยังลงมาพร้อมกันตลอดทาง"], set:{h:20,mm:.4,T:2.2}}
   ]
 }
 ],
@@ -718,10 +718,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["You reported distance where displacement was asked. Area below the axis subtracts.","คุณตอบระยะทางในขณะที่โจทย์ถามการกระจัด พื้นที่ใต้แกนต้องหักลบ"],
-"T-02":["Sign slip. Hold one positive direction for the whole problem, including the downward leg.","เครื่องหมายพลาด ยึดทิศบวกเดียวตลอดทั้งข้อ รวมถึงช่วงขาลง"],
-"T-03":["Unit mismatch — convert km/h to m/s before substituting.","หน่วยไม่ตรงกัน แปลง กม./ชม. เป็น ม./วินาที ก่อนแทนค่า"],
-"T-04":["You dropped the ½. In s = ut + ½at² the triangle is half the rectangle it sits on.","คุณลืม ½ ในสูตร s = ut + ½at²"]
+"T-01":["You reported distance where displacement was asked. Area below the axis subtracts.","โจทย์ถามการกระจัด แต่คุณตอบระยะทาง พื้นที่ใต้แกนต้องนำมาลบ"],
+"T-02":["Sign slip. Hold one positive direction for the whole problem, including the downward leg.","เครื่องหมายผิด ให้ใช้ทิศบวกทิศเดียวตลอดทั้งข้อ รวมถึงช่วงขาลงด้วย"],
+"T-03":["Unit mismatch — convert km/h to m/s before substituting.","หน่วยไม่ตรงกัน ต้องแปลง km/h เป็น m/s ก่อนแทนค่า"],
+"T-04":["You dropped the ½. In s = ut + ½at² the triangle is half the rectangle it sits on.","คุณลืม ½ ในสูตร s = ut + ½at² พื้นที่สามเหลี่ยมเป็นครึ่งหนึ่งของสี่เหลี่ยมผืนผ้าที่มันวางอยู่"]
 },
 
 fig:function(f){
@@ -744,7 +744,7 @@ gen:{
                                 "รถเริ่มที่ "+u+" ม./วินาที และวัดได้ "+v+" ม./วินาที หลังผ่านไป "+T+" วินาที จงหาความเร่ง"],
     opts:[{v:fmt(a),ok:1},{v:fmt(v/T),trap:"T-01"},{v:fmt(a*2)},{v:fmt(u/T)}],unit:" m/s²"};
   if(sf==="S-04") return {stem:["A body starts at u and accelerates uniformly at a. Which expression gives its velocity after time t?",
-                                "วัตถุเริ่มที่ u และมีความเร่งคงที่ a นิพจน์ใดให้ความเร็วหลังเวลา t"],
+                                "วัตถุเริ่มเคลื่อนที่ด้วยความเร็ว u และมีความเร่งคงที่ a นิพจน์ใดให้ความเร็วหลังผ่านไปเวลา t"],
     opts:[{v:"u + at",ok:1},{v:"ut + ½at²",trap:"T-04"},{v:"u² + 2at"},{v:"(u+v)t / 2"}],unit:""};
   if(sf==="S-03") return {stem:["A train pulls away from a platform at "+u+" m/s, gaining speed steadily at "+a+" m/s². How fast is it moving "+T+" seconds later?",
                                 "รถไฟออกจากชานชาลาที่ "+u+" ม./วินาที และเร่งสม่ำเสมอ "+a+" ม./วินาที² หลังจากนั้น "+T+" วินาที รถไฟเร็วเท่าใด"],
@@ -759,7 +759,7 @@ gen:{
                                 "วัตถุเร่งจาก "+u+" ม./วินาที เป็น "+fmt(v)+" ม./วินาที ในระยะ "+s+" เมตร จงหาความเร่ง"],
     opts:[{v:fmt(a),ok:1},{v:fmt(v/s)},{v:fmt((v-u)/s)},{v:fmt(a*2)}],unit:" m/s²"};
   if(sf==="S-04") return {stem:["Time is not mentioned anywhere in the question. Which relation should you reach for?",
-                                "โจทย์ไม่กล่าวถึงเวลาเลย ควรใช้ความสัมพันธ์ใด"],
+                                "โจทย์ไม่ได้พูดถึงเวลาเลย ควรเลือกใช้ความสัมพันธ์ใด"],
     opts:[{v:"v² = u² + 2as",ok:1},{v:"v = u + at"},{v:"s = ut + ½at²"},{v:"s = ((u+v)/2)t"}],unit:""};
   return {stem:["A body starts at "+u+" m/s and accelerates at "+a+" m/s² over "+s+" m. Find its final velocity.",
                 "วัตถุเริ่มที่ "+u+" ม./วินาที เร่ง "+a+" ม./วินาที² เป็นระยะ "+s+" เมตร จงหาความเร็วปลาย"],
@@ -787,7 +787,7 @@ gen:{
                                              "ขว้างลูกบอลขึ้นตรงๆ ด้วย "+u+" ม./วินาที ให้ g = 10 ม./วินาที² ลูกบอลขึ้นสูงเท่าใด"],
     opts:[{v:fmt(hMax),ok:1},{v:fmt(u*tTop),trap:"T-04"},{v:fmt(hMax*2),trap:"T-02"},{v:fmt(u/g)}],unit:" m"};
   if(sf==="S-04") return {stem:["A ball is thrown upward. At the very top of its flight, which statement is true?",
-                                "ขว้างลูกบอลขึ้น ที่จุดสูงสุดของการเคลื่อนที่ ข้อใดถูกต้อง"],
+                                "ขว้างลูกบอลขึ้นไปในอากาศ ที่จุดสูงสุด ข้อใดถูกต้อง"],
     opts:[{v:["v = 0, a = −10 m/s²","v = 0, a = −10 ม./วินาที²"],ok:1},
           {v:["v = 0, a = 0","v = 0, a = 0"],trap:"T-02"},
           {v:["v = 0, a = +10 m/s²","v = 0, a = +10 ม./วินาที²"],trap:"T-02"},

@@ -4,7 +4,7 @@ kicker:["Mathematics · Chapter 16","คณิตศาสตร์ · บทท
 title:["Linear Programming","กำหนดการเชิงเส้น"],
 mapTitle:["The best point in a fenced region","จุดที่ดีที่สุดในบริเวณที่ถูกล้อมไว้"],
 lede:["Every real decision has limits — budget, hours, materials. Draw those limits as lines and they fence off a region of everything you could do. The remarkable result is that the best plan always sits at a corner of that fence, so you only ever have to check a handful of points.",
-      "การตัดสินใจจริงทุกอย่างมีข้อจำกัด ทั้งงบประมาณ เวลา วัตถุดิบ วาดข้อจำกัดเหล่านั้นเป็นเส้นตรง แล้วมันจะล้อมบริเวณของทุกสิ่งที่เราทำได้ ผลลัพธ์ที่น่าทึ่งคือแผนที่ดีที่สุดอยู่ที่มุมของรั้วนั้นเสมอ เราจึงต้องตรวจเพียงไม่กี่จุดเท่านั้น"],
+      "การตัดสินใจจริงทุกเรื่องมีข้อจำกัด ไม่ว่าจะเป็นงบ เวลา หรือวัตถุดิบ ถ้าวาดข้อจำกัดเหล่านี้เป็นเส้นตรง เส้นจะล้อมบริเวณที่รวมทุกอย่างที่เราทำได้ไว้ สิ่งที่น่าทึ่งคือแผนที่ดีที่สุดอยู่ที่มุมของรั้วนี้เสมอ เราจึงตรวจแค่ไม่กี่จุดก็พอ"],
 next:null,
 
 nodes:[
@@ -12,9 +12,9 @@ nodes:[
   title:["Building the model","การสร้างแบบจำลอง"],
   body:[["Name the decision variables first — usually 'how many of each thing to make'. Then write one inequality per limited resource, and one linear expression for the quantity you want to make as large or as small as possible: the objective function.",
          "Almost every real problem also carries the silent constraints x ≥ 0 and y ≥ 0, since you cannot produce a negative quantity of anything. Leaving them out opens the region into quadrants that have no meaning, and that is trap T-01."],
-        ["ตั้งชื่อตัวแปรตัดสินใจก่อน โดยทั่วไปคือ จะผลิตแต่ละอย่างจำนวนเท่าใด จากนั้นเขียนอสมการหนึ่งข้อต่อทรัพยากรที่จำกัดหนึ่งอย่าง และเขียนนิพจน์เชิงเส้นหนึ่งนิพจน์แทนปริมาณที่ต้องการให้มากที่สุดหรือน้อยที่สุด นั่นคือฟังก์ชันจุดประสงค์",
-         "ปัญหาจริงเกือบทุกข้อมีข้อจำกัดที่ไม่ได้เขียนไว้ด้วย คือ x ≥ 0 และ y ≥ 0 เพราะเราผลิตของในจำนวนติดลบไม่ได้ การละไว้จะเปิดบริเวณออกไปยังควอดรันต์ที่ไม่มีความหมาย และนั่นคือกับดัก T-01"]],
-  formula:["maximise P = ax + by   subject to constraints, with x ≥ 0 , y ≥ 0","หาค่าสูงสุด P = ax + by   ภายใต้ข้อจำกัด โดย x ≥ 0 , y ≥ 0"],
+        ["เริ่มจากตั้งชื่อตัวแปรตัดสินใจ ซึ่งมักเป็น จะผลิตของแต่ละอย่างกี่ชิ้น แล้วเขียนอสมการหนึ่งข้อต่อทรัพยากรที่จำกัดหนึ่งอย่าง จากนั้นเขียนนิพจน์เชิงเส้นแทนปริมาณที่เราอยากให้มากที่สุดหรือน้อยที่สุด นิพจน์นี้เรียกว่าฟังก์ชันจุดประสงค์",
+         "โจทย์จริงเกือบทุกข้อมีข้อจำกัดที่ไม่ได้เขียนไว้ด้วย คือ x ≥ 0 และ y ≥ 0 เพราะผลิตของติดลบไม่ได้ ถ้าลืมเขียน บริเวณจะขยายไปยังควอดรันต์ที่ไม่มีความหมาย นี่คือกับดัก T-01"]],
+  formula:["maximise P = ax + by   subject to constraints, with x ≥ 0 , y ≥ 0","หาค่าสูงสุดของ P = ax + by   ภายใต้ข้อจำกัด โดย x ≥ 0 , y ≥ 0"],
   flabel:["Never forget x ≥ 0 and y ≥ 0","อย่าลืม x ≥ 0 และ y ≥ 0"],
   viz:"table",
   vizcfg:{
@@ -39,15 +39,15 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===2?(i===4?"warn":(i===1?"accent":"good")):"accent"}; }); });
     },
-    note:["the last line is the one nobody writes down and everybody needs","บรรทัดสุดท้ายคือบรรทัดที่ไม่มีใครเขียนแต่ทุกคนต้องใช้"]
+    note:["the last line is the one nobody writes down and everybody needs","บรรทัดสุดท้ายนี้ไม่มีใครเขียน แต่ทุกคนต้องใช้"]
   } },
 
 { id:"region", x:100, y:150, requires:["model"], methods:["M-02"],
   title:["The feasible region","อาณาบริเวณที่เป็นไปได้"],
   body:[["Graph each constraint as a boundary line, then shade the side that satisfies it. The feasible region is the overlap of every shaded half-plane — the set of plans that break no rule at all.",
          "Test the origin to find the correct side: substitute (0, 0) and see whether the inequality holds. A solid line means the boundary itself is included (≤ or ≥); a dashed line means it is not (< or >). Shading the wrong half is trap T-02, and it silently invalidates everything that follows."],
-        ["วาดข้อจำกัดแต่ละข้อเป็นเส้นขอบ แล้วแรเงาด้านที่สอดคล้องกับอสมการ อาณาบริเวณที่เป็นไปได้คือส่วนที่ครึ่งระนาบที่แรเงาไว้ทุกอันซ้อนทับกัน คือเซตของแผนที่ไม่ละเมิดกฎข้อใดเลย",
-         "ทดสอบที่จุดกำเนิดเพื่อหาด้านที่ถูกต้อง โดยแทน (0, 0) แล้วดูว่าอสมการเป็นจริงหรือไม่ เส้นทึบหมายถึงรวมเส้นขอบด้วย (≤ หรือ ≥) เส้นประหมายถึงไม่รวม (< หรือ >) การแรเงาผิดด้านคือกับดัก T-02 และมันทำให้ทุกอย่างที่ตามมาผิดไปเงียบๆ"]],
+        ["วาดข้อจำกัดแต่ละข้อเป็นเส้นขอบ แล้วแรเงาด้านที่เป็นไปตามอสมการ อาณาบริเวณที่เป็นไปได้คือส่วนที่ครึ่งระนาบทุกอันซ้อนกัน ซึ่งก็คือเซตของแผนที่ไม่ผิดกฎข้อใดเลย",
+         "ใช้จุดกำเนิดทดสอบว่าต้องแรเงาด้านไหน โดยแทน (0, 0) แล้วดูว่าอสมการเป็นจริงหรือไม่ เส้นทึบแปลว่ารวมเส้นขอบด้วย (≤ หรือ ≥) เส้นประแปลว่าไม่รวม (< หรือ >) ถ้าแรเงาผิดด้านคือกับดัก T-02 และทุกขั้นตอนหลังจากนั้นจะผิดทั้งหมดโดยไม่รู้ตัว"]],
   formula:["Test (0, 0). If the inequality holds, shade that side.","ทดสอบ (0, 0) ถ้าอสมการเป็นจริง ให้แรเงาด้านนั้น"],
   flabel:["Solid = included, dashed = excluded","เส้นทึบ = รวม, เส้นประ = ไม่รวม"],
   viz:"plot",
@@ -71,15 +71,15 @@ nodes:[
       {lab:["x-intercept","จุดตัดแกน x"], f:function(S){ return fmt2(S.p.c/S.p.a); }},
       {lab:["y-intercept","จุดตัดแกน y"], f:function(S){ return fmt2(S.p.c/S.p.b); }}
     ],
-    note:["substitute (0,0) to settle which side — it is the fastest test there is","แทน (0,0) เพื่อตัดสินว่าแรเงาฝั่งไหน เป็นวิธีทดสอบที่เร็วที่สุด"]
+    note:["substitute (0,0) to settle which side — it is the fastest test there is","แทน (0,0) เพื่อดูว่าแรเงาด้านไหน เป็นวิธีที่เร็วที่สุด"]
   } },
 
 { id:"corners", x:370, y:150, requires:["region"], methods:["M-03"],
   title:["The corner-point theorem","ทฤษฎีบทจุดมุม"],
   body:[["If an optimum exists, it occurs at a vertex of the feasible region. That is what makes the whole method practical: instead of testing infinitely many points, list the corners, evaluate the objective at each, and pick the best.",
          "The lab shows why. The objective function draws a family of parallel lines, one for every value of P. Sliding P pushes the line across the region, and the last point it touches before leaving is always a corner — unless the line happens to lie parallel to an edge, in which case that whole edge ties for the optimum. Evaluating at an interior point instead of a vertex is trap T-03."],
-        ["ถ้าค่าเหมาะที่สุดมีอยู่ มันจะเกิดที่จุดยอดของอาณาบริเวณที่เป็นไปได้ นั่นคือสิ่งที่ทำให้วิธีการทั้งหมดนี้ใช้ได้จริง แทนที่จะทดสอบจุดจำนวนอนันต์ ให้ลิสต์มุมออกมา หาค่าฟังก์ชันจุดประสงค์ที่แต่ละมุม แล้วเลือกอันที่ดีที่สุด",
-         "ห้องทดลองแสดงเหตุผล ฟังก์ชันจุดประสงค์วาดเป็นตระกูลเส้นขนาน หนึ่งเส้นต่อค่า P หนึ่งค่า การเลื่อน P ดันเส้นข้ามอาณาบริเวณไป และจุดสุดท้ายที่มันแตะก่อนออกไปคือมุมเสมอ ยกเว้นกรณีที่เส้นบังเอิญขนานกับขอบ ซึ่งขอบทั้งเส้นนั้นจะให้ค่าเหมาะที่สุดเท่ากัน การหาค่าที่จุดภายในแทนที่จะเป็นจุดยอดคือกับดัก T-03"]],
+        ["ถ้ามีค่าเหมาะที่สุด มันจะอยู่ที่จุดยอดของอาณาบริเวณที่เป็นไปได้ ข้อนี้ทำให้วิธีนี้ใช้ได้จริง เราไม่ต้องทดสอบจุดอนันต์จุด แค่เขียนรายการมุมทั้งหมด หาค่าฟังก์ชันจุดประสงค์ที่แต่ละมุม แล้วเลือกค่าที่ดีที่สุด",
+         "ห้องทดลองช่วยอธิบายเหตุผล ฟังก์ชันจุดประสงค์วาดเป็นเส้นขนานหลายเส้น โดย P แต่ละค่าให้หนึ่งเส้น เมื่อเลื่อน P เส้นจะเคลื่อนข้ามบริเวณ และจุดสุดท้ายที่เส้นแตะก่อนจะหลุดออกไปคือมุมเสมอ ยกเว้นเมื่อเส้นขนานกับขอบพอดี กรณีนั้นทั้งขอบเป็นค่าเหมาะที่สุดเท่ากันหมด ถ้าหาค่าที่จุดภายในแทนจุดยอด ก็ตกกับดัก T-03"]],
   formula:["The optimum sits at a vertex — check every corner","ค่าเหมาะที่สุดอยู่ที่จุดยอด ให้ตรวจทุกมุม"],
   flabel:["Slide the line until it is about to leave","เลื่อนเส้นจนกำลังจะออกจากบริเวณ"],
   viz:{
@@ -160,28 +160,28 @@ nodes:[
         o.push('<text x="'+colx+'" y="'+(y+13)+'" fill="'+(isBest?"var(--accent)":"var(--ink-faint)")+
                '" font-family="IBM Plex Sans" font-size="10.5">P = '+fmt2(val)+'</text>');
       });
-      o.push('<text x="58" y="306" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5">'+tx(["green line = all plans giving the same profit P","เส้นเขียว = ทุกแผนที่ให้กำไร P เท่ากัน"])+'</text>');
-      o.push('<text x="58" y="322" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["push P up until the line is about to leave the region","ดัน P ขึ้นจนเส้นกำลังจะออกจากบริเวณ"])+'</text>');
+      o.push('<text x="58" y="306" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5">'+tx(["green line = all plans giving the same profit P","เส้นสีเขียว = ทุกแผนที่ให้กำไร P เท่ากัน"])+'</text>');
+      o.push('<text x="58" y="322" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["push P up until the line is about to leave the region","ดัน P ขึ้นจนเส้นกำลังจะหลุดออกจากบริเวณ"])+'</text>');
     }
   },
   guide:[
     {say:["The shaded quadrilateral is every plan that breaks no constraint. Its corners are ringed.",
-          "รูปสี่เหลี่ยมที่แรเงาคือทุกแผนที่ไม่ละเมิดข้อจำกัดใดเลย มุมของมันถูกวงไว้"], set:{c1:14,c2:16,a:3,b:4,P:20}},
+          "รูปสี่เหลี่ยมที่แรเงาคือทุกแผนที่ไม่ผิดข้อจำกัดข้อใดเลย มุมของมันมีวงล้อมไว้"], set:{c1:14,c2:16,a:3,b:4,P:20}},
     {say:["The green line collects every plan worth the same profit. Raise P and it marches outward, staying parallel.",
-          "เส้นสีเขียวรวบรวมทุกแผนที่ให้กำไรเท่ากัน เพิ่ม P แล้วมันจะเดินออกไปข้างนอกโดยยังขนานเหมือนเดิม"], set:{c1:14,c2:16,a:3,b:4,P:32}},
+          "เส้นสีเขียวคือทุกแผนที่ให้กำไรเท่ากัน เพิ่ม P แล้วเส้นจะเลื่อนออกไปข้างนอกโดยยังขนานเหมือนเดิม"], set:{c1:14,c2:16,a:3,b:4,P:32}},
     {say:["Keep pushing. The last point the line touches before it leaves is the ringed corner — that is the maximum.",
-          "ดันต่อไป จุดสุดท้ายที่เส้นแตะก่อนจะออกไปคือมุมที่วงไว้ นั่นคือค่าสูงสุด"], set:{c1:14,c2:16,a:3,b:4,P:44}},
+          "ดันต่อไปเรื่อยๆ จุดสุดท้ายที่เส้นแตะก่อนหลุดออกไปคือมุมที่มีวงล้อม นั่นคือค่าสูงสุด"], set:{c1:14,c2:16,a:3,b:4,P:44}},
     {say:["Now change the profit per unit. A different corner wins — the region did not move, only the line's slope did.",
-          "ทีนี้เปลี่ยนกำไรต่อหน่วย มุมที่ชนะเปลี่ยนไป บริเวณไม่ได้ขยับ มีเพียงความชันของเส้นที่เปลี่ยน"], set:{c1:14,c2:16,a:8,b:1,P:44}}
+          "ทีนี้ลองเปลี่ยนกำไรต่อหน่วย มุมที่ชนะจะเปลี่ยนไป บริเวณไม่ได้ขยับเลย มีแค่ความชันของเส้นที่เปลี่ยน"], set:{c1:14,c2:16,a:8,b:1,P:44}}
   ]},
 
 { id:"solving", x:235, y:248, requires:["corners"], methods:["M-04"],
   title:["Finding the optimum","การหาค่าเหมาะที่สุด"],
   body:[["The procedure is fixed. Graph the constraints, identify the feasible region, find every vertex — including the ones where two constraint lines cross, which need simultaneous equations — evaluate the objective at each, then compare.",
          "Minimisation runs identically; only the comparison at the end flips. Reading a maximum where the question asked for a minimum is trap T-04, and it is an easy mistake to make when the arithmetic all went right."],
-        ["ขั้นตอนตายตัว วาดข้อจำกัด ระบุอาณาบริเวณที่เป็นไปได้ หาจุดยอดทุกจุด รวมถึงจุดที่เส้นข้อจำกัดสองเส้นตัดกันซึ่งต้องแก้ระบบสมการ หาค่าฟังก์ชันจุดประสงค์ที่แต่ละจุด แล้วเปรียบเทียบ",
-         "การหาค่าต่ำสุดทำเหมือนกันทุกประการ ต่างกันเพียงการเปรียบเทียบตอนท้ายที่กลับด้าน การอ่านค่าสูงสุดในขณะที่โจทย์ถามหาค่าต่ำสุดคือกับดัก T-04 และเป็นความผิดพลาดที่เกิดขึ้นง่ายเมื่อการคำนวณทุกอย่างถูกต้องหมดแล้ว"]],
-  formula:["graph → region → vertices → evaluate → compare","วาดกราฟ → หาบริเวณ → หาจุดยอด → หาค่า → เปรียบเทียบ"],
+        ["ขั้นตอนเป็นแบบเดียวกันเสมอ วาดข้อจำกัด หาอาณาบริเวณที่เป็นไปได้ แล้วหาจุดยอดทุกจุด รวมทั้งจุดที่เส้นข้อจำกัดสองเส้นตัดกัน ซึ่งต้องแก้ระบบสมการ จากนั้นหาค่าฟังก์ชันจุดประสงค์ที่แต่ละจุดแล้วเทียบกัน",
+         "การหาค่าต่ำสุดทำเหมือนกันทุกอย่าง ต่างกันแค่ตอนเทียบค่าในขั้นสุดท้ายที่เป็นตรงข้าม ถ้าโจทย์ถามค่าต่ำสุดแต่ตอบค่าสูงสุดคือกับดัก T-04 พลาดง่ายด้วย เพราะแม้คำนวณถูกทุกอย่างก็ยังพลาดตรงนี้ได้"]],
+  formula:["graph → region → vertices → evaluate → compare","วาดกราฟ → หาบริเวณ → หาจุดยอด → คำนวณค่า → เปรียบเทียบ"],
   flabel:["Check whether max or min was asked for","ตรวจว่าโจทย์ถามค่าสูงสุดหรือต่ำสุด"],
   viz:"bars",
   vizcfg:{
@@ -206,23 +206,23 @@ nodes:[
       {lab:["(4,3)","(4,3)"], f:function(p){ return 4*p.a+3*p.b; }, col:"accent"},
       {lab:["(0,5)","(0,5)"], f:function(p){ return 5*p.b; }, col:"warn"}
     ],
-    note:["change the profit per unit and the tallest bar can move to a different corner","เปลี่ยนกำไรต่อหน่วย แถบที่สูงที่สุดอาจย้ายไปอยู่คนละมุม"]
+    note:["change the profit per unit and the tallest bar can move to a different corner","เปลี่ยนกำไรต่อหน่วย แถบที่สูงที่สุดอาจย้ายไปอยู่มุมอื่น"]
   },
   guide:[
     {say:["With these profits the interior corner (4,3) wins.",
-          "ด้วยกำไรชุดนี้ มุมด้านใน (4,3) ชนะ"], set:{a:3,b:5}},
+          "ด้วยกำไรชุดนี้ มุมด้านใน (4,3) ให้ค่าดีที่สุด"], set:{a:3,b:5}},
     {say:["Make x far more profitable and the winner jumps to the corner on the x-axis.",
-          "ทำให้ x มีกำไรมากกว่ามาก ผู้ชนะกระโดดไปที่มุมบนแกน x"], set:{a:10,b:1}},
+          "ทำให้ x ให้กำไรมากกว่า y มาก มุมที่ชนะจะกระโดดไปอยู่ที่มุมบนแกน x"], set:{a:10,b:1}},
     {say:["Reverse it and the top corner takes over. The region never changed — only the objective did.",
-          "สลับกลับกัน มุมบนสุดเข้ามาแทน บริเวณไม่เคยเปลี่ยน มีเพียงฟังก์ชันจุดประสงค์ที่เปลี่ยน"], set:{a:1,b:10}}
+          "สลับกลับกัน มุมบนสุดก็ชนะแทน บริเวณไม่เคยเปลี่ยน มีแค่ฟังก์ชันจุดประสงค์ที่เปลี่ยน"], set:{a:1,b:10}}
   ] },
 
 { id:"cases", x:235, y:346, requires:["solving"], methods:["M-05"],
   title:["Special cases","กรณีพิเศษ"],
   body:[["Three things can go differently. If the constraints contradict each other the feasible region is empty and there is no solution at all. If the region is unbounded in the direction the objective improves, no maximum exists — though a minimum still might.",
          "And if the objective line runs exactly parallel to one edge, every point along that edge is optimal, so there are infinitely many best answers rather than one. Reporting a single vertex there is not wrong, but it is incomplete."],
-        ["มีสามอย่างที่อาจต่างออกไป ถ้าข้อจำกัดขัดแย้งกันเอง อาณาบริเวณที่เป็นไปได้จะว่างเปล่าและไม่มีคำตอบเลย ถ้าบริเวณไม่มีขอบเขตในทิศทางที่ฟังก์ชันจุดประสงค์ดีขึ้น ค่าสูงสุดจะไม่มีอยู่ แม้ว่าค่าต่ำสุดอาจยังมีก็ตาม",
-         "และถ้าเส้นจุดประสงค์ขนานกับขอบเส้นหนึ่งพอดี ทุกจุดบนขอบนั้นจะเป็นค่าเหมาะที่สุด จึงมีคำตอบที่ดีที่สุดจำนวนอนันต์แทนที่จะมีเพียงคำตอบเดียว การตอบจุดยอดเพียงจุดเดียวตรงนั้นไม่ผิด แต่ไม่ครบ"]],
+        ["มีสามกรณีที่ต่างออกไป ถ้าข้อจำกัดขัดแย้งกันเอง อาณาบริเวณที่เป็นไปได้จะว่างและไม่มีคำตอบเลย ถ้าบริเวณไม่มีขอบเขตในทิศทางที่ฟังก์ชันจุดประสงค์ดีขึ้น จะไม่มีค่าสูงสุด แต่ยังอาจมีค่าต่ำสุดได้",
+         "และถ้าเส้นจุดประสงค์ขนานกับขอบเส้นหนึ่งพอดี ทุกจุดบนขอบนั้นเป็นค่าเหมาะที่สุด คำตอบที่ดีที่สุดจึงมีอนันต์คำตอบ ไม่ใช่คำตอบเดียว ถ้าตอบจุดยอดเพียงจุดเดียวในกรณีนี้ ไม่ถือว่าผิด แต่ตอบไม่ครบ"]],
   formula:["empty region → none        unbounded → no maximum        parallel edge → infinitely many","บริเวณว่าง → ไม่มีคำตอบ        ไม่มีขอบเขต → ไม่มีค่าสูงสุด        ขนานกับขอบ → มีคำตอบอนันต์"],
   flabel:["Unbounded blocks the max, not the min","ไม่มีขอบเขตขวางค่าสูงสุด ไม่ใช่ค่าต่ำสุด"],
   viz:"table",
@@ -249,7 +249,7 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"ink":(i===0?"good":"warn")}; }); });
     },
-    note:["unbounded blocks the maximum but often leaves the minimum perfectly well defined","การไม่มีขอบเขตขวางค่าสูงสุด แต่มักปล่อยให้ค่าต่ำสุดยังนิยามได้ดี"]
+    note:["unbounded blocks the maximum but often leaves the minimum perfectly well defined","บริเวณไม่มีขอบเขตอาจทำให้ไม่มีค่าสูงสุด แต่ค่าต่ำสุดมักยังหาได้ตามปกติ"]
   } }
 ],
 
@@ -262,10 +262,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["The constraints x ≥ 0 and y ≥ 0 were left out, so the region spilled into meaningless quadrants.","ลืมข้อจำกัด x ≥ 0 และ y ≥ 0 บริเวณจึงล้นออกไปยังควอดรันต์ที่ไม่มีความหมาย"],
+"T-01":["The constraints x ≥ 0 and y ≥ 0 were left out, so the region spilled into meaningless quadrants.","ลืมข้อจำกัด x ≥ 0 และ y ≥ 0 บริเวณจึงขยายไปยังควอดรันต์ที่ไม่มีความหมาย"],
 "T-02":["The wrong side of a boundary was shaded. Test (0, 0) to settle it.","แรเงาผิดด้านของเส้นขอบ ให้ทดสอบที่ (0, 0) เพื่อตัดสิน"],
-"T-03":["The objective was evaluated at an interior point. The optimum lives at a vertex.","หาค่าฟังก์ชันจุดประสงค์ที่จุดภายใน ค่าเหมาะที่สุดอยู่ที่จุดยอด"],
-"T-04":["A maximum was reported where a minimum was asked for, or the reverse.","รายงานค่าสูงสุดในที่ที่ถามหาค่าต่ำสุด หรือกลับกัน"]
+"T-03":["The objective was evaluated at an interior point. The optimum lives at a vertex.","หาค่าฟังก์ชันจุดประสงค์ที่จุดภายใน ทั้งที่ค่าเหมาะที่สุดอยู่ที่จุดยอด"],
+"T-04":["A maximum was reported where a minimum was asked for, or the reverse.","ตอบค่าสูงสุดทั้งที่โจทย์ถามค่าต่ำสุด หรือตอบกลับกัน"]
 },
 
 gen:{
@@ -289,13 +289,13 @@ gen:{
 "M-02": function(sf){
   var c=pick([6,10,12]);
   if(sf==="S-04") return {stem:["How do you decide which side of a boundary to shade?",
-                                "จะตัดสินอย่างไรว่าควรแรเงาด้านใดของเส้นขอบ"],
+                                "เราจะรู้ได้อย่างไรว่าต้องแรเงาด้านไหนของเส้นขอบ"],
     opts:[{v:["Substitute (0, 0) and check whether the inequality holds","แทน (0, 0) แล้วดูว่าอสมการเป็นจริงหรือไม่"],ok:1},
           {v:["Always shade above the line","แรเงาเหนือเส้นเสมอ"],trap:"T-02"},
           {v:["Always shade below the line","แรเงาใต้เส้นเสมอ"],trap:"T-02"},
           {v:["Always shade towards the origin","แรเงาเข้าหาจุดกำเนิดเสมอ"],trap:"T-02"}],unit:""};
   if(sf==="S-03") return {stem:["A constraint uses < rather than ≤. How is its boundary drawn?",
-                                "ข้อจำกัดหนึ่งใช้ < แทน ≤ เส้นขอบของมันวาดอย่างไร"],
+                                "ข้อจำกัดข้อหนึ่งใช้ < ไม่ใช่ ≤ ต้องวาดเส้นขอบของมันอย่างไร"],
     opts:[{v:["Dashed — the boundary is excluded","เส้นประ เพราะไม่รวมเส้นขอบ"],ok:1},
           {v:["Solid — the boundary is included","เส้นทึบ เพราะรวมเส้นขอบ"],trap:"T-02"},
           {v:["It is not drawn at all","ไม่ต้องวาดเลย"],trap:"T-02"},
@@ -307,13 +307,13 @@ gen:{
 "M-03": function(sf){
   var a=pick([2,3,5]), b=pick([3,4,6]), x=pick([2,4,6]), y=pick([1,3,5]);
   if(sf==="S-04") return {stem:["Where does the optimum of a linear program occur?",
-                                "ค่าเหมาะที่สุดของกำหนดการเชิงเส้นเกิดขึ้นที่ใด"],
+                                "ค่าเหมาะที่สุดของกำหนดการเชิงเส้นเกิดที่ไหน"],
     opts:[{v:["At a vertex of the feasible region","ที่จุดยอดของอาณาบริเวณที่เป็นไปได้"],ok:1},
           {v:["At the centre of the region","ที่ศูนย์กลางของบริเวณ"],trap:"T-03"},
           {v:["At the origin, always","ที่จุดกำเนิดเสมอ"],trap:"T-03"},
           {v:["Anywhere inside the region","ที่ใดก็ได้ภายในบริเวณ"],trap:"T-03"}],unit:""};
   if(sf==="S-03") return {stem:["Why is checking only the corners enough?","ทำไมการตรวจเฉพาะมุมจึงเพียงพอ"],
-    opts:[{v:["The objective line leaves the region at a corner last","เส้นจุดประสงค์ออกจากบริเวณโดยแตะมุมเป็นจุดสุดท้าย"],ok:1},
+    opts:[{v:["The objective line leaves the region at a corner last","เส้นจุดประสงค์แตะมุมเป็นจุดสุดท้ายก่อนออกจากบริเวณ"],ok:1},
           {v:["Corners have the largest coordinates","มุมมีพิกัดใหญ่ที่สุด"],trap:"T-03"},
           {v:["Interior points are not feasible","จุดภายในไม่เป็นไปได้"],trap:"T-03"},
           {v:["It is only an approximation","เป็นเพียงการประมาณ"],trap:"T-03"}],unit:""};
@@ -328,8 +328,8 @@ gen:{
   var vals=V.map(function(v){ return a*v[0]+b*v[1]; });
   var mx=Math.max.apply(null,vals), mn=Math.min.apply(null,vals);
   if(sf==="S-04") return {stem:["What is the first step after graphing the constraints?",
-                                "ขั้นตอนแรกหลังจากวาดกราฟข้อจำกัดคืออะไร"],
-    opts:[{v:["Identify the feasible region and its vertices","ระบุอาณาบริเวณที่เป็นไปได้และจุดยอดของมัน"],ok:1},
+                                "หลังวาดกราฟข้อจำกัดแล้ว ขั้นแรกต้องทำอะไร"],
+    opts:[{v:["Identify the feasible region and its vertices","หาอาณาบริเวณที่เป็นไปได้และจุดยอดของมัน"],ok:1},
           {v:["Guess a solution","เดาคำตอบ"],trap:"T-03"},
           {v:["Evaluate at the centre","หาค่าที่จุดศูนย์กลาง"],trap:"T-03"},
           {v:["Ignore the objective","ไม่สนใจฟังก์ชันจุดประสงค์"]}],unit:""};
@@ -341,19 +341,19 @@ gen:{
 },
 "M-05": function(sf){
   if(sf==="S-04") return {stem:["The feasible region is unbounded above. What follows?",
-                                "อาณาบริเวณที่เป็นไปได้ไม่มีขอบเขตด้านบน จะเกิดอะไรตามมา"],
+                                "อาณาบริเวณที่เป็นไปได้ไม่มีขอบเขตด้านบน จะสรุปอะไรได้"],
     opts:[{v:["No maximum exists, though a minimum may","ไม่มีค่าสูงสุด แม้ว่าค่าต่ำสุดอาจมี"],ok:1},
           {v:["No solution of any kind exists","ไม่มีคำตอบใดๆ เลย"],trap:"T-04"},
           {v:["Both maximum and minimum exist","มีทั้งค่าสูงสุดและต่ำสุด"],trap:"T-04"},
           {v:["The maximum is at the origin","ค่าสูงสุดอยู่ที่จุดกำเนิด"],trap:"T-03"}],unit:""};
   if(sf==="S-03") return {stem:["The objective line lies parallel to one edge of the region. What does that mean?",
-                                "เส้นจุดประสงค์ขนานกับขอบเส้นหนึ่งของบริเวณ หมายความว่าอย่างไร"],
+                                "เส้นจุดประสงค์ขนานกับขอบเส้นหนึ่งของบริเวณ แปลว่าอะไร"],
     opts:[{v:["Every point on that edge is optimal","ทุกจุดบนขอบนั้นเป็นค่าเหมาะที่สุด"],ok:1},
           {v:["There is no solution","ไม่มีคำตอบ"],trap:"T-04"},
           {v:["Only the midpoint is optimal","เฉพาะจุดกึ่งกลางที่เหมาะที่สุด"],trap:"T-03"},
           {v:["The problem is unbounded","ปัญหาไม่มีขอบเขต"],trap:"T-04"}],unit:""};
   return {stem:["The constraints contradict each other. What is the feasible region?",
-                "ข้อจำกัดขัดแย้งกันเอง อาณาบริเวณที่เป็นไปได้คืออะไร"],
+                "ข้อจำกัดขัดแย้งกันเอง อาณาบริเวณที่เป็นไปได้เป็นอย่างไร"],
     opts:[{v:["Empty — there is no solution","ว่างเปล่า ไม่มีคำตอบ"],ok:1},
           {v:["The whole first quadrant","ควอดรันต์ที่หนึ่งทั้งหมด"],trap:"T-01"},
           {v:["A single point","จุดเดียว"],trap:"T-03"},

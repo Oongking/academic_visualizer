@@ -4,7 +4,7 @@ kicker:["Physics · Chapter 17","ฟิสิกส์ · บทที่ 17"],
 title:["Solids and Fluids","ของแข็งและของไหล"],
 mapTitle:["Matter that pushes back","สสารที่ดันกลับ"],
 lede:["Chapter 3 treated bodies as points. Real materials stretch, real fluids press, and real flows speed up when they narrow. All of it follows from force spread over an area.",
-      "บทที่ 3 มองวัตถุเป็นจุด แต่วัสดุจริงยืดได้ ของไหลจริงกดดัน และการไหลจริงเร็วขึ้นเมื่อทางแคบลง ทั้งหมดนี้มาจากแรงที่กระจายบนพื้นที่"],
+      "บทที่ 3 มองวัตถุเป็นจุด แต่วัสดุจริงยืดได้ ของไหลจริงออกแรงดัน และการไหลจริงเร็วขึ้นเมื่อทางแคบลง ทั้งหมดนี้เกิดจากแรงที่กระจายอยู่บนพื้นที่"],
 next:["→ continues in Chapter 18 · Electromagnetic Waves","→ ต่อในบทที่ 18 · คลื่นแม่เหล็กไฟฟ้า"],
 
 nodes:[
@@ -12,8 +12,8 @@ nodes:[
   title:["Stress and strain","ความเค้นและความเครียด"],
   body:[["Stress is force per unit area, strain is the fractional extension, and their ratio in the elastic region is the Young modulus: Y = (F/A)(L₀/ΔL). It is a property of the material, not of the sample.",
          "Below the elastic limit the material springs back. Beyond it, deformation is permanent. The curve below shows both regions, and the point where it stops being a straight line is the whole engineering question."],
-        ["ความเค้นคือแรงต่อหน่วยพื้นที่ ความเครียดคือสัดส่วนการยืด และอัตราส่วนของทั้งสองในช่วงยืดหยุ่นคือมอดุลัสของยัง Y = (F/A)(L₀/ΔL) มันเป็นสมบัติของวัสดุ ไม่ใช่ของชิ้นงาน",
-         "ต่ำกว่าขีดจำกัดยืดหยุ่น วัสดุจะดีดกลับ เกินกว่านั้นการเปลี่ยนรูปจะถาวร เส้นกราฟด้านล่างแสดงทั้งสองช่วง และจุดที่มันเลิกเป็นเส้นตรงคือคำถามทางวิศวกรรมทั้งหมด"]],
+        ["ความเค้นคือแรงต่อหน่วยพื้นที่ ความเครียดคือสัดส่วนที่วัสดุยืดออก ส่วนอัตราส่วนระหว่างสองค่านี้ในช่วงยืดหยุ่นคือมอดุลัสของยัง Y = (F/A)(L₀/ΔL) ค่านี้เป็นสมบัติของวัสดุ ไม่ขึ้นกับขนาดของชิ้นงาน",
+         "ถ้าไม่เกินขีดจำกัดยืดหยุ่น วัสดุจะดีดกลับได้ แต่ถ้าเกินไป รูปร่างจะเปลี่ยนถาวร กราฟด้านล่างแสดงทั้งสองช่วง และจุดที่เส้นเริ่มไม่ตรงคือจุดที่วิศวกรต้องระวังที่สุด"]],
   formula:["Y = (F/A) / (ΔL/L₀)","Y = (F/A) / (ΔL/L₀)"],
   flabel:["A property of the material","สมบัติของวัสดุ"],
   viz:"plot",
@@ -40,19 +40,19 @@ nodes:[
   },
   guide:[
     {say:["The straight part is the elastic region. Its gradient IS the Young modulus — read it off the axes.",
-          "ช่วงที่เป็นเส้นตรงคือช่วงยืดหยุ่น ความชันของมันคือมอดุลัสของยัง อ่านได้จากแกน"], set:{Y:200,el:4}},
+          "ช่วงที่เป็นเส้นตรงคือช่วงยืดหยุ่น ความชันของเส้นก็คือมอดุลัสของยัง ลองอ่านค่าจากแกนดู"], set:{Y:200,el:4}},
     {say:["Beyond the marked point the line bends over. The material is now deforming permanently.",
-          "เลยจุดที่ทำเครื่องหมายไว้ เส้นจะโค้งลง วัสดุกำลังเปลี่ยนรูปอย่างถาวรแล้ว"], set:{Y:200,el:4}},
+          "เลยจุดที่ทำเครื่องหมายไว้ เส้นจะโค้งลง แปลว่าวัสดุเริ่มเปลี่ยนรูปถาวรแล้ว"], set:{Y:200,el:4}},
     {say:["Lower the modulus. A shallower line means the same stress produces far more strain — rubber, not steel.",
-          "ลดค่ามอดุลัส เส้นที่ชันน้อยลงหมายถึงความเค้นเท่าเดิมให้ความเครียดมากกว่ามาก คือยาง ไม่ใช่เหล็ก"], set:{Y:40,el:8}}
+          "ลองลดค่ามอดุลัสดู เส้นที่ชันน้อยลงหมายความว่าความเค้นเท่าเดิมทำให้เกิดความเครียดมากขึ้นมาก เหมือนยางมากกว่าเหล็ก"], set:{Y:40,el:8}}
   ]},
 
 { id:"pressure", x:100, y:150, requires:["elasticity"], methods:["M-02"],
   title:["Pressure in fluids","ความดันในของไหล"],
   body:[["Pressure is P = F/A, and in a fluid at rest it increases with depth as P = ρgh. It acts equally in every direction, which is why a diver feels it on all sides rather than just from above.",
          "Depth is all that matters — not the shape of the container, not how much water it holds. A narrow tube and a wide lake of the same depth exert exactly the same pressure at the bottom. Believing volume matters is trap T-02."],
-        ["ความดันคือ P = F/A และในของไหลที่อยู่นิ่งจะเพิ่มตามความลึกเป็น P = ρgh มันกระทำเท่ากันทุกทิศทาง จึงเป็นเหตุผลที่นักดำน้ำรู้สึกแรงดันรอบตัว ไม่ใช่แค่จากด้านบน",
-         "ความลึกคือสิ่งเดียวที่สำคัญ ไม่ใช่รูปร่างภาชนะ ไม่ใช่ปริมาณน้ำที่บรรจุ ท่อแคบกับทะเลสาบกว้างที่ลึกเท่ากันให้ความดันที่ก้นเท่ากันพอดี การเชื่อว่าปริมาตรมีผลคือกับดัก T-02"]],
+        ["ความดันคือ P = F/A ในของไหลที่อยู่นิ่ง ความดันเพิ่มตามความลึกเป็น P = ρgh และกระทำเท่ากันทุกทิศทาง นักดำน้ำจึงรู้สึกถึงแรงดันรอบตัว ไม่ได้รู้สึกแค่จากด้านบน",
+         "สิ่งเดียวที่มีผลคือความลึก รูปร่างภาชนะและปริมาณน้ำที่บรรจุไม่เกี่ยวเลย ท่อแคบกับทะเลสาบกว้างที่ลึกเท่ากันให้ความดันที่ก้นเท่ากันพอดี ใครคิดว่าปริมาตรมีผลก็ตกกับดัก T-02"]],
   formula:["P = F/A        P = ρgh        P_abs = P₀ + ρgh","P = F/A        P = ρgh        P_abs = P₀ + ρgh"],
   flabel:["Depth only · shape is irrelevant","ขึ้นกับความลึกเท่านั้น · รูปทรงไม่เกี่ยว"],
   viz:"plot",
@@ -84,8 +84,8 @@ nodes:[
   title:["Pascal's principle","หลักของปาสคาล"],
   body:[["Pressure applied to an enclosed fluid is transmitted undiminished throughout it. Push on a small piston and the same pressure appears under a large one — which multiplies the force by the ratio of areas.",
          "A hydraulic jack lifts a car from hand pressure this way. Energy is not created: the small piston must travel far further than the large one moves, exactly as with a lever."],
-        ["ความดันที่กระทำต่อของไหลในภาชนะปิดจะถูกส่งต่อไปทั่วโดยไม่ลดลง กดลูกสูบเล็กแล้วความดันเดียวกันจะปรากฏใต้ลูกสูบใหญ่ ซึ่งคูณแรงด้วยอัตราส่วนของพื้นที่",
-         "แม่แรงไฮดรอลิกยกรถด้วยแรงมือได้แบบนี้ พลังงานไม่ได้ถูกสร้างขึ้น ลูกสูบเล็กต้องเคลื่อนที่ไกลกว่าลูกสูบใหญ่มาก เช่นเดียวกับคานงัด"]],
+        ["ความดันที่กระทำกับของไหลในภาชนะปิดจะส่งต่อไปทั่วทั้งก้อนโดยไม่ลดลง เมื่อกดลูกสูบเล็ก ความดันเท่าเดิมจะไปดันใต้ลูกสูบใหญ่ แรงจึงเพิ่มขึ้นตามอัตราส่วนของพื้นที่",
+         "แม่แรงไฮดรอลิกใช้หลักนี้ยกรถขึ้นด้วยแรงมือ พลังงานไม่ได้เกิดขึ้นมาใหม่ ลูกสูบเล็กต้องเคลื่อนที่ไกลกว่าลูกสูบใหญ่มาก เหมือนกับคานงัด"]],
   formula:["F₁/A₁ = F₂/A₂","F₁/A₁ = F₂/A₂"],
   flabel:["Force multiplied, distance divided","แรงถูกคูณ ระยะถูกหาร"],
   viz:"bars",
@@ -113,15 +113,15 @@ nodes:[
       {lab:["Distance in","ระยะเข้า"], f:function(p){ return p.d1; }, col:"faint"},
       {lab:["Distance out","ระยะออก"], f:function(p){ return p.d1*p.A1/p.A2; }, col:"good"}
     ],
-    note:["the force is multiplied and the distance is divided by exactly the same factor","แรงถูกคูณและระยะทางถูกหารด้วยตัวเลขเดียวกันพอดี"]
+    note:["the force is multiplied and the distance is divided by exactly the same factor","แรงเพิ่มขึ้นกี่เท่า ระยะทางก็ลดลงกี่เท่าพอดี"]
   } },
 
 { id:"buoyancy", x:235, y:248, requires:["pascal"], methods:["M-04"],
   title:["Upthrust","แรงพยุง"],
   body:[["Archimedes: the upthrust equals the weight of fluid displaced, F_B = ρ_fluid V_submerged g. It arises because pressure at the bottom of an object exceeds pressure at the top.",
          "An object floats when it can displace its own weight before going under, which happens exactly when its density is below the fluid's. Using total volume rather than submerged volume for a floating body is trap T-03."],
-        ["อาร์คิมิดีส แรงพยุงเท่ากับน้ำหนักของของไหลที่ถูกแทนที่ F_B = ρ ของไหล × V จม × g มันเกิดขึ้นเพราะความดันที่ก้นวัตถุมากกว่าความดันที่ด้านบน",
-         "วัตถุลอยได้เมื่อมันแทนที่ของไหลได้เท่ากับน้ำหนักตัวเองก่อนที่จะจมมิด ซึ่งเกิดขึ้นพอดีเมื่อความหนาแน่นของมันน้อยกว่าของไหล การใช้ปริมาตรทั้งหมดแทนปริมาตรส่วนที่จมสำหรับวัตถุลอยคือกับดัก T-03"]],
+        ["อาร์คิมิดีสพบว่าแรงพยุงเท่ากับน้ำหนักของของไหลที่วัตถุแทนที่ F_B = ρ ของไหล × V จม × g แรงนี้เกิดเพราะความดันที่ก้นวัตถุมากกว่าความดันที่ด้านบน",
+         "วัตถุจะลอยเมื่อแทนที่ของไหลได้หนักเท่าตัวเองก่อนที่จะจมมิด ซึ่งเป็นจริงพอดีเมื่อความหนาแน่นของวัตถุน้อยกว่าของไหล ถ้าวัตถุลอย แล้วเอาปริมาตรทั้งก้อนมาคำนวณแทนปริมาตรส่วนที่จม ก็ตกกับดัก T-03"]],
   formula:["F_B = ρ V_sub g        V_sub / V = ρ_object / ρ_fluid","F_B = ρ V_sub g        V_sub / V = ρ_object / ρ_fluid"],
   flabel:["Submerged volume, not total","ปริมาตรส่วนที่จม ไม่ใช่ทั้งหมด"],
   viz:"bars",
@@ -149,23 +149,23 @@ nodes:[
       {lab:["Apparent weight","น้ำหนักปรากฏ"], f:function(p){
         return Math.max(0, p.V*1e-6*(p.rho-p.rf)*9.8); }, col:"warn"}
     ],
-    note:["compare only the two densities — the volume cancels out of the comparison entirely","เทียบแค่ความหนาแน่นสองค่า ปริมาตรตัดทิ้งไปหมดในการเปรียบเทียบ"]
+    note:["compare only the two densities — the volume cancels out of the comparison entirely","เทียบแค่ความหนาแน่นสองค่า เพราะปริมาตรตัดกันหมดไปเอง"]
   },
   guide:[
     {say:["Wood in water. The upthrust bar overtops the weight bar, so it floats.",
-          "ไม้ในน้ำ แถบแรงลอยตัวสูงกว่าแถบน้ำหนัก มันจึงลอย"], set:{V:1000,rho:700,rf:1000}},
+          "ไม้ในน้ำ แถบแรงลอยตัวสูงกว่าแถบน้ำหนัก ไม้จึงลอย"], set:{V:1000,rho:700,rf:1000}},
     {say:["Make the object denser than water and the bars swap over. Now it sinks.",
-          "ทำให้วัตถุหนาแน่นกว่าน้ำ แถบสลับกัน ตอนนี้มันจม"], set:{V:1000,rho:2500,rf:1000}},
+          "ลองทำให้วัตถุหนาแน่นกว่าน้ำ แถบทั้งสองจะสลับกัน คราวนี้วัตถุจม"], set:{V:1000,rho:2500,rf:1000}},
     {say:["Change the fluid to mercury instead and the same dense object floats again.",
-          "เปลี่ยนของไหลเป็นปรอทแทน วัตถุหนาแน่นก้อนเดิมก็ลอยได้อีกครั้ง"], set:{V:1000,rho:2500,rf:13600}}
+          "ลองเปลี่ยนของไหลเป็นปรอท วัตถุหนาแน่นก้อนเดิมก็กลับมาลอยได้"], set:{V:1000,rho:2500,rf:13600}}
   ] },
 
 { id:"flow", x:235, y:346, requires:["buoyancy"], methods:["M-05","M-06"],
   title:["Fluid flow","การไหลของของไหล"],
   body:[["Continuity says the same volume passes every cross-section per second: A₁v₁ = A₂v₂. Narrow the pipe and the fluid must speed up — the reason a thumb over a hose makes a jet.",
          "Bernoulli then says the faster stream has the lower pressure. That is what lifts an aeroplane wing and what pulls two ships alongside each other. Expecting fast flow to mean high pressure is trap T-04."],
-        ["สมการความต่อเนื่องบอกว่าปริมาตรเท่ากันผ่านทุกหน้าตัดในแต่ละวินาที A₁v₁ = A₂v₂ ทำให้ท่อแคบลงแล้วของไหลต้องเร็วขึ้น เป็นเหตุผลที่เอานิ้วอุดปลายสายยางแล้วน้ำพุ่ง",
-         "แบร์นูลลีบอกต่อว่ากระแสที่เร็วกว่ามีความดันต่ำกว่า นั่นคือสิ่งที่ยกปีกเครื่องบินและดึงเรือสองลำเข้าหากัน การคาดว่าไหลเร็วแปลว่าความดันสูงคือกับดัก T-04"]],
+        ["สมการความต่อเนื่องบอกว่าในแต่ละวินาที ปริมาตรที่ผ่านทุกหน้าตัดเท่ากัน A₁v₁ = A₂v₂ ถ้าท่อแคบลง ของไหลก็ต้องไหลเร็วขึ้น เหมือนตอนเอานิ้วอุดปลายสายยางแล้วน้ำพุ่งแรง",
+         "ต่อมาแบร์นูลลีบอกว่ากระแสที่ไหลเร็วกว่าจะมีความดันต่ำกว่า นี่คือสิ่งที่ยกปีกเครื่องบิน และดึงเรือสองลำเข้าหากัน ใครคิดว่าไหลเร็วแล้วความดันต้องสูงก็ตกกับดัก T-04"]],
   formula:["A₁v₁ = A₂v₂        P + ½ρv² + ρgh = constant","A₁v₁ = A₂v₂        P + ½ρv² + ρgh = ค่าคงที่"],
   flabel:["Faster flow · lower pressure","ไหลเร็วกว่า · ความดันต่ำกว่า"],
   viz:"bars",
@@ -194,7 +194,7 @@ nodes:[
       {lab:["Speed wide","เร็วช่วงกว้าง"], f:function(p){ return p.v1; }, col:"good"},
       {lab:["Speed narrow","เร็วช่วงแคบ"], f:function(p){ return p.v1*p.A1/p.A2; }, col:"accent"}
     ],
-    note:["area down means speed up, because the same volume must pass every second","พื้นที่ลดแปลว่าอัตราเร็วเพิ่ม เพราะปริมาตรเท่ากันต้องผ่านไปทุกวินาที"]
+    note:["area down means speed up, because the same volume must pass every second","พื้นที่ลดลง อัตราเร็วจึงเพิ่มขึ้น เพราะปริมาตรเท่าเดิมต้องผ่านไปทุกวินาที"]
   } }
 ],
 
@@ -208,10 +208,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["Strain is a ratio and has no units. Do not leave metres attached to it.","ความเครียดเป็นอัตราส่วนและไม่มีหน่วย อย่าติดหน่วยเมตรไว้"],
-"T-02":["Pressure depends on depth alone. The shape of the container and the volume held are irrelevant.","ความดันขึ้นกับความลึกเพียงอย่างเดียว รูปทรงภาชนะและปริมาตรที่บรรจุไม่เกี่ยวข้อง"],
+"T-01":["Strain is a ratio and has no units. Do not leave metres attached to it.","ความเครียดเป็นอัตราส่วน จึงไม่มีหน่วย อย่าเขียนหน่วยเมตรต่อท้าย"],
+"T-02":["Pressure depends on depth alone. The shape of the container and the volume held are irrelevant.","ความดันขึ้นอยู่กับความลึกอย่างเดียว รูปทรงภาชนะและปริมาตรน้ำที่บรรจุไม่เกี่ยว"],
 "T-03":["For a floating body use the SUBMERGED volume, not the whole volume.","สำหรับวัตถุที่ลอย ให้ใช้ปริมาตรส่วนที่จม ไม่ใช่ปริมาตรทั้งก้อน"],
-"T-04":["Bernoulli runs the other way: where the fluid moves faster, the pressure is lower.","แบร์นูลลีเป็นตรงข้าม ที่ใดของไหลเร็วกว่า ความดันจะต่ำกว่า"]
+"T-04":["Bernoulli runs the other way: where the fluid moves faster, the pressure is lower.","แบร์นูลลีบอกตรงข้ามกัน ตรงที่ของไหลไหลเร็วกว่า ความดันจะต่ำกว่า"]
 },
 
 gen:{
@@ -234,7 +234,7 @@ gen:{
   var h=pick([2,5,10,20]), rho=1000, g=10;
   var P=rho*g*h;
   if(sf==="S-04") return {stem:["Two tanks of the same depth hold very different volumes of water. Compare the pressure at the bottom.",
-                                "ถังสองใบลึกเท่ากันแต่บรรจุน้ำปริมาณต่างกันมาก จงเปรียบเทียบความดันที่ก้นถัง"],
+                                "ถังสองใบลึกเท่ากัน แต่บรรจุน้ำปริมาณต่างกันมาก ความดันที่ก้นถังเทียบกันได้อย่างไร"],
     opts:[{v:["Identical — pressure depends only on depth","เท่ากัน เพราะความดันขึ้นกับความลึกเท่านั้น"],ok:1},
           {v:["Greater in the larger tank","มากกว่าในถังใบใหญ่"],trap:"T-02"},
           {v:["Greater in the smaller tank","มากกว่าในถังใบเล็ก"],trap:"T-02"},
@@ -250,7 +250,7 @@ gen:{
   var A1=pick([0.001,0.002]), A2=pick([0.02,0.05,0.1]), F1=pick([50,100,200]);
   var F2=F1*A2/A1;
   if(sf==="S-04") return {stem:["A hydraulic jack multiplies force. What is the catch?",
-                                "แม่แรงไฮดรอลิกคูณแรงได้ ข้อแลกเปลี่ยนคืออะไร"],
+                                "แม่แรงไฮดรอลิกช่วยคูณแรงได้ แล้วต้องแลกกับอะไร"],
     opts:[{v:["The small piston must move much further","ลูกสูบเล็กต้องเคลื่อนที่ไกลกว่ามาก"],ok:1},
           {v:["Energy is created from nothing","พลังงานถูกสร้างจากความว่างเปล่า"]},
           {v:["The fluid heats up","ของไหลร้อนขึ้น"]},{v:["There is no catch","ไม่มีข้อแลกเปลี่ยน"]}],unit:""};
@@ -262,7 +262,7 @@ gen:{
   var V=pick([0.002,0.005,0.01]), rho=1000, g=10, rob=pick([600,800,2700]);
   var FB=rho*V*g, W=rob*V*g;
   if(sf==="S-04") return {stem:["A block floats with three quarters of its volume submerged. What is its density?",
-                                "ก้อนวัตถุลอยโดยจมสามในสี่ของปริมาตร ความหนาแน่นเป็นเท่าใด"],
+                                "ก้อนวัตถุลอยโดยจมอยู่สามในสี่ของปริมาตร ความหนาแน่นเท่าใด"],
     opts:[{v:["750 kg/m³","750 กก./ลบ.ม."],ok:1},{v:["1000 kg/m³","1000 กก./ลบ.ม."],trap:"T-03"},
           {v:["1333 kg/m³","1333 กก./ลบ.ม."],trap:"T-03"},{v:["250 kg/m³","250 กก./ลบ.ม."]}],unit:""};
   if(sf==="S-03") return {stem:["A "+rob+" kg/m³ block of volume "+V+" m³ is fully submerged in water. Find the upthrust.",
@@ -276,7 +276,7 @@ gen:{
   var A1=pick([0.01,0.02,0.04]), v1=pick([1,2,4]), A2=pick([0.005,0.002]);
   var v2=A1*v1/A2;
   if(sf==="S-04") return {stem:["Water flows through a pipe that narrows. What happens to its speed?",
-                                "น้ำไหลผ่านท่อที่แคบลง อัตราเร็วเปลี่ยนอย่างไร"],
+                                "น้ำไหลผ่านท่อที่แคบลง อัตราเร็วของน้ำเปลี่ยนไปอย่างไร"],
     opts:[{v:["It increases","เพิ่มขึ้น"],ok:1},{v:["It decreases","ลดลง"],trap:"T-04"},
           {v:["It is unchanged","เท่าเดิม"]},{v:["It depends on the pressure","ขึ้นกับความดัน"]}],unit:""};
   return {stem:["Water at "+v1+" m/s in a pipe of area "+A1+" m² enters a section of "+A2+" m². Find the new speed.",
@@ -285,17 +285,17 @@ gen:{
 },
 "M-06": function(sf){
   var C=[{s:["Why does an aeroplane wing generate lift?","ทำไมปีกเครื่องบินจึงเกิดแรงยก"],
-          ok:["Air moves faster over the top, so the pressure there is lower","อากาศไหลเร็วกว่าด้านบน ความดันตรงนั้นจึงต่ำกว่า"],
-          w:[["Air moves faster over the top, so the pressure there is higher","อากาศไหลเร็วกว่าด้านบน ความดันตรงนั้นจึงสูงกว่า"],
+          ok:["Air moves faster over the top, so the pressure there is lower","อากาศไหลเร็วกว่าที่ด้านบน ความดันตรงนั้นจึงต่ำกว่า"],
+          w:[["Air moves faster over the top, so the pressure there is higher","อากาศไหลเร็วกว่าที่ด้านบน ความดันตรงนั้นจึงสูงกว่า"],
              ["The wing is heavier underneath","ปีกหนักกว่าด้านล่าง"],
              ["Air is denser above the wing","อากาศหนาแน่นกว่าเหนือปีก"]]},
          {s:["Two ships sailing side by side tend to be pulled together. Why?","เรือสองลำที่แล่นเคียงกันมักถูกดึงเข้าหากัน เพราะอะไร"],
-          ok:["Water between them speeds up, lowering the pressure there","น้ำระหว่างเรือไหลเร็วขึ้น ทำให้ความดันตรงนั้นลดลง"],
-          w:[["Water between them slows down, raising the pressure","น้ำระหว่างเรือไหลช้าลง ทำให้ความดันสูงขึ้น"],
+          ok:["Water between them speeds up, lowering the pressure there","น้ำระหว่างเรือไหลเร็วขึ้น ความดันตรงนั้นจึงลดลง"],
+          w:[["Water between them slows down, raising the pressure","น้ำระหว่างเรือไหลช้าลง ความดันจึงสูงขึ้น"],
              ["Their hulls are magnetic","ตัวเรือมีสภาพแม่เหล็ก"],
              ["Upthrust pulls them together","แรงพยุงดึงเข้าหากัน"]]},
          {s:["A thumb over a hose end makes the water jet further. Which principle explains the speed increase?",
-             "การเอานิ้วอุดปลายสายยางทำให้น้ำพุ่งไกลขึ้น หลักการใดอธิบายอัตราเร็วที่เพิ่มขึ้น"],
+             "เอานิ้วอุดปลายสายยาง น้ำจะพุ่งไกลขึ้น หลักการใดอธิบายว่าทำไมอัตราเร็วจึงเพิ่ม"],
           ok:["Continuity — the same volume through a smaller area","ความต่อเนื่อง ปริมาตรเท่าเดิมผ่านพื้นที่ที่เล็กลง"],
           w:[["Archimedes' principle","หลักของอาร์คิมิดีส"],["Pascal's principle","หลักของปาสคาล"],
              ["Hooke's law","กฎของฮุก"]]}];

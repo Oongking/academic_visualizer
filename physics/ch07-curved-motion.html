@@ -871,7 +871,7 @@ kicker:["Physics · Chapter 07","ฟิสิกส์ · บทที่ 7"],
 title:["Curved Motion","การเคลื่อนที่แนวโค้ง"],
 mapTitle:["Two motions at once","การเคลื่อนที่สองแบบพร้อมกัน"],
 lede:["A curved path is never a new kind of physics. It is two straight-line motions happening in the same body at the same time, and the whole chapter is the trick of pulling them apart.",
-      "เส้นทางโค้งไม่เคยเป็นฟิสิกส์ชนิดใหม่ มันคือการเคลื่อนที่แนวตรงสองแบบที่เกิดในวัตถุเดียวกันพร้อมกัน และทั้งบทนี้คือเทคนิคการแยกทั้งสองออกจากกัน"],
+      "การเคลื่อนที่แนวโค้งไม่ใช่ฟิสิกส์แบบใหม่ แต่คือการเคลื่อนที่แนวตรงสองแบบที่เกิดขึ้นกับวัตถุเดียวกันในเวลาเดียวกัน และทั้งบทนี้คือเทคนิคในการแยกสองแบบนี้ออกจากกัน"],
 next:["→ continues in Chapter 08 · Harmonic Motion","→ ต่อในบทที่ 8 · การเคลื่อนที่ฮาร์มอนิก"],
 
 nodes:[
@@ -879,8 +879,8 @@ nodes:[
   title:["Independence of axes","ความเป็นอิสระของแกน"],
   body:[["Horizontal and vertical motion do not talk to each other. Along x there is no force, so the velocity is constant. Along y there is gravity, so it is Chapter 2's constant-acceleration problem, unchanged.",
          "Time is the only thing the two axes share. Find t from one axis, then hand it to the other. Substituting the full launch speed where a component belongs is trap T-01."],
-        ["การเคลื่อนที่แนวราบกับแนวดิ่งไม่คุยกัน ตามแกน x ไม่มีแรง ความเร็วจึงคงที่ ตามแกน y มีแรงโน้มถ่วง จึงเป็นโจทย์ความเร่งคงที่ของบทที่ 2 ทุกประการ",
-         "เวลาเป็นสิ่งเดียวที่สองแกนใช้ร่วมกัน หาค่า t จากแกนหนึ่งแล้วส่งให้อีกแกน การแทนอัตราเร็วเริ่มต้นเต็มลงในที่ที่ควรเป็นองค์ประกอบคือกับดัก T-01"]],
+        ["การเคลื่อนที่แนวราบและแนวดิ่งไม่เกี่ยวข้องกัน ตามแกน x ไม่มีแรงมากระทำ ความเร็วจึงคงที่ ตามแกน y มีแรงโน้มถ่วง จึงเป็นโจทย์ความเร่งคงที่แบบในบทที่ 2 ทุกอย่าง",
+         "สิ่งเดียวที่สองแกนใช้ร่วมกันคือเวลา ให้หา t จากแกนหนึ่ง แล้วนำไปใช้กับอีกแกน ถ้าเอาอัตราเร็วต้นทั้งหมดไปแทนในที่ที่ต้องใช้องค์ประกอบ ก็ตกกับดัก T-01"]],
   formula:["u_x = u cos θ        u_y = u sin θ","u_x = u cos θ        u_y = u sin θ"],
   flabel:["Split first, always","แตกองค์ประกอบก่อนเสมอ"],
   viz:"bars",
@@ -903,23 +903,23 @@ nodes:[
       {lab:["Dropped ball: drop","ลูกที่ปล่อย: ระยะตก"], f:function(p){ return 4.9*p.t*p.t; }, col:"good"},
       {lab:["Fired ball: sideways","ลูกที่ยิง: ระยะข้าง"], f:function(p){ return p.u*p.t; }, col:"warn"}
     ],
-    note:["no setting can make the first two bars differ — gravity ignores sideways motion","ไม่มีการตั้งค่าใดทำให้สองแถบแรกต่างกัน แรงโน้มถ่วงไม่สนใจการเคลื่อนที่ด้านข้าง"]
+    note:["no setting can make the first two bars differ — gravity ignores sideways motion","ตั้งค่าอย่างไรสองแถบแรกก็ไม่ต่างกัน เพราะแรงโน้มถ่วงไม่เกี่ยวกับการเคลื่อนที่ไปด้านข้าง"]
   },
   guide:[
     {say:["Both balls have fallen exactly the same distance, even though one was fired at 20 m/s.",
-          "ลูกทั้งสองตกได้ระยะเท่ากันพอดี แม้ลูกหนึ่งจะถูกยิงด้วยความเร็ว 20 เมตรต่อวินาที"], set:{u:20,t:1.5}},
+          "ลูกทั้งสองตกลงมาได้ระยะเท่ากันพอดี ทั้งที่ลูกหนึ่งถูกยิงออกไปด้วยอัตราเร็ว 20 ม./วินาที"], set:{u:20,t:1.5}},
     {say:["Triple the launch speed. The sideways bar leaps; the two drop bars do not budge.",
-          "เพิ่มความเร็วยิงเป็นสามเท่า แถบระยะข้างพุ่งขึ้น แต่แถบระยะตกสองแถบไม่ขยับเลย"], set:{u:40,t:1.5}},
+          "เพิ่มอัตราเร็วที่ยิงเป็นสามเท่า แถบระยะด้านข้างพุ่งสูงขึ้น แต่แถบระยะตกสองแถบไม่ขยับเลย"], set:{u:40,t:1.5}},
     {say:["Set the launch speed to zero and the two situations become identical. The axes never talk.",
-          "ตั้งความเร็วยิงเป็นศูนย์ สองสถานการณ์กลายเป็นอย่างเดียวกัน แกนทั้งสองไม่เคยคุยกัน"], set:{u:0,t:2.4}}
+          "ตั้งอัตราเร็วที่ยิงเป็นศูนย์ สองสถานการณ์จะเหมือนกันทุกอย่าง สองแกนไม่เกี่ยวข้องกันเลย"], set:{u:0,t:2.4}}
   ] },
 
 { id:"projectile", x:100, y:150, requires:["independence"], methods:["M-02","M-03"],
   title:["Projectiles","โพรเจกไทล์"],
   body:[["At the top of the flight the vertical velocity is zero but the horizontal velocity is untouched — the body is still moving, just not upward. Believing it stops entirely is trap T-02.",
          "Range is maximised at 45°, and any two angles adding to 90° give the same range. Launch at 30° or at 60° and the projectile lands in the same place, by very different routes."],
-        ["ที่จุดสูงสุดของการเคลื่อนที่ ความเร็วแนวดิ่งเป็นศูนย์แต่ความเร็วแนวราบไม่เปลี่ยน วัตถุยังเคลื่อนที่อยู่ เพียงแต่ไม่ได้ขึ้น การเข้าใจว่ามันหยุดสนิทคือกับดัก T-02",
-         "ระยะไกลสุดเกิดที่ 45° และมุมสองมุมใดที่รวมกันได้ 90° จะให้ระยะเท่ากัน ยิงที่ 30° หรือ 60° วัตถุตกที่เดียวกัน แต่ด้วยเส้นทางที่ต่างกันมาก"]],
+        ["ที่จุดสูงสุด ความเร็วแนวดิ่งเป็นศูนย์ แต่ความเร็วแนวราบไม่เปลี่ยน วัตถุยังเคลื่อนที่อยู่ เพียงแต่ไม่ได้เคลื่อนขึ้นแล้ว ถ้าคิดว่าวัตถุหยุดนิ่งสนิท ก็ตกกับดัก T-02",
+         "มุม 45° ให้ระยะไกลที่สุด และมุมสองมุมที่รวมกันได้ 90° ให้ระยะเท่ากัน ยิงที่ 30° หรือ 60° วัตถุก็ตกที่จุดเดียวกัน แต่เส้นทางต่างกันมาก"]],
   formula:["R = u² sin 2θ / g        t_flight = 2u sin θ / g","R = u² sin 2θ / g        t_flight = 2u sin θ / g"],
   flabel:["Maximum range at 45°","ไกลสุดที่ 45°"],
   viz:"stage",
@@ -1061,7 +1061,7 @@ nodes:[
         if(g.kind==="twin"){
           if(Math.abs(p.th-(90-g.t1))<0.5) return {ok:true, msg:["Same rune, different route. sin 2θ is the same for θ and 90° − θ, so "+g.t1+"° and "+(90-g.t1)+"° are twins.",
                                                                   "รูนเดียวกัน คนละเส้นทาง sin 2θ มีค่าเท่ากันที่ θ และ 90° − θ มุม "+g.t1+"° กับ "+(90-g.t1)+"° จึงเป็นมุมคู่แฝด"]};
-          if(Math.abs(p.th-g.t1)<0.5) return {ok:false, msg:["That is the angle you were given. Find its twin.","นั่นคือมุมที่ให้มา หามุมคู่แฝดของมัน"]};
+          if(Math.abs(p.th-g.t1)<0.5) return {ok:false, msg:["That is the angle you were given. Find its twin.","นั่นคือมุมที่โจทย์ให้มา ลองหามุมคู่ของมัน"]};
           return {ok:false, msg:["It landed at "+fmt(a.range)+" m. Which angle has the same sin 2θ as "+g.t1+"°?","ตกที่ "+fmt(a.range)+" ม. มุมใดมี sin 2θ เท่ากับมุม "+g.t1+"°"]};
         }
         if(g.kind==="top"){
@@ -1079,15 +1079,15 @@ nodes:[
       }
     },
     note:["two arrows, two separate stories: the sideways one never changes, the upward one is eaten by gravity at 10 m/s every second",
-          "ลูกศรสองอัน สองเรื่องแยกกัน อันแนวราบไม่เคยเปลี่ยน อันแนวดิ่งถูกแรงโน้มถ่วงกินไป 10 ม./วิ ทุกวินาที"]
+          "ลูกศรสองอัน คนละเรื่องกัน อันแนวราบไม่เปลี่ยนเลย ส่วนอันแนวขึ้นถูกแรงโน้มถ่วงลดลง 10 ม./วินาที ทุกวินาที"]
   },
   guide:[
     {say:["Launch at 45° and cast. The dashed line was your aim; the glowing trail is the flight.",
-          "ยิงที่ 45° แล้วร่ายเวท เส้นประคือทิศที่เล็ง รอยเรืองแสงคือเส้นทางการบิน"], set:{u:22,th:45}},
+          "ยิงที่ 45° แล้วร่ายเวท เส้นประคือทิศที่เล็ง ส่วนรอยเรืองแสงคือเส้นทางที่ลูกไฟบินจริง"], set:{u:22,th:45}},
     {say:["Watch the two arrows on the fireball. The sideways one never changes length; the upward one shrinks, vanishes at the top, then points down.",
-          "ดูลูกศรสองอันบนลูกไฟ อันแนวราบไม่เคยเปลี่ยนความยาว อันแนวดิ่งหดลง หายไปที่จุดสูงสุด แล้วชี้ลง"], set:{u:22,th:60}},
+          "ดูลูกศรสองอันบนลูกไฟ อันแนวราบยาวเท่าเดิมตลอด ส่วนอันแนวดิ่งสั้นลงเรื่อยๆ จนหายไปที่จุดสูงสุด แล้วกลับมาชี้ลง"], set:{u:22,th:60}},
     {say:["Cast at 30°, then at 60°. The faint trail is your last cast: the two land on the same spot by very different routes, because 30 + 60 = 90.",
-          "ร่ายที่ 30° แล้วที่ 60° รอยจาง ๆ คือการร่ายครั้งก่อน ทั้งสองตกจุดเดียวกันด้วยเส้นทางต่างกันมาก เพราะ 30 + 60 = 90"], set:{u:22,th:30}}
+          "ร่ายที่ 30° แล้วร่ายที่ 60° รอยจางคือครั้งก่อนหน้า ทั้งสองครั้งตกที่จุดเดียวกัน แต่เส้นทางต่างกันมาก เพราะ 30 + 60 = 90"], set:{u:22,th:30}}
   ]
 },
 
@@ -1095,8 +1095,8 @@ nodes:[
   title:["Circular motion","การเคลื่อนที่แบบวงกลม"],
   body:[["Going round at steady speed is still accelerated motion, because the direction of the velocity keeps changing. Period T and frequency f are reciprocals, and angular speed ω = 2π/T ties them to the linear speed by v = ωR.",
          "Radians, not degrees, throughout. Slipping in a diameter where the radius belongs, or degrees where radians belong, is trap T-04."],
-        ["การวิ่งเป็นวงกลมด้วยอัตราเร็วคงที่ยังเป็นการเคลื่อนที่แบบมีความเร่ง เพราะทิศของความเร็วเปลี่ยนตลอด คาบ T กับความถี่ f เป็นส่วนกลับกัน และอัตราเร็วเชิงมุม ω = 2π/T ผูกทั้งสองเข้ากับอัตราเร็วเชิงเส้นด้วย v = ωR",
-         "ใช้เรเดียนไม่ใช่องศาตลอด การใส่เส้นผ่านศูนย์กลางแทนรัศมี หรือองศาแทนเรเดียน คือกับดัก T-04"]],
+        ["วัตถุที่เคลื่อนที่เป็นวงกลมด้วยอัตราเร็วคงที่ก็ยังมีความเร่ง เพราะทิศของความเร็วเปลี่ยนตลอดเวลา คาบ T กับความถี่ f เป็นส่วนกลับของกันและกัน และอัตราเร็วเชิงมุม ω = 2π/T เชื่อมกับอัตราเร็วเชิงเส้นด้วย v = ωR",
+         "ใช้เรเดียนตลอด ไม่ใช้องศา ถ้าใส่เส้นผ่านศูนย์กลางแทนรัศมี หรือใส่องศาแทนเรเดียน ก็ตกกับดัก T-04"]],
   formula:["ω = 2π/T = 2πf        v = ωR","ω = 2π/T = 2πf        v = ωR"],
   flabel:["Radians throughout","ใช้เรเดียนตลอด"],
   viz:"plot",
@@ -1120,31 +1120,31 @@ nodes:[
       {lab:["Direction of the force","ทิศของแรง"], f:function(){
         return L()?"เข้าหาศูนย์กลางเสมอ":"always towards the centre"; }}
     ],
-    note:["the curve is a parabola, not a line — that is why fast corners are so much harder","เส้นโค้งเป็นพาราโบลาไม่ใช่เส้นตรง นั่นคือเหตุผลที่เข้าโค้งเร็วยากกว่ามาก"]
+    note:["the curve is a parabola, not a line — that is why fast corners are so much harder","กราฟเป็นพาราโบลา ไม่ใช่เส้นตรง เพราะอย่างนี้การเข้าโค้งด้วยความเร็วสูงจึงยากกว่ามาก"]
   } },
 
 { id:"centripetal", x:370, y:248, requires:["circular"], methods:["M-05"],
   title:["Centripetal force","แรงสู่ศูนย์กลาง"],
   body:[["The acceleration points at the centre and has magnitude v²/R, so the resultant force must too: F = mv²/R. Centripetal force is not an extra force you add to the diagram — it is the job that some real force is already doing.",
          "For a car on a bend, friction is the centripetal force. For a planet, gravity is. For a ball on a string, tension is. Drawing an additional inward arrow labelled 'centripetal' is trap T-03."],
-        ["ความเร่งชี้เข้าสู่ศูนย์กลางและมีขนาด v²/R ดังนั้นแรงลัพธ์ก็ต้องเช่นกัน F = mv²/R แรงสู่ศูนย์กลางไม่ใช่แรงพิเศษที่เพิ่มเข้าไปในแผนภาพ แต่คือหน้าที่ที่แรงจริงบางแรงกำลังทำอยู่แล้ว",
-         "สำหรับรถเข้าโค้ง แรงเสียดทานคือแรงสู่ศูนย์กลาง สำหรับดาวเคราะห์คือแรงโน้มถ่วง สำหรับลูกบอลผูกเชือกคือแรงตึงเชือก การวาดลูกศรเข้าในเพิ่มแล้วเขียนว่าแรงสู่ศูนย์กลางคือกับดัก T-03"]],
+        ["ความเร่งชี้เข้าหาศูนย์กลางและมีขนาด v²/R แรงลัพธ์จึงต้องชี้เข้าหาศูนย์กลางและมีขนาดสอดคล้องกัน F = mv²/R แรงสู่ศูนย์กลางไม่ใช่แรงพิเศษที่ต้องวาดเพิ่มในแผนภาพ แต่เป็นบทบาทที่แรงจริงแรงใดแรงหนึ่งทำอยู่แล้ว",
+         "รถเข้าโค้งใช้แรงเสียดทานเป็นแรงสู่ศูนย์กลาง ดาวเคราะห์ใช้แรงโน้มถ่วง ลูกบอลที่ผูกเชือกใช้แรงตึงเชือก ถ้าวาดลูกศรชี้เข้าเพิ่มอีกอันแล้วเขียนว่า แรงสู่ศูนย์กลาง ก็ตกกับดัก T-03"]],
   formula:["a_c = v²/R = ω²R        F_c = mv²/R","a_c = v²/R = ω²R        F_c = mv²/R"],
   flabel:["A role, not an extra arrow","เป็นบทบาท ไม่ใช่ลูกศรเพิ่ม"],
   viz:"vector",
   guide:[
     {say:["Velocity is the tangent; acceleration points to the centre. They are always at 90° to each other.",
-          "ความเร็วคือเส้นสัมผัส ส่วนความเร่งชี้เข้าศูนย์กลาง ทั้งสองทำมุม 90° กันเสมอ"], set:{A:12,tA:0,B:12,tB:90}},
+          "ความเร็วอยู่ในแนวเส้นสัมผัส ส่วนความเร่งชี้เข้าหาศูนย์กลาง สองทิศนี้ตั้งฉากกัน 90° เสมอ"], set:{A:12,tA:0,B:12,tB:90}},
     {say:["Because the force is always perpendicular to the motion, it does no work — the speed never changes.",
-          "เพราะแรงตั้งฉากกับการเคลื่อนที่เสมอ มันจึงไม่ทำงาน อัตราเร็วจึงไม่เคยเปลี่ยน"], set:{A:14,tA:0,B:6,tB:90}}
+          "แรงตั้งฉากกับการเคลื่อนที่ตลอดเวลา จึงไม่ทำงาน อัตราเร็วจึงไม่เปลี่ยน"], set:{A:14,tA:0,B:6,tB:90}}
   ]},
 
 { id:"gravitation", x:235, y:346, requires:["centripetal"], methods:["M-06"],
   title:["Orbits","วงโคจร"],
   body:[["A satellite is simply an object whose gravitational attraction supplies exactly the centripetal force it needs. Setting GMm/R² equal to mv²/R makes the satellite's mass cancel: v = √(GM/R).",
          "The same substitution with ω gives T² ∝ R³ — Kepler's third law, derived rather than remembered. A higher orbit is always a slower one."],
-        ["ดาวเทียมคือวัตถุที่แรงดึงดูดโน้มถ่วงให้แรงสู่ศูนย์กลางพอดีตามที่ต้องการ การตั้ง GMm/R² เท่ากับ mv²/R ทำให้มวลดาวเทียมตัดกันหมด v = √(GM/R)",
-         "การแทนค่าแบบเดียวกันด้วย ω ให้ T² ∝ R³ ซึ่งคือกฎข้อสามของเคปเลอร์ ที่ได้จากการพิสูจน์ไม่ใช่การท่องจำ วงโคจรที่สูงกว่าย่อมช้ากว่าเสมอ"]],
+        ["ดาวเทียมคือวัตถุที่แรงดึงดูดโน้มถ่วงทำหน้าที่เป็นแรงสู่ศูนย์กลางพอดี เมื่อตั้ง GMm/R² เท่ากับ mv²/R มวลของดาวเทียมจะตัดกันหมด ได้ v = √(GM/R)",
+         "ถ้าแทนค่าด้วย ω ในแบบเดียวกัน จะได้ T² ∝ R³ ซึ่งคือกฎข้อสามของเคปเลอร์ เราพิสูจน์ได้เองโดยไม่ต้องท่องจำ วงโคจรยิ่งสูงยิ่งโคจรช้า"]],
   formula:["v = √(GM/R)        T² ∝ R³","v = √(GM/R)        T² ∝ R³"],
   flabel:["Satellite mass cancels","มวลดาวเทียมตัดหายไป"],
   viz:"plot",
@@ -1168,7 +1168,7 @@ nodes:[
       {lab:["Does it ever reach zero?","เป็นศูนย์ได้ไหม"], f:function(){
         return L()?"ไม่ — เข้าใกล้แต่ไม่ถึง":"no — it approaches but never arrives"; }}
     ],
-    note:["halving is not enough — at twice the distance the field is a quarter","ลดครึ่งยังไม่พอ ที่ระยะสองเท่าสนามเหลือหนึ่งในสี่"]
+    note:["halving is not enough — at twice the distance the field is a quarter","ลดลงครึ่งหนึ่งยังไม่พอ ที่ระยะไกลเป็นสองเท่า สนามจะเหลือหนึ่งในสี่"]
   } }
 ],
 
@@ -1182,10 +1182,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["You used the full launch speed where a component belongs. Split into u cos θ and u sin θ first.","คุณใช้อัตราเร็วต้นเต็มในที่ที่ควรเป็นองค์ประกอบ ต้องแตกเป็น u cos θ และ u sin θ ก่อน"],
-"T-02":["At the apex only the vertical velocity is zero. The horizontal component carries straight on.","ที่จุดสูงสุดมีเพียงความเร็วแนวดิ่งที่เป็นศูนย์ องค์ประกอบแนวราบยังคงเดินหน้าต่อ"],
-"T-03":["Centripetal force is not an extra force. It is the name for whichever real force points at the centre.","แรงสู่ศูนย์กลางไม่ใช่แรงเพิ่ม แต่เป็นชื่อเรียกแรงจริงที่ชี้เข้าศูนย์กลาง"],
-"T-04":["Radius and diameter, or degrees and radians, were mixed up.","สับสนระหว่างรัศมีกับเส้นผ่านศูนย์กลาง หรือองศากับเรเดียน"]
+"T-01":["You used the full launch speed where a component belongs. Split into u cos θ and u sin θ first.","ใช้อัตราเร็วต้นทั้งหมดในที่ที่ต้องใช้องค์ประกอบ ต้องแตกเป็น u cos θ และ u sin θ ก่อน"],
+"T-02":["At the apex only the vertical velocity is zero. The horizontal component carries straight on.","ที่จุดสูงสุด มีแค่ความเร็วแนวดิ่งที่เป็นศูนย์ องค์ประกอบแนวราบยังคงเคลื่อนต่อไปตามเดิม"],
+"T-03":["Centripetal force is not an extra force. It is the name for whichever real force points at the centre.","แรงสู่ศูนย์กลางไม่ใช่แรงที่เพิ่มเข้ามา แต่เป็นชื่อเรียกแรงจริงแรงที่ชี้เข้าหาศูนย์กลาง"],
+"T-04":["Radius and diameter, or degrees and radians, were mixed up.","สับสนระหว่างรัศมีกับเส้นผ่านศูนย์กลาง หรือระหว่างองศากับเรเดียน"]
 },
 
 gen:{
@@ -1194,7 +1194,7 @@ gen:{
   var S={30:0.5,37:0.602,45:0.707,53:0.799,60:0.866}[th];
   var C={30:0.866,37:0.799,45:0.707,53:0.602,60:0.5}[th];
   if(sf==="S-04") return {stem:["A projectile is launched at angle θ. Which component stays constant throughout the flight?",
-                                "ยิงวัตถุด้วยมุม θ องค์ประกอบใดคงที่ตลอดการเคลื่อนที่"],
+                                "ยิงวัตถุด้วยมุม θ องค์ประกอบใดไม่เปลี่ยนตลอดการเคลื่อนที่"],
     opts:[{v:["The horizontal component, u cos θ","องค์ประกอบแนวราบ u cos θ"],ok:1},
           {v:["The vertical component, u sin θ","องค์ประกอบแนวดิ่ง u sin θ"],trap:"T-02"},
           {v:["The full speed u","อัตราเร็วเต็ม u"],trap:"T-01"},
@@ -1211,7 +1211,7 @@ gen:{
                                              "วัตถุขึ้นถึงความสูงสุด "+fmt(H)+" เมตร ให้ g = 10 ม./วินาที² จงหาความเร็วแนวดิ่งเริ่มต้น"],
     opts:[{v:fmt(uy),ok:1},{v:fmt(2*H/g)},{v:fmt(H*g)},{v:fmt(uy*2)}],unit:" m/s"};
   if(sf==="S-04") return {stem:["How does the time to reach the top compare with the total flight time?",
-                                "เวลาที่ขึ้นถึงจุดสูงสุดเทียบกับเวลาบินทั้งหมดเป็นอย่างไร"],
+                                "เวลาที่วัตถุขึ้นไปถึงจุดสูงสุดเทียบกับเวลาบินทั้งหมดเป็นอย่างไร"],
     opts:[{v:["It is exactly half","เป็นครึ่งหนึ่งพอดี"],ok:1},{v:["It is the same","เท่ากัน"],trap:"T-02"},
           {v:["It is one third","เป็นหนึ่งในสาม"]},{v:["It depends on the angle","ขึ้นกับมุม"]}],unit:""};
   return {stem:["A ball is launched at "+u+" m/s and "+th+"° over level ground. Find its time of flight, with g = 10 m/s².",
@@ -1238,7 +1238,7 @@ gen:{
                                 "จุดหนึ่งเคลื่อนที่เป็นวงกลมรัศมี "+R+" เมตร ด้วย "+fmt(v)+" ม./วินาที จงหาอัตราเร็วเชิงมุม"],
     opts:[{v:fmt(w),ok:1},{v:fmt(v*R),trap:"T-04"},{v:fmt(v/(2*R)),trap:"T-04"},{v:fmt(v)}],unit:" rad/s"};
   if(sf==="S-04") return {stem:["A wheel completes one revolution in time T. What is its angular speed?",
-                                "ล้อหมุนครบหนึ่งรอบในเวลา T อัตราเร็วเชิงมุมเป็นเท่าใด"],
+                                "ล้อหมุนครบหนึ่งรอบใช้เวลา T อัตราเร็วเชิงมุมเท่าไร"],
     opts:[{v:"2π / T",ok:1},{v:"360 / T",trap:"T-04"},{v:"1 / T"},{v:"π / T"}],unit:""};
   return {stem:["An object circles with period "+T+" s at radius "+R+" m. Find its linear speed.",
                 "วัตถุเคลื่อนที่เป็นวงกลม คาบ "+T+" วินาที รัศมี "+R+" เมตร จงหาอัตราเร็วเชิงเส้น"],
@@ -1248,7 +1248,7 @@ gen:{
   var m=pick([0.5,1,2,4]), v=pick([4,6,10]), R=pick([2,4,5]);
   var F=m*v*v/R;
   if(sf==="S-04") return {stem:["A car rounds a bend at steady speed. Which real force provides the centripetal force?",
-                                "รถเลี้ยวโค้งด้วยอัตราเร็วคงที่ แรงจริงใดทำหน้าที่เป็นแรงสู่ศูนย์กลาง"],
+                                "รถเลี้ยวโค้งด้วยอัตราเร็วคงที่ แรงจริงแรงใดทำหน้าที่เป็นแรงสู่ศูนย์กลาง"],
     opts:[{v:["Friction between tyres and road","แรงเสียดทานระหว่างยางกับถนน"],ok:1},
           {v:["An extra centripetal force acting inward","แรงสู่ศูนย์กลางพิเศษที่กระทำเข้าใน"],trap:"T-03"},
           {v:["The weight of the car","น้ำหนักของรถ"]},
@@ -1262,13 +1262,13 @@ gen:{
 },
 "M-06": function(sf){
   if(sf==="S-04") return {stem:["Two satellites of different mass orbit at the same radius. What can be said of their speeds?",
-                                "ดาวเทียมสองดวงมวลต่างกันโคจรที่รัศมีเดียวกัน อัตราเร็วเป็นอย่างไร"],
+                                "ดาวเทียมสองดวงมวลต่างกันโคจรรอบโลกที่รัศมีเดียวกัน อัตราเร็วของทั้งสองดวงเป็นอย่างไร"],
     opts:[{v:["Identical — satellite mass cancels","เท่ากัน เพราะมวลดาวเทียมตัดหายไป"],ok:1},
           {v:["The heavier one is faster","ดวงที่หนักกว่าเร็วกว่า"]},
           {v:["The lighter one is faster","ดวงที่เบากว่าเร็วกว่า"]},
           {v:["It depends on their shapes","ขึ้นกับรูปร่างของดาวเทียม"]}],unit:""};
   if(sf==="S-03") return {stem:["A satellite is moved to a higher orbit. What happens to its orbital period?",
-                                "ย้ายดาวเทียมไปวงโคจรที่สูงขึ้น คาบการโคจรเปลี่ยนอย่างไร"],
+                                "ย้ายดาวเทียมไปอยู่วงโคจรที่สูงขึ้น คาบการโคจรจะเปลี่ยนอย่างไร"],
     opts:[{v:["It increases, since T² ∝ R³","เพิ่มขึ้น เพราะ T² ∝ R³"],ok:1},
           {v:["It decreases","ลดลง"]},{v:["It is unchanged","เท่าเดิม"]},
           {v:["It depends on the satellite's mass","ขึ้นกับมวลของดาวเทียม"]}],unit:""};

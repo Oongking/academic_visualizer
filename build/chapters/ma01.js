@@ -4,7 +4,7 @@ kicker:["Mathematics · Chapter 01","คณิตศาสตร์ · บทท
 title:["Sets","เซต"],
 mapTitle:["The vocabulary everything else borrows","คำศัพท์ที่ทุกบทหยิบยืมไปใช้"],
 lede:["A set is just a collection of things you have decided to care about. That sounds too simple to matter, and yet logic, probability and functions are all written in this notation — get it wrong here and it stays wrong everywhere.",
-      "เซตคือกลุ่มของสิ่งที่เราตัดสินใจว่าจะสนใจ ฟังดูง่ายเกินกว่าจะสำคัญ แต่ตรรกศาสตร์ ความน่าจะเป็น และฟังก์ชัน ล้วนเขียนด้วยสัญกรณ์นี้ ถ้าพลาดตรงนี้ก็จะพลาดตลอดทุกบท"],
+      "เซตคือกลุ่มของสิ่งที่เรากำหนดว่าจะสนใจ ฟังดูง่ายเกินกว่าจะสำคัญ แต่ตรรกศาสตร์ ความน่าจะเป็น และฟังก์ชัน ล้วนเขียนด้วยสัญกรณ์นี้ ถ้าเข้าใจผิดตั้งแต่ตรงนี้ ก็จะผิดต่อไปทุกบท"],
 next:["→ continues in Chapter 02 · Logic","→ ต่อในบทที่ 2 · ตรรกศาสตร์"],
 
 nodes:[
@@ -12,8 +12,8 @@ nodes:[
   title:["Sets and elements","เซตและสมาชิก"],
   body:[["A set is written with braces and its members separated by commas. Order does not matter and repetition counts once: {1, 2, 2, 3} and {3, 2, 1} are the same set.",
          "The empty set ∅ has no members at all. Careful — {∅} is not empty, it is a set containing one thing, and that one thing happens to be the empty set. Treating them as equal is trap T-01."],
-        ["เซตเขียนด้วยวงเล็บปีกกาและคั่นสมาชิกด้วยจุลภาค ลำดับไม่สำคัญและสมาชิกซ้ำนับเพียงครั้งเดียว {1, 2, 2, 3} กับ {3, 2, 1} จึงเป็นเซตเดียวกัน",
-         "เซตว่าง ∅ ไม่มีสมาชิกเลย ระวังให้ดี {∅} ไม่ใช่เซตว่าง แต่เป็นเซตที่มีสมาชิกหนึ่งตัว และสมาชิกตัวนั้นบังเอิญเป็นเซตว่าง การมองว่าทั้งสองเท่ากันคือกับดัก T-01"]],
+        ["เซตเขียนด้วยวงเล็บปีกกา โดยคั่นสมาชิกด้วยจุลภาค ลำดับไม่มีผล และสมาชิกที่ซ้ำนับเป็นตัวเดียว ดังนั้น {1, 2, 2, 3} กับ {3, 2, 1} เป็นเซตเดียวกัน",
+         "เซตว่าง ∅ ไม่มีสมาชิกเลย ระวัง {∅} ไม่ใช่เซตว่าง แต่เป็นเซตที่มีสมาชิกอยู่หนึ่งตัว และสมาชิกตัวนั้นคือเซตว่าง ถ้าคิดว่าสองตัวนี้เท่ากันจะติดกับดัก T-01"]],
   formula:["∅ ≠ {∅}        n(∅) = 0 ,  n({∅}) = 1","∅ ≠ {∅}        n(∅) = 0 ,  n({∅}) = 1"],
   flabel:["Order and repetition are ignored","ไม่สนใจลำดับและการซ้ำ"],
   viz:"grid",
@@ -44,23 +44,23 @@ nodes:[
         return row;
       });
     },
-    note:["intersection needs BOTH ticks above it; union needs only one","อินเตอร์เซกชันต้องมีเครื่องหมายถูกทั้งสองแถวบน ยูเนียนต้องการเพียงแถวเดียว"]
+    note:["intersection needs BOTH ticks above it; union needs only one","อินเตอร์เซกชันต้องมีเครื่องหมายถูกทั้งสองแถวด้านบน ส่วนยูเนียนมีแถวเดียวก็พอ"]
   },
   guide:[
     {say:["A holds 1 to 5, B holds 3 to 8. Read down any column to see what each element belongs to.",
-          "A มี 1 ถึง 5 ส่วน B มี 3 ถึง 8 อ่านลงมาตามคอลัมน์ใดก็ได้เพื่อดูว่าสมาชิกนั้นอยู่ในเซตใดบ้าง"], set:{a:5,b:3}},
+          "A มีสมาชิก 1 ถึง 5 ส่วน B มี 3 ถึง 8 อ่านลงมาตามคอลัมน์ใดก็ได้ จะเห็นว่าสมาชิกตัวนั้นอยู่ในเซตไหนบ้าง"], set:{a:5,b:3}},
     {say:["Pull the sets apart until they no longer meet. The intersection row empties completely.",
-          "ดึงสองเซตให้แยกจากกันจนไม่พบกัน แถวอินเตอร์เซกชันจะว่างเปล่า"], set:{a:3,b:6}},
+          "ลองดึงสองเซตให้แยกจากกันจนไม่มีส่วนซ้อน แถวอินเตอร์เซกชันจะว่างเปล่าทั้งแถว"], set:{a:3,b:6}},
     {say:["Now overlap them fully. A becomes a subset of B, and the intersection row equals the A row.",
-          "ทีนี้ให้ซ้อนทับกันเต็มที่ A กลายเป็นสับเซตของ B และแถวอินเตอร์เซกชันเท่ากับแถว A"], set:{a:8,b:1}}
+          "ทีนี้ให้ซ้อนกันเต็มที่ A จะเป็นสับเซตของ B และแถวอินเตอร์เซกชันก็เหมือนกับแถว A"], set:{a:8,b:1}}
   ] },
 
 { id:"subsets", x:100, y:150, requires:["basics"], methods:["M-02"],
   title:["Subsets and power sets","สับเซตและเพาเวอร์เซต"],
   body:[["A ⊂ B means every member of A is also in B. The empty set is a subset of absolutely everything, and every set is a subset of itself — both facts are needed for counting.",
          "The power set P(A) collects all subsets of A. If A has n members then P(A) has 2ⁿ, because each element is independently either in or out. Note ∅ ∈ P(A) but ∅ ⊂ A — the symbols are not interchangeable, which is trap T-02."],
-        ["A ⊂ B หมายความว่าสมาชิกทุกตัวของ A อยู่ใน B ด้วย เซตว่างเป็นสับเซตของทุกเซตอย่างไม่มีข้อยกเว้น และทุกเซตเป็นสับเซตของตัวเอง ทั้งสองข้อจำเป็นสำหรับการนับ",
-         "เพาเวอร์เซต P(A) รวบรวมสับเซตทั้งหมดของ A ถ้า A มีสมาชิก n ตัว P(A) จะมี 2ⁿ ตัว เพราะสมาชิกแต่ละตัวเลือกได้อิสระว่าจะอยู่หรือไม่อยู่ สังเกตว่า ∅ ∈ P(A) แต่ ∅ ⊂ A สัญลักษณ์สองตัวนี้ใช้แทนกันไม่ได้ ซึ่งคือกับดัก T-02"]],
+        ["A ⊂ B หมายความว่าสมาชิกทุกตัวของ A เป็นสมาชิกของ B ด้วย เซตว่างเป็นสับเซตของทุกเซตโดยไม่มีข้อยกเว้น และทุกเซตเป็นสับเซตของตัวเอง ทั้งสองข้อนี้จำเป็นเวลานับจำนวนสับเซต",
+         "เพาเวอร์เซต P(A) คือเซตของสับเซตทั้งหมดของ A ถ้า A มีสมาชิก n ตัว P(A) จะมีสมาชิก 2ⁿ ตัว เพราะสมาชิกแต่ละตัวเลือกได้อย่างอิสระว่าจะอยู่ในสับเซตหรือไม่ สังเกตว่า ∅ ∈ P(A) แต่ ∅ ⊂ A สัญลักษณ์สองแบบนี้ใช้แทนกันไม่ได้ ถ้าใช้ผิดจะติดกับดัก T-02"]],
   formula:["n(P(A)) = 2ⁿ        proper subsets = 2ⁿ − 1","n(P(A)) = 2ⁿ        สับเซตแท้ = 2ⁿ − 1"],
   flabel:["Each element is in or out","สมาชิกแต่ละตัวเลือกอยู่หรือไม่อยู่"],
   viz:"plot",
@@ -79,15 +79,15 @@ nodes:[
       {lab:["Add one element?","เพิ่มสมาชิกหนึ่งตัว?"], f:function(){
         return L()?"จำนวนสับเซตเป็นสองเท่า":"the number of subsets doubles"; }}
     ],
-    note:["each new element either joins a subset or does not — that binary choice is where 2ⁿ comes from","สมาชิกใหม่แต่ละตัวจะอยู่ในสับเซตหรือไม่อยู่ ทางเลือกสองทางนั้นคือที่มาของ 2ⁿ"]
+    note:["each new element either joins a subset or does not — that binary choice is where 2ⁿ comes from","สมาชิกใหม่แต่ละตัวจะอยู่ในสับเซตหรือไม่อยู่ก็ได้ ทางเลือกสองทางนี้คือที่มาของ 2ⁿ"]
   } },
 
 { id:"operations", x:370, y:150, requires:["basics"], methods:["M-03"],
   title:["Set operations","การดำเนินการของเซต"],
   body:[["Union A ∪ B collects everything in either. Intersection A ∩ B keeps only what is in both. Difference A − B takes what is in A but not B, and complement A′ is everything in the universe outside A.",
          "De Morgan's laws connect them: (A ∪ B)′ = A′ ∩ B′ and (A ∩ B)′ = A′ ∪ B′. Complementing flips the operation as well as the sets, and forgetting that flip is trap T-03."],
-        ["ยูเนียน A ∪ B รวมทุกสิ่งที่อยู่ในเซตใดเซตหนึ่ง อินเตอร์เซกชัน A ∩ B เก็บเฉพาะสิ่งที่อยู่ในทั้งสอง ผลต่าง A − B เอาสิ่งที่อยู่ใน A แต่ไม่อยู่ใน B และคอมพลีเมนต์ A′ คือทุกสิ่งในเอกภพสัมพัทธ์ที่อยู่นอก A",
-         "กฎเดอมอร์แกนเชื่อมทั้งหมดเข้าด้วยกัน (A ∪ B)′ = A′ ∩ B′ และ (A ∩ B)′ = A′ ∪ B′ การใส่คอมพลีเมนต์กลับทั้งตัวดำเนินการและตัวเซต การลืมสลับตัวดำเนินการคือกับดัก T-03"]],
+        ["ยูเนียน A ∪ B รวมทุกอย่างที่อยู่ในเซตใดเซตหนึ่ง อินเตอร์เซกชัน A ∩ B เอาเฉพาะที่อยู่ในทั้งสองเซต ผลต่าง A − B เอาสิ่งที่อยู่ใน A แต่ไม่อยู่ใน B ส่วนคอมพลีเมนต์ A′ คือทุกอย่างในเอกภพสัมพัทธ์ที่ไม่อยู่ใน A",
+         "กฎเดอมอร์แกนเชื่อมการดำเนินการเหล่านี้เข้าด้วยกัน (A ∪ B)′ = A′ ∩ B′ และ (A ∩ B)′ = A′ ∪ B′ เมื่อหาคอมพลีเมนต์ ต้องสลับเครื่องหมายการดำเนินการด้วย ไม่ใช่เปลี่ยนแค่ตัวเซต ถ้าลืมสลับจะติดกับดัก T-03"]],
   formula:["(A ∪ B)′ = A′ ∩ B′        (A ∩ B)′ = A′ ∪ B′","(A ∪ B)′ = A′ ∩ B′        (A ∩ B)′ = A′ ∪ B′"],
   flabel:["De Morgan flips the operation too","เดอมอร์แกนสลับตัวดำเนินการด้วย"],
   viz:{
@@ -144,21 +144,21 @@ nodes:[
   },
   guide:[
     {say:["Union shades both circles entirely. Every element in either set is counted once — the overlap is not double counted.",
-          "ยูเนียนแรเงาทั้งสองวงเต็ม สมาชิกทุกตัวในเซตใดเซตหนึ่งถูกนับครั้งเดียว ส่วนที่ซ้อนกันไม่ถูกนับซ้ำ"], set:{op:0,nA:8,nAB:5,nB:7}},
+          "ยูเนียนแรเงาทั้งสองวงเต็ม สมาชิกทุกตัวที่อยู่ในเซตใดเซตหนึ่งนับครั้งเดียว ส่วนที่ซ้อนกันไม่ได้นับซ้ำ"], set:{op:0,nA:8,nAB:5,nB:7}},
     {say:["Intersection keeps only the lens in the middle. That is why n(A∪B) must subtract it once.",
-          "อินเตอร์เซกชันเก็บเฉพาะส่วนตรงกลาง จึงเป็นเหตุผลที่ n(A∪B) ต้องลบส่วนนี้ออกหนึ่งครั้ง"], set:{op:1,nA:8,nAB:5,nB:7}},
+          "อินเตอร์เซกชันเอาเฉพาะส่วนตรงกลาง เพราะอย่างนี้ n(A∪B) จึงต้องลบส่วนนี้ออกหนึ่งครั้ง"], set:{op:1,nA:8,nAB:5,nB:7}},
     {say:["Difference A − B is A with the overlap removed. Notice it is not symmetric: B − A would look different.",
-          "ผลต่าง A − B คือ A ที่ตัดส่วนซ้อนออก สังเกตว่ามันไม่สมมาตร B − A จะหน้าตาต่างออกไป"], set:{op:2,nA:8,nAB:5,nB:7}},
+          "ผลต่าง A − B คือ A ที่ตัดส่วนซ้อนออก สังเกตว่าสลับกันไม่ได้ B − A จะได้ส่วนที่ต่างออกไป"], set:{op:2,nA:8,nAB:5,nB:7}},
     {say:["Complement shades everything outside A, including the part of B that A never touched.",
-          "คอมพลีเมนต์แรเงาทุกอย่างนอก A รวมถึงส่วนของ B ที่ A ไม่เคยแตะ"], set:{op:3,nA:8,nAB:5,nB:7}}
+          "คอมพลีเมนต์แรเงาทุกส่วนที่อยู่นอก A รวมทั้งส่วนของ B ที่ไม่ซ้อนกับ A ด้วย"], set:{op:3,nA:8,nAB:5,nB:7}}
   ]},
 
 { id:"counting", x:235, y:248, requires:["subsets","operations"], methods:["M-04","M-05"],
   title:["Counting members","การนับสมาชิก"],
   body:[["For two sets, n(A ∪ B) = n(A) + n(B) − n(A ∩ B). The subtraction is there because everything in the overlap was counted twice, once in each set.",
          "For three the pattern continues: add the singles, subtract the pairs, add the triple back. Any survey question with two or three categories is this formula wearing a costume."],
-        ["สำหรับสองเซต n(A ∪ B) = n(A) + n(B) − n(A ∩ B) ที่ต้องลบเพราะทุกอย่างในส่วนซ้อนถูกนับสองครั้ง ครั้งหนึ่งในแต่ละเซต",
-         "สำหรับสามเซตรูปแบบก็ดำเนินต่อ บวกเซตเดี่ยว ลบคู่ แล้วบวกสามกลับเข้าไป โจทย์สำรวจใดที่มีสองหรือสามหมวดหมู่ก็คือสูตรนี้ที่สวมเครื่องแต่งกายอยู่"]],
+        ["สำหรับสองเซต n(A ∪ B) = n(A) + n(B) − n(A ∩ B) ที่ต้องลบ เพราะสมาชิกในส่วนซ้อนถูกนับไปสองรอบ รอบละหนึ่งเซต",
+         "สำหรับสามเซตก็ทำแบบเดียวกัน บวกเซตเดี่ยว ลบเซตคู่ แล้วบวกส่วนที่ซ้อนกันทั้งสามกลับเข้าไป โจทย์สำรวจที่มีสองหรือสามหมวดก็คือสูตรนี้ในรูปที่ต่างออกไป"]],
   formula:["n(A∪B) = n(A) + n(B) − n(A∩B)","n(A∪B) = n(A) + n(B) − n(A∩B)"],
   flabel:["Subtract what you counted twice","ลบสิ่งที่นับซ้ำออก"],
   viz:"bars",
@@ -186,15 +186,15 @@ nodes:[
       {lab:["True union","ยูเนียนที่ถูกต้อง"], f:function(p){
         return p.a+p.b-Math.min(p.both,p.a,p.b); }, col:"accent"}
     ],
-    note:["the gap between the last two bars is exactly the overlap, counted once too often","ช่องว่างระหว่างสองแถบสุดท้ายคือส่วนซ้อนทับพอดี ที่ถูกนับเกินไปหนึ่งครั้ง"]
+    note:["the gap between the last two bars is exactly the overlap, counted once too often","ช่องว่างระหว่างสองแถบสุดท้ายคือส่วนซ้อนพอดี ซึ่งถูกนับเกินมาหนึ่งครั้ง"]
   } },
 
 { id:"applications", x:235, y:346, requires:["counting"], methods:["M-06"],
   title:["Solving survey problems","การแก้โจทย์สำรวจ"],
   body:[["The reliable method is not the formula but the diagram. Draw the Venn regions, put the innermost overlap in first as x, then work outwards subtracting what you have already placed.",
          "Every region must be filled before you add anything up, and the total of all regions must equal the universe. Starting from the outside is what makes these problems feel hard — always start from the centre."],
-        ["วิธีที่เชื่อถือได้ไม่ใช่สูตรแต่คือแผนภาพ วาดบริเวณเวนน์ ใส่ส่วนซ้อนในสุดเป็น x ก่อน แล้วค่อยไล่ออกด้านนอกโดยลบสิ่งที่ใส่ไปแล้ว",
-         "ต้องเติมทุกบริเวณให้ครบก่อนจะรวมค่าใดๆ และผลรวมของทุกบริเวณต้องเท่ากับเอกภพสัมพัทธ์ การเริ่มจากด้านนอกคือสิ่งที่ทำให้โจทย์พวกนี้รู้สึกยาก ให้เริ่มจากตรงกลางเสมอ"]],
+        ["วิธีที่ไม่ผิดพลาดคือใช้แผนภาพ ไม่ใช่สูตร ให้วาดบริเวณของแผนภาพเวนน์ ใส่ส่วนซ้อนในสุดเป็น x ก่อน แล้วค่อยไล่ออกไปด้านนอก โดยลบค่าที่ใส่ไปแล้ว",
+         "ต้องเติมค่าให้ครบทุกบริเวณก่อนจะรวมอะไร และผลรวมของทุกบริเวณต้องเท่ากับเอกภพสัมพัทธ์ โจทย์แนวนี้ที่ดูยากมักเกิดจากการเริ่มจากด้านนอก ให้เริ่มจากตรงกลางเสมอ"]],
   formula:["Fill the centre first, then work outwards","เติมตรงกลางก่อน แล้วค่อยไล่ออก"],
   flabel:["A method, not a formula","เป็นวิธี ไม่ใช่สูตร"],
   viz:"bars",
@@ -225,15 +225,15 @@ nodes:[
       {lab:["Neither","ไม่ชอบทั้งคู่"], f:function(p){
         return Math.max(0,p.tot-(p.a+p.b-p.both)); }, col:"faint"}
     ],
-    note:["always fill the overlap first, then work outwards — that is the whole method","ให้เติมส่วนซ้อนทับก่อนเสมอ แล้วค่อยขยายออก นั่นคือวิธีทำทั้งหมด"]
+    note:["always fill the overlap first, then work outwards — that is the whole method","เติมส่วนซ้อนก่อนเสมอ แล้วค่อยไล่ออกไปด้านนอก นี่คือวิธีทำทั้งหมด"]
   },
   guide:[
     {say:["Start in the middle: 25 people like both. Every other region is measured from there.",
-          "เริ่มที่ตรงกลาง มี 25 คนที่ชอบทั้งสอง ส่วนอื่นทั้งหมดวัดจากตรงนั้น"], set:{tot:100,a:60,b:50,both:25}},
+          "เริ่มจากตรงกลาง มี 25 คนที่ชอบทั้งสองอย่าง ส่วนอื่นทั้งหมดคำนวณต่อจากตรงนี้"], set:{tot:100,a:60,b:50,both:25}},
     {say:["Raise the overlap and both 'only' bars shrink together — the totals for tea and coffee never moved.",
-          "เพิ่มส่วนซ้อนทับ แถบ อย่างเดียว ทั้งสองหดลงพร้อมกัน ทั้งที่ยอดชาและกาแฟไม่เปลี่ยน"], set:{tot:100,a:60,b:50,both:45}},
+          "เพิ่มส่วนซ้อน แล้วแถบ “เฉพาะ” ทั้งสองแถบจะหดลงพร้อมกัน ทั้งที่ยอดรวมของชาและกาแฟไม่เปลี่ยนเลย"], set:{tot:100,a:60,b:50,both:45}},
     {say:["Push it too far and the union exceeds the sample. The readout flags the contradiction.",
-          "ดันมากเกินไป ยูเนียนจะเกินจำนวนผู้ตอบ ค่าที่แสดงจะเตือนว่าข้อมูลขัดแย้งกัน"], set:{tot:100,a:150,b:150,both:0}}
+          "ถ้าเพิ่มมากเกินไป ยูเนียนจะมากกว่าจำนวนกลุ่มตัวอย่าง ค่าที่แสดงจะเตือนว่าข้อมูลขัดแย้งกัน"], set:{tot:100,a:150,b:150,both:0}}
   ] }
 ],
 
@@ -247,10 +247,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["∅ and {∅} are different. The first is empty; the second contains one element.","∅ กับ {∅} ต่างกัน ตัวแรกว่างเปล่า ตัวที่สองมีสมาชิกหนึ่งตัว"],
-"T-02":["∈ is membership, ⊂ is inclusion. ∅ ∈ P(A) but ∅ ⊂ A.","∈ คือการเป็นสมาชิก ⊂ คือการเป็นสับเซต  ∅ ∈ P(A) แต่ ∅ ⊂ A"],
-"T-03":["De Morgan flips the operation as well as complementing the sets.","เดอมอร์แกนสลับตัวดำเนินการด้วย ไม่ใช่แค่ใส่คอมพลีเมนต์"],
-"T-04":["The overlap was counted twice, or subtracted twice. Draw the diagram before adding.","นับส่วนซ้อนสองครั้ง หรือลบออกสองครั้ง ให้วาดแผนภาพก่อนบวก"]
+"T-01":["∅ and {∅} are different. The first is empty; the second contains one element.","∅ กับ {∅} ไม่เหมือนกัน ตัวแรกว่างเปล่า ตัวที่สองมีสมาชิกหนึ่งตัว"],
+"T-02":["∈ is membership, ⊂ is inclusion. ∅ ∈ P(A) but ∅ ⊂ A.","∈ แปลว่าเป็นสมาชิก ⊂ แปลว่าเป็นสับเซต  ∅ ∈ P(A) แต่ ∅ ⊂ A"],
+"T-03":["De Morgan flips the operation as well as complementing the sets.","กฎเดอมอร์แกนต้องสลับเครื่องหมายการดำเนินการด้วย ไม่ใช่ใส่คอมพลีเมนต์ให้แต่ตัวเซต"],
+"T-04":["The overlap was counted twice, or subtracted twice. Draw the diagram before adding.","นับส่วนซ้อนสองครั้ง หรือลบออกสองครั้ง ให้วาดแผนภาพก่อนจะบวก"]
 },
 
 gen:{
@@ -306,7 +306,7 @@ gen:{
   var a=20,b=18,c=15,ab=8,ac=6,bc=5,abc=3;
   var u=a+b+c-ab-ac-bc+abc;
   if(sf==="S-04") return {stem:["In the three-set counting formula, what happens to n(A ∩ B ∩ C)?",
-                                "ในสูตรนับสามเซต n(A ∩ B ∩ C) ถูกจัดการอย่างไร"],
+                                "ในสูตรนับสามเซต n(A ∩ B ∩ C) ต้องทำอย่างไร"],
     opts:[{v:["It is added back at the end","ถูกบวกกลับเข้าไปตอนท้าย"],ok:1},
           {v:["It is subtracted at the end","ถูกลบออกตอนท้าย"],trap:"T-04"},
           {v:["It is ignored","ไม่นำมาคิด"],trap:"T-04"},
@@ -319,8 +319,8 @@ gen:{
   var total=pick([40,50,60]), onlyA=pick([12,15]), onlyB=pick([10,18]), both=pick([6,9]);
   var neither=total-onlyA-onlyB-both;
   if(sf==="S-04") return {stem:["What is the reliable first step in a Venn survey problem?",
-                                "ขั้นตอนแรกที่เชื่อถือได้ในโจทย์สำรวจแบบเวนน์คืออะไร"],
-    opts:[{v:["Fill the innermost overlap first, then work outwards","เติมส่วนซ้อนในสุดก่อน แล้วไล่ออกด้านนอก"],ok:1},
+                                "ในโจทย์สำรวจที่ใช้แผนภาพเวนน์ ควรทำอะไรเป็นอย่างแรก"],
+    opts:[{v:["Fill the innermost overlap first, then work outwards","เติมส่วนซ้อนในสุดก่อน แล้วค่อยไล่ออกไปด้านนอก"],ok:1},
           {v:["Add all the given totals together","บวกยอดรวมที่โจทย์ให้มาทั้งหมด"],trap:"T-04"},
           {v:["Start from the outside region","เริ่มจากบริเวณด้านนอก"],trap:"T-04"},
           {v:["Assume nobody is in both","สมมติว่าไม่มีใครอยู่ทั้งสองกลุ่ม"],trap:"T-04"}],unit:""};

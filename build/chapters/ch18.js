@@ -4,7 +4,7 @@ kicker:["Physics · Chapter 18","ฟิสิกส์ · บทที่ 18"],
 title:["Electromagnetic Waves","คลื่นแม่เหล็กไฟฟ้า"],
 mapTitle:["Light, finally explained","แสง ที่ในที่สุดก็อธิบายได้"],
 lede:["Maxwell noticed that a changing electric field makes a magnetic one and vice versa, so the two could sustain each other across empty space. He calculated the speed of the result and got the speed of light.",
-      "แม็กซ์เวลล์สังเกตว่าสนามไฟฟ้าที่เปลี่ยนแปลงสร้างสนามแม่เหล็ก และในทางกลับกันด้วย ทั้งสองจึงค้ำจุนกันเองข้ามอวกาศว่างเปล่าได้ เขาคำนวณอัตราเร็วของสิ่งนั้นแล้วได้อัตราเร็วแสงพอดี"],
+      "แม็กซ์เวลล์สังเกตว่าสนามไฟฟ้าที่เปลี่ยนไปทำให้เกิดสนามแม่เหล็ก และสนามแม่เหล็กที่เปลี่ยนไปก็ทำให้เกิดสนามไฟฟ้า สองสนามนี้จึงส่งต่อกันไปเองได้แม้ในอวกาศว่างเปล่า เขาคำนวณอัตราเร็วของคลื่นนี้ และได้ค่าเท่ากับอัตราเร็วแสงพอดี"],
 next:["→ continues in Chapter 19 · Atomic Physics","→ ต่อในบทที่ 19 · ฟิสิกส์อะตอม"],
 
 nodes:[
@@ -12,8 +12,8 @@ nodes:[
   title:["Maxwell's insight","ข้อค้นพบของแม็กซ์เวลล์"],
   body:[["Faraday had shown that a changing magnetic field induces an electric one. Maxwell argued the converse must hold too, and that the pair could therefore propagate together with neither one ever dying out.",
          "His equations gave the speed as 3 × 10⁸ m/s — the measured speed of light, which nobody had connected to electricity at all. Hertz confirmed it experimentally twenty years later."],
-        ["ฟาราเดย์แสดงให้เห็นว่าสนามแม่เหล็กที่เปลี่ยนแปลงเหนี่ยวนำสนามไฟฟ้า แม็กซ์เวลล์แย้งว่าในทางกลับกันก็ต้องเป็นจริงเช่นกัน ทั้งคู่จึงแผ่ไปด้วยกันได้โดยไม่มีฝ่ายใดดับหายไป",
-         "สมการของเขาให้อัตราเร็ว 3 × 10⁸ m/s ซึ่งคืออัตราเร็วแสงที่วัดได้ ซึ่งไม่มีใครเคยเชื่อมโยงกับไฟฟ้ามาก่อนเลย เฮิรตซ์ยืนยันด้วยการทดลองในอีกยี่สิบปีต่อมา"]],
+        ["ฟาราเดย์แสดงไว้แล้วว่าสนามแม่เหล็กที่เปลี่ยนไปเหนี่ยวนำให้เกิดสนามไฟฟ้า แม็กซ์เวลล์จึงเสนอว่าต้องเป็นจริงในทางกลับกันด้วย ทั้งสองสนามจึงเคลื่อนที่ไปด้วยกันได้ โดยไม่มีฝ่ายใดหายไป",
+         "สมการของเขาให้อัตราเร็ว 3 × 10⁸ m/s ซึ่งเท่ากับอัตราเร็วแสงที่วัดได้ ทั้งที่ก่อนหน้านั้นไม่มีใครเคยคิดว่าแสงเกี่ยวข้องกับไฟฟ้า อีกยี่สิบปีต่อมา เฮิรตซ์ยืนยันเรื่องนี้ด้วยการทดลอง"]],
   formula:["c = 3 × 10⁸ m/s        c = fλ","c = 3 × 10⁸ m/s        c = fλ"],
   flabel:["Light is an electromagnetic wave","แสงคือคลื่นแม่เหล็กไฟฟ้า"],
   viz:"table",
@@ -36,33 +36,33 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i<=p.i, col:j===0?"ink":(i===p.i?"accent":"good")}; }); });
     },
-    note:["Maxwell did not measure light — he calculated it, and it matched","แมกซ์เวลล์ไม่ได้วัดแสง เขาคำนวณมันออกมา แล้วมันตรงกัน"]
+    note:["Maxwell did not measure light — he calculated it, and it matched","แม็กซ์เวลล์ไม่ได้วัดแสง เขาคำนวณออกมา แล้วได้ค่าตรงกัน"]
   } },
 
 { id:"properties", x:100, y:150, requires:["maxwell"], methods:["M-02","M-04"],
   title:["Properties","สมบัติ"],
   body:[["The electric and magnetic fields oscillate in phase, at right angles to each other and to the direction of travel. That makes every electromagnetic wave transverse, and therefore capable of polarisation.",
          "No medium is required — this is the one wave family that crosses a vacuum, which is why we can see the sun. And every member travels at exactly c in vacuum, from radio to gamma. Thinking they need a medium is trap T-01."],
-        ["สนามไฟฟ้าและสนามแม่เหล็กสั่นด้วยเฟสตรงกัน ตั้งฉากกันและตั้งฉากกับทิศการเคลื่อนที่ ทำให้คลื่นแม่เหล็กไฟฟ้าทุกชนิดเป็นคลื่นตามขวาง และจึงเกิดโพลาไรเซชันได้",
-         "ไม่ต้องอาศัยตัวกลาง นี่คือคลื่นตระกูลเดียวที่ข้ามสุญญากาศได้ จึงเป็นเหตุผลที่เรามองเห็นดวงอาทิตย์ และสมาชิกทุกตัวเดินทางด้วย c เท่ากันพอดีในสุญญากาศ ตั้งแต่คลื่นวิทยุถึงรังสีแกมมา การคิดว่าต้องมีตัวกลางคือกับดัก T-01"]],
+        ["สนามไฟฟ้าและสนามแม่เหล็กสั่นพร้อมกันด้วยเฟสเดียวกัน ตั้งฉากกันเอง และตั้งฉากกับทิศที่คลื่นเคลื่อนที่ คลื่นแม่เหล็กไฟฟ้าทุกชนิดจึงเป็นคลื่นตามขวาง และเกิดโพลาไรเซชันได้",
+         "คลื่นแม่เหล็กไฟฟ้าไม่ต้องใช้ตัวกลาง เป็นคลื่นตระกูลเดียวที่ผ่านสุญญากาศได้ เราจึงมองเห็นดวงอาทิตย์ และทุกชนิด ตั้งแต่คลื่นวิทยุถึงรังสีแกมมา เดินทางในสุญญากาศด้วยอัตราเร็ว c เท่ากันหมด ใครคิดว่าต้องมีตัวกลางก็ตกกับดัก T-01"]],
   formula:["E ⟂ B ⟂ direction        all travel at c","E ⟂ B ⟂ ทิศเคลื่อนที่        เดินทางด้วย c เท่ากันหมด"],
   flabel:["Transverse · needs no medium","ตามขวาง · ไม่ต้องมีตัวกลาง"],
   viz:"wave",
   guide:[
     {say:["The trace stands for the oscillating electric field. A magnetic field oscillates in step, at right angles to it.",
-          "เส้นกราฟแทนสนามไฟฟ้าที่สั่น มีสนามแม่เหล็กสั่นพร้อมกันในทิศตั้งฉากกับมัน"], set:{A:5,lam:8,f:1,T:8}},
+          "เส้นกราฟแทนสนามไฟฟ้าที่สั่นอยู่ ส่วนสนามแม่เหล็กสั่นพร้อมกันในทิศตั้งฉากกับสนามไฟฟ้า"], set:{A:5,lam:8,f:1,T:8}},
     {say:["Change the wavelength and the frequency must change to keep fλ equal to c. They are locked together.",
-          "เปลี่ยนความยาวคลื่นแล้วความถี่ต้องเปลี่ยนตาม เพื่อให้ fλ เท่ากับ c ทั้งสองผูกติดกัน"], set:{A:5,lam:16,f:0.5,T:8}},
+          "เมื่อเปลี่ยนความยาวคลื่น ความถี่ต้องเปลี่ยนตามเพื่อให้ fλ ยังเท่ากับ c สองค่านี้ผูกกันอยู่"], set:{A:5,lam:16,f:0.5,T:8}},
     {say:["Short wavelength means high frequency — the gamma end. Long means low — the radio end. Same speed either way.",
-          "ความยาวคลื่นสั้นหมายถึงความถี่สูง คือฝั่งรังสีแกมมา ยาวหมายถึงต่ำ คือฝั่งคลื่นวิทยุ อัตราเร็วเท่ากันทั้งคู่"], set:{A:5,lam:3,f:3,T:8}}
+          "ความยาวคลื่นสั้นแปลว่าความถี่สูง คือฝั่งรังสีแกมมา ความยาวคลื่นยาวแปลว่าความถี่ต่ำ คือฝั่งคลื่นวิทยุ แต่ไม่ว่าฝั่งไหน อัตราเร็วก็เท่ากัน"], set:{A:5,lam:3,f:3,T:8}}
   ]},
 
 { id:"spectrum", x:370, y:150, requires:["maxwell"], methods:["M-03","M-06"],
   title:["The spectrum","สเปกตรัม"],
   body:[["Seven named bands, ordered by wavelength from longest to shortest: radio, microwave, infrared, visible, ultraviolet, X-ray, gamma. Frequency and photon energy run the opposite way.",
          "Visible light occupies a laughably narrow slice, roughly 400 to 700 nm. Within it, red is the longest wavelength and violet the shortest. Getting the order backwards is trap T-02."],
-        ["เจ็ดย่านที่มีชื่อ เรียงตามความยาวคลื่นจากยาวสุดไปสั้นสุด คลื่นวิทยุ ไมโครเวฟ อินฟราเรด แสงที่มองเห็น อัลตราไวโอเลต รังสีเอกซ์ รังสีแกมมา ส่วนความถี่และพลังงานโฟตอนเรียงกลับทาง",
-         "แสงที่มองเห็นครอบครองช่วงที่แคบอย่างน่าขัน ราว 400 ถึง 700 นาโนเมตร ภายในช่วงนั้น สีแดงมีความยาวคลื่นยาวสุดและสีม่วงสั้นสุด การเรียงลำดับกลับด้านคือกับดัก T-02"]],
+        ["ย่านที่มีชื่อเรียกมีเจ็ดย่าน เรียงตามความยาวคลื่นจากยาวไปสั้น ได้แก่ คลื่นวิทยุ ไมโครเวฟ อินฟราเรด แสงที่มองเห็น อัลตราไวโอเลต รังสีเอกซ์ และรังสีแกมมา ส่วนความถี่และพลังงานโฟตอนเรียงตรงข้ามกัน",
+         "แสงที่มองเห็นครอบคลุมช่วงแคบนิดเดียว ประมาณ 400 ถึง 700 นาโนเมตร ในช่วงนี้ สีแดงมีความยาวคลื่นยาวที่สุด และสีม่วงสั้นที่สุด ถ้าเรียงกลับด้านก็ตกกับดัก T-02"]],
   formula:["radio → micro → IR → visible → UV → X-ray → gamma","วิทยุ → ไมโครเวฟ → IR → แสง → UV → เอกซ์ → แกมมา"],
   flabel:["Wavelength falling · energy rising","ความยาวคลื่นลดลง · พลังงานเพิ่มขึ้น"],
   viz:"scale",
@@ -94,15 +94,15 @@ nodes:[
     },
     cursor:function(p){ return p.e; },
     cursorLab:function(p){ return ["10^"+p.e+" m","10^"+p.e+" เมตร"]; },
-    note:["everything we can see occupies one thin slice of a seventeen-decade range","ทุกสิ่งที่เรามองเห็นกินพื้นที่เพียงแผ่นบางๆ ของช่วงกว้างสิบเจ็ดอันดับขนาด"]
+    note:["everything we can see occupies one thin slice of a seventeen-decade range","ทุกสิ่งที่เรามองเห็นเป็นเพียงแถบบางๆ ในช่วงที่กว้างถึงสิบเจ็ดอันดับขนาด"]
   } },
 
 { id:"polarisation", x:235, y:248, requires:["properties"], methods:["M-05"],
   title:["Polarisation","โพลาไรเซชัน"],
   body:[["Ordinary light oscillates in every plane at once. A polarising filter passes only one, so half the intensity is lost and what emerges is confined to a single direction of vibration.",
          "Put a second filter at right angles to the first and nothing gets through. This is only possible for transverse waves — sound can never be polarised, which is the cleanest proof that light is not longitudinal."],
-        ["แสงธรรมดาสั่นในทุกระนาบพร้อมกัน แผ่นโพลารอยด์ยอมให้ผ่านเพียงระนาบเดียว ความเข้มจึงหายไปครึ่งหนึ่ง และสิ่งที่ออกมาถูกจำกัดให้สั่นในทิศทางเดียว",
-         "วางแผ่นที่สองตั้งฉากกับแผ่นแรกแล้วจะไม่มีอะไรผ่านเลย สิ่งนี้เป็นไปได้เฉพาะกับคลื่นตามขวาง เสียงไม่มีวันโพลาไรซ์ได้ ซึ่งเป็นข้อพิสูจน์ที่ชัดเจนที่สุดว่าแสงไม่ใช่คลื่นตามยาว"]],
+        ["แสงธรรมดาสั่นในทุกระนาบพร้อมกัน แผ่นโพลารอยด์ให้แสงผ่านได้เพียงระนาบเดียว ความเข้มจึงหายไปครึ่งหนึ่ง และแสงที่ออกมาสั่นในทิศเดียวเท่านั้น",
+         "ถ้าวางแผ่นที่สองตั้งฉากกับแผ่นแรก แสงจะผ่านไม่ได้เลย ปรากฏการณ์นี้เกิดได้เฉพาะกับคลื่นตามขวาง เสียงโพลาไรซ์ไม่ได้เลย นี่จึงเป็นหลักฐานที่ชัดที่สุดว่าแสงไม่ใช่คลื่นตามยาว"]],
   formula:["Two crossed filters transmit nothing","แผ่นโพลารอยด์ไขว้กันสองแผ่นไม่ให้แสงผ่าน"],
   flabel:["Only transverse waves polarise","เฉพาะคลื่นตามขวางที่โพลาไรซ์ได้"],
   viz:"plot",
@@ -126,15 +126,15 @@ nodes:[
       {lab:["Why sound cannot do this","ทำไมเสียงทำแบบนี้ไม่ได้"], f:function(){
         return L()?"เสียงเป็นคลื่นตามยาว ไม่มีทิศการสั่นให้กรอง":"sound is longitudinal — it has no vibration direction to filter"; }}
     ],
-    note:["the square is what makes 45° pass a half, not the three-quarters you might guess","กำลังสองคือสิ่งที่ทำให้ 45° ผ่านครึ่งหนึ่ง ไม่ใช่สามในสี่อย่างที่อาจเดา"]
+    note:["the square is what makes 45° pass a half, not the three-quarters you might guess","เพราะมีกำลังสอง ที่ 45° แสงจึงผ่านครึ่งหนึ่ง ไม่ใช่สามในสี่อย่างที่อาจเดา"]
   } },
 
 { id:"uses", x:235, y:346, requires:["spectrum","polarisation"], methods:["M-06"],
   title:["Uses and hazards","การใช้งานและอันตราย"],
   body:[["Each band is used for what its wavelength allows. Radio diffracts round hills and buildings, microwaves resonate with water molecules, infrared reads heat, X-rays pass through flesh but not bone.",
          "Danger tracks photon energy, not intensity. Below ultraviolet the photons cannot ionise atoms however bright the source; above it they can, however faint. That threshold is why UV, X-rays and gamma are the hazardous end."],
-        ["แต่ละย่านถูกใช้ตามที่ความยาวคลื่นเอื้ออำนวย คลื่นวิทยุเลี้ยวเบนอ้อมเนินเขาและอาคาร ไมโครเวฟสั่นพ้องกับโมเลกุลน้ำ อินฟราเรดอ่านความร้อน รังสีเอกซ์ทะลุเนื้อแต่ไม่ทะลุกระดูก",
-         "อันตรายขึ้นกับพลังงานโฟตอน ไม่ใช่ความเข้ม ต่ำกว่าอัลตราไวโอเลต โฟตอนทำให้อะตอมแตกตัวไม่ได้ไม่ว่าแหล่งกำเนิดจะสว่างเพียงใด สูงกว่านั้นทำได้ แม้จะจางแค่ไหน เกณฑ์นี้คือเหตุผลที่ UV เอกซ์ และแกมมา คือฝั่งที่อันตราย"]],
+        ["แต่ละย่านถูกนำมาใช้ตามสมบัติของความยาวคลื่นนั้น คลื่นวิทยุเลี้ยวเบนอ้อมเนินเขาและตึกได้ ไมโครเวฟสั่นพ้องกับโมเลกุลน้ำ อินฟราเรดใช้ตรวจความร้อน รังสีเอกซ์ทะลุเนื้อได้แต่ทะลุกระดูกไม่ได้",
+         "ความอันตรายขึ้นกับพลังงานของโฟตอน ไม่ใช่ความเข้ม ย่านที่ต่ำกว่าอัลตราไวโอเลต โฟตอนมีพลังงานไม่พอจะทำให้อะตอมแตกตัว ไม่ว่าแหล่งกำเนิดจะสว่างแค่ไหน แต่ย่านที่สูงกว่านั้นทำได้ แม้แสงจะจางมาก เกณฑ์นี้ทำให้ UV รังสีเอกซ์ และรังสีแกมมาเป็นฝั่งที่อันตราย"]],
   formula:["E = hf        ionising above UV","E = hf        ทำให้แตกตัวได้ตั้งแต่ UV ขึ้นไป"],
   flabel:["Photon energy decides the hazard","พลังงานโฟตอนเป็นตัวกำหนดอันตราย"],
   viz:"table",
@@ -162,7 +162,7 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"ink":(j===1?"good":"warn")}; }); });
     },
-    note:["read the hazard column downwards — it tracks frequency, and nothing else","อ่านคอลัมน์อันตรายลงมา มันสอดคล้องกับความถี่ ไม่ใช่อย่างอื่น"]
+    note:["read the hazard column downwards — it tracks frequency, and nothing else","ลองอ่านคอลัมน์ความอันตรายจากบนลงล่าง จะเห็นว่าอันตรายเพิ่มตามความถี่ ไม่ได้ขึ้นกับอย่างอื่น"]
   } }
 ],
 
@@ -176,10 +176,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["Electromagnetic waves need no medium. They cross a vacuum, which is how sunlight reaches us.","คลื่นแม่เหล็กไฟฟ้าไม่ต้องอาศัยตัวกลาง มันข้ามสุญญากาศได้ จึงเป็นวิธีที่แสงอาทิตย์มาถึงเรา"],
-"T-02":["Spectrum order reversed. Radio has the longest wavelength; gamma the shortest.","เรียงสเปกตรัมกลับด้าน คลื่นวิทยุมีความยาวคลื่นยาวที่สุด รังสีแกมมาสั้นที่สุด"],
-"T-03":["All electromagnetic waves travel at c in a vacuum. Gamma is not faster than radio.","คลื่นแม่เหล็กไฟฟ้าทุกชนิดเดินทางด้วย c ในสุญญากาศ รังสีแกมมาไม่ได้เร็วกว่าคลื่นวิทยุ"],
-"T-04":["Hazard follows photon energy, not brightness. A dim gamma source still ionises.","อันตรายขึ้นกับพลังงานโฟตอน ไม่ใช่ความสว่าง แหล่งกำเนิดรังสีแกมมาที่จางก็ยังทำให้แตกตัวได้"]
+"T-01":["Electromagnetic waves need no medium. They cross a vacuum, which is how sunlight reaches us.","คลื่นแม่เหล็กไฟฟ้าไม่ต้องใช้ตัวกลาง ผ่านสุญญากาศได้ แสงอาทิตย์จึงมาถึงเรา"],
+"T-02":["Spectrum order reversed. Radio has the longest wavelength; gamma the shortest.","เรียงสเปกตรัมกลับด้านแล้ว คลื่นวิทยุมีความยาวคลื่นยาวที่สุด ส่วนรังสีแกมมาสั้นที่สุด"],
+"T-03":["All electromagnetic waves travel at c in a vacuum. Gamma is not faster than radio.","คลื่นแม่เหล็กไฟฟ้าทุกชนิดเดินทางในสุญญากาศด้วยอัตราเร็ว c รังสีแกมมาไม่ได้เร็วกว่าคลื่นวิทยุ"],
+"T-04":["Hazard follows photon energy, not brightness. A dim gamma source still ionises.","ความอันตรายขึ้นกับพลังงานโฟตอน ไม่ใช่ความสว่าง แหล่งรังสีแกมมาที่จางก็ยังทำให้อะตอมแตกตัวได้"]
 },
 
 gen:{
@@ -198,7 +198,7 @@ gen:{
           ok:["Perpendicular to each other and in phase","ตั้งฉากกันและมีเฟสตรงกัน"],
           w:[["Parallel and in phase","ขนานกันและเฟสตรงกัน"],["Perpendicular and out of phase","ตั้งฉากกันและเฟสตรงข้าม"],
              ["Only the electric field oscillates","มีเพียงสนามไฟฟ้าที่สั่น"]]},
-         {s:["Why can sunlight reach the Earth across empty space?","ทำไมแสงอาทิตย์จึงเดินทางถึงโลกผ่านอวกาศว่างเปล่าได้"],
+         {s:["Why can sunlight reach the Earth across empty space?","ทำไมแสงอาทิตย์จึงเดินทางผ่านอวกาศว่างเปล่ามาถึงโลกได้"],
           ok:["Electromagnetic waves need no medium","คลื่นแม่เหล็กไฟฟ้าไม่ต้องอาศัยตัวกลาง"],
           w:[["Space contains a thin medium","อวกาศมีตัวกลางบางเบา"],
              ["Light is longitudinal","แสงเป็นคลื่นตามยาว"],
@@ -214,7 +214,7 @@ gen:{
     opts:[{v:["Gamma rays","รังสีแกมมา"],ok:1},{v:["Radio waves","คลื่นวิทยุ"],trap:"T-02"},
           {v:["Infrared","อินฟราเรด"]},{v:["Microwaves","ไมโครเวฟ"]}],unit:""};
   return {stem:["Place these in order of increasing frequency: X-ray, infrared, visible, microwave.",
-                "จงเรียงลำดับความถี่จากน้อยไปมาก รังสีเอกซ์ อินฟราเรด แสง ไมโครเวฟ"],
+                "จงเรียงความถี่จากน้อยไปมาก รังสีเอกซ์ อินฟราเรด แสงที่มองเห็น ไมโครเวฟ"],
     opts:[{v:["microwave, infrared, visible, X-ray","ไมโครเวฟ อินฟราเรด แสง เอกซ์"],ok:1},
           {v:["X-ray, visible, infrared, microwave","เอกซ์ แสง อินฟราเรด ไมโครเวฟ"],trap:"T-02"},
           {v:["infrared, microwave, visible, X-ray","อินฟราเรด ไมโครเวฟ แสง เอกซ์"]},
@@ -222,32 +222,32 @@ gen:{
 },
 "M-04": function(sf){
   return {stem:["A radio wave and a gamma ray both travel through a vacuum. Compare their speeds.",
-                "คลื่นวิทยุกับรังสีแกมมาเดินทางผ่านสุญญากาศทั้งคู่ จงเปรียบเทียบอัตราเร็ว"],
+                "คลื่นวิทยุกับรังสีแกมมาเดินทางผ่านสุญญากาศเหมือนกัน เปรียบเทียบอัตราเร็วของทั้งสองได้อย่างไร"],
     opts:[{v:["Identical, both 3 × 10⁸ m/s","เท่ากัน ทั้งคู่คือ 3 × 10⁸ m/s"],ok:1},
           {v:["Gamma is much faster","รังสีแกมมาเร็วกว่ามาก"],trap:"T-03"},
           {v:["Radio is faster","คลื่นวิทยุเร็วกว่า"],trap:"T-03"},
           {v:["It depends on their intensity","ขึ้นกับความเข้ม"],trap:"T-03"}],unit:""};
 },
 "M-05": function(sf){
-  var C=[{s:["Two polarising filters are crossed at 90°. How much light gets through?","แผ่นโพลารอยด์สองแผ่นไขว้กันที่ 90° มีแสงผ่านเท่าใด"],
+  var C=[{s:["Two polarising filters are crossed at 90°. How much light gets through?","แผ่นโพลารอยด์สองแผ่นวางไขว้กัน 90° แสงผ่านได้เท่าใด"],
           ok:["None","ไม่มีเลย"],w:[["Half","ครึ่งหนึ่ง"],["All of it","ทั้งหมด"],["A quarter","หนึ่งในสี่"]]},
          {s:["That sound cannot be polarised tells us what about it?","การที่เสียงโพลาไรซ์ไม่ได้ บอกอะไรเกี่ยวกับเสียง"],
           ok:["It is a longitudinal wave","มันเป็นคลื่นตามยาว"],
           w:[["It is a transverse wave","มันเป็นคลื่นตามขวาง"],["It carries no energy","มันไม่พาพลังงาน"],
              ["It travels faster than light","มันเดินทางเร็วกว่าแสง"]]},
-         {s:["Unpolarised light passes one filter. What fraction of the intensity survives?","แสงไม่โพลาไรซ์ผ่านแผ่นกรองหนึ่งแผ่น ความเข้มเหลือเท่าใด"],
+         {s:["Unpolarised light passes one filter. What fraction of the intensity survives?","แสงไม่โพลาไรซ์ผ่านแผ่นกรองหนึ่งแผ่น ความเข้มเหลือกี่ส่วน"],
           ok:["One half","ครึ่งหนึ่ง"],w:[["All of it","ทั้งหมด"],["None","ไม่เหลือเลย"],["One quarter","หนึ่งในสี่"]]}];
   var c=pick(C);
   return {stem:c.s, opts:[{v:c.ok,ok:1},{v:c.w[0]},{v:c.w[1]},{v:c.w[2]}],unit:""};
 },
 "M-06": function(sf){
-  var C=[{s:["Which band is used in a domestic microwave oven, and why?","ย่านใดใช้ในเตาไมโครเวฟตามบ้าน และเพราะอะไร"],
-          ok:["Microwaves, because water molecules absorb them strongly","ไมโครเวฟ เพราะโมเลกุลน้ำดูดกลืนได้ดี"],
+  var C=[{s:["Which band is used in a domestic microwave oven, and why?","เตาไมโครเวฟตามบ้านใช้คลื่นย่านใด และเพราะอะไร"],
+          ok:["Microwaves, because water molecules absorb them strongly","ไมโครเวฟ เพราะโมเลกุลน้ำดูดกลืนคลื่นนี้ได้ดี"],
           w:[["Infrared, because it is heat","อินฟราเรด เพราะมันคือความร้อน"],
              ["X-rays, because they penetrate food","รังสีเอกซ์ เพราะทะลุอาหารได้"],
              ["Radio, because it is safe","คลื่นวิทยุ เพราะปลอดภัย"]]},
-         {s:["Why are gamma rays hazardous even at very low intensity?","ทำไมรังสีแกมมาจึงอันตรายแม้ที่ความเข้มต่ำมาก"],
-          ok:["Each photon carries enough energy to ionise atoms","แต่ละโฟตอนมีพลังงานพอที่จะทำให้อะตอมแตกตัว"],
+         {s:["Why are gamma rays hazardous even at very low intensity?","ทำไมรังสีแกมมาจึงอันตรายแม้ความเข้มต่ำมาก"],
+          ok:["Each photon carries enough energy to ionise atoms","โฟตอนแต่ละตัวมีพลังงานมากพอจะทำให้อะตอมแตกตัว"],
           w:[["They travel faster than other waves","มันเดินทางเร็วกว่าคลื่นอื่น"],
              ["They have the longest wavelength","มันมีความยาวคลื่นยาวที่สุด"],
              ["They are always intense","มันมีความเข้มสูงเสมอ"]]},

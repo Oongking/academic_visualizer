@@ -57,7 +57,7 @@ kicker:["Physics · Chapter 13","ฟิสิกส์ · บทที่ 13"],
 title:["Electrostatics","ไฟฟ้าสถิต"],
 mapTitle:["Gravity's louder cousin","ญาติที่เสียงดังกว่าของแรงโน้มถ่วง"],
 lede:["Coulomb's law has the same shape as Newton's law of gravitation, which means every technique from Chapter 3 transfers directly. The differences are that charge comes in two signs, and that the force is unimaginably stronger.",
-      "กฎของคูลอมบ์มีรูปแบบเดียวกับกฎแรงโน้มถ่วงของนิวตัน ทุกเทคนิคจากบทที่ 3 จึงถ่ายโอนมาได้โดยตรง ต่างกันตรงที่ประจุมีสองเครื่องหมาย และแรงนี้แข็งแรงกว่าอย่างเหลือเชื่อ"],
+      "กฎของคูลอมบ์หน้าตาเหมือนกฎแรงโน้มถ่วงของนิวตัน เทคนิคทั้งหมดจากบทที่ 3 จึงนำมาใช้ได้ทันที ที่ต่างกันคือประจุมีสองเครื่องหมาย และแรงไฟฟ้าแรงกว่ามากจนนึกภาพไม่ถึง"],
 next:["→ continues in Chapter 14 · Current Electricity","→ ต่อในบทที่ 14 · ไฟฟ้ากระแส"],
 
 nodes:[
@@ -65,8 +65,8 @@ nodes:[
   title:["Coulomb's law","กฎของคูลอมบ์"],
   body:[["The force between two point charges is F = kq₁q₂/r², with k = 9 × 10⁹ N·m²/C². Like charges repel, unlike attract, and the force falls off as the square of separation.",
          "Compare it to gravity: identical form, but electrostatic attraction between a proton and an electron is about 10³⁹ times stronger than their gravitational attraction. Gravity only wins at large scales because charge cancels and mass never does."],
-        ["แรงระหว่างประจุจุดสองประจุคือ F = kq₁q₂/r² โดย k = 9 × 10⁹ นิวตัน·ตร.ม./คูลอมบ์² ประจุชนิดเดียวกันผลักกัน ต่างชนิดดูดกัน และแรงลดลงตามกำลังสองของระยะห่าง",
-         "เทียบกับแรงโน้มถ่วง รูปแบบเหมือนกันทุกประการ แต่แรงดูดทางไฟฟ้าระหว่างโปรตอนกับอิเล็กตรอนแรงกว่าแรงโน้มถ่วงราว 10³⁹ เท่า แรงโน้มถ่วงชนะเฉพาะในระดับใหญ่เพราะประจุหักล้างกันได้ แต่มวลไม่เคยหักล้าง"]],
+        ["แรงระหว่างประจุจุดสองประจุคือ F = kq₁q₂/r² โดย k = 9 × 10⁹ นิวตัน·ตร.ม./คูลอมบ์² ประจุชนิดเดียวกันผลักกัน ประจุต่างชนิดดูดกัน และแรงลดลงตามกำลังสองของระยะห่าง",
+         "ลองเทียบกับแรงโน้มถ่วง สมการหน้าตาเหมือนกันเป๊ะ แต่แรงดูดทางไฟฟ้าระหว่างโปรตอนกับอิเล็กตรอนแรงกว่าแรงโน้มถ่วงราว 10³⁹ เท่า ที่แรงโน้มถ่วงชนะในระดับใหญ่ก็เพราะประจุหักล้างกันได้ แต่มวลไม่เคยหักล้างกัน"]],
   formula:["F = k q₁q₂ / r²        k = 9 × 10⁹","F = k q₁q₂ / r²        k = 9 × 10⁹"],
   flabel:["Inverse square, like gravity","กำลังสองผกผัน เหมือนแรงโน้มถ่วง"],
   viz:"plot",
@@ -90,19 +90,19 @@ nodes:[
   },
   guide:[
     {say:["The curve dives near the origin. Bring the charges close and the force explodes.",
-          "เส้นกราฟดิ่งลงใกล้จุดกำเนิด นำประจุเข้าใกล้กันแล้วแรงจะพุ่งขึ้นมหาศาล"], set:{q1:10,q2:10,r:0.5}},
+          "กราฟดิ่งลงใกล้จุดกำเนิด ยิ่งนำประจุเข้าใกล้กัน แรงยิ่งพุ่งสูงมาก"], set:{q1:10,q2:10,r:0.5}},
     {say:["Halve the separation and read both numbers. The force goes up four times, not twice.",
-          "ลดระยะห่างครึ่งหนึ่งแล้วอ่านตัวเลขทั้งสอง แรงเพิ่มสี่เท่า ไม่ใช่สองเท่า"], set:{q1:10,q2:10,r:0.25}},
+          "ลดระยะห่างลงครึ่งหนึ่ง แล้วอ่านค่าทั้งสองตัว แรงเพิ่มเป็นสี่เท่า ไม่ใช่สองเท่า"], set:{q1:10,q2:10,r:0.25}},
     {say:["Doubling a charge only doubles the force. Distance is the squared variable, charge is not.",
-          "การเพิ่มประจุสองเท่าทำให้แรงเพิ่มสองเท่าเท่านั้น ระยะทางคือตัวแปรที่ยกกำลังสอง ประจุไม่ใช่"], set:{q1:20,q2:10,r:0.25}}
+          "เพิ่มประจุเป็นสองเท่า แรงก็เพิ่มเป็นสองเท่าเท่านั้น ตัวที่ยกกำลังสองคือระยะห่าง ไม่ใช่ประจุ"], set:{q1:20,q2:10,r:0.25}}
   ]},
 
 { id:"field", x:100, y:150, requires:["coulomb"], methods:["M-02"],
   title:["Electric field","สนามไฟฟ้า"],
   body:[["A field is force per unit charge, E = F/q, so a charge placed in a field feels F = qE. Around a point charge E = kq/r², and field lines run outwards from positive and inwards to negative.",
          "The field exists whether or not a test charge is there to feel it. That shift — from action at a distance to a property of space — is what makes the field concept worth having."],
-        ["สนามคือแรงต่อหนึ่งหน่วยประจุ E = F/q ดังนั้นประจุที่วางในสนามจะรู้สึกแรง F = qE รอบประจุจุด E = kq/r² และเส้นสนามพุ่งออกจากประจุบวกและพุ่งเข้าหาประจุลบ",
-         "สนามมีอยู่ไม่ว่าจะมีประจุทดสอบไปรู้สึกหรือไม่ การเปลี่ยนมุมมองนี้ จากแรงกระทำระยะไกลไปสู่สมบัติของปริภูมิ คือเหตุผลที่แนวคิดสนามมีค่าควรแก่การมี"]],
+        ["สนามคือแรงต่อหนึ่งหน่วยประจุ E = F/q ดังนั้นประจุที่อยู่ในสนามจะได้รับแรง F = qE รอบประจุจุด E = kq/r² เส้นสนามพุ่งออกจากประจุบวกและพุ่งเข้าหาประจุลบ",
+         "สนามมีอยู่เสมอ ไม่ว่าจะมีประจุทดสอบมารับรู้หรือไม่ การมองแบบนี้ คือเปลี่ยนจากแรงที่กระทำข้ามระยะทางมาเป็นสมบัติของที่ว่าง คือเหตุผลที่เราต้องมีแนวคิดเรื่องสนาม"]],
   formula:["E = F/q = kq/r²        F = qE","E = F/q = kq/r²        F = qE"],
   flabel:["A property of space itself","สมบัติของปริภูมิเอง"],
   viz:"stage",
@@ -110,7 +110,7 @@ nodes:[
     anim:true,
     spellName:["Charged Wisps: field is force per unit charge","ภูตประจุ: สนามคือแรงต่อประจุหนึ่งหน่วย"],
     question:["Drag the wisps and the little test charge. The field lines are drawn by the space itself — what does the test charge feel, and why?",
-              "ลากภูตประจุและประจุทดสอบ เส้นสนามถูกวาดโดยที่ว่างเอง ประจุทดสอบรู้สึกอะไร และเพราะอะไร"],
+              "ลองลากภูตประจุและประจุทดสอบดู เส้นสนามเกิดจากที่ว่างรอบๆ นั้นเอง ประจุทดสอบรู้สึกอย่างไร และเพราะอะไร"],
     ctrls:[
       {k:"Q1", lab:["Wisp 1 charge","ประจุภูต 1"], min:-50, max:50, step:5, def:20, unit:" nC"},
       {k:"Q2", lab:["Wisp 2 charge","ประจุภูต 2"], min:-50, max:50, step:5, def:0, unit:" nC"},
@@ -174,11 +174,11 @@ nodes:[
     },
     predict:{ kind:"choice",
       ask:["Press reveal and the test charge walks out to twice its distance from wisp 1. The field wisp 1 makes there will be…",
-           "กดเปิดเผยแล้วประจุทดสอบจะเดินออกไปไกลเป็นสองเท่าจากภูต 1 สนามที่ภูต 1 สร้างตรงนั้นจะเป็น…"],
+           "กดเปิดเผย แล้วประจุทดสอบจะเดินออกไปไกลจากภูต 1 เป็นสองเท่าของระยะเดิม สนามที่ภูต 1 สร้างตรงนั้นจะเป็น…"],
       opts:[["half as strong","ครึ่งหนึ่ง"],["a quarter as strong","หนึ่งในสี่"],["just as strong","เท่าเดิม"],["twice as strong","สองเท่า"]],
       actual:function(){ return 1; },
       explain:function(p){ return ["E = kQ / r²: doubling r divides the field by 2² = 4. The same lines spread over four times the area.",
-                                   "E = kQ / r²: เพิ่ม r เป็นสองเท่า สนามหารด้วย 2² = 4 เส้นสนามจำนวนเดิมกระจายบนพื้นที่สี่เท่า"]; }
+                                   "E = kQ / r²: เพิ่ม r เป็นสองเท่า สนามจะเหลือหนึ่งในสี่ (หารด้วย 2² = 4) เพราะเส้นสนามจำนวนเท่าเดิมกระจายบนพื้นที่ที่ใหญ่ขึ้นสี่เท่า"]; }
     },
     trials:{
       veil:true, play:false,
@@ -223,15 +223,15 @@ nodes:[
       }
     },
     note:["the blue arrow is the field — it is there whether or not anything sits in it; the orange arrow is the force on the test charge",
-          "ลูกศรฟ้าคือสนาม มันอยู่ตรงนั้นไม่ว่าจะมีอะไรวางอยู่หรือไม่ ลูกศรส้มคือแรงบนประจุทดสอบ"]
+          "ลูกศรสีฟ้าคือสนาม ซึ่งมีอยู่ตรงนั้นแม้ไม่มีอะไรวางอยู่ ส่วนลูกศรสีส้มคือแรงที่กระทำต่อประจุทดสอบ"]
   },
   guide:[
     {say:["One positive wisp. Field lines stream outward; the test charge is pushed along them.",
-          "ภูตประจุบวกดวงเดียว เส้นสนามพุ่งออก ประจุทดสอบถูกผลักไปตามเส้น"], set:{Q1:20,Q2:0,q:2,x1:200,y1:165,xt:330,yt:110,T:3}},
+          "ภูตประจุบวกหนึ่งดวง เส้นสนามพุ่งออกจากภูต และประจุทดสอบถูกผลักไปตามเส้นสนาม"], set:{Q1:20,Q2:0,q:2,x1:200,y1:165,xt:330,yt:110,T:3}},
     {say:["Flip the test charge negative. The field arrow does not move at all; only the force turns round.",
-          "เปลี่ยนประจุทดสอบเป็นลบ ลูกศรสนามไม่ขยับเลย มีเพียงแรงที่กลับทิศ"], set:{Q1:20,Q2:0,q:-4,x1:200,y1:165,xt:330,yt:110,T:3}},
+          "เปลี่ยนประจุทดสอบเป็นประจุลบ ลูกศรสนามไม่ขยับเลย มีแต่แรงที่กลับทิศ"], set:{Q1:20,Q2:0,q:-4,x1:200,y1:165,xt:330,yt:110,T:3}},
     {say:["Add an opposite wisp. The lines now leave the positive one and end on the negative one.",
-          "เพิ่มภูตประจุตรงข้าม เส้นสนามออกจากภูตบวกและไปสิ้นสุดที่ภูตลบ"], set:{Q1:25,Q2:-25,q:2,x1:170,y1:165,x2:400,y2:165,xt:285,yt:90,T:3}}
+          "เพิ่มภูตประจุตรงข้ามเข้าไป ตอนนี้เส้นสนามออกจากภูตบวกแล้วไปสิ้นสุดที่ภูตลบ"], set:{Q1:25,Q2:-25,q:2,x1:170,y1:165,x2:400,y2:165,xt:285,yt:90,T:3}}
   ]
 },
 
@@ -239,8 +239,8 @@ nodes:[
   title:["Potential and energy","ศักย์และพลังงาน"],
   body:[["Potential is energy per unit charge, V = kq/r, and it is a scalar — potentials from several charges simply add, with no components to resolve. That makes it far easier to work with than field.",
          "The work needed to move a charge between two points is W = qΔV, and it does not depend on the path taken. Between parallel plates the field is uniform and E = ΔV/d."],
-        ["ศักย์คือพลังงานต่อหนึ่งหน่วยประจุ V = kq/r และเป็นสเกลาร์ ศักย์จากหลายประจุจึงบวกกันตรงๆ ไม่ต้องแตกองค์ประกอบ ทำให้ใช้งานง่ายกว่าสนามมาก",
-         "งานที่ต้องใช้ในการย้ายประจุระหว่างสองจุดคือ W = qΔV และไม่ขึ้นกับเส้นทางที่เลือก ระหว่างแผ่นขนานสนามสม่ำเสมอและ E = ΔV/d"]],
+        ["ศักย์คือพลังงานต่อหนึ่งหน่วยประจุ V = kq/r และเป็นปริมาณสเกลาร์ ศักย์จากหลายประจุจึงบวกกันได้เลย ไม่ต้องแตกองค์ประกอบ ศักย์จึงใช้งานง่ายกว่าสนามมาก",
+         "งานที่ต้องใช้ย้ายประจุระหว่างสองจุดคือ W = qΔV และไม่ขึ้นกับเส้นทางที่ย้าย ระหว่างแผ่นขนานสนามสม่ำเสมอ และ E = ΔV/d"]],
   formula:["V = kq/r        W = qΔV        E = ΔV/d","V = kq/r        W = qΔV        E = ΔV/d"],
   flabel:["A scalar · potentials just add","เป็นสเกลาร์ · ศักย์บวกกันตรงๆ"],
   viz:"plot",
@@ -263,16 +263,16 @@ nodes:[
       {lab:["Relationship","ความสัมพันธ์"], f:function(){
         return L()?"E = −dV/dr · สนามคือความชันของศักย์":"E = −dV/dr · the field is the slope of the potential"; }}
     ],
-    note:["V goes as 1/r and E as 1/r² — switching between them shows how much steeper E is","V เป็น 1/r ส่วน E เป็น 1/r² สลับดูจะเห็นว่า E ชันกว่ามาก"]
+    note:["V goes as 1/r and E as 1/r² — switching between them shows how much steeper E is","V แปรตาม 1/r ส่วน E แปรตาม 1/r² ลองสลับดูแล้วจะเห็นว่า E ชันกว่ามาก"]
   } },
 
 { id:"conductors", x:235, y:248, requires:["field","potential"], methods:["M-04"],
   title:["Charged conductors","ตัวนำที่มีประจุ"],
   body:[["Charge on a conductor moves until it can move no further, which means it all ends up on the outer surface and the field inside falls to exactly zero. The interior of any closed conductor is shielded — the principle behind a Faraday cage and behind why a car is a safe place in a lightning storm.",
          "Because E = 0 inside, the potential is constant throughout the conductor, equal to its surface value kQ/R. Outside, it behaves exactly as if all the charge were concentrated at the centre."],
-        ["ประจุบนตัวนำจะเคลื่อนที่จนไปต่อไม่ได้ ซึ่งหมายความว่ามันไปรวมอยู่ที่ผิวนอกทั้งหมด และสนามภายในลดลงเป็นศูนย์พอดี ภายในตัวนำปิดใดๆ จึงถูกกำบัง เป็นหลักการเบื้องหลังกรงฟาราเดย์และเหตุผลที่รถยนต์เป็นที่ปลอดภัยขณะฟ้าผ่า",
-         "เพราะ E = 0 ภายใน ศักย์จึงคงที่ทั่วทั้งตัวนำ เท่ากับค่าที่ผิว kQ/R ส่วนภายนอก มันประพฤติตัวราวกับประจุทั้งหมดรวมอยู่ที่จุดศูนย์กลาง"]],
-  formula:["Inside: E = 0, V = kQ/R        Outside: as if a point charge","ภายใน: E = 0, V = kQ/R        ภายนอก: เสมือนประจุจุด"],
+        ["ประจุบนตัวนำจะเคลื่อนที่ไปเรื่อยๆ จนเคลื่อนต่อไม่ได้ ผลคือประจุทั้งหมดไปอยู่ที่ผิวนอก และสนามภายในเป็นศูนย์พอดี ภายในตัวนำปิดทุกแบบจึงไม่มีสนามไฟฟ้า หลักการนี้อยู่เบื้องหลังกรงฟาราเดย์ และเป็นเหตุผลที่อยู่ในรถปลอดภัยเวลาฟ้าผ่า",
+         "เพราะภายในมี E = 0 ศักย์จึงคงที่ทั่วทั้งตัวนำ และเท่ากับค่าที่ผิว kQ/R ส่วนภายนอก ตัวนำให้ผลเหมือนกับว่าประจุทั้งหมดรวมอยู่ที่จุดศูนย์กลาง"]],
+  formula:["Inside: E = 0, V = kQ/R        Outside: as if a point charge","ภายใน: E = 0, V = kQ/R        ภายนอก: เหมือนประจุจุด"],
   flabel:["Charge sits on the outside","ประจุอยู่ที่ผิวนอก"],
   viz:"table",
   vizcfg:{
@@ -294,15 +294,15 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"ink":"accent"}; }); });
     },
-    note:["the whole conductor is one equipotential — that is why a car protects you in a storm","ตัวนำทั้งก้อนเป็นผิวสมศักย์เดียว จึงเป็นเหตุผลที่รถยนต์ป้องกันคุณได้ตอนฟ้าผ่า"]
+    note:["the whole conductor is one equipotential — that is why a car protects you in a storm","ตัวนำทั้งก้อนเป็นผิวสมศักย์เดียวกัน จึงเป็นเหตุผลที่รถช่วยป้องกันเราเวลาฟ้าผ่า"]
   } },
 
 { id:"capacitance", x:235, y:346, requires:["conductors"], methods:["M-05","M-06"],
   title:["Capacitance","ความจุไฟฟ้า"],
   body:[["A capacitor stores charge in proportion to the voltage across it: C = Q/V. The energy it holds is U = ½CV², and the half matters — it appears because the voltage rises as the charge accumulates.",
          "Capacitors combine the opposite way to resistors. In parallel they add, C = ΣC; in series their reciprocals add. Applying the resistor rules is trap T-04."],
-        ["ตัวเก็บประจุเก็บประจุเป็นสัดส่วนกับความต่างศักย์คร่อมมัน C = Q/V พลังงานที่เก็บได้คือ U = ½CV² และเลขครึ่งนั้นสำคัญ มันปรากฏเพราะความต่างศักย์เพิ่มขึ้นขณะประจุสะสม",
-         "ตัวเก็บประจุต่อกันตรงข้ามกับตัวต้านทาน ต่อขนานให้บวกกัน C = ΣC ต่ออนุกรมให้บวกส่วนกลับ การใช้กฎของตัวต้านทานคือกับดัก T-04"]],
+        ["ตัวเก็บประจุเก็บประจุได้เป็นสัดส่วนกับความต่างศักย์คร่อมตัวมัน C = Q/V พลังงานที่เก็บไว้คือ U = ½CV² เลขครึ่งนี้สำคัญ เพราะความต่างศักย์เพิ่มขึ้นเรื่อยๆ ขณะที่ประจุสะสม",
+         "ตัวเก็บประจุรวมกันตรงข้ามกับตัวต้านทาน ต่อขนานให้บวกกันตรงๆ C = ΣC ต่ออนุกรมให้บวกส่วนกลับ ถ้าใช้กฎของตัวต้านทานก็ตกกับดัก T-04"]],
   formula:["C = Q/V        U = ½CV²        parallel: C = ΣC","C = Q/V        U = ½CV²        ขนาน: C = ΣC"],
   flabel:["Opposite of the resistor rules","ตรงข้ามกับกฎตัวต้านทาน"],
   viz:"plot",
@@ -339,9 +339,9 @@ methods:[
 ],
 
 traps:{
-"T-01":["Inverse square. Halving the separation multiplies the force by four, not two.","กำลังสองผกผัน การลดระยะครึ่งหนึ่งทำให้แรงเพิ่มสี่เท่า ไม่ใช่สองเท่า"],
-"T-02":["Field goes as 1/r² but potential as 1/r. They are not the same falloff.","สนามแปรตาม 1/r² แต่ศักย์แปรตาม 1/r ลดลงไม่เหมือนกัน"],
-"T-03":["Inside a conductor the field is zero, but the potential is not — it equals the surface value.","ภายในตัวนำสนามเป็นศูนย์ แต่ศักย์ไม่เป็นศูนย์ มันเท่ากับค่าที่ผิว"],
+"T-01":["Inverse square. Halving the separation multiplies the force by four, not two.","แปรผกผันกับกำลังสองของระยะ ลดระยะลงครึ่งหนึ่ง แรงเพิ่มเป็นสี่เท่า ไม่ใช่สองเท่า"],
+"T-02":["Field goes as 1/r² but potential as 1/r. They are not the same falloff.","สนามแปรตาม 1/r² แต่ศักย์แปรตาม 1/r สองตัวนี้ลดลงไม่เท่ากัน"],
+"T-03":["Inside a conductor the field is zero, but the potential is not — it equals the surface value.","ภายในตัวนำ สนามเป็นศูนย์ แต่ศักย์ไม่เป็นศูนย์ ศักย์เท่ากับค่าที่ผิว"],
 "T-04":["Capacitors combine opposite to resistors: parallel adds, series adds reciprocals.","ตัวเก็บประจุรวมกันตรงข้ามกับตัวต้านทาน ขนานบวกตรงๆ อนุกรมบวกส่วนกลับ"]
 },
 
@@ -350,7 +350,7 @@ gen:{
   var q1=pick([2,4,5,10]), q2=pick([3,6,8]), r=pick([0.1,0.2,0.5]);
   var F=9e9*q1*1e-6*q2*1e-6/(r*r);
   if(sf==="S-04") return {stem:["The distance between two charges is halved. The force between them becomes:",
-                                "ระยะระหว่างประจุสองประจุลดลงครึ่งหนึ่ง แรงระหว่างกันกลายเป็น"],
+                                "ระยะระหว่างประจุสองประจุลดลงครึ่งหนึ่ง แรงระหว่างประจุจะเป็น"],
     opts:[{v:["Four times as large","สี่เท่า"],ok:1},{v:["Twice as large","สองเท่า"],trap:"T-01"},
           {v:["Half as large","ครึ่งหนึ่ง"],trap:"T-01"},{v:["Unchanged","เท่าเดิม"]}],unit:""};
   if(sf==="S-05") return {stem:["Two charges of "+q1+" μC and "+q2+" μC repel with "+fmt(F)+" N. Find their separation.",
@@ -401,7 +401,7 @@ gen:{
     opts:[{v:["Zero","ศูนย์"],ok:1},{v:["kQ/R²","kQ/R²"],trap:"T-03"},
           {v:["kQ/R","kQ/R"],trap:"T-03"},{v:["Infinite","อนันต์"]}],unit:""};
   if(sf==="S-03") return {stem:["Why is the inside of a car relatively safe during a lightning strike?",
-                                "ทำไมภายในรถยนต์จึงค่อนข้างปลอดภัยขณะฟ้าผ่า"],
+                                "ทำไมในรถจึงค่อนข้างปลอดภัยเวลาฟ้าผ่า"],
     opts:[{v:["The metal shell keeps the field inside at zero","เปลือกโลหะทำให้สนามภายในเป็นศูนย์"],ok:1},
           {v:["The rubber tyres insulate it","ยางรถเป็นฉนวน"]},
           {v:["The car has no charge","รถไม่มีประจุ"]},
@@ -417,7 +417,7 @@ gen:{
                                 "ตัวเก็บประจุเก็บประจุ "+Q.toExponential(2)+" คูลอมบ์ ที่ "+V+" โวลต์ จงหาความจุ"],
     opts:[{v:String(C),ok:1},{v:fmt(Q*V*1e6)},{v:fmt(V/(Q*1e6))},{v:String(C*2)}],unit:" μF"};
   if(sf==="S-04") return {stem:["The voltage across a capacitor is doubled. Its stored energy becomes:",
-                                "ความต่างศักย์คร่อมตัวเก็บประจุเพิ่มเป็นสองเท่า พลังงานที่เก็บกลายเป็น"],
+                                "ความต่างศักย์คร่อมตัวเก็บประจุเพิ่มเป็นสองเท่า พลังงานที่เก็บไว้จะเป็น"],
     opts:[{v:["Four times as large","สี่เท่า"],ok:1},{v:["Twice as large","สองเท่า"],trap:"T-01"},
           {v:["Unchanged","เท่าเดิม"]},{v:["Half as large","ครึ่งหนึ่ง"]}],unit:""};
   return {stem:["Find the energy stored in a "+C+" μF capacitor charged to "+V+" V.",
@@ -429,7 +429,7 @@ gen:{
   var a=pick([2,4,6]), b=pick([3,6,12]);
   var par=a+b, ser=a*b/(a+b);
   if(sf==="S-04") return {stem:["Two capacitors are connected in series. How does the total compare with each one?",
-                                "ตัวเก็บประจุสองตัวต่ออนุกรม ความจุรวมเทียบกับแต่ละตัวเป็นอย่างไร"],
+                                "ตัวเก็บประจุสองตัวต่ออนุกรมกัน ความจุรวมเทียบกับความจุของแต่ละตัวเป็นอย่างไร"],
     opts:[{v:["Smaller than either of them","น้อยกว่าทั้งสองตัว"],ok:1},
           {v:["The sum of the two","เท่ากับผลรวมของทั้งสอง"],trap:"T-04"},
           {v:["Larger than either","มากกว่าทั้งสองตัว"],trap:"T-04"},

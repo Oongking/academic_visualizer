@@ -22,7 +22,7 @@ kicker:["Physics · Chapter 10","ฟิสิกส์ · บทที่ 10"],
 title:["Wave Optics","แสงเชิงคลื่น"],
 mapTitle:["Proof that light is a wave","หลักฐานว่าแสงเป็นคลื่น"],
 lede:["Rays cannot explain why two beams of light can add up to darkness. Interference can, and the pattern it makes is the measurement that pinned down the wavelength of light itself.",
-      "แนวรังสีอธิบายไม่ได้ว่าทำไมลำแสงสองลำจึงรวมกันแล้วเกิดความมืด แต่การแทรกสอดอธิบายได้ และลวดลายที่เกิดขึ้นคือการวัดที่ระบุความยาวคลื่นของแสงได้เป็นครั้งแรก"],
+      "แบบจำลองรังสีอธิบายไม่ได้ว่าทำไมแสงสองลำมารวมกันแล้วกลายเป็นความมืด แต่การแทรกสอดอธิบายได้ และลวดลายที่เกิดขึ้นนี้เองคือการวัดแรกที่บอกความยาวคลื่นของแสง"],
 next:["→ continues in Chapter 11 · Ray Optics","→ ต่อในบทที่ 11 · แสงเชิงรังสี"],
 
 nodes:[
@@ -30,8 +30,8 @@ nodes:[
   title:["Coherence","ความอาพันธ์"],
   body:[["Two sources interfere visibly only if they keep a constant phase relationship. Two separate lamps never do — their phases jitter randomly, and the pattern washes out faster than any eye can follow.",
          "Young's solution was to split one source into two, so both halves inherit the same phase history. A laser achieves the same thing directly. Without coherence there is still interference at every instant, just no stable pattern to see."],
-        ["แหล่งกำเนิดสองแหล่งจะแทรกสอดให้เห็นได้ก็ต่อเมื่อรักษาความสัมพันธ์ของเฟสให้คงที่ หลอดไฟสองดวงแยกกันทำไม่ได้ เพราะเฟสกระเพื่อมสุ่มไปมา ลวดลายจึงเลือนหายเร็วกว่าที่ตาจะตามทัน",
-         "ทางออกของยังคือแยกแหล่งกำเนิดเดียวออกเป็นสอง ทั้งสองครึ่งจึงสืบทอดประวัติเฟสเดียวกัน เลเซอร์ทำสิ่งเดียวกันได้โดยตรง หากไม่มีความอาพันธ์ การแทรกสอดยังเกิดทุกขณะ เพียงแต่ไม่มีลวดลายนิ่งให้เห็น"]],
+        ["แหล่งกำเนิดสองแหล่งจะแทรกสอดให้เห็นได้ก็ต่อเมื่อเฟสของทั้งสองมีความสัมพันธ์คงที่ หลอดไฟสองดวงที่แยกกันทำแบบนี้ไม่ได้ เพราะเฟสแกว่งไปมาแบบสุ่ม ลวดลายจึงเลือนหายเร็วเกินกว่าตาจะตามทัน",
+         "ยังแก้ปัญหาโดยแยกแหล่งกำเนิดเดียวออกเป็นสองส่วน ทั้งสองส่วนจึงมีเฟสเปลี่ยนไปในแบบเดียวกัน เลเซอร์ให้ผลเหมือนกันนี้ได้โดยตรง ถ้าไม่มีความอาพันธ์ การแทรกสอดก็ยังเกิดอยู่ทุกขณะ เพียงแต่ไม่มีลวดลายนิ่งให้เห็น"]],
   formula:["Constant phase difference","ผลต่างเฟสคงที่"],
   flabel:["One source, split in two","แหล่งเดียว แยกเป็นสอง"],
   viz:"plot",
@@ -66,27 +66,27 @@ nodes:[
   },
   guide:[
     {say:["Coherent sources. Intensity swings between four times one source and total darkness.",
-          "แหล่งอาพันธ์ ความเข้มแกว่งระหว่างสี่เท่าของแหล่งเดียวกับความมืดสนิท"], set:{coh:1,I0:4,ph:0}},
+          "แหล่งอาพันธ์ ความเข้มแกว่งระหว่างสี่เท่าของความเข้มจากแหล่งเดียวกับความมืดสนิท"], set:{coh:1,I0:4,ph:0}},
     {say:["At 180° the two cancel completely — a dark fringe where light plus light gives nothing.",
-          "ที่ 180° ทั้งสองหักล้างกันหมด เกิดริ้วมืดที่แสงบวกแสงแล้วได้ความมืด"], set:{coh:1,I0:4,ph:180}},
+          "ที่ 180° ทั้งสองหักล้างกันหมด เกิดริ้วมืด คือแสงบวกกับแสงแล้วได้ความมืด"], set:{coh:1,I0:4,ph:180}},
     {say:["Break the coherence and the curve flattens to the plain sum. No fringes at all.",
-          "ทำลายความอาพันธ์ เส้นโค้งแบนราบเป็นผลบวกธรรมดา ไม่มีริ้วเลย"], set:{coh:0,I0:4,ph:180}}
+          "ถ้าทำลายความอาพันธ์ เส้นโค้งจะแบนราบเป็นผลบวกธรรมดา ไม่มีริ้วเลย"], set:{coh:0,I0:4,ph:180}}
   ] },
 
 { id:"double-slit", x:100, y:150, requires:["coherence"], methods:["M-01","M-02"],
   title:["The double slit","สลิตคู่"],
   body:[["Light from two narrow slits overlaps on a screen. Where the path difference is a whole number of wavelengths the waves arrive in step and the screen is bright; where it is an odd number of half wavelengths they cancel and it is dark.",
          "For small angles the bright fringes are evenly spaced, Δx = λL/d. Note that d is the slit separation and L the slit-to-screen distance — swapping them is trap T-03, and it is the most common arithmetic error in this chapter."],
-        ["แสงจากสลิตแคบสองช่องซ้อนทับกันบนฉาก ที่ใดผลต่างทางเดินเป็นจำนวนเต็มเท่าของความยาวคลื่น คลื่นจะมาถึงพร้อมกันและฉากสว่าง ที่ใดเป็นจำนวนคี่ของครึ่งความยาวคลื่น คลื่นจะหักล้างกันและฉากมืด",
-         "สำหรับมุมเล็ก แถบสว่างจะเรียงห่างเท่าๆ กัน Δx = λL/d สังเกตว่า d คือระยะห่างระหว่างสลิต และ L คือระยะจากสลิตถึงฉาก การสลับกันคือกับดัก T-03 และเป็นข้อผิดพลาดทางเลขที่พบบ่อยที่สุดในบทนี้"]],
+        ["แสงจากสลิตแคบสองช่องซ้อนทับกันบนฉาก ตรงจุดที่ผลต่างทางเดินเป็นจำนวนเต็มเท่าของความยาวคลื่น คลื่นมาถึงพร้อมกันและฉากสว่าง ตรงจุดที่ผลต่างเป็นจำนวนคี่เท่าของครึ่งความยาวคลื่น คลื่นหักล้างกันและฉากมืด",
+         "เมื่อมุมเล็ก แถบสว่างจะเรียงห่างกันเท่าๆ กัน Δx = λL/d โดย d คือระยะห่างระหว่างสลิต และ L คือระยะจากสลิตถึงฉาก การสลับสองตัวนี้คือกับดัก T-03 และเป็นข้อผิดพลาดในการคำนวณที่พบบ่อยที่สุดของบทนี้"]],
   formula:["Bright: d sin θ = nλ        Δx = λL / d","สว่าง: d sin θ = nλ        Δx = λL / d"],
   flabel:["n = 0, 1, 2, … from the centre","n = 0, 1, 2, … นับจากกึ่งกลาง"],
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["Two Runes in the Pool: path difference makes fringes","สองรูนในสระ: ผลต่างระยะทางทำให้เกิดแถบ"],
+    spellName:["Two Runes in the Pool: path difference makes fringes","รูนสองอันในสระ: ผลต่างทางเดินทำให้เกิดแถบ"],
     question:["Two runes ripple in step. Why does the far screen light up in bands — and what spaces them out?",
-              "รูนสองอันส่งระลอกพร้อมกัน ทำไมฉากฝั่งไกลจึงสว่างเป็นแถบ และอะไรกำหนดระยะห่างของแถบ"],
+              "รูนสองอันส่งระลอกน้ำออกมาพร้อมกัน ทำไมฉากที่อยู่ไกลจึงสว่างเป็นแถบ และอะไรกำหนดระยะห่างระหว่างแถบ"],
     ctrls:[
       {k:"lam", lab:["Ripple wavelength λ","ความยาวคลื่นระลอก λ"], min:1, max:3, step:.1, def:2, unit:" cm"},
       {k:"d",   lab:["Rune separation d","ระยะห่างรูน d"], min:3, max:12, step:.5, def:6, unit:" cm"},
@@ -190,15 +190,15 @@ nodes:[
       }
     },
     note:["where crest meets crest the pool swells and the screen glows; where crest meets trough it stays dark",
-          "ที่ยอดพบยอด น้ำในสระนูนขึ้นและฉากเรืองแสง ที่ยอดพบท้อง ฉากยังคงมืด"]
+          "ตรงที่ยอดพบยอด น้ำในสระจะนูนขึ้นและฉากสว่าง ตรงที่ยอดพบท้อง ฉากจะมืด"]
   },
   guide:[
     {say:["Press play. Ripples spread from both runes; once both reach the screen, it lights up in evenly spaced bands.",
-          "กดเล่น ระลอกแผ่จากรูนทั้งสอง เมื่อทั้งสองไปถึงฉาก ฉากจะสว่างเป็นแถบที่ห่างเท่า ๆ กัน"], set:{lam:2,d:6,L:40}},
+          "กดเล่น ระลอกน้ำแผ่ออกจากรูนทั้งสองอัน เมื่อไปถึงฉาก ฉากจะสว่างเป็นแถบที่ห่างเท่าๆ กัน"], set:{lam:2,d:6,L:40}},
     {say:["Pull the runes further apart. The bands squeeze together — d is on the bottom of the spell.",
-          "ดึงรูนให้ห่างกันมากขึ้น แถบจะชิดกันเข้า d อยู่ตัวส่วนของบทร่าย"], set:{lam:2,d:12,L:40}},
+          "ดึงรูนให้ห่างกันมากขึ้น แถบจะชิดกันเข้า เพราะ d อยู่ที่ตัวส่วนของบทร่าย"], set:{lam:2,d:12,L:40}},
     {say:["Longer ripples, farther screen: the bands spread wide. Mixing up d and L is trap T-03.",
-          "ระลอกยาวขึ้น ฉากไกลขึ้น แถบกระจายห่าง การสลับ d กับ L คือกับดัก T-03"], set:{lam:3,d:6,L:55}}
+          "ระลอกยาวขึ้นและฉากไกลขึ้น แถบจะห่างกันมากขึ้น การสลับ d กับ L คือกับดัก T-03"], set:{lam:3,d:6,L:55}}
   ]
 },
 
@@ -206,8 +206,8 @@ nodes:[
   title:["The single slit","สลิตเดี่ยว"],
   body:[["One slit alone still produces a pattern, because different parts of the same slit interfere with each other. Its condition looks deceptively like the double slit's but means the opposite: d sin θ = nλ gives the dark fringes, not the bright ones.",
          "The central maximum is twice as wide as the others and much brighter. Reading the single-slit condition as a bright-fringe rule is trap T-01."],
-        ["สลิตเดี่ยวเพียงช่องเดียวก็ยังให้ลวดลายได้ เพราะส่วนต่างๆ ของสลิตเดียวกันแทรกสอดกันเอง เงื่อนไขของมันดูคล้ายสลิตคู่อย่างน่าหลอก แต่ความหมายตรงข้าม d sin θ = nλ ให้แถบมืด ไม่ใช่แถบสว่าง",
-         "แถบสว่างกลางกว้างเป็นสองเท่าของแถบอื่นและสว่างกว่ามาก การอ่านเงื่อนไขสลิตเดี่ยวเป็นกฎของแถบสว่างคือกับดัก T-01"]],
+        ["สลิตเดี่ยวช่องเดียวก็ให้ลวดลายได้ เพราะส่วนต่างๆ ของช่องเดียวกันแทรกสอดกันเอง เงื่อนไขของสลิตเดี่ยวดูคล้ายของสลิตคู่จนหลอกตาได้ แต่ความหมายตรงข้ามกัน d sin θ = nλ ให้แถบมืด ไม่ใช่แถบสว่าง",
+         "แถบสว่างกลางกว้างเป็นสองเท่าของแถบอื่นและสว่างกว่ามาก การอ่านเงื่อนไขของสลิตเดี่ยวเป็นกฎของแถบสว่างคือกับดัก T-01"]],
   formula:["Dark: d sin θ = nλ ,  n = 1, 2, 3, …","มืด: d sin θ = nλ ,  n = 1, 2, 3, …"],
   flabel:["Same formula, opposite meaning","สูตรเดียวกัน ความหมายตรงข้าม"],
   viz:"plot",
@@ -237,23 +237,23 @@ nodes:[
       {lab:["Central peak brightness","ความสว่างพีคกลาง"], f:function(){
         return L()?"สว่างกว่าพีคข้างมาก":"far brighter than any side peak"; }}
     ],
-    note:["a sin θ = nλ locates the DARK fringes here, not the bright ones","ที่นี่ a sin θ = nλ บอกตำแหน่งริ้วมืด ไม่ใช่ริ้วสว่าง"]
+    note:["a sin θ = nλ locates the DARK fringes here, not the bright ones","ที่นี่ a sin θ = nλ บอกตำแหน่งของริ้วมืด ไม่ใช่ริ้วสว่าง"]
   },
   guide:[
     {say:["The central maximum dominates, with much fainter peaks either side.",
-          "พีคกลางเด่นที่สุด โดยมีพีคข้างที่จางกว่ามากอยู่สองข้าง"], set:{a:.01,lam:550}},
+          "พีคกลางเด่นที่สุด ส่วนพีคสองข้างจางกว่ามาก"], set:{a:.01,lam:550}},
     {say:["Narrow the slit and the pattern spreads out. Squeezing the light makes it fan wider.",
-          "ทำให้ช่องแคบลง ลวดลายกลับแผ่กว้างขึ้น การบีบแสงทำให้มันบานออก"], set:{a:.004,lam:550}},
+          "ทำให้ช่องแคบลง ลวดลายกลับแผ่กว้างออก เมื่อบีบแสงให้แคบ แสงจะบานออก"], set:{a:.004,lam:550}},
     {say:["Widen it instead and everything contracts towards a single sharp beam.",
-          "ทำให้ช่องกว้างขึ้น ทุกอย่างหดเข้าหาลำแสงคมเส้นเดียว"], set:{a:.03,lam:550}}
+          "ถ้าทำให้ช่องกว้างขึ้นแทน ทุกอย่างจะหดเข้าหากันเป็นลำแสงคมลำเดียว"], set:{a:.03,lam:550}}
   ] },
 
 { id:"grating", x:235, y:248, requires:["double-slit","single-slit"], methods:["M-04"],
   title:["The diffraction grating","เกรตติง"],
   body:[["A grating is thousands of slits instead of two. The bright fringes obey the same d sin θ = nλ, but because so many slits contribute they become extremely narrow and sharp — which is what makes a grating a precision instrument rather than a demonstration.",
          "Gratings are specified in lines per millimetre, so the spacing must be recovered as d = 1/N before it can be used. Substituting N directly is trap T-02."],
-        ["เกรตติงคือสลิตหลายพันช่องแทนที่จะเป็นสองช่อง แถบสว่างเป็นไปตาม d sin θ = nλ เหมือนเดิม แต่เพราะมีสลิตจำนวนมากร่วมด้วย แถบจึงแคบและคมมาก ซึ่งทำให้เกรตติงเป็นเครื่องมือวัดที่แม่นยำ ไม่ใช่แค่การสาธิต",
-         "เกรตติงระบุเป็นจำนวนเส้นต่อมิลลิเมตร จึงต้องหาระยะห่างก่อนด้วย d = 1/N การแทน N ลงไปตรงๆ คือกับดัก T-02"]],
+        ["เกรตติงคือสลิตหลายพันช่อง แทนที่จะมีแค่สองช่อง แถบสว่างยังเป็นไปตาม d sin θ = nλ เหมือนเดิม แต่เพราะมีสลิตจำนวนมากช่วยกัน แถบจึงแคบและคมมาก นี่คือเหตุที่เกรตติงเป็นเครื่องมือวัดที่แม่นยำ ไม่ใช่แค่ชุดสาธิต",
+         "เกรตติงระบุเป็นจำนวนเส้นต่อมิลลิเมตร จึงต้องหาระยะห่างด้วย d = 1/N ก่อนจึงจะนำไปใช้ได้ การแทนค่า N ลงไปตรงๆ คือกับดัก T-02"]],
   formula:["d sin θ = nλ ,  d = 1/N","d sin θ = nλ ,  d = 1/N"],
   flabel:["N is lines per unit length","N คือจำนวนเส้นต่อหน่วยความยาว"],
   viz:"plot",
@@ -284,23 +284,23 @@ nodes:[
       {lab:["Why gratings beat two slits","ทำไมเกรตติงดีกว่าสองช่อง"], f:function(){
         return L()?"เส้นคมกว่า วัดความยาวคลื่นได้แม่นกว่า":"sharper lines measure wavelength more precisely"; }}
     ],
-    note:["adding slits does not move the maxima — it only narrows them","การเพิ่มช่องไม่ได้ย้ายตำแหน่งพีค แต่ทำให้พีคแคบลงเท่านั้น"]
+    note:["adding slits does not move the maxima — it only narrows them","การเพิ่มช่องไม่ได้ทำให้ตำแหน่งพีคเลื่อน แต่ทำให้พีคแคบลงเท่านั้น"]
   },
   guide:[
     {say:["Two slits give broad, gently rounded fringes — the familiar Young pattern.",
-          "สองช่องให้ริ้วกว้างและมนนุ่ม คือลวดลายของยังที่คุ้นเคย"], set:{N:2,d:3,lam:550}},
+          "สองช่องให้ริ้วกว้างและโค้งมน คือลวดลายของยังที่เราคุ้นเคย"], set:{N:2,d:3,lam:550}},
     {say:["Six slits and the peaks tighten dramatically, with faint ripples between them.",
-          "หกช่อง พีคแคบลงอย่างชัดเจน โดยมีระลอกจางๆ ระหว่างพีค"], set:{N:6,d:3,lam:550}},
+          "เมื่อเป็นหกช่อง พีคแคบลงมาก และมีระลอกจางๆ อยู่ระหว่างพีค"], set:{N:6,d:3,lam:550}},
     {say:["Twenty slits give knife-sharp lines at exactly the same angles. That precision is the whole point.",
-          "ยี่สิบช่องให้เส้นคมกริบที่มุมเดิมพอดี ความแม่นยำนั้นคือหัวใจทั้งหมด"], set:{N:20,d:3,lam:550}}
+          "ยี่สิบช่องให้เส้นคมกริบที่มุมเดิมพอดี ความแม่นยำนี้คือจุดเด่นของเกรตติง"], set:{N:20,d:3,lam:550}}
   ] },
 
 { id:"spectra", x:235, y:346, requires:["grating"], methods:["M-05"],
   title:["Splitting white light","การแยกแสงขาว"],
   body:[["Because the angle depends on wavelength, a grating sends each colour to a different place. White light fans out into a spectrum, with red deflected furthest because its wavelength is longest.",
          "This is the reverse of a prism, where dispersion comes from refractive index rather than interference — and the two spread the colours in opposite orders. A grating spectrum is also repeated at each order n, which a prism never does."],
-        ["เพราะมุมขึ้นกับความยาวคลื่น เกรตติงจึงส่งแต่ละสีไปคนละตำแหน่ง แสงขาวกระจายออกเป็นสเปกตรัม โดยสีแดงเบนมากที่สุดเพราะความยาวคลื่นยาวที่สุด",
-         "นี่ตรงข้ามกับปริซึม ซึ่งการกระจายเกิดจากดัชนีหักเหไม่ใช่การแทรกสอด และทั้งสองเรียงสีในลำดับตรงข้ามกัน สเปกตรัมจากเกรตติงยังเกิดซ้ำที่ทุกอันดับ n ซึ่งปริซึมไม่เคยทำ"]],
+        ["มุมขึ้นอยู่กับความยาวคลื่น เกรตติงจึงส่งแต่ละสีไปคนละตำแหน่ง แสงขาวจะกระจายออกเป็นสเปกตรัม โดยสีแดงเบนมากที่สุดเพราะมีความยาวคลื่นยาวที่สุด",
+         "กรณีนี้ตรงข้ามกับปริซึม เพราะปริซึมกระจายแสงด้วยดัชนีหักเห ไม่ใช่การแทรกสอด และทั้งสองเรียงสีในลำดับตรงข้ามกัน สเปกตรัมจากเกรตติงยังเกิดซ้ำที่ทุกอันดับ n ส่วนปริซึมไม่มีแบบนี้"]],
   formula:["θ_red > θ_violet","θ_red > θ_violet"],
   flabel:["Longest wavelength bends most","ความยาวคลื่นยาวสุดเบนมากสุด"],
   viz:"numline",
@@ -333,7 +333,7 @@ nodes:[
               {a:590,b:760,col:"accent",lab:["red","แดง"]}];
     },
     points:function(p){ return [{v:p.lam, lab:["your wavelength","ความยาวคลื่นที่เลือก"], col:"accent"}]; },
-    note:["a grating bends long wavelengths most; a prism bends short ones most — opposite orders","เกรตติงหักเหคลื่นยาวมากที่สุด ปริซึมหักเหคลื่นสั้นมากที่สุด ลำดับกลับกัน"]
+    note:["a grating bends long wavelengths most; a prism bends short ones most — opposite orders","เกรตติงเบนคลื่นยาวมากที่สุด ส่วนปริซึมเบนคลื่นสั้นมากที่สุด ลำดับจึงกลับกัน"]
   } }
 ],
 
@@ -348,9 +348,9 @@ methods:[
 
 traps:{
 "T-01":["For a single slit d sin θ = nλ gives the DARK fringes. For a double slit it gives the bright ones.","สำหรับสลิตเดี่ยว d sin θ = nλ ให้แถบมืด ส่วนสลิตคู่ให้แถบสว่าง"],
-"T-02":["A grating is quoted in lines per mm. You must invert it: d = 1/N.","เกรตติงระบุเป็นเส้นต่อมิลลิเมตร ต้องกลับเศษส่วนก่อน d = 1/N"],
-"T-03":["Slit separation d and screen distance L were swapped. Δx = λL/d, not λd/L.","สลับระยะห่างสลิต d กับระยะถึงฉาก L  สูตรคือ Δx = λL/d ไม่ใช่ λd/L"],
-"T-04":["Units. Wavelengths come in nanometres, slit spacings in millimetres — convert both to metres first.","หน่วยผิด ความยาวคลื่นเป็นนาโนเมตร ระยะสลิตเป็นมิลลิเมตร ต้องแปลงเป็นเมตรทั้งคู่ก่อน"]
+"T-02":["A grating is quoted in lines per mm. You must invert it: d = 1/N.","เกรตติงระบุเป็นเส้นต่อมิลลิเมตร ต้องกลับค่าก่อน d = 1/N"],
+"T-03":["Slit separation d and screen distance L were swapped. Δx = λL/d, not λd/L.","สลับระยะห่างสลิต d กับระยะถึงฉาก L สูตรคือ Δx = λL/d ไม่ใช่ λd/L"],
+"T-04":["Units. Wavelengths come in nanometres, slit spacings in millimetres — convert both to metres first.","หน่วยผิด ความยาวคลื่นให้เป็นนาโนเมตร ระยะห่างสลิตให้เป็นมิลลิเมตร ต้องแปลงทั้งคู่เป็นเมตรก่อน"]
 },
 
 gen:{
@@ -374,7 +374,7 @@ gen:{
                                 "พบแถบห่างกัน "+fmt(dx)+" มิลลิเมตร โดยสลิตห่าง "+d+" มิลลิเมตร และฉากอยู่ห่าง "+L+" เมตร จงหาความยาวคลื่น"],
     opts:[{v:String(lam),ok:1},{v:fmt(dx*d/L),trap:"T-03"},{v:fmt(lam/2)},{v:fmt(lam*2)}],unit:" nm"};
   if(sf==="S-04") return {stem:["The screen is moved twice as far away. What happens to the fringe spacing?",
-                                "ย้ายฉากออกไปไกลเป็นสองเท่า ระยะแถบเปลี่ยนอย่างไร"],
+                                "ย้ายฉากออกไปไกลเป็นสองเท่า ระยะห่างของแถบเปลี่ยนอย่างไร"],
     opts:[{v:["It doubles","เพิ่มเป็นสองเท่า"],ok:1},{v:["It halves","ลดลงครึ่งหนึ่ง"],trap:"T-03"},
           {v:["It is unchanged","เท่าเดิม"]},{v:["It quadruples","เพิ่มเป็นสี่เท่า"]}],unit:""};
   return {stem:["Slits "+d+" mm apart are lit by "+lam+" nm light with a screen "+L+" m away. Find the fringe spacing.",
@@ -385,11 +385,11 @@ gen:{
   var lam=pick([500,600,700]), a=pick([0.05,0.1,0.2]);
   var s=lam*1e-9/(a*1e-3);
   if(sf==="S-04") return {stem:["For a single slit, what does d sin θ = nλ locate?",
-                                "สำหรับสลิตเดี่ยว d sin θ = nλ ระบุตำแหน่งอะไร"],
+                                "สำหรับสลิตเดี่ยว d sin θ = nλ บอกตำแหน่งของอะไร"],
     opts:[{v:["The dark fringes","แถบมืด"],ok:1},{v:["The bright fringes","แถบสว่าง"],trap:"T-01"},
           {v:["The central maximum only","เฉพาะแถบสว่างกลาง"],trap:"T-01"},{v:["Nothing useful","ไม่มีประโยชน์"]}],unit:""};
   if(sf==="S-02") return {stem:["In a single-slit pattern, how does the central maximum compare with the others?",
-                                "ในลวดลายสลิตเดี่ยว แถบสว่างกลางเทียบกับแถบอื่นเป็นอย่างไร"],
+                                "ในลวดลายของสลิตเดี่ยว แถบสว่างกลางต่างจากแถบอื่นอย่างไร"],
     opts:[{v:["Twice as wide and much brighter","กว้างเป็นสองเท่าและสว่างกว่ามาก"],ok:1},
           {v:["The same width as the others","กว้างเท่ากับแถบอื่น"],trap:"T-01"},
           {v:["Narrower than the others","แคบกว่าแถบอื่น"]},{v:["It is dark","เป็นแถบมืด"],trap:"T-01"}],unit:""};
@@ -423,12 +423,12 @@ gen:{
   return {stem:c.s, opts:[{v:c.ok,ok:1},{v:c.w[0]},{v:c.w[1]},{v:c.w[2]}],unit:""};
 },
 "M-06": function(sf){
-  var C=[{s:["The slit separation is halved. What happens to the fringe spacing?","ลดระยะห่างสลิตลงครึ่งหนึ่ง ระยะแถบเปลี่ยนอย่างไร"],
+  var C=[{s:["The slit separation is halved. What happens to the fringe spacing?","ลดระยะห่างสลิตลงครึ่งหนึ่ง ระยะห่างของแถบเปลี่ยนอย่างไร"],
           ok:["It doubles","เพิ่มเป็นสองเท่า"],w:[["It halves","ลดลงครึ่งหนึ่ง"],["Unchanged","เท่าเดิม"],["It quadruples","เพิ่มเป็นสี่เท่า"]]},
-         {s:["Blue light replaces red in a double-slit setup. What happens to the pattern?","เปลี่ยนจากแสงแดงเป็นแสงน้ำเงินในการทดลองสลิตคู่ ลวดลายเปลี่ยนอย่างไร"],
+         {s:["Blue light replaces red in a double-slit setup. What happens to the pattern?","ในการทดลองสลิตคู่ เปลี่ยนจากแสงสีแดงเป็นสีน้ำเงิน ลวดลายเปลี่ยนอย่างไร"],
           ok:["The fringes get closer together","แถบเข้ามาใกล้กันมากขึ้น"],
           w:[["The fringes spread out","แถบกระจายห่างออก"],["Nothing changes","ไม่เปลี่ยน"],["The pattern disappears","ลวดลายหายไป"]]},
-         {s:["Two separate light bulbs are used as the two sources. What is seen?","ใช้หลอดไฟสองดวงแยกกันเป็นแหล่งกำเนิดทั้งสอง จะเห็นอะไร"],
+         {s:["Two separate light bulbs are used as the two sources. What is seen?","ใช้หลอดไฟสองดวงที่แยกกันเป็นแหล่งกำเนิดทั้งสองแหล่ง จะเห็นอะไร"],
           ok:["No stable pattern — the sources are not coherent","ไม่มีลวดลายนิ่ง เพราะแหล่งกำเนิดไม่อาพันธ์"],
           w:[["A brighter pattern","ลวดลายที่สว่างกว่า"],["Wider fringes","แถบที่กว้างกว่า"],["The same pattern","ลวดลายเหมือนเดิม"]]}];
   var c=pick(C);

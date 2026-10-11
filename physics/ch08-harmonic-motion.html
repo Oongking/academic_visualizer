@@ -891,7 +891,7 @@ kicker:["Physics · Chapter 08","ฟิสิกส์ · บทที่ 8"],
 title:["Harmonic Motion","การเคลื่อนที่ฮาร์มอนิก"],
 mapTitle:["One condition, everything else follows","เงื่อนไขเดียว ที่เหลือตามมาเอง"],
 lede:["Simple harmonic motion is defined by a single line: the acceleration is proportional to the displacement and points the other way. Every formula in this chapter is a consequence of that one statement.",
-      "การเคลื่อนที่ฮาร์มอนิกอย่างง่ายนิยามด้วยบรรทัดเดียว คือความเร่งแปรผันตรงกับการกระจัดแต่ชี้ทิศตรงข้าม ทุกสูตรในบทนี้เป็นผลที่ตามมาจากประโยคนั้น"],
+      "การเคลื่อนที่แบบฮาร์มอนิกอย่างง่ายนิยามได้ในบรรทัดเดียว คือความเร่งแปรผันตรงกับการกระจัดและชี้ทิศตรงข้าม สูตรทุกสูตรในบทนี้ล้วนมาจากประโยคเดียวนี้"],
 next:["→ continues in Chapter 09 · Waves","→ ต่อในบทที่ 9 · คลื่น"],
 
 nodes:[
@@ -899,8 +899,8 @@ nodes:[
   title:["The defining condition","เงื่อนไขนิยาม"],
   body:[["A motion is simple harmonic when a = −ω²x. The minus sign is the whole idea: the further the body strays, the harder it is pulled back, and always towards the centre.",
          "This is why a spring and a pendulum, which look nothing alike, obey the same equations. Any restoring force proportional to displacement produces the same sinusoidal motion."],
-        ["การเคลื่อนที่เป็นฮาร์มอนิกอย่างง่ายเมื่อ a = −ω²x เครื่องหมายลบคือหัวใจทั้งหมด ยิ่งวัตถุออกห่างเท่าไร ยิ่งถูกดึงกลับแรงเท่านั้น และดึงเข้าหาศูนย์กลางเสมอ",
-         "นี่คือเหตุผลที่สปริงกับลูกตุ้มซึ่งดูไม่เหมือนกันเลย กลับเป็นไปตามสมการเดียวกัน แรงดึงกลับใดที่แปรผันตรงกับการกระจัดจะให้การเคลื่อนที่แบบไซน์เหมือนกัน"]],
+        ["การเคลื่อนที่เป็นฮาร์มอนิกอย่างง่ายเมื่อ a = −ω²x เครื่องหมายลบคือใจความสำคัญ วัตถุยิ่งออกห่างมาก ก็ยิ่งถูกดึงกลับแรง และถูกดึงเข้าหาจุดกึ่งกลางเสมอ",
+         "นี่คือเหตุผลที่สปริงกับลูกตุ้ม ซึ่งหน้าตาต่างกันมาก กลับเป็นไปตามสมการเดียวกัน แรงดึงกลับแบบไหนก็ตามที่แปรผันตรงกับการกระจัด จะทำให้วัตถุเคลื่อนที่เป็นคลื่นไซน์แบบเดียวกัน"]],
   formula:["a = −ω²x","a = −ω²x"],
   flabel:["The minus sign is the definition","เครื่องหมายลบคือนิยาม"],
   viz:"plot",
@@ -926,23 +926,23 @@ nodes:[
                            : (L()?"ไม่ · a ไม่แปรผันตรงกับ x":"no · a is not proportional to x"); }},
       {lab:["Period T","คาบ T"], f:function(S){ return fmt2(2*Math.PI/S.p.w)+" s"; }}
     ],
-    note:["SHM is defined by a straight line of negative slope — nothing else qualifies","SHM นิยามด้วยเส้นตรงที่มีความชันเป็นลบ ไม่มีอย่างอื่นเข้าข่าย"]
+    note:["SHM is defined by a straight line of negative slope — nothing else qualifies","SHM ต้องเป็นเส้นตรงที่มีความชันเป็นลบเท่านั้น รูปแบบอื่นไม่เข้าข่าย"]
   },
   guide:[
     {say:["A perfectly straight line sloping down through the origin. That line IS the definition of SHM.",
-          "เส้นตรงสนิทลาดลงผ่านจุดกำเนิด เส้นนั้นคือนิยามของ SHM"], set:{shm:1,w:1.5,x:2}},
+          "เส้นตรงเรียบๆ ลาดลงผ่านจุดกำเนิด เส้นนี้แหละคือนิยามของ SHM"], set:{shm:1,w:1.5,x:2}},
     {say:["Acceleration always points back towards zero — that is what the minus sign is saying.",
-          "ความเร่งชี้กลับหาศูนย์เสมอ นั่นคือสิ่งที่เครื่องหมายลบกำลังบอก"], set:{shm:1,w:1.5,x:-3}},
+          "ความเร่งชี้กลับเข้าหาศูนย์เสมอ เครื่องหมายลบบอกเราอย่างนี้"], set:{shm:1,w:1.5,x:-3}},
     {say:["Now break the proportionality. Restoring force is still there, but the curve disqualifies it as SHM.",
-          "ทีนี้ทำลายความเป็นสัดส่วน ยังมีแรงดึงกลับอยู่ แต่ความโค้งทำให้ไม่ใช่ SHM"], set:{shm:0,w:1.5,x:2}}
+          "ทีนี้ลองทำให้ไม่เป็นสัดส่วน แรงดึงกลับยังอยู่ แต่เพราะกราฟโค้ง จึงไม่ใช่ SHM"], set:{shm:0,w:1.5,x:2}}
   ] },
 
 { id:"equations", x:235, y:150, requires:["definition"], methods:["M-02","M-05"],
   title:["Displacement, velocity, acceleration","การกระจัด ความเร็ว ความเร่ง"],
   body:[["Displacement follows x = A sin ωt, velocity is ωA cos ωt, and acceleration is −ω²A sin ωt. Each is the previous one differentiated, so each runs a quarter cycle ahead of the last.",
          "The consequence to internalise: velocity is greatest at the centre where displacement is zero, and acceleration is greatest at the extremes where velocity is zero. They are never large at the same moment."],
-        ["การกระจัดเป็นไปตาม x = A sin ωt ความเร็วคือ ωA cos ωt และความเร่งคือ −ω²A sin ωt แต่ละตัวคือตัวก่อนหน้าที่ผ่านการหาอนุพันธ์ จึงนำหน้ากันอยู่หนึ่งในสี่รอบ",
-         "ผลที่ต้องซึมซับคือ ความเร็วสูงสุดที่จุดกึ่งกลางซึ่งการกระจัดเป็นศูนย์ และความเร่งสูงสุดที่จุดปลายซึ่งความเร็วเป็นศูนย์ ทั้งสองไม่เคยมากพร้อมกัน"]],
+        ["การกระจัดเป็นไปตาม x = A sin ωt ความเร็วคือ ωA cos ωt และความเร่งคือ −ω²A sin ωt แต่ละปริมาณได้จากการหาอนุพันธ์ของปริมาณก่อนหน้า จึงเกิดก่อนกันหนึ่งในสี่รอบ",
+         "ข้อที่ควรจำให้ขึ้นใจคือ ความเร็วสูงสุดที่จุดกึ่งกลาง ซึ่งการกระจัดเป็นศูนย์ และความเร่งสูงสุดที่จุดปลาย ซึ่งความเร็วเป็นศูนย์ สองปริมาณนี้ไม่เคยมากที่สุดพร้อมกัน"]],
   formula:["x = A sin ωt        v = ωA cos ωt        a = −ω²A sin ωt","x = A sin ωt        v = ωA cos ωt        a = −ω²A sin ωt"],
   flabel:["Each a quarter cycle apart","ห่างกันหนึ่งในสี่รอบ"],
   viz:{
@@ -1000,21 +1000,21 @@ nodes:[
   },
   guide:[
     {say:["Press Play. The block oscillates and the solid red trace records its displacement.",
-          "กดเล่น กล่องจะแกว่งและเส้นทึบสีแดงบันทึกการกระจัดของมัน"], set:{A:6,w:1.2,T:12}},
+          "กดเล่น กล่องจะแกว่งไปมา และเส้นทึบสีแดงจะบันทึกการกระจัดของกล่อง"], set:{A:6,w:1.2,T:12}},
     {say:["When the block is at the centre the red trace crosses zero — and the dashed velocity trace is at its peak.",
-          "เมื่อกล่องอยู่กึ่งกลาง เส้นแดงตัดศูนย์ และเส้นประความเร็วอยู่ที่จุดสูงสุดพอดี"], set:{A:6,w:1.2,T:12}},
+          "เมื่อกล่องอยู่กึ่งกลาง เส้นแดงตัดผ่านศูนย์ และเส้นประของความเร็วอยู่ที่ค่าสูงสุดพอดี"], set:{A:6,w:1.2,T:12}},
     {say:["At the extremes the velocity trace crosses zero while the dotted acceleration trace peaks. Never both at once.",
-          "ที่จุดปลาย เส้นความเร็วตัดศูนย์ขณะที่เส้นจุดความเร่งขึ้นสูงสุด ไม่เคยมากพร้อมกัน"], set:{A:8,w:1.2,T:12}},
+          "ที่จุดปลาย เส้นความเร็วตัดผ่านศูนย์ ขณะที่เส้นจุดของความเร่งขึ้นถึงค่าสูงสุด สองเส้นนี้ไม่เคยสูงสุดพร้อมกัน"], set:{A:8,w:1.2,T:12}},
     {say:["Raise ω. The period shrinks and the acceleration trace grows fast — a depends on ω squared.",
-          "เพิ่ม ω คาบจะสั้นลงและเส้นความเร่งโตเร็วมาก เพราะ a ขึ้นกับ ω กำลังสอง"], set:{A:6,w:2.4,T:12}}
+          "เพิ่ม ω คาบจะสั้นลง และเส้นความเร่งสูงขึ้นเร็วมาก เพราะ a ขึ้นกับ ω ยกกำลังสอง"], set:{A:6,w:2.4,T:12}}
   ]},
 
 { id:"spring", x:100, y:248, requires:["equations"], methods:["M-03"],
   title:["Mass on a spring","มวลติดสปริง"],
   body:[["A spring obeying F = −kx gives ω = √(k/m), so the period is T = 2π√(m/k). A stiffer spring oscillates faster; a heavier mass oscillates slower.",
          "Notice what is absent: amplitude. Pull the mass twice as far and it still takes exactly the same time to return. That independence is what makes oscillators useful as clocks."],
-        ["สปริงที่เป็นไปตาม F = −kx ให้ ω = √(k/m) ดังนั้นคาบคือ T = 2π√(m/k) สปริงที่แข็งกว่าแกว่งเร็วกว่า มวลที่หนักกว่าแกว่งช้ากว่า",
-         "สังเกตสิ่งที่หายไปคือแอมพลิจูด ดึงมวลออกไปไกลเป็นสองเท่า มันก็ยังใช้เวลากลับเท่าเดิมพอดี ความเป็นอิสระนี้เองที่ทำให้ตัวแกว่งใช้เป็นนาฬิกาได้"]],
+        ["สปริงที่เป็นไปตาม F = −kx ให้ ω = √(k/m) คาบจึงเป็น T = 2π√(m/k) สปริงที่แข็งกว่าแกว่งเร็วกว่า มวลที่หนักกว่าแกว่งช้ากว่า",
+         "สังเกตว่าในสูตรไม่มีแอมพลิจูดเลย ดึงมวลออกไปไกลเป็นสองเท่า มวลก็ยังใช้เวลากลับมาเท่าเดิมพอดี เพราะคาบไม่ขึ้นกับแอมพลิจูด ตัวแกว่งจึงนำไปทำนาฬิกาได้"]],
   formula:["ω = √(k/m)        T = 2π√(m/k)","ω = √(k/m)        T = 2π√(m/k)"],
   flabel:["Independent of amplitude","ไม่ขึ้นกับแอมพลิจูด"],
   viz:"plot",
@@ -1037,15 +1037,15 @@ nodes:[
       {lab:["Does amplitude matter?","แอมพลิจูดมีผลไหม"], f:function(){
         return L()?"ไม่ — คาบไม่ขึ้นกับแอมพลิจูด":"no — the period is independent of amplitude"; }}
     ],
-    note:["the curve is a square root, so mass has a weaker grip on the period than it looks","เส้นโค้งเป็นรากที่สอง มวลจึงมีอิทธิพลต่อคาบน้อยกว่าที่คิด"]
+    note:["the curve is a square root, so mass has a weaker grip on the period than it looks","กราฟเป็นรากที่สอง มวลจึงมีผลกับคาบน้อยกว่าที่เห็น"]
   } },
 
 { id:"pendulum", x:370, y:248, requires:["equations"], methods:["M-04"],
   title:["The simple pendulum","ลูกตุ้มอย่างง่าย"],
   body:[["For small swings the pendulum gives ω = √(g/l), so T = 2π√(l/g). Only the length and the local gravity matter.",
          "The mass of the bob cancels out entirely, which surprises almost everyone the first time. And the small-angle condition is real: beyond roughly 15° the motion stops being simple harmonic."],
-        ["สำหรับการแกว่งมุมเล็ก ลูกตุ้มให้ ω = √(g/l) ดังนั้น T = 2π√(l/g) มีเพียงความยาวและค่าโน้มถ่วงในท้องถิ่นเท่านั้นที่มีผล",
-         "มวลของลูกตุ้มตัดหายไปหมด ซึ่งทำให้เกือบทุกคนแปลกใจในครั้งแรก และเงื่อนไขมุมเล็กเป็นเรื่องจริง เกินราว 15° การเคลื่อนที่จะไม่เป็นฮาร์มอนิกอย่างง่ายอีกต่อไป"]],
+        ["ถ้าแกว่งด้วยมุมเล็ก ลูกตุ้มจะให้ ω = √(g/l) จึงได้ T = 2π√(l/g) คาบขึ้นกับความยาวและค่าโน้มถ่วง ณ ที่นั้นเท่านั้น",
+         "มวลของลูกตุ้มตัดกันหมด ซึ่งเกือบทุกคนต้องแปลกใจตอนเห็นครั้งแรก และเงื่อนไขมุมเล็กก็สำคัญจริงๆ ถ้ามุมเกินประมาณ 15° การเคลื่อนที่จะไม่ใช่ฮาร์มอนิกอย่างง่ายอีกต่อไป"]],
   formula:["T = 2π√(l/g)","T = 2π√(l/g)"],
   flabel:["Bob mass cancels · small angles only","มวลลูกตุ้มตัดหาย · เฉพาะมุมเล็ก"],
   viz:"stage",
@@ -1053,7 +1053,7 @@ nodes:[
     anim:true,
     spellName:["The Crystal Pendulum: period depends on L and g","ลูกตุ้มคริสตัล: คาบขึ้นกับ L และ g"],
     question:["Drag the crystal out and let it swing. What sets the beat — the length, the weight, or how far you pull it?",
-              "ลากคริสตัลออกแล้วปล่อยให้แกว่ง อะไรกำหนดจังหวะ ความยาว น้ำหนัก หรือระยะที่ดึง"],
+              "ลากคริสตัลออกแล้วปล่อยให้แกว่ง อะไรเป็นตัวกำหนดจังหวะ ความยาว น้ำหนัก หรือระยะที่ดึง"],
     ctrls:[
       {k:"Lp", lab:["Length","ความยาว"], min:.2, max:2.5, step:.05, def:1, unit:" m"},
       {k:"th0", lab:["Pulled out to","ดึงออกไปที่มุม"], min:5, max:70, step:1, def:10, unit:"°"},
@@ -1169,17 +1169,17 @@ nodes:[
       }
     },
     note:["drag the bob mass all you like — the trace will not move; pull wider than about 15° and the real beat starts to drift from the formula",
-          "ลากมวลลูกตุ้มเท่าไรก็ได้ เส้นกราฟจะไม่ขยับ ถ้าดึงกว้างเกินราว 15° จังหวะจริงจะเริ่มเบี่ยงจากสูตร"]
+          "จะลากปรับมวลลูกตุ้มเท่าไรก็ได้ เส้นกราฟไม่ขยับ แต่ถ้าดึงกว้างเกินประมาณ 15° จังหวะจริงจะเริ่มคลาดจากสูตร"]
   },
   guide:[
     {say:["A one-metre pendulum on Earth beats at almost exactly two seconds. Press play and watch the trace draw a sine wave.",
-          "ลูกตุ้มยาวหนึ่งเมตรบนโลกแกว่งครบรอบเกือบสองวินาทีพอดี กดเล่นแล้วดูเส้นกราฟวาดคลื่นไซน์"], set:{Lp:1,th0:10,g:9.8,mb:1,T:8}},
+          "ลูกตุ้มยาวหนึ่งเมตรบนโลกใช้เวลาแกว่งครบรอบเกือบสองวินาทีพอดี กดเล่นแล้วดูเส้นกราฟวาดคลื่นไซน์"], set:{Lp:1,th0:10,g:9.8,mb:1,T:8}},
     {say:["Now make the bob five times heavier and play again. The faint last swing and the new one lie exactly on top of each other.",
-          "ทีนี้ทำให้ลูกตุ้มหนักขึ้นห้าเท่าแล้วเล่นอีกครั้ง เส้นจาง ๆ ของรอบก่อนกับรอบใหม่ทับกันพอดี"], set:{Lp:1,th0:10,g:9.8,mb:5,T:8}},
+          "ทีนี้เพิ่มมวลลูกตุ้มเป็นห้าเท่าแล้วเล่นอีกครั้ง เส้นจางของการแกว่งรอบก่อนกับเส้นใหม่ทับกันสนิท"], set:{Lp:1,th0:10,g:9.8,mb:5,T:8}},
     {say:["Pull it out to 60°. The real swing now lags the simple formula — the small-angle condition is not a formality.",
-          "ดึงออกไปถึง 60° ตอนนี้การแกว่งจริงช้ากว่าสูตรอย่างง่าย เงื่อนไขมุมเล็กไม่ใช่แค่พิธี"], set:{Lp:1,th0:60,g:9.8,mb:1,T:8}},
+          "ดึงออกไปถึง 60° ตอนนี้การแกว่งจริงช้ากว่าที่สูตรอย่างง่ายบอก เงื่อนไขมุมเล็กจึงไม่ใช่แค่พิธีรีตอง"], set:{Lp:1,th0:60,g:9.8,mb:1,T:8}},
     {say:["Take it to the Moon. Gravity, not mass, sets the beat.",
-          "พาไปดวงจันทร์ แรงโน้มถ่วง ไม่ใช่มวล เป็นตัวกำหนดจังหวะ"], set:{Lp:1,th0:10,g:1.6,mb:1,T:12}}
+          "พาไปดวงจันทร์ จังหวะขึ้นกับแรงโน้มถ่วง ไม่ใช่มวล"], set:{Lp:1,th0:10,g:1.6,mb:1,T:12}}
   ]
 },
 
@@ -1187,8 +1187,8 @@ nodes:[
   title:["Energy in oscillation","พลังงานในการแกว่ง"],
   body:[["The total energy is ½kA², fixed by the amplitude alone. It moves back and forth between kinetic and potential twice every cycle, but the sum never changes.",
          "All kinetic at the centre, all potential at the extremes. Because energy goes as A², doubling the amplitude quadruples the energy while leaving the period untouched."],
-        ["พลังงานรวมคือ ½kA² ถูกกำหนดด้วยแอมพลิจูดเพียงอย่างเดียว มันสลับไปมาระหว่างพลังงานจลน์กับศักย์สองครั้งต่อรอบ แต่ผลรวมไม่เคยเปลี่ยน",
-         "เป็นพลังงานจลน์ล้วนที่จุดกึ่งกลาง และศักย์ล้วนที่จุดปลาย เพราะพลังงานแปรตาม A² การเพิ่มแอมพลิจูดสองเท่าทำให้พลังงานเป็นสี่เท่าโดยที่คาบไม่เปลี่ยนเลย"]],
+        ["พลังงานรวมคือ ½kA² ซึ่งขึ้นกับแอมพลิจูดอย่างเดียว พลังงานนี้สลับไปมาระหว่างพลังงานจลน์กับพลังงานศักย์สองครั้งต่อหนึ่งรอบ แต่ผลรวมไม่เปลี่ยน",
+         "ที่จุดกึ่งกลางเป็นพลังงานจลน์ทั้งหมด ที่จุดปลายเป็นพลังงานศักย์ทั้งหมด พลังงานแปรตาม A² ดังนั้นถ้าเพิ่มแอมพลิจูดเป็นสองเท่า พลังงานจะเป็นสี่เท่า แต่คาบไม่เปลี่ยนเลย"]],
   formula:["E = ½kA² = ½mω²A²","E = ½kA² = ½mω²A²"],
   flabel:["Set by amplitude alone","กำหนดด้วยแอมพลิจูดเท่านั้น"],
   viz:"stack",
@@ -1216,15 +1216,15 @@ nodes:[
       return [{v:0.5*p.k*x*x, lab:["potential","ศักย์"], col:"good"},
               {v:0.5*p.k*(p.A*p.A-x*x), lab:["kinetic","จลน์"], col:"accent"}];
     },
-    note:["at the ends all potential, at the centre all kinetic, and the total never moves","ที่ปลายเป็นศักย์ทั้งหมด ที่กลางเป็นจลน์ทั้งหมด และผลรวมไม่เคยเปลี่ยน"]
+    note:["at the ends all potential, at the centre all kinetic, and the total never moves","ที่ปลายเป็นพลังงานศักย์ทั้งหมด ที่กลางเป็นพลังงานจลน์ทั้งหมด และผลรวมไม่เปลี่ยน"]
   },
   guide:[
     {say:["At the centre the bar is entirely kinetic. The mass is moving fastest here and the spring is relaxed.",
-          "ที่จุดกึ่งกลาง แถบเป็นพลังงานจลน์ทั้งหมด มวลเคลื่อนที่เร็วที่สุดตรงนี้และสปริงคลายตัว"], set:{A:3,x:0,k:20}},
+          "ที่จุดกึ่งกลาง แถบเป็นพลังงานจลน์ทั้งหมด มวลเคลื่อนที่เร็วที่สุดตรงนี้ และสปริงอยู่ในสภาพคลายตัว"], set:{A:3,x:0,k:20}},
     {say:["Halfway out, the split is uneven — potential grows as the square, so it lags behind at first.",
-          "ออกไปครึ่งทาง สัดส่วนไม่เท่ากัน พลังงานศักย์โตแบบกำลังสอง ช่วงแรกจึงตามหลังอยู่"], set:{A:3,x:1.5,k:20}},
+          "เมื่อออกไปได้ครึ่งทาง พลังงานทั้งสองชนิดแบ่งกันไม่เท่ากัน พลังงานศักย์เพิ่มตามกำลังสอง ช่วงแรกจึงยังน้อยกว่า"], set:{A:3,x:1.5,k:20}},
     {say:["At full amplitude it is all potential and the mass is momentarily at rest before turning back.",
-          "ที่แอมพลิจูดสูงสุด เป็นศักย์ทั้งหมดและมวลหยุดนิ่งชั่วขณะก่อนย้อนกลับ"], set:{A:3,x:3,k:20}}
+          "ที่แอมพลิจูดสูงสุด เป็นพลังงานศักย์ทั้งหมด และมวลหยุดนิ่งชั่วขณะก่อนเคลื่อนที่ย้อนกลับ"], set:{A:3,x:3,k:20}}
   ] }
 ],
 
@@ -1238,18 +1238,18 @@ methods:[
 ],
 
 traps:{
-"T-01":["Period does not depend on amplitude. Pulling it further does not make it slower.","คาบไม่ขึ้นกับแอมพลิจูด ดึงออกไปไกลกว่าไม่ได้ทำให้ช้าลง"],
-"T-02":["Velocity peaks at the centre, acceleration at the extremes. They are never maximum together.","ความเร็วสูงสุดที่กึ่งกลาง ความเร่งสูงสุดที่ปลาย ไม่เคยสูงสุดพร้อมกัน"],
-"T-03":["The pendulum bob's mass cancels out. Only length and g decide the period.","มวลลูกตุ้มตัดหายไป มีเพียงความยาวและ g ที่กำหนดคาบ"],
-"T-04":["The square root was dropped, or m and k were the wrong way up inside it.","ลืมถอดรากที่สอง หรือสลับ m กับ k ในรากที่สอง"]
+"T-01":["Period does not depend on amplitude. Pulling it further does not make it slower.","คาบไม่ขึ้นกับแอมพลิจูด ดึงออกไปไกลขึ้นก็ไม่ได้ทำให้แกว่งช้าลง"],
+"T-02":["Velocity peaks at the centre, acceleration at the extremes. They are never maximum together.","ความเร็วสูงสุดที่กึ่งกลาง ความเร่งสูงสุดที่ปลาย สองปริมาณนี้ไม่เคยสูงสุดพร้อมกัน"],
+"T-03":["The pendulum bob's mass cancels out. Only length and g decide the period.","มวลของลูกตุ้มตัดกันหมด ความยาวกับ g เท่านั้นที่กำหนดคาบ"],
+"T-04":["The square root was dropped, or m and k were the wrong way up inside it.","ลืมใส่รากที่สอง หรือใส่ m กับ k สลับที่กันในราก"]
 },
 
 gen:{
 "M-01": function(sf){
-  var C=[{s:["Which relation defines simple harmonic motion?","ความสัมพันธ์ใดนิยามการเคลื่อนที่ฮาร์มอนิกอย่างง่าย"],
+  var C=[{s:["Which relation defines simple harmonic motion?","ความสัมพันธ์ใดคือนิยามของการเคลื่อนที่แบบฮาร์มอนิกอย่างง่าย"],
           ok:["a = −ω²x","a = −ω²x"], w:[["a = ω²x","a = ω²x"],["v = −ωx","v = −ωx"],["a = −ωx","a = −ωx"]]},
          {s:["Why is the minus sign in a = −ω²x essential?","ทำไมเครื่องหมายลบใน a = −ω²x จึงสำคัญ"],
-          ok:["It makes the acceleration point back towards the centre","มันทำให้ความเร่งชี้กลับเข้าหาจุดกึ่งกลาง"],
+          ok:["It makes the acceleration point back towards the centre","เครื่องหมายลบทำให้ความเร่งชี้กลับเข้าหาจุดกึ่งกลาง"],
           w:[["It makes the motion slow down","มันทำให้การเคลื่อนที่ช้าลง"],
              ["It keeps the amplitude negative","มันทำให้แอมพลิจูดเป็นลบ"],
              ["It is only a sign convention","เป็นเพียงข้อตกลงเรื่องเครื่องหมาย"]]}];
@@ -1258,7 +1258,7 @@ gen:{
 },
 "M-02": function(sf){
   var A=pick([2,4,5,8]), w=pick([2,3,4,5]);
-  if(sf==="S-04") return {stem:["Where in the cycle is the acceleration greatest?","ความเร่งสูงสุดที่ตำแหน่งใดของรอบ"],
+  if(sf==="S-04") return {stem:["Where in the cycle is the acceleration greatest?","ความเร่งมีค่าสูงสุดที่ตำแหน่งใดของรอบ"],
     opts:[{v:["At the extremes of the motion","ที่จุดปลายของการเคลื่อนที่"],ok:1},
           {v:["At the centre","ที่จุดกึ่งกลาง"],trap:"T-02"},
           {v:["Everywhere equally","ทุกจุดเท่ากัน"]},
@@ -1274,7 +1274,7 @@ gen:{
   var m=pick([0.2,0.5,1,2]), k=pick([20,50,80,200]);
   var T=2*Math.PI*Math.sqrt(m/k);
   if(sf==="S-04") return {stem:["A mass on a spring is pulled twice as far and released. What happens to the period?",
-                                "ดึงมวลติดสปริงออกไปไกลเป็นสองเท่าแล้วปล่อย คาบเปลี่ยนอย่างไร"],
+                                "ดึงมวลที่ติดกับสปริงออกไปไกลเป็นสองเท่าแล้วปล่อย คาบจะเปลี่ยนอย่างไร"],
     opts:[{v:["Nothing — period is independent of amplitude","ไม่เปลี่ยน คาบไม่ขึ้นกับแอมพลิจูด"],ok:1},
           {v:["It doubles","เพิ่มเป็นสองเท่า"],trap:"T-01"},
           {v:["It halves","ลดลงครึ่งหนึ่ง"],trap:"T-01"},
@@ -1290,7 +1290,7 @@ gen:{
   var l=pick([0.25,0.5,1,2.5]), g=10;
   var T=2*Math.PI*Math.sqrt(l/g);
   if(sf==="S-04") return {stem:["Two pendulums have the same length but different bob masses. Compare their periods.",
-                                "ลูกตุ้มสองอันยาวเท่ากันแต่มวลต่างกัน คาบเป็นอย่างไร"],
+                                "ลูกตุ้มสองอันยาวเท่ากันแต่มวลของลูกตุ้มต่างกัน เปรียบเทียบคาบของทั้งสองอัน"],
     opts:[{v:["Identical — mass cancels out","เท่ากัน เพราะมวลตัดหายไป"],ok:1},
           {v:["The heavier swings slower","อันที่หนักกว่าแกว่งช้ากว่า"],trap:"T-03"},
           {v:["The lighter swings slower","อันที่เบากว่าแกว่งช้ากว่า"],trap:"T-03"},
@@ -1306,7 +1306,7 @@ gen:{
   var A=pick([4,5,8,10]), w=pick([2,3,4]), x=pick([2,3]);
   var v=w*Math.sqrt(A*A-x*x);
   if(sf==="S-04") return {stem:["At what displacement is the speed of an oscillator greatest?",
-                                "ที่การกระจัดเท่าใดที่ตัวแกว่งมีอัตราเร็วสูงสุด"],
+                                "ตัวแกว่งมีอัตราเร็วสูงสุดที่การกระจัดเท่าไร"],
     opts:[{v:["x = 0, at the centre","x = 0 ที่จุดกึ่งกลาง"],ok:1},
           {v:["x = A, at the extreme","x = A ที่จุดปลาย"],trap:"T-02"},
           {v:["x = A/2","x = A/2"]},{v:["Speed is constant","อัตราเร็วคงที่"]}],unit:""};
@@ -1318,12 +1318,12 @@ gen:{
   var k=pick([50,100,200,400]), A=pick([0.1,0.2,0.5]);
   var E=0.5*k*A*A;
   if(sf==="S-04") return {stem:["The amplitude of an oscillator is doubled. What happens to its total energy?",
-                                "แอมพลิจูดของตัวแกว่งเพิ่มเป็นสองเท่า พลังงานรวมเปลี่ยนอย่างไร"],
+                                "เพิ่มแอมพลิจูดของตัวแกว่งเป็นสองเท่า พลังงานรวมจะเปลี่ยนอย่างไร"],
     opts:[{v:["It becomes four times as large","เพิ่มเป็นสี่เท่า"],ok:1},
           {v:["It doubles","เพิ่มเป็นสองเท่า"],trap:"T-01"},
           {v:["It is unchanged","เท่าเดิม"]},{v:["It halves","ลดลงครึ่งหนึ่ง"]}],unit:""};
   if(sf==="S-03") return {stem:["Where in the cycle is an oscillator's energy entirely kinetic?",
-                                "ที่ตำแหน่งใดของรอบที่พลังงานของตัวแกว่งเป็นพลังงานจลน์ทั้งหมด"],
+                                "พลังงานของตัวแกว่งเป็นพลังงานจลน์ทั้งหมดที่ตำแหน่งใดของรอบ"],
     opts:[{v:["At the centre, x = 0","ที่จุดกึ่งกลาง x = 0"],ok:1},
           {v:["At the extremes, x = ±A","ที่จุดปลาย x = ±A"],trap:"T-02"},
           {v:["Halfway out","ที่กึ่งกลางระหว่างทาง"]},{v:["Nowhere","ไม่มีจุดใด"]}],unit:""};

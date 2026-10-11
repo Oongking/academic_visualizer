@@ -909,7 +909,7 @@ kicker:["Physics · Chapter 05","ฟิสิกส์ · บทที่ 5"],
 title:["Work and Energy","งานและพลังงาน"],
 mapTitle:["The shortcut around time","ทางลัดที่ข้ามเวลา"],
 lede:["Newton's laws work, but they make you track every instant. Energy asks only where you started and where you finished. Whole problems that would take three equations collapse into one line.",
-      "กฎของนิวตันใช้ได้ แต่บังคับให้ตามทุกช่วงเวลา พลังงานถามเพียงว่าเริ่มที่ไหนและจบที่ไหน โจทย์ทั้งข้อที่ต้องใช้สามสมการจึงยุบเหลือบรรทัดเดียว"],
+      "กฎของนิวตันใช้ได้ดี แต่ต้องตามดูทุกช่วงเวลา ส่วนพลังงานถามแค่ว่าเริ่มที่ไหนและจบที่ไหน โจทย์ที่ต้องใช้สามสมการจึงเหลือบรรทัดเดียว"],
 next:["→ continues in Chapter 06 · Momentum","→ ต่อในบทที่ 6 · โมเมนตัมและการชน"],
 
 nodes:[
@@ -917,8 +917,8 @@ nodes:[
   title:["Work","งาน"],
   body:[["Work is force times displacement in the direction of the force: W = Fs cos θ. A force perpendicular to the motion does no work at all — which is why carrying a suitcase along a level corridor is, physically, free.",
          "Sign matters. A force helping the motion does positive work; friction, always opposing, does negative work. Reporting friction's work as positive is trap T-01."],
-        ["งานคือแรงคูณการกระจัดในทิศของแรง W = Fs cos θ แรงที่ตั้งฉากกับการเคลื่อนที่ไม่ทำงานเลย จึงเป็นเหตุผลว่าทำไมการหิ้วกระเป๋าเดินตามทางเดินราบจึงไม่มีงานในทางฟิสิกส์",
-         "เครื่องหมายสำคัญ แรงที่ช่วยการเคลื่อนที่ทำงานเป็นบวก ส่วนแรงเสียดทานซึ่งต้านเสมอทำงานเป็นลบ การรายงานงานของแรงเสียดทานเป็นบวกคือกับดัก T-01"]],
+        ["งานคือแรงคูณการกระจัดในทิศของแรง W = Fs cos θ แรงที่ตั้งฉากกับการเคลื่อนที่ไม่ทำงานเลย นี่คือเหตุผลที่การหิ้วกระเป๋าเดินไปตามทางเดินราบ ไม่เสียงานในทางฟิสิกส์",
+         "เครื่องหมายสำคัญ แรงที่ช่วยการเคลื่อนที่ทำงานเป็นบวก ส่วนแรงเสียดทานต้านการเคลื่อนที่เสมอ จึงทำงานเป็นลบ ถ้าตอบว่างานของแรงเสียดทานเป็นบวก ก็ตกกับดัก T-01"]],
   formula:["W = F s cos θ","W = F s cos θ"],
   flabel:["θ = 90° gives zero work","θ = 90° ได้งานเป็นศูนย์"],
   viz:"plot",
@@ -946,23 +946,23 @@ nodes:[
         return S.p.kind===0 ? (L()?"งานเป็นสองเท่า":"work doubles")
                             : (L()?"งานเป็นสี่เท่า":"work quadruples"); }}
     ],
-    note:["a constant force gives a rectangle; a spring gives a triangle, hence the ½","แรงคงที่ให้สี่เหลี่ยม สปริงให้สามเหลี่ยม จึงมีเลข ½"]
+    note:["a constant force gives a rectangle; a spring gives a triangle, hence the ½","แรงคงที่ได้พื้นที่สี่เหลี่ยม สปริงได้สามเหลี่ยม จึงมีเลข ½"]
   },
   guide:[
     {say:["A constant force. The shaded area is a rectangle, so the work is simply force times distance.",
-          "แรงคงที่ พื้นที่แรเงาเป็นสี่เหลี่ยม งานจึงเท่ากับแรงคูณระยะทางเฉยๆ"], set:{kind:0,F:12,k:5,s:4}},
+          "แรงคงที่ พื้นที่แรเงาเป็นสี่เหลี่ยม งานจึงเท่ากับแรงคูณระยะทางตรงๆ"], set:{kind:0,F:12,k:5,s:4}},
     {say:["Switch to a spring. The force grows as you stretch, so the area becomes a triangle instead.",
-          "สลับเป็นสปริง แรงเพิ่มขึ้นตามการยืด พื้นที่จึงกลายเป็นสามเหลี่ยม"], set:{kind:1,F:12,k:5,s:4}},
+          "ลองเปลี่ยนเป็นสปริง ยิ่งยืดแรงยิ่งเพิ่ม พื้นที่จึงกลายเป็นสามเหลี่ยมแทน"], set:{kind:1,F:12,k:5,s:4}},
     {say:["That triangle is where the ½ in ½kx² comes from. It is not a fudge factor — it is half a rectangle.",
-          "สามเหลี่ยมนั้นคือที่มาของเลข ½ ใน ½kx² มันไม่ใช่ตัวเลขที่ใส่มามั่ว แต่คือครึ่งหนึ่งของสี่เหลี่ยม"], set:{kind:1,F:12,k:8,s:5.4}}
+          "สามเหลี่ยมนี้คือที่มาของเลข ½ ใน ½kx² ไม่ได้ใส่มาลอยๆ แต่เป็นครึ่งหนึ่งของสี่เหลี่ยมนั่นเอง"], set:{kind:1,F:12,k:8,s:5.4}}
   ] },
 
 { id:"kinetic", x:100, y:150, requires:["work"], methods:["M-02"],
   title:["Kinetic energy","พลังงานจลน์"],
   body:[["Kinetic energy is ½mv², and the net work done on a body equals its change in kinetic energy. That single statement replaces a whole chapter of kinematics.",
          "Note the square. Doubling the speed quadruples the energy — and quadruples the braking distance, which is the entire argument behind speed limits."],
-        ["พลังงานจลน์คือ ½mv² และงานสุทธิที่ทำต่อวัตถุเท่ากับการเปลี่ยนแปลงพลังงานจลน์ ประโยคเดียวนี้แทนเนื้อหาจลนศาสตร์ทั้งบท",
-         "สังเกตกำลังสอง เพิ่มอัตราเร็วสองเท่าพลังงานเพิ่มสี่เท่า และระยะเบรกก็เพิ่มสี่เท่า ซึ่งเป็นเหตุผลทั้งหมดเบื้องหลังการจำกัดความเร็ว"]],
+        ["พลังงานจลน์คือ ½mv² และงานสุทธิที่ทำกับวัตถุเท่ากับพลังงานจลน์ที่เปลี่ยนไป ประโยคเดียวนี้ใช้แทนเรื่องจลนศาสตร์ได้ทั้งบท",
+         "สังเกตว่า v ยกกำลังสอง ถ้าอัตราเร็วเป็นสองเท่า พลังงานจะเป็นสี่เท่า และระยะเบรกก็เป็นสี่เท่าด้วย นี่คือเหตุผลทั้งหมดที่ต้องมีการจำกัดความเร็ว"]],
   formula:["E_k = ½mv²        W_net = ΔE_k","E_k = ½mv²        W_net = ΔE_k"],
   flabel:["Work–energy theorem","ทฤษฎีบทงาน–พลังงาน"],
   viz:"plot",
@@ -983,19 +983,19 @@ nodes:[
   },
   guide:[
     {say:["The curve is a parabola, not a straight line. Energy grows with the square of speed.",
-          "เส้นกราฟเป็นพาราโบลา ไม่ใช่เส้นตรง พลังงานโตตามกำลังสองของอัตราเร็ว"], set:{m:2,v:5}},
+          "กราฟเป็นพาราโบลา ไม่ใช่เส้นตรง พลังงานเพิ่มตามกำลังสองของอัตราเร็ว"], set:{m:2,v:5}},
     {say:["Double the speed from 5 to 10 and read the two energies. It is four times, not twice.",
-          "เพิ่มอัตราเร็วจาก 5 เป็น 10 แล้วอ่านค่าพลังงานทั้งสอง จะได้สี่เท่า ไม่ใช่สองเท่า"], set:{m:2,v:10}},
+          "เพิ่มอัตราเร็วจาก 5 เป็น 10 แล้วเทียบพลังงานสองค่า จะได้สี่เท่า ไม่ใช่สองเท่า"], set:{m:2,v:10}},
     {say:["Mass only scales the curve. Speed reshapes it — that is why speed is the dangerous variable.",
-          "มวลเพียงขยายกราฟตามสัดส่วน แต่อัตราเร็วเปลี่ยนรูปกราฟ นี่คือเหตุผลที่อัตราเร็วคือตัวแปรอันตราย"], set:{m:6,v:10}}
+          "มวลแค่ยืดกราฟให้สูงขึ้นตามสัดส่วน แต่อัตราเร็วเปลี่ยนรูปร่างของกราฟ อัตราเร็วจึงเป็นตัวแปรที่อันตรายที่สุด"], set:{m:6,v:10}}
   ]},
 
 { id:"potential", x:370, y:150, requires:["work"], methods:["M-03"],
   title:["Potential energy","พลังงานศักย์"],
   body:[["Gravitational potential energy is mgh, measured from whatever level you declare as zero. The choice of zero is free; only differences matter.",
          "Elastic potential energy in a spring is ½kx², and like kinetic energy it goes as a square — stretching a spring twice as far stores four times the energy."],
-        ["พลังงานศักย์โน้มถ่วงคือ mgh วัดจากระดับใดก็ได้ที่เรากำหนดให้เป็นศูนย์ การเลือกระดับศูนย์เป็นอิสระ เพราะสิ่งที่มีความหมายคือผลต่างเท่านั้น",
-         "พลังงานศักย์ยืดหยุ่นในสปริงคือ ½kx² และเช่นเดียวกับพลังงานจลน์ มันโตตามกำลังสอง ยืดสปริงเป็นสองเท่าจะเก็บพลังงานสี่เท่า"]],
+        ["พลังงานศักย์โน้มถ่วงคือ mgh วัดจากระดับไหนก็ได้ที่เรากำหนดให้เป็นศูนย์ จะเลือกระดับศูนย์ตรงไหนก็ได้ เพราะที่สำคัญคือผลต่างเท่านั้น",
+         "พลังงานศักย์ยืดหยุ่นของสปริงคือ ½kx² และเหมือนพลังงานจลน์ตรงที่เพิ่มตามกำลังสอง ถ้ายืดสปริงยาวเป็นสองเท่า จะเก็บพลังงานได้สี่เท่า"]],
   formula:["E_p = mgh        E_spring = ½kx²","E_p = mgh        E_spring = ½kx²"],
   flabel:["Zero level is yours to choose","ระดับศูนย์เลือกเองได้"],
   viz:"plot",
@@ -1024,23 +1024,23 @@ nodes:[
         return S.p.kind===0 ? (L()?"ระดับอ้างอิงที่คุณเลือกเอง":"a zero level you choose")
                             : (L()?"ความยาวธรรมชาติของสปริง":"the spring's natural length"); }}
     ],
-    note:["gravitational PE is linear in height; elastic PE is quadratic in extension","พลังงานศักย์โน้มถ่วงเป็นเชิงเส้นกับความสูง ส่วนยืดหยุ่นเป็นกำลังสองกับระยะยืด"]
+    note:["gravitational PE is linear in height; elastic PE is quadratic in extension","พลังงานศักย์โน้มถ่วงแปรตามความสูงแบบเส้นตรง ส่วนพลังงานศักย์ยืดหยุ่นแปรตามระยะยืดแบบกำลังสอง"]
   } },
 
 { id:"conservation", x:235, y:248, requires:["kinetic","potential"], methods:["M-04"],
   title:["Conservation of energy","การอนุรักษ์พลังงาน"],
   body:[["With no friction, kinetic plus potential energy is constant. Set the total at the start equal to the total at the end and the whole middle of the problem disappears — including the time, which never enters.",
          "A ball dropped from height h arrives at √(2gh) regardless of its mass, and by the same logic regardless of the path it took. Only the height difference counts."],
-        ["ถ้าไม่มีแรงเสียดทาน พลังงานจลน์บวกพลังงานศักย์จะคงที่ ตั้งพลังงานรวมตอนเริ่มเท่ากับตอนจบ แล้วช่วงกลางทั้งหมดของโจทย์ก็หายไป รวมถึงเวลาซึ่งไม่ปรากฏเลย",
-         "ลูกบอลที่ปล่อยจากความสูง h จะถึงพื้นด้วย √(2gh) ไม่ว่ามวลเท่าใด และด้วยเหตุผลเดียวกัน ไม่ว่าจะไปทางไหน สิ่งที่นับคือผลต่างความสูงเท่านั้น"]],
+        ["ถ้าไม่มีแรงเสียดทาน พลังงานจลน์รวมกับพลังงานศักย์จะคงที่ เราแค่ตั้งพลังงานรวมตอนเริ่มให้เท่ากับตอนจบ ช่วงกลางของโจทย์ก็หายไปหมด แม้แต่เวลาก็ไม่ต้องใช้",
+         "ลูกบอลที่ปล่อยจากความสูง h จะถึงพื้นด้วยอัตราเร็ว √(2gh) ไม่ว่ามวลเท่าไร และด้วยเหตุผลเดียวกัน ไม่ว่าจะเคลื่อนที่มาทางไหนก็ได้ผลเท่ากัน สิ่งที่นับคือผลต่างของความสูงเท่านั้น"]],
   formula:["E_k1 + E_p1 = E_k2 + E_p2","E_k1 + E_p1 = E_k2 + E_p2"],
   flabel:["Path and time both drop out","ทั้งเส้นทางและเวลาหายไป"],
   viz:"stage",
   vizcfg:{
     anim:true,
-    spellName:["The Mana Coaster: energy changes form, the total stays","รถรางพลังเวท: พลังงานเปลี่ยนรูป ผลรวมคงเดิม"],
+    spellName:["The Mana Coaster: energy changes form, the total stays","รถรางพลังเวท: พลังงานเปลี่ยนรูป แต่ผลรวมคงเดิม"],
     question:["Drag the starting height and the second hill. Can the cart cross it — and how fast is it going at the bottom?",
-              "ลากความสูงจุดปล่อยและเนินที่สอง รถจะข้ามเนินได้ไหม และที่ก้นหุบเร็วแค่ไหน"],
+              "ลากเพื่อปรับความสูงจุดปล่อยและความสูงเนินที่สอง รถจะข้ามเนินไปได้ไหม และที่ก้นหุบเร็วแค่ไหน"],
     ctrls:[
       {k:"h0", lab:["Released from","ปล่อยจากความสูง"], min:2, max:20, step:.1, def:12, unit:" m"},
       {k:"h2", lab:["Second hill","เนินที่สอง"], min:1, max:20, step:.1, def:9, unit:" m"},
@@ -1137,15 +1137,15 @@ nodes:[
       }
     },
     note:["the bar is the energy budget: it only changes length when friction turns some of it into heat",
-          "แถบนี้คืองบพลังงาน ความยาวเปลี่ยนก็ต่อเมื่อแรงเสียดทานเปลี่ยนบางส่วนเป็นความร้อนเท่านั้น"]
+          "แถบนี้คืองบพลังงาน ความยาวจะเปลี่ยนก็ต่อเมื่อแรงเสียดทานเปลี่ยนพลังงานส่วนหนึ่งเป็นความร้อนเท่านั้น"]
   },
   guide:[
     {say:["Release the cart from 12 m. Watch the bar: green potential pours into blue kinetic on the way down and back again on the way up — the total never moves.",
-          "ปล่อยรถจาก 12 ม. ดูแถบ: พลังงานศักย์สีเขียวไหลไปเป็นพลังงานจลน์สีฟ้าขาลง และไหลกลับขาขึ้น ผลรวมไม่เคยเปลี่ยน"], set:{h0:12,h2:9,m:2,fr:0,T:10}},
+          "ปล่อยรถจากความสูง 12 ม. แล้วดูแถบพลังงาน ขาลง พลังงานศักย์สีเขียวไหลไปเป็นพลังงานจลน์สีฟ้า ขาขึ้นก็ไหลกลับ ส่วนผลรวมไม่เปลี่ยนเลย"], set:{h0:12,h2:9,m:2,fr:0,T:10}},
     {say:["Raise the second hill above the start. However fast it is at the bottom, the cart can never climb above the dashed line — it rolls back.",
-          "ยกเนินที่สองให้สูงกว่าจุดเริ่ม ไม่ว่าที่ก้นหุบจะเร็วแค่ไหน รถก็ขึ้นเกินเส้นประไม่ได้ มันไหลกลับ"], set:{h0:12,h2:13,m:2,fr:0,T:12}},
+          "ยกเนินที่สองให้สูงกว่าจุดเริ่มต้น ที่ก้นหุบรถจะเร็วเท่าไรก็ตาม ก็ขึ้นไปสูงกว่าเส้นประไม่ได้ และจะไหลกลับลงมา"], set:{h0:12,h2:13,m:2,fr:0,T:12}},
     {say:["Make the track sticky. Now an orange slice of heat grows, the bar's useful part shrinks, and the cart settles in the valley.",
-          "ทำให้รางมีแรงเสียดทาน ส่วนความร้อนสีส้มจะโตขึ้น ส่วนที่ใช้ได้หดลง และรถหยุดนิ่งในหุบ"], set:{h0:12,h2:11,m:2,fr:1,T:16}}
+          "ทำให้รางฝืดขึ้น จะเห็นส่วนสีส้มของความร้อนโตขึ้น ส่วนพลังงานที่ใช้ได้หดลง และรถไปหยุดนิ่งอยู่ในหุบ"], set:{h0:12,h2:11,m:2,fr:1,T:16}}
   ]
 },
 
@@ -1153,8 +1153,8 @@ nodes:[
   title:["Power and efficiency","กำลังและประสิทธิภาพ"],
   body:[["Power is the rate of doing work: P = W/t, and for a steady force moving at steady speed, P = Fv. Two machines can do identical work and differ entirely in how long they take.",
          "No real machine returns all the work put in. Efficiency is useful output over total input, always below 100%, and the missing fraction has almost always become heat."],
-        ["กำลังคืออัตราการทำงาน P = W/t และสำหรับแรงคงที่ที่เคลื่อนด้วยอัตราเร็วคงที่ P = Fv เครื่องจักรสองเครื่องอาจทำงานเท่ากันทุกประการแต่ใช้เวลาต่างกันสิ้นเชิง",
-         "ไม่มีเครื่องจักรจริงเครื่องใดคืนงานได้ครบตามที่ใส่เข้าไป ประสิทธิภาพคืองานที่ได้ประโยชน์หารด้วยงานที่ใส่เข้า ต่ำกว่า 100% เสมอ และส่วนที่หายไปเกือบทั้งหมดกลายเป็นความร้อน"]],
+        ["กำลังคืออัตราการทำงาน P = W/t และถ้าแรงคงที่เคลื่อนวัตถุด้วยอัตราเร็วคงที่ P = Fv เครื่องจักรสองเครื่องอาจทำงานได้เท่ากันพอดี แต่ใช้เวลาต่างกันมาก",
+         "เครื่องจักรจริงไม่มีเครื่องไหนคืนงานที่ใส่เข้าไปได้ครบ ประสิทธิภาพคืองานที่ได้ใช้ประโยชน์หารด้วยงานที่ใส่เข้าไปทั้งหมด จึงต่ำกว่า 100% เสมอ ส่วนที่หายไปแทบทั้งหมดกลายเป็นความร้อน"]],
   formula:["P = W/t = Fv        Eff = (W_out / W_in) × 100%","P = W/t = Fv        Eff = (W_out / W_in) × 100%"],
   flabel:["Never above 100 per cent","ไม่มีวันเกินร้อยเปอร์เซ็นต์"],
   viz:"stack",
@@ -1178,7 +1178,7 @@ nodes:[
       return [{v:p.Pin*p.eff/100,       lab:["useful","ที่ใช้ได้"],   col:"good"},
               {v:p.Pin*(100-p.eff)/100, lab:["wasted","ที่สูญเสีย"], col:"warn"}];
     },
-    note:["power is energy per second — efficiency is which fraction of it you actually wanted","กำลังคือพลังงานต่อวินาที ประสิทธิภาพคือสัดส่วนที่เราต้องการจริงๆ"]
+    note:["power is energy per second — efficiency is which fraction of it you actually wanted","กำลังคือพลังงานต่อวินาที ส่วนประสิทธิภาพบอกว่าพลังงานนั้นเป็นสัดส่วนเท่าไรที่เราต้องการจริงๆ"]
   } }
 ],
 
@@ -1192,10 +1192,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["Friction always opposes the motion, so the work it does is negative.","แรงเสียดทานต้านการเคลื่อนที่เสมอ งานที่มันทำจึงเป็นลบ"],
-"T-02":["You dropped the ½, or forgot that energy goes as v² and not v.","คุณลืม ½ หรือลืมว่าพลังงานแปรตาม v² ไม่ใช่ v"],
-"T-03":["A force perpendicular to the displacement does no work, however large it is.","แรงที่ตั้งฉากกับการกระจัดไม่ทำงานเลย ไม่ว่าจะมากแค่ไหน"],
-"T-04":["Efficiency cannot exceed 100%. Output over input, not the other way round.","ประสิทธิภาพเกิน 100% ไม่ได้ ใช้งานออกหารงานเข้า ไม่ใช่กลับกัน"]
+"T-01":["Friction always opposes the motion, so the work it does is negative.","แรงเสียดทานต้านการเคลื่อนที่เสมอ งานของแรงนี้จึงเป็นลบ"],
+"T-02":["You dropped the ½, or forgot that energy goes as v² and not v.","ลืม ½ หรือลืมว่าพลังงานแปรตาม v² ไม่ใช่ v"],
+"T-03":["A force perpendicular to the displacement does no work, however large it is.","แรงที่ตั้งฉากกับการกระจัดไม่ทำงาน ต่อให้แรงนั้นมากแค่ไหนก็ตาม"],
+"T-04":["Efficiency cannot exceed 100%. Output over input, not the other way round.","ประสิทธิภาพเกิน 100% ไม่ได้ ต้องเอางานที่ได้ออกมาหารงานที่ใส่เข้าไป ไม่ใช่ตรงกันข้าม"]
 },
 
 gen:{
@@ -1203,7 +1203,7 @@ gen:{
   var F=pick([20,40,50,80,100]), s=pick([3,5,8,10]), th=pick([0,30,60,90]);
   var cos={0:1,30:0.866,60:0.5,90:0}[th];
   if(sf==="S-04") return {stem:["A porter carries a suitcase at constant height along a level corridor. How much work does the lifting force do?",
-                                "พนักงานยกกระเป๋าเดินตามทางเดินราบที่ความสูงคงที่ แรงยกทำงานเท่าใด"],
+                                "พนักงานยกกระเป๋าเดินไปตามทางเดินราบ โดยถือกระเป๋าที่ความสูงคงที่ แรงยกทำงานเท่าไร"],
     opts:[{v:["Zero — the force is perpendicular to the motion","ศูนย์ เพราะแรงตั้งฉากกับการเคลื่อนที่"],ok:1},
           {v:["mgh, where h is the carrying height","mgh เมื่อ h คือความสูงที่หิ้ว"],trap:"T-03"},
           {v:["The weight times the corridor length","น้ำหนักคูณความยาวทางเดิน"],trap:"T-03"},
@@ -1218,7 +1218,7 @@ gen:{
 "M-02": function(sf){
   var m=pick([2,4,5,10]), v=pick([4,6,10,12]), Ek=0.5*m*v*v;
   if(sf==="S-04") return {stem:["A car doubles its speed. What happens to its kinetic energy?",
-                                "รถเพิ่มความเร็วเป็นสองเท่า พลังงานจลน์เปลี่ยนอย่างไร"],
+                                "รถเพิ่มอัตราเร็วเป็นสองเท่า พลังงานจลน์จะเปลี่ยนไปอย่างไร"],
     opts:[{v:["It becomes four times as large","เพิ่มเป็นสี่เท่า"],ok:1},
           {v:["It doubles","เพิ่มเป็นสองเท่า"],trap:"T-02"},
           {v:["It stays the same","เท่าเดิม"]},{v:["It becomes eight times as large","เพิ่มเป็นแปดเท่า"]}],unit:""};
@@ -1232,7 +1232,7 @@ gen:{
 "M-03": function(sf){
   var m=pick([2,5,10,20]), h=pick([3,5,8,12]), g=10, k=pick([100,200,400]), x=pick([0.1,0.2,0.5]);
   if(sf==="S-04") return {stem:["A spring is stretched twice as far. The energy it stores becomes:",
-                                "สปริงถูกยืดเป็นสองเท่า พลังงานที่เก็บไว้จะกลายเป็น"],
+                                "ยืดสปริงให้ยาวเป็นสองเท่า พลังงานที่สปริงเก็บไว้จะเป็น"],
     opts:[{v:["Four times as much","สี่เท่า"],ok:1},{v:["Twice as much","สองเท่า"],trap:"T-02"},
           {v:["The same","เท่าเดิม"]},{v:["Half as much","ครึ่งเดียว"]}],unit:""};
   if(sf==="S-03") return {stem:["A spring of stiffness "+k+" N/m is compressed by "+x+" m. How much energy is stored?",
@@ -1245,7 +1245,7 @@ gen:{
 "M-04": function(sf){
   var h=pick([5,10,20,45]), g=10, v=Math.sqrt(2*g*h);
   if(sf==="S-04") return {stem:["Two balls of different mass are dropped from the same height with no air resistance. Which lands faster?",
-                                "ลูกบอลสองลูกมวลต่างกันถูกปล่อยจากความสูงเดียวกันโดยไม่มีแรงต้านอากาศ ลูกใดถึงพื้นเร็วกว่า"],
+                                "ปล่อยลูกบอลสองลูกที่มวลต่างกันจากความสูงเท่ากัน โดยไม่มีแรงต้านอากาศ ลูกไหนถึงพื้นก่อน"],
     opts:[{v:["Neither — mass cancels out","ไม่มี เพราะมวลตัดกันหมด"],ok:1},
           {v:["The heavier one","ลูกที่หนักกว่า"]},{v:["The lighter one","ลูกที่เบากว่า"]},
           {v:["It depends on the drop height","ขึ้นกับความสูงที่ปล่อย"]}],unit:""};
@@ -1271,7 +1271,7 @@ gen:{
 "M-06": function(sf){
   var out=pick([120,300,450,800]), eff=pick([40,50,60,75]), inp=out*100/eff;
   if(sf==="S-04") return {stem:["A student calculates a machine's efficiency as 120%. What has gone wrong?",
-                                "นักเรียนคำนวณประสิทธิภาพเครื่องจักรได้ 120% เกิดอะไรผิดพลาด"],
+                                "นักเรียนคนหนึ่งคำนวณประสิทธิภาพของเครื่องจักรได้ 120% ผิดตรงไหน"],
     opts:[{v:["Input and output were swapped — efficiency cannot exceed 100%","สลับงานเข้ากับงานออก ประสิทธิภาพเกิน 100% ไม่ได้"],ok:1},
           {v:["Nothing, some machines exceed 100%","ไม่ผิด เครื่องจักรบางชนิดเกิน 100% ได้"],trap:"T-04"},
           {v:["The units were wrong","หน่วยผิด"]},{v:["Friction was included","รวมแรงเสียดทานเข้าไปด้วย"]}],unit:""};

@@ -18,7 +18,7 @@ kicker:["Physics · Chapter 03","ฟิสิกส์ · บทที่ 3"],
 title:["Force and Motion","แรงและกฎการเคลื่อนที่"],
 mapTitle:["Why anything accelerates","ทำไมสิ่งต่างๆ จึงมีความเร่ง"],
 lede:["Chapter 2 described motion without asking what caused it. This one supplies the cause. Almost every problem here reduces to the same two steps: draw every force, then add them as vectors.",
-      "บทที่ 2 บรรยายการเคลื่อนที่โดยไม่ถามว่าอะไรเป็นสาเหตุ บทนี้ให้คำตอบนั้น โจทย์เกือบทุกข้อในบทนี้ย่อลงเหลือสองขั้นตอนเดิมเสมอ คือวาดแรงให้ครบ แล้วรวมกันแบบเวกเตอร์"],
+      "บทที่ 2 อธิบายการเคลื่อนที่โดยยังไม่ถามว่าเกิดจากอะไร บทนี้จะตอบคำถามนั้น โจทย์เกือบทุกข้อในบทนี้ใช้สองขั้นตอนเดิมเสมอ คือวาดแรงให้ครบทุกแรง แล้วรวมแรงเหล่านั้นแบบเวกเตอร์"],
 next:["→ continues in Chapter 04 · Equilibrium","→ ต่อในบทที่ 4 · สมดุลกล"],
 
 nodes:[
@@ -26,8 +26,8 @@ nodes:[
   title:["Vectors","เวกเตอร์"],
   body:[["A force has size and direction, so forces add head to tail rather than as plain numbers. At right angles the resultant is R² = A² + B²; at any other angle you resolve each vector into components first.",
          "The resolving rule worth memorising: the component nearest the angle uses cosine, the component further from it uses sine. Getting this backwards is trap T-01 and it is the most expensive habit in the chapter."],
-        ["แรงมีทั้งขนาดและทิศทาง จึงต้องรวมแบบหัวต่อหางไม่ใช่บวกเป็นตัวเลขธรรมดา ถ้าตั้งฉากกันผลลัพธ์คือ R² = A² + B² ถ้าทำมุมอื่นต้องแตกเวกเตอร์เป็นองค์ประกอบก่อน",
-         "กฎแตกเวกเตอร์ที่ควรจำคือ ด้านที่ใกล้มุมใช้โคไซน์ ด้านที่ไกลมุมใช้ไซน์ การจำสลับกันคือกับดัก T-01 และเป็นนิสัยที่แพงที่สุดในบทนี้"]],
+        ["แรงมีทั้งขนาดและทิศทาง เราจึงรวมแรงแบบหัวต่อหาง ไม่ใช่บวกเลขธรรมดา ถ้าแรงตั้งฉากกัน แรงลัพธ์หาได้จาก R² = A² + B² ถ้าทำมุมอื่น ให้แตกแรงแต่ละแรงเป็นองค์ประกอบก่อน",
+         "กฎการแตกแรงที่ควรจำคือ องค์ประกอบที่อยู่ติดมุมใช้โคไซน์ องค์ประกอบที่อยู่ไกลมุมใช้ไซน์ ถ้าจำสลับกันจะติดกับดัก T-01 ซึ่งเป็นนิสัยที่ทำให้เสียคะแนนมากที่สุดในบทนี้"]],
   formula:["R² = A² + B² + 2AB cos θ","R² = A² + B² + 2AB cos θ"],
   flabel:["General case · θ = 90° gives Pythagoras","กรณีทั่วไป · θ = 90° ได้พีทาโกรัส"],
   viz:"vector",
@@ -37,22 +37,22 @@ nodes:[
   vizcfg:{ art:{ src:"drafting-grid.png", opacity:0.55, dark:"invert",
                  alt:["drafting grid","กระดาษตาราง"] },
            caption:["Fig 03.1 — vectors add head to tail, never as plain numbers",
-                    "รูป 03.1 — เวกเตอร์รวมแบบหัวต่อหาง ไม่ใช่บวกเป็นตัวเลขธรรมดา"] },
+                    "รูป 03.1 — เวกเตอร์รวมกันแบบหัวต่อหาง ไม่ใช่บวกเลขธรรมดา"] },
   guide:[
     {say:["Two vectors at right angles. The red resultant closes the triangle, and its length is √(A²+B²).",
-          "เวกเตอร์สองตัวตั้งฉากกัน ผลลัพธ์สีแดงปิดสามเหลี่ยม และความยาวของมันคือ √(A²+B²)"], set:{A:12,tA:0,B:9,tB:90}},
+          "เวกเตอร์สองตัวตั้งฉากกัน เวกเตอร์ลัพธ์สีแดงปิดรูปสามเหลี่ยม และมีความยาว √(A²+B²)"], set:{A:12,tA:0,B:9,tB:90}},
     {say:["Swing B round to 180°. Opposing vectors subtract — the resultant shrinks to the difference.",
-          "หมุน B ไปที่ 180° เวกเตอร์ที่สวนทางกันจะหักล้าง ผลลัพธ์เหลือเท่ากับผลต่าง"], set:{A:12,tA:0,B:9,tB:180}},
+          "หมุน B ไปที่ 180° เวกเตอร์ที่ทิศตรงข้ามกันจะหักล้างกัน ลัพธ์จึงเหลือเท่ากับผลต่าง"], set:{A:12,tA:0,B:9,tB:180}},
     {say:["Now try 60°. Neither Pythagoras nor simple subtraction works — this is where the cosine rule earns its keep.",
-          "ลองที่ 60° ทั้งพีทาโกรัสและการลบตรงๆ ใช้ไม่ได้ นี่คือจุดที่กฎโคไซน์มีประโยชน์"], set:{A:12,tA:0,B:9,tB:60}}
+          "ลองที่ 60° ดู จะใช้พีทาโกรัสก็ไม่ได้ จะลบตรง ๆ ก็ไม่ได้ ตรงนี้เองที่ต้องใช้กฎของโคไซน์"], set:{A:12,tA:0,B:9,tB:60}}
   ]},
 
 { id:"force-types", x:100, y:150, requires:["vectors"], methods:["M-06"],
   title:["Kinds of force","ชนิดของแรง"],
   body:[["Weight W = mg always points down. The normal force N is perpendicular to the surface, and it is not automatically equal to the weight — on a slope it is mg cos θ, and in a lift it changes with the acceleration.",
          "Tension pulls away from the body along the string. Spring force is F = −kx, opposing whatever stretched it. Naming every force before writing a single equation is what a free-body diagram is for."],
-        ["น้ำหนัก W = mg ชี้ลงเสมอ แรงตั้งฉาก N ตั้งฉากกับพื้นผิว และไม่ได้เท่ากับน้ำหนักโดยอัตโนมัติ บนพื้นเอียงมีค่า mg cos θ และในลิฟต์จะเปลี่ยนไปตามความเร่ง",
-         "แรงตึงเชือกดึงออกจากวัตถุไปตามแนวเชือก แรงสปริงคือ F = −kx ต้านสิ่งที่ทำให้มันยืด การเรียกชื่อแรงทุกแรงก่อนเขียนสมการคือเหตุผลที่ต้องวาดแผนภาพวัตถุอิสระ"]],
+        ["น้ำหนัก W = mg ชี้ลงเสมอ ส่วนแรงปฏิกิริยาตั้งฉาก N ตั้งฉากกับผิวสัมผัส และไม่จำเป็นต้องเท่ากับน้ำหนัก บนพื้นเอียง N = mg cos θ ส่วนในลิฟต์ N จะเปลี่ยนไปตามความเร่ง",
+         "แรงตึงเชือกดึงวัตถุออกไปตามแนวเชือก แรงสปริงคือ F = −kx ซึ่งต้านทิศที่สปริงถูกยืด ก่อนเขียนสมการ ให้ระบุแรงทุกแรงให้ครบก่อน นั่นคือเหตุผลที่เราวาดแผนภาพวัตถุอิสระ"]],
   formula:["W = mg    N = mg cos θ    F_spring = −kx","W = mg    N = mg cos θ    F_spring = −kx"],
   flabel:["N equals mg only on level ground","N เท่ากับ mg เฉพาะบนพื้นราบเท่านั้น"],
   viz:"fbd",
@@ -80,15 +80,15 @@ nodes:[
               {mag:p.push, ang:0, lab:["push","ผลัก"], col:"accent"},
               {mag:Math.min(p.push, p.mu*W), ang:180, lab:["f","f"], col:"warn"}];
     },
-    note:["N balances W here, so only the horizontal pair decides the motion","ตรงนี้ N สมดุลกับ W แรงคู่แนวราบจึงเป็นตัวตัดสินการเคลื่อนที่"]
+    note:["N balances W here, so only the horizontal pair decides the motion","ในที่นี้ N สมดุลกับ W พอดี ดังนั้นการเคลื่อนที่จึงขึ้นอยู่กับแรงคู่ในแนวระดับเท่านั้น"]
   } },
 
 { id:"newton1", x:370, y:150, requires:["vectors"], methods:[],
   title:["The first law","กฎข้อที่หนึ่ง"],
   body:[["With no resultant force a body keeps doing exactly what it was doing — staying still, or moving in a straight line at constant speed. Motion needs no cause; only a change of motion does.",
          "This is why a puck on ice does not need a push to keep sliding, and why the honest question in any problem is never why is it moving but why is it accelerating."],
-        ["เมื่อไม่มีแรงลัพธ์ วัตถุจะทำสิ่งที่ทำอยู่ต่อไปพอดี คืออยู่นิ่งหรือเคลื่อนที่เป็นเส้นตรงด้วยอัตราเร็วคงที่ การเคลื่อนที่ไม่ต้องการสาเหตุ มีเพียงการเปลี่ยนแปลงการเคลื่อนที่เท่านั้นที่ต้องการ",
-         "นี่คือเหตุผลที่ลูกฮ็อกกี้บนน้ำแข็งไม่ต้องถูกผลักเพื่อไถลต่อ และคำถามที่แท้จริงในโจทย์ไม่ใช่ทำไมมันเคลื่อนที่ แต่คือทำไมมันมีความเร่ง"]],
+        ["ถ้าไม่มีแรงลัพธ์ วัตถุจะคงสภาพเดิมไว้ คือหยุดนิ่งอยู่ หรือเคลื่อนที่เป็นเส้นตรงด้วยอัตราเร็วคงที่ การเคลื่อนที่ไม่ต้องมีสาเหตุ ต้องมีสาเหตุก็ต่อเมื่อการเคลื่อนที่เปลี่ยนไป",
+         "เพราะอย่างนี้ลูกฮ็อกกี้บนน้ำแข็งจึงไถลต่อไปได้โดยไม่ต้องมีใครผลัก และคำถามที่ควรถามในโจทย์ไม่ใช่ \"ทำไมมันจึงเคลื่อนที่\" แต่คือ \"ทำไมมันจึงมีความเร่ง\""]],
   formula:["ΣF = 0  ⟹  v constant","ΣF = 0  ⟹  v คงที่"],
   flabel:["Inertia","ความเฉื่อย"],
   viz:"fbd",
@@ -113,23 +113,23 @@ nodes:[
       return [{mag:p.left,  ang:180, lab:["F","F"], col:"soft"},
               {mag:p.right, ang:0,   lab:["F","F"], col:"accent"}];
     },
-    note:["the first law is about CHANGE of velocity, not about being still","กฎข้อที่หนึ่งพูดถึงการเปลี่ยนความเร็ว ไม่ใช่การอยู่นิ่ง"]
+    note:["the first law is about CHANGE of velocity, not about being still","กฎข้อที่หนึ่งพูดถึงการเปลี่ยนแปลงของความเร็ว ไม่ได้พูดถึงการอยู่นิ่ง"]
   },
   guide:[
     {say:["Equal and opposite pulls. Net force is zero, so whatever the block was doing, it keeps doing.",
-          "ดึงเท่ากันสวนทางกัน แรงลัพธ์เป็นศูนย์ วัตถุจึงทำสิ่งที่ทำอยู่ต่อไป"], set:{left:20,right:20,m:5}},
+          "ดึงด้วยแรงเท่ากันในทิศตรงข้าม แรงลัพธ์เป็นศูนย์ ก้อนวัตถุจึงทำสิ่งที่ทำอยู่ต่อไป"], set:{left:20,right:20,m:5}},
     {say:["Tip the balance by 5 N and an acceleration appears. Only an imbalance changes velocity.",
-          "ทำให้เสียสมดุลไป 5 นิวตัน ความเร่งก็ปรากฏขึ้น มีเพียงความไม่สมดุลเท่านั้นที่เปลี่ยนความเร็ว"], set:{left:20,right:25,m:5}},
+          "ถ้าแรงไม่สมดุลอยู่ 5 N ก็จะเกิดความเร่ง ความเร็วเปลี่ยนได้ก็ต่อเมื่อแรงไม่สมดุลเท่านั้น"], set:{left:20,right:25,m:5}},
     {say:["Same imbalance, four times the mass. The acceleration drops — that is inertia, quantified.",
-          "ความไม่สมดุลเท่าเดิม มวลมากขึ้นสี่เท่า ความเร่งลดลง นั่นคือความเฉื่อยที่วัดออกมาเป็นตัวเลข"], set:{left:20,right:25,m:20}}
+          "แรงไม่สมดุลเท่าเดิม แต่มวลมากขึ้นสี่เท่า ความเร่งจึงลดลง นี่คือความเฉื่อยที่วัดเป็นตัวเลขได้"], set:{left:20,right:25,m:20}}
   ] },
 
 { id:"newton2", x:235, y:248, requires:["force-types","newton1"], methods:["M-03"],
   title:["The second law","กฎข้อที่สอง"],
   body:[["ΣF = ma. The resultant force, not any single force, sets the acceleration — and it is inversely proportional to mass. For a connected system, use the total external force over the total mass, then return to each body separately for the internal forces.",
          "The lab shows the consequence: a constant resultant force produces a constant acceleration, which is exactly the straight-line v–t trace from Chapter 2."],
-        ["ΣF = ma แรงลัพธ์ ไม่ใช่แรงใดแรงหนึ่ง เป็นตัวกำหนดความเร่ง และความเร่งแปรผกผันกับมวล สำหรับระบบที่ผูกกัน ให้ใช้แรงภายนอกรวมหารด้วยมวลรวม แล้วค่อยกลับมาพิจารณาแต่ละก้อนเพื่อหาแรงภายใน",
-         "ห้องทดลองแสดงผลที่ตามมา แรงลัพธ์คงที่ทำให้เกิดความเร่งคงที่ ซึ่งก็คือกราฟ v–t เส้นตรงจากบทที่ 2 นั่นเอง"]],
+        ["ΣF = ma ความเร่งขึ้นกับแรงลัพธ์ ไม่ใช่แรงใดแรงหนึ่ง และแปรผกผันกับมวล ถ้าเป็นระบบที่เชื่อมกัน ให้ใช้แรงภายนอกรวมหารด้วยมวลรวม แล้วค่อยกลับมาดูแต่ละก้อนทีละก้อนเพื่อหาแรงภายใน",
+         "ห้องทดลองแสดงให้เห็นผลที่ตามมา แรงลัพธ์คงที่ทำให้ความเร่งคงที่ และกราฟ v–t ก็เป็นเส้นตรงเหมือนในบทที่ 2"]],
   formula:["ΣF = ma","ΣF = ma"],
   flabel:["Resultant force, total mass","แรงลัพธ์ มวลรวม"],
   viz:"stage",
@@ -137,7 +137,7 @@ nodes:[
     anim:true,
     spellName:["The Golem's Push: a = F / m","แรงผลักโกเลม: a = F / m"],
     question:["Drag the push. Why does {@golem} sometimes refuse to move — and when it moves, what sets how fast it speeds up?",
-              "ลากแรงผลัก ทำไมบางครั้ง{@golem}จึงไม่ขยับเลย และเมื่อขยับ อะไรกำหนดว่ามันเร่งเร็วแค่ไหน"],
+              "ลองลากแรงผลัก ทำไมบางครั้ง{@golem}ไม่ขยับเลย และเมื่อขยับแล้ว อะไรกำหนดว่ามันจะเร่งเร็วแค่ไหน"],
     ctrls:[
       {k:"F", lab:["Push F","แรงผลัก F"], min:0, max:100, step:5, def:60, unit:" N"},
       {k:"m", lab:["Mass of {@golem}","มวลของ{@golem}"], min:4, max:20, step:1, def:8, unit:" kg"},
@@ -262,7 +262,7 @@ nodes:[
                                               "มันขยับแล้ว แรงเสียดทานยึดได้ถึง μmg = "+fmt(g.lim)+" N และ "+g.F+" N คือแรงแรกที่เกินค่านั้น"]};
           if(!r.moves) return {ok:false, msg:["Nothing moves: friction simply matched your "+p.F+" N. How much can it grip at most?",
                                               "ไม่ขยับ แรงเสียดทานต้านแรง "+p.F+" N ได้พอดี มันยึดได้มากที่สุดเท่าใด"]};
-          return {ok:false, msg:["It moves — but a smaller push would too. Friction holds up to μmg.","ขยับแล้ว แต่แรงที่น้อยกว่านี้ก็ขยับได้ แรงเสียดทานยึดได้ไม่เกิน μmg"]};
+          return {ok:false, msg:["It moves — but a smaller push would too. Friction holds up to μmg.","ขยับแล้ว แต่แรงที่น้อยกว่านี้ก็ขยับได้เหมือนกัน เพราะแรงเสียดทานต้านได้มากสุด μmg"]};
         }
         if(p.m===g.m) return {ok:true, msg:["m = F / (a + μg) = "+g.F+" / ("+g.a+" + 0.5) = "+g.m+" kg. Friction's share, μg = 0.5 m/s², comes off whatever the mass; the rest of a is F / m.",
                                            "m = F / (a + μg) = "+g.F+" / ("+g.a+" + 0.5) = "+g.m+" กก. ส่วนของแรงเสียดทาน μg = 0.5 ม./วิ² ถูกหักออกเสมอไม่ว่ามวลเท่าใด ส่วนที่เหลือของ a คือ F / m"]};
@@ -271,15 +271,15 @@ nodes:[
       }
     },
     note:["the resultant force, not the push, sets the acceleration — and friction only pushes back as hard as it has to",
-          "แรงลัพธ์ ไม่ใช่แรงผลัก เป็นตัวกำหนดความเร่ง และแรงเสียดทานต้านกลับเท่าที่จำเป็นเท่านั้น"]
+          "ความเร่งขึ้นกับแรงลัพธ์ ไม่ใช่แรงผลัก และแรงเสียดทานต้านกลับเท่าที่จำเป็นเท่านั้น"]
   },
   guide:[
     {say:["On ice a modest push is plenty: friction takes only a sliver, so nearly all of F becomes ma. Press play.",
-          "บนน้ำแข็ง แรงผลักไม่มากก็พอ แรงเสียดทานกินไปนิดเดียว เกือบทั้งหมดของ F กลายเป็น ma กดเล่น"], set:{F:40,m:8,s:0,T:4}},
+          "บนน้ำแข็งผลักเบา ๆ ก็พอ เพราะแรงเสียดทานมีนิดเดียว F เกือบทั้งหมดจึงกลายเป็น ma กดเล่นดู"], set:{F:40,m:8,s:0,T:4}},
     {say:["Same push on moss. Friction can grip up to μmg = 48 N, more than 40 N, so it matches the push and nothing moves.",
-          "แรงเดิมบนมอส แรงเสียดทานยึดได้ถึง μmg = 48 N มากกว่า 40 N จึงต้านพอดีและไม่มีอะไรขยับ"], set:{F:40,m:8,s:2,T:4}},
+          "ผลักด้วยแรงเท่าเดิมบนมอส แรงเสียดทานต้านได้ถึง μmg = 48 N ซึ่งมากกว่า 40 N จึงเท่ากับแรงผลักพอดี และไม่มีอะไรขยับ"], set:{F:40,m:8,s:2,T:4}},
     {say:["Push harder than the grip and {@golem} goes — but only the resultant, F − f, accelerates it. Watch the last two bars match.",
-          "ผลักแรงกว่าแรงยึด {@golem}ก็ไป แต่มีเพียงแรงลัพธ์ F − f เท่านั้นที่ทำให้เกิดความเร่ง สังเกตสองแถบสุดท้ายเท่ากัน"], set:{F:80,m:8,s:2,T:4}}
+          "ถ้าผลักแรงกว่าที่เสียดทานจะต้านไหว {@golem}ก็เคลื่อนที่ แต่ที่ทำให้เกิดความเร่งคือแรงลัพธ์ F − f เท่านั้น ลองดูว่าสองแถบสุดท้ายมีขนาดเท่ากัน"], set:{F:80,m:8,s:2,T:4}}
   ]
 },
 
@@ -287,8 +287,8 @@ nodes:[
   title:["Friction","แรงเสียดทาน"],
   body:[["Friction depends on the normal force, never directly on weight and never on contact area. While the body is still, static friction takes whatever value it needs up to μsN. Once sliding, kinetic friction is fixed at μkN.",
          "Because N is not always mg, substituting weight for the normal force on a slope is trap T-03 — and on an incline N = mg cos θ, which is always smaller."],
-        ["แรงเสียดทานขึ้นกับแรงตั้งฉาก ไม่ได้ขึ้นกับน้ำหนักโดยตรงและไม่ขึ้นกับพื้นที่สัมผัส ขณะวัตถุยังนิ่ง แรงเสียดทานสถิตจะปรับค่าตามที่จำเป็นได้ถึง μsN เมื่อไถลแล้ว แรงเสียดทานจลน์คงที่ที่ μkN",
-         "เพราะ N ไม่ได้เท่ากับ mg เสมอ การแทนน้ำหนักลงในตำแหน่งแรงตั้งฉากบนพื้นเอียงจึงเป็นกับดัก T-03 บนพื้นเอียง N = mg cos θ ซึ่งน้อยกว่าเสมอ"]],
+        ["แรงเสียดทานขึ้นกับแรงตั้งฉาก ไม่ได้ขึ้นกับน้ำหนักโดยตรง และไม่ขึ้นกับพื้นที่สัมผัส ตอนที่วัตถุยังนิ่ง แรงเสียดทานสถิตจะมีค่าเท่าที่จำเป็น แต่ไม่เกิน μsN พอวัตถุไถลแล้ว แรงเสียดทานจลน์จะคงที่ที่ μkN",
+         "N ไม่ได้เท่ากับ mg เสมอไป ถ้าบนพื้นเอียงเอาน้ำหนักไปแทนแรงตั้งฉาก ก็ติดกับดัก T-03 บนพื้นเอียง N = mg cos θ ซึ่งน้อยกว่า mg เสมอ"]],
   formula:["f_s ≤ μ_s N      f_k = μ_k N","f_s ≤ μ_s N      f_k = μ_k N"],
   flabel:["μ_s > μ_k always","μ_s > μ_k เสมอ"],
   viz:"plot",
@@ -320,23 +320,23 @@ nodes:[
         var s=S.p.mus*S.p.m*9.8;
         return fmt(S.p.F<=s ? 0 : S.p.F-S.p.muk*S.p.m*9.8)+" N"; }}
     ],
-    note:["static friction is not a fixed number — it grows to match, up to a limit","เสียดทานสถิตไม่ใช่ค่าคงที่ มันโตขึ้นตามแรงที่กระทำจนถึงขีดจำกัด"]
+    note:["static friction is not a fixed number — it grows to match, up to a limit","แรงเสียดทานสถิตไม่ใช่ค่าคงที่ แต่เพิ่มขึ้นตามแรงที่ผลักจนถึงค่าสูงสุด"]
   },
   guide:[
     {say:["Push gently. Friction rises to exactly cancel the push — the line is a 45° diagonal.",
-          "ผลักเบาๆ แรงเสียดทานเพิ่มขึ้นหักล้างแรงผลักพอดี เส้นกราฟจึงเป็นเส้นทแยง 45°"], set:{m:3,mus:.5,muk:.3,F:8}},
+          "ผลักเบา ๆ แรงเสียดทานจะเพิ่มขึ้นมาหักล้างแรงผลักพอดี กราฟจึงเป็นเส้นทแยงมุม 45°"], set:{m:3,mus:.5,muk:.3,F:8}},
     {say:["Push harder and you climb the diagonal. Nothing moves yet, but friction is working harder.",
-          "ผลักแรงขึ้น เราไต่ขึ้นไปตามเส้นทแยง ยังไม่มีอะไรขยับ แต่แรงเสียดทานทำงานหนักขึ้น"], set:{m:3,mus:.5,muk:.3,F:14}},
+          "ผลักแรงขึ้น เราก็ไต่ขึ้นไปตามเส้นทแยงมุม วัตถุยังไม่ขยับ แต่แรงเสียดทานต้องออกแรงต้านมากขึ้น"], set:{m:3,mus:.5,muk:.3,F:14}},
     {say:["Cross the peak and it breaks loose. Friction DROPS to the kinetic value — that is the sudden lurch.",
-          "ผ่านจุดสูงสุดไป วัตถุหลุดออก แรงเสียดทานลดลงสู่ค่าจลน์ นั่นคือการกระตุกที่รู้สึกได้"], set:{m:3,mus:.5,muk:.3,F:22}}
+          "พอผ่านจุดสูงสุด วัตถุก็หลุดไถล แรงเสียดทานลดลงมาเป็นค่าจลน์ นี่คือสาเหตุที่รู้สึกว่าวัตถุกระตุกพุ่งไปทันที"], set:{m:3,mus:.5,muk:.3,F:22}}
   ] },
 
 { id:"newton3", x:370, y:346, requires:["newton2"], methods:["M-05"],
   title:["The third law","กฎข้อที่สาม"],
   body:[["Forces come in pairs of equal size and opposite direction. The pair always acts on two different bodies, which is why the two never cancel each other.",
          "If a book rests on a table, the pair to the book's weight is the pull the book exerts on the Earth — not the table's normal force. Confusing a Newton pair with balanced forces on one body is trap T-02."],
-        ["แรงเกิดเป็นคู่ที่มีขนาดเท่ากันและทิศตรงข้าม คู่แรงนี้กระทำกับวัตถุคนละก้อนเสมอ ซึ่งเป็นเหตุผลว่าทำไมทั้งสองจึงไม่มีวันหักล้างกัน",
-         "ถ้าหนังสือวางบนโต๊ะ คู่ของน้ำหนักหนังสือคือแรงที่หนังสือดึงโลก ไม่ใช่แรงตั้งฉากจากโต๊ะ การสับสนคู่กิริยา–ปฏิกิริยากับแรงสมดุลบนวัตถุเดียวคือกับดัก T-02"]],
+        ["แรงเกิดเป็นคู่ ขนาดเท่ากันและทิศตรงข้ามกัน แรงคู่นี้กระทำต่อวัตถุคนละก้อนเสมอ จึงไม่มีทางหักล้างกัน",
+         "ถ้าหนังสือวางอยู่บนโต๊ะ แรงคู่ของน้ำหนักหนังสือคือแรงที่หนังสือดึงโลก ไม่ใช่แรงปฏิกิริยาตั้งฉากจากโต๊ะ ถ้าเอาแรงคู่ตามกฎของนิวตันไปปนกับแรงสมดุลที่กระทำต่อวัตถุก้อนเดียว ก็ติดกับดัก T-02"]],
   formula:["F₁₂ = −F₂₁","F₁₂ = −F₂₁"],
   flabel:["Same size · opposite · different bodies","ขนาดเท่า · ทิศตรงข้าม · คนละวัตถุ"],
   viz:"bars",
@@ -362,15 +362,15 @@ nodes:[
       {lab:["Acceleration of A","ความเร่ง A"], f:function(p){ return p.F/p.mA; }, col:"good"},
       {lab:["Acceleration of B","ความเร่ง B"], f:function(p){ return p.F/p.mB; }, col:"warn"}
     ],
-    note:["the two red bars can never differ — only the green and amber ones can","แถบสีแดงสองแถบต่างกันไม่ได้เลย มีเพียงแถบเขียวกับเหลืองอำพันที่ต่างกันได้"]
+    note:["the two red bars can never differ — only the green and amber ones can","แถบสีแดงสองแถบไม่มีทางต่างกัน ต่างกันได้เฉพาะแถบสีเขียวกับสีเหลืองอำพัน"]
   },
   guide:[
     {say:["The two force bars are identical. That is the third law, and no setting can break it.",
-          "แถบแรงสองแถบเท่ากันเป๊ะ นั่นคือกฎข้อที่สาม และไม่มีการตั้งค่าใดทำให้มันต่างกันได้"], set:{F:30,mA:2,mB:10}},
+          "แถบแรงสองแถบเท่ากันเป๊ะ นี่คือกฎข้อที่สาม และไม่ว่าจะตั้งค่าอย่างไรก็ทำให้ต่างกันไม่ได้"], set:{F:30,mA:2,mB:10}},
     {say:["Yet the accelerations differ five-fold, because the masses do. Equal forces, unequal effects.",
-          "แต่ความเร่งต่างกันห้าเท่า เพราะมวลต่างกัน แรงเท่ากันแต่ผลไม่เท่ากัน"], set:{F:30,mA:2,mB:10}},
+          "แต่ความเร่งต่างกันห้าเท่า เพราะมวลต่างกันห้าเท่า แรงเท่ากันแต่ให้ผลไม่เท่ากัน"], set:{F:30,mA:2,mB:10}},
     {say:["Make the masses equal and the accelerations match too. The forces were never the difference.",
-          "ทำให้มวลเท่ากัน ความเร่งก็เท่ากันด้วย แรงไม่เคยเป็นตัวที่ทำให้ต่าง"], set:{F:30,mA:6,mB:6}}
+          "ลองทำให้มวลเท่ากัน ความเร่งก็จะเท่ากันด้วย แรงไม่ใช่ตัวที่ทำให้ต่างกัน"], set:{F:30,mA:6,mB:6}}
   ] }
 ],
 
@@ -384,10 +384,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["Sine and cosine swapped. The component nearest the angle takes the cosine.","สลับไซน์กับโคไซน์ ด้านที่ใกล้มุมใช้โคไซน์"],
-"T-02":["That is a balanced pair on one body, not a Newton pair. A third-law pair acts on two different bodies.","นั่นคือแรงสมดุลบนวัตถุเดียว ไม่ใช่คู่ตามกฎข้อสาม คู่กิริยา–ปฏิกิริยากระทำกับวัตถุคนละก้อน"],
-"T-03":["You used the weight where the normal force belongs. On a slope N = mg cos θ.","คุณใช้น้ำหนักแทนแรงตั้งฉาก บนพื้นเอียง N = mg cos θ"],
-"T-04":["A force was left out, or the wrong mass was used. ΣF means every external force, m means the whole system.","มีแรงตกหล่นหรือใช้มวลผิด ΣF คือแรงภายนอกทุกแรง และ m คือทั้งระบบ"]
+"T-01":["Sine and cosine swapped. The component nearest the angle takes the cosine.","สลับไซน์กับโคไซน์แล้ว องค์ประกอบที่อยู่ติดมุมใช้โคไซน์"],
+"T-02":["That is a balanced pair on one body, not a Newton pair. A third-law pair acts on two different bodies.","นั่นคือแรงสองแรงที่สมดุลกันบนวัตถุก้อนเดียว ไม่ใช่แรงคู่ตามกฎของนิวตัน แรงคู่ตามกฎข้อสามกระทำต่อวัตถุสองก้อนที่ต่างกัน"],
+"T-03":["You used the weight where the normal force belongs. On a slope N = mg cos θ.","คุณใช้น้ำหนักในที่ที่ต้องใช้แรงปฏิกิริยาตั้งฉาก บนพื้นเอียง N = mg cos θ"],
+"T-04":["A force was left out, or the wrong mass was used. ΣF means every external force, m means the whole system.","อาจลืมแรงบางแรง หรือใช้มวลผิด ΣF คือแรงภายนอกทุกแรงรวมกัน และ m คือมวลของทั้งระบบ"]
 },
 
 gen:{
@@ -396,7 +396,7 @@ gen:{
   var R={30:[0.866,0.5],37:[0.799,0.602],45:[0.707,0.707],53:[0.602,0.799],60:[0.5,0.866]}[th];
   var cx=F*R[0], cy=F*R[1];
   if(sf==="S-04") return {stem:["A force F acts at angle θ above the horizontal. Which is its horizontal component?",
-                                "แรง F ทำมุม θ กับแนวราบ องค์ประกอบตามแนวราบคือข้อใด"],
+                                "แรง F กระทำทำมุม θ เหนือแนวราบ องค์ประกอบในแนวราบคือข้อใด"],
     opts:[{v:"F cos θ",ok:1},{v:"F sin θ",trap:"T-01"},{v:"F tan θ"},{v:"F / cos θ"}],unit:""};
   if(sf==="S-05") return {stem:["A force has a horizontal component of "+fmt(cx)+" N at "+th+"° to the horizontal. Find the force.",
                                 "แรงหนึ่งมีองค์ประกอบแนวราบ "+fmt(cx)+" นิวตัน ทำมุม "+th+"° กับแนวราบ จงหาขนาดแรง"],
@@ -409,7 +409,7 @@ gen:{
   var A=pick([3,6,8,9,12]), B=pick([4,8,15,12,5]);
   var R=Math.sqrt(A*A+B*B);
   if(sf==="S-04") return {stem:["Two perpendicular forces A and B act on a body. What is the magnitude of the resultant?",
-                                "แรงตั้งฉากสองแรง A และ B กระทำต่อวัตถุ ขนาดของแรงลัพธ์คือข้อใด"],
+                                "แรง A และ B ตั้งฉากกันและกระทำต่อวัตถุ แรงลัพธ์มีขนาดเท่าใด"],
     opts:[{v:"√(A² + B²)",ok:1},{v:"A + B"},{v:"|A − B|"},{v:"AB"}],unit:""};
   return {stem:["Forces of "+A+" N and "+B+" N act at right angles. Find the resultant.",
                 "แรง "+A+" นิวตัน และ "+B+" นิวตัน กระทำตั้งฉากกัน จงหาแรงลัพธ์"],
@@ -424,7 +424,7 @@ gen:{
                                 "รถเข็นมวล "+m+" กิโลกรัม ถูกผลักบนพื้นไร้แรงเสียดทานด้วยแรงคงที่ "+F+" นิวตัน จงหาความเร่ง"],
     opts:[{v:fmt(a),ok:1},{v:fmt(F*m),trap:"T-04"},{v:fmt(m/F)},{v:fmt(F/(m*10))}],unit:" m/s²"};
   if(sf==="S-04") return {stem:["Two blocks joined by a string are pulled as one system. Which mass goes into ΣF = ma?",
-                                "กล่องสองใบผูกด้วยเชือกถูกดึงเป็นระบบเดียว ควรใช้มวลใดใน ΣF = ma"],
+                                "กล่องสองใบผูกกันด้วยเชือกแล้วดึงเป็นระบบเดียว ใน ΣF = ma ต้องใช้มวลเท่าใด"],
     opts:[{v:["The total mass of both blocks","มวลรวมของกล่องทั้งสอง"],ok:1},
           {v:["The mass of the front block only","มวลของกล่องหน้าเท่านั้น"],trap:"T-04"},
           {v:["The mass of the heavier block","มวลของกล่องที่หนักกว่า"],trap:"T-04"},
@@ -440,7 +440,7 @@ gen:{
                                              "กล่องมวล "+m+" กิโลกรัม วางบนพื้นเอียง "+th+"° ที่มี μ = "+mu+" จงหาแรงเสียดทาน"],
     opts:[{v:fmt(mu*m*g*cos),ok:1},{v:fmt(mu*m*g),trap:"T-03"},{v:fmt(m*g*cos)},{v:fmt(mu*m)}],unit:" N"};
   if(sf==="S-04") return {stem:["Doubling the contact area between a block and the floor does what to the friction force?",
-                                "การเพิ่มพื้นที่สัมผัสระหว่างกล่องกับพื้นเป็นสองเท่า ส่งผลต่อแรงเสียดทานอย่างไร"],
+                                "ถ้าเพิ่มพื้นที่สัมผัสระหว่างกล่องกับพื้นเป็นสองเท่า แรงเสียดทานจะเป็นอย่างไร"],
     opts:[{v:["Nothing — friction does not depend on area","ไม่เปลี่ยน แรงเสียดทานไม่ขึ้นกับพื้นที่"],ok:1},
           {v:["Doubles it","เพิ่มเป็นสองเท่า"]},{v:["Halves it","ลดลงครึ่งหนึ่ง"]},
           {v:["Depends on the material only","ขึ้นกับวัสดุเท่านั้น"]}],unit:""};
@@ -449,10 +449,10 @@ gen:{
     opts:[{v:fmt(mu*m*g),ok:1},{v:fmt(m*g)},{v:fmt(mu*m)},{v:fmt(mu*g)}],unit:" N"};
 },
 "M-05": function(sf){
-  var C=[{s:["A book rests on a table. What is the Newton pair to the book's weight?","หนังสือวางบนโต๊ะ คู่กิริยา–ปฏิกิริยาของน้ำหนักหนังสือคืออะไร"],
+  var C=[{s:["A book rests on a table. What is the Newton pair to the book's weight?","หนังสือวางอยู่บนโต๊ะ แรงคู่ตามกฎของนิวตันของน้ำหนักหนังสือคือแรงใด"],
           ok:["The book pulling the Earth upward","หนังสือดึงโลกขึ้น"],
           w:[["The table pushing the book up","โต๊ะดันหนังสือขึ้น"],["The book pushing the table down","หนังสือกดโต๊ะลง"],["The weight of the table","น้ำหนักของโต๊ะ"]]},
-         {s:["A swimmer pushes water backwards. What is the reaction?","นักว่ายน้ำผลักน้ำไปข้างหลัง ปฏิกิริยาคืออะไร"],
+         {s:["A swimmer pushes water backwards. What is the reaction?","นักว่ายน้ำผลักน้ำไปข้างหลัง แรงปฏิกิริยาคือแรงใด"],
           ok:["The water pushes the swimmer forwards","น้ำผลักนักว่ายน้ำไปข้างหน้า"],
           w:[["The swimmer's weight","น้ำหนักของนักว่ายน้ำ"],["The upthrust on the swimmer","แรงพยุงนักว่ายน้ำ"],["Drag on the swimmer","แรงต้านนักว่ายน้ำ"]]}];
   var c=pick(C);

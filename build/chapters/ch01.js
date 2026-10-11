@@ -4,7 +4,7 @@ kicker:["Physics · Chapter 01","ฟิสิกส์ · บทที่ 1"],
 title:["Measurement","การวัด"],
 mapTitle:["Before any physics, a language","ก่อนจะมีฟิสิกส์ ต้องมีภาษา"],
 lede:["Every later chapter reports a number. This one decides what a number is allowed to mean — which units it wears, how many of its digits are real, and how much of it is doubt.",
-      "ทุกบทหลังจากนี้ล้วนรายงานเป็นตัวเลข บทนี้จึงกำหนดว่าตัวเลขหนึ่งมีความหมายได้แค่ไหน สวมหน่วยอะไร มีกี่หลักที่เชื่อถือได้ และมีความไม่แน่นอนเท่าใด"],
+      "ทุกบทต่อจากนี้ต้องรายงานผลเป็นตัวเลข บทนี้จึงมาดูว่าตัวเลขหนึ่งตัวบอกอะไรเราได้บ้าง ต้องมีหน่วยอะไรกำกับ มีกี่หลักที่เชื่อถือได้ และมีความไม่แน่นอนอยู่เท่าไร"],
 next:["→ continues in Chapter 02 · Linear Motion","→ ต่อในบทที่ 2 · การเคลื่อนที่แนวตรง"],
 
 nodes:[
@@ -12,8 +12,8 @@ nodes:[
   title:["SI base quantities","ปริมาณฐาน SI"],
   body:[["Seven quantities are defined rather than derived: length (m), mass (kg), time (s), temperature (K), electric current (A), amount of substance (mol), and luminous intensity (cd). Everything else in physics is built from these.",
          "Physics is unusual in that its vocabulary is finite and agreed. If a quantity cannot be written in these seven, it is not a physical quantity."],
-        ["มีเจ็ดปริมาณที่ถูก \"นิยาม\" ไม่ใช่ \"อนุมาน\" ได้แก่ ความยาว (m) มวล (kg) เวลา (s) อุณหภูมิ (K) กระแสไฟฟ้า (A) ปริมาณสาร (mol) และความเข้มการส่องสว่าง (cd) ทุกอย่างที่เหลือในฟิสิกส์สร้างขึ้นจากเจ็ดตัวนี้",
-         "ฟิสิกส์แปลกตรงที่คำศัพท์มีจำกัดและตกลงกันไว้แล้ว ถ้าปริมาณใดเขียนด้วยเจ็ดตัวนี้ไม่ได้ ปริมาณนั้นก็ไม่ใช่ปริมาณทางฟิสิกส์"]],
+        ["ปริมาณทั้งเจ็ดนี้เป็นปริมาณที่ \"นิยาม\" ขึ้น ไม่ได้ \"คำนวณ\" มาจากปริมาณอื่น ได้แก่ ความยาว (m) มวล (kg) เวลา (s) อุณหภูมิ (K) กระแสไฟฟ้า (A) ปริมาณสาร (mol) และความเข้มการส่องสว่าง (cd) ส่วนที่เหลือทั้งหมดในฟิสิกส์สร้างจากเจ็ดตัวนี้",
+         "ฟิสิกส์มีลักษณะพิเศษตรงที่ศัพท์พื้นฐานมีจำนวนจำกัดและทุกคนตกลงร่วมกัน ถ้าปริมาณใดเขียนด้วยเจ็ดตัวนี้ไม่ได้ ก็ไม่ใช่ปริมาณทางฟิสิกส์"]],
   formula:["m · kg · s · K · A · mol · cd","m · kg · s · K · A · mol · cd"],
   flabel:["Seven, and only seven","เจ็ด และมีเพียงเจ็ด"],
   viz:"table",
@@ -40,15 +40,15 @@ nodes:[
         return r.map(function(c){ return {v:c, on:i===p.i}; });
       });
     },
-    note:["every other unit in physics is built from these seven","หน่วยอื่นทุกหน่วยในฟิสิกส์สร้างขึ้นจากเจ็ดตัวนี้"]
+    note:["every other unit in physics is built from these seven","หน่วยอื่นทุกหน่วยในฟิสิกส์สร้างจากเจ็ดหน่วยนี้"]
   } },
 
 { id:"derived", x:100, y:150, requires:["si"], methods:["M-06"],
   title:["Derived units","หน่วยอนุพันธ์"],
   body:[["A derived unit is just base units multiplied and divided. Velocity is m/s because it is displacement over time; force is kg·m/s² because it is mass times acceleration. The newton is a nickname, not a new idea.",
          "This gives you a free error check. Work out the units of both sides of any equation you write — if they disagree, the equation is wrong, and you have caught it before substituting a single number."],
-        ["หน่วยอนุพันธ์คือหน่วยฐานที่นำมาคูณหารกัน ความเร็วมีหน่วย m/s เพราะเป็นการกระจัดต่อเวลา แรงมีหน่วย kg·m/s² เพราะเป็นมวลคูณความเร่ง คำว่านิวตันเป็นเพียงชื่อเล่น ไม่ใช่แนวคิดใหม่",
-         "สิ่งนี้ให้เครื่องมือตรวจสอบฟรี ลองหาหน่วยของทั้งสองข้างในสมการที่เขียน ถ้าไม่ตรงกันแสดงว่าสมการผิด และคุณจับได้ก่อนแทนตัวเลขแม้แต่ตัวเดียว"]],
+        ["หน่วยอนุพันธ์ก็คือหน่วยฐานที่เอามาคูณหรือหารกัน ความเร็วมีหน่วย m/s เพราะเป็นการกระจัดหารด้วยเวลา แรงมีหน่วย kg·m/s² เพราะเป็นมวลคูณความเร่ง ส่วนนิวตันเป็นแค่ชื่อเล่น ไม่ใช่แนวคิดใหม่",
+         "เรื่องนี้ช่วยตรวจคำตอบได้ฟรี ลองหาหน่วยของสมการทั้งสองข้าง ถ้าหน่วยไม่ตรงกัน สมการนั้นผิดแน่ และเรารู้ได้ตั้งแต่ยังไม่ได้แทนค่าตัวเลขสักตัว"]],
   formula:["N = kg·m/s²    J = N·m    W = J/s","N = kg·m/s²    J = N·m    W = J/s"],
   flabel:["Nicknames for combinations of the seven","ชื่อเล่นของการรวมกันของเจ็ดหน่วยฐาน"],
   viz:"table",
@@ -73,15 +73,15 @@ nodes:[
              [["Frequency","ความถี่"],"hertz (Hz)","s⁻¹"]];
       return R.map(function(r,i){ return r.map(function(c){ return {v:c, on:i===p.i}; }); });
     },
-    note:["a newton is not a new idea — it is kg m s⁻² wearing a shorter name","นิวตันไม่ใช่แนวคิดใหม่ แต่คือ kg m s⁻² ที่สวมชื่อสั้นกว่า"]
+    note:["a newton is not a new idea — it is kg m s⁻² wearing a shorter name","นิวตันไม่ใช่แนวคิดใหม่ แต่คือ kg m s⁻² ที่ใช้ชื่อสั้นลง"]
   } },
 
 { id:"prefixes", x:370, y:150, requires:["si"], methods:["M-01","M-02"],
   title:["Prefixes and notation","คำอุปสรรคและสัญกรณ์"],
   body:[["A prefix is a power of ten wearing a name. Kilo is 10³, milli is 10⁻³, nano is 10⁻⁹. Scientific notation writes the same idea as A × 10ⁿ with 1 ≤ |A| < 10.",
          "Drive the scale below. The single most common error in this chapter is applying a prefix backwards — dividing when you should multiply — so watch which way the value moves as you slide."],
-        ["คำอุปสรรคคือเลขยกกำลังสิบที่สวมชื่อไว้ กิโลคือ 10³ มิลลิคือ 10⁻³ นาโนคือ 10⁻⁹ ส่วนสัญกรณ์วิทยาศาสตร์เขียนความคิดเดียวกันในรูป A × 10ⁿ โดย 1 ≤ |A| < 10",
-         "ลองเลื่อนสเกลด้านล่าง ข้อผิดพลาดที่พบบ่อยที่สุดในบทนี้คือใช้คำอุปสรรคกลับทาง หารทั้งที่ควรคูณ ให้สังเกตว่าค่าขยับไปทางไหนขณะเลื่อน"]],
+        ["คำอุปสรรคคือเลขยกกำลังสิบที่มีชื่อเรียก กิโลคือ 10³ มิลลิคือ 10⁻³ นาโนคือ 10⁻⁹ ส่วนสัญกรณ์วิทยาศาสตร์เขียนแนวคิดเดียวกันในรูป A × 10ⁿ โดย 1 ≤ |A| < 10",
+         "ลองเลื่อนสเกลด้านล่างดู ข้อผิดพลาดที่พบบ่อยที่สุดในบทนี้คือใช้คำอุปสรรคกลับทาง คือหารในที่ที่ต้องคูณ ขณะเลื่อนให้สังเกตว่าค่าเปลี่ยนไปทางไหน"]],
   formula:["A × 10ⁿ ,  1 ≤ |A| < 10","A × 10ⁿ ,  1 ≤ |A| < 10"],
   flabel:["Scientific notation","สัญกรณ์วิทยาศาสตร์"],
   viz:{
@@ -121,19 +121,19 @@ nodes:[
   },
   guide:[
     {say:["Slide the power of ten. Every step of three moves you one prefix along — and multiplies the plain value by a thousand.",
-          "เลื่อนเลขชี้กำลังสิบ ทุกๆ สามขั้นจะขยับไปหนึ่งคำอุปสรรค และคูณค่าเต็มด้วยหนึ่งพัน"], set:{e:3,m:1.5}},
+          "เลื่อนเลขชี้กำลังของสิบ ทุกๆ 3 ขั้นจะเปลี่ยนไปหนึ่งคำอุปสรรค และค่าเต็มจะเพิ่มขึ้นหนึ่งพันเท่า"], set:{e:3,m:1.5}},
     {say:["Negative exponents run the other way. Milli, micro, nano — each one divides by a thousand again.",
-          "เลขชี้กำลังลบวิ่งไปอีกทาง มิลลิ ไมโคร นาโน แต่ละขั้นหารด้วยหนึ่งพันอีกครั้ง"], set:{e:-6,m:2.4}},
+          "เลขชี้กำลังลบไปในทางตรงข้าม มิลลิ ไมโคร นาโน แต่ละขั้นเล็กลงหนึ่งพันเท่า"], set:{e:-6,m:2.4}},
     {say:["The mantissa must stay between 1 and 10. 15 × 10³ is not scientific notation — 1.5 × 10⁴ is.",
-          "ตัวเลขนำหน้าต้องอยู่ระหว่าง 1 ถึง 10  15 × 10³ ไม่ใช่สัญกรณ์วิทยาศาสตร์ แต่ 1.5 × 10⁴ ใช่"], set:{e:4,m:1.5}}
+          "ตัวเลขหน้า ×10 ต้องอยู่ระหว่าง 1 ถึง 10  15 × 10³ ยังไม่ใช่สัญกรณ์วิทยาศาสตร์ แต่ 1.5 × 10⁴ ใช่"], set:{e:4,m:1.5}}
   ]},
 
 { id:"sigfig", x:235, y:248, requires:["prefixes"], methods:["M-03","M-04"],
   title:["Significant figures","เลขนัยสำคัญ"],
   body:[["Significant figures record how much of a number you actually measured. Digits 1–9 always count. Zeros between digits count. Trailing zeros after a decimal point count. Leading zeros never do — 0.0047 has two significant figures, not four.",
          "When reporting a calculation: addition and subtraction follow the fewest decimal places; multiplication and division follow the fewest significant figures. These are different rules and mixing them up is trap T-03."],
-        ["เลขนัยสำคัญบันทึกว่าคุณวัดตัวเลขนั้นได้จริงกี่หลัก ตัวเลข 1–9 นับเสมอ ศูนย์ที่อยู่ระหว่างตัวเลขนับ ศูนย์ท้ายหลังจุดทศนิยมนับ แต่ศูนย์นำหน้าไม่เคยนับ 0.0047 มีเลขนัยสำคัญสองตัว ไม่ใช่สี่",
-         "เวลารายงานผลการคำนวณ การบวกลบให้ยึดจำนวนตำแหน่งทศนิยมที่น้อยที่สุด ส่วนการคูณหารให้ยึดจำนวนเลขนัยสำคัญที่น้อยที่สุด นี่เป็นคนละกฎกัน และการสับสนคือกับดัก T-03"]],
+        ["เลขนัยสำคัญบอกว่าเราวัดตัวเลขนั้นได้จริงกี่หลัก เลข 1–9 นับทุกตัว ศูนย์ที่อยู่ระหว่างเลขอื่นก็นับ ศูนย์ท้ายที่อยู่หลังจุดทศนิยมก็นับ แต่ศูนย์นำหน้าไม่นับเลย เช่น 0.0047 มีเลขนัยสำคัญ 2 ตัว ไม่ใช่ 4 ตัว",
+         "เมื่อรายงานผลการคำนวณ ถ้าบวกหรือลบ ให้ดูจำนวนตำแหน่งทศนิยมที่น้อยที่สุด ถ้าคูณหรือหาร ให้ดูจำนวนเลขนัยสำคัญที่น้อยที่สุด สองกฎนี้ไม่เหมือนกัน และการนำมาปนกันคือกับดัก T-03"]],
   formula:["+ −  →  fewest decimals      × ÷  →  fewest sig figs","+ −  →  ทศนิยมน้อยสุด      × ÷  →  นัยสำคัญน้อยสุด"],
   flabel:["Two different rules","สองกฎที่ต่างกัน"],
   viz:"grid",
@@ -158,25 +158,25 @@ nodes:[
       var S2=[[0,0,0,0,1,1],[1,1,1,1,0,1],[1,1,0,0,0,0],[0,0,0,1,1,1],[1,0,1,1,1,0]];
       return [D[p.i].map(function(d,j){ return {v:d, on:!!S2[p.i][j], col:"accent"}; })];
     },
-    note:["red digits are the significant ones · scientific notation removes the ambiguity","หลักสีแดงคือเลขนัยสำคัญ · สัญกรณ์วิทยาศาสตร์ขจัดความกำกวมนี้"]
+    note:["red digits are the significant ones · scientific notation removes the ambiguity","หลักสีแดงคือเลขนัยสำคัญ · เขียนด้วยสัญกรณ์วิทยาศาสตร์จะไม่กำกวม"]
   },
   guide:[
     {say:["Leading zeros are only placeholders — they locate the decimal point and count for nothing.",
-          "ศูนย์นำหน้าเป็นเพียงตัวคั่นตำแหน่ง มันบอกตำแหน่งจุดทศนิยมและไม่นับเป็นเลขนัยสำคัญ"], set:{i:0}},
+          "ศูนย์นำหน้าเป็นแค่ตัวบอกตำแหน่งจุดทศนิยม จึงไม่นับเป็นเลขนัยสำคัญ"], set:{i:0}},
     {say:["A zero trapped between two digits was measured, so it always counts.",
-          "ศูนย์ที่ติดอยู่ระหว่างตัวเลขสองตัวคือค่าที่วัดได้จริง จึงนับเสมอ"], set:{i:1}},
+          "ศูนย์ที่อยู่ระหว่างเลขสองตัวเป็นค่าที่วัดได้จริง จึงนับเสมอ"], set:{i:1}},
     {say:["45000 is the ambiguous case: are those zeros measured or padding? Only 4.50 × 10⁴ settles it.",
-          "45000 คือกรณีกำกวม ศูนย์เหล่านั้นวัดได้จริงหรือเป็นแค่ตัวเติม มีเพียง 4.50 × 10⁴ ที่ตอบได้ชัด"], set:{i:2}},
+          "45000 เป็นกรณีกำกวม ศูนย์พวกนี้วัดได้จริงหรือแค่เติมให้ครบหลัก มีแต่ 4.50 × 10⁴ เท่านั้นที่บอกได้ชัด"], set:{i:2}},
     {say:["A trailing zero AFTER a decimal point is a deliberate claim of precision, so it counts.",
-          "ศูนย์ท้ายที่อยู่หลังจุดทศนิยมคือการยืนยันความละเอียดอย่างตั้งใจ จึงนับ"], set:{i:4}}
+          "ศูนย์ท้ายที่อยู่หลังจุดทศนิยมเป็นการบอกตั้งใจว่าวัดละเอียดถึงหลักนั้น จึงนับ"], set:{i:4}}
   ] },
 
 { id:"uncertainty", x:235, y:346, requires:["sigfig"], methods:["M-05"],
   title:["Uncertainty","ความไม่แน่นอน"],
   body:[["No measurement is a point; it is an interval. Report it as x̄ ± Δx, where the mean is the average of your readings and Δx is half the spread between the largest and smallest.",
          "Uncertainties combine by two rules and only two. Adding or subtracting quantities: add the absolute uncertainties. Multiplying or dividing: add the percentage uncertainties. Using the wrong one is trap T-04."],
-        ["ไม่มีการวัดใดเป็นจุดเดียว ทุกการวัดเป็นช่วง รายงานในรูป x̄ ± Δx โดยค่าเฉลี่ยคือค่าเฉลี่ยของการอ่าน และ Δx คือครึ่งหนึ่งของผลต่างระหว่างค่ามากสุดกับน้อยสุด",
-         "ความไม่แน่นอนรวมกันด้วยสองกฎเท่านั้น การบวกลบให้บวกความไม่แน่นอนสัมบูรณ์ การคูณหารให้บวกเปอร์เซ็นต์ความไม่แน่นอน ใช้ผิดกฎคือกับดัก T-04"]],
+        ["ไม่มีการวัดใดให้ค่าเป็นจุดเดียว ผลที่ได้เป็นช่วงเสมอ ให้รายงานเป็น x̄ ± Δx โดย x̄ คือค่าเฉลี่ยของค่าที่อ่านได้ และ Δx คือครึ่งหนึ่งของผลต่างระหว่างค่ามากที่สุดกับค่าน้อยที่สุด",
+         "การรวมความไม่แน่นอนมีเพียงสองกฎ ถ้าบวกหรือลบปริมาณ ให้บวกความไม่แน่นอนสัมบูรณ์ ถ้าคูณหรือหาร ให้บวกความไม่แน่นอนเป็นเปอร์เซ็นต์ ใช้ผิดกฎคือกับดัก T-04"]],
   formula:["Δx̄ = (x_max − x_min) / 2","Δx̄ = (x_max − x_min) / 2"],
   flabel:["Half the spread","ครึ่งหนึ่งของพิสัย"],
   viz:"numline",
@@ -202,15 +202,15 @@ nodes:[
               {a:p.w-p.u, b:p.w+p.u, col:"good",   lab:["second ± u","ค่าที่สอง ± u"]}];
     },
     points:function(p){ return [{v:p.v, lab:["best estimate","ค่าที่ดีที่สุด"], col:"accent"}]; },
-    note:["two results agree when their bars overlap — not when the numbers match","สองผลลัพธ์ตรงกันเมื่อแถบซ้อนทับกัน ไม่ใช่เมื่อตัวเลขเท่ากัน"]
+    note:["two results agree when their bars overlap — not when the numbers match","ผลสองค่าตรงกันเมื่อแถบของมันซ้อนทับกัน ไม่ใช่เมื่อตัวเลขเท่ากันพอดี"]
   },
   guide:[
     {say:["A measurement is a band, not a point. The red bar is everywhere the true value could be.",
-          "ค่าที่วัดได้คือแถบ ไม่ใช่จุด แถบสีแดงคือทุกที่ที่ค่าจริงอาจอยู่"], set:{v:10,u:1,w:13}},
+          "ค่าที่วัดได้เป็นแถบ ไม่ใช่จุด แถบสีแดงครอบคลุมทุกตำแหน่งที่ค่าจริงอาจอยู่"], set:{v:10,u:1,w:13}},
     {say:["Widen the uncertainty. The bars now overlap, so the two readings agree after all.",
-          "ขยายความไม่แน่นอน แถบทั้งสองซ้อนกันแล้ว สองค่าจึงถือว่าตรงกัน"], set:{v:10,u:2.5,w:13}},
+          "ลองเพิ่มความไม่แน่นอน ตอนนี้แถบซ้อนทับกันแล้ว แสดงว่าสองค่านี้ตรงกัน"], set:{v:10,u:2.5,w:13}},
     {say:["A precise instrument narrows the bar. Now the same two readings clearly disagree.",
-          "เครื่องมือที่ละเอียดทำให้แถบแคบลง ตอนนี้สองค่าเดิมขัดแย้งกันชัดเจน"], set:{v:10,u:0.4,w:13}}
+          "เครื่องมือที่ละเอียดกว่าทำให้แถบแคบลง ตอนนี้ค่าสองค่าเดิมไม่ตรงกันอย่างชัดเจน"], set:{v:10,u:0.4,w:13}}
   ] }
 ],
 
@@ -224,10 +224,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["Prefix applied backwards — you divided where you should have multiplied.","ใช้คำอุปสรรคกลับทาง คุณหารทั้งที่ควรคูณ"],
-"T-02":["Leading zeros are never significant. 0.0047 has two significant figures.","ศูนย์นำหน้าไม่นับเป็นเลขนัยสำคัญ 0.0047 มีเลขนัยสำคัญสองตัว"],
-"T-03":["Wrong rule. Multiplication follows significant figures; addition follows decimal places.","ใช้ผิดกฎ การคูณยึดเลขนัยสำคัญ ส่วนการบวกยึดตำแหน่งทศนิยม"],
-"T-04":["Uncertainties add as absolutes for + and −, but as percentages for × and ÷.","ความไม่แน่นอนบวกแบบสัมบูรณ์สำหรับ + และ − แต่บวกแบบเปอร์เซ็นต์สำหรับ × และ ÷"]
+"T-01":["Prefix applied backwards — you divided where you should have multiplied.","ใช้คำอุปสรรคกลับทาง เราหารในที่ที่ต้องคูณ"],
+"T-02":["Leading zeros are never significant. 0.0047 has two significant figures.","ศูนย์นำหน้าไม่นับเป็นเลขนัยสำคัญ 0.0047 มีเลขนัยสำคัญ 2 ตัว"],
+"T-03":["Wrong rule. Multiplication follows significant figures; addition follows decimal places.","ใช้กฎผิด การคูณดูเลขนัยสำคัญ ส่วนการบวกดูตำแหน่งทศนิยม"],
+"T-04":["Uncertainties add as absolutes for + and −, but as percentages for × and ÷.","ถ้าบวกหรือลบ ให้บวกความไม่แน่นอนสัมบูรณ์ แต่ถ้าคูณหรือหาร ให้บวกเป็นเปอร์เซ็นต์"]
 },
 
 gen:{
@@ -237,7 +237,7 @@ gen:{
   var p=pick(P), v=ri(2,9)*(p.f>=1?1:10);
   var ans=v*p.f;
   var f=function(x){ return (Math.abs(x)>=1e4||Math.abs(x)<1e-3)?x.toExponential(2):String(Math.round(x*1e9)/1e9); };
-  if(sf==="S-04") return {stem:["The prefix micro (μ) stands for which factor?","คำอุปสรรคไมโคร (μ) แทนตัวคูณใด"],
+  if(sf==="S-04") return {stem:["The prefix micro (μ) stands for which factor?","คำอุปสรรคไมโคร (μ) หมายถึงตัวคูณใด"],
     opts:[{v:"10⁻⁶",ok:1},{v:"10⁻³",trap:"T-01"},{v:"10⁻⁹"},{v:"10⁶"}],unit:""};
   if(sf==="S-05") return {stem:["A length is "+f(ans)+" m. Express it in "+p.n[0]+".","ความยาวค่าหนึ่งเท่ากับ "+f(ans)+" เมตร จงเขียนในหน่วย"+p.n[1]],
     opts:[{v:String(v)},{v:f(ans*p.f),trap:"T-01"},{v:String(v*10)},{v:String(v/10)}].map(function(o,i){return i===0?{v:String(v),ok:1}:o;}),unit:" "+p.s};
@@ -262,7 +262,7 @@ gen:{
     opts:[{v:String(c.n),ok:1},{v:String(wrong[0]),trap:c.t||null},{v:String(wrong[1])},{v:String(wrong[2])}],unit:""};
 },
 "M-04": function(sf){
-  if(sf==="S-04") return {stem:["A result comes from multiplying 2.5 by 3.42. To how many significant figures should it be reported?","ผลลัพธ์มาจาก 2.5 คูณ 3.42 ควรรายงานด้วยเลขนัยสำคัญกี่ตัว"],
+  if(sf==="S-04") return {stem:["A result comes from multiplying 2.5 by 3.42. To how many significant figures should it be reported?","นำ 2.5 คูณ 3.42 ควรรายงานผลด้วยเลขนัยสำคัญกี่ตัว"],
     opts:[{v:"2",ok:1},{v:"3",trap:"T-03"},{v:"4"},{v:"5"}],unit:""};
   var a=ri(20,90)/10, b=ri(200,900)/100;
   var raw=a*b;

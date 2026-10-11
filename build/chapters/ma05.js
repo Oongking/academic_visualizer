@@ -4,7 +4,7 @@ kicker:["Mathematics · Chapter 05","คณิตศาสตร์ · บทท
 title:["Analytic Geometry","เรขาคณิตวิเคราะห์"],
 mapTitle:["Shapes written as equations","รูปทรงที่เขียนเป็นสมการ"],
 lede:["Descartes' idea was that every geometric statement can be turned into an algebraic one. Once a curve is an equation you stop drawing and start calculating — and the four conic sections all turn out to be the same equation wearing different signs.",
-      "ความคิดของเดการ์ตคือทุกข้อความทางเรขาคณิตเปลี่ยนเป็นพีชคณิตได้ เมื่อเส้นโค้งกลายเป็นสมการ เราก็เลิกวาดแล้วเริ่มคำนวณ และภาคตัดกรวยทั้งสี่ก็กลายเป็นสมการเดียวกันที่สวมเครื่องหมายต่างกัน"],
+      "แนวคิดของเดการ์ตคือ ข้อความทางเรขาคณิตทุกข้อเปลี่ยนเป็นข้อความทางพีชคณิตได้ เมื่อเส้นโค้งกลายเป็นสมการ เราก็ไม่ต้องวาดอีกต่อไป แต่คำนวณแทน และภาคตัดกรวยทั้งสี่แบบก็เป็นสมการเดียวกันที่ต่างกันแค่เครื่องหมาย"],
 next:["→ continues in Chapter 06 · Matrices","→ ต่อในบทที่ 6 · เมทริกซ์"],
 
 nodes:[
@@ -12,8 +12,8 @@ nodes:[
   title:["Points and lines","จุดและเส้นตรง"],
   body:[["Distance comes from Pythagoras, the midpoint from averaging, and the gradient from rise over run. A line through a known point with a known gradient is y − y₁ = m(x − x₁), which is worth preferring over y = mx + c because it needs no rearranging.",
          "Parallel lines share a gradient; perpendicular ones have gradients multiplying to −1, not to +1. The distance from a point to a line, |Ax₁ + By₁ + C| / √(A² + B²), is the one formula here that is genuinely worth memorising."],
-        ["ระยะทางมาจากพีทาโกรัส จุดกึ่งกลางมาจากการเฉลี่ย และความชันมาจากการเปลี่ยนแปลงตามแนวตั้งหารแนวนอน เส้นตรงที่ผ่านจุดที่รู้และมีความชันที่รู้คือ y − y₁ = m(x − x₁) ซึ่งควรใช้มากกว่า y = mx + c เพราะไม่ต้องจัดรูป",
-         "เส้นขนานมีความชันเท่ากัน เส้นตั้งฉากมีผลคูณความชันเป็น −1 ไม่ใช่ +1 ส่วนระยะจากจุดถึงเส้นตรง |Ax₁ + By₁ + C| / √(A² + B²) เป็นสูตรเดียวในหัวข้อนี้ที่ควรท่องจำจริงๆ"]],
+        ["ระยะทางมาจากทฤษฎีบทพีทาโกรัส จุดกึ่งกลางมาจากการหาค่าเฉลี่ย และความชันคือระยะตามแนวตั้งหารด้วยระยะตามแนวนอน เส้นตรงที่ผ่านจุดที่ทราบและมีความชันที่ทราบคือ y − y₁ = m(x − x₁) ควรใช้รูปนี้มากกว่า y = mx + c เพราะไม่ต้องจัดรูปใหม่",
+         "เส้นขนานมีความชันเท่ากัน ส่วนเส้นตั้งฉากมีผลคูณของความชันเป็น −1 ไม่ใช่ +1 ระยะจากจุดถึงเส้นตรง |Ax₁ + By₁ + C| / √(A² + B²) เป็นสูตรเดียวในหัวข้อนี้ที่ควรจำให้ได้"]],
   formula:["m₁m₂ = −1 for perpendicular        d = |Ax₁+By₁+C| / √(A²+B²)","ตั้งฉาก m₁m₂ = −1        d = |Ax₁+By₁+C| / √(A²+B²)"],
   flabel:["Perpendicular gives −1, not +1","ตั้งฉากได้ −1 ไม่ใช่ +1"],
   viz:"plot",
@@ -47,8 +47,8 @@ nodes:[
   title:["The circle","วงกลม"],
   body:[["The standard form (x − h)² + (y − k)² = r² reads its centre and radius straight off. The general form x² + y² + ax + by + c = 0 hides them, and completing the square on each variable is what converts one to the other.",
          "Reading the centre from the general form without completing the square is trap T-03 — the signs come out wrong. A tangent meets the circle at exactly one point and is perpendicular to the radius there, which is usually the fastest route into a tangent problem."],
-        ["รูปมาตรฐาน (x − h)² + (y − k)² = r² อ่านจุดศูนย์กลางและรัศมีได้ทันที ส่วนรูปทั่วไป x² + y² + ax + by + c = 0 ซ่อนทั้งสองไว้ และการทำกำลังสองสมบูรณ์ในแต่ละตัวแปรคือสิ่งที่แปลงรูปหนึ่งเป็นอีกรูป",
-         "การอ่านจุดศูนย์กลางจากรูปทั่วไปโดยไม่ทำกำลังสองสมบูรณ์คือกับดัก T-03 เพราะเครื่องหมายจะออกมาผิด เส้นสัมผัสพบวงกลมที่จุดเดียวพอดีและตั้งฉากกับรัศมี ณ จุดนั้น ซึ่งมักเป็นทางเข้าที่เร็วที่สุดของโจทย์เส้นสัมผัส"]],
+        ["รูปมาตรฐาน (x − h)² + (y − k)² = r² อ่านจุดศูนย์กลางและรัศมีได้ทันที แต่รูปทั่วไป x² + y² + ax + by + c = 0 มองไม่เห็นทั้งสองค่า ต้องทำกำลังสองสมบูรณ์ของแต่ละตัวแปรจึงจะแปลงจากรูปหนึ่งเป็นอีกรูปได้",
+         "ถ้าอ่านจุดศูนย์กลางจากรูปทั่วไปโดยไม่ทำกำลังสองสมบูรณ์ จะตกกับดัก T-03 เพราะเครื่องหมายผิด เส้นสัมผัสตัดวงกลมที่จุดเดียวพอดีและตั้งฉากกับรัศมี ณ จุดนั้น ซึ่งมักเป็นทางลัดที่เร็วที่สุดในการทำโจทย์เส้นสัมผัส"]],
   formula:["(x − h)² + (y − k)² = r²","(x − h)² + (y − k)² = r²"],
   flabel:["Complete the square to read the centre","ทำกำลังสองสมบูรณ์เพื่ออ่านจุดศูนย์กลาง"],
   viz:{
@@ -90,25 +90,25 @@ nodes:[
       var c2 = d<p.r ? "var(--good)" : d>p.r ? "var(--warn)" : "var(--accent)";
       o.push('<circle cx="'+tx2+'" cy="'+ty+'" r="5.5" fill="'+c2+'"/>');
       cap(o,110,308,["green inside · amber outside · the radius never changes",
-                     "เขียวคืออยู่ใน · เหลืองอำพันคืออยู่นอก · รัศมีไม่เคยเปลี่ยน"],"note");
+                     "สีเขียวคืออยู่ภายใน · สีเหลืองอำพันคืออยู่ภายนอก · รัศมีไม่เปลี่ยน"],"note");
     }
   },
   guide:[
     {say:["Every point on the ring is exactly r from the centre. That single sentence is the equation.",
-          "ทุกจุดบนวงห่างจากจุดศูนย์กลางเท่ากับ r พอดี ประโยคเดียวนั้นคือสมการ"], set:{h:0,k:0,r:3,px:5}},
+          "ทุกจุดบนวงกลมห่างจากจุดศูนย์กลางเท่ากับ r พอดี ประโยคเดียวนี้ก็คือสมการของวงกลม"], set:{h:0,k:0,r:3,px:5}},
     {say:["Move the centre and the equation gains the (x − h) and (y − k) brackets. Nothing else changes.",
-          "ย้ายจุดศูนย์กลาง สมการจะมีวงเล็บ (x − h) และ (y − k) เพิ่มมา ไม่มีอะไรอื่นเปลี่ยน"], set:{h:3,k:-2,r:3,px:5}},
+          "ย้ายจุดศูนย์กลาง สมการจะมีวงเล็บ (x − h) และ (y − k) เพิ่มเข้ามา ส่วนอย่างอื่นไม่เปลี่ยน"], set:{h:3,k:-2,r:3,px:5}},
     {say:["Note the minus signs: a centre at +3 appears as (x − 3). That sign flip is the classic slip.",
-          "สังเกตเครื่องหมายลบ จุดศูนย์กลางที่ +3 ปรากฏเป็น (x − 3) การกลับเครื่องหมายนี้คือข้อผิดพลาดคลาสสิก"], set:{h:3,k:-2,r:4,px:0}}
+          "ให้สังเกตเครื่องหมายลบ จุดศูนย์กลางที่ +3 จะเขียนเป็น (x − 3) การเปลี่ยนเครื่องหมายตรงนี้คือจุดที่คนพลาดบ่อยที่สุด"], set:{h:3,k:-2,r:4,px:0}}
   ] },
 
 { id:"conics", x:370, y:150, requires:["points-lines"], methods:["M-03"],
   title:["The conic family","ตระกูลภาคตัดกรวย"],
   body:[["Slice a double cone with a plane and you get one of four curves, decided entirely by the angle of the cut: perpendicular to the axis gives a circle, parallel to the slant gives a parabola, an intermediate angle gives an ellipse, and cutting through both halves gives a hyperbola.",
          "From the general equation Ax² + Cy² + Dx + Ey + F = 0 you can identify the curve without drawing anything. A = C is a circle; A and C the same sign but unequal is an ellipse; opposite signs is a hyperbola; one of them zero is a parabola. Drive the lab and watch the eccentricity cross 1 as the family changes."],
-        ["ผ่ากรวยคู่ด้วยระนาบแล้วจะได้เส้นโค้งหนึ่งในสี่ ตัดสินโดยมุมของการผ่าล้วนๆ ตั้งฉากกับแกนได้วงกลม ขนานกับเส้นเอียงได้พาราโบลา มุมกลางๆ ได้วงรี และผ่าทะลุทั้งสองซีกได้ไฮเพอร์โบลา",
-         "จากสมการทั่วไป Ax² + Cy² + Dx + Ey + F = 0 เราระบุชนิดเส้นโค้งได้โดยไม่ต้องวาด A = C คือวงกลม A กับ C เครื่องหมายเดียวกันแต่ไม่เท่ากันคือวงรี เครื่องหมายต่างกันคือไฮเพอร์โบลา ตัวใดตัวหนึ่งเป็นศูนย์คือพาราโบลา ลองปรับในห้องทดลองแล้วดูความเยื้องศูนย์กลางข้ามค่า 1 เมื่อเปลี่ยนตระกูล"]],
-  formula:["A = C circle · same sign ellipse · opposite sign hyperbola · one zero parabola","A = C วงกลม · เครื่องหมายเดียวกันวงรี · ต่างกันไฮเพอร์โบลา · ตัวหนึ่งเป็นศูนย์พาราโบลา"],
+        ["ถ้าผ่ากรวยคู่ด้วยระนาบ เราจะได้เส้นโค้งหนึ่งในสี่แบบ ขึ้นอยู่กับมุมที่ผ่าเท่านั้น ผ่าตั้งฉากกับแกนได้วงกลม ผ่านขนานกับเส้นเอียงของกรวยได้พาราโบลา ผ่าด้วยมุมระหว่างสองแบบนี้ได้วงรี และผ่าทะลุกรวยทั้งสองซีกได้ไฮเพอร์โบลา",
+         "จากสมการทั่วไป Ax² + Cy² + Dx + Ey + F = 0 เราบอกชนิดของเส้นโค้งได้โดยไม่ต้องวาดรูป A = C คือวงกลม A กับ C เครื่องหมายเดียวกันแต่ไม่เท่ากันคือวงรี เครื่องหมายต่างกันคือไฮเพอร์โบลา และถ้าตัวใดตัวหนึ่งเป็นศูนย์คือพาราโบลา ลองปรับในห้องทดลองแล้วดูความเยื้องศูนย์กลางผ่านค่า 1 เมื่อเปลี่ยนชนิดของเส้นโค้ง"]],
+  formula:["A = C circle · same sign ellipse · opposite sign hyperbola · one zero parabola","A = C วงกลม · เครื่องหมายเดียวกัน วงรี · เครื่องหมายต่างกัน ไฮเพอร์โบลา · ตัวหนึ่งเป็นศูนย์ พาราโบลา"],
   flabel:["Identify before you draw","ระบุชนิดก่อนวาด"],
   viz:{
     vb:"0 0 560 330", anim:false,
@@ -191,21 +191,21 @@ nodes:[
   },
   guide:[
     {say:["A circle: both axes equal, both foci collapsed onto the centre, eccentricity exactly zero.",
-          "วงกลม แกนทั้งสองเท่ากัน โฟกัสทั้งสองยุบมาที่จุดศูนย์กลาง ความเยื้องศูนย์กลางเป็นศูนย์พอดี"], set:{kind:0,a:4,b:4}},
+          "วงกลม แกนทั้งสองยาวเท่ากัน โฟกัสทั้งสองรวมเป็นจุดเดียวกับจุดศูนย์กลาง และความเยื้องศูนย์กลางเป็นศูนย์พอดี"], set:{kind:0,a:4,b:4}},
     {say:["Now an ellipse. Pull b down and the foci slide outwards — c² = a² − b², so c grows as b shrinks.",
-          "ทีนี้เป็นวงรี ลด b ลงแล้วโฟกัสจะเลื่อนออก c² = a² − b² ดังนั้น c โตขึ้นเมื่อ b เล็กลง"], set:{kind:1,a:5,b:2}},
+          "ทีนี้เป็นวงรี ลดค่า b โฟกัสจะเลื่อนออกจากกัน เพราะ c² = a² − b² เมื่อ b เล็กลง c จึงใหญ่ขึ้น"], set:{kind:1,a:5,b:2}},
     {say:["The parabola sits exactly at e = 1 — the boundary case between the closed and open families.",
-          "พาราโบลาอยู่ที่ e = 1 พอดี เป็นกรณีขอบเขตระหว่างตระกูลปิดกับตระกูลเปิด"], set:{kind:2,a:4,b:2}},
+          "พาราโบลามี e = 1 พอดี เป็นกรณีที่อยู่ตรงรอยต่อระหว่างเส้นโค้งปิดกับเส้นโค้งเปิด"], set:{kind:2,a:4,b:2}},
     {say:["The hyperbola. Note the relation on screen flipped to c² = a² + b² — a PLUS. That single sign is the classic error.",
-          "ไฮเพอร์โบลา สังเกตว่าความสัมพันธ์บนจอเปลี่ยนเป็น c² = a² + b² คือเครื่องหมายบวก เครื่องหมายเดียวนี้คือข้อผิดพลาดคลาสสิก"], set:{kind:3,a:3,b:2}}
+          "ไฮเพอร์โบลา ให้สังเกตว่าความสัมพันธ์บนจอเปลี่ยนเป็น c² = a² + b² คือเครื่องหมายบวก เครื่องหมายนี้เองคือจุดที่คนพลาดบ่อยที่สุด"], set:{kind:3,a:3,b:2}}
   ]},
 
 { id:"parabola-ellipse", x:235, y:248, requires:["circle","conics"], methods:["M-04"],
   title:["Parabola and ellipse","พาราโบลาและวงรี"],
   body:[["A parabola is the set of points equidistant from a focus and a directrix. In the form (y − k)² = 4c(x − h) the focus sits c from the vertex and the directrix c the other way, and the latus rectum has length |4c|.",
          "An ellipse is the set of points whose distances to two foci sum to a constant 2a. Here c² = a² − b², with a always the larger, and the eccentricity e = c/a lies strictly between 0 and 1 — the closer to zero, the rounder."],
-        ["พาราโบลาคือเซตของจุดที่ห่างจากโฟกัสเท่ากับห่างจากไดเรกทริกซ์ ในรูป (y − k)² = 4c(x − h) โฟกัสอยู่ห่างจากจุดยอด c และไดเรกทริกซ์อยู่อีกด้านที่ระยะ c ส่วนลาตัสเรกตัมยาว |4c|",
-         "วงรีคือเซตของจุดที่ผลบวกระยะถึงโฟกัสทั้งสองคงที่เท่ากับ 2a ตรงนี้ c² = a² − b² โดย a เป็นตัวที่ใหญ่กว่าเสมอ และความเยื้องศูนย์กลาง e = c/a อยู่ระหว่าง 0 กับ 1 เสมอ ยิ่งใกล้ศูนย์ยิ่งกลม"]],
+        ["พาราโบลาคือเซตของจุดที่อยู่ห่างจากโฟกัสเท่ากับที่อยู่ห่างจากเส้นไดเรกทริกซ์ ในรูป (y − k)² = 4c(x − h) โฟกัสอยู่ห่างจากจุดยอดเป็นระยะ c ไดเรกทริกซ์อยู่ห่างจากจุดยอดเป็นระยะ c ไปอีกด้านหนึ่ง และลาตัสเรกตัมยาว |4c|",
+         "วงรีคือเซตของจุดที่ผลบวกของระยะถึงโฟกัสทั้งสองมีค่าคงที่เท่ากับ 2a ในที่นี้ c² = a² − b² โดย a เป็นค่าที่มากกว่าเสมอ และความเยื้องศูนย์กลาง e = c/a มีค่าอยู่ระหว่าง 0 กับ 1 เท่านั้น ยิ่งใกล้ศูนย์ วงรียิ่งกลม"]],
   formula:["(y−k)² = 4c(x−h)        x²/a² + y²/b² = 1 ,  c² = a² − b²","(y−k)² = 4c(x−h)        x²/a² + y²/b² = 1 ,  c² = a² − b²"],
   flabel:["Ellipse subtracts","วงรีใช้เครื่องหมายลบ"],
   viz:"plot",
@@ -227,15 +227,15 @@ nodes:[
       {lab:["Defining property","สมบัติที่เป็นนิยาม"], f:function(){
         return L()?"ทุกจุดห่างจากโฟกัสเท่ากับห่างจากไดเรกทริกซ์":"every point is equally far from the focus and the directrix"; }}
     ],
-    note:["a larger focal distance makes a wider, lazier curve — the focus moves away from the vertex","ระยะโฟกัสที่มากขึ้นทำให้เส้นโค้งกว้างและแบนลง จุดโฟกัสเลื่อนออกห่างจากจุดยอด"]
+    note:["a larger focal distance makes a wider, lazier curve — the focus moves away from the vertex","ระยะโฟกัสมากขึ้นทำให้เส้นโค้งกว้างและแบนลง โฟกัสจึงเลื่อนห่างจากจุดยอด"]
   } },
 
 { id:"hyperbola", x:235, y:346, requires:["parabola-ellipse"], methods:["M-05","M-06"],
   title:["The hyperbola","ไฮเพอร์โบลา"],
   body:[["A hyperbola is the set of points whose distances to two foci *differ* by a constant 2a. Its equation looks almost identical to the ellipse's but with a minus between the terms, and it opens along whichever variable carries the positive sign.",
          "The relation is **c² = a² + b²** — a plus, not the ellipse's minus. This single sign is the most reliably examined error in the whole chapter, so check which family you are in before writing it. The asymptotes y − k = ±(b/a)(x − h) guide the sketch, and the eccentricity always exceeds 1."],
-        ["ไฮเพอร์โบลาคือเซตของจุดที่ผลต่างระยะถึงโฟกัสทั้งสองคงที่เท่ากับ 2a สมการหน้าตาเกือบเหมือนวงรีแต่มีเครื่องหมายลบคั่นระหว่างพจน์ และมันเปิดไปตามตัวแปรที่มีเครื่องหมายบวก",
-         "ความสัมพันธ์คือ c² = a² + b² เป็นบวก ไม่ใช่ลบแบบวงรี เครื่องหมายเดียวนี้คือข้อผิดพลาดที่ถูกออกสอบอย่างสม่ำเสมอที่สุดในบทนี้ จึงต้องตรวจก่อนว่าอยู่ตระกูลใดก่อนเขียน เส้นกำกับ y − k = ±(b/a)(x − h) ช่วยนำการร่างภาพ และความเยื้องศูนย์กลางมากกว่า 1 เสมอ"]],
+        ["ไฮเพอร์โบลาคือเซตของจุดที่ผลต่างของระยะถึงโฟกัสทั้งสองมีค่าคงที่เท่ากับ 2a สมการของมันหน้าตาเกือบเหมือนวงรี ต่างกันที่มีเครื่องหมายลบคั่นระหว่างสองพจน์ และเส้นโค้งจะเปิดออกไปตามแนวของตัวแปรที่มีเครื่องหมายบวก",
+         "ความสัมพันธ์คือ **c² = a² + b²** เป็นเครื่องหมายบวก ไม่ใช่ลบอย่างวงรี เครื่องหมายนี้เป็นข้อผิดพลาดที่ออกสอบบ่อยที่สุดในบทนี้ ก่อนเขียนจึงต้องดูก่อนว่าโจทย์เป็นเส้นโค้งชนิดใด เส้นกำกับ y − k = ±(b/a)(x − h) ช่วยให้ร่างกราฟได้ง่าย และความเยื้องศูนย์กลางมากกว่า 1 เสมอ"]],
   formula:["x²/a² − y²/b² = 1 ,  c² = a² + b² ,  e > 1","x²/a² − y²/b² = 1 ,  c² = a² + b² ,  e > 1"],
   flabel:["Hyperbola adds — the opposite of the ellipse","ไฮเพอร์โบลาใช้บวก ตรงข้ามกับวงรี"],
   viz:"plot",
@@ -257,7 +257,7 @@ nodes:[
       {lab:["Does it ever touch them?","แตะเส้นกำกับไหม"], f:function(){
         return L()?"ไม่เลย — เข้าใกล้ตลอดไป":"never — it approaches forever"; }}
     ],
-    note:["this is the same curve as a gas isotherm, where PV stays constant","นี่คือเส้นโค้งเดียวกับเส้นอุณหภูมิคงที่ของแก๊ส ที่ PV คงที่"]
+    note:["this is the same curve as a gas isotherm, where PV stays constant","เส้นโค้งนี้เหมือนกับเส้นไอโซเทอร์มของแก๊ส ซึ่ง PV คงที่"]
   } }
 ],
 
@@ -271,10 +271,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["Hyperbola uses c² = a² + b². Only the ellipse subtracts.","ไฮเพอร์โบลาใช้ c² = a² + b² มีเพียงวงรีที่ใช้เครื่องหมายลบ"],
+"T-01":["Hyperbola uses c² = a² + b². Only the ellipse subtracts.","ไฮเพอร์โบลาใช้ c² = a² + b² มีแต่วงรีเท่านั้นที่ใช้การลบ"],
 "T-02":["Perpendicular gradients multiply to −1, not +1.","ความชันของเส้นตั้งฉากคูณกันได้ −1 ไม่ใช่ +1"],
-"T-03":["Complete the square before reading a circle's centre from the general form.","ต้องทำกำลังสองสมบูรณ์ก่อนอ่านจุดศูนย์กลางวงกลมจากรูปทั่วไป"],
-"T-04":["Conic misidentified. Compare the signs of the x² and y² coefficients first.","ระบุชนิดภาคตัดกรวยผิด ให้เทียบเครื่องหมายของสัมประสิทธิ์ x² และ y² ก่อน"]
+"T-03":["Complete the square before reading a circle's centre from the general form.","ต้องทำกำลังสองสมบูรณ์ก่อนอ่านจุดศูนย์กลางของวงกลมจากรูปทั่วไป"],
+"T-04":["Conic misidentified. Compare the signs of the x² and y² coefficients first.","ระบุชนิดของภาคตัดกรวยผิด ให้เทียบเครื่องหมายของสัมประสิทธิ์ของ x² และ y² ก่อน"]
 },
 
 gen:{
@@ -282,7 +282,7 @@ gen:{
   var x1=ri(-4,4), y1=ri(-4,4), x2=ri(-4,4)+5, y2=ri(-4,4)+5;
   var m=(y2-y1)/(x2-x1);
   if(sf==="S-04") return {stem:["A line has gradient 3. What is the gradient of any line perpendicular to it?",
-                                "เส้นตรงมีความชัน 3 เส้นที่ตั้งฉากกับมันมีความชันเท่าใด"],
+                                "เส้นตรงเส้นหนึ่งมีความชัน 3 เส้นตรงที่ตั้งฉากกับเส้นนี้มีความชันเท่าใด"],
     opts:[{v:"−1/3",ok:1},{v:"1/3",trap:"T-02"},{v:"3",trap:"T-02"},{v:"−3",trap:"T-02"}],unit:""};
   if(sf==="S-05") return {stem:["The midpoint of AB is ("+fmt((x1+x2)/2)+", "+fmt((y1+y2)/2)+") and A is ("+x1+", "+y1+"). Find B.",
                                 "จุดกึ่งกลางของ AB คือ ("+fmt((x1+x2)/2)+", "+fmt((y1+y2)/2)+") และ A คือ ("+x1+", "+y1+") จงหา B"],
@@ -299,7 +299,7 @@ gen:{
   var h=ri(-4,4), k=ri(-4,4), r=ri(2,6);
   var a=-2*h, b=-2*k, c=h*h+k*k-r*r;
   if(sf==="S-04") return {stem:["What must you do before reading the centre of x² + y² + ax + by + c = 0?",
-                                "ก่อนอ่านจุดศูนย์กลางของ x² + y² + ax + by + c = 0 ต้องทำอะไร"],
+                                "ก่อนอ่านจุดศูนย์กลางของ x² + y² + ax + by + c = 0 ต้องทำอะไรก่อน"],
     opts:[{v:["Complete the square in x and in y","ทำกำลังสองสมบูรณ์ทั้งใน x และ y"],ok:1},
           {v:["Read (a, b) directly","อ่าน (a, b) ได้เลย"],trap:"T-03"},
           {v:["Read (−a, −b) directly","อ่าน (−a, −b) ได้เลย"],trap:"T-03"},
@@ -323,7 +323,7 @@ gen:{
   if(b>=a){ var t=a; a=b+2; }
   var c=Math.sqrt(a*a-b*b);
   if(sf==="S-04") return {stem:["A parabola is defined as the set of points equidistant from which two things?",
-                                "พาราโบลานิยามเป็นเซตของจุดที่ห่างเท่ากันจากสองสิ่งใด"],
+                                "พาราโบลานิยามไว้ว่าเป็นเซตของจุดที่อยู่ห่างเท่ากันจากสิ่งสองสิ่งใด"],
     opts:[{v:["A focus and a directrix","โฟกัสและไดเรกทริกซ์"],ok:1},
           {v:["Two foci","โฟกัสสองจุด"],trap:"T-04"},
           {v:["A centre and a vertex","จุดศูนย์กลางและจุดยอด"]},

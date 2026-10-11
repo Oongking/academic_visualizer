@@ -22,7 +22,7 @@ kicker:["Physics · Chapter 09","ฟิสิกส์ · บทที่ 9"],
 title:["Waves","คลื่น"],
 mapTitle:["Energy without transport","พลังงานที่เดินทางโดยสสารอยู่กับที่"],
 lede:["A wave carries energy across a room while every particle in the room stays where it is. Once that separation is clear, the four wave behaviours and every formula built on them follow naturally.",
-      "คลื่นพาพลังงานข้ามห้องไปในขณะที่อนุภาคทุกตัวในห้องอยู่ที่เดิม เมื่อเข้าใจการแยกกันนี้แล้ว สมบัติของคลื่นทั้งสี่และทุกสูตรที่สร้างบนมันจะตามมาเอง"],
+      "คลื่นพาพลังงานข้ามห้องไปได้ ทั้งที่อนุภาคทุกตัวในห้องยังอยู่ที่เดิม ถ้าแยกสองเรื่องนี้ออกจากกันได้ชัด พฤติกรรมของคลื่นทั้งสี่แบบและสูตรทั้งหมดที่ตามมาก็เข้าใจได้ไม่ยาก"],
 next:["→ continues in Chapters 10–12 · Light and Sound","→ ต่อในบทที่ 10–12 · แสงและเสียง"],
 
 nodes:[
@@ -30,8 +30,8 @@ nodes:[
   title:["Anatomy of a wave","องค์ประกอบของคลื่น"],
   body:[["Wavelength is the distance between repeats, amplitude is the maximum displacement from rest, and frequency is how many whole waves pass a point each second. Period is simply 1/f.",
          "Amplitude carries the energy; frequency and wavelength carry the identity. Louder is bigger amplitude, higher-pitched is greater frequency, and the two are entirely independent."],
-        ["ความยาวคลื่นคือระยะระหว่างการซ้ำ แอมพลิจูดคือการกระจัดสูงสุดจากตำแหน่งสมดุล และความถี่คือจำนวนคลื่นเต็มลูกที่ผ่านจุดหนึ่งในหนึ่งวินาที ส่วนคาบคือ 1/f",
-         "แอมพลิจูดเป็นตัวพาพลังงาน ส่วนความถี่และความยาวคลื่นบอกเอกลักษณ์ เสียงดังขึ้นคือแอมพลิจูดใหญ่ขึ้น เสียงสูงขึ้นคือความถี่มากขึ้น และทั้งสองเป็นอิสระต่อกันสิ้นเชิง"]],
+        ["ความยาวคลื่นคือระยะที่รูปคลื่นซ้ำกัน แอมพลิจูดคือการกระจัดสูงสุดจากตำแหน่งสมดุล ส่วนความถี่คือจำนวนคลื่นเต็มลูกที่ผ่านจุดหนึ่งในเวลา 1 วินาที และคาบก็คือ 1/f",
+         "แอมพลิจูดบอกพลังงาน ส่วนความถี่และความยาวคลื่นบอกว่าคลื่นนั้นเป็นคลื่นแบบไหน เสียงดังขึ้นแปลว่าแอมพลิจูดใหญ่ขึ้น เสียงสูงขึ้นแปลว่าความถี่มากขึ้น และสองอย่างนี้ไม่เกี่ยวข้องกันเลย"]],
   formula:["T = 1/f","T = 1/f"],
   flabel:["Amplitude carries the energy","แอมพลิจูดเป็นตัวพาพลังงาน"],
   viz:"wave" },
@@ -40,28 +40,28 @@ nodes:[
   title:["The wave equation","สมการคลื่น"],
   body:[["v = fλ is the only equation most wave questions need. It says a wave travels one wavelength in one period, which is almost a definition rather than a discovery.",
          "The critical fact for later chapters: when a wave crosses into a new medium the frequency never changes — it is set by the source. The speed changes, and the wavelength changes to match. Changing f at a boundary is trap T-02."],
-        ["v = fλ เป็นสมการเดียวที่โจทย์คลื่นส่วนใหญ่ต้องใช้ มันบอกว่าคลื่นเดินทางได้หนึ่งความยาวคลื่นในหนึ่งคาบ ซึ่งเกือบจะเป็นนิยามมากกว่าการค้นพบ",
-         "ข้อเท็จจริงสำคัญสำหรับบทถัดไปคือ เมื่อคลื่นข้ามเข้าสู่ตัวกลางใหม่ ความถี่ไม่เคยเปลี่ยน เพราะถูกกำหนดโดยแหล่งกำเนิด สิ่งที่เปลี่ยนคืออัตราเร็ว และความยาวคลื่นเปลี่ยนตาม การเปลี่ยน f ที่รอยต่อคือกับดัก T-02"]],
+        ["โจทย์คลื่นส่วนใหญ่ใช้สมการ v = fλ เพียงสมการเดียว สมการนี้บอกว่าคลื่นเคลื่อนที่ไปได้ 1 ความยาวคลื่นในเวลา 1 คาบ ซึ่งแทบเป็นนิยามอยู่แล้ว ไม่ใช่ข้อค้นพบใหม่",
+         "ข้อนี้สำคัญมากสำหรับบทต่อไป เมื่อคลื่นผ่านเข้าสู่ตัวกลางใหม่ ความถี่ไม่เปลี่ยนเลย เพราะแหล่งกำเนิดเป็นตัวกำหนด สิ่งที่เปลี่ยนคืออัตราเร็ว และความยาวคลื่นก็เปลี่ยนตามไปด้วย การเปลี่ยนค่า f ที่รอยต่อเป็นกับดัก T-02"]],
   formula:["v = fλ","v = fλ"],
   flabel:["f is fixed by the source","f ถูกกำหนดโดยแหล่งกำเนิด"],
   viz:"wave",
   guide:[
     {say:["Press Play. The wave travels right, but watch the red dot — it only moves up and down, never sideways.",
-          "กดเล่น คลื่นเดินทางไปขวา แต่ดูจุดสีแดง มันขยับขึ้นลงเท่านั้น ไม่เคยเคลื่อนไปด้านข้าง"], set:{A:5,lam:8,f:1,T:8}},
+          "กดเล่น คลื่นเคลื่อนที่ไปทางขวา แต่ลองดูจุดสีแดง มันขยับขึ้นลงอย่างเดียว ไม่เคยเลื่อนไปทางข้างเลย"], set:{A:5,lam:8,f:1,T:8}},
     {say:["Double the wavelength at the same frequency. The bar on the axis stretches, and the wave moves twice as fast.",
-          "เพิ่มความยาวคลื่นเป็นสองเท่าที่ความถี่เดิม แถบบนแกนจะยืดออก และคลื่นเคลื่อนที่เร็วขึ้นสองเท่า"], set:{A:5,lam:16,f:1,T:8}},
+          "เพิ่มความยาวคลื่นเป็นสองเท่าโดยให้ความถี่เท่าเดิม แถบบนแกนจะยาวขึ้น และคลื่นเคลื่อนที่เร็วขึ้นสองเท่า"], set:{A:5,lam:16,f:1,T:8}},
     {say:["Now raise the frequency instead. The shape is unchanged but it passes faster — v = fλ, both ways.",
-          "ทีนี้เพิ่มความถี่แทน รูปร่างไม่เปลี่ยนแต่ผ่านไปเร็วขึ้น v = fλ ได้ทั้งสองทาง"], set:{A:5,lam:8,f:2,T:8}},
+          "คราวนี้เพิ่มความถี่แทน รูปคลื่นยังเหมือนเดิมแต่ผ่านไปเร็วขึ้น v = fλ ใช้ได้ทั้งสองทาง"], set:{A:5,lam:8,f:2,T:8}},
     {say:["Amplitude changes the height and nothing else. Speed and wavelength are untouched — amplitude is energy alone.",
-          "แอมพลิจูดเปลี่ยนความสูงเท่านั้น อัตราเร็วและความยาวคลื่นไม่เปลี่ยน แอมพลิจูดคือพลังงานล้วนๆ"], set:{A:9,lam:8,f:1,T:8}}
+          "แอมพลิจูดเปลี่ยนแค่ความสูงของคลื่น อัตราเร็วและความยาวคลื่นไม่เปลี่ยน แอมพลิจูดบอกเรื่องพลังงานอย่างเดียว"], set:{A:9,lam:8,f:1,T:8}}
   ]},
 
 { id:"types", x:100, y:248, requires:["anatomy"], methods:["M-03"],
   title:["Types of wave","ชนิดของคลื่น"],
   body:[["Transverse waves oscillate perpendicular to their direction of travel; longitudinal waves oscillate along it, producing compressions and rarefactions. Light is transverse, sound is longitudinal.",
          "The distinction has a hard consequence: only transverse waves can be polarised. If a wave can be polarised, it is transverse — which is how we know light is a transverse wave."],
-        ["คลื่นตามขวางสั่นตั้งฉากกับทิศการเคลื่อนที่ ส่วนคลื่นตามยาวสั่นในแนวเดียวกัน ทำให้เกิดส่วนอัดและส่วนขยาย แสงเป็นคลื่นตามขวาง เสียงเป็นคลื่นตามยาว",
-         "ความแตกต่างนี้มีผลชัดเจนคือ มีเพียงคลื่นตามขวางเท่านั้นที่เกิดโพลาไรเซชันได้ ถ้าคลื่นใดเกิดโพลาไรเซชันได้ คลื่นนั้นเป็นคลื่นตามขวาง ซึ่งเป็นวิธีที่เรารู้ว่าแสงเป็นคลื่นตามขวาง"]],
+        ["คลื่นตามขวางสั่นในแนวตั้งฉากกับทิศที่คลื่นเคลื่อนที่ ส่วนคลื่นตามยาวสั่นในแนวเดียวกับทิศนั้น จึงเกิดส่วนอัดและส่วนขยาย แสงเป็นคลื่นตามขวาง ส่วนเสียงเป็นคลื่นตามยาว",
+         "ความต่างนี้มีผลที่ชัดเจนอย่างหนึ่ง คือมีแต่คลื่นตามขวางเท่านั้นที่โพลาไรซ์ได้ ดังนั้นถ้าคลื่นใดโพลาไรซ์ได้ คลื่นนั้นต้องเป็นคลื่นตามขวาง เราจึงรู้ว่าแสงเป็นคลื่นตามขวาง"]],
   formula:["Transverse ⟂ travel    ·    Longitudinal ∥ travel","ตามขวาง ⟂ ทิศเคลื่อนที่  ·  ตามยาว ∥ ทิศเคลื่อนที่"],
   flabel:["Only transverse waves polarise","เฉพาะคลื่นตามขวางที่โพลาไรซ์ได้"],
   viz:"table",
@@ -85,15 +85,15 @@ nodes:[
              [["Features","ส่วนประกอบ"],["crest and trough","สันและท้อง"],["compression and rarefaction","ส่วนอัดและส่วนขยาย"]]];
       return R.map(function(r,i){ return r.map(function(c,j){ return {v:c, on:i===p.i, col:j===0?"soft":(j===1?"accent":"good")}; }); });
     },
-    note:["only a transverse wave has a vibration direction to filter — that is why sound cannot polarise","เฉพาะคลื่นตามขวางเท่านั้นที่มีทิศการสั่นให้กรอง จึงเป็นเหตุผลที่เสียงโพลาไรซ์ไม่ได้"]
+    note:["only a transverse wave has a vibration direction to filter — that is why sound cannot polarise","มีแต่คลื่นตามขวางที่มีทิศการสั่นให้กรองได้ เสียงจึงโพลาไรซ์ไม่ได้"]
   } },
 
 { id:"behaviours", x:370, y:248, requires:["wave-equation"], methods:["M-04"],
   title:["The four behaviours","สมบัติทั้งสี่"],
   body:[["Every wave reflects, refracts, diffracts and interferes. Reflection obeys equal angles. Refraction bends the wave because its speed changed, following sin θ₁/sin θ₂ = v₁/v₂.",
          "Diffraction is spreading through a gap, and it is only pronounced when the gap is comparable to the wavelength. A wide gap barely diffracts at all, which is why you can hear round a corner but not see round one."],
-        ["คลื่นทุกชนิดสะท้อน หักเห เลี้ยวเบน และแทรกสอด การสะท้อนเป็นไปตามมุมเท่ากัน การหักเหทำให้คลื่นเบนเพราะอัตราเร็วเปลี่ยน ตาม sin θ₁/sin θ₂ = v₁/v₂",
-         "การเลี้ยวเบนคือการแผ่ผ่านช่อง และจะเห็นชัดเมื่อช่องมีขนาดใกล้เคียงความยาวคลื่นเท่านั้น ช่องกว้างแทบไม่เลี้ยวเบนเลย จึงเป็นเหตุผลที่เราได้ยินเสียงอ้อมมุมได้แต่มองไม่เห็นอ้อมมุม"]],
+        ["คลื่นทุกชนิดสะท้อน หักเห เลี้ยวเบน และแทรกสอดได้ การสะท้อนมีมุมตกกระทบเท่ากับมุมสะท้อน ส่วนการหักเหทำให้คลื่นเบนเพราะอัตราเร็วเปลี่ยน ตามความสัมพันธ์ sin θ₁/sin θ₂ = v₁/v₂",
+         "การเลี้ยวเบนคือการที่คลื่นแผ่กว้างออกหลังผ่านช่องแคบ และจะเห็นชัดก็ต่อเมื่อช่องมีขนาดใกล้เคียงความยาวคลื่น ถ้าช่องกว้างจะแทบไม่เลี้ยวเบน เราจึงได้ยินเสียงจากหลังมุมตึกได้ แต่มองไม่เห็นสิ่งที่อยู่หลังมุม"]],
   formula:["sin θ₁ / sin θ₂ = v₁ / v₂ = λ₁ / λ₂","sin θ₁ / sin θ₂ = v₁ / v₂ = λ₁ / λ₂"],
   flabel:["Snell's law · f unchanged","กฎสเนลล์ · f ไม่เปลี่ยน"],
   viz:"table",
@@ -122,23 +122,23 @@ nodes:[
         });
       });
     },
-    note:["read down the frequency column — it says the same word four times","อ่านลงมาตามคอลัมน์ความถี่ มันบอกคำเดิมสี่ครั้ง"]
+    note:["read down the frequency column — it says the same word four times","อ่านลงมาตามคอลัมน์ความถี่ จะเห็นว่าเป็นคำเดิมทั้งสี่แถว"]
   },
   guide:[
     {say:["Refraction changes wavelength, speed and direction all at once — but look at the frequency column.",
-          "การหักเหเปลี่ยนความยาวคลื่น อัตราเร็ว และทิศทางพร้อมกัน แต่ลองดูคอลัมน์ความถี่"], set:{i:1}},
+          "การหักเหเปลี่ยนทั้งความยาวคลื่น อัตราเร็ว และทิศทางพร้อมกัน แต่ลองดูคอลัมน์ความถี่"], set:{i:1}},
     {say:["Reflection changes only the direction. Everything else about the wave is untouched.",
-          "การสะท้อนเปลี่ยนแค่ทิศทาง สมบัติอื่นของคลื่นไม่ถูกแตะเลย"], set:{i:0}},
+          "การสะท้อนเปลี่ยนแค่ทิศทาง ส่วนอย่างอื่นของคลื่นไม่เปลี่ยนเลย"], set:{i:0}},
     {say:["Whichever row you pick, the frequency cell stays green. The source sets it, and nothing downstream can.",
-          "ไม่ว่าเลือกแถวไหน ช่องความถี่ยังเขียวอยู่ แหล่งกำเนิดเป็นผู้กำหนด ไม่มีอะไรหลังจากนั้นเปลี่ยนได้"], set:{i:3}}
+          "จะเลือกแถวไหนก็ตาม ช่องความถี่ยังเป็นสีเขียวเหมือนเดิม เพราะแหล่งกำเนิดเป็นตัวกำหนดความถี่ และไม่มีอะไรหลังจากนั้นเปลี่ยนได้"], set:{i:3}}
   ] },
 
 { id:"superposition", x:235, y:346, requires:["types","behaviours"], methods:["M-05","M-06"],
   title:["Superposition","การซ้อนทับ"],
   body:[["Where two waves meet, the displacements simply add. In phase they reinforce; exactly out of phase they cancel. That is the whole principle, and interference is its visible consequence.",
          "The condition is written in path difference: whole wavelengths give constructive interference, odd half wavelengths give destructive. Standing waves are the special case where a wave meets its own reflection, giving fixed nodes and antinodes that do not travel."],
-        ["ที่ใดคลื่นสองขบวนมาพบกัน การกระจัดจะบวกกันตรงๆ ถ้าเฟสตรงกันจะเสริมกัน ถ้าเฟสตรงข้ามพอดีจะหักล้างกัน นั่นคือหลักการทั้งหมด และการแทรกสอดคือผลที่มองเห็นได้",
-         "เงื่อนไขเขียนในรูปผลต่างทางเดิน จำนวนเต็มเท่าของความยาวคลื่นให้การแทรกสอดแบบเสริม ส่วนจำนวนคี่ของครึ่งความยาวคลื่นให้แบบหักล้าง คลื่นนิ่งคือกรณีพิเศษที่คลื่นพบกับการสะท้อนของตัวเอง เกิดบัพและปฏิบัพที่อยู่กับที่"]],
+        ["เมื่อคลื่นสองขบวนมาพบกัน การกระจัดของทั้งสองจะรวมกันตรงๆ ถ้าเฟสตรงกัน คลื่นจะเสริมกัน ถ้าเฟสตรงข้ามกันพอดี คลื่นจะหักล้างกัน หลักการก็มีเท่านี้ และการแทรกสอดก็คือสิ่งที่เรามองเห็นจากหลักการนี้",
+         "เงื่อนไขนี้เขียนได้ด้วยผลต่างของระยะทางเดิน ถ้าต่างกันเป็นจำนวนเต็มเท่าของความยาวคลื่น จะเกิดการแทรกสอดแบบเสริม ถ้าต่างกันเป็นจำนวนคี่เท่าของครึ่งความยาวคลื่น จะเกิดแบบหักล้าง คลื่นนิ่งเป็นกรณีพิเศษที่คลื่นมาพบกับคลื่นสะท้อนของตัวเอง ได้บัพและปฏิบัพที่อยู่กับที่ ไม่เคลื่อนไปไหน"]],
   formula:["Constructive: Δpath = nλ    ·    Destructive: Δpath = (n − ½)λ","เสริม: Δทางเดิน = nλ  ·  หักล้าง: Δทางเดิน = (n − ½)λ"],
   flabel:["Path difference decides","ผลต่างทางเดินเป็นตัวตัดสิน"],
   viz:"stage",
@@ -146,7 +146,7 @@ nodes:[
     anim:true,
     spellName:["The Enchanted Rope: overlapping waves add","เชือกต้องมนตร์: คลื่นที่ซ้อนทับรวมกัน"],
     question:["Two pulses race toward each other along the rope. What happens where they meet — and afterwards?",
-              "คลื่นดลสองลูกวิ่งเข้าหากันบนเชือก เกิดอะไรขึ้นตรงที่พบกัน และหลังจากนั้น"],
+              "คลื่นดลสองลูกวิ่งเข้าหากันบนเชือก ตรงที่พบกันเกิดอะไรขึ้น แล้วหลังจากนั้นล่ะ"],
     ctrls:[
       {k:"A1", lab:["Height of pulse 1","ความสูงคลื่นดล 1"], min:-5, max:5, step:.5, def:3, unit:""},
       {k:"A2", lab:["Height of pulse 2","ความสูงคลื่นดล 2"], min:-5, max:5, step:.5, def:2, unit:""},
@@ -204,7 +204,7 @@ nodes:[
     },
     predict:{ kind:"choice",
       ask:["At the instant the two pulses sit exactly on top of each other, how high is the rope at the meeting point?",
-           "ในขณะที่คลื่นดลสองลูกซ้อนกันสนิท เชือกที่จุดพบสูงเท่าใด"],
+           "ขณะที่คลื่นดลสองลูกซ้อนกันพอดี เชือกตรงจุดที่พบกันสูงเท่าใด"],
       opts:function(p){ return C09.cands(p).map(function(v){ return [fmt2(v), fmt2(v)]; }); },
       actual:function(p){ return C09.cands(p).indexOf(p.A1+p.A2); },
       explain:function(p){ return ["Displacements simply add: "+fmt2(p.A1)+" + ("+fmt2(p.A2)+") = "+fmt2(p.A1+p.A2)+". Then each pulse travels on as if the other had never been there.",
@@ -235,15 +235,15 @@ nodes:[
       }
     },
     note:["the dashed lines are each pulse alone; the glowing rope is their sum, point by point",
-          "เส้นประคือคลื่นดลแต่ละลูกเดี่ยว ๆ เชือกเรืองแสงคือผลรวมของทั้งสองทีละจุด"]
+          "เส้นประคือคลื่นดลแต่ละลูกเมื่อดูเดี่ยวๆ ส่วนเชือกที่เรืองแสงคือผลรวมของทั้งสองลูกทีละจุด"]
   },
   guide:[
     {say:["Two crests. Press play: where they overlap the rope rises to 3 + 2 = 5, then both pulses walk away unchanged.",
-          "ยอดคลื่นสองลูก กดเล่น ตรงที่ซ้อนกันเชือกสูงขึ้นเป็น 3 + 2 = 5 แล้วคลื่นดลทั้งสองก็เดินจากไปเหมือนเดิม"], set:{A1:3,A2:2,T:3.5}},
+          "ยอดคลื่นสองลูก กดเล่น ตรงที่ซ้อนกัน เชือกสูงขึ้นเป็น 3 + 2 = 5 จากนั้นคลื่นดลทั้งสองก็แยกจากกันไปโดยรูปร่างไม่เปลี่ยน"], set:{A1:3,A2:2,T:3.5}},
     {say:["A crest meets an equal trough. For one instant the rope is perfectly flat — and then both pulses reappear.",
-          "ยอดคลื่นพบท้องคลื่นที่เท่ากัน ชั่วขณะหนึ่งเชือกแบนราบสนิท แล้วคลื่นดลทั้งสองก็ปรากฏขึ้นอีกครั้ง"], set:{A1:3,A2:-3,T:3.5}},
+          "ยอดคลื่นมาพบท้องคลื่นที่ขนาดเท่ากัน ชั่วขณะหนึ่งเชือกจะแบนราบสนิท แล้วคลื่นดลทั้งสองก็กลับมาให้เห็นอีกครั้ง"], set:{A1:3,A2:-3,T:3.5}},
     {say:["Unequal crest and trough cannot fully cancel. Something always survives when the two do not match.",
-          "ยอดกับท้องที่ไม่เท่ากันหักล้างกันไม่หมด เมื่อทั้งสองไม่เท่ากันจะเหลือบางส่วนเสมอ"], set:{A1:4,A2:-1.5,T:3.5}}
+          "ยอดกับท้องที่ขนาดไม่เท่ากันหักล้างกันไม่หมด ถ้าสองลูกไม่เท่ากัน จะมีส่วนที่เหลืออยู่เสมอ"], set:{A1:4,A2:-1.5,T:3.5}}
   ]
 }
 ],
@@ -258,21 +258,21 @@ methods:[
 ],
 
 traps:{
-"T-01":["Amplitude and wavelength are different things. Amplitude is height, wavelength is spacing.","แอมพลิจูดกับความยาวคลื่นเป็นคนละอย่าง แอมพลิจูดคือความสูง ความยาวคลื่นคือระยะห่าง"],
-"T-02":["Frequency does not change at a boundary. It is fixed by the source; v and λ change together.","ความถี่ไม่เปลี่ยนที่รอยต่อ มันถูกกำหนดโดยแหล่งกำเนิด ส่วน v และ λ เปลี่ยนไปด้วยกัน"],
-"T-03":["Only transverse waves can be polarised. Sound is longitudinal and cannot be.","เฉพาะคลื่นตามขวางที่โพลาไรซ์ได้ เสียงเป็นคลื่นตามยาวจึงทำไม่ได้"],
-"T-04":["A half-wavelength was counted as a whole one, or the harmonic number was off by one.","นับครึ่งความยาวคลื่นเป็นหนึ่งความยาวคลื่น หรือเลขฮาร์มอนิกคลาดไปหนึ่ง"]
+"T-01":["Amplitude and wavelength are different things. Amplitude is height, wavelength is spacing.","แอมพลิจูดกับความยาวคลื่นเป็นคนละเรื่องกัน แอมพลิจูดคือความสูง ส่วนความยาวคลื่นคือระยะห่าง"],
+"T-02":["Frequency does not change at a boundary. It is fixed by the source; v and λ change together.","ความถี่ไม่เปลี่ยนที่รอยต่อ เพราะแหล่งกำเนิดเป็นตัวกำหนด ส่วน v กับ λ เปลี่ยนไปพร้อมกัน"],
+"T-03":["Only transverse waves can be polarised. Sound is longitudinal and cannot be.","มีแต่คลื่นตามขวางที่โพลาไรซ์ได้ เสียงเป็นคลื่นตามยาวจึงโพลาไรซ์ไม่ได้"],
+"T-04":["A half-wavelength was counted as a whole one, or the harmonic number was off by one.","นับครึ่งความยาวคลื่นเป็นหนึ่งความยาวคลื่น หรือเลขฮาร์มอนิกผิดไปหนึ่ง"]
 },
 
 gen:{
 "M-01": function(sf){
   var f=pick([2,4,5,10,20]), A=pick([0.02,0.05,0.1,0.3]);
   if(sf==="S-04") return {stem:["A wave is made louder without changing its pitch. Which quantity changed?",
-                                "ทำให้คลื่นเสียงดังขึ้นโดยระดับเสียงไม่เปลี่ยน ปริมาณใดเปลี่ยนไป"],
+                                "ทำให้เสียงดังขึ้นโดยระดับเสียงเท่าเดิม ปริมาณใดเปลี่ยนไป"],
     opts:[{v:["Amplitude","แอมพลิจูด"],ok:1},{v:["Wavelength","ความยาวคลื่น"],trap:"T-01"},
           {v:["Frequency","ความถี่"]},{v:["Speed","อัตราเร็ว"]}],unit:""};
   if(sf==="S-02") return {stem:["On a displacement–distance graph, which feature gives the wavelength?",
-                                "บนกราฟการกระจัด–ระยะทาง ลักษณะใดให้ค่าความยาวคลื่น"],
+                                "บนกราฟการกระจัด–ระยะทาง ส่วนใดของกราฟบอกความยาวคลื่น"],
     opts:[{v:["The distance between two successive crests","ระยะระหว่างสันคลื่นสองลูกที่ติดกัน"],ok:1},
           {v:["The height of a crest","ความสูงของสันคลื่น"],trap:"T-01"},
           {v:["The time for one cycle","เวลาของหนึ่งรอบ"]},
@@ -288,7 +288,7 @@ gen:{
                                 "คลื่นเคลื่อนที่ด้วย "+fmt(v)+" ม./วินาที ความยาวคลื่น "+lam+" เมตร จงหาความถี่"],
     opts:[{v:String(f),ok:1},{v:fmt(v*lam)},{v:fmt(lam/v)},{v:fmt(f*2)}],unit:" Hz"};
   if(sf==="S-04") return {stem:["A wave passes from one medium into another where it travels faster. What happens to f and λ?",
-                                "คลื่นผ่านจากตัวกลางหนึ่งไปอีกตัวกลางที่เคลื่อนที่ได้เร็วกว่า f และ λ เปลี่ยนอย่างไร"],
+                                "คลื่นผ่านจากตัวกลางหนึ่งไปยังอีกตัวกลางที่คลื่นเคลื่อนที่ได้เร็วกว่า f และ λ เปลี่ยนอย่างไร"],
     opts:[{v:["f stays the same, λ increases","f เท่าเดิม λ เพิ่มขึ้น"],ok:1},
           {v:["f increases, λ stays the same","f เพิ่มขึ้น λ เท่าเดิม"],trap:"T-02"},
           {v:["Both increase","เพิ่มขึ้นทั้งคู่"],trap:"T-02"},
@@ -298,9 +298,9 @@ gen:{
     opts:[{v:fmt(v),ok:1},{v:fmt(f/lam)},{v:fmt(lam/f)},{v:fmt(f+lam)}],unit:" m/s"};
 },
 "M-03": function(sf){
-  var C=[{s:["Sound travelling through air is which kind of wave?","เสียงที่เดินทางผ่านอากาศเป็นคลื่นชนิดใด"],
+  var C=[{s:["Sound travelling through air is which kind of wave?","เสียงที่เดินทางผ่านอากาศเป็นคลื่นแบบใด"],
           ok:["Longitudinal","ตามยาว"],w:[["Transverse","ตามขวาง"],["Both at once","เป็นทั้งสองอย่าง"],["Neither","ไม่ใช่ทั้งสอง"]]},
-         {s:["A wave passes through a polarising filter. What does that prove?","คลื่นผ่านแผ่นโพลารอยด์ได้ สิ่งนี้พิสูจน์อะไร"],
+         {s:["A wave passes through a polarising filter. What does that prove?","คลื่นผ่านแผ่นกรองโพลาไรซ์ได้ แสดงว่าอะไร"],
           ok:["It is transverse","มันเป็นคลื่นตามขวาง"],
           w:[["It is longitudinal","มันเป็นคลื่นตามยาว"],["It carries no energy","มันไม่พาพลังงาน"],["Its frequency changed","ความถี่ของมันเปลี่ยน"]]},
          {s:["Why can sound not be polarised?","ทำไมเสียงจึงเกิดโพลาไรเซชันไม่ได้"],
@@ -316,7 +316,7 @@ gen:{
   var s1={30:0.5,37:0.602,45:0.707}[th];
   var s2=s1*v2/v1;
   if(sf==="S-04") return {stem:["A wave slows down as it enters a new medium. Which way does it bend?",
-                                "คลื่นช้าลงเมื่อเข้าสู่ตัวกลางใหม่ มันเบนไปทางใด"],
+                                "คลื่นช้าลงเมื่อเข้าสู่ตัวกลางใหม่ คลื่นจะเบนไปทางไหน"],
     opts:[{v:["Towards the normal","เข้าหาเส้นปกติ"],ok:1},{v:["Away from the normal","ออกจากเส้นปกติ"]},
           {v:["It does not bend","ไม่เบน"]},{v:["It reflects entirely","สะท้อนกลับทั้งหมด"]}],unit:""};
   if(s2>=1) return {stem:["A wave meets a boundary where its speed rises from "+v1+" to "+v2+" m/s. Beyond a certain angle it cannot cross at all. What is that called?",
@@ -331,7 +331,7 @@ gen:{
   var lam=pick([2,4,5,6]), n=pick([1,2,3]);
   var dc=n*lam, dd=(n-0.5)*lam;
   if(sf==="S-04") return {stem:["Two identical sources are in phase. A point is 2.5 wavelengths further from one than the other. What is observed?",
-                                "แหล่งกำเนิดเหมือนกันสองแหล่งมีเฟสตรงกัน จุดหนึ่งห่างจากแหล่งหนึ่งมากกว่าอีกแหล่ง 2.5 ความยาวคลื่น จะสังเกตเห็นอะไร"],
+                                "แหล่งกำเนิดเหมือนกันสองแหล่งมีเฟสตรงกัน จุดหนึ่งอยู่ไกลจากแหล่งหนึ่งมากกว่าอีกแหล่งหนึ่ง 2.5 ความยาวคลื่น จะสังเกตเห็นอะไร"],
     opts:[{v:["Destructive interference","การแทรกสอดแบบหักล้าง"],ok:1},
           {v:["Constructive interference","การแทรกสอดแบบเสริม"],trap:"T-04"},
           {v:["No interference at all","ไม่เกิดการแทรกสอด"]},
@@ -347,7 +347,7 @@ gen:{
   var L=pick([0.6,1,1.2,2]), n=pick([1,2,3,4]);
   var lam=2*L/n;
   if(sf==="S-04") return {stem:["A string fixed at both ends vibrates in its fundamental mode. How much of a wavelength fits on it?",
-                                "เส้นเชือกที่ตรึงปลายทั้งสองสั่นในโหมดมูลฐาน มีความยาวคลื่นอยู่บนเชือกเท่าใด"],
+                                "เส้นเชือกที่ถูกตรึงทั้งสองปลายสั่นในโหมดมูลฐาน บนเชือกมีความยาวคลื่นอยู่เท่าใด"],
     opts:[{v:["Half a wavelength","ครึ่งความยาวคลื่น"],ok:1},{v:["One wavelength","หนึ่งความยาวคลื่น"],trap:"T-04"},
           {v:["Two wavelengths","สองความยาวคลื่น"],trap:"T-04"},{v:["A quarter wavelength","หนึ่งในสี่ความยาวคลื่น"]}],unit:""};
   if(sf==="S-05") return {stem:["A standing wave of wavelength "+fmt(lam)+" m sits on a string in harmonic "+n+". Find the string's length.",

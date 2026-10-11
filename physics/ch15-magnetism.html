@@ -872,7 +872,7 @@ kicker:["Physics · Chapter 15","ฟิสิกส์ · บทที่ 15"],
 title:["Magnetism","แม่เหล็กและไฟฟ้า"],
 mapTitle:["Electricity and magnetism are one thing","ไฟฟ้าและแม่เหล็กคือสิ่งเดียวกัน"],
 lede:["A current makes a magnetic field, and a changing magnetic field makes a current. That two-way link runs every motor and every generator on the planet, and it ends this block by joining its two halves together.",
-      "กระแสสร้างสนามแม่เหล็ก และสนามแม่เหล็กที่เปลี่ยนแปลงสร้างกระแส ความเชื่อมโยงสองทางนี้ขับเคลื่อนมอเตอร์และเครื่องกำเนิดไฟฟ้าทุกเครื่องบนโลก และปิดท้ายบล็อกนี้ด้วยการเชื่อมสองครึ่งเข้าด้วยกัน"],
+      "กระแสสร้างสนามแม่เหล็ก และสนามแม่เหล็กที่เปลี่ยนไปก็สร้างกระแสได้ ความสัมพันธ์สองทางนี้คือหลักการของมอเตอร์และเครื่องกำเนิดไฟฟ้าทุกเครื่องบนโลก และเป็นบทที่เชื่อมไฟฟ้ากับแม่เหล็กเข้าด้วยกัน ปิดท้ายหมวดนี้"],
 next:["→ continues in Chapter 18 · Electromagnetic Waves","→ ต่อในบทที่ 18 · คลื่นแม่เหล็กไฟฟ้า"],
 
 nodes:[
@@ -880,8 +880,8 @@ nodes:[
   title:["Magnetic fields","สนามแม่เหล็ก"],
   body:[["Magnetic field B is measured in tesla and drawn as closed loops that never begin or end — there is no magnetic equivalent of an isolated charge. Into the page is drawn ×, out of the page is drawn •.",
          "A straight current-carrying wire wraps a circular field around itself. Grip the wire with your right hand, thumb along the current, and your fingers curl the way the field does."],
-        ["สนามแม่เหล็ก B วัดเป็นเทสลา และเขียนเป็นวงปิดที่ไม่มีจุดเริ่มหรือจุดจบ ไม่มีสิ่งใดเทียบเท่าประจุเดี่ยวในทางแม่เหล็ก พุ่งเข้ากระดาษเขียนเป็น × พุ่งออกเขียนเป็น •",
-         "ลวดตรงที่มีกระแสไหลจะมีสนามพันรอบตัวเป็นวงกลม กำมือขวารอบลวดโดยให้นิ้วโป้งชี้ตามกระแส นิ้วที่เหลือจะโค้งไปตามทิศของสนาม"]],
+        ["สนามแม่เหล็ก B วัดเป็นเทสลา และวาดเป็นเส้นวนปิดที่ไม่มีจุดเริ่มต้นหรือจุดสิ้นสุด เพราะไม่มีขั้วแม่เหล็กเดี่ยวที่เหมือนประจุเดี่ยวทางไฟฟ้า สนามที่พุ่งเข้าหน้ากระดาษเขียนเป็น × ส่วนที่พุ่งออกจากหน้ากระดาษเขียนเป็น •",
+         "ลวดตรงที่มีกระแสไหลผ่านจะสร้างสนามเป็นวงกลมล้อมรอบตัวมัน ลองกำลวดด้วยมือขวา ให้นิ้วโป้งชี้ไปตามกระแส นิ้วที่เหลือจะโค้งไปตามทิศของสนาม"]],
   formula:["Φ = BA        × into page  ·  • out of page","Φ = BA        × เข้ากระดาษ  ·  • ออกจากกระดาษ"],
   flabel:["Field lines always close","เส้นสนามเป็นวงปิดเสมอ"],
   viz:"plot",
@@ -905,15 +905,15 @@ nodes:[
       {lab:["Direction rule","กฎหาทิศ"], f:function(){
         return L()?"กำมือขวา นิ้วโป้งชี้ตามกระแส":"right hand grip, thumb along the current"; }}
     ],
-    note:["a wire falls off as 1/r, unlike a point charge's 1/r² — the geometry is different","ลวดลดลงตาม 1/r ต่างจากประจุจุดที่เป็น 1/r² เพราะรูปทรงต่างกัน"]
+    note:["a wire falls off as 1/r, unlike a point charge's 1/r² — the geometry is different","สนามรอบลวดลดลงตาม 1/r ต่างจากประจุจุดที่ลดตาม 1/r² เพราะรูปร่างของแหล่งกำเนิดต่างกัน"]
   } },
 
 { id:"force-charge", x:100, y:150, requires:["field"], methods:["M-02"],
   title:["Force on a moving charge","แรงต่อประจุที่เคลื่อนที่"],
   body:[["A charge moving through a magnetic field feels F = qvB sin θ, at right angles to both its velocity and the field. A charge moving along the field feels nothing at all.",
          "Because the force is always perpendicular to the motion it does no work, so the speed never changes — only the direction. That is why a charged particle in a uniform field travels in a circle of radius r = mv/qB."],
-        ["ประจุที่เคลื่อนที่ผ่านสนามแม่เหล็กจะรู้สึกแรง F = qvB sin θ ในทิศตั้งฉากกับทั้งความเร็วและสนาม ประจุที่เคลื่อนที่ไปตามแนวสนามจะไม่รู้สึกแรงเลย",
-         "เพราะแรงตั้งฉากกับการเคลื่อนที่เสมอ มันจึงไม่ทำงาน อัตราเร็วจึงไม่เคยเปลี่ยน เปลี่ยนแต่ทิศทาง นั่นคือเหตุผลที่อนุภาคมีประจุในสนามสม่ำเสมอเคลื่อนที่เป็นวงกลมรัศมี r = mv/qB"]],
+        ["ประจุที่เคลื่อนที่ผ่านสนามแม่เหล็กจะได้รับแรง F = qvB sin θ ในทิศตั้งฉากกับทั้งความเร็วและสนาม ถ้าประจุเคลื่อนที่ไปตามแนวสนาม จะไม่มีแรงกระทำเลย",
+         "แรงนี้ตั้งฉากกับการเคลื่อนที่เสมอ จึงไม่ทำงาน อัตราเร็วจึงไม่เปลี่ยน เปลี่ยนแต่ทิศทาง อนุภาคมีประจุในสนามสม่ำเสมอจึงเคลื่อนที่เป็นวงกลมรัศมี r = mv/qB"]],
   formula:["F = qvB sin θ        r = mv / qB","F = qvB sin θ        r = mv / qB"],
   flabel:["Perpendicular · does no work","ตั้งฉาก · ไม่ทำงาน"],
   viz:"stage",
@@ -921,7 +921,7 @@ nodes:[
     anim:true,
     spellName:["The Circling Wisp: magnetic force bends the path","ภูตวนวง: แรงแม่เหล็กทำให้วิถีโค้ง"],
     question:["A charged wisp flies into a magnetic field pointing into the page. Why does it turn into a circle — and what sets its size?",
-              "ภูตประจุบินเข้าสนามแม่เหล็กที่ชี้เข้าหน้ากระดาษ ทำไมมันจึงเลี้ยวเป็นวงกลม และอะไรกำหนดขนาดวง"],
+              "ภูตประจุบินเข้าไปในสนามแม่เหล็กที่ชี้เข้าหน้ากระดาษ ทำไมมันจึงเลี้ยวเป็นวงกลม และอะไรกำหนดขนาดของวง"],
     ctrls:[
       {k:"v", lab:["Speed (× 10⁶ m/s)","อัตราเร็ว (× 10⁶ ม./วิ)"], min:.5, max:5, step:.5, def:2, unit:""},
       {k:"B", lab:["Field B","สนาม B"], min:.05, max:1, step:.05, def:.2, unit:" T"},
@@ -985,7 +985,7 @@ nodes:[
       ]
     },
     predict:{ kind:"choice",
-      ask:["If the wisp flew twice as fast, how long would one full loop take?","ถ้าภูตบินเร็วเป็นสองเท่า การวนครบหนึ่งรอบจะใช้เวลาเท่าใด"],
+      ask:["If the wisp flew twice as fast, how long would one full loop take?","ถ้าภูตบินเร็วขึ้นเป็นสองเท่า การวนครบหนึ่งรอบจะใช้เวลาเท่าใด"],
       opts:[["Half as long","ครึ่งหนึ่ง"],["Exactly the same","เท่าเดิมพอดี"],["Twice as long","สองเท่า"]],
       actual:function(){ return 1; },
       explain:function(p){ return ["Twice as fast means a circle twice as big (r = mv / qB), so the longer path exactly cancels the higher speed: T = 2πm / qB = "+fmt(C15.Tns(p))+" ns, with no v in it. Cyclotrons rely on this.",
@@ -1019,15 +1019,15 @@ nodes:[
       }
     },
     note:["the orange force always points at the centre, so it bends the path but never speeds the wisp up or slows it down",
-          "แรงสีส้มชี้เข้าศูนย์กลางเสมอ จึงดัดเส้นทาง แต่ไม่เคยทำให้ภูตเร็วขึ้นหรือช้าลง"]
+          "แรงสีส้มชี้เข้าหาจุดศูนย์กลางเสมอ จึงทำให้เส้นทางโค้ง แต่ไม่ทำให้ภูตเร็วขึ้นหรือช้าลง"]
   },
   guide:[
     {say:["A positive wisp enters the field. The force is always at right angles to its velocity, so it curls into a circle.",
-          "ภูตประจุบวกเข้าสู่สนาม แรงตั้งฉากกับความเร็วเสมอ มันจึงม้วนเป็นวงกลม"], set:{v:2,B:.2,m:1,qs:0,T:8}},
+          "ภูตประจุบวกบินเข้าไปในสนาม แรงตั้งฉากกับความเร็วอยู่ตลอด มันจึงวนเป็นวงกลม"], set:{v:2,B:.2,m:1,qs:0,T:8}},
     {say:["Double the speed and cast again. The circle doubles — yet each loop takes the same time, as the faint last loop shows.",
-          "เพิ่มความเร็วเป็นสองเท่าแล้วร่ายอีกครั้ง วงกลมใหญ่ขึ้นสองเท่า แต่แต่ละรอบใช้เวลาเท่าเดิม ดูจากรอยจางของรอบก่อน"], set:{v:4,B:.2,m:1,qs:0,T:8}},
+          "เพิ่มความเร็วเป็นสองเท่าแล้วร่ายอีกครั้ง วงกลมใหญ่ขึ้นสองเท่า แต่วนครบรอบใช้เวลาเท่าเดิม ดูได้จากรอยจางของรอบที่แล้ว"], set:{v:4,B:.2,m:1,qs:0,T:8}},
     {say:["Flip the charge. The same field now curls it the other way.",
-          "กลับเครื่องหมายประจุ สนามเดิมดัดให้มันม้วนไปอีกทาง"], set:{v:2,B:.2,m:1,qs:2,T:8}}
+          "กลับเครื่องหมายประจุ สนามเดิมจะดัดให้มันวนไปอีกทางหนึ่ง"], set:{v:2,B:.2,m:1,qs:2,T:8}}
   ]
 },
 
@@ -1035,8 +1035,8 @@ nodes:[
   title:["Force on a current","แรงต่อลวดที่มีกระแส"],
   body:[["A wire carrying current I in a field B feels F = BIL sin θ. This is the same effect as the force on a moving charge, just counted over all the charges in the wire at once.",
          "Two parallel wires therefore push on each other: currents in the same direction attract, opposite directions repel. Note that this is the reverse of what charges do, and mixing the two up is trap T-03."],
-        ["ลวดที่มีกระแส I ในสนาม B จะรู้สึกแรง F = BIL sin θ นี่คือผลอย่างเดียวกับแรงต่อประจุที่เคลื่อนที่ เพียงแต่นับรวมประจุทั้งหมดในลวดพร้อมกัน",
-         "ลวดขนานสองเส้นจึงผลักดันกัน กระแสทิศเดียวกันดูดกัน ทิศตรงข้ามผลักกัน สังเกตว่านี่ตรงข้ามกับสิ่งที่ประจุทำ และการสับสนคือกับดัก T-03"]],
+        ["ลวดที่มีกระแส I อยู่ในสนาม B จะได้รับแรง F = BIL sin θ นี่คือผลเดียวกับแรงที่กระทำต่อประจุเคลื่อนที่ เพียงแต่รวมประจุทุกตัวในลวดไว้ในคราวเดียว",
+         "ลวดขนานสองเส้นจึงออกแรงต่อกัน กระแสทิศเดียวกันดูดกัน กระแสทิศตรงข้ามผลักกัน ข้อนี้ตรงข้ามกับประจุ ถ้าสับสนก็ตกกับดัก T-03"]],
   formula:["F = BIL sin θ","F = BIL sin θ"],
   flabel:["Same current direction · wires attract","กระแสทิศเดียวกัน · ลวดดูดกัน"],
   viz:"plot",
@@ -1062,15 +1062,15 @@ nodes:[
       {lab:["Direction of the force","ทิศของแรง"], f:function(){
         return L()?"ตั้งฉากกับทั้ง I และ B":"perpendicular to BOTH I and B"; }}
     ],
-    note:["the curve touches zero at both ends — a wire parallel to the field feels nothing at all","เส้นโค้งแตะศูนย์ที่ปลายทั้งสอง ลวดที่ขนานกับสนามไม่รู้สึกถึงแรงเลย"]
+    note:["the curve touches zero at both ends — a wire parallel to the field feels nothing at all","เส้นโค้งแตะศูนย์ที่ปลายทั้งสองข้าง ลวดที่ขนานกับสนามจึงไม่มีแรงกระทำเลย"]
   } },
 
 { id:"induction", x:235, y:248, requires:["force-charge","force-wire"], methods:["M-04"],
   title:["Electromagnetic induction","การเหนี่ยวนำแม่เหล็กไฟฟ้า"],
   body:[["Faraday's law says a changing magnetic flux induces an emf: ε = −N ΔΦ/Δt. What matters is the rate of change, not the flux itself — a stationary magnet in a coil induces nothing at all.",
          "The minus sign is Lenz's law: the induced current always opposes the change that created it. It has to, or you would get energy from nothing. Dropping the minus sign is trap T-04."],
-        ["กฎของฟาราเดย์บอกว่าฟลักซ์แม่เหล็กที่เปลี่ยนแปลงเหนี่ยวนำให้เกิดแรงเคลื่อนไฟฟ้า ε = −N ΔΦ/Δt สิ่งที่สำคัญคืออัตราการเปลี่ยนแปลง ไม่ใช่ตัวฟลักซ์เอง แม่เหล็กที่วางนิ่งในขดลวดไม่เหนี่ยวนำอะไรเลย",
-         "เครื่องหมายลบคือกฎของเลนซ์ กระแสเหนี่ยวนำจะต้านการเปลี่ยนแปลงที่สร้างมันขึ้นมาเสมอ มันต้องเป็นเช่นนั้น มิฉะนั้นจะได้พลังงานมาจากความว่างเปล่า การละเครื่องหมายลบคือกับดัก T-04"]],
+        ["กฎของฟาราเดย์บอกว่าฟลักซ์แม่เหล็กที่เปลี่ยนไปเหนี่ยวนำให้เกิดแรงเคลื่อนไฟฟ้า ε = −N ΔΦ/Δt สิ่งสำคัญคืออัตราการเปลี่ยน ไม่ใช่ค่าฟลักซ์เอง แม่เหล็กที่วางนิ่งอยู่ในขดลวดจึงไม่เหนี่ยวนำอะไรเลย",
+         "เครื่องหมายลบคือกฎของเลนซ์ กระแสเหนี่ยวนำจะต้านการเปลี่ยนแปลงที่ทำให้เกิดมันเสมอ ต้องเป็นอย่างนี้ ไม่อย่างนั้นเราจะได้พลังงานมาจากความว่างเปล่า ถ้าตัดเครื่องหมายลบทิ้งก็ตกกับดัก T-04"]],
   formula:["ε = −N ΔΦ / Δt","ε = −N ΔΦ / Δt"],
   flabel:["Rate of change · opposes the cause","อัตราการเปลี่ยนแปลง · ต้านสาเหตุ"],
   viz:"bars",
@@ -1096,23 +1096,23 @@ nodes:[
       {lab:["Rate dΦ/dt","อัตรา dΦ/dt"], f:function(p){ return p.rate; }, col:"warn"},
       {lab:["Induced emf","emf เหนี่ยวนำ"], f:function(p){ return p.N*p.rate; }, col:"accent"}
     ],
-    note:["push the flux bar to maximum with the rate at zero — the emf bar stays flat on the floor","ดันแถบฟลักซ์ให้สูงสุดโดยตั้งอัตราเป็นศูนย์ แถบ emf จะยังราบอยู่กับพื้น"]
+    note:["push the flux bar to maximum with the rate at zero — the emf bar stays flat on the floor","ดันแถบฟลักซ์ให้สูงสุดแล้วตั้งอัตราเป็นศูนย์ แถบ emf จะยังราบอยู่กับพื้น"]
   },
   guide:[
     {say:["A large, steady flux. The emf bar is flat at zero — a stationary magnet induces nothing.",
-          "ฟลักซ์มากและคงที่ แถบ emf ราบที่ศูนย์ แม่เหล็กที่อยู่นิ่งไม่เหนี่ยวนำอะไรเลย"], set:{flux:10,rate:0,N:10}},
+          "ฟลักซ์มากและคงที่ แถบ emf ราบอยู่ที่ศูนย์ แม่เหล็กที่อยู่นิ่งไม่เหนี่ยวนำอะไรเลย"], set:{flux:10,rate:0,N:10}},
     {say:["Now let it change, even slowly. An emf appears at once, though the flux itself is smaller.",
-          "ทีนี้ให้มันเปลี่ยน แม้จะช้าๆ แรงเคลื่อนไฟฟ้าก็ปรากฏทันที ทั้งที่ฟลักซ์เองน้อยกว่าเดิม"], set:{flux:3,rate:4,N:10}},
+          "ทีนี้ลองให้ฟลักซ์เปลี่ยน แม้จะเปลี่ยนช้าๆ ก็เกิดแรงเคลื่อนไฟฟ้าขึ้นทันที ทั้งที่ค่าฟลักซ์น้อยกว่าเดิม"], set:{flux:3,rate:4,N:10}},
     {say:["More turns multiply the effect. Faraday's law counts turns as well as the rate of change.",
-          "รอบมากขึ้นคูณผลให้มากขึ้น กฎของฟาราเดย์นับทั้งจำนวนรอบและอัตราการเปลี่ยนแปลง"], set:{flux:3,rate:4,N:40}}
+          "ยิ่งมีหลายรอบ ผลยิ่งมากขึ้นตามจำนวนรอบ กฎของฟาราเดย์คิดทั้งจำนวนรอบและอัตราการเปลี่ยนแปลง"], set:{flux:3,rate:4,N:40}}
   ] },
 
 { id:"transformers", x:235, y:346, requires:["induction"], methods:["M-05","M-06"],
   title:["Transformers","หม้อแปลงไฟฟ้า"],
   body:[["Voltage scales with the turns ratio, V₂/V₁ = N₂/N₁. In an ideal transformer no power is lost, so V₁I₁ = V₂I₂ — step the voltage up and the current steps down by the same factor.",
          "This is why power is transmitted at hundreds of kilovolts: high voltage means low current, and losses go as I²R. It only works with alternating current, because a steady field induces nothing."],
-        ["ความต่างศักย์แปรตามอัตราส่วนจำนวนรอบ V₂/V₁ = N₂/N₁ ในหม้อแปลงอุดมคติไม่มีกำลังสูญเสีย จึงได้ V₁I₁ = V₂I₂ เพิ่มความต่างศักย์แล้วกระแสจะลดลงด้วยอัตราส่วนเดียวกัน",
-         "นี่คือเหตุผลที่ส่งไฟฟ้าที่ระดับหลายแสนโวลต์ ความต่างศักย์สูงหมายถึงกระแสต่ำ และการสูญเสียแปรตาม I²R มันใช้ได้กับไฟฟ้ากระแสสลับเท่านั้น เพราะสนามที่คงที่ไม่เหนี่ยวนำอะไรเลย"]],
+        ["ความต่างศักย์เป็นไปตามอัตราส่วนจำนวนรอบ V₂/V₁ = N₂/N₁ หม้อแปลงอุดมคติไม่สูญเสียกำลัง จึงได้ V₁I₁ = V₂I₂ ถ้าเพิ่มความต่างศักย์ กระแสจะลดลงด้วยตัวคูณเดียวกัน",
+         "เพราะอย่างนี้จึงส่งไฟฟ้าที่ความต่างศักย์หลายร้อยกิโลโวลต์ ความต่างศักย์สูงทำให้กระแสต่ำ และกำลังสูญเสียแปรตาม I²R วิธีนี้ใช้ได้กับไฟฟ้ากระแสสลับเท่านั้น เพราะสนามที่คงที่ไม่เหนี่ยวนำอะไรเลย"]],
   formula:["V₂/V₁ = N₂/N₁        V₁I₁ = V₂I₂","V₂/V₁ = N₂/N₁        V₁I₁ = V₂I₂"],
   flabel:["Alternating current only","ใช้ได้กับไฟกระแสสลับเท่านั้น"],
   viz:"bars",
@@ -1142,15 +1142,15 @@ nodes:[
       {lab:["Primary I","I ปฐมภูมิ"], f:function(p){ return p.Ip; }, col:"faint"},
       {lab:["Secondary I","I ทุติยภูมิ"], f:function(p){ return p.Ip*p.Np/p.Ns; }, col:"good"}
     ],
-    note:["a transformer trades volts for amps — it never manufactures power","หม้อแปลงแลกโวลต์กับแอมป์ มันไม่เคยผลิตกำลังขึ้นมาเอง"]
+    note:["a transformer trades volts for amps — it never manufactures power","หม้อแปลงแลกโวลต์กับแอมป์ แต่ไม่เคยสร้างกำลังเพิ่มขึ้นมาเอง"]
   },
   guide:[
     {say:["Fewer turns on the secondary, so the voltage drops — but watch the current bar rise to match.",
-          "รอบขดทุติยภูมิน้อยกว่า แรงดันจึงลดลง แต่ดูแถบกระแสที่เพิ่มขึ้นชดเชย"], set:{Vp:240,Np:200,Ns:50,Ip:1}},
+          "ขดทุติยภูมิมีรอบน้อยกว่า ความต่างศักย์จึงลดลง แต่ดูแถบกระแสที่เพิ่มขึ้นมาชดเชย"], set:{Vp:240,Np:200,Ns:50,Ip:1}},
     {say:["Flip it into a step-up. Voltage climbs and current falls by exactly the same factor.",
-          "สลับเป็นแบบเพิ่มแรงดัน แรงดันไต่ขึ้นและกระแสลดลงด้วยอัตราส่วนเดียวกันพอดี"], set:{Vp:240,Np:50,Ns:200,Ip:1}},
+          "สลับเป็นแบบเพิ่มความต่างศักย์ ความต่างศักย์เพิ่มขึ้น และกระแสลดลงด้วยตัวคูณเดียวกันพอดี"], set:{Vp:240,Np:50,Ns:200,Ip:1}},
     {say:["Whatever the ratio, the power readout never changes. That is the constraint behind the whole device.",
-          "ไม่ว่าอัตราส่วนเป็นเท่าใด ค่ากำลังไม่เคยเปลี่ยน นั่นคือข้อจำกัดที่อยู่เบื้องหลังอุปกรณ์ทั้งชิ้น"], set:{Vp:120,Np:100,Ns:400,Ip:2}}
+          "ไม่ว่าอัตราส่วนจะเป็นเท่าใด ค่ากำลังก็ไม่เปลี่ยน นี่คือเงื่อนไขที่อยู่เบื้องหลังหม้อแปลงทั้งเครื่อง"], set:{Vp:120,Np:100,Ns:400,Ip:2}}
   ] }
 ],
 
@@ -1164,9 +1164,9 @@ methods:[
 ],
 
 traps:{
-"T-01":["A charge moving parallel to the field feels no force. sin θ = 0.","ประจุที่เคลื่อนที่ขนานกับสนามไม่รู้สึกแรง เพราะ sin θ = 0"],
-"T-02":["The magnetic force is perpendicular to the motion, so it does no work and cannot change the speed.","แรงแม่เหล็กตั้งฉากกับการเคลื่อนที่ จึงไม่ทำงานและเปลี่ยนอัตราเร็วไม่ได้"],
-"T-03":["Parallel currents in the SAME direction attract. That is the opposite of like charges.","กระแสขนานทิศเดียวกันดูดกัน ซึ่งตรงข้ามกับประจุชนิดเดียวกัน"],
+"T-01":["A charge moving parallel to the field feels no force. sin θ = 0.","ประจุที่เคลื่อนที่ขนานกับสนามไม่ได้รับแรง เพราะ sin θ = 0"],
+"T-02":["The magnetic force is perpendicular to the motion, so it does no work and cannot change the speed.","แรงแม่เหล็กตั้งฉากกับการเคลื่อนที่ จึงไม่ทำงาน และเปลี่ยนอัตราเร็วไม่ได้"],
+"T-03":["Parallel currents in the SAME direction attract. That is the opposite of like charges.","กระแสขนานที่ไหลทิศเดียวกันดูดกัน ซึ่งตรงข้ามกับประจุชนิดเดียวกันที่ผลักกัน"],
 "T-04":["Lenz's law. The induced current opposes the change, and a steady flux induces nothing.","กฎของเลนซ์ กระแสเหนี่ยวนำต้านการเปลี่ยนแปลง และฟลักซ์ที่คงที่ไม่เหนี่ยวนำอะไรเลย"]
 },
 
@@ -1174,10 +1174,10 @@ gen:{
 "M-01": function(sf){
   var B=pick([0.2,0.5,1.2]), A=pick([0.01,0.05,0.2]);
   if(sf==="S-04") return {stem:["Which symbol shows a magnetic field pointing into the page?",
-                                "สัญลักษณ์ใดแสดงสนามแม่เหล็กที่พุ่งเข้าไปในกระดาษ"],
+                                "สัญลักษณ์ใดแสดงสนามแม่เหล็กที่พุ่งเข้าหน้ากระดาษ"],
     opts:[{v:"×",ok:1},{v:"•"},{v:"→"},{v:"↑"}],unit:""};
   if(sf==="S-03") return {stem:["Why do magnetic field lines never start or stop anywhere?",
-                                "ทำไมเส้นสนามแม่เหล็กจึงไม่มีจุดเริ่มหรือจุดสิ้นสุด"],
+                                "ทำไมเส้นสนามแม่เหล็กจึงไม่มีจุดเริ่มต้นหรือจุดสิ้นสุด"],
     opts:[{v:["There are no isolated magnetic poles","ไม่มีขั้วแม่เหล็กเดี่ยว"],ok:1},
           {v:["They are too weak to end","มันอ่อนเกินกว่าจะสิ้นสุด"]},
           {v:["They start at the north pole only","มันเริ่มที่ขั้วเหนือเท่านั้น"]},
@@ -1190,13 +1190,13 @@ gen:{
   var q=pick([1.6e-19,3.2e-19]), v=pick([1e6,2e6,5e6]), B=pick([0.1,0.4,0.8]);
   var F=q*v*B;
   if(sf==="S-04") return {stem:["A charge moves exactly along a magnetic field line. What force does it feel?",
-                                "ประจุเคลื่อนที่ไปตามเส้นสนามแม่เหล็กพอดี มันรู้สึกแรงเท่าใด"],
+                                "ประจุเคลื่อนที่ไปตามเส้นสนามแม่เหล็กพอดี จะได้รับแรงเท่าใด"],
     opts:[{v:["None — sin θ is zero","ไม่มีแรง เพราะ sin θ เป็นศูนย์"],ok:1},
           {v:["Maximum force","แรงมากที่สุด"],trap:"T-01"},
           {v:["Half the maximum","ครึ่งหนึ่งของแรงสูงสุด"],trap:"T-01"},
           {v:["A force along the field","แรงในแนวสนาม"],trap:"T-01"}],unit:""};
   if(sf==="S-03") return {stem:["A charged particle enters a uniform field at right angles. What path does it follow, and does it speed up?",
-                                "อนุภาคมีประจุเข้าสู่สนามสม่ำเสมอในแนวตั้งฉาก มันเคลื่อนที่เป็นเส้นทางแบบใด และเร็วขึ้นหรือไม่"],
+                                "อนุภาคมีประจุเข้าไปในสนามสม่ำเสมอโดยทำมุมตั้งฉาก มันเคลื่อนที่ตามเส้นทางแบบใด และเร็วขึ้นหรือไม่"],
     opts:[{v:["A circle, at constant speed","วงกลม ด้วยอัตราเร็วคงที่"],ok:1},
           {v:["A circle, speeding up","วงกลม และเร็วขึ้น"],trap:"T-02"},
           {v:["A straight line, speeding up","เส้นตรง และเร็วขึ้น"],trap:"T-02"},
@@ -1223,15 +1223,15 @@ gen:{
   var N=pick([50,100,200]), dPhi=pick([0.01,0.02,0.05]), dt=pick([0.1,0.2,0.5]);
   var e=N*dPhi/dt;
   if(sf==="S-04") return {stem:["A magnet is held motionless inside a coil. What emf is induced?",
-                                "วางแม่เหล็กนิ่งไว้ในขดลวด เกิดแรงเคลื่อนไฟฟ้าเหนี่ยวนำเท่าใด"],
+                                "ถือแม่เหล็กนิ่งไว้ในขดลวด จะเกิดแรงเคลื่อนไฟฟ้าเหนี่ยวนำเท่าใด"],
     opts:[{v:["None — the flux is not changing","ไม่เกิด เพราะฟลักซ์ไม่เปลี่ยนแปลง"],ok:1},
           {v:["A steady emf proportional to the flux","แรงเคลื่อนคงที่ตามฟลักซ์"],trap:"T-04"},
           {v:["A large emf","แรงเคลื่อนขนาดใหญ่"],trap:"T-04"},
           {v:["An alternating emf","แรงเคลื่อนสลับ"]}],unit:""};
   if(sf==="S-03") return {stem:["A north pole is pushed into a coil. Which way does the induced current flow?",
-                                "ผลักขั้วเหนือเข้าไปในขดลวด กระแสเหนี่ยวนำไหลไปทางใด"],
-    opts:[{v:["So as to create a north pole facing the magnet","ในทิศที่สร้างขั้วเหนือหันเข้าหาแม่เหล็ก"],ok:1},
-          {v:["So as to create a south pole facing the magnet","ในทิศที่สร้างขั้วใต้หันเข้าหาแม่เหล็ก"],trap:"T-04"},
+                                "ดันขั้วเหนือเข้าไปในขดลวด กระแสเหนี่ยวนำจะไหลไปทางใด"],
+    opts:[{v:["So as to create a north pole facing the magnet","ไหลในทิศที่ทำให้เกิดขั้วเหนือหันเข้าหาแม่เหล็ก"],ok:1},
+          {v:["So as to create a south pole facing the magnet","ไหลในทิศที่ทำให้เกิดขั้วใต้หันเข้าหาแม่เหล็ก"],trap:"T-04"},
           {v:["It does not flow at all","ไม่ไหลเลย"],trap:"T-04"},
           {v:["In whichever direction the coil is wound","ตามทิศที่พันขดลวด"]}],unit:""};
   return {stem:["A "+N+"-turn coil sees its flux change by "+dPhi+" Wb in "+dt+" s. Find the induced emf.",
@@ -1259,7 +1259,7 @@ gen:{
   var P=V1*I1, V2=V1*k, I2=P/V2;
   if(sf==="S-04") return {stem:["Why is electrical power transmitted at very high voltage?",
                                 "ทำไมจึงส่งกำลังไฟฟ้าที่ความต่างศักย์สูงมาก"],
-    opts:[{v:["High voltage means low current, and losses go as I²R","ความต่างศักย์สูงทำให้กระแสต่ำ และการสูญเสียแปรตาม I²R"],ok:1},
+    opts:[{v:["High voltage means low current, and losses go as I²R","ความต่างศักย์สูงทำให้กระแสต่ำ และกำลังสูญเสียแปรตาม I²R"],ok:1},
           {v:["High voltage travels faster","ความต่างศักย์สูงเดินทางเร็วกว่า"]},
           {v:["It reduces the resistance of the cables","มันลดความต้านทานของสายเคเบิล"]},
           {v:["High voltage means high current","ความต่างศักย์สูงหมายถึงกระแสสูง"],trap:"T-03"}],unit:""};

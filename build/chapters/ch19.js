@@ -4,7 +4,7 @@ kicker:["Physics · Chapter 19","ฟิสิกส์ · บทที่ 19"],
 title:["Atomic Physics","ฟิสิกส์อะตอม"],
 mapTitle:["Where the waves turn out to be particles","เมื่อคลื่นกลับกลายเป็นอนุภาค"],
 lede:["Chapter 10 proved light is a wave. This one shows the same light arriving in indivisible lumps. Both are true, and learning to hold both at once is the point of the chapter.",
-      "บทที่ 10 พิสูจน์ว่าแสงเป็นคลื่น บทนี้แสดงว่าแสงเดียวกันนั้นมาถึงเป็นก้อนที่แบ่งไม่ได้ ทั้งสองเป็นจริง และการเรียนรู้ที่จะยึดทั้งสองไว้พร้อมกันคือหัวใจของบทนี้"],
+      "บทที่ 10 พิสูจน์ว่าแสงเป็นคลื่น ส่วนบทนี้จะแสดงว่าแสงเดียวกันนั้นมาถึงเราเป็นก้อนที่แบ่งไม่ได้ ทั้งสองอย่างเป็นจริง และหัวใจของบทนี้คือการเข้าใจให้ได้ว่าแสงเป็นทั้งสองอย่างพร้อมกัน"],
 next:["→ continues in Chapter 20 · Nuclear Physics","→ ต่อในบทที่ 20 · ฟิสิกส์นิวเคลียร์"],
 
 nodes:[
@@ -12,8 +12,8 @@ nodes:[
   title:["The photon","โฟตอน"],
   body:[["Light comes in packets of energy E = hf = hc/λ, with h = 6.63 × 10⁻³⁴ J·s. A dim beam is fewer photons, not smaller ones — each photon of a given colour always carries exactly the same energy.",
          "These energies are tiny in joules, so the electronvolt is used instead: 1 eV = 1.6 × 10⁻¹⁹ J. Forgetting the conversion is trap T-02 and it shifts every answer by nineteen orders of magnitude."],
-        ["แสงมาเป็นก้อนพลังงาน E = hf = hc/λ โดย h = 6.63 × 10⁻³⁴ จูล·วินาที ลำแสงที่จางคือโฟตอนจำนวนน้อยลง ไม่ใช่โฟตอนที่เล็กลง โฟตอนของสีหนึ่งๆ พาพลังงานเท่ากันเป๊ะเสมอ",
-         "พลังงานเหล่านี้เล็กมากเมื่อวัดเป็นจูล จึงใช้อิเล็กตรอนโวลต์แทน 1 eV = 1.6 × 10⁻¹⁹ จูล การลืมแปลงหน่วยคือกับดัก T-02 และมันเลื่อนคำตอบไปสิบเก้าอันดับ"]],
+        ["แสงมาเป็นก้อนพลังงาน E = hf = hc/λ โดย h = 6.63 × 10⁻³⁴ J·s ลำแสงที่จางลงคือมีโฟตอนน้อยลง ไม่ใช่โฟตอนเล็กลง โฟตอนของแสงสีหนึ่งๆ มีพลังงานเท่ากันเป๊ะเสมอ",
+         "พลังงานเหล่านี้มีค่าน้อยมากเมื่อวัดเป็นจูล เราจึงใช้อิเล็กตรอนโวลต์แทน 1 eV = 1.6 × 10⁻¹⁹ J ถ้าลืมแปลงหน่วยก็ตกกับดัก T-02 และคำตอบจะคลาดไปสิบเก้าอันดับขนาด"]],
   formula:["E = hf = hc/λ        1 eV = 1.6 × 10⁻¹⁹ J","E = hf = hc/λ        1 eV = 1.6 × 10⁻¹⁹ J"],
   flabel:["Energy per packet, fixed by colour","พลังงานต่อก้อน กำหนดโดยสี"],
   viz:"plot",
@@ -37,15 +37,15 @@ nodes:[
       {lab:["Brighter light means","แสงสว่างขึ้นแปลว่า"], f:function(){
         return L()?"โฟตอนมากขึ้น ไม่ใช่โฟตอนที่แรงขึ้น":"more photons, not stronger photons"; }}
     ],
-    note:["turning up the brightness slides no point along this line — it only adds more points","การเพิ่มความสว่างไม่ได้เลื่อนจุดไปตามเส้นนี้ แต่เพิ่มจำนวนจุดเท่านั้น"]
+    note:["turning up the brightness slides no point along this line — it only adds more points","ความสว่างที่เพิ่มขึ้นไม่ได้เลื่อนจุดไปตามเส้นนี้ มีแต่เพิ่มจำนวนจุด"]
   } },
 
 { id:"photoelectric", x:100, y:150, requires:["photon"], methods:["M-02"],
   title:["The photoelectric effect","ปรากฏการณ์โฟโตอิเล็กทริก"],
   body:[["Shine light on a metal and electrons may be ejected — but only if the frequency exceeds a threshold. Below it, nothing happens no matter how bright the source, which no wave theory can explain.",
          "One photon frees one electron: hf = W + E_k. Raising the intensity releases more electrons but never faster ones. Believing brighter light gives more energetic electrons is trap T-01, and it is the single most tested misconception in the chapter."],
-        ["ฉายแสงบนโลหะแล้วอิเล็กตรอนอาจหลุดออกมา แต่เฉพาะเมื่อความถี่เกินค่าขีดเริ่ม ต่ำกว่านั้นจะไม่เกิดอะไรเลยไม่ว่าแหล่งกำเนิดจะสว่างแค่ไหน ซึ่งทฤษฎีคลื่นอธิบายไม่ได้",
-         "หนึ่งโฟตอนปลดปล่อยหนึ่งอิเล็กตรอน hf = W + E_k การเพิ่มความเข้มปล่อยอิเล็กตรอนมากขึ้นแต่ไม่เคยเร็วขึ้น การเชื่อว่าแสงสว่างกว่าให้อิเล็กตรอนพลังงานสูงกว่าคือกับดัก T-01 และเป็นความเข้าใจผิดที่ถูกออกสอบมากที่สุดในบทนี้"]],
+        ["ฉายแสงไปที่โลหะ อิเล็กตรอนอาจหลุดออกมา แต่ต้องเมื่อความถี่สูงกว่าค่าขีดเริ่มเท่านั้น ถ้าต่ำกว่านั้น ต่อให้แหล่งกำเนิดสว่างแค่ไหนก็ไม่เกิดอะไรเลย ทฤษฎีคลื่นอธิบายเรื่องนี้ไม่ได้",
+         "หนึ่งโฟตอนปลดปล่อยหนึ่งอิเล็กตรอน hf = W + E_k เพิ่มความเข้มแสงจะได้อิเล็กตรอนมากขึ้น แต่ไม่ได้เร็วขึ้น ใครคิดว่าแสงสว่างกว่าจะให้อิเล็กตรอนพลังงานสูงกว่าก็ตกกับดัก T-01 ซึ่งเป็นความเข้าใจผิดที่ออกสอบบ่อยที่สุดในบทนี้"]],
   formula:["hf = W + E_k,max        f₀ = W/h","hf = W + E_k,max        f₀ = W/h"],
   flabel:["Brighter means more, not faster","สว่างกว่าคือมากกว่า ไม่ใช่เร็วกว่า"],
   viz:"plot",
@@ -71,25 +71,25 @@ nodes:[
       {lab:["Slope of the line","ความชันของเส้น"], f:function(){
         return L()?"คือค่าคงตัวของพลังค์ h":"is Planck's constant h"; }}
     ],
-    note:["drag the intensity slider all the way — the line will not move by one pixel","ลากแถบความเข้มจนสุด เส้นกราฟจะไม่ขยับแม้แต่พิกเซลเดียว"]
+    note:["drag the intensity slider all the way — the line will not move by one pixel","ลองลากแถบความเข้มไปสุด เส้นกราฟจะไม่ขยับเลยแม้แต่พิกเซลเดียว"]
   },
   guide:[
     {say:["Below the threshold nothing happens at all, however long you wait. The line sits on the floor.",
-          "ต่ำกว่าความถี่ขีดเริ่ม ไม่มีอะไรเกิดขึ้นเลย ไม่ว่าจะรอนานแค่ไหน เส้นกราฟติดพื้น"], set:{phi:2.3,f:4,I:5}},
+          "ถ้าความถี่ต่ำกว่าค่าขีดเริ่ม จะไม่เกิดอะไรขึ้นเลย รอนานแค่ไหนก็เหมือนเดิม เส้นกราฟอยู่ที่พื้น"], set:{phi:2.3,f:4,I:5}},
     {say:["Cross the threshold and electrons appear immediately, with energy that climbs in a straight line.",
-          "ผ่านความถี่ขีดเริ่มไป อิเล็กตรอนปรากฏทันที โดยมีพลังงานที่ไต่ขึ้นเป็นเส้นตรง"], set:{phi:2.3,f:8,I:5}},
+          "พอความถี่เลยค่าขีดเริ่ม อิเล็กตรอนก็หลุดออกมาทันที และพลังงานของมันเพิ่มขึ้นเป็นเส้นตรง"], set:{phi:2.3,f:8,I:5}},
     {say:["Now crank the intensity to maximum. Nothing moves — this is exactly what broke the wave theory.",
-          "ทีนี้เร่งความเข้มจนสุด ไม่มีอะไรขยับ นี่คือสิ่งที่ทำให้ทฤษฎีคลื่นพังลงพอดี"], set:{phi:2.3,f:8,I:20}},
+          "ทีนี้ลองเพิ่มความเข้มจนสุด ไม่มีอะไรขยับ นี่แหละคือสิ่งที่ทำให้ทฤษฎีคลื่นใช้อธิบายไม่ได้"], set:{phi:2.3,f:8,I:20}},
     {say:["A different metal shifts the whole line sideways, but the slope stays h — the same for every metal.",
-          "โลหะต่างชนิดเลื่อนเส้นทั้งเส้นไปด้านข้าง แต่ความชันยังเป็น h เท่าเดิมสำหรับทุกโลหะ"], set:{phi:5,f:16,I:5}}
+          "ถ้าเปลี่ยนชนิดโลหะ เส้นทั้งเส้นจะเลื่อนไปด้านข้าง แต่ความชันยังเป็น h เท่าเดิมกับทุกโลหะ"], set:{phi:5,f:16,I:5}}
   ] },
 
 { id:"bohr", x:370, y:150, requires:["photon"], methods:["M-03","M-04"],
   title:["Energy levels","ระดับพลังงาน"],
   body:[["An electron in hydrogen may occupy only certain energies, E_n = −13.6/n² eV. The negative sign means bound; zero energy is a free electron, and n = 1 at −13.6 eV is the ground state.",
          "A photon is emitted when the electron drops between levels, carrying exactly the difference. Because the levels are discrete, the emitted wavelengths are too — which is why every element has its own fingerprint spectrum."],
-        ["อิเล็กตรอนในไฮโดรเจนอยู่ได้เฉพาะบางระดับพลังงานเท่านั้น E_n = −13.6/n² อิเล็กตรอนโวลต์ เครื่องหมายลบหมายถึงถูกยึดไว้ พลังงานศูนย์คืออิเล็กตรอนอิสระ และ n = 1 ที่ −13.6 eV คือสถานะพื้น",
-         "โฟตอนถูกปล่อยออกมาเมื่ออิเล็กตรอนตกลงระหว่างระดับ โดยพาพลังงานเท่ากับผลต่างพอดี เพราะระดับพลังงานไม่ต่อเนื่อง ความยาวคลื่นที่ปล่อยออกมาจึงไม่ต่อเนื่องด้วย นี่คือเหตุผลที่ทุกธาตุมีสเปกตรัมเป็นลายนิ้วมือของตัวเอง"]],
+        ["อิเล็กตรอนในไฮโดรเจนมีพลังงานได้เฉพาะบางค่า E_n = −13.6/n² eV เครื่องหมายลบแปลว่าอิเล็กตรอนถูกยึดอยู่กับอะตอม พลังงานศูนย์คืออิเล็กตรอนอิสระ และ n = 1 ที่ −13.6 eV คือสถานะพื้น",
+         "เมื่ออิเล็กตรอนตกจากระดับหนึ่งลงไปอีกระดับ จะปล่อยโฟตอนที่มีพลังงานเท่ากับผลต่างของสองระดับพอดี ระดับพลังงานไม่ต่อเนื่อง ความยาวคลื่นที่ปล่อยออกมาจึงไม่ต่อเนื่องด้วย ธาตุแต่ละชนิดจึงมีสเปกตรัมเฉพาะตัวเหมือนลายนิ้วมือ"]],
   formula:["E_n = −13.6 / n²  eV        ΔE = E_i − E_f","E_n = −13.6 / n²  eV        ΔE = E_i − E_f"],
   flabel:["Discrete levels · discrete spectrum","ระดับไม่ต่อเนื่อง · สเปกตรัมไม่ต่อเนื่อง"],
   viz:{
@@ -144,26 +144,26 @@ nodes:[
       } else {
         o.push('<text x="'+(txx+12)+'" y="'+((yi+yf)/2)+'" fill="var(--warn)" font-family="IBM Plex Sans" font-size="11">absorbs '+fmt2(-dE)+' eV</text>');
       }
-      o.push('<text x="24" y="320" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["levels crowd together towards zero — that is why series converge","ระดับพลังงานเบียดกันเข้าหาศูนย์ — นั่นคือเหตุผลที่อนุกรมลู่เข้า"])+'</text>');
+      o.push('<text x="24" y="320" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["levels crowd together towards zero — that is why series converge","ระดับพลังงานยิ่งใกล้ศูนย์ยิ่งอยู่ชิดกัน เส้นในแต่ละอนุกรมจึงลู่เข้า"])+'</text>');
     }
   },
   guide:[
     {say:["Six levels, drawn against a real energy scale. Notice how they crowd together as they approach zero.",
-          "หกระดับ วาดเทียบกับสเกลพลังงานจริง สังเกตว่าระดับเบียดกันแน่นขึ้นเมื่อเข้าใกล้ศูนย์"], set:{ni:3,nf:2}},
+          "หกระดับ วาดตามสเกลพลังงานจริง สังเกตว่ายิ่งใกล้ศูนย์ ระดับยิ่งอยู่ชิดกัน"], set:{ni:3,nf:2}},
     {say:["A drop from n=3 to n=2 emits 1.89 eV — red light, and the first line of the Balmer series.",
-          "การตกจาก n=3 ไป n=2 ปล่อยพลังงาน 1.89 eV คือแสงสีแดง และเป็นเส้นแรกของอนุกรมบัลเมอร์"], set:{ni:3,nf:2}},
+          "อิเล็กตรอนตกจาก n=3 ไป n=2 ปล่อยพลังงาน 1.89 eV เป็นแสงสีแดง และเป็นเส้นแรกของอนุกรมบัลเมอร์"], set:{ni:3,nf:2}},
     {say:["Drop all the way to n=1 instead. Far more energy, far shorter wavelength — the Lyman series is ultraviolet.",
-          "ลองตกลงไปถึง n=1 แทน พลังงานมากกว่ามาก ความยาวคลื่นสั้นกว่ามาก อนุกรมไลมันอยู่ในย่านอัลตราไวโอเลต"], set:{ni:3,nf:1}},
+          "ลองให้ตกลงไปถึง n=1 แทน ได้พลังงานมากกว่ามาก ความยาวคลื่นสั้นกว่ามาก อนุกรมไลมันอยู่ในย่านอัลตราไวโอเลต"], set:{ni:3,nf:1}},
     {say:["Now set nᵢ below n_f. The electron must climb, so a photon is absorbed rather than emitted.",
-          "ทีนี้ตั้ง nᵢ ให้ต่ำกว่า n_f อิเล็กตรอนต้องไต่ขึ้น โฟตอนจึงถูกดูดกลืนแทนที่จะถูกปล่อย"], set:{ni:2,nf:4}}
+          "ทีนี้ลองตั้ง nᵢ ให้ต่ำกว่า n_f อิเล็กตรอนต้องขึ้นไปอยู่ระดับที่สูงกว่า จึงดูดกลืนโฟตอนแทนที่จะปล่อย"], set:{ni:2,nf:4}}
   ]},
 
 { id:"spectra", x:235, y:248, requires:["bohr"], methods:["M-04"],
   title:["Line spectra","สเปกตรัมเส้น"],
   body:[["A hot gas emits only the wavelengths its energy gaps allow, giving bright lines on a dark background. The same gas, cold and lit from behind, absorbs exactly those wavelengths and leaves dark lines instead.",
          "Transitions ending at n = 1 form the Lyman series in the ultraviolet, at n = 2 the Balmer series in visible light, at n = 3 the Paschen series in the infrared. This is how we know what stars are made of."],
-        ["แก๊สร้อนปล่อยเฉพาะความยาวคลื่นที่ช่องว่างพลังงานอนุญาต เกิดเป็นเส้นสว่างบนพื้นมืด แก๊สเดียวกันเมื่อเย็นและมีแสงส่องจากด้านหลัง จะดูดกลืนความยาวคลื่นเหล่านั้นพอดีและเหลือเป็นเส้นมืดแทน",
-         "การเปลี่ยนระดับที่จบที่ n = 1 เกิดอนุกรมไลมันในย่านอัลตราไวโอเลต ที่ n = 2 เกิดอนุกรมบัลเมอร์ในย่านแสงที่มองเห็น ที่ n = 3 เกิดอนุกรมพาสเชนในย่านอินฟราเรด นี่คือวิธีที่เรารู้ว่าดาวฤกษ์ประกอบด้วยอะไร"]],
+        ["แก๊สร้อนปล่อยแสงเฉพาะความยาวคลื่นที่ตรงกับช่องว่างระหว่างระดับพลังงาน จึงเห็นเป็นเส้นสว่างบนพื้นมืด ส่วนแก๊สชนิดเดียวกันตอนเย็น ถ้ามีแสงส่องมาจากด้านหลัง จะดูดกลืนความยาวคลื่นเหล่านั้นพอดี จึงเห็นเป็นเส้นมืดแทน",
+         "การเปลี่ยนระดับที่สิ้นสุดที่ n = 1 ให้อนุกรมไลมันในย่านอัลตราไวโอเลต ที่ n = 2 ให้อนุกรมบัลเมอร์ในย่านแสงที่มองเห็น ที่ n = 3 ให้อนุกรมพาสเชนในย่านอินฟราเรด เราใช้วิธีนี้บอกได้ว่าดาวฤกษ์ประกอบด้วยธาตุอะไร"]],
   formula:["1/λ = R_H (1/n_f² − 1/n_i²)","1/λ = R_H (1/n_f² − 1/n_i²)"],
   flabel:["Lyman UV · Balmer visible · Paschen IR","ไลมัน UV · บัลเมอร์ แสง · พาสเชน IR"],
   viz:"bars",
@@ -193,15 +193,15 @@ nodes:[
       {lab:["nᵢ = nf+4","nᵢ = nf+4"], f:function(p){ var n=p.nf+4; return 1/(1.097e-2*(1/(p.nf*p.nf)-1/(n*n))); }, col:"good"},
       {lab:["limit","ขีดจำกัด"], f:function(p){ return 1/(1.097e-2*(1/(p.nf*p.nf))); }, col:"warn"}
     ],
-    note:["the bars converge on the amber one — every series has a limit it never passes","แถบต่างๆ ลู่เข้าหาแถบสีเหลืองอำพัน ทุกอนุกรมมีขีดจำกัดที่ไม่มีวันข้าม"]
+    note:["the bars converge on the amber one — every series has a limit it never passes","แถบทั้งหลายลู่เข้าหาแถบสีเหลืองอำพัน ทุกอนุกรมมีขีดจำกัดที่ไปไม่เกิน"]
   } },
 
 { id:"debroglie", x:235, y:346, requires:["photoelectric","spectra"], methods:["M-05"],
   title:["Wave–particle duality","ทวิภาวะคลื่น–อนุภาค"],
   body:[["If waves can behave as particles, de Broglie asked, might particles behave as waves? He proposed λ = h/p, and electron diffraction confirmed it within a few years.",
          "The wavelength is absurdly small for anything macroscopic — a thrown ball has one around 10⁻³⁴ m, which is why we never notice. Only for electrons and lighter does the wave nature become measurable."],
-        ["ถ้าคลื่นประพฤติตัวเป็นอนุภาคได้ เดอบรอยล์ถามว่า แล้วอนุภาคจะประพฤติตัวเป็นคลื่นได้ไหม เขาเสนอ λ = h/p และการเลี้ยวเบนของอิเล็กตรอนก็ยืนยันภายในไม่กี่ปี",
-         "ความยาวคลื่นเล็กจนน่าขันสำหรับสิ่งที่มองเห็นได้ ลูกบอลที่ขว้างออกไปมีค่าราว 10⁻³⁴ เมตร จึงเป็นเหตุผลที่เราไม่เคยสังเกตเห็น มีเพียงอิเล็กตรอนและสิ่งที่เบากว่าเท่านั้นที่ความเป็นคลื่นวัดได้"]],
+        ["เดอบรอยล์ตั้งคำถามว่า ถ้าคลื่นแสดงตัวเป็นอนุภาคได้ อนุภาคก็น่าจะแสดงตัวเป็นคลื่นได้เหมือนกัน เขาเสนอว่า λ = h/p และอีกไม่กี่ปีต่อมา การเลี้ยวเบนของอิเล็กตรอนก็ยืนยันแนวคิดนี้",
+         "สำหรับวัตถุขนาดที่เรามองเห็น ความยาวคลื่นเล็กมากจนน่าขัน ลูกบอลที่ขว้างออกไปมีความยาวคลื่นราว 10⁻³⁴ m เราจึงไม่เคยสังเกตเห็น ต้องเป็นอิเล็กตรอนหรืออนุภาคที่เบากว่านั้น จึงจะวัดความเป็นคลื่นได้"]],
   formula:["λ = h/p = h/mv","λ = h/p = h/mv"],
   flabel:["Everything has a wavelength","ทุกสิ่งมีความยาวคลื่น"],
   viz:"plot",
@@ -226,7 +226,7 @@ nodes:[
       {lab:["Why we never notice it","ทำไมเราไม่เคยสังเกตเห็น"], f:function(){
         return L()?"h เล็กมาก โมเมนตัมของสิ่งของทั่วไปจึงใหญ่เกินไป":"h is tiny, so everyday momenta are far too large"; }}
     ],
-    note:["a hyperbola: double the momentum and the wavelength halves","ไฮเพอร์โบลา โมเมนตัมสองเท่าทำให้ความยาวคลื่นเหลือครึ่ง"]
+    note:["a hyperbola: double the momentum and the wavelength halves","ไฮเพอร์โบลา โมเมนตัมเพิ่มเป็นสองเท่า ความยาวคลื่นจะเหลือครึ่งหนึ่ง"]
   } }
 ],
 
@@ -240,10 +240,10 @@ methods:[
 ],
 
 traps:{
-"T-01":["Brighter light releases MORE electrons, not faster ones. Only frequency sets their energy.","แสงที่สว่างกว่าปล่อยอิเล็กตรอนมากขึ้น ไม่ใช่เร็วขึ้น มีเพียงความถี่ที่กำหนดพลังงานของมัน"],
-"T-02":["Electronvolts and joules were mixed. 1 eV = 1.6 × 10⁻¹⁹ J.","สับสนระหว่างอิเล็กตรอนโวลต์กับจูล 1 eV = 1.6 × 10⁻¹⁹ จูล"],
-"T-03":["Energy levels are negative and E_n = −13.6/n². Higher n means less negative, not larger.","ระดับพลังงานเป็นลบและ E_n = −13.6/n² ค่า n สูงขึ้นหมายถึงติดลบน้อยลง ไม่ใช่ใหญ่ขึ้น"],
-"T-04":["Below the threshold frequency nothing is emitted, however intense the light.","ต่ำกว่าความถี่ขีดเริ่ม จะไม่มีอิเล็กตรอนหลุดออกมาเลย ไม่ว่าแสงจะเข้มแค่ไหน"]
+"T-01":["Brighter light releases MORE electrons, not faster ones. Only frequency sets their energy.","แสงที่สว่างกว่าปล่อยอิเล็กตรอนออกมามากขึ้น ไม่ได้เร็วขึ้น พลังงานของอิเล็กตรอนขึ้นกับความถี่เท่านั้น"],
+"T-02":["Electronvolts and joules were mixed. 1 eV = 1.6 × 10⁻¹⁹ J.","สับสนระหว่างอิเล็กตรอนโวลต์กับจูล 1 eV = 1.6 × 10⁻¹⁹ J"],
+"T-03":["Energy levels are negative and E_n = −13.6/n². Higher n means less negative, not larger.","ระดับพลังงานมีค่าเป็นลบ E_n = −13.6/n² ค่า n มากขึ้นหมายถึงติดลบน้อยลง ไม่ใช่ค่ามากขึ้น"],
+"T-04":["Below the threshold frequency nothing is emitted, however intense the light.","ถ้าความถี่ต่ำกว่าค่าขีดเริ่ม จะไม่มีอิเล็กตรอนหลุดออกมาเลย ไม่ว่าแสงจะเข้มแค่ไหน"]
 },
 
 gen:{
@@ -251,7 +251,7 @@ gen:{
   var lam=pick([400,500,600,700]), h=6.63e-34, c=3e8;
   var E=h*c/(lam*1e-9);
   if(sf==="S-04") return {stem:["A beam of red light is made dimmer. What happens to the energy of each photon?",
-                                "ทำให้ลำแสงสีแดงจางลง พลังงานของแต่ละโฟตอนเปลี่ยนอย่างไร"],
+                                "ทำให้ลำแสงสีแดงจางลง พลังงานของแต่ละโฟตอนเปลี่ยนไปอย่างไร"],
     opts:[{v:["Unchanged — only the number of photons falls","ไม่เปลี่ยน มีเพียงจำนวนโฟตอนที่ลดลง"],ok:1},
           {v:["It falls","ลดลง"],trap:"T-01"},{v:["It rises","เพิ่มขึ้น"],trap:"T-01"},
           {v:["It becomes zero","กลายเป็นศูนย์"]}],unit:""};
@@ -265,7 +265,7 @@ gen:{
   var Ek=E-W, h=6.63e-34;
   var f0=W*1.6e-19/h;
   if(sf==="S-04") return {stem:["Light below the threshold frequency shines very brightly on a metal. What is emitted?",
-                                "แสงที่ความถี่ต่ำกว่าขีดเริ่มส่องโลหะอย่างสว่างมาก มีอะไรหลุดออกมา"],
+                                "แสงที่ความถี่ต่ำกว่าค่าขีดเริ่มส่องโลหะด้วยความสว่างมาก จะมีอะไรหลุดออกมาหรือไม่"],
     opts:[{v:["Nothing at all","ไม่มีอะไรเลย"],ok:1},
           {v:["Many slow electrons","อิเล็กตรอนช้าจำนวนมาก"],trap:"T-04"},
           {v:["A few fast electrons","อิเล็กตรอนเร็วจำนวนน้อย"],trap:"T-04"},
@@ -299,7 +299,7 @@ gen:{
   var dE=13.6*(1/(nf*nf)-1/(ni*ni));
   var lam=1240/dE;
   if(sf==="S-04") return {stem:["Transitions ending at n = 2 in hydrogen produce which series?",
-                                "การเปลี่ยนระดับที่จบที่ n = 2 ในไฮโดรเจนให้อนุกรมใด"],
+                                "การเปลี่ยนระดับที่สิ้นสุดที่ n = 2 ในไฮโดรเจนให้อนุกรมใด"],
     opts:[{v:["Balmer, in visible light","บัลเมอร์ ในย่านแสงที่มองเห็น"],ok:1},
           {v:["Lyman, in the ultraviolet","ไลมัน ในย่านอัลตราไวโอเลต"],trap:"T-03"},
           {v:["Paschen, in the infrared","พาสเชน ในย่านอินฟราเรด"],trap:"T-03"},
@@ -315,7 +315,7 @@ gen:{
   var m=9.11e-31, v=pick([1e6,2e6,5e6]), h=6.63e-34;
   var lam=h/(m*v);
   if(sf==="S-04") return {stem:["Why is the wave nature of a thrown cricket ball never observed?",
-                                "ทำไมจึงไม่เคยสังเกตเห็นความเป็นคลื่นของลูกคริกเก็ตที่ขว้างออกไป"],
+                                "ทำไมเราจึงไม่เคยสังเกตเห็นความเป็นคลื่นของลูกคริกเก็ตที่ขว้างออกไป"],
     opts:[{v:["Its de Broglie wavelength is around 10⁻³⁴ m","ความยาวคลื่นเดอบรอยล์ของมันราว 10⁻³⁴ เมตร"],ok:1},
           {v:["Large objects have no wavelength","วัตถุขนาดใหญ่ไม่มีความยาวคลื่น"]},
           {v:["It moves too slowly","มันเคลื่อนที่ช้าเกินไป"]},

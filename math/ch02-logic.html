@@ -853,9 +853,9 @@ var CHAPTER = {
 id:"ma02", num:"02", slug:"logic", subject:"math",
 kicker:["Mathematics · Chapter 02","คณิตศาสตร์ · บทที่ 2"],
 title:["Logic","ตรรกศาสตร์"],
-mapTitle:["One four-row table, and everything that follows from it","ตารางสี่แถวเดียว กับทุกอย่างที่ตามมาจากมัน"],
+mapTitle:["One four-row table, and everything that follows from it","ตารางสี่แถวเดียว และทุกอย่างที่ตามมาจากตารางนี้"],
 lede:["Logic is where mathematical sentences stop being about numbers and start being about each other. Almost the whole chapter collapses into a single table of four rows, and almost every mark lost in it comes from two of those rows being misread.",
-      "ตรรกศาสตร์คือจุดที่ประโยคทางคณิตศาสตร์เลิกพูดถึงตัวเลข แล้วหันมาพูดถึงกันเอง เกือบทั้งบทย่อลงเหลือตารางเพียงสี่แถว และคะแนนที่เสียไปในบทนี้เกือบทั้งหมดเกิดจากการอ่านสองแถวในตารางนั้นผิด"],
+      "ตรรกศาสตร์คือเรื่องที่ประโยคทางคณิตศาสตร์ไม่ได้พูดถึงตัวเลขอีกต่อไป แต่พูดถึงกันเอง เกือบทั้งบทสรุปลงที่ตารางสี่แถวตารางเดียว และคะแนนที่เสียในบทนี้ส่วนใหญ่มาจากการอ่านสองแถวในตารางนั้นผิด"],
 next:["→ continues in Chapter 03 · Real Numbers","→ ต่อในบทที่ 3 · จำนวนจริง"],
 
 nodes:[
@@ -863,9 +863,9 @@ nodes:[
   title:["Propositions and truth values","ประพจน์และค่าความจริง"],
   body:[["A proposition is a sentence that makes a claim you can actually settle: it is either true or false, exactly one of the two, never both and never neither. 1 + 5 = 10 is a perfectly good proposition — a false one. Questions, commands and matters of taste make no claim of that kind, so they never enter a truth table at all.",
          "A sentence carrying a free variable, such as x + 1 = 5, is an open sentence. It is not false; it simply has no truth value yet. It acquires one only when you substitute a value for the variable or attach a quantifier to it. That single distinction is what the last node of this chapter is built on, so it is worth holding onto from the start."],
-        ["ประพจน์คือประโยคบอกเล่าหรือปฏิเสธที่ตัดสินได้จริงว่าเป็นจริงหรือเท็จ อย่างใดอย่างหนึ่งเพียงอย่างเดียว ไม่เป็นทั้งสองอย่างและไม่เป็นทั้งคู่ไม่ได้ เช่น 1 + 5 = 10 เป็นประพจน์ที่ดีสมบูรณ์ เพียงแต่มีค่าความจริงเป็นเท็จ ส่วนประโยคคำถาม ประโยคคำสั่ง และเรื่องของรสนิยม ไม่ได้อ้างสิ่งใดในลักษณะนี้ จึงไม่เข้าตารางค่าความจริงเลย",
-         "ประโยคที่ติดตัวแปรอิสระ เช่น x + 1 = 5 เรียกว่าประโยคเปิด มันไม่ได้เป็นเท็จ แต่ยังไม่มีค่าความจริงต่างหาก จะมีค่าความจริงก็ต่อเมื่อแทนค่าตัวแปรหรือเติมตัวบ่งปริมาณเข้าไป ข้อแตกต่างเพียงข้อนี้คือฐานของหัวข้อสุดท้ายของบท จึงควรจำไว้ตั้งแต่ต้น"]],
-  formula:["A proposition has exactly one truth value: T or F","ประพจน์มีค่าความจริงเพียงค่าเดียว จริง หรือ เท็จ"],
+        ["ประพจน์คือประโยคที่ตัดสินได้จริงว่าเป็นจริงหรือเท็จ ต้องเป็นอย่างใดอย่างหนึ่งเท่านั้น จะเป็นทั้งสองอย่างหรือไม่เป็นเลยไม่ได้ เช่น 1 + 5 = 10 เป็นประพจน์ที่ถูกต้องสมบูรณ์ เพียงแต่เป็นเท็จ ส่วนประโยคคำถาม ประโยคคำสั่ง และประโยคแสดงความชอบส่วนตัวไม่ได้อ้างอะไรที่ตัดสินได้ จึงไม่มีที่ในตารางค่าความจริงเลย",
+         "ประโยคที่มีตัวแปรอิสระ เช่น x + 1 = 5 เรียกว่าประโยคเปิด ประโยคนี้ไม่ได้เป็นเท็จ แต่ยังไม่มีค่าความจริง จะมีค่าความจริงได้ก็ต่อเมื่อแทนค่าตัวแปร หรือใส่ตัวบ่งปริมาณเข้าไป ความแตกต่างข้อนี้เป็นพื้นฐานของหัวข้อสุดท้ายในบท จึงควรจำไว้ตั้งแต่ตอนนี้"]],
+  formula:["A proposition has exactly one truth value: T or F","ประพจน์มีค่าความจริงได้ค่าเดียวเท่านั้น คือ จริง หรือ เท็จ"],
   flabel:["Never both, never neither","ไม่เป็นทั้งสอง และไม่เป็นไม่มีเลย"],
   viz:"table",
   vizcfg:{
@@ -890,15 +890,15 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===1?([1,0,1,0,1,0][i]?"good":"warn"):"accent"}; }); });
     },
-    note:["an open sentence becomes a proposition only once you pin down the variable","ประโยคเปิดจะกลายเป็นประพจน์ก็ต่อเมื่อกำหนดค่าตัวแปรแล้วเท่านั้น"]
+    note:["an open sentence becomes a proposition only once you pin down the variable","ประโยคเปิดจะกลายเป็นประพจน์ได้ก็ต่อเมื่อกำหนดค่าของตัวแปรแล้ว"]
   } },
 
 { id:"connectives", x:100, y:150, requires:["propositions"], methods:["M-02"],
   title:["Connectives and truth tables","ตัวเชื่อมและตารางค่าความจริง"],
   body:[["Four connectives join propositions — ∧ and, ∨ or, → if…then, ↔ if and only if — while ~ acts on a single one and simply reverses it. Two propositions can be assigned truth values in four ways, so any compound built from p and q is described completely by a table of four rows; with n propositions the table has 2ⁿ rows and nothing is hidden from it.",
          "Three of those rows carry almost all the difficulty. ∧ is true in exactly one row, T ∧ T, which makes it the hardest connective to satisfy. ∨ is false in exactly one row, F ∨ F, so mathematical or deliberately includes the case where both parts hold — reading it as an exclusive choice is trap T-04. And → is false in exactly one row, T → F, which means a conditional with a false hypothesis is true no matter what it promises; forgetting that is trap T-02."],
-        ["ตัวเชื่อมมีสี่ชนิด ได้แก่ ∧ และ, ∨ หรือ, → ถ้า…แล้ว, ↔ ก็ต่อเมื่อ ส่วน ~ กระทำกับประพจน์เดียวและกลับค่าความจริงให้ตรงข้าม สองประพจน์กำหนดค่าความจริงได้สี่แบบ ประพจน์เชิงประกอบใดที่สร้างจาก p และ q จึงอธิบายได้ครบด้วยตารางสี่แถว และถ้ามี n ประพจน์ ตารางจะมี 2ⁿ แถว โดยไม่มีกรณีใดหลุดรอดไปได้",
-         "ความยากเกือบทั้งหมดอยู่ที่สามแถวนี้ ∧ เป็นจริงเพียงแถวเดียวคือ T ∧ T จึงเป็นตัวเชื่อมที่ทำให้เป็นจริงได้ยากที่สุด ∨ เป็นเท็จเพียงแถวเดียวคือ F ∨ F ดังนั้นคำว่า หรือ ทางคณิตศาสตร์จึงจงใจรวมกรณีที่จริงทั้งคู่ไว้ด้วย การอ่านว่าเป็นการเลือกอย่างใดอย่างหนึ่งคือกับดัก T-04 ส่วน → เป็นเท็จเพียงแถวเดียวคือ T → F นั่นแปลว่าประพจน์เงื่อนไขที่เหตุเป็นเท็จจะเป็นจริงเสมอไม่ว่าจะสัญญาอะไรไว้ การลืมข้อนี้คือกับดัก T-02"]],
+        ["ตัวเชื่อมที่ใช้เชื่อมประพจน์มีสี่ตัว คือ ∧ และ, ∨ หรือ, → ถ้า…แล้ว, ↔ ก็ต่อเมื่อ ส่วน ~ ใช้กับประพจน์เดียวและกลับค่าความจริงให้ตรงข้าม ประพจน์สองตัวกำหนดค่าความจริงได้สี่แบบ ดังนั้นประพจน์เชิงประกอบใด ๆ ที่สร้างจาก p และ q จึงอธิบายได้ครบด้วยตารางสี่แถว ถ้ามี n ประพจน์ ตารางจะมี 2ⁿ แถว และไม่มีกรณีใดตกหล่น",
+         "ความยากอยู่ที่สามแถวนี้เป็นส่วนใหญ่ ∧ เป็นจริงแถวเดียวคือ T ∧ T จึงทำให้เป็นจริงได้ยากที่สุดในบรรดาตัวเชื่อม ∨ เป็นเท็จแถวเดียวคือ F ∨ F คำว่า \"หรือ\" ในทางคณิตศาสตร์จึงรวมกรณีที่จริงทั้งสองข้างไว้ด้วยโดยตั้งใจ ถ้าอ่านเป็นเลือกได้อย่างเดียวจะติดกับดัก T-04 ส่วน → เป็นเท็จแถวเดียวคือ T → F นั่นคือถ้าเหตุเป็นเท็จ ประพจน์เงื่อนไขจะเป็นจริงเสมอ ไม่ว่าผลจะสัญญาอะไรไว้ ถ้าลืมข้อนี้จะติดกับดัก T-02"]],
   formula:["p → q is false only when p is T and q is F","p → q เป็นเท็จกรณีเดียวคือ p จริง และ q เท็จ"],
   flabel:["One row does all the work","แถวเดียวที่ตัดสินทุกอย่าง"],
   viz:{
@@ -973,29 +973,29 @@ nodes:[
       o.push('<text x="'+(px+14)+'" y="'+(yh+170)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5">'+tx(NT[c][0])+'</text>');
       o.push('<text x="'+(px+14)+'" y="'+(yh+185)+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5">'+tx(NT[c][1])+'</text>');
       var cap=(rare<0)?tx(["↔ has two true rows and two false rows — no single deciding row",
-                           "↔ มีสองแถวจริงและสองแถวเท็จ ไม่มีแถวใดแถวเดียวที่ชี้ขาด"])
+                           "↔ มีสองแถวที่เป็นจริงและสองแถวที่เป็นเท็จ ไม่มีแถวใดแถวเดียวที่ชี้ขาด"])
                       :tx(["The dot marks the one row that decides this connective",
-                           "จุดกำกับแถวเดียวที่ชี้ขาดตัวเชื่อมนี้"]);
+                           "จุดชี้แถวเดียวที่ตัดสินตัวเชื่อมนี้"]);
       o.push('<text x="24" y="284" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+cap+'</text>');
     }
   },
   guide:[
     {say:["Start with the conditional, p true and q false. This is the single row where p → q comes out false. Every question about implication is really a question about this one row.",
-          "เริ่มที่ประพจน์เงื่อนไข ให้ p เป็นจริงและ q เป็นเท็จ นี่คือแถวเดียวที่ p → q เป็นเท็จ คำถามเกี่ยวกับการแจงนัยทุกข้อ แท้จริงคือคำถามเกี่ยวกับแถวนี้เพียงแถวเดียว"], set:{c:2,pv:0*1+1,qv:0}},
+          "เริ่มที่ประพจน์เงื่อนไข ให้ p เป็นจริงและ q เป็นเท็จ นี่คือแถวเดียวที่ p → q เป็นเท็จ ทุกคำถามเกี่ยวกับ \"ถ้า…แล้ว\" จึงเป็นคำถามเกี่ยวกับแถวนี้แถวเดียว"], set:{c:2,pv:0*1+1,qv:0}},
     {say:["Now drop the hypothesis to false. Both halves are false, yet p → q reads true — the statement never promised anything about the case where p fails, so nothing can break it there.",
-          "ทีนี้ลดเหตุลงให้เป็นเท็จ ทั้งสองส่วนเป็นเท็จ แต่ p → q กลับเป็นจริง เพราะประพจน์นี้ไม่เคยสัญญาอะไรไว้กับกรณีที่ p เป็นเท็จ จึงไม่มีอะไรทำให้มันเป็นเท็จได้"], set:{c:2,pv:0,qv:0}},
+          "ทีนี้ให้เหตุเป็นเท็จ ทั้งสองส่วนเป็นเท็จ แต่ p → q กลับเป็นจริง เพราะประพจน์นี้ไม่เคยสัญญาอะไรไว้ในกรณีที่ p ไม่เป็นจริง จึงไม่มีอะไรที่ทำให้มันผิดได้"], set:{c:2,pv:0,qv:0}},
     {say:["Switch to ∧. Now the dot sits on the top row: T ∧ T is the only place the column shows true. Move either slider off T and the whole column collapses.",
-          "เปลี่ยนไปที่ ∧ จุดจะย้ายไปอยู่แถวบนสุด T ∧ T เป็นที่เดียวที่คอลัมน์เป็นจริง ถ้าเลื่อนตัวใดตัวหนึ่งออกจาก T คอลัมน์ก็พังทั้งแถว"], set:{c:0,pv:1,qv:1}},
+          "เปลี่ยนเป็น ∧ จุดจะย้ายไปอยู่ที่แถวบนสุด T ∧ T เป็นที่เดียวที่คอลัมน์เป็นจริง ถ้าเลื่อนตัวใดตัวหนึ่งออกจาก T คอลัมน์จะเป็นเท็จทั้งหมด"], set:{c:0,pv:1,qv:1}},
     {say:["Finally ∨, the mirror image: false in exactly one row, F ∨ F. Raise p back to T and it stays true even when q is true as well — mathematical or keeps the both-true case.",
-          "สุดท้าย ∨ ซึ่งเป็นภาพสะท้อน คือเป็นเท็จเพียงแถวเดียวคือ F ∨ F ถ้ายก p กลับขึ้นเป็น T ก็ยังคงเป็นจริงแม้ q จะจริงด้วย เพราะ หรือ ทางคณิตศาสตร์เก็บกรณีจริงทั้งคู่ไว้"], set:{c:1,pv:0,qv:0}}
+          "สุดท้ายคือ ∨ ซึ่งเป็นภาพสะท้อนของ ∧ คือเป็นเท็จแถวเดียวคือ F ∨ F ถ้ายก p กลับเป็น T ผลยังเป็นจริงแม้ q จะจริงด้วย เพราะ \"หรือ\" ทางคณิตศาสตร์รวมกรณีที่จริงทั้งคู่ไว้ด้วย"], set:{c:1,pv:0,qv:0}}
   ]},
 
 { id:"equivalence", x:370, y:150, requires:["propositions"], methods:["M-03","M-04"],
   title:["Equivalent statements","ประพจน์ที่สมมูลกัน"],
   body:[["Two compound statements are logically equivalent when their truth-table columns agree row for row — not sometimes, but in all four. The most valuable equivalence in the chapter is p → q ≡ ~p ∨ q ≡ ~q → ~p, which says a conditional can always be rewritten as an or-statement, or turned around and negated on both sides. De Morgan does the same work inside a negation: ~(p ∨ q) ≡ ~p ∧ ~q, and ~(p ∧ q) ≡ ~p ∨ ~q.",
          "From p → q you can build three relatives: the converse q → p, the inverse ~p → ~q, and the contrapositive ~q → ~p. Only the contrapositive is equivalent to the original. The converse and inverse are equivalent to each other and to nothing else on the list, which is why an argument that quietly swaps a statement for its converse can look watertight and still be wrong. Mixing the two up is trap T-01."],
-        ["ประพจน์เชิงประกอบสองประพจน์สมมูลกันเมื่อค่าความจริงตรงกันทุกแถวในตาราง ไม่ใช่ตรงกันบางแถว แต่ต้องครบทั้งสี่แถว สมมูลที่มีค่าที่สุดของบทนี้คือ p → q ≡ ~p ∨ q ≡ ~q → ~p ซึ่งบอกว่าประพจน์เงื่อนไขเขียนใหม่ในรูป หรือ ได้เสมอ หรือจะสลับที่แล้วใส่นิเสธทั้งสองข้างก็ได้ ส่วนกฎเดอมอร์แกนทำหน้าที่เดียวกันภายในนิเสธ คือ ~(p ∨ q) ≡ ~p ∧ ~q และ ~(p ∧ q) ≡ ~p ∨ ~q",
-         "จาก p → q สร้างประพจน์ที่เกี่ยวข้องได้สามแบบ คือ ผกผัน q → p, ตรงข้าม ~p → ~q และแย้งสลับที่ ~q → ~p โดยมีเพียงแย้งสลับที่เท่านั้นที่สมมูลกับประพจน์เดิม ส่วนผกผันกับตรงข้ามสมมูลกันเองและไม่สมมูลกับตัวใดในรายการนี้ นี่คือเหตุผลที่การอ้างเหตุผลซึ่งแอบเปลี่ยนประพจน์เป็นผกผันของมัน อาจดูแน่นหนาแต่ยังผิดอยู่ดี การสับสนระหว่างสองตัวนี้คือกับดัก T-01"]],
+        ["ประพจน์เชิงประกอบสองประพจน์สมมูลกัน เมื่อคอลัมน์ค่าความจริงตรงกันทุกแถว ไม่ใช่ตรงแค่บางแถว แต่ต้องตรงทั้งสี่แถว สมมูลที่มีประโยชน์ที่สุดในบทนี้คือ p → q ≡ ~p ∨ q ≡ ~q → ~p ซึ่งบอกว่า ประพจน์เงื่อนไขเขียนใหม่เป็นประพจน์ \"หรือ\" ได้เสมอ หรือจะสลับตำแหน่งแล้วใส่นิเสธทั้งสองข้างก็ได้ ส่วนกฎเดอมอร์แกนทำงานแบบเดียวกันภายในนิเสธ คือ ~(p ∨ q) ≡ ~p ∧ ~q และ ~(p ∧ q) ≡ ~p ∨ ~q",
+         "จาก p → q เราสร้างประพจน์ที่เกี่ยวข้องได้สามแบบ คือ ผกผัน q → p, ตรงข้าม ~p → ~q และแย้งสลับที่ ~q → ~p มีเพียงแย้งสลับที่ที่สมมูลกับประพจน์เดิม ส่วนผกผันกับตรงข้ามสมมูลกันเอง แต่ไม่สมมูลกับตัวอื่นในรายการ เพราะอย่างนี้ ถ้าเหตุผลใดแอบสลับประพจน์เป็นผกผัน ก็อาจดูรัดกุม แต่ยังผิดอยู่ดี การสับสนสองตัวนี้คือกับดัก T-01"]],
   formula:["p → q ≡ ~p ∨ q ≡ ~q → ~p","p → q ≡ ~p ∨ q ≡ ~q → ~p"],
   flabel:["Only the contrapositive survives","มีเพียงแย้งสลับที่ที่สมมูล"],
   viz:"grid",
@@ -1008,10 +1008,10 @@ nodes:[
         return ["p → q   vs   ~p ∨ q","~(p ∧ q)   vs   ~p ∨ ~q","p → q   vs   q → p"][S.p.pair]; }},
       {lab:["Equivalent?","สมมูลกันไหม"], f:function(S){
         return S.p.pair<2 ? (L()?"สมมูลกัน — ทุกแถวตรงกัน":"equivalent — every row agrees")
-                          : (L()?"ไม่สมมูล — บทกลับไม่เท่ากับเดิม":"NOT equivalent — a converse is a different claim"); }},
+                          : (L()?"ไม่สมมูล — ผกผันไม่เท่ากับเดิม":"NOT equivalent — a converse is a different claim"); }},
       {lab:["Name","ชื่อ"], f:function(S){
         return [["definition of implication","นิยามของการแจงความ"],["De Morgan's law","กฎเดอมอร์แกน"],
-                ["the converse fallacy","ความผิดพลาดเรื่องบทกลับ"]][S.p.pair][L()]; }}
+                ["the converse fallacy","ความผิดพลาดเรื่องผกผัน"]][S.p.pair][L()]; }}
     ],
     rows:function(p){
       var TF=[[1,1],[1,0],[0,1],[0,0]];
@@ -1028,23 +1028,23 @@ nodes:[
                 {v:same?"✓":"✗", on:true, col:same?"good":"warn"}];
       });
     },
-    note:["equivalence means the last column is all ticks — a single cross destroys it","สมมูลกันคือคอลัมน์สุดท้ายเป็นเครื่องหมายถูกทั้งหมด กากบาทเพียงตัวเดียวก็ทำลายมันได้"]
+    note:["equivalence means the last column is all ticks — a single cross destroys it","สมมูลกันคือคอลัมน์สุดท้ายเป็นเครื่องหมายถูกทุกแถว ผิดแถวเดียวก็ไม่สมมูล"]
   },
   guide:[
     {say:["p → q and ~p ∨ q agree on all four rows, so they are genuinely the same statement.",
-          "p → q กับ ~p ∨ q ตรงกันทั้งสี่แถว จึงเป็นข้อความเดียวกันจริงๆ"], set:{pair:0}},
+          "p → q กับ ~p ∨ q ตรงกันทั้งสี่แถว จึงเป็นข้อความเดียวกันจริง ๆ"], set:{pair:0}},
     {say:["De Morgan's law also survives every row. Negation turns AND into OR.",
-          "กฎเดอมอร์แกนก็ผ่านทุกแถวเช่นกัน การนิเสธเปลี่ยน AND เป็น OR"], set:{pair:1}},
+          "กฎเดอมอร์แกนก็ผ่านทุกแถวเหมือนกัน นิเสธเปลี่ยน AND เป็น OR"], set:{pair:1}},
     {say:["Now compare a statement with its converse. Two rows disagree — they were never the same claim.",
-          "ทีนี้เทียบข้อความกับบทกลับของมัน สองแถวไม่ตรงกัน ทั้งสองไม่เคยเป็นข้ออ้างเดียวกัน"], set:{pair:2}}
+          "ทีนี้ลองเทียบข้อความกับผกผันของมัน มีสองแถวที่ไม่ตรงกัน แปลว่าสองข้อความนี้ไม่ใช่ข้ออ้างเดียวกันมาตั้งแต่แรก"], set:{pair:2}}
   ] },
 
 { id:"tautology", x:235, y:248, requires:["connectives","equivalence"], methods:["M-05"],
   title:["Tautology and valid arguments","สัจนิรันดร์และการอ้างเหตุผล"],
   body:[["A tautology is a compound statement whose column reads T in every row of the table; a contradiction reads F in every row and is exactly the negation of a tautology. You can always settle which you have by writing out all 2ⁿ rows, but for anything with three or more letters that becomes slow, and there is a much faster route.",
          "Assume the statement is false, then chase the consequences. Because → fails in only one row, assuming a conditional false pins its hypothesis to T and its conclusion to F immediately, and the remaining values usually fall out with no choices left. If the assumption forces a contradiction, no false row exists and the statement is a tautology. An argument with premises P₁ … Pₙ and conclusion C is valid precisely when (P₁ ∧ … ∧ Pₙ) → C is a tautology, so the working is identical: set every premise T and the conclusion F and hunt for the clash. Forgetting that a false hypothesis already makes a conditional true is trap T-02."],
-        ["สัจนิรันดร์คือประพจน์เชิงประกอบที่คอลัมน์เป็นจริงทุกแถวในตาราง ส่วนข้อขัดแย้งเป็นเท็จทุกแถวและเป็นนิเสธของสัจนิรันดร์พอดี เราตัดสินได้เสมอด้วยการเขียนตารางให้ครบ 2ⁿ แถว แต่ถ้ามีตัวแปรตั้งแต่สามตัวขึ้นไปจะช้ามาก และยังมีทางที่เร็วกว่านั้น",
-         "ให้สมมติว่าประพจน์นั้นเป็นเท็จ แล้วไล่ผลที่ตามมา เนื่องจาก → เป็นเท็จได้กรณีเดียว การสมมติให้ประพจน์เงื่อนไขเป็นเท็จจึงบังคับให้เหตุเป็นจริงและผลเป็นเท็จทันที ค่าที่เหลือมักตามมาโดยไม่มีทางเลือกอื่น ถ้าข้อสมมตินั้นบังคับให้เกิดข้อขัดแย้ง แปลว่าไม่มีแถวที่เป็นเท็จอยู่จริง ประพจน์นั้นจึงเป็นสัจนิรันดร์ การอ้างเหตุผลที่มีเหตุ P₁ … Pₙ และผล C จะสมเหตุสมผลก็ต่อเมื่อ (P₁ ∧ … ∧ Pₙ) → C เป็นสัจนิรันดร์ วิธีทำจึงเหมือนกันทุกประการ คือให้เหตุทุกข้อเป็นจริงและผลเป็นเท็จ แล้วมองหาข้อขัดแย้ง การลืมว่าเหตุที่เป็นเท็จทำให้ประพจน์เงื่อนไขเป็นจริงไปแล้วคือกับดัก T-02"]],
+        ["สัจนิรันดร์คือประพจน์เชิงประกอบที่คอลัมน์เป็น T ทุกแถว ส่วนข้อขัดแย้งเป็น F ทุกแถว และเป็นนิเสธของสัจนิรันดร์พอดี เราตัดสินได้เสมอโดยเขียนตารางให้ครบ 2ⁿ แถว แต่ถ้ามีตัวแปรตั้งแต่สามตัวขึ้นไปจะช้า และยังมีวิธีที่เร็วกว่านี้",
+         "ให้สมมติว่าประพจน์นั้นเป็นเท็จ แล้วไล่ดูว่าได้อะไรตามมา → เป็นเท็จได้แถวเดียว ดังนั้นถ้าสมมติให้ประพจน์เงื่อนไขเป็นเท็จ ก็ได้ทันทีว่าเหตุเป็น T และผลเป็น F ค่าที่เหลือมักตามมาโดยไม่ต้องเลือก ถ้าข้อสมมตินี้ทำให้เกิดข้อขัดแย้ง แปลว่าไม่มีแถวที่เป็นเท็จ ประพจน์นั้นจึงเป็นสัจนิรันดร์ การอ้างเหตุผลที่มีเหตุ P₁ … Pₙ และผล C จะสมเหตุสมผลก็ต่อเมื่อ (P₁ ∧ … ∧ Pₙ) → C เป็นสัจนิรันดร์ วิธีทำจึงเหมือนกัน คือให้เหตุทุกข้อเป็น T และผลเป็น F แล้วหาข้อขัดแย้ง อย่าลืมว่าถ้าเหตุเป็นเท็จ ประพจน์เงื่อนไขก็เป็นจริงอยู่แล้ว ถ้าลืมจะติดกับดัก T-02"]],
   formula:["Valid ⟺ (P₁ ∧ … ∧ Pₙ) → C is a tautology","สมเหตุสมผล ⟺ (P₁ ∧ … ∧ Pₙ) → C เป็นสัจนิรันดร์"],
   flabel:["Assume it fails, hunt the clash","สมมติให้เป็นเท็จ แล้วหาข้อขัดแย้ง"],
   viz:"grid",
@@ -1076,15 +1076,15 @@ nodes:[
                 {v:v?"true":"false", on:!!v, col:v?"good":"warn"}];
       });
     },
-    note:["a tautology has no false row anywhere — that is the only thing you check","สัจนิรันดร์ไม่มีแถวที่เป็นเท็จเลย นั่นคือสิ่งเดียวที่ต้องตรวจ"]
+    note:["a tautology has no false row anywhere — that is the only thing you check","สัจนิรันดร์ไม่มีแถวที่เป็นเท็จเลย สิ่งที่ต้องตรวจมีแค่ข้อนี้"]
   } },
 
 { id:"quantifiers", x:235, y:346, requires:["tautology"], methods:["M-06"],
   title:["Quantifiers","ตัวบ่งปริมาณ"],
   body:[["A quantifier turns an open sentence into a proposition by declaring how much of the universe it has to cover. ∀x[P(x)] claims P holds for every x and dies on a single counterexample; ∃x[P(x)] claims at least one x works and needs only a single witness to survive. Which universe you are standing in decides the answer: ∀x[x² > 0] is false over the real numbers because x = 0 exists, and true the moment zero is excluded.",
          "With two quantifiers the order carries meaning. ∀x∃y promises that every x can be answered by some y chosen to suit it, while ∃x∀y demands one single x that works against every y at once — a far stronger claim that is usually false when the first one is true. Negation, by contrast, is purely mechanical: ~∀x[P(x)] ≡ ∃x[~P(x)] and ~∃x[P(x)] ≡ ∀x[~P(x)]. Pushing the negation inwards flips every ∀ into ∃ and every ∃ into ∀; negating only the inside and leaving the symbol untouched is trap T-03."],
-        ["ตัวบ่งปริมาณเปลี่ยนประโยคเปิดให้กลายเป็นประพจน์ โดยประกาศว่าข้อความต้องครอบคลุมเอกภพสัมพัทธ์มากเพียงใด ∀x[P(x)] อ้างว่า P เป็นจริงสำหรับ x ทุกตัว และล้มลงด้วยตัวอย่างค้านเพียงตัวเดียว ส่วน ∃x[P(x)] อ้างว่ามี x อย่างน้อยหนึ่งตัวที่ใช้ได้ จึงต้องการพยานเพียงตัวเดียวก็อยู่รอด เอกภพสัมพัทธ์ที่เรายืนอยู่เป็นตัวตัดสินคำตอบ เช่น ∀x[x² > 0] เป็นเท็จบนจำนวนจริงเพราะมี x = 0 อยู่ และกลายเป็นจริงทันทีที่ตัดศูนย์ออก",
-         "เมื่อมีตัวบ่งปริมาณสองตัว ลำดับมีความหมาย ∀x∃y ให้คำมั่นว่าทุก x หา y บางตัวมาตอบให้เหมาะกับมันได้ ส่วน ∃x∀y เรียกร้อง x เพียงตัวเดียวที่ใช้ได้กับ y ทุกตัวพร้อมกัน ซึ่งเป็นข้ออ้างที่แรงกว่ามากและมักเป็นเท็จในขณะที่แบบแรกเป็นจริง ในทางกลับกัน การหานิเสธเป็นเรื่องกลไกล้วนๆ คือ ~∀x[P(x)] ≡ ∃x[~P(x)] และ ~∃x[P(x)] ≡ ∀x[~P(x)] การดันนิเสธเข้าไปข้างในจะพลิก ∀ ทุกตัวเป็น ∃ และ ∃ ทุกตัวเป็น ∀ การใส่นิเสธเฉพาะข้างในโดยไม่แตะสัญลักษณ์คือกับดัก T-03"]],
+        ["ตัวบ่งปริมาณทำให้ประโยคเปิดกลายเป็นประพจน์ โดยบอกว่าต้องครอบคลุมเอกภพสัมพัทธ์แค่ไหน ∀x[P(x)] อ้างว่า P เป็นจริงกับ x ทุกตัว และแค่มีตัวอย่างค้านตัวเดียวก็ล้มได้ ส่วน ∃x[P(x)] อ้างว่ามี x อย่างน้อยหนึ่งตัวที่ใช้ได้ แค่มีตัวอย่างที่ใช้ได้ตัวเดียวก็ยืนยันได้แล้ว คำตอบขึ้นกับว่าเราอยู่ในเอกภพสัมพัทธ์ใด เช่น ∀x[x² > 0] เป็นเท็จบนจำนวนจริง เพราะมี x = 0 แต่เป็นจริงทันทีเมื่อไม่นับศูนย์",
+         "เมื่อมีตัวบ่งปริมาณสองตัว ลำดับมีความหมาย ∀x∃y บอกว่าสำหรับ x ทุกตัว หา y ที่เหมาะกับ x ตัวนั้นได้ ส่วน ∃x∀y ต้องการ x ตัวเดียวที่ใช้ได้กับ y ทุกตัวพร้อมกัน ซึ่งเป็นข้ออ้างที่แรงกว่ามาก และมักเป็นเท็จแม้แบบแรกจะเป็นจริง ส่วนการหานิเสธเป็นขั้นตอนตายตัว คือ ~∀x[P(x)] ≡ ∃x[~P(x)] และ ~∃x[P(x)] ≡ ∀x[~P(x)] เมื่อดันนิเสธเข้าไปข้างใน ∀ ทุกตัวจะกลับเป็น ∃ และ ∃ ทุกตัวจะกลับเป็น ∀ ถ้าใส่นิเสธเฉพาะข้างในแล้วไม่เปลี่ยนสัญลักษณ์ จะติดกับดัก T-03"]],
   formula:["~∀x[P(x)] ≡ ∃x[~P(x)]        ~∃x[P(x)] ≡ ∀x[~P(x)]","~∀x[P(x)] ≡ ∃x[~P(x)]        ~∃x[P(x)] ≡ ∀x[~P(x)]"],
   flabel:["Negation swaps the symbol too","นิเสธสลับสัญลักษณ์ด้วย"],
   viz:"table",
@@ -1110,7 +1110,7 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===0?"accent":(j===1?"good":"ink")}; }); });
     },
-    note:["the negation of 'all swans are white' is not 'no swan is white' — it is 'one swan is not'","นิเสธของ หงส์ทุกตัวสีขาว ไม่ใช่ ไม่มีหงส์ตัวใดสีขาว แต่คือ มีหงส์ตัวหนึ่งที่ไม่ขาว"]
+    note:["the negation of 'all swans are white' is not 'no swan is white' — it is 'one swan is not'","นิเสธของ \"หงส์ทุกตัวสีขาว\" ไม่ใช่ \"ไม่มีหงส์ตัวใดสีขาว\" แต่คือ \"มีหงส์ตัวหนึ่งที่ไม่ขาว\""]
   } }
 ],
 
@@ -1119,32 +1119,32 @@ methods:[
 {id:"M-02", name:["Evaluate a compound proposition","หาค่าความจริงของประพจน์เชิงประกอบ"]},
 {id:"M-03", name:["Recognise equivalent forms","ระบุประพจน์ที่สมมูลกัน"]},
 {id:"M-04", name:["Form converse, inverse and contrapositive","เขียนผกผัน ตรงข้าม และแย้งสลับที่"]},
-{id:"M-05", name:["Test a tautology and the validity of an argument","ตรวจสอบสัจนิรันดร์และความสมเหตุสมผล"]},
+{id:"M-05", name:["Test a tautology and the validity of an argument","ตรวจสอบสัจนิรันดร์และความสมเหตุสมผลของการอ้างเหตุผล"]},
 {id:"M-06", name:["Use quantifiers and their negations","ใช้ตัวบ่งปริมาณและนิเสธของมัน"]}
 ],
 
 traps:{
-"T-01":["The converse q → p is not equivalent to p → q. Only the contrapositive ~q → ~p is.","ผกผัน q → p ไม่สมมูลกับ p → q มีเพียงแย้งสลับที่ ~q → ~p เท่านั้นที่สมมูล"],
-"T-02":["A conditional with a false hypothesis is true. p → q fails only in the row T → F.","ประพจน์เงื่อนไขที่เหตุเป็นเท็จมีค่าเป็นจริง p → q เป็นเท็จเฉพาะแถว T → F"],
-"T-03":["Negating a quantifier swaps ∀ and ∃ as well as negating what is inside.","การหานิเสธของตัวบ่งปริมาณต้องสลับ ∀ กับ ∃ ด้วย ไม่ใช่ใส่นิเสธเฉพาะข้างใน"],
-"T-04":["Mathematical or is inclusive. p ∨ q is still true when p and q are both true.","หรือ ทางคณิตศาสตร์รวมกรณีจริงทั้งคู่ p ∨ q ยังเป็นจริงเมื่อ p และ q จริงพร้อมกัน"]
+"T-01":["The converse q → p is not equivalent to p → q. Only the contrapositive ~q → ~p is.","ผกผัน q → p ไม่สมมูลกับ p → q มีแต่แย้งสลับที่ ~q → ~p เท่านั้นที่สมมูล"],
+"T-02":["A conditional with a false hypothesis is true. p → q fails only in the row T → F.","ประพจน์เงื่อนไขที่เหตุเป็นเท็จจะเป็นจริงเสมอ p → q เป็นเท็จเฉพาะแถว T → F"],
+"T-03":["Negating a quantifier swaps ∀ and ∃ as well as negating what is inside.","เมื่อหานิเสธของตัวบ่งปริมาณ ต้องสลับ ∀ กับ ∃ ด้วย ไม่ใช่ใส่นิเสธแค่ข้างใน"],
+"T-04":["Mathematical or is inclusive. p ∨ q is still true when p and q are both true.","\"หรือ\" ทางคณิตศาสตร์รวมกรณีที่จริงทั้งคู่ p ∨ q ยังเป็นจริงเมื่อ p และ q จริงพร้อมกัน"]
 },
 
 gen:{
 "M-01": function(sf){
   if(sf==="S-04") return {stem:["What is the truth value of: if 2 + 2 = 5, then the moon is made of cheese?",
-                                "ประพจน์ ถ้า 2 + 2 = 5 แล้วดวงจันทร์ทำจากเนยแข็ง มีค่าความจริงเป็นอย่างไร"],
-    opts:[{v:["True — the hypothesis is false, so the conditional cannot fail","จริง เพราะเหตุเป็นเท็จ ประพจน์เงื่อนไขจึงเป็นเท็จไม่ได้"],ok:1},
+                                "\"ถ้า 2 + 2 = 5 แล้วดวงจันทร์ทำจากเนยแข็ง\" มีค่าความจริงเป็นอย่างไร"],
+    opts:[{v:["True — the hypothesis is false, so the conditional cannot fail","จริง เพราะเหตุเป็นเท็จ ประพจน์เงื่อนไขจึงไม่มีทางเป็นเท็จ"],ok:1},
           {v:["False — both halves are false","เท็จ เพราะทั้งสองส่วนเป็นเท็จ"],trap:"T-02"},
           {v:["False — the conclusion is false","เท็จ เพราะผลเป็นเท็จ"],trap:"T-02"},
           {v:["It has no truth value","ไม่มีค่าความจริง"]}],unit:""};
-  if(sf==="S-05") return {stem:["Which of these sentences is not a proposition?","ประโยคใดไม่เป็นประพจน์"],
+  if(sf==="S-05") return {stem:["Which of these sentences is not a proposition?","ประโยคใดต่อไปนี้ไม่ใช่ประพจน์"],
     opts:[{v:["x + 1 = 5","x + 1 = 5"],ok:1},
           {v:["11 is a prime number","11 เป็นจำนวนเฉพาะ"]},
           {v:["2 + 2 = 5","2 + 2 = 5"]},
           {v:["Every rectangle has four sides","รูปสี่เหลี่ยมผืนผ้าทุกรูปมีสี่ด้าน"]}],unit:""};
   if(sf==="S-03") return {stem:["A teacher writes four sentences on the board: a question, an order, an open sentence in x, and a false equation. How many of the four are propositions?",
-                                "ครูเขียนประโยคสี่ประโยคบนกระดาน ได้แก่ ประโยคคำถาม ประโยคคำสั่ง ประโยคเปิดที่ติดตัวแปร x และสมการที่เป็นเท็จ มีกี่ประโยคที่เป็นประพจน์"],
+                                "ครูเขียนประโยคสี่ประโยคบนกระดาน คือ ประโยคคำถาม ประโยคคำสั่ง ประโยคเปิดที่มีตัวแปร x และสมการที่เป็นเท็จ มีกี่ประโยคที่เป็นประพจน์"],
     opts:[{v:"1",ok:1},{v:"2"},{v:"3"},{v:"4"}],unit:""};
   var Q=pick([{s:["17 is a prime number","17 เป็นจำนวนเฉพาะ"],tv:1},
               {s:["6 is a multiple of 4","6 เป็นพหุคูณของ 4"],tv:0},
@@ -1189,13 +1189,13 @@ gen:{
             {v:["p = T , q = T","p = T , q = T"]}],unit:"",fig:mkfig("→")};
   }
   if(sf==="S-03") return {stem:["Nok promises: I will buy a book or I will buy a pen. She comes home with both. Is her promise true?",
-                                "นกสัญญาว่า ฉันจะซื้อหนังสือ หรือ ฉันจะซื้อปากกา แล้วเธอกลับบ้านพร้อมทั้งสองอย่าง คำสัญญาของเธอเป็นจริงหรือไม่"],
+                                "นกสัญญาว่า \"ฉันจะซื้อหนังสือ หรือ ฉันจะซื้อปากกา\" แล้วเธอกลับบ้านพร้อมของทั้งสองอย่าง คำสัญญาของเธอเป็นจริงหรือไม่"],
     opts:[{v:["True — or in logic allows both to happen","จริง เพราะ หรือ ในตรรกศาสตร์ยอมให้เกิดทั้งสองอย่างได้"],ok:1},
           {v:["False — or means exactly one of the two","เท็จ เพราะ หรือ หมายถึงอย่างใดอย่างหนึ่งเท่านั้น"],trap:"T-04"},
           {v:["False — she promised to buy nothing else","เท็จ เพราะเธอสัญญาว่าจะไม่ซื้ออย่างอื่น"]},
           {v:["The promise is not a proposition","คำสัญญานี้ไม่เป็นประพจน์"]}],unit:""};
   if(sf==="S-04") return {stem:["Which connective is false in exactly one row, namely when the first part is true and the second is false?",
-                                "ตัวเชื่อมใดเป็นเท็จเพียงแถวเดียว คือแถวที่ส่วนหน้าเป็นจริงและส่วนหลังเป็นเท็จ"],
+                                "ตัวเชื่อมใดเป็นเท็จเพียงแถวเดียว คือตอนที่ส่วนแรกเป็นจริงและส่วนหลังเป็นเท็จ"],
     opts:[{v:["→","→"],ok:1},
           {v:["∨","∨"],trap:"T-04"},
           {v:["∧","∧"]},
@@ -1226,13 +1226,13 @@ gen:{
           {v:["~p ∨ q","~p ∨ q"]},
           {v:["~(p ∧ ~q)","~(p ∧ ~q)"]}],unit:""};
   if(sf==="S-03") return {stem:["If it rains, the match is cancelled. Which sentence says exactly the same thing?",
-                                "ถ้าฝนตก แล้วการแข่งขันถูกยกเลิก ข้อความใดมีความหมายเหมือนกันทุกประการ"],
+                                "ถ้าฝนตก การแข่งขันจะถูกยกเลิก ข้อความใดมีความหมายเหมือนกันทุกประการ"],
     opts:[{v:["It does not rain, or the match is cancelled","ฝนไม่ตก หรือ การแข่งขันถูกยกเลิก"],ok:1},
           {v:["If the match is cancelled, then it rained","ถ้าการแข่งขันถูกยกเลิก แล้วฝนตก"],trap:"T-01"},
-          {v:["If it does not rain, the match is not cancelled","ถ้าฝนไม่ตก แล้วการแข่งขันไม่ถูกยกเลิก"],trap:"T-01"},
+          {v:["If it does not rain, the match is not cancelled","ถ้าฝนไม่ตก การแข่งขันจะไม่ถูกยกเลิก"],trap:"T-01"},
           {v:["It rains and the match is cancelled","ฝนตกและการแข่งขันถูกยกเลิก"]}],unit:""};
   if(sf==="S-02") return {stem:["In a four-row truth table the column for A reads T, F, T, T and the column for B also reads T, F, T, T. What follows?",
-                                "ในตารางค่าความจริงสี่แถว คอลัมน์ของ A อ่านได้ T, F, T, T และคอลัมน์ของ B ก็อ่านได้ T, F, T, T เช่นกัน สรุปได้อย่างไร"],
+                                "ในตารางค่าความจริงสี่แถว คอลัมน์ของ A เป็น T, F, T, T และคอลัมน์ของ B ก็เป็น T, F, T, T เหมือนกัน สรุปได้ว่าอย่างไร"],
     opts:[{v:["A ≡ B, and therefore A ↔ B is a tautology","A ≡ B ดังนั้น A ↔ B เป็นสัจนิรันดร์"],ok:1},
           {v:["A and B are both tautologies","A และ B เป็นสัจนิรันดร์ทั้งคู่"]},
           {v:["A ↔ B is a contradiction","A ↔ B เป็นข้อขัดแย้ง"]},
@@ -1252,19 +1252,19 @@ gen:{
           {v:["~p → ~q","~p → ~q"],trap:"T-01"},
           {v:["~q → p","~q → p"]}],unit:""};
   if(sf==="S-03") return {stem:["If a number is divisible by 6, then it is divisible by 3. What is the contrapositive?",
-                                "ถ้าจำนวนหนึ่งหารด้วย 6 ลงตัว แล้วจำนวนนั้นหารด้วย 3 ลงตัว แย้งสลับที่คือข้อใด"],
-    opts:[{v:["If a number is not divisible by 3, then it is not divisible by 6","ถ้าจำนวนหนึ่งหารด้วย 3 ไม่ลงตัว แล้วจำนวนนั้นหารด้วย 6 ไม่ลงตัว"],ok:1},
-          {v:["If a number is divisible by 3, then it is divisible by 6","ถ้าจำนวนหนึ่งหารด้วย 3 ลงตัว แล้วจำนวนนั้นหารด้วย 6 ลงตัว"],trap:"T-01"},
-          {v:["If a number is not divisible by 6, then it is not divisible by 3","ถ้าจำนวนหนึ่งหารด้วย 6 ไม่ลงตัว แล้วจำนวนนั้นหารด้วย 3 ไม่ลงตัว"],trap:"T-01"},
+                                "ถ้าจำนวนหนึ่งหารด้วย 6 ลงตัว จำนวนนั้นหารด้วย 3 ลงตัว แย้งสลับที่ของประโยคนี้คือข้อใด"],
+    opts:[{v:["If a number is not divisible by 3, then it is not divisible by 6","ถ้าจำนวนหนึ่งหารด้วย 3 ไม่ลงตัว จำนวนนั้นหารด้วย 6 ไม่ลงตัว"],ok:1},
+          {v:["If a number is divisible by 3, then it is divisible by 6","ถ้าจำนวนหนึ่งหารด้วย 3 ลงตัว จำนวนนั้นหารด้วย 6 ลงตัว"],trap:"T-01"},
+          {v:["If a number is not divisible by 6, then it is not divisible by 3","ถ้าจำนวนหนึ่งหารด้วย 6 ไม่ลงตัว จำนวนนั้นหารด้วย 3 ไม่ลงตัว"],trap:"T-01"},
           {v:["A number is divisible by 6 and by 3","จำนวนหนึ่งหารด้วย 6 และ 3 ลงตัว"]}],unit:""};
   if(sf==="S-05") return {stem:["Of p → q, its converse, its inverse and its contrapositive, which pair always share a truth value with each other but not with p → q?",
-                                "ในบรรดา p → q, ผกผัน, ตรงข้าม และแย้งสลับที่ คู่ใดมีค่าความจริงตรงกันเสมอแต่ไม่ตรงกับ p → q"],
+                                "จาก p → q, ผกผัน, ตรงข้าม และแย้งสลับที่ คู่ใดมีค่าความจริงตรงกันเสมอ แต่ไม่ตรงกับ p → q"],
     opts:[{v:["The converse and the inverse","ผกผันกับตรงข้าม"],ok:1},
           {v:["The original and the converse","ประพจน์เดิมกับผกผัน"],trap:"T-01"},
           {v:["The original and the inverse","ประพจน์เดิมกับตรงข้าม"],trap:"T-01"},
           {v:["All four always agree","ทั้งสี่ตรงกันเสมอ"],trap:"T-01"}],unit:""};
   if(sf==="S-02") return {stem:["The column of p → q reads T, F, T, T. Exactly one of its three relatives has the same column. Which one?",
-                                "คอลัมน์ของ p → q อ่านได้ T, F, T, T และมีประพจน์ที่เกี่ยวข้องเพียงหนึ่งในสามตัวที่มีคอลัมน์เหมือนกัน คือข้อใด"],
+                                "คอลัมน์ของ p → q เป็น T, F, T, T และในสามประพจน์ที่เกี่ยวข้อง มีเพียงตัวเดียวที่คอลัมน์เหมือนกัน ตัวใด"],
     opts:[{v:["The contrapositive ~q → ~p","แย้งสลับที่ ~q → ~p"],ok:1},
           {v:["The converse q → p","ผกผัน q → p"],trap:"T-01"},
           {v:["The inverse ~p → ~q","ตรงข้าม ~p → ~q"],trap:"T-01"},
@@ -1281,41 +1281,41 @@ gen:{
 },
 "M-05": function(sf){
   if(sf==="S-04") return {stem:["How do you test whether an argument is valid without writing out the whole table?",
-                                "จะตรวจสอบว่าการอ้างเหตุผลสมเหตุสมผลหรือไม่โดยไม่ต้องเขียนตารางทั้งหมด ทำอย่างไร"],
-    opts:[{v:["Set every premise T and the conclusion F; if that forces a contradiction, the argument is valid","ให้เหตุทุกข้อเป็นจริงและผลเป็นเท็จ ถ้าบังคับให้เกิดข้อขัดแย้ง แสดงว่าสมเหตุสมผล"],ok:1},
-          {v:["If any premise turns out to be false, the argument is invalid","ถ้าเหตุข้อใดกลายเป็นเท็จ การอ้างเหตุผลจะไม่สมเหตุสมผล"],trap:"T-02"},
+                                "จะตรวจว่าการอ้างเหตุผลสมเหตุสมผลหรือไม่ โดยไม่ต้องเขียนตารางทั้งหมด ทำอย่างไร"],
+    opts:[{v:["Set every premise T and the conclusion F; if that forces a contradiction, the argument is valid","ให้เหตุทุกข้อเป็น T และผลเป็น F ถ้าทำให้เกิดข้อขัดแย้ง แสดงว่าสมเหตุสมผล"],ok:1},
+          {v:["If any premise turns out to be false, the argument is invalid","ถ้าเหตุข้อใดข้อหนึ่งเป็นเท็จ การอ้างเหตุผลนั้นไม่สมเหตุสมผล"],trap:"T-02"},
           {v:["Show the conclusion is true in at least one row","แสดงว่าผลเป็นจริงอย่างน้อยหนึ่งแถว"]},
-          {v:["Check that the premises are true in the real world","ตรวจว่าเหตุเป็นจริงในโลกความเป็นจริง"]}],unit:""};
+          {v:["Check that the premises are true in the real world","ตรวจว่าเหตุเป็นจริงในโลกจริงหรือไม่"]}],unit:""};
   if(sf==="S-02") return {stem:["A compound statement's truth-table column comes out F in all four rows. What is it?",
-                                "คอลัมน์ค่าความจริงของประพจน์เชิงประกอบหนึ่งเป็นเท็จทั้งสี่แถว ประพจน์นั้นคืออะไร"],
+                                "คอลัมน์ค่าความจริงของประพจน์เชิงประกอบหนึ่งเป็น F ทั้งสี่แถว ประพจน์นี้คืออะไร"],
     opts:[{v:["A contradiction — the negation of a tautology","ข้อขัดแย้ง ซึ่งเป็นนิเสธของสัจนิรันดร์"],ok:1},
           {v:["A tautology","สัจนิรันดร์"]},
           {v:["An open sentence, not a proposition","ประโยคเปิด ไม่ใช่ประพจน์"]},
           {v:["A conditional whose hypothesis is false","ประพจน์เงื่อนไขที่เหตุเป็นเท็จ"],trap:"T-02"}],unit:""};
   if(sf==="S-03") return {stem:["If it rains, the ground is wet. The ground is wet. Therefore it rained. Is this argument valid?",
-                                "ถ้าฝนตก แล้วพื้นเปียก พื้นเปียก ดังนั้นฝนตก การอ้างเหตุผลนี้สมเหตุสมผลหรือไม่"],
-    opts:[{v:["No — rain is not the only way the ground gets wet, so the premises can be T with the conclusion F","ไม่ เพราะฝนไม่ใช่ทางเดียวที่ทำให้พื้นเปียก เหตุจึงเป็นจริงพร้อมกับผลเป็นเท็จได้"],ok:1},
-          {v:["Yes — it just states the conditional the other way round","สมเหตุสมผล เพราะเป็นการกล่าวประพจน์เงื่อนไขกลับทางเท่านั้น"],trap:"T-01"},
+                                "ถ้าฝนตก พื้นจะเปียก พื้นเปียก ดังนั้นฝนตก การอ้างเหตุผลนี้สมเหตุสมผลหรือไม่"],
+    opts:[{v:["No — rain is not the only way the ground gets wet, so the premises can be T with the conclusion F","ไม่ เพราะฝนไม่ใช่สาเหตุเดียวที่ทำให้พื้นเปียก เหตุจึงเป็น T ขณะที่ผลเป็น F ได้"],ok:1},
+          {v:["Yes — it just states the conditional the other way round","สมเหตุสมผล เพราะแค่กล่าวประพจน์เงื่อนไขกลับทิศ"],trap:"T-01"},
           {v:["Yes — it is the contrapositive of the first premise","สมเหตุสมผล เพราะเป็นแย้งสลับที่ของเหตุข้อแรก"],trap:"T-01"},
-          {v:["No — the first premise is false in the real world","ไม่ เพราะเหตุข้อแรกเป็นเท็จในโลกความเป็นจริง"]}],unit:""};
+          {v:["No — the first premise is false in the real world","ไม่ เพราะเหตุข้อแรกไม่จริงในโลกจริง"]}],unit:""};
   if(sf==="S-05") return {stem:["An argument turned out to be invalid. What exactly must have been found?",
-                                "การอ้างเหตุผลหนึ่งไม่สมเหตุสมผล สิ่งที่ต้องพบคืออะไรกันแน่"],
-    opts:[{v:["At least one assignment making every premise T and the conclusion F","การกำหนดค่าอย่างน้อยหนึ่งแบบที่ทำให้เหตุทุกข้อเป็นจริงและผลเป็นเท็จ"],ok:1},
-          {v:["At least one assignment making every premise F","การกำหนดค่าอย่างน้อยหนึ่งแบบที่ทำให้เหตุทุกข้อเป็นเท็จ"],trap:"T-02"},
+                                "การอ้างเหตุผลหนึ่งไม่สมเหตุสมผล เราต้องพบอะไรแน่ ๆ"],
+    opts:[{v:["At least one assignment making every premise T and the conclusion F","การกำหนดค่าอย่างน้อยหนึ่งแบบที่ทำให้เหตุทุกข้อเป็น T และผลเป็น F"],ok:1},
+          {v:["At least one assignment making every premise F","การกำหนดค่าอย่างน้อยหนึ่งแบบที่ทำให้เหตุทุกข้อเป็น F"],trap:"T-02"},
           {v:["A row in which the conclusion is false","แถวที่ผลเป็นเท็จ"],trap:"T-02"},
           {v:["Two premises that contradict each other","เหตุสองข้อที่ขัดแย้งกันเอง"]}],unit:""};
   var F=pick([{e:"[(p → q) ∧ p] → q",   taut:1},
               {e:"[(p → q) ∧ ~q] → ~p", taut:1},
               {e:"[(p → q) ∧ q] → p",   taut:0}]);
   if(F.taut) return {stem:["Is "+F.e+" a tautology?","ประพจน์ "+F.e+" เป็นสัจนิรันดร์หรือไม่"],
-    opts:[{v:["Yes — assuming it false forces a contradiction in the premises","ใช่ เพราะการสมมติให้เป็นเท็จบังคับให้เหตุเกิดข้อขัดแย้ง"],ok:1},
+    opts:[{v:["Yes — assuming it false forces a contradiction in the premises","ใช่ เพราะถ้าสมมติให้เป็นเท็จ เหตุจะขัดแย้งกันเอง"],ok:1},
           {v:["No — it fails whenever p is false","ไม่ใช่ เพราะเป็นเท็จเมื่อใดก็ตามที่ p เป็นเท็จ"],trap:"T-02"},
           {v:["No — it is a contradiction","ไม่ใช่ เพราะเป็นข้อขัดแย้ง"]},
           {v:["Only in two of the four rows","จริงเพียงสองในสี่แถว"]}],unit:""};
   return {stem:["Is "+F.e+" a tautology?","ประพจน์ "+F.e+" เป็นสัจนิรันดร์หรือไม่"],
-    opts:[{v:["No — p = F with q = T makes every premise T and the conclusion F","ไม่ใช่ เพราะ p = F และ q = T ทำให้เหตุทุกข้อเป็นจริงและผลเป็นเท็จ"],ok:1},
+    opts:[{v:["No — p = F with q = T makes every premise T and the conclusion F","ไม่ใช่ เพราะ p = F และ q = T ทำให้เหตุทุกข้อเป็น T และผลเป็น F"],ok:1},
           {v:["Yes — it is the converse of a valid form, so it is valid too","ใช่ เพราะเป็นผกผันของรูปที่สมเหตุสมผล จึงสมเหตุสมผลด้วย"],trap:"T-01"},
-          {v:["Yes — any conditional built from its own premises is a tautology","ใช่ เพราะประพจน์เงื่อนไขที่สร้างจากเหตุของตัวเองเป็นสัจนิรันดร์เสมอ"],trap:"T-02"},
+          {v:["Yes — any conditional built from its own premises is a tautology","ใช่ เพราะประพจน์เงื่อนไขที่ใช้เหตุของตัวเองเป็นเงื่อนไข เป็นสัจนิรันดร์เสมอ"],trap:"T-02"},
           {v:["It is a contradiction","เป็นข้อขัดแย้ง"]}],unit:""};
 },
 "M-06": function(sf){
@@ -1337,7 +1337,7 @@ gen:{
           {v:["∃x[x² ≠ 9]","∃x[x² ≠ 9]"],trap:"T-03"},
           {v:["∀x[x² ≥ 9]","∀x[x² ≥ 9]"]}],unit:""};
   if(sf==="S-02") return {stem:["Let x range over children and y over kinds of pet. Which form says: every child owns at least one kind of pet?",
-                                "ให้ x แทนเด็ก และ y แทนชนิดของสัตว์เลี้ยง รูปแบบใดหมายถึง เด็กทุกคนเลี้ยงสัตว์เลี้ยงบางชนิด"],
+                                "ให้ x แทนเด็ก และ y แทนชนิดของสัตว์เลี้ยง รูปแบบใดหมายความว่า เด็กทุกคนเลี้ยงสัตว์อย่างน้อยหนึ่งชนิด"],
     opts:[{v:["∀x∃y","∀x∃y"],ok:1},
           {v:["∃x∀y","∃x∀y"]},
           {v:["∀x∀y","∀x∀y"]},

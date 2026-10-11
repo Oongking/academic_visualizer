@@ -855,7 +855,7 @@ kicker:["Mathematics · Chapter 12","คณิตศาสตร์ · บทท
 title:["Graph Theory","ทฤษฎีกราฟ"],
 mapTitle:["Dots, lines, and what connects them","จุด เส้น และสิ่งที่เชื่อมโยงกัน"],
 lede:["Strip a road map, a circuit or a friendship network down to dots and the lines between them and you get a graph. What survives that stripping is connection alone — and it turns out connection is enough to answer surprisingly hard questions.",
-      "ถ้าลอกแผนที่ถนน วงจรไฟฟ้า หรือเครือข่ายมิตรภาพ ให้เหลือเพียงจุดกับเส้นที่เชื่อมระหว่างจุด สิ่งที่ได้คือกราฟ สิ่งที่รอดจากการลอกนั้นมีเพียงการเชื่อมโยง และกลายเป็นว่าการเชื่อมโยงอย่างเดียวก็เพียงพอจะตอบคำถามที่ยากอย่างน่าประหลาดใจ"],
+      "ถ้าตัดแผนที่ถนน วงจรไฟฟ้า หรือเครือข่ายเพื่อนให้เหลือแค่จุดกับเส้นที่ต่อระหว่างจุด เราจะได้กราฟ สิ่งที่เหลืออยู่มีแค่การเชื่อมโยง แต่แค่นี้ก็พอจะตอบโจทย์ที่ยากอย่างน่าแปลกใจได้"],
 next:["→ continues in Chapter 13 · Statistics","→ ต่อในบทที่ 13 · สถิติ"],
 
 nodes:[
@@ -863,9 +863,9 @@ nodes:[
   title:["Vertices and edges","จุดยอดและเส้นเชื่อม"],
   body:[["A graph is a set of vertices together with a set of edges joining them. Only the pattern of connection counts — position, length and curvature carry no meaning, so two drawings that look nothing alike can be the same graph.",
          "A loop joins a vertex to itself; parallel edges join the same pair twice. A simple graph has neither. A complete graph Kₙ joins every pair, and a subgraph is any part of a graph taken whole with its endpoints."],
-        ["กราฟคือเซตของจุดยอดพร้อมกับเซตของเส้นเชื่อมที่โยงจุดเหล่านั้น สิ่งที่นับมีเพียงแบบรูปของการเชื่อมโยง ตำแหน่ง ความยาว และความโค้งไม่มีความหมาย ภาพวาดสองภาพที่ดูไม่เหมือนกันเลยจึงเป็นกราฟเดียวกันได้",
-         "วงวนเชื่อมจุดยอดเข้ากับตัวเอง เส้นเชื่อมขนานเชื่อมจุดคู่เดิมสองครั้ง กราฟเชิงเดียวไม่มีทั้งสองอย่าง กราฟบริบูรณ์ Kₙ เชื่อมทุกคู่เข้าด้วยกัน และกราฟย่อยคือส่วนใดก็ได้ของกราฟที่ยกมาทั้งชิ้นพร้อมจุดปลาย"]],
-  formula:["G = (V, E)        only connection matters, not drawing","G = (V, E)        สิ่งที่นับคือการเชื่อมโยง ไม่ใช่ภาพวาด"],
+        ["กราฟคือเซตของจุดยอดกับเซตของเส้นเชื่อมที่ต่อจุดเหล่านั้น สิ่งที่สำคัญมีแค่รูปแบบการเชื่อมโยง ส่วนตำแหน่ง ความยาว และความโค้งไม่มีความหมาย ภาพวาดสองภาพที่ดูไม่เหมือนกันเลยจึงอาจเป็นกราฟเดียวกันได้",
+         "วงวนคือเส้นที่ต่อจุดยอดกลับเข้าหาตัวเอง เส้นเชื่อมขนานคือเส้นที่ต่อจุดคู่เดียวกันสองครั้ง กราฟเชิงเดียวไม่มีทั้งสองแบบ กราฟบริบูรณ์ Kₙ ต่อทุกคู่จุดยอดเข้าด้วยกัน ส่วนกราฟย่อยคือส่วนหนึ่งของกราฟที่เอามาทั้งหมดพร้อมจุดปลายของมัน"]],
+  formula:["G = (V, E)        only connection matters, not drawing","G = (V, E)        สิ่งที่สำคัญคือการเชื่อมโยง ไม่ใช่ภาพที่วาด"],
   flabel:["Same connections = same graph","การเชื่อมโยงเหมือนกัน = กราฟเดียวกัน"],
   viz:"table",
   vizcfg:{
@@ -889,15 +889,15 @@ nodes:[
       return R.map(function(r,i){ return r.map(function(c,j){
         return {v:c, on:i===p.i, col:j===2?(i<2?"warn":"good"):"accent"}; }); });
     },
-    note:["two drawings that look nothing alike are the same graph if the connections match","ภาพวาดสองภาพที่ดูไม่เหมือนกันเลยเป็นกราฟเดียวกัน ถ้าการเชื่อมโยงตรงกัน"]
+    note:["two drawings that look nothing alike are the same graph if the connections match","ภาพวาดสองภาพที่ดูไม่เหมือนกันเลย ก็เป็นกราฟเดียวกันได้ ถ้าการเชื่อมโยงตรงกัน"]
   } },
 
 { id:"degree", x:100, y:150, requires:["basics"], methods:["M-02"],
   title:["Degree","ดีกรี"],
   body:[["The degree of a vertex is how many edge-ends meet it, with a loop counting twice because both of its ends land there. Forgetting that doubling is trap T-01.",
          "The handshake theorem follows immediately: every edge contributes two to the degree total, so the sum of all degrees is exactly 2|E| — always even. A direct consequence is that the number of odd-degree vertices in any graph is itself even, which is the fact the Euler test rests on."],
-        ["ดีกรีของจุดยอดคือจำนวนปลายเส้นเชื่อมที่มาบรรจบที่จุดนั้น โดยวงวนนับสอง เพราะปลายทั้งสองข้างของมันตกลงที่จุดเดียวกัน การลืมการนับสองนี้คือกับดัก T-01",
-         "ทฤษฎีบทการจับมือตามมาทันที เส้นเชื่อมทุกเส้นเพิ่มดีกรีรวมทีละสอง ผลบวกของดีกรีทั้งหมดจึงเท่ากับ 2|E| พอดี และเป็นจำนวนคู่เสมอ ผลที่ตามมาโดยตรงคือ จำนวนจุดยอดดีกรีคี่ในกราฟใดๆ ย่อมเป็นจำนวนคู่ ซึ่งเป็นข้อเท็จจริงที่การทดสอบออยเลอร์ตั้งอยู่บนนั้น"]],
+        ["ดีกรีของจุดยอดคือจำนวนปลายเส้นเชื่อมที่มาพบกันที่จุดนั้น วงวนนับเป็นสอง เพราะปลายทั้งสองข้างอยู่ที่จุดเดียวกัน ถ้าลืมนับสองคือกับดัก T-01",
+         "ทฤษฎีบทการจับมือตามมาทันที เส้นเชื่อมแต่ละเส้นเพิ่มดีกรีรวมให้สอง ผลบวกของดีกรีทั้งหมดจึงเท่ากับ 2|E| พอดี และเป็นจำนวนคู่เสมอ จึงสรุปได้ว่า กราฟใดก็ตามมีจุดยอดดีกรีคี่เป็นจำนวนคู่ และข้อนี้เป็นฐานของการทดสอบแบบออยเลอร์"]],
   formula:["Σ deg(v) = 2|E|        odd-degree vertices always come in pairs","Σ deg(v) = 2|E|        จุดยอดดีกรีคี่มาเป็นคู่เสมอ"],
   flabel:["A loop adds two, not one","วงวนเพิ่มสอง ไม่ใช่หนึ่ง"],
   viz:"bars",
@@ -921,16 +921,16 @@ nodes:[
       {lab:["Σ deg(v)","Σ deg(v)"], f:function(p){ return 2*p.E; }, col:"accent"},
       {lab:["2|E|","2|E|"], f:function(p){ return 2*p.E; }, col:"good"}
     ],
-    note:["the last two bars are the handshake theorem, and they can never disagree","สองแถบสุดท้ายคือทฤษฎีบทการจับมือ และไม่มีวันต่างกัน"]
+    note:["the last two bars are the handshake theorem, and they can never disagree","สองแถบสุดท้ายคือทฤษฎีบทการจับมือ จึงไม่มีทางไม่เท่ากัน"]
   } },
 
 { id:"euler", x:370, y:150, requires:["degree"], methods:["M-03"],
   title:["Euler paths and circuits","แนวเดินและวงจรออยเลอร์"],
   body:[["An Euler path uses every edge exactly once; an Euler circuit does the same and returns to its start. The test is purely about odd-degree vertices, and nothing else about the graph matters.",
          "Zero odd vertices gives a circuit. Exactly two gives a path, which must start at one odd vertex and finish at the other. Any other count gives neither — and there can never be exactly one, since odd vertices come in pairs. Try it in the lab: toggle edges and watch the verdict flip the moment the odd count crosses a boundary."],
-        ["แนวเดินออยเลอร์ใช้เส้นเชื่อมทุกเส้นเส้นละครั้งพอดี วงจรออยเลอร์ทำแบบเดียวกันแล้วกลับมาที่จุดเริ่ม การทดสอบขึ้นอยู่กับจุดยอดดีกรีคี่ล้วนๆ ไม่มีอย่างอื่นของกราฟที่มีผล",
-         "จุดยอดดีกรีคี่ศูนย์ตัวให้วงจร สองตัวพอดีให้แนวเดิน ซึ่งต้องเริ่มที่จุดคี่ตัวหนึ่งและจบที่อีกตัวหนึ่ง จำนวนอื่นไม่ได้ทั้งสองอย่าง และเป็นหนึ่งตัวไม่ได้เลย เพราะจุดคี่มาเป็นคู่ ลองในห้องทดลอง สลับเส้นเชื่อมแล้วดูคำตัดสินพลิกทันทีที่จำนวนจุดคี่ข้ามเส้นแบ่ง"]],
-  formula:["0 odd → circuit        exactly 2 odd → path        otherwise → neither","คี่ 0 → วงจร        คี่ 2 พอดี → แนวเดิน        นอกนั้น → ไม่ได้ทั้งสอง"],
+        ["แนวเดินออยเลอร์ผ่านเส้นเชื่อมทุกเส้นเส้นละครั้งพอดี ส่วนวงจรออยเลอร์ทำเหมือนกันแต่ต้องกลับมาที่จุดเริ่มต้น การทดสอบดูแค่จุดยอดดีกรีคี่ ส่วนอย่างอื่นของกราฟไม่เกี่ยว",
+         "ถ้าไม่มีจุดยอดคี่เลย จะได้วงจร ถ้ามีสองจุดพอดี จะได้แนวเดิน ซึ่งต้องเริ่มที่จุดคี่จุดหนึ่งและจบที่อีกจุดหนึ่ง ถ้ามีจำนวนอื่น จะไม่ได้ทั้งสองอย่าง และมีเพียงจุดเดียวไม่ได้ เพราะจุดคี่มาเป็นคู่ ลองในห้องทดลองดู กดสลับเส้นเชื่อมแล้วดูผลที่เปลี่ยนทันทีเมื่อจำนวนจุดคี่ข้ามเส้นแบ่ง"]],
+  formula:["0 odd → circuit        exactly 2 odd → path        otherwise → neither","คี่ 0 จุด → วงจร        คี่ 2 จุดพอดี → แนวเดิน        นอกนั้น → ไม่ได้ทั้งสองอย่าง"],
   flabel:["Count the odd vertices, nothing else","นับจุดยอดดีกรีคี่ ไม่ต้องดูอย่างอื่น"],
   viz:{
     vb:"0 0 560 330", anim:false,
@@ -992,26 +992,26 @@ nodes:[
       o.push('<line x1="'+vx+'" y1="144" x2="'+(vx+124)+'" y2="144" stroke="var(--rule)"/>');
       o.push('<text x="'+vx+'" y="168" fill="'+col+'" font-family="IBM Plex Sans" font-size="11.5" font-weight="600">'+msg+'</text>');
       o.push('<text x="34" y="300" fill="var(--ink-soft)" font-family="IBM Plex Sans" font-size="10.5">'+tx(["red vertices have odd degree · dashed edges are switched off","จุดยอดสีแดงมีดีกรีคี่ · เส้นประคือเส้นเชื่อมที่ปิดอยู่"])+'</text>');
-      o.push('<text x="34" y="316" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["the odd count is always even — you can never make it 1 or 3","จำนวนจุดคี่เป็นเลขคู่เสมอ — ทำให้เป็น 1 หรือ 3 ไม่ได้เลย"])+'</text>');
+      o.push('<text x="34" y="316" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10">'+tx(["the odd count is always even — you can never make it 1 or 3","จำนวนจุดคี่เป็นเลขคู่เสมอ ทำให้เป็น 1 หรือ 3 ไม่ได้เลย"])+'</text>');
     }
   },
   guide:[
     {say:["A plain square. Every vertex has degree 2, so nothing is odd and an Euler circuit exists.",
           "สี่เหลี่ยมธรรมดา ทุกจุดยอดมีดีกรี 2 จึงไม่มีจุดคี่เลย และมีวงจรออยเลอร์"], set:{e12:1,e23:1,e34:1,e41:1,e13:0,e24:0}},
     {say:["Add one diagonal. Two vertices go odd — a path now exists, but it must start and end at those two.",
-          "เพิ่มแนวทแยงหนึ่งเส้น จุดยอดสองจุดกลายเป็นคี่ ตอนนี้มีแนวเดิน แต่ต้องเริ่มและจบที่สองจุดนั้น"], set:{e12:1,e23:1,e34:1,e41:1,e13:1,e24:0}},
+          "เพิ่มเส้นทแยงมุมหนึ่งเส้น จุดยอดสองจุดกลายเป็นคี่ ตอนนี้มีแนวเดินแล้ว แต่ต้องเริ่มและจบที่สองจุดนั้น"], set:{e12:1,e23:1,e34:1,e41:1,e13:1,e24:0}},
     {say:["Add the second diagonal. All four go odd, and now neither a path nor a circuit is possible.",
-          "เพิ่มแนวทแยงเส้นที่สอง ทั้งสี่จุดกลายเป็นคี่ ตอนนี้ไม่มีทั้งแนวเดินและวงจร"], set:{e12:1,e23:1,e34:1,e41:1,e13:1,e24:1}},
+          "เพิ่มเส้นทแยงมุมเส้นที่สอง ทั้งสี่จุดกลายเป็นคี่ ตอนนี้ไม่มีทั้งแนวเดินและวงจร"], set:{e12:1,e23:1,e34:1,e41:1,e13:1,e24:1}},
     {say:["Remove an edge and try to make exactly one vertex odd. You cannot — they always change in pairs.",
-          "ลองลบเส้นเชื่อมออกแล้วทำให้มีจุดคี่เพียงจุดเดียว คุณทำไม่ได้ เพราะมันเปลี่ยนเป็นคู่เสมอ"], set:{e12:1,e23:1,e34:0,e41:1,e13:1,e24:0}}
+          "ลองลบเส้นเชื่อมแล้วทำให้เหลือจุดคี่แค่จุดเดียว จะทำไม่ได้ เพราะจุดคี่เปลี่ยนทีละคู่เสมอ"], set:{e12:1,e23:1,e34:0,e41:1,e13:1,e24:0}}
   ]},
 
 { id:"connectivity", x:235, y:248, requires:["euler"], methods:["M-04"],
   title:["Connectivity and trees","การเชื่อมโยงและต้นไม้"],
   body:[["A graph is connected when a path runs between every pair of vertices; otherwise it splits into components. A tree is a connected graph with no cycles, and it always has exactly |V| − 1 edges — one fewer than the number of vertices.",
          "That count is tight in both directions. Remove any edge from a tree and it disconnects; add any edge and it gains a cycle. A spanning tree keeps every vertex but only enough edges to hold the graph together."],
-        ["กราฟเชื่อมโยงเมื่อมีแนวเดินระหว่างจุดยอดทุกคู่ ถ้าไม่เช่นนั้นมันจะแตกเป็นส่วนประกอบหลายส่วน ต้นไม้คือกราฟเชื่อมโยงที่ไม่มีวัฏจักร และมีเส้นเชื่อม |V| − 1 เส้นพอดีเสมอ คือน้อยกว่าจำนวนจุดยอดอยู่หนึ่ง",
-         "จำนวนนี้พอดีเป๊ะทั้งสองทาง ลบเส้นเชื่อมใดออกจากต้นไม้แล้วมันจะขาดจากกัน เพิ่มเส้นเชื่อมใดเข้าไปแล้วมันจะเกิดวัฏจักร ต้นไม้แผ่ทั่วเก็บจุดยอดไว้ครบ แต่เหลือเส้นเชื่อมเพียงพอที่จะยึดกราฟไว้ด้วยกัน"]],
+        ["กราฟเชื่อมโยงคือกราฟที่มีแนวเดินระหว่างจุดยอดทุกคู่ ถ้าไม่ใช่ กราฟจะแยกเป็นส่วนประกอบหลายส่วน ต้นไม้คือกราฟเชื่อมโยงที่ไม่มีวัฏจักร และมีเส้นเชื่อม |V| − 1 เส้นพอดีเสมอ คือน้อยกว่าจำนวนจุดยอดอยู่หนึ่ง",
+         "จำนวนนี้พอดีทั้งสองทาง ถ้าลบเส้นเชื่อมใดออกจากต้นไม้ ต้นไม้จะขาดเป็นสองส่วน ถ้าเพิ่มเส้นเชื่อมใดเข้าไป จะเกิดวัฏจักร ต้นไม้แผ่ทั่วเก็บจุดยอดไว้ครบ แต่ใช้เส้นเชื่อมเท่าที่จำเป็นเพื่อให้กราฟยังต่อกันอยู่"]],
   formula:["tree: connected, no cycles, |E| = |V| − 1","ต้นไม้: เชื่อมโยง ไม่มีวัฏจักร |E| = |V| − 1"],
   flabel:["One edge fewer than vertices","เส้นเชื่อมน้อยกว่าจุดยอดหนึ่งเส้น"],
   viz:"bars",
@@ -1039,15 +1039,15 @@ nodes:[
       {lab:["Edges you have","เส้นเชื่อมที่มี"], f:function(p){ return p.E; }, col:"accent"},
       {lab:["Complete graph max","สูงสุดของกราฟบริบูรณ์"], f:function(p){ return p.V*(p.V-1)/2; }, col:"faint"}
     ],
-    note:["one edge short and it falls apart; one edge over and a cycle appears","ขาดไปหนึ่งเส้นแล้วมันแตกออก เกินไปหนึ่งเส้นแล้ววัฏจักรก็ปรากฏ"]
+    note:["one edge short and it falls apart; one edge over and a cycle appears","ขาดไปหนึ่งเส้นก็แยกออกจากกัน เกินมาหนึ่งเส้นก็เกิดวัฏจักร"]
   } },
 
 { id:"weighted", x:235, y:346, requires:["connectivity"], methods:["M-05"],
   title:["Weighted graphs","กราฟถ่วงน้ำหนัก"],
   body:[["Attach a number to each edge — distance, cost, time — and the questions change from 'is there a route' to 'which route is cheapest'. Shortest-path problems and minimum-spanning-tree problems both live here.",
          "A Hamilton circuit visits every **vertex** once, where an Euler circuit uses every **edge** once. They sound like a matched pair but behave nothing alike: the Euler condition is a simple degree count, while no comparably easy test exists for Hamilton. Applying the odd-vertex rule to a Hamilton question is trap T-04."],
-        ["ติดตัวเลขไว้กับเส้นเชื่อมแต่ละเส้น เช่น ระยะทาง ต้นทุน เวลา คำถามจะเปลี่ยนจาก มีเส้นทางหรือไม่ ไปเป็น เส้นทางไหนถูกที่สุด ปัญหาวิถีสั้นสุดและปัญหาต้นไม้แผ่ทั่วน้อยสุดอยู่ตรงนี้ทั้งคู่",
-         "วงจรแฮมิลตันผ่านจุดยอดทุกจุดครั้งเดียว ขณะที่วงจรออยเลอร์ใช้เส้นเชื่อมทุกเส้นครั้งเดียว ทั้งสองฟังดูเป็นคู่ที่เข้ากัน แต่พฤติกรรมต่างกันสิ้นเชิง เงื่อนไขออยเลอร์เป็นเพียงการนับดีกรี ขณะที่ไม่มีการทดสอบที่ง่ายเทียบเท่าสำหรับแฮมิลตัน การเอากฎจุดยอดคี่ไปใช้กับคำถามแฮมิลตันคือกับดัก T-04"]],
+        ["ถ้าใส่ตัวเลขให้เส้นเชื่อมแต่ละเส้น เช่น ระยะทาง ต้นทุน หรือเวลา คำถามจะเปลี่ยนจาก มีเส้นทางไหม เป็น เส้นทางไหนถูกที่สุด ปัญหาวิถีสั้นสุดและปัญหาต้นไม้แผ่ทั่วน้อยสุดอยู่ในกลุ่มนี้",
+         "วงจรแฮมิลตันผ่าน**จุดยอด**ทุกจุดครั้งเดียว ส่วนวงจรออยเลอร์ใช้**เส้นเชื่อม**ทุกเส้นครั้งเดียว สองอย่างนี้ฟังดูเป็นคู่กัน แต่ธรรมชาติต่างกันมาก เงื่อนไขของออยเลอร์แค่นับดีกรี แต่แฮมิลตันไม่มีวิธีทดสอบที่ง่ายขนาดนั้น การเอากฎจุดยอดคี่ไปใช้กับโจทย์แฮมิลตันคือกับดัก T-04"]],
   formula:["Euler: every EDGE once        Hamilton: every VERTEX once","ออยเลอร์: ทุกเส้นเชื่อมครั้งเดียว        แฮมิลตัน: ทุกจุดยอดครั้งเดียว"],
   flabel:["No easy degree test for Hamilton","แฮมิลตันไม่มีการทดสอบดีกรีที่ง่าย"],
   viz:"bars",
@@ -1076,30 +1076,30 @@ nodes:[
       {lab:["Route 2","เส้นทาง 2"], f:function(p){ return p.c; }, col:"good"},
       {lab:["Route 3","เส้นทาง 3"], f:function(p){ return p.d; }, col:"warn"}
     ],
-    note:["the shortest route on a map is often not the one with fewest edges","เส้นทางที่สั้นที่สุดบนแผนที่มักไม่ใช่เส้นทางที่มีเส้นเชื่อมน้อยที่สุด"]
+    note:["the shortest route on a map is often not the one with fewest edges","เส้นทางที่สั้นที่สุดบนแผนที่มักไม่ใช่เส้นทางที่ผ่านเส้นเชื่อมน้อยที่สุด"]
   } }
 ],
 
 methods:[
 {id:"M-01", name:["Read a graph's structure","อ่านโครงสร้างกราฟ"]},
-{id:"M-02", name:["Compute degrees and use the handshake theorem","หาดีกรีและใช้ทฤษฎีบทการจับมือ"]},
+{id:"M-02", name:["Compute degrees and use the handshake theorem","หาดีกรีแล้วใช้ทฤษฎีบทการจับมือ"]},
 {id:"M-03", name:["Test for an Euler path or circuit","ทดสอบแนวเดินหรือวงจรออยเลอร์"]},
 {id:"M-04", name:["Identify trees and components","ระบุต้นไม้และส่วนประกอบ"]},
 {id:"M-05", name:["Work with weights and Hamilton circuits","ทำงานกับน้ำหนักและวงจรแฮมิลตัน"]}
 ],
 
 traps:{
-"T-01":["A loop contributes 2 to the degree, not 1 — both its ends land on the same vertex.","วงวนเพิ่มดีกรี 2 ไม่ใช่ 1 เพราะปลายทั้งสองข้างตกที่จุดยอดเดียวกัน"],
-"T-02":["Exactly two odd vertices gives a path, not a circuit. Zero gives a circuit.","จุดยอดคี่สองจุดพอดีให้แนวเดิน ไม่ใช่วงจร ศูนย์จุดจึงให้วงจร"],
-"T-03":["A tree has |V| − 1 edges. Using |V| adds a cycle.","ต้นไม้มีเส้นเชื่อม |V| − 1 เส้น การใช้ |V| จะทำให้เกิดวัฏจักร"],
-"T-04":["Euler is about edges, Hamilton about vertices. The odd-degree test applies only to Euler.","ออยเลอร์ว่าด้วยเส้นเชื่อม แฮมิลตันว่าด้วยจุดยอด การทดสอบดีกรีคี่ใช้ได้กับออยเลอร์เท่านั้น"]
+"T-01":["A loop contributes 2 to the degree, not 1 — both its ends land on the same vertex.","วงวนเพิ่มดีกรีให้ 2 ไม่ใช่ 1 เพราะปลายทั้งสองข้างอยู่ที่จุดยอดเดียวกัน"],
+"T-02":["Exactly two odd vertices gives a path, not a circuit. Zero gives a circuit.","จุดคี่สองจุดพอดีให้แนวเดิน ไม่ใช่วงจร ถ้าไม่มีจุดคี่เลยจึงจะได้วงจร"],
+"T-03":["A tree has |V| − 1 edges. Using |V| adds a cycle.","ต้นไม้มีเส้นเชื่อม |V| − 1 เส้น ถ้าใช้ |V| จะเกิดวัฏจักร"],
+"T-04":["Euler is about edges, Hamilton about vertices. The odd-degree test applies only to Euler.","ออยเลอร์เกี่ยวกับเส้นเชื่อม แฮมิลตันเกี่ยวกับจุดยอด การทดสอบดีกรีคี่ใช้ได้กับออยเลอร์เท่านั้น"]
 },
 
 gen:{
 "M-01": function(sf){
   var n=pick([4,5,6,7]);
   if(sf==="S-04") return {stem:["Two graphs are drawn very differently. When are they the same graph?",
-                                "กราฟสองรูปวาดต่างกันมาก เมื่อใดจึงถือว่าเป็นกราฟเดียวกัน"],
+                                "กราฟสองรูปวาดต่างกันมาก เมื่อไรจึงเป็นกราฟเดียวกัน"],
     opts:[{v:["When the pattern of connections matches","เมื่อแบบรูปของการเชื่อมโยงตรงกัน"],ok:1},
           {v:["When the vertices are in the same positions","เมื่อจุดยอดอยู่ตำแหน่งเดียวกัน"],trap:"T-01"},
           {v:["When the edges are the same length","เมื่อเส้นเชื่อมยาวเท่ากัน"],trap:"T-01"},
@@ -1110,13 +1110,13 @@ gen:{
 },
 "M-02": function(sf){
   var e=pick([5,7,9,12]);
-  if(sf==="S-04") return {stem:["How much does a loop add to a vertex's degree?","วงวนเพิ่มดีกรีให้จุดยอดเท่าใด"],
+  if(sf==="S-04") return {stem:["How much does a loop add to a vertex's degree?","วงวนเพิ่มดีกรีให้จุดยอดเท่าไร"],
     opts:[{v:"2",ok:1},{v:"1",trap:"T-01"},{v:"0",trap:"T-01"},{v:"4"}],unit:""};
   if(sf==="S-05") return {stem:["A graph's degrees sum to "+(2*e)+". How many edges has it?",
                                 "ผลบวกดีกรีของกราฟหนึ่งเท่ากับ "+(2*e)+" กราฟนี้มีเส้นเชื่อมกี่เส้น"],
     opts:[{v:String(e),ok:1},{v:String(2*e),trap:"T-01"},{v:String(e/2)},{v:String(e+1)}],unit:""};
   if(sf==="S-03") return {stem:["Can a graph have exactly three odd-degree vertices?",
-                                "กราฟมีจุดยอดดีกรีคี่สามจุดพอดีได้หรือไม่"],
+                                "กราฟมีจุดยอดดีกรีคี่สามจุดพอดีได้ไหม"],
     opts:[{v:["No — odd vertices always come in pairs","ไม่ได้ จุดยอดคี่มาเป็นคู่เสมอ"],ok:1},
           {v:["Yes, in a large enough graph","ได้ ถ้ากราฟใหญ่พอ"],trap:"T-02"},
           {v:["Yes, if it has loops","ได้ ถ้ามีวงวน"],trap:"T-01"},
@@ -1132,7 +1132,7 @@ gen:{
          {odd:4,a:["Neither","ไม่มีทั้งสองอย่าง"]}];
   var c=pick(C);
   if(sf==="S-04") return {stem:["A connected graph has exactly two odd vertices. What exists?",
-                                "กราฟเชื่อมโยงมีจุดยอดคี่สองจุดพอดี มีอะไรอยู่"],
+                                "กราฟเชื่อมโยงมีจุดยอดคี่สองจุดพอดี จะมีอะไร"],
     opts:[{v:["An Euler path only","แนวเดินออยเลอร์เท่านั้น"],ok:1},
           {v:["An Euler circuit","วงจรออยเลอร์"],trap:"T-02"},
           {v:["Both","ทั้งสองอย่าง"],trap:"T-02"},
@@ -1170,7 +1170,7 @@ gen:{
           {v:["Euler visits every vertex; Hamilton uses every edge","ออยเลอร์ผ่านทุกจุดยอด แฮมิลตันใช้ทุกเส้นเชื่อม"],trap:"T-04"},
           {v:["Hamilton needs weights","แฮมิลตันต้องมีน้ำหนัก"],trap:"T-04"}],unit:""};
   if(sf==="S-03") return {stem:["Can the odd-degree test decide whether a Hamilton circuit exists?",
-                                "การทดสอบดีกรีคี่ตัดสินได้หรือไม่ว่ามีวงจรแฮมิลตัน"],
+                                "ใช้การทดสอบดีกรีคี่ตัดสินได้ไหมว่ามีวงจรแฮมิลตันหรือไม่"],
     opts:[{v:["No — it applies only to Euler circuits","ไม่ได้ ใช้ได้กับวงจรออยเลอร์เท่านั้น"],ok:1},
           {v:["Yes, the same rule works","ได้ กฎเดียวกันใช้ได้"],trap:"T-04"},
           {v:["Yes, if the graph is weighted","ได้ ถ้ากราฟมีน้ำหนัก"],trap:"T-04"},

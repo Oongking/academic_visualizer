@@ -15,7 +15,7 @@ kicker:["Physics · Chapter 12","ฟิสิกส์ · บทที่ 12"],
 title:["Sound","เสียง"],
 mapTitle:["A wave you can hear","คลื่นที่ได้ยินได้"],
 lede:["Sound is the longitudinal case of everything in Chapter 9, with one extra idea attached: because our ears respond logarithmically, loudness needs a scale of its own.",
-      "เสียงคือกรณีคลื่นตามยาวของทุกอย่างในบทที่ 9 โดยมีแนวคิดพิเศษเพิ่มอีกหนึ่งอย่าง เพราะหูของเราตอบสนองแบบลอการิทึม ความดังจึงต้องมีสเกลของตัวเอง"],
+      "เสียงคือคลื่นตามยาว ทุกเรื่องในบทที่ 9 ใช้กับเสียงได้หมด แต่มีเรื่องใหม่เพิ่มมาอย่างหนึ่ง คือหูของเราตอบสนองแบบลอการิทึม ความดังจึงต้องมีสเกลของตัวเอง"],
 next:["→ continues in Chapter 13 · Electrostatics","→ ต่อในบทที่ 13 · ไฟฟ้าสถิต"],
 
 nodes:[
@@ -23,26 +23,26 @@ nodes:[
   title:["The nature of sound","ธรรมชาติของเสียง"],
   body:[["Sound is a longitudinal pressure wave: the air compresses and rarefies along the direction of travel. It needs a medium, which is why space is silent, and it travels fastest in solids where the particles are most tightly coupled.",
          "In air the speed rises with temperature, v ≈ 331 + 0.6t. Frequency sets pitch, amplitude sets loudness, and the audible range runs from about 20 Hz to 20 kHz."],
-        ["เสียงเป็นคลื่นความดันตามยาว อากาศอัดและขยายไปตามทิศการเคลื่อนที่ มันต้องอาศัยตัวกลาง อวกาศจึงเงียบ และเดินทางเร็วที่สุดในของแข็งซึ่งอนุภาคยึดกันแน่นที่สุด",
-         "ในอากาศ อัตราเร็วเพิ่มตามอุณหภูมิ v ≈ 331 + 0.6t ความถี่กำหนดระดับเสียง แอมพลิจูดกำหนดความดัง และช่วงที่ได้ยินอยู่ราว 20 เฮิรตซ์ ถึง 20 กิโลเฮิรตซ์"]],
+        ["เสียงเป็นคลื่นความดันตามยาว อากาศถูกอัดและขยายสลับกันไปตามทิศที่เสียงเคลื่อนที่ เสียงต้องมีตัวกลาง อวกาศจึงเงียบสนิท และเสียงเดินทางเร็วที่สุดในของแข็ง เพราะอนุภาคอยู่ชิดกันแน่นที่สุด",
+         "ในอากาศ อัตราเร็วเสียงเพิ่มขึ้นตามอุณหภูมิ v ≈ 331 + 0.6t ความถี่กำหนดระดับเสียง แอมพลิจูดกำหนดความดัง และช่วงที่หูมนุษย์ได้ยินอยู่ที่ประมาณ 20 เฮิรตซ์ ถึง 20 กิโลเฮิรตซ์"]],
   formula:["v = 331 + 0.6t   (t in °C)","v = 331 + 0.6t   (t เป็น °C)"],
   flabel:["Solids > liquids > gases","ของแข็ง > ของเหลว > แก๊ส"],
   viz:"wave",
   guide:[
     {say:["A sound wave drawn as displacement. Raise the frequency and the pitch rises with it.",
-          "คลื่นเสียงที่วาดเป็นการกระจัด เพิ่มความถี่แล้วระดับเสียงจะสูงขึ้นตาม"], set:{A:5,lam:8,f:1,T:8}},
+          "คลื่นเสียงที่วาดเป็นกราฟการกระจัด เพิ่มความถี่แล้วเสียงจะสูงขึ้นตาม"], set:{A:5,lam:8,f:1,T:8}},
     {say:["Raise the amplitude instead. Same pitch, louder sound — the two are completely independent.",
-          "ลองเพิ่มแอมพลิจูดแทน ระดับเสียงเดิมแต่ดังขึ้น ทั้งสองเป็นอิสระต่อกันสิ้นเชิง"], set:{A:9,lam:8,f:1,T:8}},
+          "ลองเพิ่มแอมพลิจูดแทน ระดับเสียงเท่าเดิมแต่ดังขึ้น สองอย่างนี้ไม่เกี่ยวข้องกันเลย"], set:{A:9,lam:8,f:1,T:8}},
     {say:["Read the speed readout. It is always fλ — the same wave equation as every other wave.",
-          "อ่านค่าอัตราเร็ว มันคือ fλ เสมอ เป็นสมการคลื่นเดียวกับคลื่นทุกชนิด"], set:{A:5,lam:16,f:2,T:8}}
+          "ดูค่าอัตราเร็วที่แสดง จะได้ fλ เสมอ เป็นสมการคลื่นเดียวกับคลื่นทุกชนิด"], set:{A:5,lam:16,f:2,T:8}}
   ]},
 
 { id:"intensity", x:100, y:150, requires:["nature"], methods:["M-02","M-03"],
   title:["Intensity and loudness","ความเข้มและความดัง"],
   body:[["Intensity is power per unit area, and a point source spreads its power over a sphere, so I = P/4πr². Double the distance and the intensity falls to a quarter.",
          "The ear does not hear intensity directly — it hears its logarithm. Sound level β = 10 log(I/I₀) in decibels, with I₀ = 10⁻¹² W/m². Ten times the intensity is only ten more decibels, which is why the scale is so compressed."],
-        ["ความเข้มคือกำลังต่อหน่วยพื้นที่ และแหล่งกำเนิดแบบจุดกระจายกำลังออกไปทั่วผิวทรงกลม จึงได้ I = P/4πr² เพิ่มระยะเป็นสองเท่า ความเข้มลดเหลือหนึ่งในสี่",
-         "หูไม่ได้ยินความเข้มโดยตรง แต่ได้ยินลอการิทึมของมัน ระดับเสียง β = 10 log(I/I₀) หน่วยเดซิเบล โดย I₀ = 10⁻¹² W/m² ความเข้มสิบเท่าเพิ่มเพียงสิบเดซิเบล จึงเป็นเหตุผลที่สเกลนี้ถูกบีบอัดมาก"]],
+        ["ความเข้มคือกำลังต่อหน่วยพื้นที่ แหล่งกำเนิดแบบจุดแผ่กำลังออกไปทั่วผิวทรงกลม จึงได้ I = P/4πr² ถ้าระยะเพิ่มเป็นสองเท่า ความเข้มจะเหลือหนึ่งในสี่",
+         "หูไม่ได้ยินความเข้มโดยตรง แต่ได้ยินค่าลอการิทึมของความเข้ม ระดับเสียง β = 10 log(I/I₀) มีหน่วยเป็นเดซิเบล โดย I₀ = 10⁻¹² W/m² ความเข้มเพิ่มสิบเท่าจะได้ระดับเสียงเพิ่มแค่สิบเดซิเบล สเกลนี้จึงบีบค่าให้แคบลงมาก"]],
   formula:["I = P / 4πr²        β = 10 log(I / I₀)","I = P / 4πr²        β = 10 log(I / I₀)"],
   flabel:["I₀ = 10⁻¹² W/m²","I₀ = 10⁻¹² W/m²"],
   viz:"plot",
@@ -67,19 +67,19 @@ nodes:[
   },
   guide:[
     {say:["The curve is an inverse square. It falls away steeply near the source and then flattens out.",
-          "เส้นกราฟเป็นกำลังสองผกผัน ลดลงชันมากใกล้แหล่งกำเนิดแล้วค่อยแบนราบ"], set:{P:50,r:2}},
+          "กราฟเป็นแบบกำลังสองผกผัน ใกล้แหล่งกำเนิดจะลดลงชันมาก แล้วค่อยๆ ราบลง"], set:{P:50,r:2}},
     {say:["Double your distance from 2 m to 4 m and read the intensity. It drops to a quarter, not a half.",
-          "เพิ่มระยะจาก 2 เมตรเป็น 4 เมตร แล้วอ่านความเข้ม จะลดเหลือหนึ่งในสี่ ไม่ใช่ครึ่งหนึ่ง"], set:{P:50,r:4}},
+          "ลองเพิ่มระยะจาก 2 เมตรเป็น 4 เมตร แล้วอ่านค่าความเข้ม จะเหลือหนึ่งในสี่ ไม่ใช่ครึ่งหนึ่ง"], set:{P:50,r:4}},
     {say:["But the decibel readout only drops by about 6. That gap between physics and hearing is the whole point of the dB scale.",
-          "แต่ค่าเดซิเบลลดลงเพียงราว 6 ช่องว่างระหว่างฟิสิกส์กับการได้ยินนี้คือเหตุผลทั้งหมดของสเกลเดซิเบล"], set:{P:50,r:8}}
+          "แต่ค่าเดซิเบลลดลงแค่ประมาณ 6 ความต่างระหว่างค่าทางฟิสิกส์กับสิ่งที่หูรับรู้นี้เองคือเหตุผลที่เรามีสเกลเดซิเบล"], set:{P:50,r:8}}
   ]},
 
 { id:"pipes", x:370, y:150, requires:["nature"], methods:["M-04"],
   title:["Resonance in pipes","การสั่นพ้องในท่อ"],
   body:[["A pipe resonates when a standing wave fits it exactly. A closed end must be a node, an open end must be an antinode, and that single rule generates every harmonic.",
          "A pipe closed at one end fits a quarter wavelength at its fundamental and produces only odd harmonics. An open pipe fits half a wavelength and produces all of them. Treating a closed pipe like an open one is trap T-03."],
-        ["ท่อจะสั่นพ้องเมื่อคลื่นนิ่งลงตัวพอดี ปลายปิดต้องเป็นบัพ ปลายเปิดต้องเป็นปฏิบัพ และกฎเดียวนี้สร้างฮาร์มอนิกทั้งหมด",
-         "ท่อปลายปิดข้างเดียวบรรจุหนึ่งในสี่ความยาวคลื่นที่ความถี่มูลฐาน และให้เฉพาะฮาร์มอนิกคี่ ส่วนท่อปลายเปิดบรรจุครึ่งความยาวคลื่นและให้ทุกฮาร์มอนิก การมองท่อปลายปิดเป็นท่อปลายเปิดคือกับดัก T-03"]],
+        ["ท่อจะเกิดการสั่นพ้องเมื่อคลื่นนิ่งลงตัวพอดีกับความยาวท่อ ปลายปิดต้องเป็นบัพ ปลายเปิดต้องเป็นปฏิบัพ แค่กฎข้อนี้ข้อเดียวก็ได้ฮาร์มอนิกทั้งหมด",
+         "ท่อปลายปิดข้างเดียวมีความยาวเท่ากับหนึ่งในสี่ของความยาวคลื่นที่ความถี่มูลฐาน และให้เฉพาะฮาร์มอนิกคี่ ส่วนท่อปลายเปิดมีความยาวเท่ากับครึ่งความยาวคลื่นและให้ครบทุกฮาร์มอนิก ถ้าคิดว่าท่อปลายปิดเหมือนท่อปลายเปิด จะตกกับดัก T-03"]],
   formula:["Closed: L = λ/4, 3λ/4, …        Open: L = λ/2, λ, …","ปลายปิด: L = λ/4, 3λ/4, …        ปลายเปิด: L = λ/2, λ, …"],
   flabel:["Closed pipes give odd harmonics only","ท่อปลายปิดให้ฮาร์มอนิกคี่เท่านั้น"],
   viz:"bars",
@@ -109,23 +109,23 @@ nodes:[
       {lab:["4th","ที่ 4"], f:function(p){ return p.closed===0 ? 4*p.v/(2*p.Lp) : 0; }, col:"good"},
       {lab:["5th","ที่ 5"], f:function(p){ return p.closed===0 ? 5*p.v/(2*p.Lp) : 5*p.v/(4*p.Lp); }, col:"good"}
     ],
-    note:["a closed pipe simply deletes the even harmonics — that missing pattern is its timbre","ท่อปิดปลายลบฮาร์มอนิกเลขคู่ทิ้ง แบบรูปที่หายไปนั้นคือคุณภาพเสียงของมัน"]
+    note:["a closed pipe simply deletes the even harmonics — that missing pattern is its timbre","ท่อปลายปิดตัดฮาร์มอนิกเลขคู่ออกไป และฮาร์มอนิกที่ขาดไปนี้เองที่ทำให้เสียงมีลักษณะเฉพาะตัว"]
   },
   guide:[
     {say:["An open pipe sounds every harmonic — the bars step up in equal jumps.",
-          "ท่อเปิดสองปลายให้ทุกฮาร์มอนิก แถบไต่ขึ้นทีละขั้นเท่าๆ กัน"], set:{closed:0,Lp:1,v:340}},
+          "ท่อปลายเปิดให้ครบทุกฮาร์มอนิก แถบจึงสูงขึ้นทีละขั้นเท่าๆ กัน"], set:{closed:0,Lp:1,v:340}},
     {say:["Close one end and the even harmonics collapse to zero. Only 1, 3, 5 survive.",
-          "ปิดปลายหนึ่ง ฮาร์มอนิกเลขคู่ยุบเป็นศูนย์ เหลือแค่ 1, 3, 5"], set:{closed:1,Lp:1,v:340}},
+          "ปิดปลายหนึ่งข้าง ฮาร์มอนิกเลขคู่จะหายไปเป็นศูนย์ เหลือแค่ลำดับที่ 1, 3, 5"], set:{closed:1,Lp:1,v:340}},
     {say:["Notice the closed pipe's fundamental is half the open one's — same length, an octave lower.",
-          "สังเกตว่าความถี่มูลฐานของท่อปิดเป็นครึ่งของท่อเปิด ยาวเท่ากันแต่ต่ำกว่าหนึ่งอ็อกเทฟ"], set:{closed:1,Lp:1,v:340}}
+          "สังเกตว่าความถี่มูลฐานของท่อปลายปิดเป็นครึ่งหนึ่งของท่อปลายเปิด ท่อยาวเท่ากันแต่เสียงต่ำกว่าหนึ่งอ็อกเทฟ"], set:{closed:1,Lp:1,v:340}}
   ] },
 
 { id:"beats", x:235, y:248, requires:["intensity","pipes"], methods:["M-05"],
   title:["Beats","บีต"],
   body:[["Two notes of nearly equal frequency alternately reinforce and cancel, producing a slow throb. The beat frequency is simply the difference: f_beat = |f₁ − f₂|.",
          "Musicians use this to tune: adjust one string until the beats slow and disappear. When you can no longer hear a throb, the two frequencies match."],
-        ["โน้ตสองเสียงที่ความถี่ใกล้เคียงกันจะเสริมและหักล้างกันสลับไปมา เกิดเป็นเสียงเต้นช้าๆ ความถี่บีตคือผลต่างล้วนๆ f_beat = |f₁ − f₂|",
-         "นักดนตรีใช้สิ่งนี้ตั้งสาย ปรับสายหนึ่งจนบีตช้าลงและหายไป เมื่อไม่ได้ยินเสียงเต้นอีก แสดงว่าความถี่ทั้งสองตรงกันแล้ว"]],
+        ["โน้ตสองเสียงที่ความถี่ใกล้กันมากจะเสริมและหักล้างกันสลับไปมา ทำให้ได้ยินเป็นจังหวะเต้นช้าๆ ความถี่บีตก็คือผลต่างของความถี่ทั้งสอง f_beat = |f₁ − f₂|",
+         "นักดนตรีใช้หลักนี้ตั้งสายเสียง โดยปรับสายหนึ่งจนบีตช้าลงและหายไป เมื่อไม่ได้ยินจังหวะเต้นแล้ว แสดงว่าความถี่ทั้งสองเท่ากัน"]],
   formula:["f_beat = |f₁ − f₂|","f_beat = |f₁ − f₂|"],
   flabel:["The difference, never the sum","ผลต่าง ไม่ใช่ผลรวม"],
   viz:"plot",
@@ -151,23 +151,23 @@ nodes:[
       {lab:["Tuning an instrument","การตั้งเสียงเครื่องดนตรี"], f:function(){
         return L()?"ปรับจนบีตหายไป":"adjust until the beating disappears"; }}
     ],
-    note:["the envelope, not the fast wiggle, is what your ear registers as the throb","สิ่งที่หูรับรู้เป็นจังหวะเต้นคือเส้นกรอบ ไม่ใช่การสั่นเร็ว"]
+    note:["the envelope, not the fast wiggle, is what your ear registers as the throb","สิ่งที่หูรับรู้เป็นจังหวะเต้นคือเส้นกรอบของคลื่น ไม่ใช่การสั่นเร็วๆ ข้างใน"]
   },
   guide:[
     {say:["Three hertz apart. The envelope swells and collapses three times a second.",
-          "ห่างกันสามเฮิรตซ์ เส้นกรอบพองและยุบสามครั้งต่อวินาที"], set:{f1:20,f2:23}},
+          "ความถี่ต่างกันสามเฮิรตซ์ เส้นกรอบพองขึ้นและยุบลงสามครั้งต่อวินาที"], set:{f1:20,f2:23}},
     {say:["Bring them closer and the throb slows right down — one lazy pulse per second.",
-          "ทำให้ใกล้กันขึ้น จังหวะเต้นช้าลงมาก เหลือหนึ่งครั้งต่อวินาทีแบบเนิบๆ"], set:{f1:20,f2:21}},
+          "ทำให้ความถี่ใกล้กันขึ้น จังหวะเต้นจะช้าลงมาก เหลือแค่หนึ่งครั้งต่อวินาทีแบบเอื่อยๆ"], set:{f1:20,f2:21}},
     {say:["Match them exactly and the beating vanishes. That silence is how a piano gets tuned.",
-          "ทำให้เท่ากันพอดี จังหวะเต้นหายไป ความเงียบนั้นคือวิธีตั้งเสียงเปียโน"], set:{f1:20,f2:20}}
+          "ปรับให้เท่ากันพอดี จังหวะเต้นจะหายไป ช่างจูนเปียโนก็ใช้ความเงียบนี้เองในการตั้งเสียง"], set:{f1:20,f2:20}}
   ] },
 
 { id:"doppler", x:235, y:346, requires:["beats"], methods:["M-06"],
   title:["The Doppler effect","ปรากฏการณ์ดอปเพลอร์"],
   body:[["When a source approaches, each successive wavefront is emitted from closer to you, so the wavelength you receive is squeezed and the pitch rises. Receding, the reverse. The source's own frequency never changes.",
          "The pitch drop happens exactly as the source passes, not before. Expecting a gradual slide is a common misreading — the shift is one value approaching and another value receding."],
-        ["เมื่อแหล่งกำเนิดเคลื่อนเข้าหา หน้าคลื่นแต่ละลูกถูกปล่อยจากตำแหน่งที่ใกล้คุณขึ้นเรื่อยๆ ความยาวคลื่นที่รับได้จึงถูกบีบและระดับเสียงสูงขึ้น เมื่อเคลื่อนออกก็ตรงข้าม ความถี่ของแหล่งกำเนิดเองไม่เคยเปลี่ยน",
-         "ระดับเสียงตกลงตอนที่แหล่งกำเนิดผ่านไปพอดี ไม่ใช่ก่อนหน้า การคาดว่าจะค่อยๆ ไล่ลงเป็นความเข้าใจผิดที่พบบ่อย การเลื่อนมีค่าหนึ่งตอนเข้าหาและอีกค่าหนึ่งตอนออกห่าง"]],
+        ["เมื่อแหล่งกำเนิดเคลื่อนเข้าหาเรา หน้าคลื่นแต่ละลูกถูกปล่อยออกมาจากตำแหน่งที่ใกล้เรามากขึ้นเรื่อยๆ ความยาวคลื่นที่เรารับได้จึงสั้นลงและเสียงสูงขึ้น ถ้าแหล่งกำเนิดเคลื่อนออกห่างจะเป็นตรงข้าม ส่วนความถี่ของแหล่งกำเนิดเองไม่เคยเปลี่ยน",
+         "เสียงจะต่ำลงตอนที่แหล่งกำเนิดผ่านไปพอดี ไม่ใช่ก่อนหน้านั้น หลายคนเข้าใจผิดว่าเสียงจะค่อยๆ ไล่ระดับลง ความจริงคือตอนเข้าหาจะได้ยินเสียงค่าหนึ่ง และตอนออกห่างจะได้ยินอีกค่าหนึ่ง"]],
   formula:["f_L = f_s (v ± v_L) / (v ∓ v_s)","f_L = f_s (v ± v_L) / (v ∓ v_s)"],
   flabel:["Approaching raises · receding lowers","เข้าหา สูงขึ้น · ออกห่าง ต่ำลง"],
   viz:"stage",
@@ -175,7 +175,7 @@ nodes:[
     anim:true,
     spellName:["The Wailing Wisp: a moving source shifts the pitch","ภูตโหยหวน: แหล่งกำเนิดที่เคลื่อนที่ทำให้เสียงเพี้ยน"],
     question:["The wisp sings one steady note as it flies. Why does the listener ahead hear it higher, and the one behind lower?",
-              "ภูตร้องโน้ตเดียวคงที่ขณะบิน ทำไมผู้ฟังข้างหน้าจึงได้ยินเสียงสูงขึ้น และคนข้างหลังได้ยินต่ำลง"],
+              "ภูตร้องโน้ตเดียวคงที่ขณะบิน ทำไมผู้ฟังที่อยู่ข้างหน้าจึงได้ยินเสียงสูงขึ้น ส่วนผู้ฟังข้างหลังได้ยินเสียงต่ำลง"],
     ctrls:[
       {k:"fs", lab:["The wisp's own note","โน้ตของภูต"], min:200, max:1200, step:20, def:500, unit:" Hz"},
       {k:"vs", lab:["The wisp's speed","อัตราเร็วของภูต"], min:0, max:300, step:10, def:150, unit:" m/s"},
@@ -237,7 +237,7 @@ nodes:[
       ]
     },
     predict:{ kind:"choice",
-      ask:["As the wisp flies past the listener, what happens to the pitch they hear?","ขณะที่ภูตบินผ่านผู้ฟัง เสียงที่ผู้ฟังได้ยินเป็นอย่างไร"],
+      ask:["As the wisp flies past the listener, what happens to the pitch they hear?","ขณะที่ภูตบินผ่านผู้ฟัง เสียงที่ผู้ฟังได้ยินเปลี่ยนไปอย่างไร"],
       opts:[["It slides down gradually","ค่อย ๆ ต่ำลง"],["It drops suddenly as it passes","ต่ำลงทันทีตอนผ่าน"],["It stays the same","คงเดิม"],["It rises","สูงขึ้น"]],
       actual:function(p){ return p.vs>0 ? 1 : 2; },
       explain:function(p){ return ["Coming in, every wavefront is squeezed by the same amount, so the pitch is a steady "+fmt(C12.fa(p))+" Hz; going away it is a steady "+fmt(C12.fr(p))+" Hz. The change happens at the instant it passes — not a slow slide.",
@@ -268,15 +268,15 @@ nodes:[
       }
     },
     note:["the wisp never changes its note — only the spacing of the arriving wavefronts does",
-          "ภูตไม่เคยเปลี่ยนโน้ต มีเพียงระยะห่างของหน้าคลื่นที่มาถึงเท่านั้นที่เปลี่ยน"]
+          "ภูตไม่เคยเปลี่ยนโน้ต สิ่งที่เปลี่ยนคือระยะห่างของหน้าคลื่นที่มาถึงเท่านั้น"]
   },
   guide:[
     {say:["A wisp hovering still. The rings are evenly spaced and everyone hears 500 Hz.",
-          "ภูตลอยนิ่ง วงคลื่นห่างเท่ากัน ทุกคนได้ยิน 500 Hz"], set:{fs:500,vs:0,v:340,T:11}},
+          "ภูตลอยนิ่งอยู่กับที่ วงคลื่นห่างเท่ากันหมด และทุกคนได้ยิน 500 Hz"], set:{fs:500,vs:0,v:340,T:11}},
     {say:["Set it flying. Rings bunch up ahead and stretch out behind. Watch the listener's graph drop in one step as it passes.",
-          "ให้มันบิน วงคลื่นเบียดกันข้างหน้าและยืดออกข้างหลัง ดูกราฟของผู้ฟังตกลงทีเดียวตอนภูตผ่าน"], set:{fs:500,vs:150,v:340,T:11}},
+          "ให้ภูตบิน วงคลื่นจะเบียดกันข้างหน้าและห่างออกข้างหลัง ดูกราฟของผู้ฟังที่ตกลงทันทีเมื่อภูตบินผ่าน"], set:{fs:500,vs:150,v:340,T:11}},
     {say:["Near the speed of sound the rings ahead pile up and that pitch runs away — the shift is not symmetric.",
-          "ใกล้อัตราเร็วเสียง วงคลื่นข้างหน้าอัดแน่นและเสียงสูงพุ่งขึ้น การเลื่อนไม่สมมาตร"], set:{fs:500,vs:300,v:340,T:7}}
+          "เมื่อใกล้อัตราเร็วเสียง วงคลื่นข้างหน้าจะอัดแน่นและเสียงสูงพุ่งขึ้นไปมาก การเปลี่ยนค่าจึงไม่สมมาตรกัน"], set:{fs:500,vs:300,v:340,T:7}}
   ]
 }
 ],
@@ -291,9 +291,9 @@ methods:[
 ],
 
 traps:{
-"T-01":["Intensity follows an inverse SQUARE. Doubling the distance quarters it, not halves it.","ความเข้มเป็นกำลังสองผกผัน เพิ่มระยะสองเท่าจะลดเหลือหนึ่งในสี่ ไม่ใช่ครึ่งหนึ่ง"],
-"T-02":["Decibels are logarithmic. Ten times the intensity adds 10 dB, it does not multiply the dB by ten.","เดซิเบลเป็นลอการิทึม ความเข้มสิบเท่าเพิ่ม 10 dB ไม่ใช่คูณค่า dB ด้วยสิบ"],
-"T-03":["A closed pipe fits a quarter wavelength and gives only odd harmonics. An open pipe fits a half.","ท่อปลายปิดบรรจุหนึ่งในสี่ความยาวคลื่นและให้ฮาร์มอนิกคี่เท่านั้น ส่วนท่อปลายเปิดบรรจุครึ่งหนึ่ง"],
+"T-01":["Intensity follows an inverse SQUARE. Doubling the distance quarters it, not halves it.","ความเข้มเป็นแบบกำลังสองผกผัน ถ้าระยะเพิ่มเป็นสองเท่า ความเข้มจะเหลือหนึ่งในสี่ ไม่ใช่ครึ่งหนึ่ง"],
+"T-02":["Decibels are logarithmic. Ten times the intensity adds 10 dB, it does not multiply the dB by ten.","เดซิเบลเป็นสเกลลอการิทึม ความเข้มเพิ่มสิบเท่าจะได้ระดับเสียงเพิ่ม 10 dB ไม่ใช่เอา 10 ไปคูณค่า dB"],
+"T-03":["A closed pipe fits a quarter wavelength and gives only odd harmonics. An open pipe fits a half.","ท่อปลายปิดมีความยาวหนึ่งในสี่ของความยาวคลื่น และให้เฉพาะฮาร์มอนิกคี่ ส่วนท่อปลายเปิดมีความยาวครึ่งหนึ่งของความยาวคลื่น"],
 "T-04":["Beat frequency is the difference of the two frequencies, not their sum or average.","ความถี่บีตคือผลต่างของสองความถี่ ไม่ใช่ผลรวมหรือค่าเฉลี่ย"]
 },
 
@@ -313,7 +313,7 @@ gen:{
   var P=pick([10,50,100]), r=pick([2,4,5,10]);
   var I=P/(4*Math.PI*r*r);
   if(sf==="S-04") return {stem:["You move from 3 m to 6 m from a point source. The intensity you receive becomes:",
-                                "คุณย้ายจาก 3 เมตรเป็น 6 เมตรจากแหล่งกำเนิดแบบจุด ความเข้มที่ได้รับกลายเป็น"],
+                                "ย้ายจากระยะ 3 เมตรเป็น 6 เมตรจากแหล่งกำเนิดแบบจุด ความเข้มที่ได้รับจะเป็นเท่าใด"],
     opts:[{v:["One quarter","หนึ่งในสี่"],ok:1},{v:["One half","ครึ่งหนึ่ง"],trap:"T-01"},
           {v:["One eighth","หนึ่งในแปด"]},{v:["Unchanged","เท่าเดิม"]}],unit:""};
   if(sf==="S-05") return {stem:["At "+r+" m the intensity is "+I.toExponential(2)+" W/m². Find the source power.",
@@ -358,7 +358,7 @@ gen:{
   var f1=pick([256,330,440,512]), df=pick([2,3,4,5]);
   var f2=f1+df;
   if(sf==="S-04") return {stem:["A piano tuner hears the beats slow down and stop. What does that mean?",
-                                "ช่างตั้งเสียงเปียโนได้ยินบีตช้าลงจนหยุด นั่นหมายความว่าอะไร"],
+                                "ช่างจูนเปียโนได้ยินบีตช้าลงจนหยุด แสดงว่าอะไร"],
     opts:[{v:["The two frequencies now match","ความถี่ทั้งสองตรงกันแล้ว"],ok:1},
           {v:["The strings are an octave apart","สายทั้งสองห่างกันหนึ่งอ็อกเทฟ"]},
           {v:["One string has snapped","สายหนึ่งขาด"]},
@@ -371,15 +371,15 @@ gen:{
     opts:[{v:String(df),ok:1},{v:String(f1+f2),trap:"T-04"},{v:fmt((f1+f2)/2),trap:"T-04"},{v:String(df*2)}],unit:" Hz"};
 },
 "M-06": function(sf){
-  var C=[{s:["An ambulance approaches you with its siren on. What do you hear?","รถพยาบาลเปิดไซเรนวิ่งเข้าหาคุณ คุณได้ยินอย่างไร"],
+  var C=[{s:["An ambulance approaches you with its siren on. What do you hear?","รถพยาบาลเปิดไซเรนวิ่งเข้าหา เราจะได้ยินเสียงอย่างไร"],
           ok:["A higher pitch than the siren actually emits","ระดับเสียงสูงกว่าที่ไซเรนปล่อยออกมาจริง"],
           w:[["A lower pitch","ระดับเสียงต่ำกว่า"],["The true pitch","ระดับเสียงจริง"],["A louder but identical pitch","ดังขึ้นแต่ระดับเสียงเท่าเดิม"]]},
-         {s:["When exactly does the pitch of a passing siren drop?","ระดับเสียงไซเรนที่วิ่งผ่านลดลงตอนใดพอดี"],
+         {s:["When exactly does the pitch of a passing siren drop?","เสียงไซเรนของรถที่วิ่งผ่านจะต่ำลงตอนใดพอดี"],
           ok:["At the instant it passes you","ในขณะที่มันผ่านคุณพอดี"],
           w:[["Gradually, over several seconds before","ค่อยๆ ลดลงหลายวินาทีก่อนหน้า"],
              ["Only after it is far away","หลังจากมันไปไกลแล้วเท่านั้น"],
              ["It never drops","ไม่เคยลดลง"]]},
-         {s:["Does the Doppler effect change the frequency the source emits?","ปรากฏการณ์ดอปเพลอร์เปลี่ยนความถี่ที่แหล่งกำเนิดปล่อยออกมาหรือไม่"],
+         {s:["Does the Doppler effect change the frequency the source emits?","ปรากฏการณ์ดอปเพลอร์ทำให้ความถี่ที่แหล่งกำเนิดปล่อยออกมาเปลี่ยนไปหรือไม่"],
           ok:["No — only the frequency received changes","ไม่ มีเพียงความถี่ที่รับได้เท่านั้นที่เปลี่ยน"],
           w:[["Yes, the source slows down","เปลี่ยน แหล่งกำเนิดช้าลง"],
              ["Yes, it doubles","เปลี่ยน เป็นสองเท่า"],
