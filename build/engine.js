@@ -110,6 +110,9 @@ function numTex(n,s){
   if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
   return out;
 }
+/* 10ⁿ for SVG text: the exponent is a real raised, smaller tspan, so "10³" can never be misread as 103 */
+function pow10Svg(e){ return '10<tspan dy="-4.5" font-size="70%">'+(e<0?"−":"")+Math.abs(e)+'</tspan>'; }
+function sciSvg(m,e){ return num(m,3)+" × "+pow10Svg(e); }
 function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
@@ -497,7 +500,7 @@ VIZLIB.scale = {
     for(var e=Math.ceil(lo);e<=hi;e+=step){
       var gx=X(e);
       o.push('<line x1="'+gx+'" y1="'+(y-6)+'" x2="'+gx+'" y2="'+(y+6)+'" stroke="var(--ink-faint)" stroke-width="1"/>');
-      o.push('<text x="'+gx+'" y="'+(y+22)+'" '+FT+' text-anchor="middle">10^'+e+'</text>');
+      o.push('<text x="'+gx+'" y="'+(y+22)+'" '+FT+' text-anchor="middle">'+pow10Svg(e)+'</text>');
     }
     (cfg.marks?cfg.marks(S.p):[]).forEach(function(m,k){
       var gx=X(m.e), yy=y-24-(k%3)*20;

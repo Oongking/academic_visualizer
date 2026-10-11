@@ -1,4 +1,14 @@
 /* A × 10ⁿ with a real superscript exponent */
+/* A × 10ⁿ written out in full, digits grouped in threes as SI does (1 500 000, 0.000 001 5) */
+function plain10(m,e){
+  var d=String(Math.round(m*10)), x=e-1, NB="\u202f", ip, fp="", z=function(n){ return new Array(n+1).join("0"); };
+  if(x>=0) ip=d+z(x);
+  else if(-x<d.length){ ip=d.slice(0,d.length+x); fp=d.slice(d.length+x); }
+  else { ip="0"; fp=z(-x-d.length)+d; }
+  fp=fp.replace(/0+$/,"");
+  ip=ip.replace(/\B(?=(\d{3})+$)/g,NB); fp=fp.replace(/(\d{3})(?=\d)/g,"$1"+NB);
+  return fp?ip+"."+fp:ip;
+}
 function sci10(m,e){ return num(m,3)+" × 10"+String(e).split("").map(function(c){ return SUPS[c]; }).join(""); }
 var CHAPTER = {
 id:"ch01", num:"01", slug:"measurement", subject:"physics",
@@ -105,25 +115,32 @@ nodes:[
                "-3":"milli m","-6":"micro μ","-9":"nano n","-12":"pico p"};
         return N[String(S.p.e)]||"—"; }},
       {lab:["Plain value","ค่าเต็ม"], f:function(S){
-        return num(S.p.m*Math.pow(10,S.p.e),2); }}
+        return plain10(S.p.m,S.p.e); }}
     ],
     draw:function(S,o){
-      var x0=50,w=460,y=140;
+      var x0=50,w=460,y=172;
       o.push('<text x="'+x0+'" y="34" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="10.5" letter-spacing="1.4">'+tx(["POWERS OF TEN","กำลังของสิบ"])+'</text>');
       o.push('<line x1="'+x0+'" y1="'+y+'" x2="'+(x0+w)+'" y2="'+y+'" stroke="var(--ink-faint)" stroke-width="1.6"/>');
       var names={"-12":"p","-9":"n","-6":"μ","-3":"m","0":"","3":"k","6":"M","9":"G","12":"T"};
       for(var e=-12;e<=12;e+=3){
         var px=x0+((e+12)/24)*w, on=(e===S.p.e);
         o.push('<line x1="'+px+'" y1="'+(y-8)+'" x2="'+px+'" y2="'+(y+8)+'" stroke="'+(on?"var(--accent)":"var(--ink-faint)")+'" stroke-width="'+(on?2.5:1)+'"/>');
-        o.push('<text x="'+px+'" y="'+(y+26)+'" fill="'+(on?"var(--accent)":"var(--ink-faint)")+'" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">10'+(e<0?"⁻":"")+Math.abs(e)+'</text>');
+        o.push('<text x="'+px+'" y="'+(y+26)+'" fill="'+(on?"var(--accent)":"var(--ink-faint)")+'" font-family="IBM Plex Sans" font-size="10" text-anchor="middle">'+pow10Svg(e)+'</text>');
         if(names[String(e)]) o.push('<text x="'+px+'" y="'+(y-18)+'" fill="'+(on?"var(--accent)":"var(--ink-faint)")+'" font-family="IBM Plex Sans" font-size="11" font-weight="600" text-anchor="middle">'+names[String(e)]+'</text>');
       }
       var cx=x0+((S.p.e+12)/24)*w;
       o.push('<circle cx="'+cx+'" cy="'+y+'" r="6" fill="var(--accent)"/>');
-      var v=S.p.m*Math.pow(10,S.p.e);
-      var shown=num(v,2);
-      o.push('<text x="280" y="80" fill="var(--ink)" font-family="Bodoni Moda" font-size="30" text-anchor="middle">'+shown+'</text>');
-      o.push('<text x="280" y="212" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="11" text-anchor="middle">'+sci10(S.p.m,S.p.e)+'</text>');
+      /* the result sits in a fixed table: labels and values start at fixed positions, so nothing moves as the numbers change */
+      var P={"-12":"pico (p)","-9":"nano (n)","-6":"micro (µ)","-3":"milli (m)","0":"—","3":"kilo (k)","6":"mega (M)","9":"giga (G)","12":"tera (T)"};
+      var rows=[[["Scientific notation","สัญกรณ์วิทยาศาสตร์"], sciSvg(S.p.m,S.p.e)],
+                [["Prefix","คำอุปสรรค"], P[String(S.p.e)]||"—"],
+                [["Plain value","ค่าเต็ม"], plain10(S.p.m,S.p.e)]];
+      rows.forEach(function(r,i){
+        var ry=62+i*22;
+        if(i) o.push('<line x1="'+x0+'" y1="'+(ry-16)+'" x2="'+(x0+w)+'" y2="'+(ry-16)+'" stroke="var(--rule)" stroke-width="1"/>');
+        o.push('<text x="'+x0+'" y="'+ry+'" fill="var(--ink-faint)" font-family="IBM Plex Sans" font-size="11">'+tx(r[0])+'</text>');
+        o.push('<text x="230" y="'+ry+'" fill="var(--ink)" font-family="IBM Plex Sans" font-size="16" font-weight="600" style="font-variant-numeric:tabular-nums">'+r[1]+'</text>');
+      });
     }
   },
   guide:[

@@ -248,7 +248,11 @@ svg text[font-family="IBM Plex Sans"]{font-family:var(--f-ui)}
   font-weight:600;position:relative;z-index:2}
 .opt-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;
   position:relative;z-index:3}
-.readouts{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
+/* a grid, not a wrapping flex row: each readout owns a fixed column, so a value
+   getting longer or shorter never pushes its neighbours sideways */
+.readouts{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px 22px;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule)}
+.ro{min-width:0}
+.ro span{overflow-wrap:anywhere}
 .ro b{display:block;font-family:var(--f-ui);font-size:11.5px;letter-spacing:.02em;
   color:var(--ink-faint);font-weight:600;margin-bottom:3px}
 .ro span{font-family:var(--f-display);font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
@@ -1283,6 +1287,9 @@ function numTex(n,s){
   if(out.indexOf("e")>=0) out=String(+n.toFixed(Math.max(0,s-1-Math.floor(Math.log10(a)))));
   return out;
 }
+/* 10ⁿ for SVG text: the exponent is a real raised, smaller tspan, so "10³" can never be misread as 103 */
+function pow10Svg(e){ return '10<tspan dy="-4.5" font-size="70%">'+(e<0?"−":"")+Math.abs(e)+'</tspan>'; }
+function sciSvg(m,e){ return num(m,3)+" × "+pow10Svg(e); }
 function un(n,unit,s){ return num(n,s)+" "+unit; }
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
 function niceStep(range,target){
@@ -1670,7 +1677,7 @@ VIZLIB.scale = {
     for(var e=Math.ceil(lo);e<=hi;e+=step){
       var gx=X(e);
       o.push('<line x1="'+gx+'" y1="'+(y-6)+'" x2="'+gx+'" y2="'+(y+6)+'" stroke="var(--ink-faint)" stroke-width="1"/>');
-      o.push('<text x="'+gx+'" y="'+(y+22)+'" '+FT+' text-anchor="middle">10^'+e+'</text>');
+      o.push('<text x="'+gx+'" y="'+(y+22)+'" '+FT+' text-anchor="middle">'+pow10Svg(e)+'</text>');
     }
     (cfg.marks?cfg.marks(S.p):[]).forEach(function(m,k){
       var gx=X(m.e), yy=y-24-(k%3)*20;

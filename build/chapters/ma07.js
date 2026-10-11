@@ -126,7 +126,7 @@ nodes:[
     readouts:[
       {lab:["log_a x","log_a x"], f:function(S){ return num(Math.log(S.p.x)/Math.log(S.p.a),4); }},
       {lab:["Check","ตรวจคำตอบ"], f:function(S){
-        return num(S.p.a)+" ^ "+num(Math.log(S.p.x)/Math.log(S.p.a),4)+" = "+num(S.p.x); }},
+        return num(S.p.a)+(L()?" ยกกำลัง ":" to the power ")+num(Math.log(S.p.x)/Math.log(S.p.a),4)+" = "+num(S.p.x); }},
       {lab:["Value at x = 1","ค่าที่ x = 1"], f:function(){
         return "0"+(L()?" · ทุกฐาน":" · for every base"); }},
       {lab:["Domain","โดเมน"], f:function(){
